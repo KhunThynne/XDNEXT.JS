@@ -1,0 +1,57 @@
+{
+  "name": "backend",
+  "version": "1.0.2",
+  "description": "",
+  "main": "./dist/bin/www.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev ./bin/www.ts",
+    "start": "tsc && set NODE_ENV=production && node dist/bin/www.js",
+    "lint": "eslint . --ext .ts",
+    "build": "tsc"
+  },
+  "_moduleAliases": {
+    "@": "/public/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.10.1",
+    "@types/mysql": "^2.15.27",
+    "cookie-parser": "^1.4.7",
+    "cookie-session": "^2.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "faker": "^6.6.6",
+    "http": "^0.0.1-security",
+    "morgan": "^1.10.0",
+    "mysql": "github:mysqljs/mysql",
+    "mysql2": "^3.14.1",
+    "net": "^1.0.2",
+    "nodemon": "^3.1.10",
+    "react": "^19.1.0",
+    "socket.io": "^4.8.1",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.29.0",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.34.1",
+    "@typescript-eslint/parser": "^8.34.1",
+    "eslint": "^9.29.0",
+    "globals": "^16.2.0",
+    "module-alias": "^2.2.3",
+    "prisma": "^6.10.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1"
+  }
+}

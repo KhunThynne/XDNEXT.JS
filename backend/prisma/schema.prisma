@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// DATABASE
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+
+model cart_items {
+  id         Int       @id @default(autoincrement())
+  cart_id    Int
+  product_id Int
+  quantity   Int       @default(1)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  carts      carts     @relation(fields: [cart_id], references: [id], onDelete: Cascade, onUpdate: Restrict, map: "cart_items_ibfk_1")
+  products   products  @relation(fields: [product_id], references: [id], onUpdate: Restrict, map: "cart_items_ibfk_2")
+
+  @@index([cart_id], map: "cart_id")
+  @@index([product_id], map: "product_id")
+}
+
+model carts {
+  id         Int          @id @default(autoincrement())
+  user_id    Int
+  created_at DateTime?    @default(now()) @db.Timestamp(0)
+  cart_items cart_items[]
+
+  @@index([user_id], map: "user_id")
+}
+
+model products {
+  id          Int          @id @default(autoincrement())
+  name        String       @db.VarChar(255)
+  description String?      @db.Text
+  price       Decimal      @db.Decimal(10, 2)
+  stock       Int?         @default(0)
+  created_at  DateTime?    @default(now()) @db.Timestamp(0)
+  cart_items  cart_items[]
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  username   String    @db.VarChar(255)
+  email      String    @unique(map: "email") @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+}
