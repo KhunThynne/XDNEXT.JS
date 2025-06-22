@@ -9,6 +9,17 @@ const app = express()
 // import { Server } from "socket.io";
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import { buildSchema } from 'graphql';
+import { graphqlHTTP } from 'express-graphql';
+import { createHandler } from 'graphql-http/lib/use/express';
+const schema = buildSchema(`
+  type Query {
+    hello: String
+  }
+`);
+const root = {
+  hello: () => 'สวัสดีจาก GraphQL + Express!'
+};
 app.engine('html', require('ejs').renderFile);
 app.use(logger("dev"))
 app.use(express.json());
@@ -20,7 +31,13 @@ app.use(cookieParser())
 
 app.use(require('./src/controller'));
 
-
+app.all(
+  '/graphql',
+  createHandler({
+    schema: schema,
+  }),
+);
+ 
 
 app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFunction) => {
     res.send(err)
@@ -51,4 +68,4 @@ app.use(cors({
 
 
 app.use(require('./bin/midleware/error'));
-module.exports = app;
+export default app;

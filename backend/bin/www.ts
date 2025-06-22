@@ -1,9 +1,7 @@
 #!/usr/bin/env node
 import 'module-alias/register';
-
-const app = require('../app');
-const http = require('http');
-
+import app from '../index'
+import http from 'http'
 const server = http.createServer(app);
 function normalizePort(val: string) {
   const Port = parseInt(val, 10);
