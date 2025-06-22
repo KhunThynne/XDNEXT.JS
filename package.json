@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "🚀 Full Stack Web Application\r 🧩 Tech Stack\r 🖥️ Frontend\r Next.js – React Framework with App Router support",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "dev:frontend": "npm --prefix frontend run dev",
     "dev:backend": "npm --prefix backend run dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/KhunThynne/XDNEXT.JS/issues"
   },
-  "homepage": "https://github.com/KhunThynne/XDNEXT.JS#readme"
+  "homepage": "https://github.com/KhunThynne/XDNEXT.JS#readme",
+  "devDependencies": {
+    
+  }
 }
