@@ -9,7 +9,7 @@ export default function Page() {
 
   return (
     <div>
-      <Button>Click me</Button>
+      <Button color="success">Click</Button>
     </div>
   );
 }
