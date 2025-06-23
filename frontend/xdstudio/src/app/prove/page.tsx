@@ -1,4 +1,6 @@
-"use client"
+"use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -12,6 +14,11 @@ export default function Page() {
   const [test, setTest] = useState();
 
   return (
-    <div className="grid text-2xl min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20"></div>
+    <div className="container mx-auto space-y-3">
+      <Button variant="outline" className="bg-red-300 ">
+        TEST
+      </Button>
+      <Input />
+    </div>
   );
 }
