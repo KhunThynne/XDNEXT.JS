@@ -1,4 +1,3 @@
-
 import React from "react";
 import Marquee from "react-fast-marquee";
 import Image from "next/image";
@@ -22,21 +21,18 @@ const product = [
 export default function Home() {
   return (
     <>
+      <Navbar />
+      <div className="relative mt-[10vh] min-h-screen">
+        <div className="container mx-auto mt-10 max-w-5xl pb-[80vh] text-white">
+          <div className="">{/* <SwiperComponent /> */}</div>
 
-      <Navbar/>
-      <div className="relative min-h-screen mt-[10vh]">
-        <div className="container mx-auto max-w-5xl text-white mt-10 pb-[80vh]">
-          <div className="">
-            {/* <SwiperComponent /> */}
-          </div>
-
-          <div className="border-1 bg-[#181818ad] border-[#e20202] mt-5 rounded-md glass-effect">
+          <div className="border-1 glass-effect mt-5 rounded-md border-[#e20202] bg-[#181818ad]">
             <div className="flex items-center gap-4">
-              <div className="bg-[#a81010] p-2 box-shadow rounded-md px-4">
+              <div className="box-shadow rounded-md bg-[#a81010] p-2 px-4">
                 <BellRing />
               </div>
 
-              <div className="w-full p-2 rounded-xs bg-[#ff8b8b00]">
+              <div className="rounded-xs w-full bg-[#ff8b8b00] p-2">
                 <Marquee pauseOnHover speed={30} gradient={false}>
                   <p style={{ marginRight: "2rem" }}>
                     โปรโมชั่น Fivem กรอกโค๊ดรับส่วนลด 20%
@@ -46,7 +42,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-5 rounded-md h-[40vh]">
+          <div className="mt-5 h-[40vh] rounded-md">
             <div className="flex items-center gap-2">
               <div className="text-6xl">
                 {/* <CiShop /> */}
@@ -58,13 +54,10 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-3">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {product.map((items: any, index: any) => {
                   return (
-                    <div
-                      key={index}
-                      className="p-3 rounded-md glass-effect"
-                    >
+                    <div key={index} className="glass-effect rounded-md p-3">
                       <div>
                         <Image
                           src={items.img}
@@ -76,7 +69,7 @@ export default function Home() {
                       </div>
                       <div className="flex flex-col items-center">
                         <p className="text-2xl">{items.name}</p>
-                        <div className="btn-buy mt-3 flex items-center gap-2 box-shadow">
+                        <div className="btn-buy box-shadow mt-3 flex items-center gap-2">
                           <ShoppingBasket />
                           Buy {items.price} P.
                         </div>

@@ -15,7 +15,7 @@ const eslintConfig = [
     "next/typescript",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended-legacy",
+    "plugin:react-hooks/recommended-legacy"
 
     // "eslint:recommended"
   ),
@@ -23,6 +23,8 @@ const eslintConfig = [
     rules: {
       "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-empty-object-type": "warn",
+      "@typescript-eslint/no-explicit-any": "warn",
       // React
       "react/react-in-jsx-scope": "off",
     },
