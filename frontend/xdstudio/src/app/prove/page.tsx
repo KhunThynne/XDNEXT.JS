@@ -1,10 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
 export default function Page() {
+  const t = useTranslations();
   useEffect(() => {
     toast("Event has been created.");
   }, []);
@@ -12,7 +14,7 @@ export default function Page() {
   return (
     <div className="container mx-auto space-y-3">
       <Button variant="outline" className="bg-red-300">
-        TEST
+        {t("success")}
       </Button>
       <Input />
     </div>

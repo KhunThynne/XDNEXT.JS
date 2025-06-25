@@ -3,8 +3,9 @@
     "title": "Hello world!",
     "about": "Go to the about page"
   },
-  "Footer":{
-    "Application Made by":"Application Made by"
+  "Footer": {
+    "Application Made by": "Application Made by"
   },
-    "shared":{}
+  "shared": {},
+  "success": "Success"
 }

@@ -3,8 +3,9 @@
     "title": "Hello world!",
     "about": "Go to the about page"
   },
-  "Footer":{
-    "Application Made by":"Application สร้างโดย"
+  "Footer": {
+    "Application Made by": "Application สร้างโดย"
   },
-    "shared":{}
+  "shared": {},
+  "success": "ความสำเร็จ"
 }
