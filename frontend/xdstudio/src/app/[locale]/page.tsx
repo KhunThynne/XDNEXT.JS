@@ -1,9 +1,16 @@
-import { Button } from "@/components/ui/button";
+import clsx from "clsx";
+// import { useTranslations } from "next-intl";
 import Image from "next/image";
-export default function Home() {
+
+export default function HomePage() {
+  // const t = useTranslations("HomePage");
   return (
     <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
+      <main
+        className={clsx(
+          "row-start-2 flex flex-col items-center gap-[32px] sm:items-start"
+        )}
+      >
         <Image
           src="/next.svg"
           alt="Next.js logo"
@@ -23,7 +30,6 @@ export default function Home() {
             Save and see your changes instantly.
           </li>
         </ol>
-
         <div className="flex flex-col items-center gap-4 sm:flex-row">
           <a
             className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
