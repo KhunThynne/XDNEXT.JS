@@ -120,3 +120,67 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+
+html {
+  scroll-behavior: smooth;
+   -webkit-overflow-scrolling: touch;
+   user-select: none;
+}
+
+body {
+    background-image: url('/img/bg.png');
+    background-attachment: fixed;
+    background-size: cover;
+    background-color: #200000;
+    backdrop-filter: blur(12.3px);
+    -webkit-backdrop-filter: blur(12.3px);
+}
+
+.navbar-menu {
+    @apply container mx-auto max-w-7xl;
+    color: white;
+}
+
+.navbar-items {
+    @apply flex items-center gap-1;
+    color: white;
+    transition: 0.3s;
+}
+.navbar-items:hover {
+    cursor: pointer;
+    color : #d42f2f;
+}
+
+.box-shadow {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.btn-buy {
+  color: white;
+  padding: 5px;
+  background-color: #a81010b9;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 0, 0, 0.534);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  transition: 0.3s;
+  font-size: 14px;
+}
+
+.btn-buy:hover {
+  background-color: #e00707;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 0, 0, 0.534);
+  cursor: pointer;
+}
+
+.glass-effect {
+    background: rgba(255, 255, 255, 0.315);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20.9px);
+    -webkit-backdrop-filter: blur(12.9px);
+    border: 1px solid rgba(255, 255, 255, 1);
+}

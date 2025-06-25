@@ -1,102 +1,95 @@
-import { Button } from "@/components/ui/button";
+
+import React from "react";
+import Marquee from "react-fast-marquee";
 import Image from "next/image";
+import Footer from "@/components/Foodter/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+import { BellRing, ShoppingBasket } from "lucide-react";
+
+const product = [
+  {
+    name: "Gashapon v2",
+    img: "https://placehold.co/300x300/png",
+    price: "20",
+  },
+  {
+    name: "Gashapon v3",
+    img: "https://placehold.co/300x300/png",
+    price: "40",
+  },
+];
+
 export default function Home() {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-[32px] sm:items-start">
-        <Image
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm/6 sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-[family-name:var(--font-geist-mono)] font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="bg-foreground text-background flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent px-4 text-sm font-medium transition-colors hover:bg-[#383838] sm:h-12 sm:w-auto sm:px-5 sm:text-base dark:hover:bg-[#ccc]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <Navbar/>
+      <div className="relative min-h-screen mt-[10vh]">
+        <div className="container mx-auto max-w-5xl text-white mt-10 pb-[80vh]">
+          <div className="">
+            {/* <SwiperComponent /> */}
+          </div>
+
+          <div className="border-1 bg-[#181818ad] border-[#e20202] mt-5 rounded-md glass-effect">
+            <div className="flex items-center gap-4">
+              <div className="bg-[#a81010] p-2 box-shadow rounded-md px-4">
+                <BellRing />
+              </div>
+
+              <div className="w-full p-2 rounded-xs bg-[#ff8b8b00]">
+                <Marquee pauseOnHover speed={30} gradient={false}>
+                  <p style={{ marginRight: "2rem" }}>
+                    โปรโมชั่น Fivem กรอกโค๊ดรับส่วนลด 20%
+                  </p>
+                </Marquee>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-md h-[40vh]">
+            <div className="flex items-center gap-2">
+              <div className="text-6xl">
+                {/* <CiShop /> */}
+                <ShoppingBasket size={50} />
+              </div>
+              <div className="flex flex-col">
+                <div className="text-2xl">สินค้าแนะนำ</div>
+                <div className="text-[12px]">Recommended Product</div>
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {product.map((items: any, index: any) => {
+                  return (
+                    <div
+                      key={index}
+                      className="p-3 rounded-md glass-effect"
+                    >
+                      <div>
+                        <Image
+                          src={items.img}
+                          className="rounded-md"
+                          width={500}
+                          height={300}
+                          alt="xd-shop"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center">
+                        <p className="text-2xl">{items.name}</p>
+                        <div className="btn-buy mt-3 flex items-center gap-2 box-shadow">
+                          <ShoppingBasket />
+                          Buy {items.price} P.
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-[24px]">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <Footer />
+      </div>
+    </>
   );
 }
