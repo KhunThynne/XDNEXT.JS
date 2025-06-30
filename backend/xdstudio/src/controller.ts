@@ -1,14 +1,13 @@
-import express from 'express'
-import router from './router'
+import express from "express";
+import router from "@/router";
 
-const controller = express.Router()
+const controller = express.Router();
 
 controller.use((req, res, next) => {
-    if (req.headers['secret-key'] === process.env.SECRET_KEY) return next()
-    res.sendStatus(401)
-})
+  if (req.headers["secret-key"] === process.env.SECRET_KEY) return next();
+  res.sendStatus(401);
+});
 
-controller.use(router)
+controller.use(router);
 
-
-module.exports = controller
+export default controller;
