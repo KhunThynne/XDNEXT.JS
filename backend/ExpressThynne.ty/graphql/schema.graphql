@@ -1,8 +1,0 @@
- type Query {
-    hellos: String,
-    test:Test
-  }
-
-  type Test{
-    hh:String
-  }
