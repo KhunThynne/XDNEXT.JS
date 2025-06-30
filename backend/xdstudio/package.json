@@ -5,8 +5,8 @@
   "main": "./dist/bin/www.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run codegen && ts-node-dev -r tsconfig-paths/register ./bin/www.ts",
-    "start": "set NODE_ENV=production && node dist/bin/www.js",
+    "dev": "npm run codegen && set NODE_ENV=development&&  ts-node-dev --respawn --transpile-only -r tsconfig-paths/register ./bin/www.ts",
+    "start": "set NODE_ENV=production&& node dist/bin/www.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "build": "npm run clean && tsc && tsc-alias && npm run copy",
@@ -24,7 +24,7 @@
     "cookie-parser": "^1.4.7",
     "cookie-session": "^2.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.0.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "faker": "^6.6.6",
@@ -35,9 +35,8 @@
     "mysql": "github:mysqljs/mysql",
     "mysql2": "^3.14.1",
     "net": "^1.0.2",
-    "nodemon": "^3.1.10",
     "socket.io": "^4.8.1",
-    "sqlite3": "^5.1.7"
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
@@ -47,6 +46,7 @@
     "@graphql-codegen/typescript": "4.1.6",
     "@graphql-codegen/typescript-resolvers": "^4.5.1",
     "@types/cookie-parser": "^1.4.9",
+    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.3",
     "@types/morgan": "^1.9.10",
     "@types/node": "^24.0.3",
@@ -57,6 +57,7 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.2.0",
+    "nodemon": "^3.1.10",
     "prisma": "^6.10.1",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",

@@ -40,7 +40,7 @@ const eslintConfig = [
     },
   },
   ...tseslint.configs.recommended,
-  { ignores: ["dist/", "node_modules/", "src/graphql/graphql.ts"] },
+  { ignores: ["dist/", "node_modules/", "src/types/graphql.ts"] },
   {
     rules: {
       "@typescript-eslint/no-require-imports": "off",

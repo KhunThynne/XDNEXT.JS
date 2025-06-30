@@ -42,7 +42,7 @@ function onListening() {
   console.log(chalk.green(`Server listening on ${bind}`));
 }
 
-const Port = normalizePort(process.env.PORT || "8080");
+const Port = normalizePort(process.env.PORT);
 app.set("Port", Port);
 server.listen(Port);
 server.on("error", onError);

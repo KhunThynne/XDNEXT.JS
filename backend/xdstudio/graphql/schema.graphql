@@ -1,5 +1,6 @@
  type Query {
-    hello: String
+    hellos: String,
+    test:Test
   }
 
   type Test{
