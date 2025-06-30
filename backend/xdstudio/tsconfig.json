@@ -13,16 +13,16 @@
     "sourceMap": true,
     "outDir": "dist",
     "moduleDetection": "force",
+    "rootDir": ".",
     "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "publics/*"
-      ]
+      "paths": {
+      "@/*": ["src/*"]
     }
   },
   "lib": [
     "es2015"
   ],
+  "include": ["src/**/*", "bin/**/*"],
   "exclude": [
     "node_modules"
   ]
