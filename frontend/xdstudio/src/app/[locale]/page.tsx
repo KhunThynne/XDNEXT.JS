@@ -1,3 +1,4 @@
+import { env } from "@/env";
 import clsx from "clsx";
 // import { useTranslations } from "next-intl";
 import Image from "next/image";
@@ -11,6 +12,7 @@ export default function HomePage() {
           "row-start-2 flex flex-col items-center gap-[32px] sm:items-start"
         )}
       >
+        {env.NEXT_PUBLIC_API_GRAPHQL}
         <Image
           src="/next.svg"
           alt="Next.js logo"

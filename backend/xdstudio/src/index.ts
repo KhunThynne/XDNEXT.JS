@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
+import env from "@/env";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -6,7 +7,6 @@ import path from "path";
 import ejs from "ejs";
 import controller from "@/controller";
 import graphql from "@/graphql";
-import env from "@/env";
 
 const app = express();
 app.engine("html", ejs.renderFile);
