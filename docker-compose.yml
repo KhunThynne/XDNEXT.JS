@@ -11,11 +11,11 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
-      - "33061:33061"
+      - "33061:3306"
 
   backend:
     build:
-      context: ./backend
+      context: ./backend/xdstudio
     container_name: backend
     env_file:
       - .env

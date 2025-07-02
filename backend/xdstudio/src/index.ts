@@ -7,7 +7,6 @@ import cors from "cors";
 import path from "path";
 import ejs from "ejs";
 import controller from "@/controller";
-import graphql from "@/graphql";
 
 const app = express();
 app.engine("html", ejs.renderFile);
@@ -22,7 +21,7 @@ app.use(cookieParser());
 
 // ✅ Routes
 app.use(controller);
-app.all("/graphql", graphql);
+
 app.get("/", (req, res) => {
   res.render("index", { title: `${env.NODE_ENV}` });
 });
