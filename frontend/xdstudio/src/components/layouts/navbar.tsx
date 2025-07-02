@@ -70,7 +70,7 @@ export default function Navbar({ className }: NextDefaultProps) {
           <nav
             className={clsx(
               "bg-background/35 flex h-full flex-col gap-3 rounded-b-lg",
-              "inset-shadow-sm inset-shadow-primary/50 border-b",
+              "inset-shadow-sm inset-shadow-primary/50 dark:inset-shadow-primary/20 border-b",
               "px-4 py-2"
             )}
           >

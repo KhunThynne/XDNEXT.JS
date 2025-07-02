@@ -23,6 +23,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/adapter-mariadb": "^6.11.0",
     "@prisma/client": "^6.10.1",
     "@types/mysql": "^2.15.27",
     "chalk": "^5.4.1",
@@ -63,7 +64,7 @@
     "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.2.0",
     "nodemon": "^3.1.10",
-    "prisma": "^6.10.1",
+    "prisma": "^6.11.0",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",

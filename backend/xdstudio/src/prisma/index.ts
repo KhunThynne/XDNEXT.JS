@@ -1,8 +1,19 @@
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "@prisma/client";
 import express from "express";
-
+import env from "@/env";
 const router = express.Router();
-const prisma = new PrismaClient();
+
+const adapter = new PrismaMariaDb({
+  host: env.SQL_HOST,
+  port: env.DATABASE_PORT,
+  user: env.SQL_USER,
+  password: env.SQL_PASSWORD,
+  database: env.SQL_DATABASE_NAME,
+  connectionLimit: 5,
+});
+
+const prisma = new PrismaClient({ adapter });
 
 router.get("/test", async (req, res) => {
   console.log(await prisma.users.count());

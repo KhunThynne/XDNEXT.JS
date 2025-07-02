@@ -4,7 +4,7 @@
   "description": "🚀 Full Stack Web Application\r 🧩 Tech Stack\r 🖥️ Frontend\r Next.js – React Framework with App Router support",
   "main": "index.js",
  "scripts": {
-    "dev:frontend": "npm --prefix frontend/xdstudio  run dev",
+    "dev:frontend": "npm --prefix frontend/xdstudio run dev",
     "dev:backend": "npm --prefix backend/xdstudio  run dev",
     "prisma:studio": "npm --prefix backend/xdstudio run prisma:studio",
     "dev": "concurrently \"npm run dev:frontend/xdstudio\" \"npm run dev:backend\"",

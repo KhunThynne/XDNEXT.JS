@@ -1,4 +1,4 @@
-import "../configs/dotenv.config";
+import "#/configs/dotenv.config";
 import env from "@/env";
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
