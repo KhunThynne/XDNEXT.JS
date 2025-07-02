@@ -2,6 +2,7 @@
 import app from "@/index";
 import chalk from "chalk";
 import http from "http";
+
 const server = http.createServer(app);
 function normalizePort(val: string) {
   const Port = parseInt(val, 10);
