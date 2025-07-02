@@ -1,23 +1,22 @@
 import clsx from "clsx";
+import { ReactNode } from "react";
+import Navbar from "./navbar";
+import Footer from "./footer";
+import Content from "./content";
 
-export default function Main({
-  classNames,
-  children,
-}: Omit<NextPropsClassNames<"main" | "outsite">, "className">) {
+export default function Main({ children }: { children: ReactNode }) {
   return (
-    <div className={classNames?.outsite}>
-      <div
-        className={clsx(
-          "absolute inset-0 -z-20",
-          "[mask-image:linear-gradient(to_bottom,white,transparent)]",
-          // Light mode
-          "bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] opacity-60",
-          // Dark mode
-          "dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]",
-          "bg-[size:40px_40px]"
-        )}
-      />
-      <div className={classNames?.main}>{children}</div>
-    </div>
+    <main className={clsx("flex flex-col", "h-screen")}>
+      <Navbar />
+      <Content
+        classNames={{
+          outsite: "grow relative",
+          content: "container mx-auto p-5 h-full ",
+        }}
+      >
+        {children}
+      </Content>
+      <Footer className="flex-none p-5" />
+    </main>
   );
 }

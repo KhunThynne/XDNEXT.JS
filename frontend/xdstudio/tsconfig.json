@@ -19,8 +19,12 @@
       }
     ],
     "paths": {
+      "@navigation": ["./src/libs/i18n/navigation.ts"],
+      "@configs/*":["./configs/*"],
+      "@type/*":["./types/*"],
       "#/*": ["./*"],  
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],   
+ 
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","src/env.ts"],

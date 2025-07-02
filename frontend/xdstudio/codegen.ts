@@ -7,7 +7,7 @@ const config: CodegenConfig = {
   schema: env.NEXT_PUBLIC_API_GRAPHQL,
   // documents: ["src/**/*.tsx"],
   generates: {
-    "src/types/graphql.ts": {
+    "/types/graphql.type.ts": {
       plugins: [
         "typescript",
         "typescript-operations",

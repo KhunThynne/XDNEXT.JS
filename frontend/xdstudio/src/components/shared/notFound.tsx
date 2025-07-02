@@ -1,12 +1,10 @@
 "use client";
 import { Fragment } from "react";
 import { Button } from "../ui/button";
-import Link from "next/link";
-
+import { Link } from "@navigation";
 export const NotFound = () => {
   return (
     <Fragment>
-      {" "}
       <h1 className="text-foreground mb-4 text-6xl font-extrabold">404</h1>
       <p className="text-muted-foreground mb-6 max-w-md text-lg">
         Sorry, the page you are looking for does not exist.zxcxzc
