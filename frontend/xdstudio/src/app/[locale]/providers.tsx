@@ -2,7 +2,8 @@
 import React, { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
+import { ThemeProvider } from "@/components/providers";
+
 const queryClient = new QueryClient();
 export const Providers = ({ children }: { children: ReactNode }) => {
   return (
@@ -11,7 +12,7 @@ export const Providers = ({ children }: { children: ReactNode }) => {
         attribute="class"
         defaultTheme="system"
         enableSystem
-        disableTransitionOnChange
+        // disableTransitionOnChange
       >
         <Toaster />
         {children}
