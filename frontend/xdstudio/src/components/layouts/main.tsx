@@ -1,8 +1,9 @@
+"use client"
 import clsx from "clsx";
 import { ReactNode } from "react";
-import Navbar from "./navbar";
 import Footer from "./footer";
 import Content from "./content";
+import Navbar from "./navbar";
 
 export default function Main({ children }: { children: ReactNode }) {
   return (

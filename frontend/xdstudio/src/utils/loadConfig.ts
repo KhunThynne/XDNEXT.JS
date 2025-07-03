@@ -1,3 +1,4 @@
-import * as conf from "#/configs/default.config";
+import config from "@configs/default.config";
 
-export default conf.default;
+const conf = config;
+export default conf;

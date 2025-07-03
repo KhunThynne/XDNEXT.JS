@@ -1,10 +1,22 @@
-export interface NavbarItem {
+import { JSX } from "react";
+
+interface BaseTypeNavbarItem {
   title: string;
   href: string;
   description?: string;
-  children?: NavbarItem[];
 }
+
+export interface TopLevelTypeNavbarItem extends BaseTypeNavbarItem {
+  children?: NestedTypeNavbarItem[];
+}
+
+export interface NestedTypeNavbarItem extends BaseTypeNavbarItem {
+  component?: React.ReactNode | React.ReactElement | JSX.Element;
+  children?: NestedTypeNavbarItem[];
+}
+
 export interface TypeConfigDefault {
   branner: string;
-  navbar: NavbarItem[];
+  navbar: TopLevelTypeNavbarItem[];
 }
+export type TypeNavbarItem = NestedTypeNavbarItem;

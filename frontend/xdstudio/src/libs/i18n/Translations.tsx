@@ -2,7 +2,7 @@ import { env } from "@/env";
 import _ from "lodash";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
-
+const loggedMessages = new Set<string>();
 export default function Translations({
   text,
   namespace,
@@ -16,8 +16,13 @@ export default function Translations({
     const snakeText = _.snakeCase(text);
     const message = namespace ? `${namespace}.${snakeText}` : snakeText;
     if (!has(message)) {
-      env.NEXT_PUBLIC_NODE_ENV === "development" &&
-        console.warn("Plese set messages", message);
+      if (
+        env.NEXT_PUBLIC_NODE_ENV === "development" &&
+        !loggedMessages.has(message)
+      ) {
+        console.warn("⚠️ Please set messages:", message);
+        loggedMessages.add(message);
+      }
       return text;
     }
 

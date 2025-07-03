@@ -1,18 +1,13 @@
-// types/global.d.ts
-
-import type { ReactNode, ComponentProps, HTMLAttributes } from "react";
-
 declare global {
   type WithChildren<T = unknown> = T & {
-    children?: ReactNode;
+    children?: React.ReactNode;
   };
-
-  type WithClassName<T = unknown> = T & {
+  type NextDefaultProps = {
+    children?: React.ReactNode;
     className?: string;
   };
 
-  type NextDefaultProps = {
-    children?: ReactNode;
+  type NextPropClassName<T = unknown> = T & {
     className?: string;
   };
 
@@ -20,9 +15,9 @@ declare global {
     NextDefaultProps & {
       classNames?: Partial<Record<T, string>>;
     };
-  type NextImage = ComponentProps<"img">;
+  type NextImage = React.ComponentProps<"img">;
 
-  type DivProps = HTMLAttributes<HTMLDivElement>;
+  type DivProps = React.HTMLAttributes<HTMLDivElement>;
 }
 
 export {};

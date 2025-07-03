@@ -22,7 +22,7 @@
       "@navigation": ["./src/libs/i18n/navigation.ts"],
       "@configs/*":["./configs/*"],
       "@type/*":["./types/*"],
-      "#/*": ["./*"],  
+      // "#/*": ["./*"],  
       "@/*": ["./src/*"],   
  
     }
