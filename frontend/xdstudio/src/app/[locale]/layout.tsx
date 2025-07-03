@@ -26,7 +26,7 @@ export default async function LocaleLayout({
       <body
         className={clsx(
           // geistSans.variable, geistMono.variable,
-          `antialiased`
+          ` antialiased`
         )}
       >
         <Providers>

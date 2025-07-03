@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SwitchTheme } from "../shared/switchTheme";
+import { SwitchTheme } from "../shared/SwitchTheme";
 import clsx from "clsx";
 import conf from "@/utils/loadConfig";
 import {
@@ -19,7 +19,7 @@ import _ from "lodash";
 
 import { NavbarItem } from "#/types/config.type";
 import { Link } from "@navigation";
-import Translations from "@/libs/i18n/translations";
+import Translations from "@/libs/i18n/Translations";
 
 const navbar = conf.navbar;
 const ListItem = ({
@@ -134,7 +134,27 @@ export default function Navbar({ className }: NextDefaultProps) {
           className="border-secondary border md:hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <X
+          <div className="relative size-4">
+            <span
+              className={clsx(
+                "bg-primary absolute left-0 block h-0.5 w-4 transition-all duration-100",
+                {
+                  "top-1": !isOpen,
+                  "top-[0.4rem] rotate-[-45deg]": isOpen,
+                }
+              )}
+            />
+            <span
+              className={clsx(
+                "bg-foreground absolute left-0 block h-0.5 w-4 transition-all duration-100",
+                {
+                  "top-2.5": !isOpen,
+                  "top-[0.4rem] rotate-[45deg]": isOpen,
+                }
+              )}
+            />
+          </div>
+          {/* <X
             className={clsx(
               "absolute transition-opacity",
               isOpen ? "opacity-100" : "opacity-0"
@@ -146,7 +166,7 @@ export default function Navbar({ className }: NextDefaultProps) {
               "absolute transition-opacity",
               isOpen ? "opacity-0" : "opacity-100"
             )}
-          />
+          /> */}
         </Button>
       </div>
 

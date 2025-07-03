@@ -1,4 +1,4 @@
-import { NotFound } from "@/components/shared/notFound";
+import { NotFound } from "@/components/shared/NotFound";
 
 export default async function NotFoundLocale() {
   return (
