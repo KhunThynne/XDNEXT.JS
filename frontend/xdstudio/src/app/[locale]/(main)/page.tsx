@@ -1,5 +1,5 @@
 import React from "react";
-import Marquee from "react-fast-marquee";
+
 import Image from "next/image";
 import Footer from "@/components/Foodter/Footer";
 import Navbar from "@/components/Navbar/Navbar";
@@ -33,11 +33,9 @@ export default function Home() {
               </div>
 
               <div className="rounded-xs w-full bg-[#ff8b8b00] p-2">
-                <Marquee pauseOnHover speed={30} gradient={false}>
-                  <p style={{ marginRight: "2rem" }}>
-                    โปรโมชั่น Fivem กรอกโค๊ดรับส่วนลด 20%
-                  </p>
-                </Marquee>
+                <p style={{ marginRight: "2rem" }}>
+                  โปรโมชั่น Fivem กรอกโค๊ดรับส่วนลด 20%
+                </p>
               </div>
             </div>
           </div>

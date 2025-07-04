@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import React from "react";
 
-type Props = {};
+type Props = object;
 
 export default function Navbar({}: Props) {
   return (

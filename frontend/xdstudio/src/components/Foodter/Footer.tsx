@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type Props = {};
+type Props = object;
 
 export default function Footer({}: Props) {
   const t = useTranslations();
