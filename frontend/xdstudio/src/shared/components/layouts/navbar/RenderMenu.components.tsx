@@ -7,13 +7,13 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
+} from "@/shared/components/shadcn/collapsible";
+import { Button } from "@/shared/components/shadcn/button";
 import { ChevronDown, ChevronsUpDown } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import clsx from "clsx";
-import { SwitchTheme } from "@/components/shared/SwitchTheme";
 import { Link, usePathname } from "@navigation";
+import { useStore } from "@/shared/stores/useNameStore";
 const NavigationItem = ({
   href,
   title,
@@ -85,6 +85,7 @@ const NavigationItem = ({
 
 const RenderItem = ({ ...props }: TypeNavbarItem) => {
   const [isOpen, setIsOpen] = useState(false);
+
   const stateAndProps = { isOpen, setIsOpen, ...props };
 
   return (

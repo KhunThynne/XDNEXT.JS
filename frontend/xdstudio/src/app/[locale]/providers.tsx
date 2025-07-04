@@ -2,7 +2,7 @@
 import React, { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/providers";
+import { ThemeProvider } from "@/shared/components/providers";
 
 const queryClient = new QueryClient();
 export const Providers = ({ children }: { children: ReactNode }) => {

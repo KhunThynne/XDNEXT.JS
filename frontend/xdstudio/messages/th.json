@@ -4,6 +4,7 @@
     "about": "Go to the about page"
   },
    "navbar":{
-    "home":"หน้าหลัก"
+    "home":"หน้าหลัก",
+    "services":"บริการ"
   }
 }

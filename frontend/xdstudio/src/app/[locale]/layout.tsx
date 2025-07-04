@@ -3,9 +3,8 @@ import clsx from "clsx";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { Providers } from "./providers";
-import Main from "@/components/layouts/main";
 import type { Metadata } from "next";
-
+import Main from "@/shared/components/layouts/main";
 export const metadata: Metadata = {
   title: "Xdstudio",
   description: "This is a static description for all locales",

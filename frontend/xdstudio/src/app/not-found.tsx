@@ -1,6 +1,6 @@
+import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "@navigation";
 import { Fragment } from "react";
-import { Button } from "../components/ui/button";
 
 export default async function NotFoundRoot() {
   if (typeof window !== "undefined") return;

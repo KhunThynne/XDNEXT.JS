@@ -1,4 +1,4 @@
-import { Button, ButtonStateProps } from "@/components/ui/button";
+import { Button, ButtonStateProps } from "@/shared/components/shadcn/button";
 import clsx from "clsx";
 
 export const MenuButton = ({

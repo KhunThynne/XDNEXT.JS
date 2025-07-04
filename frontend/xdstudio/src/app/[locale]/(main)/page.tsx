@@ -1,10 +1,9 @@
-import { SwitchTheme } from "@/components/shared/switchTheme";
-import { env } from "@/env";
-import clsx from "clsx";
-// import { useTranslations } from "next-intl";
-import Image from "next/image";
+"use client";
+
+import { useStore } from "@/shared/stores/useNameStore";
 
 export default function HomePage() {
   // const t = useTranslations("HomePage");
-  return <div>Homepage</div>;
+  const { dataStore } = useStore();
+  return <div>{dataStore.test}</div>;
 }

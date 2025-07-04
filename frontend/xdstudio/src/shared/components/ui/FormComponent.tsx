@@ -7,8 +7,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/shared/components/shadcn/form";
+import { Input } from "@/shared/components/shadcn/input";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { ReactNode } from "react";
 

@@ -4,9 +4,10 @@ import { useState } from "react";
 
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
-import { SwitchTheme } from "../../shared/SwitchTheme";
+
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
+import { SwitchTheme } from "../../ui/SwitchTheme";
 
 export default function Navbar({ className }: NextDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);

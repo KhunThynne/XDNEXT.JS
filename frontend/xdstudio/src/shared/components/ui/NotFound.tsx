@@ -1,7 +1,8 @@
 "use client";
 import { Fragment } from "react";
-import { Button } from "../ui/button";
+
 import { Link } from "@navigation";
+import { Button } from "../shadcn/button";
 export const NotFound = () => {
   return (
     <Fragment>
