@@ -3,9 +3,8 @@
     "title": "Hello world!",
     "about": "Go to the about page"
   },
-  "Footer": {
-    "Application Made by": "Application สร้างโดย"
-  },
-  "shared": {},
-  "success": "ความสำเร็จ"
+   "navbar":{
+    "home":"หน้าหลัก",
+    "services":"บริการ"
+  }
 }

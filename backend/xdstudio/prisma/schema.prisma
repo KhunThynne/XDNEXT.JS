@@ -1,13 +1,12 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
-// DATABASE
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
 
 model users {
   id         Int       @id @default(autoincrement())

@@ -1,3 +1,5 @@
+import "#/configs/dotenv.config";
+import env from "@/env";
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
@@ -5,8 +7,6 @@ import cors from "cors";
 import path from "path";
 import ejs from "ejs";
 import controller from "@/controller";
-import graphql from "@/graphql";
-import env from "@/env";
 
 const app = express();
 app.engine("html", ejs.renderFile);
@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 // ✅ Routes
 app.use(controller);
-app.all("/graphql", graphql);
+
 app.get("/", (req, res) => {
   res.render("index", { title: `${env.NODE_ENV}` });
 });
