@@ -1,5 +1,11 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
+type StoreWrapper<T, K extends string> = {
+  [key in `${Lowercase<K>}Store`]: T;
+} & {
+  [key in `set${Capitalize<K>}`]: (data: T) => void;
+};
+
 /**
  * A generic Zustand helper to create a typed store with named key and setter.
  *
@@ -26,11 +32,6 @@ import { devtools } from "zustand/middleware";
  *   initial: { id: 1, status: "active" },
  * });
  */
-type StoreWrapper<T, K extends string> = {
-  [key in `${Lowercase<K>}Store`]: T;
-} & {
-  [key in `set${Capitalize<K>}`]: (data: T) => void;
-};
 
 export function createHookStore<T, K extends string = "data">({
   key,

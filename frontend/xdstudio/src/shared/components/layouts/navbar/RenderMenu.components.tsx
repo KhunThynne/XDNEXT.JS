@@ -1,7 +1,6 @@
 "use client";
 
 import _ from "lodash";
-
 import { TypeNavbarItem } from "@type/config.type";
 import {
   Collapsible,
@@ -27,7 +26,7 @@ const NavigationItem = ({
 }) => {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(href + "/");
-
+  const test = "";
   useLayoutEffect(() => {
     active && setIsOpen(active);
   }, [active, setIsOpen]);
@@ -62,7 +61,7 @@ const NavigationItem = ({
           <p className="text-muted-foreground w-full">{description}</p>
         </div>
       </CollapsibleTrigger>
-
+      czxczxczxczxczxczxc
       <CollapsibleContent
         forceMount
         className={clsx(

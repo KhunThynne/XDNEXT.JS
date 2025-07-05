@@ -6,7 +6,15 @@ import { Link, usePathname } from "@navigation";
 import Translations from "@/libs/i18n/Translations";
 import { TypeNavbarItem } from "@type/config.type";
 import clsx from "clsx";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "../../shadcn/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "../../shadcn/navigation-menu";
 
 const ListItem = ({
   title,

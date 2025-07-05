@@ -1,14 +1,17 @@
 "use client";
 
+import { useDialogConfirm } from "@/libs/dialog/createDialogs";
 import { Button } from "@/shared/components/shadcn/button";
-import { useMainStore, useStore } from "@/shared/stores/useNameStore";
+import { useStore } from "@/shared/stores/useNameStore";
 
 export default function Page() {
   const { dataStore, setData } = useStore();
-  const { mainStore, setMain } = useMainStore();
   return (
     <>
-      <Button onClick={() => setData({ test: 6 })}>TEst</Button>
+      {/* <Button onClick={() => open()}>Dialog</Button> */}
+      <Button onClick={() => setData({ test: dataStore.test + 1 })}>
+        TEst
+      </Button>
       {dataStore.test}
     </>
   );

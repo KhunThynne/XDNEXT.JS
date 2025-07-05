@@ -34,7 +34,7 @@ export default function Navbar({ className }: NextDefaultProps) {
         />
       </div>
 
-      <section className={clsx("relative -z-0 h-full md:hidden")}>
+      <div className={clsx("relative md:hidden")}>
         <nav
           aria-label="Mobile navigation"
           className={clsx(
@@ -53,7 +53,7 @@ export default function Navbar({ className }: NextDefaultProps) {
             </li>
           </ul>
         </nav>
-      </section>
+      </div>
     </div>
   );
 }
