@@ -1,18 +1,32 @@
 "use client";
 
-import { useDialogConfirm } from "@/libs/dialog/createDialogs";
+import { useDialogExample } from "@/libs/dialog/example/clientHook";
+import { DialogTest } from "@/libs/dialog/example/serverSideDialog";
+
 import { Button } from "@/shared/components/shadcn/button";
-import { useStore } from "@/shared/stores/useNameStore";
 
 export default function Page() {
-  const { dataStore, setData } = useStore();
+  const { openDialog } = useDialogExample();
   return (
-    <>
-      {/* <Button onClick={() => open()}>Dialog</Button> */}
-      <Button onClick={() => setData({ test: dataStore.test + 1 })}>
-        TEst
+    <div className="">
+      <Button
+        onClick={() =>
+          openDialog({
+            content: (
+              <>
+                <DialogTest
+                  trigger={<Button>test </Button>}
+                  // options={{ dialog: { modal: false } }}
+                />
+              </>
+            ),
+          })
+        }
+      >
+        Dialog
       </Button>
-      {dataStore.test}
-    </>
+
+      {/* <DialogTest trigger={<Button>test</Button>} options={} /> */}
+    </div>
   );
 }

@@ -1,13 +1,7 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type DialogContextType = {
-  add: (id: string, dialog: ReactNode) => string; // return id
+  add: (id: string, dialog: ReactNode) => string;
   remove: (id: string) => void;
 };
 type DialogEntry = { id: string; node: React.ReactNode };
@@ -24,17 +18,14 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
   const remove = (id: string) => {
     setDialogs((prev) => prev.filter((d) => d.id !== id));
   };
-  useEffect(() => {
-    console.log(dialogs.map((c) => c.id));
-  }, [dialogs]);
+
   return (
-    <DialogContext.Provider value={{ add, remove }}>
-      {children}
-      {JSON.stringify(dialogs)}
+    <DialogContext value={{ add, remove }}>
       {dialogs.map(({ id, node }) => (
         <div key={id}>{node}</div>
       ))}
-    </DialogContext.Provider>
+      {children}
+    </DialogContext>
   );
 }
 

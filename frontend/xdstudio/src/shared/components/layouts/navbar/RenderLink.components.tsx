@@ -31,7 +31,7 @@ const ListItem = ({
   return (
     <li {...props}>
       <NavigationMenuLink asChild data-active={pathname.includes(href)}>
-        <Link href={href}>
+        <Link href={href} aria-disabled={pathname.includes(href)}>
           <div className="text-sm font-medium leading-none">
             <Translations text={title} namespace="navbar" />
           </div>
@@ -90,7 +90,7 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                 <>
                   <NavigationMenuTrigger
                     className={clsx(
-                      "font-semibold",
+                      "font-semibold capitalize",
                       pathname.includes(item.href) && "bg-accent/50 underline"
                     )}
                   >
@@ -115,7 +115,11 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                     "font-semibold data-[active=true]:underline"
                   )}
                 >
-                  <Link href={item.href} className="capitalize">
+                  <Link
+                    href={item.href}
+                    className="capitalize"
+                    aria-disabled={isActive}
+                  >
                     <Translations text={item.title} namespace="navbar" />
                   </Link>
                 </NavigationMenuLink>
