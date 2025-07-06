@@ -1,10 +1,7 @@
 "use client";
-
 import { useDialogExample } from "@/libs/dialog/example/clientHook";
 import { DialogTest } from "@/libs/dialog/example/serverSideDialog";
-
 import { Button } from "@/shared/components/shadcn/button";
-
 export default function Page() {
   const { openDialog } = useDialogExample();
   return (
@@ -25,8 +22,6 @@ export default function Page() {
       >
         Dialog
       </Button>
-
-      {/* <DialogTest trigger={<Button>test</Button>} options={} /> */}
     </div>
   );
 }

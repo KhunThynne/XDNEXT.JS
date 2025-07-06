@@ -1,20 +1,25 @@
 import { useDialogDispatcher } from "./DialogProvider";
 import React from "react";
-import { DialogInstanceProps, DialogOptions } from "./dialog.type";
+
 import { DialogInstance } from "./DialogInstance";
+import { DialogInstanceProps, DialogOptions } from "./index.type";
 /**
- * Factory function to create a custom hook that manages a dynamic Dialog instance.
+ * Creates a custom React hook for managing a dynamic Dialog instance.
  *
- * @param {DialogInstanceProps} initialProps - The initial props for the Dialog instance such as title, content, description, etc.
+ * This factory function returns a hook that can be used to open and close
+ * a Dialog component programmatically. You can specify default dialog
+ * properties (like title and description) when creating the hook, and override
+ * them at runtime if needed.
  *
- * @returns {() => { openDialog: Function; closeDialog: Function }}
- *   Returns a hook providing:
- *   - `openDialog`: function to open the Dialog, optionally overriding initial props.
- *   - `closeDialog`: function to close the Dialog and perform cleanup.
+ * @param initialProps - Default dialog props such as title, description, content, etc.
+ *
+ * @returns A hook that provides:
+ * - `openDialog`: Function to open the dialog with optional runtime overrides.
+ * - `closeDialog`: Function to close the dialog and perform cleanup.
  *
  * @example
  * ```tsx
- * const useDialogTest = createDialog({
+ * const useDialogTest = createHookDialog({
  *   title: "Hello",
  *   description: "This is a dialog",
  * });
@@ -22,10 +27,11 @@ import { DialogInstance } from "./DialogInstance";
  * function MyComponent() {
  *   const { openDialog } = useDialogTest();
  *
- *   return <button onClick={() => openDialog()}>Open Dialog</button>;
+ *   return <button onClick={openDialog}>Open Dialog</button>;
  * }
  * ```
  */
+
 export const createHookDialog = (initialProps: DialogInstanceProps) => {
   return function useDialog(hookProps?: DialogInstanceProps) {
     const id = React.useMemo(() => crypto.randomUUID(), []);

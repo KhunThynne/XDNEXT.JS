@@ -9,9 +9,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/components/shadcn/dialog";
+import { DialogInstanceProps } from "./index.type";
 // import { DialogInstanceProps } from "./dialog.type";
-
-import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({
   title,
