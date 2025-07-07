@@ -17,7 +17,6 @@ export type DialogOptions = {
   dialog?: DialogProps;
   title?: DialogTitleProps;
   description?: DialogDescriptionProps;
-
   footer?: NextPropClassName;
   header?: NextPropClassName;
 };
@@ -28,4 +27,5 @@ export type DialogInstanceProps = {
   content?: React.ReactNode;
   footer?: React.ReactNode;
   trigger?: React.ReactNode | string;
+  mode?: "static" | "dismissable";
 };

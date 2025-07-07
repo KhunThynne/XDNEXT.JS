@@ -26,7 +26,6 @@ const NavigationItem = ({
 }) => {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(href + "/");
-  const test = "";
   useLayoutEffect(() => {
     active && setIsOpen(active);
   }, [active, setIsOpen]);

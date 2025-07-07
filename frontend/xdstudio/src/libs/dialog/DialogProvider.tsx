@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
+type DialogEntry = { id: string; node: React.ReactNode };
 type DialogContextType = {
   add: (id: string, dialog: ReactNode) => string;
   remove: (id: string) => void;
+  dialogs: DialogEntry[];
 };
-type DialogEntry = { id: string; node: React.ReactNode };
 const DialogContext = createContext<DialogContextType | undefined>(undefined);
 
 export function DialogProvider({ children }: { children: React.ReactNode }) {
@@ -20,9 +21,9 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <DialogContext value={{ add, remove }}>
-      {dialogs.map(({ id, node }) => (
-        <div key={id}>{node}</div>
+    <DialogContext value={{ add, remove, dialogs }}>
+      {dialogs.map(({ id, node }, index) => (
+        <div key={`${id}-${index}`}>{node}</div>
       ))}
       {children}
     </DialogContext>

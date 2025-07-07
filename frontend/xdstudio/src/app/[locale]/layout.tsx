@@ -21,7 +21,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale} key={`locale-${locale}`}>
+    <html lang={locale}>
       <body
         className={clsx(
           // geistSans.variable, geistMono.variable,

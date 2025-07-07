@@ -1,27 +1,18 @@
 "use client";
 import { useDialogExample } from "@/libs/dialog/example/clientHook";
-import { DialogTest } from "@/libs/dialog/example/serverSideDialog";
+import { useSignDialog } from "@/shared/components/forms/SignForm";
 import { Button } from "@/shared/components/shadcn/button";
 export default function Page() {
-  const { openDialog } = useDialogExample();
+  const { openDialog, closeDialog } = useSignDialog({
+    // mode: "static",
+    // options: { dialog: { defaultOpen: true } },
+  });
+
+  const { openDialog: openTest } = useDialogExample({ mode: "static" });
   return (
     <div className="">
-      <Button
-        onClick={() =>
-          openDialog({
-            content: (
-              <>
-                <DialogTest
-                  trigger={<Button>test </Button>}
-                  // options={{ dialog: { modal: false } }}
-                />
-              </>
-            ),
-          })
-        }
-      >
-        Dialog
-      </Button>
+      <Button onClick={openDialog}>Open Login</Button>
+      <Button onClick={openTest}>Open Test</Button>
     </div>
   );
 }
