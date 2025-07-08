@@ -8,10 +8,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model users {
-  id         Int       @id @default(autoincrement())
-  username   String    @db.VarChar(255)
-  email      String    @unique(map: "email") @db.VarChar(255)
-  password   String    @db.VarChar(255)
-  created_at DateTime? @default(now()) @db.Timestamp(0)
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String?  
+  username      String?
+  provider  String   @default("credentials")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

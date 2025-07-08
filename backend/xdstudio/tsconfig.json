@@ -6,17 +6,18 @@
     ]
   },
   "compilerOptions": {
-    "module": "commonjs",
+   "module": "NodeNext",            
+    "moduleResolution": "NodeNext", 
     "esModuleInterop": true,
-    "target": "es6",
-    "moduleResolution": "node",
+    "target": "ES2020",
     "sourceMap": true,
     "outDir": "dist",
     "moduleDetection": "force",
     "rootDir": ".",
     "baseUrl": ".",
       "paths": {
-      "#/*": ["./*"],   
+      "@configs/*": ["configs/*"],
+      "@prisma":["src/libs/prisma/prisma.client.ts"],   
       "@/*": ["src/*"]
     }
   },
