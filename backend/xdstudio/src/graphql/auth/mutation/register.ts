@@ -17,14 +17,6 @@ const register: Resolvers["Mutation"]["register"] = async (_parent, args) => {
       username,
       provider: "credentials",
     },
-    select: {
-      id: true,
-      email: true,
-      username: true,
-      provider: true,
-      createdAt: true,
-      updatedAt: true,
-    },
   });
 
   return user;

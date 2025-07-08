@@ -4,7 +4,6 @@ import register from "./mutation/register";
 
 export const resolvers: Resolvers = {
   Query: {},
-
   Mutation: {
     login,
     register,

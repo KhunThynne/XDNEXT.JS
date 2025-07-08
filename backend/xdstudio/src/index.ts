@@ -7,7 +7,7 @@ import cors from "cors";
 import path from "path";
 import ejs from "ejs";
 import controller from "@/controller";
-
+const testr= ""
 const app = express();
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
