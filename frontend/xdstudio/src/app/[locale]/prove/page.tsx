@@ -5,7 +5,7 @@ import { Button } from "@/shared/components/shadcn/button";
 export default function Page() {
   const { openDialog, closeDialog } = useSignDialog({
     // mode: "static",
-    // options: { dialog: { defaultOpen: true } },
+    options: { dialog: { defaultOpen: true } },
   });
 
   const { openDialog: openTest } = useDialogExample({ mode: "static" });

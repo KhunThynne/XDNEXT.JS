@@ -54,7 +54,7 @@ export function DialogInstance(
 ) {
   const options = props.options;
   const { refContent, refDialog, ...propsDialog } = props;
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(props.options?.dialog?.open);
   useImperativeHandle(refDialog, () => {
     return {
       closeDialogRef() {
