@@ -3,6 +3,7 @@ import { Fragment } from "react";
 
 import { Link } from "@navigation";
 import { Button } from "../shadcn/button";
+
 export const NotFound = () => {
   return (
     <Fragment>

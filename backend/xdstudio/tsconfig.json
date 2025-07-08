@@ -6,24 +6,23 @@
     ]
   },
   "compilerOptions": {
-  "module": "esnext",   
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "target": "ES2020",
+    "target": "ES2022",
+    "strict": true,
     "sourceMap": true,
     "outDir": "dist",
     "moduleDetection": "force",
     "rootDir": ".",
     "baseUrl": ".",
-      "paths": {
+         "paths": {
       "@configs/*": ["configs/*"],
       "@prisma":["src/libs/prisma/prisma.client.ts"],   
       "@/*": ["src/*"]
     }
   },
-  "lib": [
-    "es2015"
-  ],
+ "lib": ["es2022"],
   "include": ["src/**/*", "bin/**/*"],
   "exclude": [
     "node_modules"
