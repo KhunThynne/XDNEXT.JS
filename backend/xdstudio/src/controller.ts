@@ -1,13 +1,11 @@
 import express from "express";
-import createHandler from "@/graphql";
+import { authMiddleware, handler } from "./graphql";
+import { handlerAuth } from "./auth/graphql/graphql.auth";
 
 const controller = express.Router();
 
-// controller.use((req, res, next) => {
-//   if (req.headers["secret-key"] !== process.env.SECRET_KEY) return next();
-//   res.sendStatus(401);
-// });
-// controller.use(prisma);
-controller.all("/graphql", createHandler);
+controller.all("/auth/graphql", handlerAuth);
+controller.use(authMiddleware);
+controller.all("/graphql", handler);
 
 export default controller;

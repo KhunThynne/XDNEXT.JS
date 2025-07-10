@@ -9,7 +9,7 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? Number(val) : 8080)),
-
+  JWT_SECRET_KEY: z.string(),
   SECRET_KEY: z.string(),
   SQL_HOST: z.string().default("localhost"),
   SQL_USER: z.string().default("root"),
@@ -33,6 +33,7 @@ const env = {
   NODE_ENV: parsedEnv.data.NODE_ENV,
   PORT: parsedEnv.data.PORT,
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
+  JWT_SECRET_KEY: parsedEnv.data.JWT_SECRET_KEY,
   SQL_HOST: parsedEnv.data.SQL_HOST,
   SQL_USER: parsedEnv.data.SQL_USER,
   SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,

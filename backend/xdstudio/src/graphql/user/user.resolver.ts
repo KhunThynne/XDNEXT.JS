@@ -1,13 +1,20 @@
 import { Resolvers } from "@/types/graphql";
 import prisma from "@prisma";
-import { hashSync } from "bcrypt-ts";
 
+import { compare, hashSync } from "bcrypt-ts";
+import { Role as GqlRole } from "@/types/graphql";
 export const resolvers: Resolvers = {
   Query: {
     users: async (_, __, context) => {
-      return await prisma.user.findMany();
+      const users = await prisma.user.findMany();
+      const re_user = users.map((user) => ({
+        ...user,
+        role: user.role as GqlRole,
+      }));
+      console.log(re_user);
+      return re_user;
     },
   },
 
-  Mutation: {},
+  // Mutation: {},
 };

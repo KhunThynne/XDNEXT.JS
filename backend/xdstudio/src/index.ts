@@ -6,8 +6,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import ejs from "ejs";
-import controller from "@/controller";
-const testr= ""
+
 const app = express();
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
@@ -20,6 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // ✅ Routes
+// app.use(accessTokenMiddleware);
+import controller from "@/controller";
 app.use(controller);
 
 app.get("/", (req, res) => {
