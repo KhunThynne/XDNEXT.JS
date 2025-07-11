@@ -10,20 +10,37 @@ import { InputForm } from "../ui/form/InputForm";
 import { Form } from "../shadcn/form";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useLogin } from "@/libs/graphql/operations/auth/login.mutations";
+import { signIn } from "next-auth/react";
 
 interface SignInInterface {
-  username: string;
+  email: string;
   password: string;
 }
-const SignForm = () => {
+export const SignForm = () => {
   const method = useForm<SignInInterface>({
-    defaultValues: { password: "", username: "" },
+    defaultValues: { password: "", email: "" },
   });
   const [hidePassword, setHidePassword] = useState(false);
-  const onSubmit = (form: SignInInterface) => {
-    console.log(form);
-    toast.success("Login successful!", { position: "top-center" });
+  const login = useLogin();
+  const onSubmit = async (data: SignInInterface) => {
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+      if (res?.ok) {
+        if (res?.error) throw new Error("Login failed");
+        toast.success("Login success!");
+        console.log("User logged in:", res);
+      }
+    } catch (_) {
+      toast.error("Login failed! user or password invalidate");
+      return;
+    }
   };
+
   const password = method.watch("password");
   return (
     <Form {...method}>
@@ -41,10 +58,10 @@ const SignForm = () => {
         <div className="size-50 mx-auto rounded-full border" />
         <InputForm
           label="Username"
-          name="username"
+          name="email"
           placeholder="Enter your username"
           description="Username must be 3-16 characters, letters, numbers, and underscores only."
-          pattern="^[a-zA-Z0-9_]{3,16}$"
+          // pattern="^[a-zA-Z0-9_]{3,16}$"
         />
 
         <InputForm
@@ -55,7 +72,7 @@ const SignForm = () => {
           classNames={{ container: "gap-2" }}
           placeholder="Enter your password"
           maxLength={10}
-          pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$"
+          // pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$"
         >
           <Button
             variant={"outline"}
@@ -78,6 +95,7 @@ const SignForm = () => {
 export const useSignDialog = createHookDialog({
   title: "Sign in",
   description: "Welcome to xd studio",
+  mode: "static",
   content: <SignForm />,
 });
 

@@ -1,0 +1,35 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type AuthPayload {
+  jwt_token: String!
+  user: User!
+}
+
+type Mutation {
+  login(email: String!, password: String!): AuthPayload
+  logout: Boolean
+  register(email: String!, password: String!, role: Role, username: String!): User
+}
+
+type Query {
+  _empty: String
+  users: [User!]!
+}
+
+enum Role {
+  ADMIN
+  GUEST
+  MODERATOR
+  USER
+}
+
+type User {
+  email: String!
+  id: Int!
+  provider: String!
+  role: Role
+  username: String!
+}

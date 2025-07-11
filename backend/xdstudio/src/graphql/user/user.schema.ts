@@ -1,11 +1,18 @@
 const typeDefs = /* GraphQL */ `
+  type Query {
+    users: [User!]!
+  }
+`;
+const typeDefsRole = /* GraphQL */ `
   enum Role {
     ADMIN
     USER
     MODERATOR
     GUEST
   }
+`;
 
+const typeDefsUser = /* GraphQL */ `
   type User {
     id: Int!
     email: String!
@@ -13,9 +20,8 @@ const typeDefs = /* GraphQL */ `
     provider: String!
     role: Role
   }
-
-  type Query {
-    users: [User!]!
-  }
 `;
-export default typeDefs;
+
+export const typeDefsUserMerge = `${typeDefsUser}\n${typeDefsRole}`;
+const typeDefsMergeQuery = `${typeDefs}\n${typeDefsUserMerge}`;
+export default typeDefsMergeQuery;

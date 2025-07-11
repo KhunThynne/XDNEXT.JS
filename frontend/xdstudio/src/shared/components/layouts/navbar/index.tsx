@@ -1,6 +1,6 @@
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
@@ -8,10 +8,20 @@ import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { SwitchTheme } from "../../ui/SwitchTheme";
-import { SignDialog } from "../../forms/SignForm";
+import { SignDialog, useSignDialog } from "../../forms/SignForm";
+import { signOut, useSession } from "next-auth/react";
+import { Button } from "../../shadcn/button";
+import { LogInIcon } from "lucide-react";
 
 export default function Navbar({ className }: NextDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { status } = useSession();
+  const { openDialog, closeDialog } = useSignDialog();
+  useEffect(() => {
+    if (status === "authenticated") {
+      closeDialog();
+    }
+  }, [closeDialog, status]);
   return (
     <div
       className={clsx(
@@ -26,7 +36,18 @@ export default function Navbar({ className }: NextDefaultProps) {
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
           <SwitchTheme />
-          <SignDialog />
+          {status === "unauthenticated" ? (
+            <Button variant="ghost" size="icon" onClick={openDialog}>
+              <LogInIcon />
+            </Button>
+          ) : (
+            <Button
+              variant="ghost"
+              onClick={() => signOut({ redirect: false })}
+            >
+              logout
+            </Button>
+          )}
         </nav>
         <MenuButton
           className="md:hidden"

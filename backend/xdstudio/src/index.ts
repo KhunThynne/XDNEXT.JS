@@ -1,5 +1,4 @@
 import "@configs/dotenv.config";
-import env from "@/env";
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
@@ -19,17 +18,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // ✅ Routes
-// app.use(accessTokenMiddleware);
-import controller from "@/controller";
-app.use(controller);
-
-app.get("/", (req, res) => {
-  res.render("index", { title: `${env.NODE_ENV}` });
-});
-
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error("❌", err.message);
-  res.status(500).json({ error: err.message });
+  if (err) {
+    console.error("❌", err.message);
+    res.status(500).json({ error: err.message });
+    return;
+  }
+  next();
 });
+
+import controller from "@/controller";
+
+// app.get("/", (req, res) => {
+//   res.render("index", { title: `${env.NODE_ENV}` });
+// });
+app.use(controller);
 
 export default app;

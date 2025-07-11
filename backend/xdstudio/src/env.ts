@@ -9,7 +9,20 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? Number(val) : 8080)),
-  JWT_SECRET_KEY: z.string(),
+  JWT_REFRESH_SECRET: z.string(),
+  JWT_ACCESS_SECRET: z.string(),
+  ACCESS_TOKEN_EXPIRE: z
+    .string()
+    .regex(/^\d+[smhd]$/, {
+      message: "Must be a valid ms string (e.g. 15m, 7d, 1h)",
+    })
+    .default("15m"),
+  REFRESH_TOKEN_EXPIRE: z
+    .string()
+    .regex(/^\d+[smhd]$/, {
+      message: "Must be a valid ms string (e.g. 7d, 30m)",
+    })
+    .default("15m"),
   SECRET_KEY: z.string(),
   SQL_HOST: z.string().default("localhost"),
   SQL_USER: z.string().default("root"),
@@ -33,7 +46,10 @@ const env = {
   NODE_ENV: parsedEnv.data.NODE_ENV,
   PORT: parsedEnv.data.PORT,
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
-  JWT_SECRET_KEY: parsedEnv.data.JWT_SECRET_KEY,
+  JWT_ACCESS_SECRET: parsedEnv.data.JWT_ACCESS_SECRET,
+  JWT_REFRESH_SECRET: parsedEnv.data.JWT_REFRESH_SECRET,
+  ACCESS_TOKEN_EXPIRE: parsedEnv.data.ACCESS_TOKEN_EXPIRE,
+  REFRESH_TOKEN_EXPIRE: parsedEnv.data.REFRESH_TOKEN_EXPIRE,
   SQL_HOST: parsedEnv.data.SQL_HOST,
   SQL_USER: parsedEnv.data.SQL_USER,
   SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,

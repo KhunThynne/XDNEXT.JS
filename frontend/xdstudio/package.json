@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "codegen": "graphql-codegen --config codegen.ts --no-cache"
+    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -26,8 +26,6 @@
     "clsx": "^2.1.1",
     "dotenv": "^17.0.1",
     "embla-carousel-react": "^8.6.0",
-    "graphql": "^16.11.0",
-    "graphql-request": "^7.2.0",
     "lucide-react": "^0.525.0",
     "motion": "^12.23.0",
     "next": "15.3.5",
@@ -44,13 +42,15 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@0no-co/graphqlsp": "^1.14.0",
     "@eslint/eslintrc": "^3",
-    "@graphql-codegen/cli": "5.0.7",
-    "@graphql-codegen/client-preset": "4.8.3",
+    "@graphql-codegen/cli": "^5.0.7",
     "@graphql-codegen/introspection": "4.0.3",
+    "@graphql-codegen/schema-ast": "^4.1.0",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
     "@graphql-codegen/typescript-react-query": "^6.1.1",
+    "@parcel/watcher": "^2.5.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24",

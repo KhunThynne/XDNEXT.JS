@@ -17,7 +17,7 @@
         "isOneOf": null,
         "fields": [
           {
-            "name": "token",
+            "name": "jwt_token",
             "description": null,
             "args": [],
             "type": {
@@ -40,8 +40,8 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
+                "kind": "OBJECT",
+                "name": "User",
                 "ofType": null
               }
             },
@@ -176,6 +176,18 @@
                 "deprecationReason": null
               },
               {
+                "name": "role",
+                "description": null,
+                "type": {
+                  "kind": "ENUM",
+                  "name": "Role",
+                  "ofType": null
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
                 "name": "username",
                 "description": null,
                 "type": {
@@ -193,8 +205,8 @@
               }
             ],
             "type": {
-              "kind": "SCALAR",
-              "name": "String",
+              "kind": "OBJECT",
+              "name": "User",
               "ofType": null
             },
             "isDeprecated": false,

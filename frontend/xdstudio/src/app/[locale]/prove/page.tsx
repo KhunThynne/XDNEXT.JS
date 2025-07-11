@@ -1,6 +1,8 @@
 "use client";
 import { useDialogExample } from "@/libs/dialog/example/clientHook";
-import { useSignDialog } from "@/shared/components/forms/SignForm";
+import { useUsers } from "@/libs/graphql/operations/user/getUser.query";
+
+import { SignForm, useSignDialog } from "@/shared/components/forms/SignForm";
 import { Button } from "@/shared/components/shadcn/button";
 export default function Page() {
   const { openDialog, closeDialog } = useSignDialog({
@@ -9,10 +11,11 @@ export default function Page() {
   });
 
   const { openDialog: openTest } = useDialogExample({ mode: "static" });
+
+  const { data, status, error } = useUsers();
   return (
     <div className="">
-      <Button onClick={openDialog}>Open Login</Button>
-      <Button onClick={openTest}>Open Test</Button>
+      <SignForm />
     </div>
   );
 }

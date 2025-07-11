@@ -1,24 +1,34 @@
-import "./configs/dotenv";
+import "./configs/dotenv.config";
 import { env } from "./src/env";
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
-  overwrite: true,
-  schema: env.NEXT_PUBLIC_API_GRAPHQL,
-  // documents: ["src/**/*.tsx"],
-  generates: {
-    "/types/graphql.type.ts": {
-      plugins: [
-        "typescript",
-        "typescript-operations",
-        "typescript-react-query",
-      ],
-      config: {
-        fetcher: "graphql-request",
+  schema: [
+    {
+      [`${env.API_BACKEND_URL}/auth/graphql`]: {},
+    },
+    {
+      [`${env.API_BACKEND_URL}/graphql`]: {
+        headers: {
+          Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
+        },
       },
     },
-    "src/libs/graphql/graphql.schema.json": {
-      plugins: ["introspection"],
+  ],
+  documents: ["src/libs/graphql/**/*.{ts,tsx,graphql}"],
+  ignoreNoDocuments: true,
+  generates: {
+    "src/libs/graphql/generates/": {
+      preset: "client",
+      config: {
+        documentMode: "string",
+      },
+    },
+    "src/libs/graphql/graphql.schema.graphql": {
+      plugins: ["schema-ast"],
+      config: {
+        includeDirectives: true,
+      },
     },
   },
 };

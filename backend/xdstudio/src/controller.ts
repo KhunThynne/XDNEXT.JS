@@ -1,11 +1,13 @@
 import express from "express";
-import { authMiddleware, handler } from "./graphql";
+import { handler } from "./graphql";
 import { handlerAuth } from "./auth/graphql/graphql.auth";
+import accessTokenMiddleware from "./middlewares/่jwtauth";
+import blockGetAuth from "./middlewares/blockGetAuth";
 
 const controller = express.Router();
 
-controller.all("/auth/graphql", handlerAuth);
-controller.use(authMiddleware);
+controller.all("/auth/graphql", blockGetAuth, handlerAuth);
+controller.use(blockGetAuth, accessTokenMiddleware);
 controller.all("/graphql", handler);
 
 export default controller;
