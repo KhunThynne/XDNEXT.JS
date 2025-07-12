@@ -16,7 +16,7 @@
     "plugins": [
       {
         "name": "next"
-      },  
+      },
       {
         "name": "@0no-co/graphqlsp",
         "schema": "./schema.graphql"
@@ -24,22 +24,22 @@
     ],
     "paths": {
       "@navigation": ["./src/libs/i18n/navigation.ts"],
-      "@configs/*":["./configs/*"],
-      "@type/*":["./types/*"],
-      // "#/*": ["./*"],  
-      "@/*": ["./src/*"],   
- 
+      "@configs/*": ["./configs/*"],
+      "@type/*": ["./types/*"],
+      "@public/*": ["./public/*"],
+      // "#/*": ["./*"],
+      "@/*": ["./src/*"]
     }
   },
-"include": [
-  "next-env.d.ts",
-  "**/*.ts",
-  "**/*.tsx",
-  ".next/types/**/*.ts",
-  "src/env.ts",
-  "src/types/**/*.d.ts"
-],
-  "exclude": ["node_modules"],  
-   "typeRoots": ["./types", "./node_modules/@types"],
-    "types": ["next-auth"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/env.ts",
+    "src/types/**/*.d.ts"
+  ],
+  "exclude": ["node_modules"],
+  "typeRoots": ["./types", "./node_modules/@types"],
+  "types": ["next-auth"]
 }

@@ -16,12 +16,14 @@ import * as types from './graphql';
  */
 type Documents = {
     "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      jwt_token\n      user {\n        id\n        username\n        email\n        role\n        provider\n      }\n    }\n  }\n": typeof types.LoginDocument,
-    "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n    ) {\n      id\n      username\n      email\n      role\n    }\n  }\n": typeof types.RegisterDocument,
+    "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $image: String\n    $provider: UserProvider\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n      image: $image\n      provider: $provider\n    ) {\n      id\n      username\n      email\n      role\n      image\n      provider\n    }\n  }\n": typeof types.RegisterDocument,
+    "\n  mutation RegisterAndLogin(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $provider: UserProvider\n    $image: String\n  ) {\n    registerAndLogin(\n      email: $email\n      password: $password\n      username: $username\n      provider: $provider\n      role: $role\n      image: $image\n    ) {\n      jwt_token\n      user {\n        id\n        provider\n        username\n        email\n        role\n        image\n        provider\n      }\n    }\n  }\n": typeof types.RegisterAndLoginDocument,
     "\n  query GetUsers {\n    users {\n      id\n      username\n      email\n      role\n    }\n  }\n": typeof types.GetUsersDocument,
 };
 const documents: Documents = {
     "\n  mutation Login($email: String!, $password: String!) {\n    login(email: $email, password: $password) {\n      jwt_token\n      user {\n        id\n        username\n        email\n        role\n        provider\n      }\n    }\n  }\n": types.LoginDocument,
-    "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n    ) {\n      id\n      username\n      email\n      role\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $image: String\n    $provider: UserProvider\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n      image: $image\n      provider: $provider\n    ) {\n      id\n      username\n      email\n      role\n      image\n      provider\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation RegisterAndLogin(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $provider: UserProvider\n    $image: String\n  ) {\n    registerAndLogin(\n      email: $email\n      password: $password\n      username: $username\n      provider: $provider\n      role: $role\n      image: $image\n    ) {\n      jwt_token\n      user {\n        id\n        provider\n        username\n        email\n        role\n        image\n        provider\n      }\n    }\n  }\n": types.RegisterAndLoginDocument,
     "\n  query GetUsers {\n    users {\n      id\n      username\n      email\n      role\n    }\n  }\n": types.GetUsersDocument,
 };
 
@@ -32,7 +34,11 @@ export function graphql(source: "\n  mutation Login($email: String!, $password: 
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n    ) {\n      id\n      username\n      email\n      role\n    }\n  }\n"): typeof import('./graphql').RegisterDocument;
+export function graphql(source: "\n  mutation Register(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $image: String\n    $provider: UserProvider\n  ) {\n    register(\n      email: $email\n      password: $password\n      username: $username\n      role: $role\n      image: $image\n      provider: $provider\n    ) {\n      id\n      username\n      email\n      role\n      image\n      provider\n    }\n  }\n"): typeof import('./graphql').RegisterDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation RegisterAndLogin(\n    $email: String!\n    $password: String!\n    $username: String!\n    $role: Role\n    $provider: UserProvider\n    $image: String\n  ) {\n    registerAndLogin(\n      email: $email\n      password: $password\n      username: $username\n      provider: $provider\n      role: $role\n      image: $image\n    ) {\n      jwt_token\n      user {\n        id\n        provider\n        username\n        email\n        role\n        image\n        provider\n      }\n    }\n  }\n"): typeof import('./graphql').RegisterAndLoginDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -27,6 +27,7 @@ export type Mutation = {
   login?: Maybe<AuthPayload>;
   logout?: Maybe<Scalars['Boolean']['output']>;
   register?: Maybe<User>;
+  registerAndLogin?: Maybe<AuthPayload>;
 };
 
 
@@ -38,7 +39,19 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
+  provider?: InputMaybe<UserProvider>;
+  role?: InputMaybe<Role>;
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterAndLoginArgs = {
+  email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  password: Scalars['String']['input'];
+  provider?: InputMaybe<UserProvider>;
   role?: InputMaybe<Role>;
   username: Scalars['String']['input'];
 };
@@ -60,10 +73,24 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  provider: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  provider?: Maybe<UserProvider>;
   role?: Maybe<Role>;
   username: Scalars['String']['output'];
 };
+
+export enum UserProvider {
+  Amazon = 'AMAZON',
+  Apple = 'APPLE',
+  Credentials = 'CREDENTIALS',
+  Discord = 'DISCORD',
+  Facebook = 'FACEBOOK',
+  Github = 'GITHUB',
+  Google = 'GOOGLE',
+  Linkedin = 'LINKEDIN',
+  Microsoft = 'MICROSOFT',
+  Twitter = 'TWITTER'
+}
 
 
 
@@ -144,6 +171,7 @@ export type ResolversTypes = {
   Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  UserProvider: UserProvider;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -167,6 +195,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password' | 'username'>>;
+  registerAndLogin?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationRegisterAndLoginArgs, 'email' | 'password' | 'username'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -177,7 +206,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  provider?: Resolver<Maybe<ResolversTypes['UserProvider']>, ParentType, ContextType>;
   role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

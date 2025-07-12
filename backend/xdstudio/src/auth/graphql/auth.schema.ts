@@ -4,8 +4,18 @@ const typeDefs = /* GraphQL */ `
       email: String!
       password: String!
       username: String!
+      image: String
       role: Role
+      provider: UserProvider
     ): User
+    registerAndLogin(
+      email: String!
+      password: String!
+      username: String!
+      image: String
+      role: Role
+      provider: UserProvider
+    ): AuthPayload
     login(email: String!, password: String!): AuthPayload
     logout: Boolean
   }

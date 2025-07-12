@@ -27,6 +27,7 @@ export type Mutation = {
   login?: Maybe<AuthPayload>;
   logout?: Maybe<Scalars['Boolean']['output']>;
   register?: Maybe<User>;
+  registerAndLogin?: Maybe<AuthPayload>;
 };
 
 
@@ -38,7 +39,19 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
+  provider?: InputMaybe<UserProvider>;
+  role?: InputMaybe<Role>;
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterAndLoginArgs = {
+  email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  password: Scalars['String']['input'];
+  provider?: InputMaybe<UserProvider>;
   role?: InputMaybe<Role>;
   username: Scalars['String']['input'];
 };
@@ -60,10 +73,24 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String']['output'];
   id: Scalars['Int']['output'];
-  provider: Scalars['String']['output'];
+  image?: Maybe<Scalars['String']['output']>;
+  provider?: Maybe<UserProvider>;
   role?: Maybe<Role>;
   username: Scalars['String']['output'];
 };
+
+export enum UserProvider {
+  Amazon = 'AMAZON',
+  Apple = 'APPLE',
+  Credentials = 'CREDENTIALS',
+  Discord = 'DISCORD',
+  Facebook = 'FACEBOOK',
+  Github = 'GITHUB',
+  Google = 'GOOGLE',
+  Linkedin = 'LINKEDIN',
+  Microsoft = 'MICROSOFT',
+  Twitter = 'TWITTER'
+}
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -71,17 +98,31 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', jwt_token: string, user: { __typename?: 'User', id: number, username: string, email: string, role?: Role | null, provider: string } } | null };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'AuthPayload', jwt_token: string, user: { __typename?: 'User', id: number, username: string, email: string, role?: Role | null, provider?: UserProvider | null } } | null };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
   role?: InputMaybe<Role>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  provider?: InputMaybe<UserProvider>;
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'User', id: number, username: string, email: string, role?: Role | null } | null };
+export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'User', id: number, username: string, email: string, role?: Role | null, image?: string | null, provider?: UserProvider | null } | null };
+
+export type RegisterAndLoginMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+  role?: InputMaybe<Role>;
+  provider?: InputMaybe<UserProvider>;
+  image?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type RegisterAndLoginMutation = { __typename?: 'Mutation', registerAndLogin?: { __typename?: 'AuthPayload', jwt_token: string, user: { __typename?: 'User', id: number, provider?: UserProvider | null, username: string, email: string, role?: Role | null, image?: string | null } } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -122,15 +163,47 @@ export const LoginDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = new TypedDocumentString(`
-    mutation Register($email: String!, $password: String!, $username: String!, $role: Role) {
-  register(email: $email, password: $password, username: $username, role: $role) {
+    mutation Register($email: String!, $password: String!, $username: String!, $role: Role, $image: String, $provider: UserProvider) {
+  register(
+    email: $email
+    password: $password
+    username: $username
+    role: $role
+    image: $image
+    provider: $provider
+  ) {
     id
     username
     email
     role
+    image
+    provider
   }
 }
     `) as unknown as TypedDocumentString<RegisterMutation, RegisterMutationVariables>;
+export const RegisterAndLoginDocument = new TypedDocumentString(`
+    mutation RegisterAndLogin($email: String!, $password: String!, $username: String!, $role: Role, $provider: UserProvider, $image: String) {
+  registerAndLogin(
+    email: $email
+    password: $password
+    username: $username
+    provider: $provider
+    role: $role
+    image: $image
+  ) {
+    jwt_token
+    user {
+      id
+      provider
+      username
+      email
+      role
+      image
+      provider
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<RegisterAndLoginMutation, RegisterAndLoginMutationVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {
   users {

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { DialogInstanceProvider } from "./DialogInstance";
 
 type DialogEntry = { id: string; node: React.ReactNode };
 type DialogContextType = {
@@ -23,7 +24,9 @@ export function DialogProvider({ children }: { children: React.ReactNode }) {
   return (
     <DialogContext value={{ add, remove, dialogs }}>
       {dialogs.map(({ id, node }, index) => (
-        <div key={`${id}-${index}`}>{node}</div>
+        <DialogInstanceProvider key={`${id}-${index}`}>
+          {node}
+        </DialogInstanceProvider>
       ))}
       {children}
     </DialogContext>

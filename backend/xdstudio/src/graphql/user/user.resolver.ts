@@ -1,4 +1,4 @@
-import { Resolvers } from "@/types/graphql";
+import { Resolvers, UserProvider } from "@/types/graphql";
 import prisma from "@prisma";
 
 import { compare, hashSync } from "bcrypt-ts";
@@ -10,6 +10,7 @@ export const resolvers: Resolvers = {
       const re_user = users.map((user) => ({
         ...user,
         role: user.role as GqlRole,
+        provider: user.provider as UserProvider,
       }));
       console.log(re_user);
       return re_user;

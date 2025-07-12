@@ -1,29 +1,26 @@
 import { useForm } from "react-hook-form";
-import { Input } from "../shadcn/input";
-import { Button } from "../shadcn/button";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
-import Image from "next/image";
-import { Label } from "../shadcn/label";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
-import { InputForm } from "../ui/form/InputForm";
-import { Form } from "../shadcn/form";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useLogin } from "@/libs/graphql/operations/auth/login.mutations";
 import { signIn } from "next-auth/react";
+import { useDialoguseContext } from "@/libs/dialog/DialogInstance";
+import { Button } from "../../shadcn/button";
+import { InputForm } from "../../ui/form/InputForm";
+import { Form } from "../../shadcn/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
+import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 
-interface SignInInterface {
-  email: string;
-  password: string;
-}
 export const SignForm = () => {
-  const method = useForm<SignInInterface>({
+  const method = useForm({
+    resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
   });
   const [hidePassword, setHidePassword] = useState(false);
-  const login = useLogin();
-  const onSubmit = async (data: SignInInterface) => {
+  const { closeDialog } = useDialoguseContext();
+  const onSubmit = async (data: TypeSignInInterface) => {
     try {
       const res = await signIn("credentials", {
         redirect: false,
@@ -33,6 +30,7 @@ export const SignForm = () => {
       if (res?.ok) {
         if (res?.error) throw new Error("Login failed");
         toast.success("Login success!");
+        closeDialog();
         console.log("User logged in:", res);
       }
     } catch (_) {
@@ -41,31 +39,25 @@ export const SignForm = () => {
     }
   };
 
-  const password = method.watch("password");
   return (
     <Form {...method}>
       <form
         className="flex flex-col gap-4"
         onSubmit={method.handleSubmit(onSubmit)}
       >
-        {/* <Image
-        alt="sign-logo"
-        className="mx-auto aspect-square"
-        width={200}
-        height={200}
-        src={"/img/XD_STUDIO.png"}
-      /> */}
-        <div className="size-50 mx-auto rounded-full border" />
+        <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" />
         <InputForm
-          label="Username"
+          label="Email"
+          control={method.control}
           name="email"
-          placeholder="Enter your username"
-          description="Username must be 3-16 characters, letters, numbers, and underscores only."
-          // pattern="^[a-zA-Z0-9_]{3,16}$"
+          type="email"
+          placeholder="Enter your email address"
+          description="Please enter a valid email address (e.g. name@example.com)."
         />
 
         <InputForm
           label="Password"
+          control={method.control}
           name="password"
           type={hidePassword ? "text" : "password"}
           description="Password must be 6-10 characters, include uppercase and number."
@@ -84,8 +76,9 @@ export const SignForm = () => {
           </Button>
         </InputForm>
 
-        <section className="mt-6 flex flex-col">
+        <section className="flex flex-col">
           <Button>Login</Button>
+          <OAuthLoginButtonsGrupe className="mt-5" />
         </section>
       </form>
     </Form>

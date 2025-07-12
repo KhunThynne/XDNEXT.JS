@@ -21,5 +21,6 @@ model User {
   provider  String   @default("credentials")
   role      Role     @default(USER)
   createdAt DateTime @default(now())
+  image String?
   updatedAt DateTime @updatedAt
 }

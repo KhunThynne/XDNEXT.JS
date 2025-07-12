@@ -10,6 +10,19 @@ const typeDefsRole = /* GraphQL */ `
     MODERATOR
     GUEST
   }
+
+  enum UserProvider {
+    CREDENTIALS
+    DISCORD
+    GOOGLE
+    FACEBOOK
+    GITHUB
+    TWITTER
+    LINKEDIN
+    APPLE
+    MICROSOFT
+    AMAZON
+  }
 `;
 
 const typeDefsUser = /* GraphQL */ `
@@ -17,8 +30,9 @@ const typeDefsUser = /* GraphQL */ `
     id: Int!
     email: String!
     username: String!
-    provider: String!
+    provider: UserProvider
     role: Role
+    image: String
   }
 `;
 

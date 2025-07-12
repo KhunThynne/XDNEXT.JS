@@ -1,27 +1,44 @@
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-
+import { useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
-
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { SwitchTheme } from "../../ui/SwitchTheme";
-import { SignDialog, useSignDialog } from "../../forms/SignForm";
+import { useSignDialog } from "../../forms/auth/SignForm";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "../../shadcn/button";
-import { LogInIcon } from "lucide-react";
-
+import { LogInIcon, User } from "lucide-react";
+import { Skeleton } from "../../shadcn/skeleton";
+const NavbarActionSection = ({
+  className,
+  status,
+}: {
+  status: "loading" | "authenticated" | "unauthenticated";
+} & NextDefaultProps) => {
+  const { openDialog } = useSignDialog();
+  return (
+    <section className={clsx(className)}>
+      <SwitchTheme />
+      {status === "loading" ? (
+        <Skeleton className="size-8 rounded-sm" />
+      ) : status === "unauthenticated" ? (
+        <Button variant="ghost" size="icon" onClick={openDialog}>
+          <LogInIcon />
+        </Button>
+      ) : (
+        <Button variant="ghost" onClick={() => signOut({ redirect: false })}>
+          <User />
+        </Button>
+      )}
+    </section>
+  );
+};
 export default function Navbar({ className }: NextDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
-  const { openDialog, closeDialog } = useSignDialog();
-  useEffect(() => {
-    if (status === "authenticated") {
-      closeDialog();
-    }
-  }, [closeDialog, status]);
+
   return (
     <div
       className={clsx(
@@ -35,19 +52,8 @@ export default function Navbar({ className }: NextDefaultProps) {
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
-          <SwitchTheme />
-          {status === "unauthenticated" ? (
-            <Button variant="ghost" size="icon" onClick={openDialog}>
-              <LogInIcon />
-            </Button>
-          ) : (
-            <Button
-              variant="ghost"
-              onClick={() => signOut({ redirect: false })}
-            >
-              logout
-            </Button>
-          )}
+
+          <NavbarActionSection className="flex gap-2" status={status} />
         </nav>
         <MenuButton
           className="md:hidden"
@@ -64,14 +70,13 @@ export default function Navbar({ className }: NextDefaultProps) {
             "inset-shadow-sm rounded-b-lg",
             "bg-background",
             "w-full max-w-lg",
-
             isOpen ? "max-h-[80vh] overflow-y-auto" : "max-h-0 overflow-hidden"
           )}
         >
           <ul className="divide-accent flex flex-col divide-y">
             <RenderMenu render={conf.navbar} />
             <li className="bg-secondary sticky bottom-0 flex justify-end p-2">
-              <SwitchTheme />
+              <NavbarActionSection className="spcae-x-2" status={status} />
             </li>
           </ul>
         </nav>

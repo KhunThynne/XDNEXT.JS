@@ -1,7 +1,8 @@
-import { Resolvers, Role } from "@/types/graphql";
+import { Resolvers, Role, UserProvider } from "@/types/graphql";
 import prisma from "@prisma";
 import { compare, hashSync } from "bcrypt-ts";
 import { generateAccessToken } from "@/helper";
+import _ from "lodash";
 
 export const resolvers: Resolvers = {
   // Query: {},
@@ -28,13 +29,14 @@ export const resolvers: Resolvers = {
           id: user.id,
           email: user.email,
           username: user.username,
-          provider: user.provider,
+          provider: user.provider as UserProvider,
           role: user.role as Role,
+          image: user.image,
         },
       };
     },
-    register: async (_, args) => {
-      const { email, password, username, role } = args;
+    register: async (__, args) => {
+      const { email, password, username, role, image, provider } = args;
 
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) {
@@ -46,7 +48,8 @@ export const resolvers: Resolvers = {
           email,
           password: hashSync(password, 10),
           username,
-          provider: "credentials",
+          provider: provider as UserProvider,
+          image,
           role: role ?? "USER",
         },
       });
@@ -55,8 +58,54 @@ export const resolvers: Resolvers = {
         id: user.id,
         email: user.email,
         username: user.username,
-        provider: user.provider,
-        role: user.role as Role,
+        provider: user.provider as UserProvider,
+        role: _.upperCase(user.role) as Role,
+      };
+    },
+
+    registerAndLogin: async (_, args) => {
+      const {
+        email,
+        password,
+        username,
+        role = "USER",
+        image,
+        provider,
+      } = args;
+
+      const findOrCreateUser = async () => {
+        const existing = await prisma.user.findUnique({ where: { email } });
+        if (existing) return existing;
+
+        return await prisma.user.create({
+          data: {
+            email,
+            password: hashSync(password, 10),
+            username,
+            provider: provider ?? "CREDENTIALS",
+            image,
+            role: role ?? "USER",
+          },
+        });
+      };
+
+      const user = await findOrCreateUser();
+
+      const jwt_token = generateAccessToken({
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      });
+
+      return {
+        jwt_token,
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          provider: user.provider as UserProvider,
+          role: user.role as Role,
+        },
       };
     },
   },

@@ -1,9 +1,11 @@
-import { NotFound } from "@/shared/components/ui/NotFound";
+import { ErrorComponent } from "@/shared/components/ui/ErrorComponent";
 
 export default async function NotFoundLocale() {
   return (
-    <div className="h-full place-content-center place-items-center text-center">
-      <NotFound />
-    </div>
+    <ErrorComponent
+      status="404"
+      description=" Sorry, the page you are looking for does not exist.zxcxzc"
+      buttonText="Go back home"
+    />
   );
 }

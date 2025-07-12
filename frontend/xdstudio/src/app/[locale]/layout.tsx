@@ -28,11 +28,11 @@ export default async function LocaleLayout({
           `antialiased`
         )}
       >
-        <Providers>
-          <NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <Providers>
             <Main>{children}</Main>
-          </NextIntlClientProvider>
-        </Providers>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

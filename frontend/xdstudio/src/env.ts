@@ -12,13 +12,17 @@ export const env = createEnv({
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
     API_BACKEND_URL: z.string().url(),
+    NEXTAUTH_SECRET: z.string(),
+    DISCORD_CLIENT_SECRET: z.string(),
+    DISCORD_CLIENT_ID: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
     NEXT_PUBLIC_API_URL: z.string().url(),
-    NEXT_PUBLIC_AUTH_SECRET: z.string(),
   },
   runtimeEnv: {
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     SQL_HOST: process.env.SQL_HOST,
     SQL_USER: process.env.SQL_USER,
     SQL_PASSWORD: process.env.SQL_PASSWORD,
@@ -30,6 +34,6 @@ export const env = createEnv({
     API_BACKEND_URL: process.env.API_BACKEND_URL,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    NEXT_PUBLIC_AUTH_SECRET: process.env.NEXT_PUBLIC_AUTH_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
 });

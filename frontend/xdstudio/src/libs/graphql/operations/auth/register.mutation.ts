@@ -9,17 +9,54 @@ export const RegisterDocument = graphql(`
     $password: String!
     $username: String!
     $role: Role
+    $image: String
+    $provider: UserProvider
   ) {
     register(
       email: $email
       password: $password
       username: $username
       role: $role
+      image: $image
+      provider: $provider
     ) {
       id
       username
       email
       role
+      image
+      provider
+    }
+  }
+`);
+
+export const RegisterAndLoginDocument = graphql(`
+  mutation RegisterAndLogin(
+    $email: String!
+    $password: String!
+    $username: String!
+    $role: Role
+    $provider: UserProvider
+    $image: String
+  ) {
+    registerAndLogin(
+      email: $email
+      password: $password
+      username: $username
+      provider: $provider
+      role: $role
+      image: $image
+    ) {
+      jwt_token
+      user {
+        id
+        provider
+        username
+        email
+        role
+        image
+        provider
+      }
     }
   }
 `);

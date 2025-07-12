@@ -17,7 +17,7 @@ export default function Main({ children }: { children: ReactNode }) {
       >
         {children}
       </Content>
-      <Footer className="flex-none p-5" />
+      <Footer className="flex-none px-5 py-3" />
     </main>
   );
 }

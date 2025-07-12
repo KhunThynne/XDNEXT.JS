@@ -11,13 +11,13 @@ export default function Footer({ className }: NextDefaultProps) {
   return (
     <footer
       className={clsx(
-        "border-t-1 bg-background w-full items-center p-5",
+        "border-t-1 bg-background w-full items-center",
         "text-xs",
         className
       )}
     >
       <div className="container mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 max-sm:flex-col">
-        <div className="space-y-2">
+        <div className="flex items-center">
           <Image
             className="border-1 mx-auto rounded-full"
             width={44}

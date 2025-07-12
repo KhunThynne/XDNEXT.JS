@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+import "@configs/dotenv.config";
+import env from "@/env";
 import app from "@/index";
 import chalk from "chalk";
 import http from "http";
@@ -43,7 +45,7 @@ function onListening() {
   console.log(chalk.green(`Server listening on ${bind}`));
 }
 
-const Port = normalizePort(process.env.PORT);
+const Port = normalizePort(String(env.PORT ?? "8080"));
 app.set("Port", Port);
 server.listen(Port);
 server.on("error", onError);

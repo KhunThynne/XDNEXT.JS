@@ -11,7 +11,8 @@ type AuthPayload {
 type Mutation {
   login(email: String!, password: String!): AuthPayload
   logout: Boolean
-  register(email: String!, password: String!, role: Role, username: String!): User
+  register(email: String!, image: String, password: String!, provider: UserProvider, role: Role, username: String!): User
+  registerAndLogin(email: String!, image: String, password: String!, provider: UserProvider, role: Role, username: String!): AuthPayload
 }
 
 type Query {
@@ -29,7 +30,21 @@ enum Role {
 type User {
   email: String!
   id: Int!
-  provider: String!
+  image: String
+  provider: UserProvider
   role: Role
   username: String!
+}
+
+enum UserProvider {
+  AMAZON
+  APPLE
+  CREDENTIALS
+  DISCORD
+  FACEBOOK
+  GITHUB
+  GOOGLE
+  LINKEDIN
+  MICROSOFT
+  TWITTER
 }

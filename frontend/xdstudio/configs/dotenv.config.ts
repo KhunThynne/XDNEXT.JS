@@ -5,4 +5,8 @@ dotenv.config({
   quiet: true,
   path: path.resolve(__dirname, "../../../.env"),
 });
-dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
+dotenv.config({
+  debug: false,
+  quiet: true,
+  path: path.resolve(__dirname, "../.env.local"),
+});

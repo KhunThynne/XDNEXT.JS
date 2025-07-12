@@ -1,4 +1,4 @@
-import "@configs/dotenv.config";
+
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
