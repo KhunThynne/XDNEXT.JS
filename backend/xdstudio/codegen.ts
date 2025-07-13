@@ -8,6 +8,11 @@ const config: CodegenConfig = {
         skipGraphQLImport: true,
       },
     },
+    {
+      "src/auth/graphql/*.schema.ts": {
+        skipGraphQLImport: true,
+      },
+    },
   ],
 
   generates: {

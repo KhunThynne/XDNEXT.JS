@@ -10,7 +10,14 @@ import {
   DialogTrigger,
 } from "@/shared/components/shadcn/dialog";
 import { DialogInstanceProps } from "./index.type";
-import { useImperativeHandle, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useImperativeHandle,
+  useLayoutEffect,
+  useState,
+} from "react";
 // import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({
@@ -46,6 +53,36 @@ const DialogContentInstance = ({
   );
 };
 
+type DialogContextInstanceType = {
+  dailogState: boolean;
+  setDialogState: React.Dispatch<React.SetStateAction<boolean>>;
+  closeDialog: () => void;
+};
+const DialogContextInstance = createContext<
+  DialogContextInstanceType | undefined
+>(undefined);
+
+export const DialogInstanceProvider = ({ children }: GlobalDefaultProps) => {
+  const [dailogState, setDialogState] = useState(true);
+  const closeDialog = useCallback(() => {
+    setDialogState(false);
+  }, []);
+  return (
+    <DialogContextInstance value={{ closeDialog, dailogState, setDialogState }}>
+      {children}
+    </DialogContextInstance>
+  );
+};
+export const useDialoguseContext = () => {
+  const context = useContext(DialogContextInstance);
+  if (!context) {
+    throw new Error(
+      "useDialogInstance must be used within a DialogInstanceProvider"
+    );
+  }
+  return context;
+};
+
 export function DialogInstance(
   props: Partial<DialogInstanceProps> & {
     refDialog?: React.RefObject<{ closeDialogRef: () => void } | null>;
@@ -54,17 +91,24 @@ export function DialogInstance(
 ) {
   const options = props.options;
   const { refContent, refDialog, ...propsDialog } = props;
-  const [open, setOpen] = useState(props.options?.dialog?.open);
+
+  const { dailogState, setDialogState } = useDialoguseContext();
+
+  // const [open, setOpen] = useState(props.options?.dialog?.open);
+
+  useLayoutEffect(() => {
+    props.options?.dialog?.open && setDialogState(props.options?.dialog?.open);
+  }, [props.options?.dialog?.open, setDialogState]);
   useImperativeHandle(refDialog, () => {
     return {
       closeDialogRef() {
-        setOpen(false);
+        setDialogState(false);
       },
     };
-  }, []);
+  }, [setDialogState]);
 
   return (
-    <Dialog {...propsDialog.options?.dialog} open={open}>
+    <Dialog {...propsDialog.options?.dialog} open={dailogState}>
       {props?.trigger && (
         <DialogTrigger {...propsDialog?.options?.trigger}>
           {props.trigger}

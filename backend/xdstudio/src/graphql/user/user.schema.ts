@@ -1,13 +1,41 @@
 const typeDefs = /* GraphQL */ `
-  type User {
-    id: Int!
-    email: String!
-    username: String
-    provider: String!
-  }
-
   type Query {
     users: [User!]!
   }
 `;
-export default typeDefs;
+const typeDefsRole = /* GraphQL */ `
+  enum Role {
+    ADMIN
+    USER
+    MODERATOR
+    GUEST
+  }
+
+  enum UserProvider {
+    CREDENTIALS
+    DISCORD
+    GOOGLE
+    FACEBOOK
+    GITHUB
+    TWITTER
+    LINKEDIN
+    APPLE
+    MICROSOFT
+    AMAZON
+  }
+`;
+
+const typeDefsUser = /* GraphQL */ `
+  type User {
+    documentId: String!
+    email: String!
+    username: String!
+    provider: UserProvider
+    role: Role
+    image: String
+  }
+`;
+
+export const typeDefsUserMerge = `${typeDefsUser}\n${typeDefsRole}`;
+const typeDefsMergeQuery = `${typeDefs}\n${typeDefsUserMerge}`;
+export default typeDefsMergeQuery;

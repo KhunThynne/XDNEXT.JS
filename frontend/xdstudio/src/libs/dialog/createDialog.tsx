@@ -1,6 +1,6 @@
 import React from "react";
 
-import { DialogInstance } from "./DialogInstance";
+import { DialogInstance, DialogInstanceProvider } from "./DialogInstance";
 import { DialogInstanceProps } from "./index.type";
 /**
  * `createDialog` is a factory function that generates a custom `Dialog` component
@@ -57,7 +57,11 @@ export function createDialog(initialProps: DialogInstanceProps) {
       },
     };
 
-    return <DialogInstance {...mergedProps} />;
+    return (
+      <DialogInstanceProvider>
+        <DialogInstance {...mergedProps} />
+      </DialogInstanceProvider>
+    );
   }
 
   Dialog.displayName = "DialogWrapper";

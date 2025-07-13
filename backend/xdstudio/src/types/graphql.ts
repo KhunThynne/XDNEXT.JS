@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type AuthPayload = {
   __typename?: 'AuthPayload';
-  token: Scalars['String']['output'];
+  jwt_token: Scalars['String']['output'];
   user: User;
 };
 
@@ -27,6 +27,7 @@ export type Mutation = {
   login?: Maybe<AuthPayload>;
   logout?: Maybe<Scalars['Boolean']['output']>;
   register?: Maybe<User>;
+  registerAndLogin?: Maybe<AuthPayload>;
 };
 
 
@@ -38,22 +39,58 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
-  username?: InputMaybe<Scalars['String']['input']>;
+  provider?: InputMaybe<UserProvider>;
+  role?: InputMaybe<Role>;
+  username: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterAndLoginArgs = {
+  email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  password: Scalars['String']['input'];
+  provider?: InputMaybe<UserProvider>;
+  role?: InputMaybe<Role>;
+  username: Scalars['String']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  _empty?: Maybe<Scalars['String']['output']>;
   users: Array<User>;
 };
 
+export enum Role {
+  Admin = 'ADMIN',
+  Guest = 'GUEST',
+  Moderator = 'MODERATOR',
+  User = 'USER'
+}
+
 export type User = {
   __typename?: 'User';
+  documentId: Scalars['String']['output'];
   email: Scalars['String']['output'];
-  id: Scalars['Int']['output'];
-  provider: Scalars['String']['output'];
-  username?: Maybe<Scalars['String']['output']>;
+  image?: Maybe<Scalars['String']['output']>;
+  provider?: Maybe<UserProvider>;
+  role?: Maybe<Role>;
+  username: Scalars['String']['output'];
 };
+
+export enum UserProvider {
+  Amazon = 'AMAZON',
+  Apple = 'APPLE',
+  Credentials = 'CREDENTIALS',
+  Discord = 'DISCORD',
+  Facebook = 'FACEBOOK',
+  Github = 'GITHUB',
+  Google = 'GOOGLE',
+  Linkedin = 'LINKEDIN',
+  Microsoft = 'MICROSOFT',
+  Twitter = 'TWITTER'
+}
 
 
 
@@ -128,18 +165,18 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Role: Role;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   User: ResolverTypeWrapper<User>;
+  UserProvider: UserProvider;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean']['output'];
-  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -147,7 +184,7 @@ export type ResolversParentTypes = {
 };
 
 export type AuthPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = {
-  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  jwt_token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -155,18 +192,22 @@ export type AuthPayloadResolvers<ContextType = any, ParentType extends Resolvers
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
   logout?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
-  register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password'>>;
+  register?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationRegisterArgs, 'email' | 'password' | 'username'>>;
+  registerAndLogin?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationRegisterAndLoginArgs, 'email' | 'password' | 'username'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   users?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  documentId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  provider?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  provider?: Resolver<Maybe<ResolversTypes['UserProvider']>, ParentType, ContextType>;
+  role?: Resolver<Maybe<ResolversTypes['Role']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

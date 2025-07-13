@@ -18,6 +18,8 @@ import {
 } from "react-hook-form";
 import { ReactNode } from "react";
 import clsx from "clsx";
+import Translations from "@/libs/i18n/Translations";
+import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 
 interface InputFormProps<TFieldValues extends FieldValues = FieldValues>
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -39,20 +41,31 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   children,
   classNames,
   ...inputProps
-}: InputFormProps<TFieldValues> & NextPropsClassNames<"container">) {
+}: InputFormProps<TFieldValues> &
+  GlobalPropsClassNames<"container" | "label" | "description">) {
   return (
     <FormField
       {...(control ? { control } : {})}
       name={name as Path<TFieldValues>}
       render={({ field }) => (
         <FormItem>
-          {label && <FormLabel>{label}</FormLabel>}
+          {label && (
+            <FormLabel
+              className={clsx(
+                "inline-block max-w-full truncate break-all",
+                classNames?.label
+              )}
+            >
+              <Translations text={label} />
+            </FormLabel>
+          )}
           <FormControl>
             <div className={clsx("flex", classNames?.container)}>
               {renderInput ? (
                 renderInput(field)
               ) : (
                 <Input
+                  className="w-full"
                   placeholder={placeholder}
                   {...field}
                   {...inputProps}
@@ -62,8 +75,17 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
               {children}
             </div>
           </FormControl>
-          {description && <FormDescription>{description}</FormDescription>}
-          <FormMessage />
+          {description && (
+            <FormDescription
+              className={clsx(
+                "line-clamp-3 max-w-full break-all",
+                classNames?.description
+              )}
+            >
+              <Translations text={description} />
+            </FormDescription>
+          )}
+          <FormI18nMessage />
         </FormItem>
       )}
     />

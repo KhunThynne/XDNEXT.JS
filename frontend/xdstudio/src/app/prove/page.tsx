@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,14 @@ export default function Page() {
         {t("success")}
       </Button>
       <Input />
+=======
+import Link from "next/link";
+
+export default function PageTest() {
+  return (
+    <div className="h-80 border">
+      <Link href={"/prove/test"}> test</Link>
+>>>>>>> develop-thynne
     </div>
   );
 }

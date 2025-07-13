@@ -3,10 +3,25 @@
     "title": "Hello world!",
     "about": "Go to the about page"
   },
-  "navbar":{
-    "home":"home",
-      "services":"services",
-   "contact":"contact"
-
+  "navbar": {
+    "home": "home",
+    "services": "services",
+    "contact": "contact",
+    "products": "products"
+  },
+  "auth": {
+    "error": {
+      "title": "An error occurred",
+      "access_denied": "You do not have permission to access this system.",
+      "configuration": "There was a problem with the configuration.",
+      "credentials_signin": "Incorrect email or password.",
+      "default": "Something went wrong. Please try again later."
+    }
+  },
+  "common": {
+    "backTo_login": "Return to login",
+    "go_to_login": "Go to login page",
+    "sign_in_again": "Sign in again",
+    "back_to_signIn": "Back to sign in"
   }
 }
