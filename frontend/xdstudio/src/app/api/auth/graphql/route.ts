@@ -1,8 +1,12 @@
 import { env } from "@/env";
+import { getToken } from "next-auth/jwt";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    const token = await getToken({ req, secret: env.AUTH_SECRET });
+
+    console.log("test", token);
     const res = await fetch(`${env.API_BACKEND_URL}/auth/graphql`, {
       method: "POST",
       headers: {

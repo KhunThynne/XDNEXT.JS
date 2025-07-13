@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
 import Content from "@/shared/components/ui/Content";
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "Xdstudio",
@@ -21,7 +23,7 @@ export default async function LocaleLayout({
   }) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
-
+  // const session = await auth();
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
@@ -34,22 +36,24 @@ export default async function LocaleLayout({
           `antialiased`
         )}
       >
-        <NextIntlClientProvider>
-          <Providers locale={locale}>
-            <main className={clsx("flex flex-col", "min-h-screen")}>
-              {navbar}
-              <Content
-                classNames={{
-                  outsite: "grow relative bg-secondary-foreground/5 ",
-                  content: "container   mx-auto py-5  ",
-                }}
-              >
-                {children}
-              </Content>
-              {footer}
-            </main>
-          </Providers>
-        </NextIntlClientProvider>
+        <SessionProvider>
+          <NextIntlClientProvider>
+            <Providers locale={locale}>
+              <main className={clsx("flex flex-col", "min-h-screen")}>
+                {navbar}
+                <Content
+                  classNames={{
+                    outsite: "grow relative bg-secondary-foreground/5 ",
+                    content: "container   mx-auto py-5  ",
+                  }}
+                >
+                  {children}
+                </Content>
+                {footer}
+              </main>
+            </Providers>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   );

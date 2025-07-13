@@ -6,17 +6,21 @@ import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
-import { signOut, useSession } from "next-auth/react";
-import { LogInIcon, User } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { LogInIcon } from "lucide-react";
 import { useSignDialog } from "@/shared/components/forms/auth/SignForm";
 import { Button } from "@/shared/components/shadcn/button";
 import { Skeleton } from "@/shared/components/shadcn/skeleton";
 import { SwitchTheme } from "@/shared/components/ui/SwitchTheme";
+import { AccountPopover } from "./AccountPopover";
+import { Session } from "next-auth";
 
 const NavbarActionSection = ({
   className,
   status,
+  session,
 }: {
+  session: Session | null;
   status: "loading" | "authenticated" | "unauthenticated";
 } & GlobalDefaultProps) => {
   const { openDialog } = useSignDialog();
@@ -30,16 +34,14 @@ const NavbarActionSection = ({
           <LogInIcon />
         </Button>
       ) : (
-        <Button variant="ghost" onClick={() => signOut({ redirect: false })}>
-          <User />
-        </Button>
+        <AccountPopover {...session?.user} />
       )}
     </section>
   );
 };
 export default function Navbar({ className }: GlobalDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   return (
     <div
@@ -54,8 +56,11 @@ export default function Navbar({ className }: GlobalDefaultProps) {
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
-
-          <NavbarActionSection className="flex gap-2" status={status} />
+          <NavbarActionSection
+            className="flex gap-2"
+            status={status}
+            session={data}
+          />
         </nav>
         <MenuButton
           className="md:hidden"
@@ -78,7 +83,11 @@ export default function Navbar({ className }: GlobalDefaultProps) {
           <ul className="divide-accent flex flex-col divide-y">
             <RenderMenu render={conf.navbar} />
             <li className="bg-secondary sticky bottom-0 flex justify-end p-2">
-              <NavbarActionSection className="spcae-x-2" status={status} />
+              <NavbarActionSection
+                className="spcae-x-2"
+                status={status}
+                session={data}
+              />
             </li>
           </ul>
         </nav>

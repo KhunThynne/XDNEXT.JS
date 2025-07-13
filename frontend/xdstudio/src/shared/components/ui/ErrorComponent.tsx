@@ -17,7 +17,6 @@ export const ErrorComponent = ({
 } & GlobalPropsClassNames) => {
   return (
     <div className="h-full place-content-center place-items-center text-center">
-   
       <h1 className="text-foreground mb-4 text-6xl font-extrabold">
         <Translations text={status ?? "unknown"} ignore />
       </h1>

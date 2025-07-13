@@ -15,20 +15,17 @@ import { DiscordUser } from "@type/user.type";
 
 declare module "next-auth" {
   interface Session {
-    user: GqlUser & Omit<DefaultSession["user"], "image">;
+    user: GqlUser;
     jwt_token?: string;
   }
   interface User extends GqlUser {
-    __brand?: "User";
     jwt_token?: string;
   }
 }
 
 declare module "next-auth/jwt" {
-  interface JWT {
+  interface JWT extends GqlUser {
     jwt_token?: string;
-    documentId?: string;
-    role?: Role;
   }
 }
 
@@ -47,9 +44,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials) return null;
-
-        console.log(credentials);
-
         try {
           const res = await executeAuth(LoginDocument, {
             email: credentials.email as string,
@@ -83,6 +77,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url;
+
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+
+      return baseUrl;
+    },
     async signIn({ user, account, profile }) {
       if (!account?.provider) return false;
       console.log("🔐 SignIn via provider:", account.provider);
@@ -103,6 +104,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               user.documentId = login.user.documentId.toString();
               user.role = login.user.role;
               user.jwt_token = login.jwt_token;
+              user.username = login.user.username;
               return true;
             } else {
               throw new Error("Discord fail auth");
@@ -138,15 +140,18 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             : String(user.documentId ?? "");
         token.role = user.role ?? Role.User;
         token.jwt_token = user.jwt_token;
+        token.username = user.username;
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({ session, token, user }) {
       if (session.user) {
         session.user.documentId = token.documentId!;
         session.user.role = token.role;
+        // session.jwt_token = token.jwt_token;
+        session.user.username = token.username;
       }
-
+      // console.log("session", token);
       return session;
     },
   },
@@ -155,3 +160,9 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     error: "/auth/error",
   },
 });
+
+export const contextSessionHandle = async () => {
+  const session = await auth();
+  const { jwt_token, ...safeSession } = session ?? {};
+  return safeSession as Session;
+};

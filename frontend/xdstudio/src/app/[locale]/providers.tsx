@@ -20,19 +20,17 @@ export const Providers = ({
   }, [locale, setData]);
   return (
     <QueryClientProvider client={queryClient}>
-      <SessionProvider>
-        <DialogProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            // disableTransitionOnChange
-          >
-            <Toaster position="top-center" />
-            {children}
-          </ThemeProvider>
-        </DialogProvider>
-      </SessionProvider>
+      <DialogProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          // disableTransitionOnChange
+        >
+          <Toaster position="top-center" />
+          {children}
+        </ThemeProvider>
+      </DialogProvider>
     </QueryClientProvider>
   );
 };

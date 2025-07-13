@@ -6,9 +6,13 @@ declare global {
     children?: React.ReactNode;
     className?: string;
   };
-  type NextJSReactNodes<K extends string> = {
-    [P in K]: React.ReactNode;
+
+  type NonEmptyString<T extends string> = T extends "" ? never : T;
+
+  type NextJSReactNodes<K extends string> = WithChildren & {
+    [P in NonEmptyString<K>]: Exclude<React.ReactNode, null | undefined>;
   };
+
   type GlobalPropClassName<T = unknown> = T & {
     className?: string;
   };

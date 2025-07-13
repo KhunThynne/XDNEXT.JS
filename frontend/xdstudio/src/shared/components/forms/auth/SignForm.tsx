@@ -12,6 +12,7 @@ import { Form } from "../../shadcn/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
+import { usePathname } from "@navigation";
 
 export const SignForm = () => {
   const method = useForm({
@@ -20,19 +21,20 @@ export const SignForm = () => {
   });
   const [hidePassword, setHidePassword] = useState(false);
   const { closeDialog } = useDialoguseContext();
+  const pathname = usePathname();
   const onSubmit = async (data: TypeSignInInterface) => {
     try {
       const res = await signIn("credentials", {
-        redirect: false,
+        callbackUrl: pathname,
         email: data.email,
         password: data.password,
       });
-      if (res?.ok) {
-        if (res?.error) throw new Error("Login failed");
-        toast.success("Login success!");
-        closeDialog();
-        console.log("User logged in:", res);
-      }
+      // if (res?.ok) {
+      //   if (res?.error) throw new Error("Login failed");
+      //   toast.success("Login success!");
+      //   closeDialog();
+      //   console.log("User logged in:", res);
+      // }
     } catch (_) {
       toast.error("Login failed! user or password invalidate");
       return;
@@ -78,7 +80,7 @@ export const SignForm = () => {
 
         <section className="flex flex-col">
           <Button>Login</Button>
-          <OAuthLoginButtonsGrupe className="mt-5" />
+          <OAuthLoginButtonsGrupe className="mt-5" callbackUrl={pathname} />
         </section>
       </form>
     </Form>

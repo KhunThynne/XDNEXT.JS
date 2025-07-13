@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/shared/components/shadcn/button";
 import {
   Card,
   CardContent,
