@@ -14,7 +14,7 @@ enum Role {
   GUEST
 }
 model User {
-  id        Int      @id @default(autoincrement())
+  documentId String   @id @default(cuid())
   email     String   @unique
   password  String  
   username  String

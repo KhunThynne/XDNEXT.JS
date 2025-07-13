@@ -19,14 +19,14 @@ export const resolvers: Resolvers = {
         throw new Error("Invalid email or password");
       }
       const jwt_token = generateAccessToken({
-        id: user.id,
+        documentId: user.documentId,
         email: user.email,
         role: user.role,
       });
       return {
         jwt_token,
         user: {
-          id: user.id,
+          documentId: user.documentId,
           email: user.email,
           username: user.username,
           provider: user.provider as UserProvider,
@@ -55,7 +55,7 @@ export const resolvers: Resolvers = {
       });
 
       return {
-        id: user.id,
+        documentId: user.documentId,
         email: user.email,
         username: user.username,
         provider: user.provider as UserProvider,
@@ -92,7 +92,7 @@ export const resolvers: Resolvers = {
       const user = await findOrCreateUser();
 
       const jwt_token = generateAccessToken({
-        id: user.id,
+        documentId: user.documentId,
         email: user.email,
         role: user.role,
       });
@@ -100,7 +100,7 @@ export const resolvers: Resolvers = {
       return {
         jwt_token,
         user: {
-          id: user.id,
+          documentId: user.documentId,
           email: user.email,
           username: user.username,
           provider: user.provider as UserProvider,

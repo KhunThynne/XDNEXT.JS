@@ -7,7 +7,7 @@ export const LoginDocument = graphql(`
     login(email: $email, password: $password) {
       jwt_token
       user {
-        id
+        documentId
         username
         email
         role

@@ -28,8 +28,8 @@ enum Role {
 }
 
 type User {
+  documentId: String!
   email: String!
-  id: Int!
   image: String
   provider: UserProvider
   role: Role

@@ -27,13 +27,13 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     jwt_token?: string;
-    id?: string;
+    documentId?: string;
     role?: Role;
   }
 }
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  secret: [env.NEXTAUTH_SECRET],
+  secret: [env.AUTH_SECRET],
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
@@ -63,7 +63,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               throw new AuthError("Invalid credentials");
             }
             return {
-              id: login.user.id.toString(),
+              documentId: login.user.documentId.toString(),
               name: login.user.username,
               email: login.user.email,
               role: login.user.role,
@@ -100,7 +100,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             });
             const login = res.data?.registerAndLogin;
             if (login?.jwt_token) {
-              user.id = login.user.id.toString();
+              user.documentId = login.user.documentId.toString();
               user.role = login.user.role;
               user.jwt_token = login.jwt_token;
               return true;
@@ -132,8 +132,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.id =
-          typeof user.id === "string" ? user.id : String(user.id ?? "");
+        token.documentId =
+          typeof user.documentId === "string"
+            ? user.documentId
+            : String(user.documentId ?? "");
         token.role = user.role ?? Role.User;
         token.jwt_token = user.jwt_token;
       }
@@ -141,7 +143,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async session({ session, token }: { session: Session; token: JWT }) {
       if (session.user) {
-        session.user.id = parseInt(token.id!);
+        session.user.documentId = token.documentId!;
         session.user.role = token.role;
       }
 

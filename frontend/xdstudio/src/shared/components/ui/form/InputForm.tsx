@@ -42,7 +42,7 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   classNames,
   ...inputProps
 }: InputFormProps<TFieldValues> &
-  NextPropsClassNames<"container" | "label" | "description">) {
+  GlobalPropsClassNames<"container" | "label" | "description">) {
   return (
     <FormField
       {...(control ? { control } : {})}

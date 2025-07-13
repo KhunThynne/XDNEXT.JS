@@ -20,7 +20,7 @@ export const RegisterDocument = graphql(`
       image: $image
       provider: $provider
     ) {
-      id
+      documentId
       username
       email
       role
@@ -49,7 +49,7 @@ export const RegisterAndLoginDocument = graphql(`
     ) {
       jwt_token
       user {
-        id
+        documentId
         provider
         username
         email

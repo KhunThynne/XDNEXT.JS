@@ -12,7 +12,7 @@ export const env = createEnv({
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
     API_BACKEND_URL: z.string().url(),
-    NEXTAUTH_SECRET: z.string(),
+    AUTH_SECRET: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
     DISCORD_CLIENT_ID: z.string(),
   },
@@ -34,6 +34,6 @@ export const env = createEnv({
     API_BACKEND_URL: process.env.API_BACKEND_URL,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    AUTH_SECRET: process.env.AUTH_SECRET,
   },
 });

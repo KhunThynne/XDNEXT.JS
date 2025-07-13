@@ -5,7 +5,7 @@ import { graphql } from "../../generates";
 export const GetUsersDocument = graphql(`
   query GetUsers {
     users {
-      id
+      documentId
       username
       email
       role

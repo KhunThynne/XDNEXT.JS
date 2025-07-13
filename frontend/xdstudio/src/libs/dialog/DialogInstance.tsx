@@ -62,7 +62,7 @@ const DialogContextInstance = createContext<
   DialogContextInstanceType | undefined
 >(undefined);
 
-export const DialogInstanceProvider = ({ children }: NextDefaultProps) => {
+export const DialogInstanceProvider = ({ children }: GlobalDefaultProps) => {
   const [dailogState, setDialogState] = useState(true);
   const closeDialog = useCallback(() => {
     setDialogState(false);

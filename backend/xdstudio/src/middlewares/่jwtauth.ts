@@ -15,7 +15,7 @@ const accessTokenMiddleware: RequestHandler = async (req, res, next) => {
   }
   try {
     const decoded = verify(jwt_token, env.JWT_ACCESS_SECRET) as {
-      id: number;
+      documentId: string;
       role: string;
       email: string;
     };
@@ -23,7 +23,10 @@ const accessTokenMiddleware: RequestHandler = async (req, res, next) => {
       where: { email: decoded.email },
     });
     if (!user) {
-      res.status(403).json({ message: "User not found or inactive" });
+      res.status(403).json({
+        message:
+          "Access denied. User not found or inactive. Please login and include a valid access token in the Authorization header.",
+      });
       return;
     }
     (req as unknown as { user: User }).user = user;

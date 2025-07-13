@@ -27,7 +27,7 @@ const typeDefsRole = /* GraphQL */ `
 
 const typeDefsUser = /* GraphQL */ `
   type User {
-    id: Int!
+    documentId: String!
     email: String!
     username: String!
     provider: UserProvider

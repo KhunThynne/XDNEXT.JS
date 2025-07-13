@@ -3,7 +3,7 @@ import clsx from "clsx";
 export default function Content({
   classNames,
   children,
-}: Omit<NextPropsClassNames<"content" | "outsite">, "className">) {
+}: Omit<GlobalPropsClassNames<"content" | "outsite">, "className">) {
   return (
     <div className={classNames?.outsite}>
       <div
@@ -17,7 +17,7 @@ export default function Content({
           "bg-[size:40px_40px]"
         )}
       />
-      <div className={classNames?.content}>{children}</div>
+      <div className={clsx(classNames?.content)}>{children}</div>
     </div>
   );
 }

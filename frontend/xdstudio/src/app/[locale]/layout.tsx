@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({
   children,
   params,
-}: NextDefaultProps & { params: Promise<{ locale: string }> }) {
+}: GlobalDefaultProps & {
+  params: Promise<{ locale: string }>;
+}) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
 
@@ -29,7 +31,7 @@ export default async function LocaleLayout({
         )}
       >
         <NextIntlClientProvider>
-          <Providers>
+          <Providers locale={locale}>
             <Main>{children}</Main>
           </Providers>
         </NextIntlClientProvider>

@@ -7,12 +7,12 @@ import Navbar from "./navbar";
 
 export default function Main({ children }: { children: ReactNode }) {
   return (
-    <main className={clsx("flex flex-col", "h-screen")}>
+    <main className={clsx("flex flex-col", "min-h-screen")}>
       <Navbar />
       <Content
         classNames={{
-          outsite: "grow relative",
-          content: "container mx-auto p-5 h-full ",
+          outsite: "grow relative bg-secondary-foreground/5 ",
+          content: "container   mx-auto py-5  ",
         }}
       >
         {children}

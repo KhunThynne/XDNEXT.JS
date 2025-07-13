@@ -56,7 +56,7 @@ const RenderChildren = ({
   className,
 }: {
   nested?: TypeNavbarItem[];
-} & NextPropClassName) => {
+} & GlobalPropClassName) => {
   if (!_.isArray(nested)) return;
   return (
     <ul className={clsx(className)}>

@@ -11,12 +11,13 @@ import { signOut, useSession } from "next-auth/react";
 import { Button } from "../../shadcn/button";
 import { LogInIcon, User } from "lucide-react";
 import { Skeleton } from "../../shadcn/skeleton";
+import TextComponent from "../../TestComponent";
 const NavbarActionSection = ({
   className,
   status,
 }: {
   status: "loading" | "authenticated" | "unauthenticated";
-} & NextDefaultProps) => {
+} & GlobalDefaultProps) => {
   const { openDialog } = useSignDialog();
   return (
     <section className={clsx(className)}>
@@ -35,7 +36,7 @@ const NavbarActionSection = ({
     </section>
   );
 };
-export default function Navbar({ className }: NextDefaultProps) {
+export default function Navbar({ className }: GlobalDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
 

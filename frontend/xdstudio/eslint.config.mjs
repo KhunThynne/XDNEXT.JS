@@ -15,7 +15,9 @@ const eslintConfig = [
     "next/typescript",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended-legacy"
+    "plugin:react-hooks/recommended-legacy",
+    "prettier",
+    "next"
 
     // "eslint:recommended"
   ),
