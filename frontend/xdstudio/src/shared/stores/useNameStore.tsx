@@ -1,4 +1,4 @@
-import { createHookStore } from "./createHookStore";
+import { createHookStore } from "@/libs/zustand/createHookStore";
 
 type User = {
   name: string;
@@ -19,9 +19,9 @@ export const useStore = createHookStore({
   },
 });
 
-export const useMainStore = createHookStore({
-  key: "main",
+export const useTestStore = createHookStore({
+  key: "test",
   initial: {
-    test: 5,
+    data: 5,
   },
 });

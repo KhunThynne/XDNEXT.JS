@@ -6,7 +6,15 @@ import { Link, usePathname } from "@navigation";
 import Translations from "@/libs/i18n/Translations";
 import { TypeNavbarItem } from "@type/config.type";
 import clsx from "clsx";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "../../shadcn/navigation-menu";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "../../shadcn/navigation-menu";
 
 const ListItem = ({
   title,
@@ -23,7 +31,7 @@ const ListItem = ({
   return (
     <li {...props}>
       <NavigationMenuLink asChild data-active={pathname.includes(href)}>
-        <Link href={href}>
+        <Link href={href} aria-disabled={pathname.includes(href)}>
           <div className="text-sm font-medium leading-none">
             <Translations text={title} namespace="navbar" />
           </div>
@@ -82,7 +90,7 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                 <>
                   <NavigationMenuTrigger
                     className={clsx(
-                      "font-semibold",
+                      "font-semibold capitalize",
                       pathname.includes(item.href) && "bg-accent/50 underline"
                     )}
                   >
@@ -107,7 +115,11 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                     "font-semibold data-[active=true]:underline"
                   )}
                 >
-                  <Link href={item.href} className="capitalize">
+                  <Link
+                    href={item.href}
+                    className="capitalize"
+                    aria-disabled={isActive}
+                  >
                     <Translations text={item.title} namespace="navbar" />
                   </Link>
                 </NavigationMenuLink>

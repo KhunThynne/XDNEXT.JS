@@ -5,6 +5,8 @@
   },
   "navbar":{
     "home":"home",
-    "services":"services"
+      "services":"services",
+   "contact":"contact"
+
   }
 }

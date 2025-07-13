@@ -8,6 +8,7 @@ import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { SwitchTheme } from "../../ui/SwitchTheme";
+import { SignDialog } from "../../forms/SignForm";
 
 export default function Navbar({ className }: NextDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,8 +25,8 @@ export default function Navbar({ className }: NextDefaultProps) {
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
-
           <SwitchTheme />
+          <SignDialog />
         </nav>
         <MenuButton
           className="md:hidden"
@@ -34,7 +35,7 @@ export default function Navbar({ className }: NextDefaultProps) {
         />
       </div>
 
-      <section className={clsx("relative -z-0 h-full md:hidden")}>
+      <div className={clsx("relative md:hidden")}>
         <nav
           aria-label="Mobile navigation"
           className={clsx(
@@ -53,7 +54,7 @@ export default function Navbar({ className }: NextDefaultProps) {
             </li>
           </ul>
         </nav>
-      </section>
+      </div>
     </div>
   );
 }

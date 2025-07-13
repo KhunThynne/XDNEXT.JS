@@ -1,15 +1,18 @@
 "use client";
-
+import { useDialogExample } from "@/libs/dialog/example/clientHook";
+import { useSignDialog } from "@/shared/components/forms/SignForm";
 import { Button } from "@/shared/components/shadcn/button";
-import { useMainStore, useStore } from "@/shared/stores/useNameStore";
-
 export default function Page() {
-  const { dataStore, setData } = useStore();
-  const { mainStore, setMain } = useMainStore();
+  const { openDialog, closeDialog } = useSignDialog({
+    // mode: "static",
+    options: { dialog: { defaultOpen: true } },
+  });
+
+  const { openDialog: openTest } = useDialogExample({ mode: "static" });
   return (
-    <>
-      <Button onClick={() => setData({ test: 6 })}>TEst</Button>
-      {dataStore.test}
-    </>
+    <div className="">
+      <Button onClick={openDialog}>Open Login</Button>
+      <Button onClick={openTest}>Open Test</Button>
+    </div>
   );
 }

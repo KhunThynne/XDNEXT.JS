@@ -1,4 +1,4 @@
-import "#/configs/dotenv.config";
+import "@configs/dotenv.config";
 import env from "@/env";
 import express, { Request, Response, NextFunction } from "express";
 import logger from "morgan";
@@ -7,7 +7,7 @@ import cors from "cors";
 import path from "path";
 import ejs from "ejs";
 import controller from "@/controller";
-
+const testr= ""
 const app = express();
 app.engine("html", ejs.renderFile);
 app.set("view engine", "html");
