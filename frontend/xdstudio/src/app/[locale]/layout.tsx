@@ -4,7 +4,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
-import Main from "@/shared/components/layouts/main";
+import Content from "@/shared/components/ui/Content";
+
 export const metadata: Metadata = {
   title: "Xdstudio",
   description: "This is a static description for all locales",
@@ -12,9 +13,12 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({
   children,
   params,
-}: GlobalDefaultProps & {
-  params: Promise<{ locale: string }>;
-}) {
+  footer,
+  navbar,
+}: GlobalDefaultProps &
+  NextJSReactNodes<"footer" | "navbar"> & {
+    params: Promise<{ locale: string }>;
+  }) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
 
@@ -32,7 +36,18 @@ export default async function LocaleLayout({
       >
         <NextIntlClientProvider>
           <Providers locale={locale}>
-            <Main>{children}</Main>
+            <main className={clsx("flex flex-col", "min-h-screen")}>
+              {navbar}
+              <Content
+                classNames={{
+                  outsite: "grow relative bg-secondary-foreground/5 ",
+                  content: "container   mx-auto py-5  ",
+                }}
+              >
+                {children}
+              </Content>
+              {footer}
+            </main>
           </Providers>
         </NextIntlClientProvider>
       </body>

@@ -6,7 +6,9 @@ declare global {
     children?: React.ReactNode;
     className?: string;
   };
-
+  type NextJSReactNodes<K extends string> = {
+    [P in K]: React.ReactNode;
+  };
   type GlobalPropClassName<T = unknown> = T & {
     className?: string;
   };

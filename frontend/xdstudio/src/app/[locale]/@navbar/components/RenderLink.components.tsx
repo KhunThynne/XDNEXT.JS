@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "../../shadcn/navigation-menu";
+} from "@/shared/components/shadcn/navigation-menu";
 
 const ListItem = ({
   title,

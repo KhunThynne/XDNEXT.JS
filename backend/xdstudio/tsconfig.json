@@ -1,9 +1,7 @@
 {
   "ts-node": {
     // Do not forget to `npm i -D tsconfig-paths`
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
   "compilerOptions": {
     "module": "NodeNext",
@@ -16,15 +14,13 @@
     "moduleDetection": "force",
     "rootDir": ".",
     "baseUrl": ".",
-         "paths": {
+    "paths": {
       "@configs/*": ["configs/*"],
-      "@prisma":["src/libs/prisma/prisma.client.ts"],   
+      "@prisma": ["src/libs/prisma/prisma.client.ts"],
       "@/*": ["src/*"]
     }
   },
- "lib": ["es2022"],
+  "lib": ["es2022"],
   "include": ["src/**/*", "bin/**/*"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

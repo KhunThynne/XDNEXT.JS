@@ -51,10 +51,18 @@ const eslintConfig = [
       "jsonc/indent": ["error", 2],
       "jsonc/comma-dangle": ["error", "never"],
       "jsonc/key-spacing": ["error", { beforeColon: false, afterColon: true }],
+      ignores: [
+        "tsconfig.json",
+        "node_modules/",
+        "package.json",
+        "graphql.schema.json",
+      ],
     },
   },
   ...tseslint.configs.recommended,
-  { ignores: ["dist/", "node_modules/", "src/types/graphql.ts"] },
+  {
+    ignores: ["dist/", "node_modules/", "src/types/graphql.ts"],
+  },
   {
     rules: {
       "@typescript-eslint/no-require-imports": "off",

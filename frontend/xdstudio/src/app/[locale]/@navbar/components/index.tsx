@@ -1,3 +1,4 @@
+"use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { useState } from "react";
@@ -5,13 +6,13 @@ import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
-import { SwitchTheme } from "../../ui/SwitchTheme";
-import { useSignDialog } from "../../forms/auth/SignForm";
 import { signOut, useSession } from "next-auth/react";
-import { Button } from "../../shadcn/button";
 import { LogInIcon, User } from "lucide-react";
-import { Skeleton } from "../../shadcn/skeleton";
-import TextComponent from "../../TestComponent";
+import { useSignDialog } from "@/shared/components/forms/auth/SignForm";
+import { Button } from "@/shared/components/shadcn/button";
+import { Skeleton } from "@/shared/components/shadcn/skeleton";
+import { SwitchTheme } from "@/shared/components/ui/SwitchTheme";
+
 const NavbarActionSection = ({
   className,
   status,

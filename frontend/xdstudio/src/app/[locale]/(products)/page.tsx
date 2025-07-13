@@ -1,6 +1,5 @@
-
 import { ContentSection } from "@/shared/components/ui/ContentSection";
-import { CardProduct } from "./ProductCard.component";
+import { CardProduct } from "./components/ProductCard";
 
 const mockProducts = Array.from({ length: 20 }, (_, i) => ({
   id: `${i + 1}`,

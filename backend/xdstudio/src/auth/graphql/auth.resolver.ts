@@ -37,12 +37,10 @@ export const resolvers: Resolvers = {
     },
     register: async (__, args) => {
       const { email, password, username, role, image, provider } = args;
-
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) {
         throw new Error("Email already registered");
       }
-
       const user = await prisma.user.create({
         data: {
           email,
