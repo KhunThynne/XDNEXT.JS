@@ -4,7 +4,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
 SHADOW_DATABASE_URL: z.string().url(),
   NODE_ENV: z.enum(["development", "production", "test"]),
-
+SESSION_SECRET:z.string(),
   PORT: z
     .string()
     .optional()
@@ -56,6 +56,7 @@ const env = {
   SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,
   SQL_DATABASE_NAME: parsedEnv.data.SQL_DATABASE_NAME,
   DATABASE_PORT: parsedEnv.data.DATABASE_PORT,
+  SESSION_SECRET: parsedEnv.data.DATABASE_PORT,
 };
 
 export default env;

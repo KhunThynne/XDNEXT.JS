@@ -19,16 +19,16 @@ const eslintConfig = [
     },
   }),
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    files: ["**/*.{js,ts,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
     ...js.configs.recommended,
   },
   {
-    files: ["**/*.js"],
+    files: ["**/*.{js,ts}"],
     languageOptions: { sourceType: "commonjs" },
   },
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    files: ["**/*.{js,ts,mjs,cjs,ts,mts,cts}"],
     languageOptions: {
       globals: {
         ...globals.browser,
@@ -53,6 +53,7 @@ const eslintConfig = [
       "tsconfig.json",
       "node_modules/",
       "package.json",
+      "node_modules/"
     ],
   },
   ...tseslint.configs.recommended,
