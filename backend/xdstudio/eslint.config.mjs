@@ -13,10 +13,10 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("plugin:prettier/recommended"),
+  // ...compat.extends("plugin:prettier/recommended"),
   ...compat.config({
     rules: {
-      "prettier/prettier": "warn",
+      // "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
     },
   }),

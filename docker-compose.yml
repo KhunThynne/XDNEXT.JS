@@ -1,17 +1,30 @@
 version: "3.9"
 
 services:
-  mariadb:
-    image: mariadb:11 
-    container_name: mariadb
+  # mariadb:
+  #   image: mariadb:11 
+  #   container_name: mariadb
+  #   restart: always
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: ${SQL_PASSWORD}
+  #     MARIADB_DATABASE: ${SQL_DATABASE_NAME}
+  #   volumes:
+  #     - mariadb-data:/var/lib/mysql
+  #   ports:
+  #     - "33061:3306"
+      
+  postgresql:
+    image: postgres:15
+    container_name: postgres
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${SQL_PASSWORD}
-      MARIADB_DATABASE: ${SQL_DATABASE_NAME}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}     
+      POSTGRES_DB: ${SQL_DATABASE_NAME}      
+      POSTGRES_USER: ${SQL_USER:-postgres}    
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - postgresql-data:/var/lib/postgresql/data
     ports:
-      - "33061:3306"
+      - "5432:5432"
 
   backend:
     build:
@@ -20,7 +33,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - mariadb
+      - postgresql
     ports:
       - "${PORT}:4000"
     command: node dist/bin/www.js
@@ -38,4 +51,4 @@ services:
     command: yarn dev
 
 volumes:
-   mariadb-data:
+   postgresql-data:
