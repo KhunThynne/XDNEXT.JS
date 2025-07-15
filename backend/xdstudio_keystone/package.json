@@ -3,10 +3,14 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
+    "build": "keystone build",
     "dev": "keystone dev",
-    "start": "keystone start",
-    "build": "keystone build"
+    "postinstall": "keystone postinstall",
+    "generate": "keystone prisma migrate dev",
+    "start": "keystone start --with-migrations",
+    "deploy": "keystone build && keystone prisma migrate deploy"
   },
+
   "dependencies": {
     "@keystone-6/auth": "^8.0.0",
     "@keystone-6/core": "^6.0.0",
@@ -25,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^8.37.0",
     "@typescript-eslint/parser": "^8.37.0",
     "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jsonc": "^2.20.1",
     "eslint-plugin-prettier": "^5.5.1",
     "globals": "^16.3.0",

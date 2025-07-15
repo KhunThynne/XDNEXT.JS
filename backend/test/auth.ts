@@ -20,32 +20,6 @@ import { createAuth } from '@keystone-6/auth'
 
 // see https://keystonejs.com/docs/apis/session for the session docs
 import { statelessSessions } from '@keystone-6/core/session'
-import env from './env';
-import { sign, verify } from 'jsonwebtoken';
-
-
-export function createJWT(userId: string) {
-  return sign({ userId }, env.JWT_ACCESS_SECRET, { expiresIn: '7d' });
-}
-
-
-
-
-
-
-
-
-
-
-export function verifyJWT(token: string) {
-  try {
-    return verify(token, env.JWT_ACCESS_SECRET) as { userId: string };
-  } catch {
-    return null;
-  }
-}
-
-
 
 // withAuth is a function we can use to wrap our base configuration
 const { withAuth } = createAuth({
@@ -78,7 +52,6 @@ const sessionMaxAge = 60 * 60 * 24 * 30
 
 // you can find out more at https://keystonejs.com/docs/apis/session#session-api
 const session = statelessSessions({
-  
   maxAge: sessionMaxAge,
   secret: process.env.SESSION_SECRET,
 })

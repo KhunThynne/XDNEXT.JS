@@ -5,17 +5,18 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   overwrite: true,
   schema: [
+    // {
+    //   [`${env.API_BACKEND_URL}/auth/graphql`]: {},
+    // },
     {
-      [`${env.API_BACKEND_URL}/auth/graphql`]: {},
-    },
-    {
-      [`${env.API_BACKEND_URL}/graphql`]: {
-        headers: {
-          Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
-        },
+      [`${env.API_BACKEND_URL}/api/graphql`]: {
+        // headers: {
+        //   Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
+        // },
       },
     },
   ],
+
   documents: ["src/libs/graphql/**/*.{ts,tsx,graphql}"],
   ignoreNoDocuments: true,
   generates: {
