@@ -3,7 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   SHADOW_DATABASE_URL: z.string().url(),
-  NODE_ENV: z.enum(['development', 'production', 'test']),
+  // NODE_ENV: z.enum(['development', 'production', 'test']),
 
   SESSION_SECRET: z.string(),
   PORT: z
@@ -45,7 +45,7 @@ if (!parsedEnv.success) {
 const env = {
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,
-  NODE_ENV: parsedEnv.data.NODE_ENV,
+  // NODE_ENV: parsedEnv.data.NODE_ENV,
   PORT: parsedEnv.data.PORT,
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
   JWT_ACCESS_SECRET: parsedEnv.data.JWT_ACCESS_SECRET,
