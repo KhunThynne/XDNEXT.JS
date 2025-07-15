@@ -5,15 +5,16 @@
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
 import './configs/dotenv.config'
-import { config } from '@keystone-6/core'
+import { config, graphql } from '@keystone-6/core'
 
 // to keep this file tidy, we define our schema in a different file
-import { lists } from './schema'
-
+import { lists } from './schemas'
+import type { GraphQLSchema } from 'graphql'
 // authentication is configured separately here too, but you might move this elsewhere
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth'
 import env from './env'
+import { Context } from '.keystone/types'
 
 export default withAuth(
   config({
@@ -31,6 +32,50 @@ export default withAuth(
     },
 
     lists,
+    graphql: {
+      extendGraphqlSchema: graphql.extend((base) => {
+        return {
+          mutation: {
+            createAndLogin: graphql.field({
+              type: graphql.object()({
+                name: 'RegisterAndLoginResult',
+                fields: {
+                  item: graphql.field({
+                    type: base.object('User'),
+                    resolve(source) {
+                      return source.item
+                    }
+                  }),
+                  sessionToken: graphql.field({
+                    type: graphql.String,
+                    resolve(source) {
+                      return source.sessionToken
+                    }
+                  })
+                }
+              }),
+              args: {
+                email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+                password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+                username: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+                image: graphql.arg({ type: graphql?.String }),
+                provider: graphql.arg({ type: graphql?.String })
+              },
+              async resolve(source, arg, context: Context) {
+                const { username, provider } = arg
+                const user = await context.db.User.createOne({
+                  data: { ...arg, ...{ name: username, provider: provider ?? 'user' } }
+                })
+
+                const sessionToken = await context.session.create({ data: user })
+                console.log('HI')
+                return { item: user, sessionToken }
+              }
+            })
+          }
+        }
+      })
+    },
     session,
     server: { port: env.PORT },
     ui: {

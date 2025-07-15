@@ -4,11 +4,19 @@
 type User {
   id: ID!
   name: String
+  documentId: String
+  username: String
+  provider: String
+  image: String
+  role: String
   email: String
   password: PasswordState
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   createdAt: DateTime
+  passwordResetToken: PasswordState
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
 }
 
 type PasswordState {
@@ -19,6 +27,7 @@ scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339
 
 input UserWhereUniqueInput {
   id: ID
+  documentId: String
   email: String
 }
 
@@ -28,9 +37,17 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   id: IDFilter
   name: StringFilter
+  documentId: StringFilter
+  username: StringFilter
+  provider: StringFilter
+  image: StringFilter
+  role: StringNullableFilter
   email: StringFilter
   posts: PostManyRelationFilter
   createdAt: DateTimeNullableFilter
+  passwordResetToken: PasswordFilter
+  passwordResetIssuedAt: DateTimeNullableFilter
+  passwordResetRedeemedAt: DateTimeNullableFilter
 }
 
 input IDFilter {
@@ -78,6 +95,21 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
+input StringNullableFilter {
+  equals: String
+  in: [String!]
+  notIn: [String!]
+  lt: String
+  lte: String
+  gt: String
+  gte: String
+  contains: String
+  startsWith: String
+  endsWith: String
+  mode: QueryMode
+  not: StringNullableFilter
+}
+
 input PostManyRelationFilter {
   every: PostWhereInput
   some: PostWhereInput
@@ -95,11 +127,22 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input PasswordFilter {
+  isSet: Boolean!
+}
+
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
+  documentId: OrderDirection
+  username: OrderDirection
+  provider: OrderDirection
+  image: OrderDirection
+  role: OrderDirection
   email: OrderDirection
   createdAt: OrderDirection
+  passwordResetIssuedAt: OrderDirection
+  passwordResetRedeemedAt: OrderDirection
 }
 
 enum OrderDirection {
@@ -109,10 +152,18 @@ enum OrderDirection {
 
 input UserUpdateInput {
   name: String
+  documentId: String
+  username: String
+  provider: String
+  image: String
+  role: String
   email: String
   password: String
   posts: PostRelateToManyForUpdateInput
   createdAt: DateTime
+  passwordResetToken: String
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
 }
 
 input PostRelateToManyForUpdateInput {
@@ -129,10 +180,18 @@ input UserUpdateArgs {
 
 input UserCreateInput {
   name: String
+  documentId: String
+  username: String
+  provider: String
+  image: String
+  role: String
   email: String
   password: String
   posts: PostRelateToManyForCreateInput
   createdAt: DateTime
+  passwordResetToken: String
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
 }
 
 input PostRelateToManyForCreateInput {
@@ -287,6 +346,9 @@ type Mutation {
   endSession: Boolean!
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
+  sendUserPasswordResetLink(email: String!): Boolean!
+  redeemUserPasswordResetToken(email: String!, token: String!, password: String!): RedeemUserPasswordResetTokenResult
+  createAndLogin(email: String!, password: String!, username: String!, image: String, provider: String): User
 }
 
 union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
@@ -306,6 +368,17 @@ input CreateInitialUserInput {
   password: String
 }
 
+type RedeemUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
+}
+
+enum PasswordResetRedemptionErrorCode {
+  FAILURE
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
 type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
@@ -318,9 +391,15 @@ type Query {
   tagsCount(where: TagWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
+  validateUserPasswordResetToken(email: String!, token: String!): ValidateUserPasswordResetTokenResult
 }
 
 union AuthenticatedItem = User
+
+type ValidateUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
+}
 
 type KeystoneMeta {
   adminMeta: KeystoneAdminMeta!

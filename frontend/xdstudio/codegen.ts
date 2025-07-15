@@ -17,7 +17,11 @@ const config: CodegenConfig = {
     },
   ],
 
-  documents: ["src/libs/graphql/**/*.{ts,tsx,graphql}"],
+  documents: [
+    "src/libs/graphql/**/*.{ts,tsx,graphql}",
+    "!src/libs/graphql/**/_*/**",
+    "!src/libs/graphql/**/_*.*",
+  ],
   ignoreNoDocuments: true,
   generates: {
     "src/libs/graphql/generates/": {

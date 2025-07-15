@@ -10,13 +10,7 @@ import { allowAll } from '@keystone-6/core/access'
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
-import {
-  text,
-  relationship,
-  password,
-  timestamp,
-  select,
-} from '@keystone-6/core/fields'
+import { text, relationship, password, timestamp, select } from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document'
@@ -33,31 +27,57 @@ export const lists = {
     //   if you want to prevent random people on the internet from accessing your data,
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
     access: allowAll,
-
+    ui: {
+      listView: {
+        initialColumns: ['name', 'username', 'email', 'role'],
+        pageSize: 10
+      }
+    },
     // this is the fields for our User list
     fields: {
       // by adding isRequired, we enforce that every User should have a name
       //   if no name is provided, an error will be displayed
       name: text({ validation: { isRequired: true } }),
-
+      documentId: text({
+        isIndexed: 'unique',
+        isFilterable: true,
+        defaultValue: crypto.randomUUID(),
+        validation: { isRequired: true }
+      }),
+      username: text({
+        validation: { isRequired: true }
+      }),
+      provider: text({
+        defaultValue: 'credentials'
+      }),
+      image: text(),
+      role: select({
+        options: [
+          { label: 'Admin', value: 'ADMIN' },
+          { label: 'User', value: 'USER' },
+          { label: 'Moderator', value: 'MODERATOR' },
+          { label: 'Guest', value: 'GUEST' }
+        ],
+        defaultValue: 'USER',
+        ui: {
+          displayMode: 'select'
+        }
+      }),
       email: text({
         validation: { isRequired: true },
         // by adding isIndexed: 'unique', we're saying that no user can have the same
         // email as another user - this may or may not be a good idea for your project
-        isIndexed: 'unique',
+        isIndexed: 'unique'
       }),
-
       password: password({ validation: { isRequired: true } }),
-
       // we can use this field to see what Posts this User has authored
       //   more on that in the Post list below
       posts: relationship({ ref: 'Post.author', many: true }),
-
       createdAt: timestamp({
         // this sets the timestamp to Date.now() when the user is first created
-        defaultValue: { kind: 'now' },
-      }),
-    },
+        defaultValue: { kind: 'now' }
+      })
+    }
   }),
 
   Post: list({
@@ -80,10 +100,10 @@ export const lists = {
           [1, 1, 1],
           [2, 1],
           [1, 2],
-          [1, 2, 1],
+          [1, 2, 1]
         ],
         links: true,
-        dividers: true,
+        dividers: true
       }),
 
       // with this field, you can set a User as the author for a Post
@@ -97,12 +117,12 @@ export const lists = {
           cardFields: ['name', 'email'],
           inlineEdit: { fields: ['name', 'email'] },
           linkToItem: true,
-          inlineConnect: true,
+          inlineConnect: true
         },
 
         // a Post can only have one author
         //   this is the default, but we show it here for verbosity
-        many: false,
+        many: false
       }),
 
       // with this field, you can add some Tags to Posts
@@ -120,10 +140,10 @@ export const lists = {
           inlineEdit: { fields: ['name'] },
           linkToItem: true,
           inlineConnect: true,
-          inlineCreate: { fields: ['name'] },
-        },
-      }),
-    },
+          inlineCreate: { fields: ['name'] }
+        }
+      })
+    }
   }),
 
   // this last list is our Tag list, it only has a name field for now
@@ -136,14 +156,14 @@ export const lists = {
 
     // setting this to isHidden for the user interface prevents this list being visible in the Admin UI
     ui: {
-      isHidden: true,
+      isHidden: true
     },
 
     // this is the fields for our Tag list
     fields: {
       name: text(),
       // this can be helpful to find out all the Posts associated with a Tag
-      posts: relationship({ ref: 'Post.tags', many: true }),
-    },
-  }),
+      posts: relationship({ ref: 'Post.tags', many: true })
+    }
+  })
 } satisfies Lists

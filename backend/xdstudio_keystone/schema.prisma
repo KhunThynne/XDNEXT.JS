@@ -12,12 +12,20 @@ generator client {
 }
 
 model User {
-  id        String    @id @default(uuid()) @postgresql.Uuid
-  name      String    @default("")
-  email     String    @unique @default("")
-  password  String
-  posts     Post[]    @relation("Post_author")
-  createdAt DateTime? @default(now())
+  id                      String    @id @default(uuid()) @postgresql.Uuid
+  name                    String    @default("")
+  documentId              String    @unique @default("9ac220a6-5f50-421b-b4d0-9d567f3d82ee")
+  username                String    @default("")
+  provider                String    @default("credentials")
+  image                   String    @default("")
+  role                    String?   @default("USER")
+  email                   String    @unique @default("")
+  password                String
+  posts                   Post[]    @relation("Post_author")
+  createdAt               DateTime? @default(now())
+  passwordResetToken      String?
+  passwordResetIssuedAt   DateTime?
+  passwordResetRedeemedAt DateTime?
 }
 
 model Post {

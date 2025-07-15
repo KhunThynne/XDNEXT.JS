@@ -3,48 +3,533 @@ schema {
   mutation: Mutation
 }
 
-type AuthPayload {
-  jwt_token: String!
-  user: User!
+union AuthenticatedItem = User
+
+input CreateInitialUserInput {
+  email: String
+  name: String
+  password: String
+}
+
+scalar DateTime
+
+input DateTimeNullableFilter {
+  equals: DateTime
+  gt: DateTime
+  gte: DateTime
+  in: [DateTime!]
+  lt: DateTime
+  lte: DateTime
+  not: DateTimeNullableFilter
+  notIn: [DateTime!]
+}
+
+input IDFilter {
+  equals: ID
+  gt: ID
+  gte: ID
+  in: [ID!]
+  lt: ID
+  lte: ID
+  not: IDFilter
+  notIn: [ID!]
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type KeystoneAdminMeta {
+  list(key: String!): KeystoneAdminUIListMeta
+  lists: [KeystoneAdminUIListMeta!]!
+}
+
+type KeystoneAdminUIFieldGroupMeta {
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  label: String!
+}
+
+type KeystoneAdminUIFieldMeta {
+  createView: KeystoneAdminUIFieldMetaCreateView!
+  customViewsIndex: Int
+  description: String
+  fieldMeta: JSON
+  isFilterable: Boolean!
+  isNonNull: [KeystoneAdminUIFieldMetaIsNonNull!]
+  isOrderable: Boolean!
+  itemView(id: ID): KeystoneAdminUIFieldMetaItemView
+  label: String!
+  listView: KeystoneAdminUIFieldMetaListView!
+  path: String!
+  search: QueryMode
+  viewsIndex: Int!
+}
+
+type KeystoneAdminUIFieldMetaCreateView {
+  fieldMode: KeystoneAdminUIFieldMetaCreateViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaCreateViewFieldMode {
+  edit
+  hidden
+}
+
+enum KeystoneAdminUIFieldMetaIsNonNull {
+  create
+  read
+  update
+}
+
+type KeystoneAdminUIFieldMetaItemView {
+  fieldMode: KeystoneAdminUIFieldMetaItemViewFieldMode
+  fieldPosition: KeystoneAdminUIFieldMetaItemViewFieldPosition
+}
+
+enum KeystoneAdminUIFieldMetaItemViewFieldMode {
+  edit
+  hidden
+  read
+}
+
+enum KeystoneAdminUIFieldMetaItemViewFieldPosition {
+  form
+  sidebar
+}
+
+type KeystoneAdminUIFieldMetaListView {
+  fieldMode: KeystoneAdminUIFieldMetaListViewFieldMode!
+}
+
+enum KeystoneAdminUIFieldMetaListViewFieldMode {
+  hidden
+  read
+}
+
+type KeystoneAdminUIGraphQL {
+  names: KeystoneAdminUIGraphQLNames!
+}
+
+type KeystoneAdminUIGraphQLNames {
+  createInputName: String!
+  createManyMutationName: String!
+  createMutationName: String!
+  deleteManyMutationName: String!
+  deleteMutationName: String!
+  itemQueryName: String!
+  listOrderName: String!
+  listQueryCountName: String!
+  listQueryName: String!
+  outputTypeName: String!
+  relateToManyForCreateInputName: String!
+  relateToManyForUpdateInputName: String!
+  relateToOneForCreateInputName: String!
+  relateToOneForUpdateInputName: String!
+  updateInputName: String!
+  updateManyInputName: String!
+  updateManyMutationName: String!
+  updateMutationName: String!
+  whereInputName: String!
+  whereUniqueInputName: String!
+}
+
+type KeystoneAdminUIListMeta {
+  description: String
+  fields: [KeystoneAdminUIFieldMeta!]!
+  graphql: KeystoneAdminUIGraphQL!
+  groups: [KeystoneAdminUIFieldGroupMeta!]!
+  hideCreate: Boolean!
+  hideDelete: Boolean!
+  initialColumns: [String!]!
+  initialSearchFields: [String!]!
+  initialSort: KeystoneAdminUISort
+  isHidden: Boolean!
+  isSingleton: Boolean!
+  itemQueryName: String!
+  key: String!
+  label: String!
+  labelField: String!
+  listQueryName: String!
+  pageSize: Int!
+  path: String!
+  plural: String!
+  singular: String!
+}
+
+type KeystoneAdminUISort {
+  direction: KeystoneAdminUISortDirection!
+  field: String!
+}
+
+enum KeystoneAdminUISortDirection {
+  ASC
+  DESC
+}
+
+type KeystoneMeta {
+  adminMeta: KeystoneAdminMeta!
 }
 
 type Mutation {
-  login(email: String!, password: String!): AuthPayload
-  logout: Boolean
-  register(email: String!, image: String, password: String!, provider: UserProvider, role: Role, username: String!): User
-  registerAndLogin(email: String!, image: String, password: String!, provider: UserProvider, role: Role, username: String!): AuthPayload
+  authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
+  createAndLogin(email: String!, image: String, password: String!, provider: String, username: String!): User
+  createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
+  createPost(data: PostCreateInput!): Post
+  createPosts(data: [PostCreateInput!]!): [Post]
+  createTag(data: TagCreateInput!): Tag
+  createTags(data: [TagCreateInput!]!): [Tag]
+  createUser(data: UserCreateInput!): User
+  createUsers(data: [UserCreateInput!]!): [User]
+  deletePost(where: PostWhereUniqueInput!): Post
+  deletePosts(where: [PostWhereUniqueInput!]!): [Post]
+  deleteTag(where: TagWhereUniqueInput!): Tag
+  deleteTags(where: [TagWhereUniqueInput!]!): [Tag]
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  endSession: Boolean!
+  redeemUserPasswordResetToken(email: String!, password: String!, token: String!): RedeemUserPasswordResetTokenResult
+  sendUserPasswordResetLink(email: String!): Boolean!
+  updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+  updatePosts(data: [PostUpdateArgs!]!): [Post]
+  updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
+  updateTags(data: [TagUpdateArgs!]!): [Tag]
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateUsers(data: [UserUpdateArgs!]!): [User]
+}
+
+input NestedStringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+enum OrderDirection {
+  asc
+  desc
+}
+
+input PasswordFilter {
+  isSet: Boolean!
+}
+
+enum PasswordResetRedemptionErrorCode {
+  FAILURE
+  TOKEN_EXPIRED
+  TOKEN_REDEEMED
+}
+
+type PasswordState {
+  isSet: Boolean!
+}
+
+type Post {
+  author: User
+  content: Post_content_Document
+  id: ID!
+  tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
+  title: String
+}
+
+input PostCreateInput {
+  author: UserRelateToOneForCreateInput
+  content: JSON
+  tags: TagRelateToManyForCreateInput
+  title: String
+}
+
+input PostManyRelationFilter {
+  every: PostWhereInput
+  none: PostWhereInput
+  some: PostWhereInput
+}
+
+input PostOrderByInput {
+  id: OrderDirection
+  title: OrderDirection
+}
+
+input PostRelateToManyForCreateInput {
+  connect: [PostWhereUniqueInput!]
+  create: [PostCreateInput!]
+}
+
+input PostRelateToManyForUpdateInput {
+  connect: [PostWhereUniqueInput!]
+  create: [PostCreateInput!]
+  disconnect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+}
+
+input PostUpdateArgs {
+  data: PostUpdateInput!
+  where: PostWhereUniqueInput!
+}
+
+input PostUpdateInput {
+  author: UserRelateToOneForUpdateInput
+  content: JSON
+  tags: TagRelateToManyForUpdateInput
+  title: String
+}
+
+input PostWhereInput {
+  AND: [PostWhereInput!]
+  NOT: [PostWhereInput!]
+  OR: [PostWhereInput!]
+  author: UserWhereInput
+  id: IDFilter
+  tags: TagManyRelationFilter
+  title: StringFilter
+}
+
+input PostWhereUniqueInput {
+  id: ID
+}
+
+type Post_content_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Query {
-  _empty: String
-  users: [User!]!
+  authenticatedItem: AuthenticatedItem
+  keystone: KeystoneMeta!
+  post(where: PostWhereUniqueInput!): Post
+  posts(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+  tag(where: TagWhereUniqueInput!): Tag
+  tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
+  user(where: UserWhereUniqueInput!): User
+  users(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserWhereInput! = {}): [User!]
+  usersCount(where: UserWhereInput! = {}): Int
+  validateUserPasswordResetToken(email: String!, token: String!): ValidateUserPasswordResetTokenResult
 }
 
-enum Role {
-  ADMIN
-  GUEST
-  MODERATOR
-  USER
+enum QueryMode {
+  default
+  insensitive
+}
+
+type RedeemUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: NestedStringFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: StringNullableFilter
+  notIn: [String!]
+  startsWith: String
+}
+
+type Tag {
+  id: ID!
+  name: String
+  posts(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+}
+
+input TagCreateInput {
+  name: String
+  posts: PostRelateToManyForCreateInput
+}
+
+input TagManyRelationFilter {
+  every: TagWhereInput
+  none: TagWhereInput
+  some: TagWhereInput
+}
+
+input TagOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+}
+
+input TagRelateToManyForCreateInput {
+  connect: [TagWhereUniqueInput!]
+  create: [TagCreateInput!]
+}
+
+input TagRelateToManyForUpdateInput {
+  connect: [TagWhereUniqueInput!]
+  create: [TagCreateInput!]
+  disconnect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+}
+
+input TagUpdateArgs {
+  data: TagUpdateInput!
+  where: TagWhereUniqueInput!
+}
+
+input TagUpdateInput {
+  name: String
+  posts: PostRelateToManyForUpdateInput
+}
+
+input TagWhereInput {
+  AND: [TagWhereInput!]
+  NOT: [TagWhereInput!]
+  OR: [TagWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  posts: PostManyRelationFilter
+}
+
+input TagWhereUniqueInput {
+  id: ID
 }
 
 type User {
-  documentId: String!
-  email: String!
+  createdAt: DateTime
+  documentId: String
+  email: String
+  id: ID!
   image: String
-  provider: UserProvider
-  role: Role
-  username: String!
+  name: String
+  password: PasswordState
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
+  passwordResetToken: PasswordState
+  posts(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
+  postsCount(where: PostWhereInput! = {}): Int
+  provider: String
+  role: String
+  username: String
 }
 
-enum UserProvider {
-  AMAZON
-  APPLE
-  CREDENTIALS
-  DISCORD
-  FACEBOOK
-  GITHUB
-  GOOGLE
-  LINKEDIN
-  MICROSOFT
-  TWITTER
+type UserAuthenticationWithPasswordFailure {
+  message: String!
+}
+
+union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordFailure | UserAuthenticationWithPasswordSuccess
+
+type UserAuthenticationWithPasswordSuccess {
+  item: User!
+  sessionToken: String!
+}
+
+input UserCreateInput {
+  createdAt: DateTime
+  documentId: String
+  email: String
+  image: String
+  name: String
+  password: String
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
+  passwordResetToken: String
+  posts: PostRelateToManyForCreateInput
+  provider: String
+  role: String
+  username: String
+}
+
+input UserOrderByInput {
+  createdAt: OrderDirection
+  documentId: OrderDirection
+  email: OrderDirection
+  id: OrderDirection
+  image: OrderDirection
+  name: OrderDirection
+  passwordResetIssuedAt: OrderDirection
+  passwordResetRedeemedAt: OrderDirection
+  provider: OrderDirection
+  role: OrderDirection
+  username: OrderDirection
+}
+
+input UserRelateToOneForCreateInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateInput
+}
+
+input UserRelateToOneForUpdateInput {
+  connect: UserWhereUniqueInput
+  create: UserCreateInput
+  disconnect: Boolean
+}
+
+input UserUpdateArgs {
+  data: UserUpdateInput!
+  where: UserWhereUniqueInput!
+}
+
+input UserUpdateInput {
+  createdAt: DateTime
+  documentId: String
+  email: String
+  image: String
+  name: String
+  password: String
+  passwordResetIssuedAt: DateTime
+  passwordResetRedeemedAt: DateTime
+  passwordResetToken: String
+  posts: PostRelateToManyForUpdateInput
+  provider: String
+  role: String
+  username: String
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  createdAt: DateTimeNullableFilter
+  documentId: StringFilter
+  email: StringFilter
+  id: IDFilter
+  image: StringFilter
+  name: StringFilter
+  passwordResetIssuedAt: DateTimeNullableFilter
+  passwordResetRedeemedAt: DateTimeNullableFilter
+  passwordResetToken: PasswordFilter
+  posts: PostManyRelationFilter
+  provider: StringFilter
+  role: StringNullableFilter
+  username: StringFilter
+}
+
+input UserWhereUniqueInput {
+  documentId: String
+  email: String
+  id: ID
+}
+
+type ValidateUserPasswordResetTokenResult {
+  code: PasswordResetRedemptionErrorCode!
+  message: String!
 }

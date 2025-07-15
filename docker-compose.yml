@@ -35,7 +35,7 @@ services:
     depends_on:
       - postgresql
     ports:
-      - "${PORT}:4000"
+      - "${PORT}:3001"
     command: node dist/bin/www.js
 
   frontend:

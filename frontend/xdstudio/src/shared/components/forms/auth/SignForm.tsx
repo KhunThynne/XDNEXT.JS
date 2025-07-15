@@ -26,6 +26,7 @@ export const SignForm = () => {
     try {
       const res = await signIn("credentials", {
         callbackUrl: pathname,
+        // redirect: false,
         email: data.email,
         password: data.password,
       });

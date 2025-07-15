@@ -1,21 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
-import { execute } from "../../execute";
-import { graphql } from "../../generates";
+// import { useQuery } from "@tanstack/react-query";
+// import { execute } from "../../execute";
+// import { graphql } from "../../generates";
 
-export const GetUsersDocument = graphql(`
-  query GetUsers {
-    users {
-      documentId
-      username
-      email
-      role
-    }
-  }
-`);
+// export const GetUsersDocument = graphql(`
+//   query GetUsers {
+//     users {
+//       documentId
+//       username
+//       email
+//       role
+//     }
+//   }
+// `);
 
-export function useUsers() {
-  return useQuery({
-    queryKey: ["GetUsers"],
-    queryFn: () => execute(GetUsersDocument),
-  });
-}
+// export function useUsers() {
+//   return useQuery({
+//     queryKey: ["GetUsers"],
+//     queryFn: () => execute(GetUsersDocument),
+//   });
+// }

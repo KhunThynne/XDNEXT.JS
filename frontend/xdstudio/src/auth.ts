@@ -1,31 +1,30 @@
 import NextAuth, { AuthError, DefaultSession, Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
-import { executeAuth } from "./libs/graphql/execute";
+import { execute, executeAuth } from "./libs/graphql/execute";
 import {
   LoginDocument,
-  RegisterAndLoginDocument,
-  Role,
-  UserProvider,
+  UserAuthenticationWithPasswordSuccess,
 } from "./libs/graphql/generates/graphql";
 import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
 import { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import { DiscordUser } from "@type/user.type";
+import { CreateUserMutationDocument } from "./libs/graphql/operations/user/createUser.mutation";
 
 declare module "next-auth" {
   interface Session {
     user: GqlUser;
-    jwt_token?: string;
   }
+
   interface User extends GqlUser {
-    jwt_token?: string;
+    sessionToken?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT extends GqlUser {
-    jwt_token?: string;
+    sessionToken?: string;
   }
 }
 
@@ -44,33 +43,43 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials) return null;
+
         try {
           const res = await executeAuth(LoginDocument, {
             email: credentials.email as string,
             password: credentials.password as string,
           });
-          const data = res.data;
 
-          if (data?.login?.user && data.login.jwt_token) {
-            const { login } = data;
-            if (!login?.user || !login.jwt_token) {
-              throw new AuthError("Invalid credentials");
-            }
+          const data = res.data;
+          const authResult = data?.authenticateUserWithPassword;
+
+          if (!authResult) {
+            throw new Error("No authentication result");
+          }
+
+          if ("item" in authResult && authResult.sessionToken) {
+            const user = authResult.item;
             return {
-              documentId: login.user.documentId.toString(),
-              name: login.user.username,
-              email: login.user.email,
-              role: login.user.role,
-              jwt_token: login.jwt_token,
-              provider: login.user.provider,
-              username: login.user.username,
+              documentId: user.documentId,
+              name: user.name,
+              email: user.email,
+              role: user.role,
+              sessionToken: authResult.sessionToken,
+              provider: user.provider,
+              username: user.username,
+              id: user.id,
+              image: user.image,
             };
           }
-          throw new AuthError("Auth error");
+
+          if ("message" in authResult) {
+            throw new Error(authResult.message);
+          }
+
+          throw new Error("Authentication failed");
         } catch (err) {
-          // console.error("Auth error:", err);
           throw new Error(
-            (err as { message: string }).message ?? "Login failed"
+            (err as { message?: string }).message ?? "Login failed"
           );
         }
       },
@@ -92,19 +101,39 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const discordUser = profile as unknown as DiscordUser;
           const password = `${discordUser.id}-${discordUser.email}`;
           try {
-            const res = await executeAuth(RegisterAndLoginDocument, {
+            const res = await executeAuth(CreateUserMutationDocument, {
               email: discordUser.email,
               password,
               username: discordUser.username,
+              name: discordUser.username,
               image: discordUser.image_url,
-              provider: UserProvider.Discord,
+              provider: "discord",
             });
-            const login = res.data?.registerAndLogin;
-            if (login?.jwt_token) {
-              user.documentId = login.user.documentId.toString();
-              user.role = login.user.role;
-              user.jwt_token = login.jwt_token;
-              user.username = login.user.username;
+            const userRes = res.data.createUser;
+            if (userRes) {
+              const res = await executeAuth(LoginDocument, {
+                email: userRes.email as string,
+                password: password,
+              });
+
+              const authResult = res.data?.authenticateUserWithPassword;
+              if (!authResult) {
+                throw new Error("No authentication result");
+              }
+
+              if ("item" in authResult && authResult.sessionToken) {
+                const login = authResult.item;
+
+                user.documentId = login.documentId;
+                user.name = login.name;
+                user.email = login.email;
+                user.role = login.role;
+                user.sessionToken = authResult.sessionToken;
+                user.provider = login.provider;
+                user.username = login.username;
+                user.id = login.id;
+                user.image = login.image;
+              }
               return true;
             } else {
               throw new Error("Discord fail auth");
@@ -134,13 +163,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.documentId =
-          typeof user.documentId === "string"
-            ? user.documentId
-            : String(user.documentId ?? "");
-        token.role = user.role ?? Role.User;
-        token.jwt_token = user.jwt_token;
+        token.sessionToken = user?.sessionToken ?? "";
+        token.email = user.email;
+        token.name = user.name;
         token.username = user.username;
+        token.documentId = user.documentId;
+        token.role = user.role;
+        token.id = user.id ?? "";
       }
       return token;
     },
@@ -148,7 +177,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (session.user) {
         session.user.documentId = token.documentId!;
         session.user.role = token.role;
-        // session.jwt_token = token.jwt_token;
+        session.user.id = token.id;
         session.user.username = token.username;
       }
       // console.log("session", token);
@@ -160,9 +189,3 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     error: "/auth/error",
   },
 });
-
-export const contextSessionHandle = async () => {
-  const session = await auth();
-  const { jwt_token, ...safeSession } = session ?? {};
-  return safeSession as Session;
-};
