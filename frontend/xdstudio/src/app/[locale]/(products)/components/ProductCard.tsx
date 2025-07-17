@@ -38,7 +38,7 @@ export const CardProduct = ({
         </div>
       </CardHeader>
       <CardContent>
-        <Link href={`/product/${product.id}`}>
+        <Link href={`/products/${product.id}`}>
           <CardTitle className="truncate text-xl font-semibold">
             {product.name}
           </CardTitle>

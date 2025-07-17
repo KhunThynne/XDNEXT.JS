@@ -14,7 +14,8 @@ export default function Content({
           "bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] opacity-60",
           // Dark mode
           "dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]",
-          "bg-[size:40px_40px]"
+          "bg-[size:40px_40px]",
+          "flex flex-col"
         )}
       />
       <div className={clsx(classNames?.content)}>{children}</div>

@@ -13,7 +13,10 @@ export default function PageProducts() {
     <ContentSection
       title="Our Featured Products"
       description="Explore our curated selection of top-selling and high-quality items. Click on any product to learn more or make a purchase."
-      className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+      classNames={{
+        content:
+          "grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5",
+      }}
     >
       <CardProduct
         product={{

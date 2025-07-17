@@ -42,15 +42,14 @@ export default async function LocaleLayout({
             <Providers locale={locale}>
               <main className={clsx("flex flex-col", "min-h-screen")}>
                 {navbar}
-
                 <Content
                   classNames={{
-                    outsite: "grow relative bg-secondary-foreground/5 ",
-                    content: "container   mx-auto py-5  ",
+                    outsite: "grow  relative grid  bg-secondary-foreground/5 ",
+                    content: "container  mx-auto py-5 flex flex-col gap-4",
                   }}
                 >
                   {breadcrumb}
-                  {children}
+                  <section className="grow">{children}</section>
                 </Content>
                 {footer}
               </main>

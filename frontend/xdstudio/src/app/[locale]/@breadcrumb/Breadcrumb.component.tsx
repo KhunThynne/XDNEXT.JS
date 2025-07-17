@@ -11,6 +11,7 @@ import {
 } from "@/shared/components/shadcn/breadcrumb";
 
 import { usePathname } from "@navigation";
+import _ from "lodash";
 
 const BreadcrumbItemComponent = ({
   href,
@@ -21,13 +22,14 @@ const BreadcrumbItemComponent = ({
   segment: string;
   disable: boolean;
 }) => {
+  const startCase = _.startCase(segment);
   return (
     <BreadcrumbItem className="capitalize">
       {disable ? (
-        <BreadcrumbPage>{segment}</BreadcrumbPage>
+        <BreadcrumbPage>{startCase}</BreadcrumbPage>
       ) : (
         <BreadcrumbLink asChild>
-          <Link href={href}>{segment}</Link>
+          <Link href={href}>{startCase}</Link>
         </BreadcrumbLink>
       )}
     </BreadcrumbItem>

@@ -20,7 +20,8 @@ export const ContentSection = ({
     <section
       id="content-section"
       className={clsx(
-        "flex flex-col gap-2 px-5 lg:px-8",
+        "flex h-full flex-col gap-2",
+        className,
         classNames?.container
       )}
     >
@@ -36,7 +37,7 @@ export const ContentSection = ({
       <div
         className={clsx(
           `border-primary border-t pt-5`,
-          className,
+
           classNames?.content
         )}
       >
