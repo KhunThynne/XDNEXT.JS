@@ -9,7 +9,7 @@ const envSchema = z.object({
   PORT: z
     .string()
     .optional()
-    .transform((val) => (val ? Number(val) : 8080)),
+    .transform((val) => (val ? Number(val) : 3001)),
   JWT_REFRESH_SECRET: z.string(),
   JWT_ACCESS_SECRET: z.string(),
   ACCESS_TOKEN_EXPIRE: z
@@ -33,7 +33,7 @@ const envSchema = z.object({
   DATABASE_PORT: z
     .string()
     .optional()
-    .transform((val) => (val ? Number(val) : 33061))
+    .transform((val) => (val ? Number(val) : 5432))
 })
 
 const parsedEnv = envSchema.safeParse(process.env)
@@ -58,7 +58,7 @@ const env = {
   SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,
   SQL_DATABASE_NAME: parsedEnv.data.SQL_DATABASE_NAME,
   DATABASE_PORT: parsedEnv.data.DATABASE_PORT,
-  SESSION_SECRET: parsedEnv.data.DATABASE_PORT
+  SESSION_SECRET: parsedEnv.data.SESSION_SECRET
 }
 
 export default env

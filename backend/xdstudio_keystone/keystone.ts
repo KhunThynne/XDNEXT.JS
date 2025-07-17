@@ -8,7 +8,7 @@ import './configs/dotenv.config'
 import { config, graphql } from '@keystone-6/core'
 
 // to keep this file tidy, we define our schema in a different file
-import { lists } from './schemas'
+import { lists } from './schema'
 import type { GraphQLSchema } from 'graphql'
 // authentication is configured separately here too, but you might move this elsewhere
 // when you write your list-level access control functions, as they typically rely on session data

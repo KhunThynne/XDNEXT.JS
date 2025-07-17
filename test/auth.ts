@@ -20,9 +20,6 @@ import { createAuth } from '@keystone-6/auth'
 
 // see https://keystonejs.com/docs/apis/session for the session docs
 import { statelessSessions } from '@keystone-6/core/session'
-import env from './env'
-
-
 
 // withAuth is a function we can use to wrap our base configuration
 const { withAuth } = createAuth({
@@ -34,23 +31,18 @@ const { withAuth } = createAuth({
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
   sessionData: 'name createdAt',
   secretField: 'password',
-  passwordResetLink: {
-    sendToken: async ({ itemId, identity, token, context }) => {
-      /* ... */
-    },
-    tokensValidForMins: 60
-  },
+
   // WARNING: remove initFirstItem functionality in production
   //   see https://keystonejs.com/docs/config/auth#init-first-item for more
   initFirstItem: {
     // if there are no items in the database, by configuring this field
     //   you are asking the Keystone AdminUI to create a new user
     //   providing inputs for these fields
-    fields: ['name', 'email', 'password']
+    fields: ['name', 'email', 'password'],
 
     // it uses context.sudo() to do this, which bypasses any access control you might have
     //   you shouldn't use this in production
-  }
+  },
 })
 
 // statelessSessions uses cookies for session tracking
@@ -61,7 +53,7 @@ const sessionMaxAge = 60 * 60 * 24 * 30
 // you can find out more at https://keystonejs.com/docs/apis/session#session-api
 const session = statelessSessions({
   maxAge: sessionMaxAge,
-  secret: env.SESSION_SECRET
+  secret: process.env.SESSION_SECRET,
 })
 
 export { withAuth, session }

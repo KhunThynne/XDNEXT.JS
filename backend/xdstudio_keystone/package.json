@@ -7,17 +7,18 @@
     "dev": "keystone dev",
     "postinstall": "keystone postinstall",
     "generate": "keystone prisma migrate dev",
-    "start": "keystone start --with-migrations",
+    "start": "keystone start",
     "deploy": "keystone build && keystone prisma migrate deploy"
   },
   "dependencies": {
-    "@keystone-6/auth": "^8.0.0",
+    "@keystone-6/auth": "^8.1.0",
     "@keystone-6/core": "^6.5.1",
-    "@keystone-6/fields-document": "^9.0.0",
+    "@keystone-6/fields-document": "^9.1.1",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.0",
     "jsonwebtoken": "^9.0.2",
+    "postinstall": "^0.11.2",
     "slate-dom": "^0.117.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.37.0"
