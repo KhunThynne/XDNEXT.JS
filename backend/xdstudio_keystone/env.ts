@@ -24,7 +24,7 @@ const envSchema = z.object({
       message: 'Must be a valid ms string (e.g. 7d, 30m)'
     })
     .default('15m'),
-  NODE_ENV: z.enum(['develop', 'product']).optional(),
+  NODE_ENV: z.enum(['development', 'product']).optional(),
   SECRET_KEY: z.string(),
   SQL_HOST: z.string().default('localhost'),
   SQL_USER: z.string().default('root'),

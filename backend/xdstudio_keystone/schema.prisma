@@ -14,7 +14,7 @@ generator client {
 model User {
   id                      String    @id @default(uuid()) @postgresql.Uuid
   name                    String    @default("")
-  documentId              String    @unique @default("ea2244aa-b579-43ef-a4f1-69af41e408c9")
+  documentId              String    @unique @default("badea87a-49a2-40ca-bed0-150ec85b0e7d")
   username                String    @default("")
   provider                String    @default("credentials")
   image                   String    @default("")

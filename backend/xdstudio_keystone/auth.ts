@@ -22,8 +22,6 @@ import { createAuth } from '@keystone-6/auth'
 import { statelessSessions } from '@keystone-6/core/session'
 import env from './env'
 
-
-
 // withAuth is a function we can use to wrap our base configuration
 const { withAuth } = createAuth({
   listKey: 'User',

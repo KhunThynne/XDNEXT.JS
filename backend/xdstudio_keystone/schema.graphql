@@ -348,7 +348,7 @@ type Mutation {
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   sendUserPasswordResetLink(email: String!): Boolean!
   redeemUserPasswordResetToken(email: String!, token: String!, password: String!): RedeemUserPasswordResetTokenResult
-  createAndLogin(email: String!, password: String!, username: String!, image: String, provider: String): RegisterAndLoginResult
+  createAndLogin(email: String!, password: String!, username: String, image: String, provider: String): RegisterAndLoginResult
 }
 
 type RegisterAndLoginResult {

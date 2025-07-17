@@ -27,3 +27,5 @@ declare global {
 }
 
 export {};
+
+// searchParams: Promise<{ [key: string]: string | string[] | undefined }>

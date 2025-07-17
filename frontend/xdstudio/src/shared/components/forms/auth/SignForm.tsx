@@ -26,16 +26,19 @@ export const SignForm = () => {
     try {
       const res = await signIn("credentials", {
         callbackUrl: pathname,
-        // redirect: false,
         email: data.email,
         password: data.password,
-      });
-      // if (res?.ok) {
-      //   if (res?.error) throw new Error("Login failed");
-      //   toast.success("Login success!");
-      //   closeDialog();
-      //   console.log("User logged in:", res);
-      // }
+      })
+        .then(() => {
+          toast.success("Login success!");
+        })
+        .catch(() => {
+          throw new Error("can't login");
+        })
+        .finally(() => {
+          closeDialog();
+          console.log("User logged in:", res);
+        });
     } catch (_) {
       toast.error("Login failed! user or password invalidate");
       return;

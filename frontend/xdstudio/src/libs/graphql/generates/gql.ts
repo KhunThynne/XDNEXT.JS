@@ -17,10 +17,12 @@ import * as types from './graphql';
 type Documents = {
     "\n  mutation Login($email: String!, $password: String!) {\n    authenticateUserWithPassword(email: $email, password: $password) {\n      ... on UserAuthenticationWithPasswordSuccess {\n        sessionToken\n        item {\n          id\n          name\n          documentId\n          username\n          provider\n          role\n          email\n          image\n          postsCount\n          createdAt\n          password {\n            isSet\n          }\n          posts {\n            id\n            title\n            tagsCount\n          }\n        }\n      }\n      ... on UserAuthenticationWithPasswordFailure {\n        message\n      }\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n": typeof types.CreateUserDocument,
+    "\n  query GetUserByEmail($email: String!) {\n    user(where: { email: $email }) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      postsCount\n      createdAt\n      passwordResetIssuedAt\n      passwordResetRedeemedAt\n    }\n  }\n": typeof types.GetUserByEmailDocument,
 };
 const documents: Documents = {
     "\n  mutation Login($email: String!, $password: String!) {\n    authenticateUserWithPassword(email: $email, password: $password) {\n      ... on UserAuthenticationWithPasswordSuccess {\n        sessionToken\n        item {\n          id\n          name\n          documentId\n          username\n          provider\n          role\n          email\n          image\n          postsCount\n          createdAt\n          password {\n            isSet\n          }\n          posts {\n            id\n            title\n            tagsCount\n          }\n        }\n      }\n      ... on UserAuthenticationWithPasswordFailure {\n        message\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n": types.CreateUserDocument,
+    "\n  query GetUserByEmail($email: String!) {\n    user(where: { email: $email }) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      postsCount\n      createdAt\n      passwordResetIssuedAt\n      passwordResetRedeemedAt\n    }\n  }\n": types.GetUserByEmailDocument,
 };
 
 /**
@@ -31,6 +33,10 @@ export function graphql(source: "\n  mutation Login($email: String!, $password: 
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n"): typeof import('./graphql').CreateUserDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetUserByEmail($email: String!) {\n    user(where: { email: $email }) {\n      id\n      name\n      documentId\n      username\n      provider\n      image\n      role\n      email\n      postsCount\n      createdAt\n      passwordResetIssuedAt\n      passwordResetRedeemedAt\n    }\n  }\n"): typeof import('./graphql').GetUserByEmailDocument;
 
 
 export function graphql(source: string) {

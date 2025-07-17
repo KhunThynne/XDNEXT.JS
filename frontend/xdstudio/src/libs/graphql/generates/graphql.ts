@@ -204,7 +204,7 @@ export type KeystoneMeta = {
 export type Mutation = {
   __typename?: 'Mutation';
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
-  createAndLogin?: Maybe<User>;
+  createAndLogin?: Maybe<RegisterAndLoginResult>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
   createPost?: Maybe<Post>;
   createPosts?: Maybe<Array<Maybe<Post>>>;
@@ -241,7 +241,7 @@ export type MutationCreateAndLoginArgs = {
   image?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   provider?: InputMaybe<Scalars['String']['input']>;
-  username: Scalars['String']['input'];
+  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -568,6 +568,12 @@ export type RedeemUserPasswordResetTokenResult = {
   message: Scalars['String']['output'];
 };
 
+export type RegisterAndLoginResult = {
+  __typename?: 'RegisterAndLoginResult';
+  item?: Maybe<User>;
+  sessionToken?: Maybe<Scalars['String']['output']>;
+};
+
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
@@ -829,6 +835,13 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser?: { __typename?: 'User', id: string, name?: string | null, documentId?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null } | null };
 
+export type GetUserByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, documentId?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -900,3 +913,21 @@ export const CreateUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateUserMutation, CreateUserMutationVariables>;
+export const GetUserByEmailDocument = new TypedDocumentString(`
+    query GetUserByEmail($email: String!) {
+  user(where: {email: $email}) {
+    id
+    name
+    documentId
+    username
+    provider
+    image
+    role
+    email
+    postsCount
+    createdAt
+    passwordResetIssuedAt
+    passwordResetRedeemedAt
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserByEmailQuery, GetUserByEmailQueryVariables>;

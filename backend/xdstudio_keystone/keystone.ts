@@ -15,6 +15,7 @@ import type { GraphQLSchema } from 'graphql'
 import { withAuth, session } from './auth'
 import env from './env'
 import { Context } from '.keystone/types'
+import { password } from '@keystone-6/core/fields'
 
 export default withAuth(
   config({
@@ -62,17 +63,22 @@ export default withAuth(
               args: {
                 email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
                 password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-                username: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+                username: graphql.arg({ type: graphql.String }),
                 image: graphql.arg({ type: graphql.String }),
                 provider: graphql.arg({ type: graphql.String })
               },
               async resolve(_, arg, context: Context) {
-                const { username, provider } = arg
-                const user = await context.db.User.createOne({
-                  data: { ...arg, name: username, provider: provider ?? 'user' }
-                })
+                const { email, username, provider } = arg
+                let user = await context.db.User.findOne({ where: { email } })
 
-                const sessionToken = await context.session.create({ data: user })
+                if (!user) {
+                  user = await context.db.User.createOne({
+                    data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' }
+                  })
+                }
+                const sessionToken = await context.session.authenticateUserWithPassword({
+                  data: { email: user.email, password: arg.password }
+                })
                 return { item: user, sessionToken }
               }
             })

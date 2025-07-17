@@ -3,7 +3,9 @@ import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { execute, executeAuth } from "./libs/graphql/execute";
 import {
+  GetUserByEmailQuery,
   LoginDocument,
+  User,
   UserAuthenticationWithPasswordSuccess,
 } from "./libs/graphql/generates/graphql";
 import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
@@ -11,6 +13,8 @@ import { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import { DiscordUser } from "@type/user.type";
 import { CreateUserMutationDocument } from "./libs/graphql/operations/user/createUser.mutation";
+import { GetUserByEmailDocument } from "./libs/graphql/operations/user/getUserByEmail";
+import { email } from "zod";
 
 declare module "next-auth" {
   interface Session {
@@ -101,18 +105,25 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const discordUser = profile as unknown as DiscordUser;
           const password = `${discordUser.id}-${discordUser.email}`;
           try {
-            const res = await executeAuth(CreateUserMutationDocument, {
+            const userData = await executeAuth(GetUserByEmailDocument, {
               email: discordUser.email,
-              password,
-              username: discordUser.username,
-              name: discordUser.username,
-              image: discordUser.image_url,
-              provider: "discord",
             });
-            const userRes = res.data.createUser;
-            if (userRes) {
+            let user_: GetUserByEmailQuery["user"] = userData.data.user;
+            if (!user_) {
+              const res = await executeAuth(CreateUserMutationDocument, {
+                email: discordUser.email,
+                password,
+                username: discordUser.username,
+                name: discordUser.username,
+                image: discordUser.image_url,
+                provider: "discord",
+              });
+              user_ = res.data.createUser as GetUserByEmailQuery["user"];
+            }
+
+            if (user_) {
               const res = await executeAuth(LoginDocument, {
-                email: userRes.email as string,
+                email: user_.email as string,
                 password: password,
               });
 

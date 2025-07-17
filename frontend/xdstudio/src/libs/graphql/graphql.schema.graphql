@@ -173,7 +173,7 @@ type KeystoneMeta {
 
 type Mutation {
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
-  createAndLogin(email: String!, image: String, password: String!, provider: String, username: String!): User
+  createAndLogin(email: String!, image: String, password: String!, provider: String, username: String): RegisterAndLoginResult
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   createPost(data: PostCreateInput!): Post
   createPosts(data: [PostCreateInput!]!): [Post]
@@ -323,6 +323,11 @@ enum QueryMode {
 type RedeemUserPasswordResetTokenResult {
   code: PasswordResetRedemptionErrorCode!
   message: String!
+}
+
+type RegisterAndLoginResult {
+  item: User
+  sessionToken: String
 }
 
 input StringFilter {
