@@ -25,18 +25,31 @@ services:
       - postgresql-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+      
 
   backend:
     build:
-      context: ./backend/xdstudio
+      context: ./backend/xdstudio_keystone
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
+        JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+        JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+        SECRET_KEY: ${SECRET_KEY}
     container_name: backend
+    volumes:
+      - .env.local:/backend/.env.local
+      - ../../.env:/backend/.env
+    working_dir: /backend/xdstudio_keystone
     env_file:
-      - .env
+      - ./.env
+      - ./backend/xdstudio_keystone/.env.local
+    ports:
+      - "3001:3001"
     depends_on:
       - postgresql
-    ports:
-      - "${PORT}:3001"
-    command: node dist/bin/www.js
+    
+    command: sh -c "npm run start"
 
   frontend:
     build:

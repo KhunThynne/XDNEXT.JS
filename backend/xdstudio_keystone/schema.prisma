@@ -7,14 +7,11 @@ datasource postgresql {
   provider          = "postgresql"
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
 
 model User {
   id                      String    @id @default(uuid()) @postgresql.Uuid
   name                    String    @default("")
-  documentId              String    @unique @default("9ac220a6-5f50-421b-b4d0-9d567f3d82ee")
+  documentId              String    @unique @default("13cfd273-059e-45ef-be1b-cf442d66fd8c")
   username                String    @default("")
   provider                String    @default("credentials")
   image                   String    @default("")
@@ -43,4 +40,9 @@ model Tag {
   id    String @id @default(uuid()) @postgresql.Uuid
   name  String @default("")
   posts Post[] @relation("Post_tags")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
 }

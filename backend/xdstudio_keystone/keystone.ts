@@ -34,41 +34,45 @@ export default withAuth(
     lists,
     graphql: {
       extendGraphqlSchema: graphql.extend((base) => {
+        const RegisterAndLoginResult = graphql.object<{
+          item: any
+          sessionToken: string
+        }>()({
+          name: 'RegisterAndLoginResult',
+          fields: {
+            item: graphql.field({
+              type: base.object('User'),
+              resolve(source) {
+                return source.item
+              }
+            }),
+            sessionToken: graphql.field({
+              type: graphql.String,
+              resolve(source) {
+                return source.sessionToken
+              }
+            })
+          }
+        })
+
         return {
           mutation: {
             createAndLogin: graphql.field({
-              type: graphql.object()({
-                name: 'RegisterAndLoginResult',
-                fields: {
-                  item: graphql.field({
-                    type: base.object('User'),
-                    resolve(source) {
-                      return source.item
-                    }
-                  }),
-                  sessionToken: graphql.field({
-                    type: graphql.String,
-                    resolve(source) {
-                      return source.sessionToken
-                    }
-                  })
-                }
-              }),
+              type: RegisterAndLoginResult,
               args: {
                 email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
                 password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
                 username: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-                image: graphql.arg({ type: graphql?.String }),
-                provider: graphql.arg({ type: graphql?.String })
+                image: graphql.arg({ type: graphql.String }),
+                provider: graphql.arg({ type: graphql.String })
               },
-              async resolve(source, arg, context: Context) {
+              async resolve(_, arg, context: Context) {
                 const { username, provider } = arg
                 const user = await context.db.User.createOne({
-                  data: { ...arg, ...{ name: username, provider: provider ?? 'user' } }
+                  data: { ...arg, name: username, provider: provider ?? 'user' }
                 })
 
                 const sessionToken = await context.session.create({ data: user })
-                console.log('HI')
                 return { item: user, sessionToken }
               }
             })

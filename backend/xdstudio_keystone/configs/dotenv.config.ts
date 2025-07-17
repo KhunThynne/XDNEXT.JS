@@ -1,13 +1,19 @@
 import path from 'path'
 import * as dotenv from 'dotenv'
-dotenv.config({
-  debug: false,
-  quiet: true,
-  path: path.resolve(process.cwd(), '.env.local')
-})
 
-dotenv.config({
-  path: path.resolve(process.cwd(), '../../.env'),
-  debug: false,
-  quiet: true
-})
+if (process.env.NODE_ENV !== 'product') {
+  const envFiles = [
+    path.resolve(process.cwd(), '.env.local'),
+    '/backend/.env.local',
+    path.resolve(process.cwd(), '../../.env'),
+    '/backend/.env'
+  ]
+
+  for (const envPath of envFiles) {
+    dotenv.config({
+      path: envPath,
+      debug: false,
+      quiet: true
+    })
+  }
+}

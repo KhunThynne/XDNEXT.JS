@@ -10,10 +10,9 @@
     "start": "keystone start --with-migrations",
     "deploy": "keystone build && keystone prisma migrate deploy"
   },
-
   "dependencies": {
     "@keystone-6/auth": "^8.0.0",
-    "@keystone-6/core": "^6.0.0",
+    "@keystone-6/core": "^6.5.1",
     "@keystone-6/fields-document": "^9.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "bcryptjs": "^3.0.2",

@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+  # Database
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: demo
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      TZ: Asia/Bangkok
+    ports:
+      
+"5432:5432"
+  volumes:
+postgres_data:/var/lib/postgresql/data
+networks:
+app-network
+
+  # Database Admin
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dpu.ac.th
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      
+"5050:80"
+  depends_on:
+postgres
+networks:
+app-network
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      
+"3000:3000"
+  environment:
+NODE_ENV=production
+DATABASE_URL=postgresql://myuser:mypassword@postgres:5432/demo
+depends_on:
+postgres
+networks:
+app-network
+volumes:
+./backend/uploads:/app/uploads
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      
+"80:80"
+  depends_on:
+backend
+networks:
+app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
