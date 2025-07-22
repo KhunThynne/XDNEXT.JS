@@ -4,5 +4,5 @@ keystone.db
 *.log
 .env*
 
-public/uploads/*
-!public/uploads/.gitkeep
+public/images/*
+!public/images/.gitkeep
