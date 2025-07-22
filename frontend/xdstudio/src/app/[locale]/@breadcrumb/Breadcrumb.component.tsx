@@ -12,6 +12,8 @@ import {
 
 import { usePathname } from "@navigation";
 import _ from "lodash";
+import { useBreadBrumbStore } from "./useBreadBrumb.store";
+import { useLayoutEffect } from "react";
 
 const BreadcrumbItemComponent = ({
   href,
@@ -38,7 +40,9 @@ const BreadcrumbItemComponent = ({
 export function BreadcrumbComponent() {
   const pathname = usePathname();
   const pathNames = pathname.split("/").filter((path) => path); // เช่น ["components", "forms"]
+  const { breadcrumbeStore } = useBreadBrumbStore();
 
+  if (breadcrumbeStore.disable) return false;
   return (
     <Breadcrumb className="px-5">
       <BreadcrumbList>
@@ -51,14 +55,20 @@ export function BreadcrumbComponent() {
         {pathNames.map((segment, index) => {
           const href = "/" + pathNames.slice(0, index + 1).join("/");
           const isLast = index === pathNames.length - 1;
+
           return (
             <div key={href} className="flex items-center gap-1">
               <BreadcrumbSeparator>
                 <ChevronRight className="size-4" />
               </BreadcrumbSeparator>
+
               <BreadcrumbItemComponent
                 href={href}
-                segment={segment}
+                segment={
+                  breadcrumbeStore.current && isLast
+                    ? breadcrumbeStore.current
+                    : segment
+                }
                 disable={isLast}
               />
             </div>

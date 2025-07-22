@@ -1,8 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import { executeAuth } from "../../execute";
 import { graphql } from "../../generates";
+import { LoginDocument } from "../../generates/graphql";
 
-export const LoginMutationDocument = graphql(`
+graphql(`
   mutation Login($email: String!, $password: String!) {
     authenticateUserWithPassword(email: $email, password: $password) {
       ... on UserAuthenticationWithPasswordSuccess {
@@ -10,7 +11,6 @@ export const LoginMutationDocument = graphql(`
         item {
           id
           name
-          documentId
           username
           provider
           role
@@ -35,23 +35,9 @@ export const LoginMutationDocument = graphql(`
   }
 `);
 
-type LoginVariables = {
-  email: string;
-  password: string;
-};
-
-type LoginResponse = {
-  authenticateUserWithPassword:
-    | {
-        sessionToken: string;
-        item: { id: string; name: string; email: string; role: string };
-      }
-    | { message: string };
-};
-
 export function useLogin() {
   return useMutation({
     mutationFn: (variables: { email: string; password: string }) =>
-      executeAuth(LoginMutationDocument, variables),
+      executeAuth(LoginDocument, variables),
   });
 }

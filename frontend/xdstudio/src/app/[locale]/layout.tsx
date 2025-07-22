@@ -18,8 +18,9 @@ export default async function LocaleLayout({
   footer,
   navbar,
   breadcrumb,
+  contents,
 }: GlobalDefaultProps &
-  NextJSReactNodes<"footer" | "navbar" | "breadcrumb"> & {
+  NextJSReactNodes<"footer" | "navbar" | "breadcrumb" | "contents"> & {
     params: Promise<{ locale: string }>;
   }) {
   // Ensure that the incoming `locale` is valid
@@ -49,7 +50,10 @@ export default async function LocaleLayout({
                   }}
                 >
                   {breadcrumb}
-                  <section className="grow">{children}</section>
+                  <section className="grow">
+                    {children}
+                    {contents}
+                  </section>
                 </Content>
                 {footer}
               </main>

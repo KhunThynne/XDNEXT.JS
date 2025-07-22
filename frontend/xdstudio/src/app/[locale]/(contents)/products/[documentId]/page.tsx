@@ -9,6 +9,7 @@ import { ContentSection } from "@/shared/components/ui/ContentSection";
 import clsx from "clsx";
 import { ChevronDownIcon } from "lucide-react";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 const ProductDetail = ({ documentId }: { documentId: string }) => {
   const productFAQs = [
@@ -82,21 +83,24 @@ export default async function PageProduct({
     <ContentSection
       title="Product"
       classNames={{
-        content: "lg:gap-6  grid  grid-cols-1 lg:grid-cols-8 gap-y-3 grow",
+        content: "lg:gap-6  grid  grid-cols-3 xl:grid-cols-8 gap-y-3 grow",
       }}
     >
-      <div className="flex h-full flex-col gap-5 lg:col-span-5" id="image">
+      <div
+        className="col-span-8 flex h-full flex-col gap-5 xl:col-span-5"
+        id="image"
+      >
         <div className="flex gap-3 max-lg:flex-col">
-          <div className="relative aspect-video h-80 rounded-lg border">
+          <div className="relative h-80 grow rounded-lg border">
             <Image
               alt="Product Image"
               src={"/img/bg.png"}
               fill
-              className="object-contain"
+              className="aspect-video object-contain"
             />
           </div>
 
-          <Card className="grow shadow-lg">
+          <Card className="lg:w-xs shadow-lg">
             <CardHeader className="text-lg font-semibold">
               Product Info
             </CardHeader>

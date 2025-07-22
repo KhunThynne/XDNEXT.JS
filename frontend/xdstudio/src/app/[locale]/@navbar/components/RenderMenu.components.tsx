@@ -12,6 +12,7 @@ import { useLayoutEffect, useState } from "react";
 import clsx from "clsx";
 import { Link, usePathname } from "@navigation";
 import Translations from "@/libs/i18n/Translations";
+import { Separator } from "@/shared/components/shadcn/separator";
 
 const NavigationItem = ({
   href,
@@ -70,7 +71,9 @@ const NavigationItem = ({
           isOpen ? "max-h-full opacity-100" : "h-0! opacity-0"
         )}
       >
-        <hr className="w-8/9" />
+        <Separator className="w-8/9" />
+
+        <Separator className="my-4" />
         {children?.map((subItem, index) => {
           return (
             <div key={`${subItem.title}-sub-${index}`}>

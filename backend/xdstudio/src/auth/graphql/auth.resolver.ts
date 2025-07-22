@@ -1,8 +1,8 @@
-import { Resolvers, Role, UserProvider } from "@/types/graphql";
-import prisma from "@prisma";
-import { compare, hashSync } from "bcrypt-ts";
-import { generateAccessToken } from "@/helper";
-import _ from "lodash";
+import { Resolvers, Role, UserProvider } from '@/types/graphql';
+import prisma from '@prisma';
+import { compare, hashSync } from 'bcrypt-ts';
+import { generateAccessToken } from '@/helper';
+import _ from 'lodash';
 
 export const resolvers: Resolvers = {
   // Query: {},
@@ -10,13 +10,13 @@ export const resolvers: Resolvers = {
     login: async (_, { email, password }) => {
       const user = await prisma.user.findUnique({ where: { email } });
       if (!user) {
-        throw new Error("Invalid email or password");
+        throw new Error('Invalid email or password');
       }
 
       const valid = await compare(password, user.password);
 
       if (!valid) {
-        throw new Error("Invalid email or password");
+        throw new Error('Invalid email or password');
       }
       const jwt_token = generateAccessToken({
         documentId: user.documentId,
@@ -39,7 +39,7 @@ export const resolvers: Resolvers = {
       const { email, password, username, role, image, provider } = args;
       const existingUser = await prisma.user.findUnique({ where: { email } });
       if (existingUser) {
-        throw new Error("Email already registered");
+        throw new Error('Email already registered');
       }
       const user = await prisma.user.create({
         data: {
@@ -48,7 +48,7 @@ export const resolvers: Resolvers = {
           username,
           provider: provider as UserProvider,
           image,
-          role: role ?? "USER",
+          role: role ?? 'USER',
         },
       });
 
@@ -62,14 +62,7 @@ export const resolvers: Resolvers = {
     },
 
     registerAndLogin: async (_, args) => {
-      const {
-        email,
-        password,
-        username,
-        role = "USER",
-        image,
-        provider,
-      } = args;
+      const { email, password, username, role = 'USER', image, provider } = args;
 
       const findOrCreateUser = async () => {
         const existing = await prisma.user.findUnique({ where: { email } });
@@ -80,9 +73,9 @@ export const resolvers: Resolvers = {
             email,
             password: hashSync(password, 10),
             username,
-            provider: provider ?? "CREDENTIALS",
+            provider: provider ?? 'CREDENTIALS',
             image,
-            role: role ?? "USER",
+            role: role ?? 'USER',
           },
         });
       };

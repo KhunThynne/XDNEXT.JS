@@ -1,9 +1,9 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
 
-  NODE_ENV: z.enum(["development", "production", "test"]),
+  NODE_ENV: z.enum(['development', 'production', 'test']),
 
   PORT: z
     .string()
@@ -14,20 +14,20 @@ const envSchema = z.object({
   ACCESS_TOKEN_EXPIRE: z
     .string()
     .regex(/^\d+[smhd]$/, {
-      message: "Must be a valid ms string (e.g. 15m, 7d, 1h)",
+      message: 'Must be a valid ms string (e.g. 15m, 7d, 1h)',
     })
-    .default("15m"),
+    .default('15m'),
   REFRESH_TOKEN_EXPIRE: z
     .string()
     .regex(/^\d+[smhd]$/, {
-      message: "Must be a valid ms string (e.g. 7d, 30m)",
+      message: 'Must be a valid ms string (e.g. 7d, 30m)',
     })
-    .default("15m"),
+    .default('15m'),
   SECRET_KEY: z.string(),
-  SQL_HOST: z.string().default("localhost"),
-  SQL_USER: z.string().default("root"),
-  SQL_PASSWORD: z.string().default("root"),
-  SQL_DATABASE_NAME: z.string().default("xdstudio"),
+  SQL_HOST: z.string().default('localhost'),
+  SQL_USER: z.string().default('root'),
+  SQL_PASSWORD: z.string().default('root'),
+  SQL_DATABASE_NAME: z.string().default('xdstudio'),
   DATABASE_PORT: z
     .string()
     .optional()
@@ -37,7 +37,7 @@ const envSchema = z.object({
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error("❌ Invalid environment variables:", parsedEnv.error.format());
+  console.error('❌ Invalid environment variables:', parsedEnv.error.format());
   process.exit(1);
 }
 

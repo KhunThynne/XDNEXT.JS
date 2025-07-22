@@ -1,5 +1,6 @@
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
+import { Separator } from "../shadcn/separator";
 
 interface ContentSectionProps
   extends GlobalPropsClassNames<
@@ -33,16 +34,8 @@ export const ContentSection = ({
           {description}
         </p>
       )}
-
-      <div
-        className={clsx(
-          `border-primary border-t pt-5`,
-
-          classNames?.content
-        )}
-      >
-        {children}
-      </div>
+      <Separator className={clsx(`bg-primary/50 mb-5 mt-2`)} />
+      <div className={clsx(classNames?.content)}>{children}</div>
     </section>
   );
 };

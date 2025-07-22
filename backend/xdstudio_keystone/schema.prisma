@@ -12,20 +12,121 @@ generator client {
 }
 
 model User {
-  id                      String    @id @default(uuid()) @postgresql.Uuid
-  name                    String    @default("")
-  documentId              String    @unique @default("badea87a-49a2-40ca-bed0-150ec85b0e7d")
-  username                String    @default("")
-  provider                String    @default("credentials")
-  image                   String    @default("")
-  role                    String?   @default("USER")
-  email                   String    @unique @default("")
-  password                String
-  posts                   Post[]    @relation("Post_author")
-  createdAt               DateTime? @default(now())
-  passwordResetToken      String?
-  passwordResetIssuedAt   DateTime?
-  passwordResetRedeemedAt DateTime?
+  id                           String             @id @default(uuid()) @postgresql.Uuid
+  name                         String             @default("")
+  username                     String             @default("")
+  provider                     String             @default("credentials")
+  image                        String             @default("")
+  images                       Image[]            @relation("User_images")
+  role                         String?            @default("USER")
+  email                        String             @unique @default("")
+  password                     String
+  posts                        Post[]             @relation("Post_author")
+  createdAt                    DateTime?          @default(now())
+  passwordResetToken           String?
+  passwordResetIssuedAt        DateTime?
+  passwordResetRedeemedAt      DateTime?
+  from_UserProduct_userId      UserProduct[]      @relation("UserProduct_userId")
+  from_UserPreference_userId   UserPreference[]   @relation("UserPreference_userId")
+  from_UserPoint_userId        UserPoint[]        @relation("UserPoint_userId")
+  from_PointTransaction_userId PointTransaction[] @relation("PointTransaction_userId")
+  from_Suppiler_userId         Suppiler[]         @relation("Suppiler_userId")
+  from_Order_userId            Order[]            @relation("Order_userId")
+}
+
+model UserProduct {
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  userId      User[]    @relation("UserProduct_userId")
+  productId   Product?  @relation("UserProduct_productId", fields: [productIdId], references: [id])
+  productIdId String?   @map("productId") @postgresql.Uuid
+  config      Json?     @default("{}")
+  createdAt   DateTime? @default(now())
+  updateAt    DateTime? @default(now())
+
+  @@index([productIdId])
+}
+
+model UserPreference {
+  id       String  @id @default(uuid()) @postgresql.Uuid
+  userId   User?   @relation("UserPreference_userId", fields: [userIdId], references: [id])
+  userIdId String? @map("userId") @postgresql.Uuid
+  setting  Json    @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+
+  @@index([userIdId])
+}
+
+model OrderItem {
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  orderId     Order?    @relation("OrderItem_orderId", fields: [orderIdId], references: [id])
+  orderIdId   String?   @map("orderId") @postgresql.Uuid
+  productId   Product?  @relation("OrderItem_productId", fields: [productIdId], references: [id])
+  productIdId String?   @map("productId") @postgresql.Uuid
+  unitPrice   Int?
+  createdAt   DateTime? @default(now())
+  updateAt    DateTime?
+
+  @@index([orderIdId])
+  @@index([productIdId])
+}
+
+model UserPoint {
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  userId      User[]    @relation("UserPoint_userId")
+  total_point Int       @default(0)
+  updateAt    DateTime?
+}
+
+model PointTransaction {
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  userId      User[]    @relation("PointTransaction_userId")
+  type        String    @default("Earn")
+  amount      Int?
+  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  createdAt   DateTime? @default(now())
+}
+
+model Suppiler {
+  id                       String    @id @default(uuid()) @postgresql.Uuid
+  userId                   User[]    @relation("Suppiler_userId")
+  supplierName             String    @default("")
+  supplierDetails          String    @default("")
+  from_Product_suppilersId Product[] @relation("Product_suppilersId")
+}
+
+model Product {
+  id                         String        @id @default(uuid()) @postgresql.Uuid
+  suppilersId                Suppiler?     @relation("Product_suppilersId", fields: [suppilersIdId], references: [id])
+  suppilersIdId              String?       @map("suppilersId") @postgresql.Uuid
+  name                       String        @default("")
+  details                    String        @default("")
+  status                     String        @default("draft")
+  publishedAt                DateTime?
+  updateAt                   DateTime?     @default(now())
+  createdAt                  DateTime?     @default(now())
+  from_UserProduct_productId UserProduct[] @relation("UserProduct_productId")
+  from_OrderItem_productId   OrderItem[]   @relation("OrderItem_productId")
+
+  @@index([suppilersIdId])
+}
+
+model Order {
+  id                     String      @id @default(uuid()) @postgresql.Uuid
+  userId                 User[]      @relation("Order_userId")
+  createdAt              DateTime?   @default(now())
+  updateAt               DateTime?   @default(now())
+  from_OrderItem_orderId OrderItem[] @relation("OrderItem_orderId")
+}
+
+model Image {
+  id               String  @id @default(uuid()) @postgresql.Uuid
+  name             String  @default("")
+  altText          String  @default("")
+  image_id         String?
+  image_filesize   Int?
+  image_width      Int?
+  image_height     Int?
+  image_extension  String?
+  from_User_images User[]  @relation("User_images")
 }
 
 model Post {

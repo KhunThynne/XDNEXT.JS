@@ -49,10 +49,19 @@ export function createHookStore<T, K extends string = "data">({
     `set${finalKey.charAt(0).toUpperCase() + finalKey.slice(1)}` as `set${Capitalize<K>}`;
 
   return create<StoreType>()(
-    devtools((set) => ({
+    devtools((set, get) => ({
       [`${lowerKey}Store`]: initial,
-      [setKey]: (data: T) =>
-        set({ [`${lowerKey}Store`]: data } as any, false, `${finalKey}/set`),
+      [setKey]: (data: Partial<T>) =>
+        set(
+          {
+            [`${lowerKey}Store`]: {
+              ...get()[`${lowerKey}Store`],
+              ...data,
+            },
+          } as any,
+          false,
+          `${finalKey}/set`
+        ),
     }))
   );
 }

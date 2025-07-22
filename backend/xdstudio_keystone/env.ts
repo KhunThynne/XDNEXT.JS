@@ -3,8 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   SHADOW_DATABASE_URL: z.string().url(),
-  // NODE_ENV: z.enum(['development', 'production', 'test']),
-
+  API_BACKEND_URL: z.string(),
   SESSION_SECRET: z.string(),
   PORT: z
     .string()
@@ -33,7 +32,11 @@ const envSchema = z.object({
   DATABASE_PORT: z
     .string()
     .optional()
-    .transform((val) => (val ? Number(val) : 5432))
+    .transform((val) => (val ? Number(val) : 5432)),
+
+  // เพิ่ม IMAGE_PATH
+  IMAGE_PATH: z.string().default('/images'),
+  STORAGE_IMAGE_PATH: z.string()
 })
 
 const parsedEnv = envSchema.safeParse(process.env)
@@ -45,8 +48,8 @@ if (!parsedEnv.success) {
 
 const env = {
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
+  API_BACKEND_URL: parsedEnv.data.API_BACKEND_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,
-  // NODE_ENV: parsedEnv.data.NODE_ENV,
   PORT: parsedEnv.data.PORT,
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
   JWT_ACCESS_SECRET: parsedEnv.data.JWT_ACCESS_SECRET,
@@ -58,7 +61,9 @@ const env = {
   SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,
   SQL_DATABASE_NAME: parsedEnv.data.SQL_DATABASE_NAME,
   DATABASE_PORT: parsedEnv.data.DATABASE_PORT,
-  SESSION_SECRET: parsedEnv.data.SESSION_SECRET
+  SESSION_SECRET: parsedEnv.data.SESSION_SECRET,
+  STORAGE_IMAGE_PATH: parsedEnv.data.STORAGE_IMAGE_PATH,
+  IMAGE_PATH: parsedEnv.data.IMAGE_PATH
 }
 
 export default env

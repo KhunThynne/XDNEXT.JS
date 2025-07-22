@@ -1,13 +1,11 @@
 "use client";
 
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/shared/components/shadcn/form";
 import { Input } from "@/shared/components/shadcn/input";
 import {
@@ -39,16 +37,17 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   type,
   renderInput,
   children,
+  className,
   classNames,
   ...inputProps
 }: InputFormProps<TFieldValues> &
-  GlobalPropsClassNames<"container" | "label" | "description">) {
+  GlobalPropsClassNames<"container" | "label" | "description" | "input">) {
   return (
     <FormField
       {...(control ? { control } : {})}
       name={name as Path<TFieldValues>}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={clsx(className)}>
           {label && (
             <FormLabel
               className={clsx(
@@ -65,7 +64,7 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
                 renderInput(field)
               ) : (
                 <Input
-                  className="w-full"
+                  className={clsx(`w-full`, classNames?.input)}
                   placeholder={placeholder}
                   {...field}
                   {...inputProps}

@@ -1,12 +1,29 @@
 "use client";
 
-import Link from "next/link";
+import { Form } from "@/shared/components/shadcn/form";
+import { SelectionForm } from "@/shared/components/ui/form/SelectionForm";
+import { useForm } from "react-hook-form";
 
 export default function PageTest() {
-  // const { data, status } = useUsers();
+  const method = useForm();
   return (
-    <div className="h-80 border">
-      <Link href={"/prove/test"}> test</Link>
-    </div>
+    <Form {...method}>
+      <div className="mx-5">
+        <SelectionForm
+          name={"test"}
+          label="test"
+          description="asdsadsacascasc"
+          options={[
+            {
+              label: "test",
+              items: [
+                { label: "sadasd", value: "test" },
+                { label: "xx", value: "xxx" },
+              ],
+            },
+          ]}
+        />
+      </div>
+    </Form>
   );
 }

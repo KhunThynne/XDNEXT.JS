@@ -6,7 +6,6 @@ import {
 import { Button } from "@/shared/components/shadcn/button";
 import {
   Popover,
-  PopoverAnchor,
   PopoverContent,
   PopoverTrigger,
 } from "@/shared/components/shadcn/popover";
@@ -17,14 +16,14 @@ import { User as UserType } from "next-auth";
 import { signOut } from "next-auth/react";
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";
-import { Role } from "@/libs/graphql/generates/graphql";
 import { Badge } from "@/shared/components/shadcn/badge";
 import { useFormatter } from "next-intl";
-import { usePathname } from "@navigation";
+import { Link, usePathname } from "@navigation";
+import { Separator } from "@/shared/components/shadcn/separator";
 
 export function AccountPopover(user: Partial<UserType>) {
   const avatarUsername = useMemo(
-    () => getInitials(user.username),
+    () => getInitials(user.username as string),
     [user.username]
   );
   const format = useFormatter();
@@ -52,11 +51,14 @@ export function AccountPopover(user: Partial<UserType>) {
             </Badge>
           </div>
 
-          <div className="grow overflow-hidden">
+          <div className="group/user grow overflow-hidden">
             <h4 className="truncate text-lg font-semibold capitalize">
-              {user.username}
+              <Link href={`/account/${user.id}`} className="hover:underline">
+                {user.username}
+              </Link>
             </h4>
-            <hr className="mb-2 mt-1" />
+            <Separator className="group-hover/user:border-primary/30 mb-2 mt-1" />
+
             <p className="text-muted-foreground truncate">{user.email}</p>
           </div>
         </div>

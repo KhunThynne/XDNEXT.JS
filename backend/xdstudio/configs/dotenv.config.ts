@@ -1,5 +1,5 @@
-import path from "path";
-import * as dotenv from "dotenv";
+import path from 'path';
+import * as dotenv from 'dotenv';
 // dotenv.config({
 //   debug: false,
 //   quiet: true,
@@ -8,11 +8,11 @@ import * as dotenv from "dotenv";
 dotenv.config({
   debug: false,
   quiet: true,
-  path: path.resolve(process.cwd(), "../.env.local"),
+  path: path.resolve(process.cwd(), '../.env.local'),
 });
 
 dotenv.config({
-  path: path.resolve(process.cwd(), "../../.env"),
+  path: path.resolve(process.cwd(), '../../.env'),
   debug: false,
   quiet: true,
 });

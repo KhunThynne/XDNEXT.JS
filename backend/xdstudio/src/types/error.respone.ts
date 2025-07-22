@@ -15,4 +15,3 @@ export interface ApiSuccessResponse<T = any> {
   data: T;
   errors?: [];
 }
-

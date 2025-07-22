@@ -4,4 +4,4 @@ export type MsStringValue =
   | `${number}m`
   | `${number}h`
   | `${number}d`
-  | "now";
+  | 'now';

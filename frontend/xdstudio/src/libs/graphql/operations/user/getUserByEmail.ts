@@ -7,7 +7,6 @@ export const GetUserByEmailDocument = graphql(`
     user(where: { email: $email }) {
       id
       name
-      documentId
       username
       provider
       image

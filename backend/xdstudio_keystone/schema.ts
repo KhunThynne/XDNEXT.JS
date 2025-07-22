@@ -10,7 +10,16 @@ import { allowAll } from '@keystone-6/core/access'
 
 // see https://keystonejs.com/docs/fields/overview for the full list of fields
 //   this is a few common fields for an example
-import { text, relationship, password, timestamp, select } from '@keystone-6/core/fields'
+import {
+  text,
+  relationship,
+  password,
+  timestamp,
+  select,
+  json,
+  integer,
+  image
+} from '@keystone-6/core/fields'
 
 // the document field is a more complicated field, so it has it's own package
 import { document } from '@keystone-6/fields-document'
@@ -19,6 +28,7 @@ import { document } from '@keystone-6/fields-document'
 // when using Typescript, you can refine your types to a stricter subset by importing
 // the generated types from '.keystone/types'
 import { type Lists } from '.keystone/types'
+import { fileField } from './src/shared/utils/fileField'
 
 export const lists = {
   User: list({
@@ -38,12 +48,6 @@ export const lists = {
       // by adding isRequired, we enforce that every User should have a name
       //   if no name is provided, an error will be displayed
       name: text({ validation: { isRequired: true } }),
-      documentId: text({
-        isIndexed: 'unique',
-        isFilterable: true,
-        defaultValue: crypto.randomUUID(),
-        validation: { isRequired: true }
-      }),
       username: text({
         validation: { isRequired: true }
       }),
@@ -51,6 +55,7 @@ export const lists = {
         defaultValue: 'credentials'
       }),
       image: text(),
+      images: relationship({ ref: 'Image', many: true }),
       role: select({
         options: [
           { label: 'Admin', value: 'ADMIN' },
@@ -80,17 +85,240 @@ export const lists = {
     }
   }),
 
+  UserProduct: list({
+    access: allowAll,
+    ui: {
+      label: 'User Product',
+      listView: {
+        initialColumns: ['userId', 'createdAt'],
+        pageSize: 10
+      }
+    },
+    fields: {
+      userId: relationship({
+        ref: 'User',
+        many: true,
+        ui: {
+          displayMode: 'cards',
+          cardFields: ['name', 'email'],
+          inlineEdit: { fields: ['name', 'email'] },
+          linkToItem: true,
+          inlineConnect: true
+        }
+      }),
+      productId: relationship({
+        ref: 'Product'
+      }),
+      config: json({
+        defaultValue: {},
+        ui: {
+          // สามารถระบุ custom view ได้ถ้ามี
+          // views: './admin/components/JsonEditor.tsx'
+        }
+      }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+        ui: {
+          itemView: { fieldMode: 'read' }
+        }
+      }),
+      updateAt: timestamp({
+        defaultValue: { kind: 'now' }
+      })
+    }
+  }),
+
+  UserPreference: list({
+    access: allowAll,
+    ui: {
+      label: 'User Preference',
+      listView: {
+        initialColumns: ['userId']
+      }
+    },
+    fields: {
+      userId: relationship({
+        ref: 'User',
+        ui: {
+          displayMode: 'select'
+        }
+      }),
+      setting: document({
+        formatting: true,
+        links: true,
+        dividers: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1]
+        ]
+      })
+    }
+  }),
+
+  OrderItem: list({
+    access: allowAll,
+    ui: {
+      label: 'Order Item',
+      listView: {
+        initialColumns: ['orderId', 'productId', 'unitPrice']
+      }
+    },
+    fields: {
+      orderId: relationship({ ref: 'Order' }),
+      productId: relationship({ ref: 'Product' }),
+      unitPrice: integer(),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+        ui: {
+          itemView: { fieldMode: 'read' }
+        }
+      }),
+      updateAt: timestamp()
+    }
+  }),
+  UserPoint: list({
+    access: allowAll,
+    fields: {
+      userId: relationship({ ref: 'User', many: true }),
+      total_point: integer({
+        defaultValue: 0,
+        validation: { isRequired: true, min: 0 }
+      }),
+      updateAt: timestamp()
+    }
+  }),
+
+  PointTransaction: list({
+    access: allowAll,
+    fields: {
+      userId: relationship({ ref: 'User', many: true }),
+      type: select({
+        options: [
+          { label: 'Earn', value: 'earn' },
+          { label: 'Redeem', value: 'redeem' }
+        ],
+        defaultValue: 'Earn',
+        ui: {
+          displayMode: 'select'
+        },
+        validation: { isRequired: true }
+      }),
+      amount: integer(),
+      description: document({
+        formatting: true,
+        layouts: [
+          [1, 1],
+          [1, 1, 1],
+          [2, 1],
+          [1, 2],
+          [1, 2, 1]
+        ],
+        links: true,
+        dividers: true
+      }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+        validation: { isRequired: false },
+        ui: {
+          createView: { fieldMode: 'edit' },
+          itemView: { fieldMode: 'read' }
+        }
+      })
+    }
+  }),
+  Suppiler: list({
+    access: allowAll,
+    fields: {
+      userId: relationship({ ref: 'User', many: true }),
+      supplierName: text(),
+      supplierDetails: text()
+    }
+  }),
+  Product: list({
+    access: allowAll,
+    ui: {
+      listView: {
+        initialColumns: ['id', 'name', 'createdAt', 'details'],
+        pageSize: 10
+      }
+    },
+    fields: {
+      suppilersId: relationship({ ref: 'Suppiler' }),
+      name: text({ validation: { isRequired: true } }),
+      details: text({
+        ui: {
+          displayMode: 'textarea'
+        }
+      }),
+      status: select({
+        options: [
+          { label: 'Published', value: 'published' },
+          { label: 'Draft', value: 'draft' }
+        ],
+        defaultValue: 'draft',
+        validation: { isRequired: true },
+        ui: { displayMode: 'segmented-control' }
+      }),
+      publishedAt: timestamp(),
+      updateAt: timestamp({
+        defaultValue: { kind: 'now' }
+      }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+        validation: { isRequired: false },
+        ui: {
+          createView: { fieldMode: 'edit' },
+          itemView: { fieldMode: 'read' }
+        }
+      })
+    }
+  }),
+  Order: list({
+    access: allowAll,
+    fields: {
+      userId: relationship({ ref: 'User', many: true }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+        validation: { isRequired: false },
+        ui: {
+          createView: { fieldMode: 'edit' },
+          itemView: { fieldMode: 'read' }
+        }
+      }),
+      updateAt: timestamp({
+        defaultValue: { kind: 'now' },
+        validation: { isRequired: false },
+        ui: {
+          createView: { fieldMode: 'edit' },
+          itemView: { fieldMode: 'read' }
+        }
+      })
+    }
+  }),
+  Image: list({
+    access: allowAll,
+    fields: {
+      name: text({
+        validation: {
+          isRequired: true
+        }
+      }),
+      altText: text(),
+      image: image({ storage: 'my_local_images' })
+    }
+  }),
   Post: list({
     // WARNING
     //   for this starter project, anyone can create, query, update and delete anything
     //   if you want to prevent random people on the internet from accessing your data,
     //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
     access: allowAll,
-
     // this is the fields for our Post list
     fields: {
       title: text({ validation: { isRequired: true } }),
-
       // the document field can be used for making rich editable content
       //   you can find out more at https://keystonejs.com/docs/guides/document-fields
       content: document({
@@ -106,11 +334,13 @@ export const lists = {
         dividers: true
       }),
 
+      // image: image({
+      //   storage: 'local_images'
+      // }),
       // with this field, you can set a User as the author for a Post
       author: relationship({
         // we could have used 'User', but then the relationship would only be 1-way
         ref: 'User.posts',
-
         // this is some customisations for changing how this will look in the AdminUI
         ui: {
           displayMode: 'cards',
@@ -119,7 +349,6 @@ export const lists = {
           linkToItem: true,
           inlineConnect: true
         },
-
         // a Post can only have one author
         //   this is the default, but we show it here for verbosity
         many: false

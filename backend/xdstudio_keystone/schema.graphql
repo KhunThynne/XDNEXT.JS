@@ -4,10 +4,11 @@
 type User {
   id: ID!
   name: String
-  documentId: String
   username: String
   provider: String
   image: String
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  imagesCount(where: ImageWhereInput! = {}): Int
   role: String
   email: String
   password: PasswordState
@@ -27,7 +28,6 @@ scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339
 
 input UserWhereUniqueInput {
   id: ID
-  documentId: String
   email: String
 }
 
@@ -37,10 +37,10 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   id: IDFilter
   name: StringFilter
-  documentId: StringFilter
   username: StringFilter
   provider: StringFilter
   image: StringFilter
+  images: ImageManyRelationFilter
   role: StringNullableFilter
   email: StringFilter
   posts: PostManyRelationFilter
@@ -95,6 +95,12 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
+input ImageManyRelationFilter {
+  every: ImageWhereInput
+  some: ImageWhereInput
+  none: ImageWhereInput
+}
+
 input StringNullableFilter {
   equals: String
   in: [String!]
@@ -134,7 +140,6 @@ input PasswordFilter {
 input UserOrderByInput {
   id: OrderDirection
   name: OrderDirection
-  documentId: OrderDirection
   username: OrderDirection
   provider: OrderDirection
   image: OrderDirection
@@ -152,10 +157,10 @@ enum OrderDirection {
 
 input UserUpdateInput {
   name: String
-  documentId: String
   username: String
   provider: String
   image: String
+  images: ImageRelateToManyForUpdateInput
   role: String
   email: String
   password: String
@@ -164,6 +169,13 @@ input UserUpdateInput {
   passwordResetToken: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
+}
+
+input ImageRelateToManyForUpdateInput {
+  disconnect: [ImageWhereUniqueInput!]
+  set: [ImageWhereUniqueInput!]
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
 }
 
 input PostRelateToManyForUpdateInput {
@@ -180,10 +192,10 @@ input UserUpdateArgs {
 
 input UserCreateInput {
   name: String
-  documentId: String
   username: String
   provider: String
   image: String
+  images: ImageRelateToManyForCreateInput
   role: String
   email: String
   password: String
@@ -194,9 +206,566 @@ input UserCreateInput {
   passwordResetRedeemedAt: DateTime
 }
 
+input ImageRelateToManyForCreateInput {
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
+}
+
 input PostRelateToManyForCreateInput {
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+type UserProduct {
+  id: ID!
+  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userIdCount(where: UserWhereInput! = {}): Int
+  productId: Product
+  config: JSON
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input UserProductWhereUniqueInput {
+  id: ID
+}
+
+input UserProductWhereInput {
+  AND: [UserProductWhereInput!]
+  OR: [UserProductWhereInput!]
+  NOT: [UserProductWhereInput!]
+  id: IDFilter
+  userId: UserManyRelationFilter
+  productId: ProductWhereInput
+  createdAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input UserManyRelationFilter {
+  every: UserWhereInput
+  some: UserWhereInput
+  none: UserWhereInput
+}
+
+input UserProductOrderByInput {
+  id: OrderDirection
+  createdAt: OrderDirection
+  updateAt: OrderDirection
+}
+
+input UserProductUpdateInput {
+  userId: UserRelateToManyForUpdateInput
+  productId: ProductRelateToOneForUpdateInput
+  config: JSON
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input UserRelateToManyForUpdateInput {
+  disconnect: [UserWhereUniqueInput!]
+  set: [UserWhereUniqueInput!]
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input ProductRelateToOneForUpdateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+  disconnect: Boolean
+}
+
+input UserProductUpdateArgs {
+  where: UserProductWhereUniqueInput!
+  data: UserProductUpdateInput!
+}
+
+input UserProductCreateInput {
+  userId: UserRelateToManyForCreateInput
+  productId: ProductRelateToOneForCreateInput
+  config: JSON
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input UserRelateToManyForCreateInput {
+  create: [UserCreateInput!]
+  connect: [UserWhereUniqueInput!]
+}
+
+input ProductRelateToOneForCreateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+}
+
+type UserPreference {
+  id: ID!
+  userId: User
+  setting: UserPreference_setting_Document
+}
+
+type UserPreference_setting_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input UserPreferenceWhereUniqueInput {
+  id: ID
+}
+
+input UserPreferenceWhereInput {
+  AND: [UserPreferenceWhereInput!]
+  OR: [UserPreferenceWhereInput!]
+  NOT: [UserPreferenceWhereInput!]
+  id: IDFilter
+  userId: UserWhereInput
+}
+
+input UserPreferenceOrderByInput {
+  id: OrderDirection
+}
+
+input UserPreferenceUpdateInput {
+  userId: UserRelateToOneForUpdateInput
+  setting: JSON
+}
+
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
+input UserPreferenceUpdateArgs {
+  where: UserPreferenceWhereUniqueInput!
+  data: UserPreferenceUpdateInput!
+}
+
+input UserPreferenceCreateInput {
+  userId: UserRelateToOneForCreateInput
+  setting: JSON
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
+type OrderItem {
+  id: ID!
+  orderId: Order
+  productId: Product
+  unitPrice: Int
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input OrderItemWhereUniqueInput {
+  id: ID
+}
+
+input OrderItemWhereInput {
+  AND: [OrderItemWhereInput!]
+  OR: [OrderItemWhereInput!]
+  NOT: [OrderItemWhereInput!]
+  id: IDFilter
+  orderId: OrderWhereInput
+  productId: ProductWhereInput
+  unitPrice: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input IntNullableFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntNullableFilter
+}
+
+input OrderItemOrderByInput {
+  id: OrderDirection
+  unitPrice: OrderDirection
+  createdAt: OrderDirection
+  updateAt: OrderDirection
+}
+
+input OrderItemUpdateInput {
+  orderId: OrderRelateToOneForUpdateInput
+  productId: ProductRelateToOneForUpdateInput
+  unitPrice: Int
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input OrderRelateToOneForUpdateInput {
+  create: OrderCreateInput
+  connect: OrderWhereUniqueInput
+  disconnect: Boolean
+}
+
+input OrderItemUpdateArgs {
+  where: OrderItemWhereUniqueInput!
+  data: OrderItemUpdateInput!
+}
+
+input OrderItemCreateInput {
+  orderId: OrderRelateToOneForCreateInput
+  productId: ProductRelateToOneForCreateInput
+  unitPrice: Int
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input OrderRelateToOneForCreateInput {
+  create: OrderCreateInput
+  connect: OrderWhereUniqueInput
+}
+
+type UserPoint {
+  id: ID!
+  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userIdCount(where: UserWhereInput! = {}): Int
+  total_point: Int
+  updateAt: DateTime
+}
+
+input UserPointWhereUniqueInput {
+  id: ID
+}
+
+input UserPointWhereInput {
+  AND: [UserPointWhereInput!]
+  OR: [UserPointWhereInput!]
+  NOT: [UserPointWhereInput!]
+  id: IDFilter
+  userId: UserManyRelationFilter
+  total_point: IntFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input IntFilter {
+  equals: Int
+  in: [Int!]
+  notIn: [Int!]
+  lt: Int
+  lte: Int
+  gt: Int
+  gte: Int
+  not: IntFilter
+}
+
+input UserPointOrderByInput {
+  id: OrderDirection
+  total_point: OrderDirection
+  updateAt: OrderDirection
+}
+
+input UserPointUpdateInput {
+  userId: UserRelateToManyForUpdateInput
+  total_point: Int
+  updateAt: DateTime
+}
+
+input UserPointUpdateArgs {
+  where: UserPointWhereUniqueInput!
+  data: UserPointUpdateInput!
+}
+
+input UserPointCreateInput {
+  userId: UserRelateToManyForCreateInput
+  total_point: Int
+  updateAt: DateTime
+}
+
+type PointTransaction {
+  id: ID!
+  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userIdCount(where: UserWhereInput! = {}): Int
+  type: String
+  amount: Int
+  description: PointTransaction_description_Document
+  createdAt: DateTime
+}
+
+type PointTransaction_description_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+input PointTransactionWhereUniqueInput {
+  id: ID
+}
+
+input PointTransactionWhereInput {
+  AND: [PointTransactionWhereInput!]
+  OR: [PointTransactionWhereInput!]
+  NOT: [PointTransactionWhereInput!]
+  id: IDFilter
+  userId: UserManyRelationFilter
+  type: StringFilter
+  amount: IntNullableFilter
+  createdAt: DateTimeNullableFilter
+}
+
+input PointTransactionOrderByInput {
+  id: OrderDirection
+  type: OrderDirection
+  amount: OrderDirection
+  createdAt: OrderDirection
+}
+
+input PointTransactionUpdateInput {
+  userId: UserRelateToManyForUpdateInput
+  type: String
+  amount: Int
+  description: JSON
+  createdAt: DateTime
+}
+
+input PointTransactionUpdateArgs {
+  where: PointTransactionWhereUniqueInput!
+  data: PointTransactionUpdateInput!
+}
+
+input PointTransactionCreateInput {
+  userId: UserRelateToManyForCreateInput
+  type: String
+  amount: Int
+  description: JSON
+  createdAt: DateTime
+}
+
+type Suppiler {
+  id: ID!
+  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userIdCount(where: UserWhereInput! = {}): Int
+  supplierName: String
+  supplierDetails: String
+}
+
+input SuppilerWhereUniqueInput {
+  id: ID
+}
+
+input SuppilerWhereInput {
+  AND: [SuppilerWhereInput!]
+  OR: [SuppilerWhereInput!]
+  NOT: [SuppilerWhereInput!]
+  id: IDFilter
+  userId: UserManyRelationFilter
+  supplierName: StringFilter
+  supplierDetails: StringFilter
+}
+
+input SuppilerOrderByInput {
+  id: OrderDirection
+  supplierName: OrderDirection
+  supplierDetails: OrderDirection
+}
+
+input SuppilerUpdateInput {
+  userId: UserRelateToManyForUpdateInput
+  supplierName: String
+  supplierDetails: String
+}
+
+input SuppilerUpdateArgs {
+  where: SuppilerWhereUniqueInput!
+  data: SuppilerUpdateInput!
+}
+
+input SuppilerCreateInput {
+  userId: UserRelateToManyForCreateInput
+  supplierName: String
+  supplierDetails: String
+}
+
+type Product {
+  id: ID!
+  suppilersId: Suppiler
+  name: String
+  details: String
+  status: String
+  publishedAt: DateTime
+  updateAt: DateTime
+  createdAt: DateTime
+}
+
+input ProductWhereUniqueInput {
+  id: ID
+}
+
+input ProductWhereInput {
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+  id: IDFilter
+  suppilersId: SuppilerWhereInput
+  name: StringFilter
+  details: StringFilter
+  status: StringFilter
+  publishedAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
+  createdAt: DateTimeNullableFilter
+}
+
+input ProductOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  details: OrderDirection
+  status: OrderDirection
+  publishedAt: OrderDirection
+  updateAt: OrderDirection
+  createdAt: OrderDirection
+}
+
+input ProductUpdateInput {
+  suppilersId: SuppilerRelateToOneForUpdateInput
+  name: String
+  details: String
+  status: String
+  publishedAt: DateTime
+  updateAt: DateTime
+  createdAt: DateTime
+}
+
+input SuppilerRelateToOneForUpdateInput {
+  create: SuppilerCreateInput
+  connect: SuppilerWhereUniqueInput
+  disconnect: Boolean
+}
+
+input ProductUpdateArgs {
+  where: ProductWhereUniqueInput!
+  data: ProductUpdateInput!
+}
+
+input ProductCreateInput {
+  suppilersId: SuppilerRelateToOneForCreateInput
+  name: String
+  details: String
+  status: String
+  publishedAt: DateTime
+  updateAt: DateTime
+  createdAt: DateTime
+}
+
+input SuppilerRelateToOneForCreateInput {
+  create: SuppilerCreateInput
+  connect: SuppilerWhereUniqueInput
+}
+
+type Order {
+  id: ID!
+  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
+  userIdCount(where: UserWhereInput! = {}): Int
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input OrderWhereUniqueInput {
+  id: ID
+}
+
+input OrderWhereInput {
+  AND: [OrderWhereInput!]
+  OR: [OrderWhereInput!]
+  NOT: [OrderWhereInput!]
+  id: IDFilter
+  userId: UserManyRelationFilter
+  createdAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input OrderOrderByInput {
+  id: OrderDirection
+  createdAt: OrderDirection
+  updateAt: OrderDirection
+}
+
+input OrderUpdateInput {
+  userId: UserRelateToManyForUpdateInput
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input OrderUpdateArgs {
+  where: OrderWhereUniqueInput!
+  data: OrderUpdateInput!
+}
+
+input OrderCreateInput {
+  userId: UserRelateToManyForCreateInput
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+type Image {
+  id: ID!
+  name: String
+  altText: String
+  image: ImageFieldOutput
+}
+
+type ImageFieldOutput {
+  id: ID!
+  filesize: Int!
+  width: Int!
+  height: Int!
+  extension: ImageExtension!
+  url: String!
+}
+
+enum ImageExtension {
+  jpg
+  png
+  webp
+  gif
+}
+
+input ImageWhereUniqueInput {
+  id: ID
+}
+
+input ImageWhereInput {
+  AND: [ImageWhereInput!]
+  OR: [ImageWhereInput!]
+  NOT: [ImageWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  altText: StringFilter
+}
+
+input ImageOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  altText: OrderDirection
+}
+
+input ImageUpdateInput {
+  name: String
+  altText: String
+  image: ImageFieldInput
+}
+
+input ImageFieldInput {
+  upload: Upload!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+input ImageUpdateArgs {
+  where: ImageWhereUniqueInput!
+  data: ImageUpdateInput!
+}
+
+input ImageCreateInput {
+  name: String
+  altText: String
+  image: ImageFieldInput
 }
 
 type Post {
@@ -244,12 +813,6 @@ input PostUpdateInput {
   tags: TagRelateToManyForUpdateInput
 }
 
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-}
-
 input TagRelateToManyForUpdateInput {
   disconnect: [TagWhereUniqueInput!]
   set: [TagWhereUniqueInput!]
@@ -267,11 +830,6 @@ input PostCreateInput {
   content: JSON
   author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 input TagRelateToManyForCreateInput {
@@ -331,6 +889,60 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createUserProduct(data: UserProductCreateInput!): UserProduct
+  createUserProducts(data: [UserProductCreateInput!]!): [UserProduct]
+  updateUserProduct(where: UserProductWhereUniqueInput!, data: UserProductUpdateInput!): UserProduct
+  updateUserProducts(data: [UserProductUpdateArgs!]!): [UserProduct]
+  deleteUserProduct(where: UserProductWhereUniqueInput!): UserProduct
+  deleteUserProducts(where: [UserProductWhereUniqueInput!]!): [UserProduct]
+  createUserPreference(data: UserPreferenceCreateInput!): UserPreference
+  createUserPreferences(data: [UserPreferenceCreateInput!]!): [UserPreference]
+  updateUserPreference(where: UserPreferenceWhereUniqueInput!, data: UserPreferenceUpdateInput!): UserPreference
+  updateUserPreferences(data: [UserPreferenceUpdateArgs!]!): [UserPreference]
+  deleteUserPreference(where: UserPreferenceWhereUniqueInput!): UserPreference
+  deleteUserPreferences(where: [UserPreferenceWhereUniqueInput!]!): [UserPreference]
+  createOrderItem(data: OrderItemCreateInput!): OrderItem
+  createOrderItems(data: [OrderItemCreateInput!]!): [OrderItem]
+  updateOrderItem(where: OrderItemWhereUniqueInput!, data: OrderItemUpdateInput!): OrderItem
+  updateOrderItems(data: [OrderItemUpdateArgs!]!): [OrderItem]
+  deleteOrderItem(where: OrderItemWhereUniqueInput!): OrderItem
+  deleteOrderItems(where: [OrderItemWhereUniqueInput!]!): [OrderItem]
+  createUserPoint(data: UserPointCreateInput!): UserPoint
+  createUserPoints(data: [UserPointCreateInput!]!): [UserPoint]
+  updateUserPoint(where: UserPointWhereUniqueInput!, data: UserPointUpdateInput!): UserPoint
+  updateUserPoints(data: [UserPointUpdateArgs!]!): [UserPoint]
+  deleteUserPoint(where: UserPointWhereUniqueInput!): UserPoint
+  deleteUserPoints(where: [UserPointWhereUniqueInput!]!): [UserPoint]
+  createPointTransaction(data: PointTransactionCreateInput!): PointTransaction
+  createPointTransactions(data: [PointTransactionCreateInput!]!): [PointTransaction]
+  updatePointTransaction(where: PointTransactionWhereUniqueInput!, data: PointTransactionUpdateInput!): PointTransaction
+  updatePointTransactions(data: [PointTransactionUpdateArgs!]!): [PointTransaction]
+  deletePointTransaction(where: PointTransactionWhereUniqueInput!): PointTransaction
+  deletePointTransactions(where: [PointTransactionWhereUniqueInput!]!): [PointTransaction]
+  createSuppiler(data: SuppilerCreateInput!): Suppiler
+  createSuppilers(data: [SuppilerCreateInput!]!): [Suppiler]
+  updateSuppiler(where: SuppilerWhereUniqueInput!, data: SuppilerUpdateInput!): Suppiler
+  updateSuppilers(data: [SuppilerUpdateArgs!]!): [Suppiler]
+  deleteSuppiler(where: SuppilerWhereUniqueInput!): Suppiler
+  deleteSuppilers(where: [SuppilerWhereUniqueInput!]!): [Suppiler]
+  createProduct(data: ProductCreateInput!): Product
+  createProducts(data: [ProductCreateInput!]!): [Product]
+  updateProduct(where: ProductWhereUniqueInput!, data: ProductUpdateInput!): Product
+  updateProducts(data: [ProductUpdateArgs!]!): [Product]
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteProducts(where: [ProductWhereUniqueInput!]!): [Product]
+  createOrder(data: OrderCreateInput!): Order
+  createOrders(data: [OrderCreateInput!]!): [Order]
+  updateOrder(where: OrderWhereUniqueInput!, data: OrderUpdateInput!): Order
+  updateOrders(data: [OrderUpdateArgs!]!): [Order]
+  deleteOrder(where: OrderWhereUniqueInput!): Order
+  deleteOrders(where: [OrderWhereUniqueInput!]!): [Order]
+  createImage(data: ImageCreateInput!): Image
+  createImages(data: [ImageCreateInput!]!): [Image]
+  updateImage(where: ImageWhereUniqueInput!, data: ImageUpdateInput!): Image
+  updateImages(data: [ImageUpdateArgs!]!): [Image]
+  deleteImage(where: ImageWhereUniqueInput!): Image
+  deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
   createPost(data: PostCreateInput!): Post
   createPosts(data: [PostCreateInput!]!): [Post]
   updatePost(where: PostWhereUniqueInput!, data: PostUpdateInput!): Post
@@ -388,6 +1000,33 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
+  userProduct(where: UserProductWhereUniqueInput!): UserProduct
+  userProducts(where: UserProductWhereInput! = {}, orderBy: [UserProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserProductWhereUniqueInput): [UserProduct!]
+  userProductsCount(where: UserProductWhereInput! = {}): Int
+  userPreference(where: UserPreferenceWhereUniqueInput!): UserPreference
+  userPreferences(where: UserPreferenceWhereInput! = {}, orderBy: [UserPreferenceOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserPreferenceWhereUniqueInput): [UserPreference!]
+  userPreferencesCount(where: UserPreferenceWhereInput! = {}): Int
+  orderItem(where: OrderItemWhereUniqueInput!): OrderItem
+  orderItems(where: OrderItemWhereInput! = {}, orderBy: [OrderItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderItemWhereUniqueInput): [OrderItem!]
+  orderItemsCount(where: OrderItemWhereInput! = {}): Int
+  userPoint(where: UserPointWhereUniqueInput!): UserPoint
+  userPoints(where: UserPointWhereInput! = {}, orderBy: [UserPointOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserPointWhereUniqueInput): [UserPoint!]
+  userPointsCount(where: UserPointWhereInput! = {}): Int
+  pointTransaction(where: PointTransactionWhereUniqueInput!): PointTransaction
+  pointTransactions(where: PointTransactionWhereInput! = {}, orderBy: [PointTransactionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PointTransactionWhereUniqueInput): [PointTransaction!]
+  pointTransactionsCount(where: PointTransactionWhereInput! = {}): Int
+  suppiler(where: SuppilerWhereUniqueInput!): Suppiler
+  suppilers(where: SuppilerWhereInput! = {}, orderBy: [SuppilerOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SuppilerWhereUniqueInput): [Suppiler!]
+  suppilersCount(where: SuppilerWhereInput! = {}): Int
+  product(where: ProductWhereUniqueInput!): Product
+  products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
+  productsCount(where: ProductWhereInput! = {}): Int
+  order(where: OrderWhereUniqueInput!): Order
+  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
+  image(where: ImageWhereUniqueInput!): Image
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  imagesCount(where: ImageWhereInput! = {}): Int
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int

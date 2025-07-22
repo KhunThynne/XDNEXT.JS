@@ -1,8 +1,8 @@
-import { ApiErrorResponse } from "@/types/error.respone";
+import { ApiErrorResponse } from '@/types/error.respone';
 export function createErrorResponse(
   message: string,
   code?: string,
-  details?: unknown,
+  details?: unknown
 ): ApiErrorResponse {
   return {
     success: false,

@@ -21,7 +21,6 @@ export const CreateUserMutationDocument = graphql(`
     ) {
       id
       name
-      documentId
       username
       provider
       image

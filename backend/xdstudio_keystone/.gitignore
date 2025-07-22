@@ -3,3 +3,6 @@ node_modules
 keystone.db
 *.log
 .env*
+
+public/uploads/*
+!public/uploads/.gitkeep
