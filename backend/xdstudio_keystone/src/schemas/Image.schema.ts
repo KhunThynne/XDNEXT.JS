@@ -10,6 +10,6 @@ export const Image: ListConfig<any> = list({
       }
     }),
     altText: text(),
-    image: image({ storage: 'my_local_images' })
+    src: image({ storage: 'my_local_images' })
   }
 })

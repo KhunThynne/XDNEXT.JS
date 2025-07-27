@@ -16,8 +16,8 @@ type User {
   yourItem(where: UserItemWhereInput! = {}, orderBy: [UserItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserItemWhereUniqueInput): [UserItem!]
   yourItemCount(where: UserItemWhereInput! = {}): Int
   yourPoint: UserPoint
-  yourSuppiler(where: SuppilerWhereInput! = {}, orderBy: [SuppilerOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SuppilerWhereUniqueInput): [Suppiler!]
-  yourSuppilerCount(where: SuppilerWhereInput! = {}): Int
+  yourSuppiler(where: SupplierWhereInput! = {}, orderBy: [SupplierOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SupplierWhereUniqueInput): [Supplier!]
+  yourSuppilerCount(where: SupplierWhereInput! = {}): Int
   order(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
   orderCount(where: OrderWhereInput! = {}): Int
   preference: UserPreference
@@ -56,7 +56,7 @@ input UserWhereInput {
   createdAt: DateTimeNullableFilter
   yourItem: UserItemManyRelationFilter
   yourPoint: UserPointWhereInput
-  yourSuppiler: SuppilerManyRelationFilter
+  yourSuppiler: SupplierManyRelationFilter
   order: OrderManyRelationFilter
   preference: UserPreferenceWhereInput
   posts: PostManyRelationFilter
@@ -148,10 +148,10 @@ input UserItemManyRelationFilter {
   none: UserItemWhereInput
 }
 
-input SuppilerManyRelationFilter {
-  every: SuppilerWhereInput
-  some: SuppilerWhereInput
-  none: SuppilerWhereInput
+input SupplierManyRelationFilter {
+  every: SupplierWhereInput
+  some: SupplierWhereInput
+  none: SupplierWhereInput
 }
 
 input OrderManyRelationFilter {
@@ -200,7 +200,7 @@ input UserUpdateInput {
   password: String
   yourItem: UserItemRelateToManyForUpdateInput
   yourPoint: UserPointRelateToOneForUpdateInput
-  yourSuppiler: SuppilerRelateToManyForUpdateInput
+  yourSuppiler: SupplierRelateToManyForUpdateInput
   order: OrderRelateToManyForUpdateInput
   preference: UserPreferenceRelateToOneForUpdateInput
   posts: PostRelateToManyForUpdateInput
@@ -229,11 +229,11 @@ input UserPointRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input SuppilerRelateToManyForUpdateInput {
-  disconnect: [SuppilerWhereUniqueInput!]
-  set: [SuppilerWhereUniqueInput!]
-  create: [SuppilerCreateInput!]
-  connect: [SuppilerWhereUniqueInput!]
+input SupplierRelateToManyForUpdateInput {
+  disconnect: [SupplierWhereUniqueInput!]
+  set: [SupplierWhereUniqueInput!]
+  create: [SupplierCreateInput!]
+  connect: [SupplierWhereUniqueInput!]
 }
 
 input OrderRelateToManyForUpdateInput {
@@ -273,7 +273,7 @@ input UserCreateInput {
   password: String
   yourItem: UserItemRelateToManyForCreateInput
   yourPoint: UserPointRelateToOneForCreateInput
-  yourSuppiler: SuppilerRelateToManyForCreateInput
+  yourSuppiler: SupplierRelateToManyForCreateInput
   order: OrderRelateToManyForCreateInput
   preference: UserPreferenceRelateToOneForCreateInput
   posts: PostRelateToManyForCreateInput
@@ -297,9 +297,9 @@ input UserPointRelateToOneForCreateInput {
   connect: UserPointWhereUniqueInput
 }
 
-input SuppilerRelateToManyForCreateInput {
-  create: [SuppilerCreateInput!]
-  connect: [SuppilerWhereUniqueInput!]
+input SupplierRelateToManyForCreateInput {
+  create: [SupplierCreateInput!]
+  connect: [SupplierWhereUniqueInput!]
 }
 
 input OrderRelateToManyForCreateInput {
@@ -504,7 +504,7 @@ input UserPointCreateInput {
   updateAt: DateTime
 }
 
-type Suppiler {
+type Supplier {
   id: ID!
   userId: User
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
@@ -513,14 +513,14 @@ type Suppiler {
   supplierDetails: String
 }
 
-input SuppilerWhereUniqueInput {
+input SupplierWhereUniqueInput {
   id: ID
 }
 
-input SuppilerWhereInput {
-  AND: [SuppilerWhereInput!]
-  OR: [SuppilerWhereInput!]
-  NOT: [SuppilerWhereInput!]
+input SupplierWhereInput {
+  AND: [SupplierWhereInput!]
+  OR: [SupplierWhereInput!]
+  NOT: [SupplierWhereInput!]
   id: IDFilter
   userId: UserWhereInput
   products: ProductManyRelationFilter
@@ -534,13 +534,13 @@ input ProductManyRelationFilter {
   none: ProductWhereInput
 }
 
-input SuppilerOrderByInput {
+input SupplierOrderByInput {
   id: OrderDirection
   supplierName: OrderDirection
   supplierDetails: OrderDirection
 }
 
-input SuppilerUpdateInput {
+input SupplierUpdateInput {
   userId: UserRelateToOneForUpdateInput
   products: ProductRelateToManyForUpdateInput
   supplierName: String
@@ -554,12 +554,12 @@ input ProductRelateToManyForUpdateInput {
   connect: [ProductWhereUniqueInput!]
 }
 
-input SuppilerUpdateArgs {
-  where: SuppilerWhereUniqueInput!
-  data: SuppilerUpdateInput!
+input SupplierUpdateArgs {
+  where: SupplierWhereUniqueInput!
+  data: SupplierUpdateInput!
 }
 
-input SuppilerCreateInput {
+input SupplierCreateInput {
   userId: UserRelateToOneForCreateInput
   products: ProductRelateToManyForCreateInput
   supplierName: String
@@ -726,7 +726,7 @@ input UserItemRelateToOneForCreateInput {
 
 type Product {
   id: ID!
-  suppilersId: Suppiler
+  suppilersId: Supplier
   name: String
   details: String
   status: String
@@ -746,7 +746,7 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   id: IDFilter
-  suppilersId: SuppilerWhereInput
+  suppilersId: SupplierWhereInput
   name: StringFilter
   details: StringFilter
   status: StringFilter
@@ -767,7 +767,7 @@ input ProductOrderByInput {
 }
 
 input ProductUpdateInput {
-  suppilersId: SuppilerRelateToOneForUpdateInput
+  suppilersId: SupplierRelateToOneForUpdateInput
   name: String
   details: String
   status: String
@@ -777,9 +777,9 @@ input ProductUpdateInput {
   images: ImageRelateToManyForUpdateInput
 }
 
-input SuppilerRelateToOneForUpdateInput {
-  create: SuppilerCreateInput
-  connect: SuppilerWhereUniqueInput
+input SupplierRelateToOneForUpdateInput {
+  create: SupplierCreateInput
+  connect: SupplierWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -789,7 +789,7 @@ input ProductUpdateArgs {
 }
 
 input ProductCreateInput {
-  suppilersId: SuppilerRelateToOneForCreateInput
+  suppilersId: SupplierRelateToOneForCreateInput
   name: String
   details: String
   status: String
@@ -799,9 +799,9 @@ input ProductCreateInput {
   images: ImageRelateToManyForCreateInput
 }
 
-input SuppilerRelateToOneForCreateInput {
-  create: SuppilerCreateInput
-  connect: SuppilerWhereUniqueInput
+input SupplierRelateToOneForCreateInput {
+  create: SupplierCreateInput
+  connect: SupplierWhereUniqueInput
 }
 
 type ProductPromotion {
@@ -995,7 +995,7 @@ type Image {
   id: ID!
   name: String
   altText: String
-  image: ImageFieldOutput
+  src: ImageFieldOutput
 }
 
 type ImageFieldOutput {
@@ -1036,7 +1036,7 @@ input ImageOrderByInput {
 input ImageUpdateInput {
   name: String
   altText: String
-  image: ImageFieldInput
+  src: ImageFieldInput
 }
 
 input ImageFieldInput {
@@ -1054,7 +1054,7 @@ input ImageUpdateArgs {
 input ImageCreateInput {
   name: String
   altText: String
-  image: ImageFieldInput
+  src: ImageFieldInput
 }
 
 type Tag {
@@ -1196,12 +1196,12 @@ type Mutation {
   updateUserPoints(data: [UserPointUpdateArgs!]!): [UserPoint]
   deleteUserPoint(where: UserPointWhereUniqueInput!): UserPoint
   deleteUserPoints(where: [UserPointWhereUniqueInput!]!): [UserPoint]
-  createSuppiler(data: SuppilerCreateInput!): Suppiler
-  createSuppilers(data: [SuppilerCreateInput!]!): [Suppiler]
-  updateSuppiler(where: SuppilerWhereUniqueInput!, data: SuppilerUpdateInput!): Suppiler
-  updateSuppilers(data: [SuppilerUpdateArgs!]!): [Suppiler]
-  deleteSuppiler(where: SuppilerWhereUniqueInput!): Suppiler
-  deleteSuppilers(where: [SuppilerWhereUniqueInput!]!): [Suppiler]
+  createSupplier(data: SupplierCreateInput!): Supplier
+  createSuppliers(data: [SupplierCreateInput!]!): [Supplier]
+  updateSupplier(where: SupplierWhereUniqueInput!, data: SupplierUpdateInput!): Supplier
+  updateSuppliers(data: [SupplierUpdateArgs!]!): [Supplier]
+  deleteSupplier(where: SupplierWhereUniqueInput!): Supplier
+  deleteSuppliers(where: [SupplierWhereUniqueInput!]!): [Supplier]
   createOrder(data: OrderCreateInput!): Order
   createOrders(data: [OrderCreateInput!]!): [Order]
   updateOrder(where: OrderWhereUniqueInput!, data: OrderUpdateInput!): Order
@@ -1310,9 +1310,9 @@ type Query {
   userPoint(where: UserPointWhereUniqueInput!): UserPoint
   userPoints(where: UserPointWhereInput! = {}, orderBy: [UserPointOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserPointWhereUniqueInput): [UserPoint!]
   userPointsCount(where: UserPointWhereInput! = {}): Int
-  suppiler(where: SuppilerWhereUniqueInput!): Suppiler
-  suppilers(where: SuppilerWhereInput! = {}, orderBy: [SuppilerOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SuppilerWhereUniqueInput): [Suppiler!]
-  suppilersCount(where: SuppilerWhereInput! = {}): Int
+  supplier(where: SupplierWhereUniqueInput!): Supplier
+  suppliers(where: SupplierWhereInput! = {}, orderBy: [SupplierOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SupplierWhereUniqueInput): [Supplier!]
+  suppliersCount(where: SupplierWhereInput! = {}): Int
   order(where: OrderWhereUniqueInput!): Order
   orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int

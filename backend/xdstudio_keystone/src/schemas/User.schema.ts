@@ -33,7 +33,7 @@ export const User: ListConfig<any> = list({
     password: password({ validation: { isRequired: true } }),
     yourItem: relationship({ ref: 'UserItem.userId', many: true }),
     yourPoint: relationship({ ref: 'UserPoint.userId', many: false }),
-    yourSuppiler: relationship({ ref: 'Suppiler.userId', many: true }),
+    yourSuppiler: relationship({ ref: 'Supplier.userId', many: true }),
     order: relationship({ ref: 'Order.userId', many: true }),
     preference: relationship({ ref: 'UserPreference.userId', many: false }),
     posts: relationship({ ref: 'Post.author', many: true })

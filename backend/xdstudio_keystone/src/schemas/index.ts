@@ -23,20 +23,21 @@ import { PointTransaction } from './PointTransaction.schema'
 import { Product } from './Product.schema'
 import { ProductPromotion } from './ProductPromotion.schema'
 import { Promotion } from './Promotion.schema'
-import { Suppiler } from './Suppiler.schema'
+
 import { Tag } from './Tag.schema'
 import { User } from './User.schema'
 import { UserItem } from './UserItem.schema'
 import { UserPoint } from './UserPoint.schema'
 import { Image } from './Image.schema'
 import { Post } from './Post.schema'
+import { Supplier } from './Supplier.schema'
 
 export const lists = {
   User,
   UserItem,
   UserPreference,
   UserPoint,
-  Suppiler,
+  Supplier,
   Order,
   OrderItem,
   Product,

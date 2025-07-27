@@ -25,7 +25,7 @@ model User {
   yourItem                     UserItem[]         @relation("UserItem_userId")
   yourPoint                    UserPoint?         @relation("User_yourPoint", fields: [yourPointId], references: [id])
   yourPointId                  String?            @unique @map("yourPoint") @postgresql.Uuid
-  yourSuppiler                 Suppiler[]         @relation("Suppiler_userId")
+  yourSuppiler                 Supplier[]         @relation("Supplier_userId")
   order                        Order[]            @relation("Order_userId")
   preference                   UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
   preferenceId                 String?            @unique @map("preference") @postgresql.Uuid
@@ -64,9 +64,9 @@ model UserPoint {
   updateAt    DateTime? @default(now())
 }
 
-model Suppiler {
+model Supplier {
   id              String    @id @default(uuid()) @postgresql.Uuid
-  userId          User?     @relation("Suppiler_userId", fields: [userIdId], references: [id])
+  userId          User?     @relation("Supplier_userId", fields: [userIdId], references: [id])
   userIdId        String?   @map("userId") @postgresql.Uuid
   products        Product[] @relation("Product_suppilersId")
   supplierName    String    @default("")
@@ -103,7 +103,7 @@ model OrderItem {
 
 model Product {
   id                              String             @id @default(uuid()) @postgresql.Uuid
-  suppilersId                     Suppiler?          @relation("Product_suppilersId", fields: [suppilersIdId], references: [id])
+  suppilersId                     Supplier?          @relation("Product_suppilersId", fields: [suppilersIdId], references: [id])
   suppilersIdId                   String?            @map("suppilersId") @postgresql.Uuid
   name                            String             @default("")
   details                         String             @default("")
@@ -151,11 +151,11 @@ model Image {
   id                           String             @id @default(uuid()) @postgresql.Uuid
   name                         String             @default("")
   altText                      String             @default("")
-  image_id                     String?
-  image_filesize               Int?
-  image_width                  Int?
-  image_height                 Int?
-  image_extension              String?
+  src_id                       String?
+  src_filesize                 Int?
+  src_width                    Int?
+  src_height                   Int?
+  src_extension                String?
   from_User_images             User[]             @relation("User_images")
   from_Product_images          Product[]          @relation("Product_images")
   from_ProductPromotion_images ProductPromotion[] @relation("ProductPromotion_images")
