@@ -64,7 +64,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if ("item" in authResult && authResult.sessionToken) {
             const user = authResult.item;
             return {
-              documentId: user.documentId,
               name: user.name,
               email: user.email,
               role: user.role,
@@ -135,7 +134,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               if ("item" in authResult && authResult.sessionToken) {
                 const login = authResult.item;
 
-                user.documentId = login.documentId;
                 user.name = login.name;
                 user.email = login.email;
                 user.role = login.role;
@@ -178,7 +176,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         token.email = user.email;
         token.name = user.name;
         token.username = user.username;
-        token.documentId = user.documentId;
         token.role = user.role;
         token.id = user.id ?? "";
       }
@@ -186,7 +183,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async session({ session, token, user }) {
       if (session.user) {
-        session.user.documentId = token.documentId!;
         session.user.role = token.role;
         session.user.id = token.id;
         session.user.username = token.username;

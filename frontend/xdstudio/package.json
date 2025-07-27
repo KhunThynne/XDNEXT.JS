@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache"
+    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache --watch"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

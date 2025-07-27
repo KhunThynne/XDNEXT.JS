@@ -1,5 +1,5 @@
-import { env } from "@/env";
 import "@configs/dotenv.config";
+import { env } from "@/env";
 import { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 

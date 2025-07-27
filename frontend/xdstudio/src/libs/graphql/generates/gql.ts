@@ -19,6 +19,7 @@ type Documents = {
     "\n  query Product($id: ID) {\n    product(where: { id: $id }) {\n      id\n      name\n      details\n      createdAt\n    }\n  }\n": typeof types.ProductDocument,
     "\n  query Products($take: Int, $skip: Int, $orderBy: [ProductOrderByInput!]) {\n    products(take: $take, skip: $skip, orderBy: $orderBy) {\n      id\n      name\n      details\n      createdAt\n    }\n  }\n": typeof types.ProductsDocument,
     "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n": typeof types.CreateUserDocument,
+    "\n  query GetUsers {\n    users {\n      username\n      email\n      role\n    }\n  }\n": typeof types.GetUsersDocument,
     "\n  query GetUserByEmail($email: String!) {\n    user(where: { email: $email }) {\n      id\n      name\n      username\n      provider\n      image\n      role\n      email\n      postsCount\n      createdAt\n      passwordResetIssuedAt\n      passwordResetRedeemedAt\n    }\n  }\n": typeof types.GetUserByEmailDocument,
 };
 const documents: Documents = {
@@ -26,6 +27,7 @@ const documents: Documents = {
     "\n  query Product($id: ID) {\n    product(where: { id: $id }) {\n      id\n      name\n      details\n      createdAt\n    }\n  }\n": types.ProductDocument,
     "\n  query Products($take: Int, $skip: Int, $orderBy: [ProductOrderByInput!]) {\n    products(take: $take, skip: $skip, orderBy: $orderBy) {\n      id\n      name\n      details\n      createdAt\n    }\n  }\n": types.ProductsDocument,
     "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n": types.CreateUserDocument,
+    "\n  query GetUsers {\n    users {\n      username\n      email\n      role\n    }\n  }\n": types.GetUsersDocument,
     "\n  query GetUserByEmail($email: String!) {\n    user(where: { email: $email }) {\n      id\n      name\n      username\n      provider\n      image\n      role\n      email\n      postsCount\n      createdAt\n      passwordResetIssuedAt\n      passwordResetRedeemedAt\n    }\n  }\n": types.GetUserByEmailDocument,
 };
 
@@ -45,6 +47,10 @@ export function graphql(source: "\n  query Products($take: Int, $skip: Int, $ord
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation CreateUser(\n    $name: String\n    $username: String\n    $provider: String\n    $password: String\n    $email: String\n  ) {\n    createUser(\n      data: {\n        name: $name\n        username: $username\n        provider: $provider\n        password: $password\n        email: $email\n      }\n    ) {\n      id\n      name\n      username\n      provider\n      image\n      role\n      email\n      createdAt\n      password {\n        isSet\n      }\n    }\n  }\n"): typeof import('./graphql').CreateUserDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetUsers {\n    users {\n      username\n      email\n      role\n    }\n  }\n"): typeof import('./graphql').GetUsersDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
