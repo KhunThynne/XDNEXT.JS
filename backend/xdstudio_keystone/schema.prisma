@@ -108,6 +108,7 @@ model Product {
   name                            String             @default("")
   details                         String             @default("")
   status                          String             @default("draft")
+  description                     String             @default("")
   publishedAt                     DateTime?
   updateAt                        DateTime?          @default(now())
   createdAt                       DateTime?          @default(now())

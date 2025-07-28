@@ -1,29 +1,16 @@
 "use client";
 
-import { Form } from "@/shared/components/shadcn/form";
-import { SelectionForm } from "@/shared/components/ui/form/SelectionForm";
-import { useForm } from "react-hook-form";
+import clsx from "clsx";
 
 export default function PageTest() {
-  const method = useForm();
   return (
-    <Form {...method}>
-      <div className="mx-5">
-        <SelectionForm
-          name={"test"}
-          label="test"
-          description="asdsadsacascasc"
-          options={[
-            {
-              label: "test",
-              items: [
-                { label: "sadasd", value: "test" },
-                { label: "xx", value: "xxx" },
-              ],
-            },
-          ]}
-        />
+    <section
+      id="content-section"
+      className={clsx("flex h-full flex-col gap-2 border")}
+    >
+      <div className={clsx("@container size-1/2 border")}>
+        <div className="@xl:size-80 @md:size-20 @sm:size-10 aspect-square size-8 border" />
       </div>
-    </Form>
+    </section>
   );
 }

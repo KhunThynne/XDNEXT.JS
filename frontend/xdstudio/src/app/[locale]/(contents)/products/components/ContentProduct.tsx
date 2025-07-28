@@ -13,6 +13,7 @@ import {
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { ChevronDownIcon } from "lucide-react";
+import Image from "next/image";
 const ProductDetail = (props: Product) => {
   const productFAQs = [
     {
@@ -84,14 +85,15 @@ export const ContentProduct = (props: Product) => {
       >
         <div className="flex gap-3 max-lg:flex-col">
           <div className="relative h-80 grow rounded-lg border">
-            {/* <Image
-                alt="Product Image"
-                src={"/img/bg.png"}
+            {product.images?.[0]?.src?.url && (
+              <Image
+                src={product.images[0].src.url}
+                alt={product.images[0].altText ?? "unknown"}
                 fill
                 className="aspect-video object-contain"
-              /> */}
+              />
+            )}
           </div>
-
           <Card className="lg:w-xs shadow-lg">
             <CardHeader className="text-lg font-semibold">
               Product Info

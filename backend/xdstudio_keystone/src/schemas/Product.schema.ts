@@ -26,9 +26,17 @@ export const Product: ListConfig<any> = list({
       validation: { isRequired: true },
       ui: { displayMode: 'segmented-control' }
     }),
-    publishedAt: timestamp(),
+    description: text({
+      ui: {
+        displayMode: 'textarea'
+      }
+    }),
+    publishedAt: timestamp({
+      ui: { itemView: { fieldMode: 'read' } }
+    }),
     updateAt: timestamp({
-      defaultValue: { kind: 'now' }
+      defaultValue: { kind: 'now' },
+      ui: { itemView: { fieldMode: 'read' } }
     }),
     createdAt: timestamp({
       defaultValue: { kind: 'now' },
@@ -39,5 +47,21 @@ export const Product: ListConfig<any> = list({
       }
     }),
     images: relationship({ ref: 'Image', many: true })
+  },
+  hooks: {
+    resolveInput: ({ resolvedData, operation, item }) => {
+      const now = new Date().toISOString()
+
+      resolvedData.updateAt = now
+
+      if (
+        resolvedData.status === 'published' &&
+        (operation === 'create' || item?.status !== 'published')
+      ) {
+        resolvedData.publishedAt = now
+      }
+
+      return resolvedData
+    }
   }
 })

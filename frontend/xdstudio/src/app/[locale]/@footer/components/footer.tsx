@@ -16,7 +16,7 @@ export default function Footer({ className }: GlobalDefaultProps) {
         className
       )}
     >
-      <div className="container mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 max-sm:flex-col">
+      <div className="mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 containermax-sm:flex-col">
         <div className="flex items-center">
           <Image
             className="border-1 mx-auto rounded-full"

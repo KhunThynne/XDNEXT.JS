@@ -23,7 +23,7 @@ export const CardProduct = ({
   return (
     <Card
       className={clsx(
-        "w-70 h-full overflow-auto pt-0 max-sm:w-full",
+        "@md:max-w-2xs max-w-2xs size-full overflow-auto pt-0",
         className
       )}
     >

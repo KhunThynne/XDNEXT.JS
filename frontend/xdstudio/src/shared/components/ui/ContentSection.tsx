@@ -4,7 +4,7 @@ import { Separator } from "../shadcn/separator";
 
 interface ContentSectionProps
   extends GlobalPropsClassNames<
-    "container" | "description" | "title" | "content"
+    "container" | "description" | "title" | "content" | "contentContainer"
   > {
   title?: string;
   description?: string | React.JSX.Element;
@@ -37,7 +37,9 @@ export const ContentSection = ({
         </span>
       )}
       <Separator className={clsx(`bg-primary/50 mb-5 mt-2`)} />
-      <div className={clsx(classNames?.content)}>{children}</div>
+      <section className={clsx("@container", classNames?.contentContainer)}>
+        <div className={clsx(classNames?.content)}>{children}</div>
+      </section>
     </section>
   );
 };
