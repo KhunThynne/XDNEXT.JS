@@ -10,7 +10,7 @@ export const Product: ListConfig<any> = list({
     }
   },
   fields: {
-    suppilersId: relationship({ ref: 'Supplier.products', many: false }),
+    suppilers: relationship({ ref: 'Supplier.products', many: false }),
     name: text({ validation: { isRequired: true } }),
     details: text({
       ui: {

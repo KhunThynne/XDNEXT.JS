@@ -1,7 +1,4 @@
-export default function LayoutProducts({
-  children,
-  parallelproduct,
-}: NextJSReactNodes<"parallelproduct">) {
+export default function LayoutProducts({ children }: WithChildren) {
   return (
     <>
       {children}

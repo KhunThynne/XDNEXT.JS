@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ChevronDownIcon, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,7 +13,6 @@ import {
 import { usePathname } from "@navigation";
 import _ from "lodash";
 import { useBreadBrumbStore } from "./useBreadBrumb.store";
-import { useLayoutEffect } from "react";
 
 const BreadcrumbItemComponent = ({
   href,
@@ -39,12 +38,11 @@ const BreadcrumbItemComponent = ({
 };
 export function BreadcrumbComponent() {
   const pathname = usePathname();
-  const pathNames = pathname.split("/").filter((path) => path); // เช่น ["components", "forms"]
+  const pathNames = pathname.split("/").filter((path) => path);
   const { breadcrumbeStore } = useBreadBrumbStore();
-
   if (breadcrumbeStore.disable) return false;
   return (
-    <Breadcrumb className="px-5">
+    <Breadcrumb className="mb-5">
       <BreadcrumbList>
         <BreadcrumbItemComponent
           href={"/"}

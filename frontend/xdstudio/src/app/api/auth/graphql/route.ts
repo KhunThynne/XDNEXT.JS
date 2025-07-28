@@ -4,9 +4,6 @@ import { getToken } from "next-auth/jwt";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const token = await getToken({ req, secret: env.AUTH_SECRET });
-
-    console.log("test", token);
     const res = await fetch(`${env.API_BACKEND_URL}/api/graphql`, {
       method: "POST",
       headers: {
@@ -14,7 +11,6 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify(body),
     });
-    console.log(JSON.stringify(body));
     if (!res.ok) {
       const errorText = await res.text();
       return new Response(errorText, {

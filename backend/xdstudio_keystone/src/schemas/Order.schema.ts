@@ -4,8 +4,8 @@ import { relationship, timestamp } from '@keystone-6/core/fields'
 export const Order: ListConfig<any> = list({
   access: allowAll,
   fields: {
-    userId: relationship({ ref: 'User.order', many: false }),
-    items: relationship({ ref: 'OrderItem.orderId', many: true }),
+    user: relationship({ ref: 'User.order', many: false }),
+    items: relationship({ ref: 'OrderItem.order', many: true }),
     createdAt: timestamp({
       defaultValue: { kind: 'now' },
       validation: { isRequired: false },

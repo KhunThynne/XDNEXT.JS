@@ -31,11 +31,30 @@ export const User: ListConfig<any> = list({
     }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     password: password({ validation: { isRequired: true } }),
-    yourItem: relationship({ ref: 'UserItem.userId', many: true }),
-    yourPoint: relationship({ ref: 'UserPoint.userId', many: false }),
-    yourSuppiler: relationship({ ref: 'Supplier.userId', many: true }),
-    order: relationship({ ref: 'Order.userId', many: true }),
-    preference: relationship({ ref: 'UserPreference.userId', many: false }),
+    yourItem: relationship({ ref: 'UserItem.user', many: true }),
+    yourPoint: relationship({ ref: 'UserPoint.user', many: false }),
+    yourSuppiler: relationship({ ref: 'Supplier.user', many: true }),
+    order: relationship({ ref: 'Order.user', many: true }),
+    preference: relationship({ ref: 'UserPreference.user', many: false }),
     posts: relationship({ ref: 'Post.author', many: true })
+  },
+  hooks: {
+    afterOperation: async ({ operation, item, context }) => {
+      if (operation === 'create') {
+        await context.db.Supplier.createOne({
+          data: {
+            supplierName: `Supplier for ${item.name}`,
+            supplierDetails: `Supplier initails`,
+            user: { connect: { id: item.id } }
+          }
+        })
+
+        await context.db.UserPreference.createOne({
+          data: {
+            user: { connect: { id: item.id } }
+          }
+        })
+      }
+    }
   }
 })

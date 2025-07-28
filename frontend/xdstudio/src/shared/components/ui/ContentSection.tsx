@@ -7,7 +7,7 @@ interface ContentSectionProps
     "container" | "description" | "title" | "content"
   > {
   title?: string;
-  description?: string;
+  description?: string | React.JSX.Element;
 }
 
 export const ContentSection = ({
@@ -30,9 +30,11 @@ export const ContentSection = ({
         {title}
       </Label>
       {description && (
-        <p className={clsx("text-muted-foreground", classNames?.description)}>
+        <span
+          className={clsx("text-muted-foreground", classNames?.description)}
+        >
           {description}
-        </p>
+        </span>
       )}
       <Separator className={clsx(`bg-primary/50 mb-5 mt-2`)} />
       <div className={clsx(classNames?.content)}>{children}</div>

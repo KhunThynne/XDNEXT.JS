@@ -4,7 +4,7 @@ import { relationship, timestamp, integer } from '@keystone-6/core/fields'
 export const UserPoint: ListConfig<any> = list({
   access: allowAll,
   fields: {
-    userId: relationship({ ref: 'User.yourPoint', many: false }),
+    user: relationship({ ref: 'User.yourPoint', many: false }),
     total_point: integer({
       defaultValue: 0,
       validation: { isRequired: true, min: 0 }

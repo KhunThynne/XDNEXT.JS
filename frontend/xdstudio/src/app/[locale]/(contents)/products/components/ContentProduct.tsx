@@ -1,17 +1,19 @@
-import { Button } from "@/shared/components/shadcn/button";
+"use client";
+
+import { ContentSection } from "@/shared/components/ui/ContentSection";
+import { CardProduct } from "./ProductCard";
+import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
+import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
 import { Card, CardContent, CardHeader } from "@/shared/components/shadcn/card";
+import { Button } from "@/shared/components/shadcn/button";
 import {
   Collapsible,
-  CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/components/shadcn/collapsible";
-import { ContentSection } from "@/shared/components/ui/ContentSection";
+  CollapsibleContent,
+} from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { ChevronDownIcon } from "lucide-react";
-import Image from "next/image";
-import { notFound } from "next/navigation";
-
-const ProductDetail = ({ documentId }: { documentId: string }) => {
+const ProductDetail = (props: Product) => {
   const productFAQs = [
     {
       question: "Is this product eco-friendly?",
@@ -36,7 +38,7 @@ const ProductDetail = ({ documentId }: { documentId: string }) => {
   return (
     <Card className="h-full">
       <CardHeader className="border-b">
-        <h1 className="text-xl font-semibold">Product ID: {documentId}</h1>
+        <h1 className="text-xl font-semibold">{props.name}</h1>
       </CardHeader>
       <CardContent className="space-y-4">
         {productFAQs.map((faq, index) => (
@@ -67,18 +69,8 @@ const ProductDetail = ({ documentId }: { documentId: string }) => {
   );
 };
 
-export default async function PageProduct({
-  params,
-}: {
-  params: Promise<{ locale: string; documentId: string }>;
-}) {
-  const { documentId, locale } = await params;
-  const product = {
-    name: "Awesome Product",
-    category: "Electronics",
-    price: "$199.99",
-    status: "In Stock",
-  };
+export const ContentProduct = (props: Product) => {
+  const { id, ...product } = props;
   return (
     <ContentSection
       title="Product"
@@ -92,12 +84,12 @@ export default async function PageProduct({
       >
         <div className="flex gap-3 max-lg:flex-col">
           <div className="relative h-80 grow rounded-lg border">
-            <Image
-              alt="Product Image"
-              src={"/img/bg.png"}
-              fill
-              className="aspect-video object-contain"
-            />
+            {/* <Image
+                alt="Product Image"
+                src={"/img/bg.png"}
+                fill
+                className="aspect-video object-contain"
+              /> */}
           </div>
 
           <Card className="lg:w-xs shadow-lg">
@@ -108,12 +100,12 @@ export default async function PageProduct({
               <p>
                 <strong>Name:</strong> {product.name}
               </p>
-              <p>
+              {/* <p>
                 <strong>Category:</strong> {product.category}
               </p>
               <p>
                 <strong>Price:</strong> {product.price}
-              </p>
+              </p> */}
               <p>
                 <strong>Status:</strong> {product.status}
               </p>
@@ -160,7 +152,7 @@ export default async function PageProduct({
       </div>
 
       <section className="col-span-3">
-        <ProductDetail documentId={documentId} />
+        <ProductDetail {...props} />
       </section>
 
       <ContentSection className="col-span-full" title="image">
@@ -168,4 +160,4 @@ export default async function PageProduct({
       </ContentSection>
     </ContentSection>
   );
-}
+};

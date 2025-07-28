@@ -387,14 +387,14 @@ type Order {
   items(cursor: OrderItemWhereUniqueInput, orderBy: [OrderItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderItemWhereInput! = {}): [OrderItem!]
   itemsCount(where: OrderItemWhereInput! = {}): Int
   updateAt: DateTime
-  userId: User
+  user: User
 }
 
 input OrderCreateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForCreateInput
   updateAt: DateTime
-  userId: UserRelateToOneForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
 enum OrderDirection {
@@ -404,7 +404,7 @@ enum OrderDirection {
 
 type OrderItem {
   id: ID!
-  orderId: Order
+  order: Order
   productId: Product
   unitPrice: Int
   updateAt: DateTime
@@ -412,7 +412,7 @@ type OrderItem {
 }
 
 input OrderItemCreateInput {
-  orderId: OrderRelateToOneForCreateInput
+  order: OrderRelateToOneForCreateInput
   productId: ProductRelateToOneForCreateInput
   unitPrice: Int
   updateAt: DateTime
@@ -460,7 +460,7 @@ input OrderItemUpdateArgs {
 }
 
 input OrderItemUpdateInput {
-  orderId: OrderRelateToOneForUpdateInput
+  order: OrderRelateToOneForUpdateInput
   productId: ProductRelateToOneForUpdateInput
   unitPrice: Int
   updateAt: DateTime
@@ -472,7 +472,7 @@ input OrderItemWhereInput {
   NOT: [OrderItemWhereInput!]
   OR: [OrderItemWhereInput!]
   id: IDFilter
-  orderId: OrderWhereInput
+  order: OrderWhereInput
   productId: ProductWhereInput
   unitPrice: IntNullableFilter
   updateAt: DateTimeNullableFilter
@@ -528,7 +528,7 @@ input OrderUpdateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForUpdateInput
   updateAt: DateTime
-  userId: UserRelateToOneForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
 input OrderWhereInput {
@@ -539,7 +539,7 @@ input OrderWhereInput {
   id: IDFilter
   items: OrderItemManyRelationFilter
   updateAt: DateTimeNullableFilter
-  userId: UserWhereInput
+  user: UserWhereInput
 }
 
 input OrderWhereUniqueInput {
@@ -690,7 +690,7 @@ type Product {
   name: String
   publishedAt: DateTime
   status: String
-  suppilersId: Supplier
+  suppilers: Supplier
   updateAt: DateTime
 }
 
@@ -701,7 +701,7 @@ input ProductCreateInput {
   name: String
   publishedAt: DateTime
   status: String
-  suppilersId: SupplierRelateToOneForCreateInput
+  suppilers: SupplierRelateToOneForCreateInput
   updateAt: DateTime
 }
 
@@ -805,7 +805,7 @@ input ProductUpdateInput {
   name: String
   publishedAt: DateTime
   status: String
-  suppilersId: SupplierRelateToOneForUpdateInput
+  suppilers: SupplierRelateToOneForUpdateInput
   updateAt: DateTime
 }
 
@@ -820,7 +820,7 @@ input ProductWhereInput {
   name: StringFilter
   publishedAt: DateTimeNullableFilter
   status: StringFilter
-  suppilersId: SupplierWhereInput
+  suppilers: SupplierWhereInput
   updateAt: DateTimeNullableFilter
 }
 
@@ -995,14 +995,14 @@ type Supplier {
   productsCount(where: ProductWhereInput! = {}): Int
   supplierDetails: String
   supplierName: String
-  userId: User
+  user: User
 }
 
 input SupplierCreateInput {
   products: ProductRelateToManyForCreateInput
   supplierDetails: String
   supplierName: String
-  userId: UserRelateToOneForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
 input SupplierManyRelationFilter {
@@ -1049,7 +1049,7 @@ input SupplierUpdateInput {
   products: ProductRelateToManyForUpdateInput
   supplierDetails: String
   supplierName: String
-  userId: UserRelateToOneForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
 input SupplierWhereInput {
@@ -1060,7 +1060,7 @@ input SupplierWhereInput {
   products: ProductManyRelationFilter
   supplierDetails: StringFilter
   supplierName: StringFilter
-  userId: UserWhereInput
+  user: UserWhereInput
 }
 
 input SupplierWhereUniqueInput {
@@ -1192,18 +1192,18 @@ type UserItem {
   createdAt: DateTime
   id: ID!
   item: OrderItem
-  productId: Product
+  product: Product
   updateAt: DateTime
-  userId: User
+  user: User
 }
 
 input UserItemCreateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForCreateInput
-  productId: ProductRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
   updateAt: DateTime
-  userId: UserRelateToOneForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
 input UserItemManyRelationFilter {
@@ -1250,9 +1250,9 @@ input UserItemUpdateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForUpdateInput
-  productId: ProductRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
   updateAt: DateTime
-  userId: UserRelateToOneForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
 input UserItemWhereInput {
@@ -1262,9 +1262,9 @@ input UserItemWhereInput {
   createdAt: DateTimeNullableFilter
   id: IDFilter
   item: OrderItemWhereInput
-  productId: ProductWhereInput
+  product: ProductWhereInput
   updateAt: DateTimeNullableFilter
-  userId: UserWhereInput
+  user: UserWhereInput
 }
 
 input UserItemWhereUniqueInput {
@@ -1295,13 +1295,13 @@ type UserPoint {
   id: ID!
   total_point: Int
   updateAt: DateTime
-  userId: User
+  user: User
 }
 
 input UserPointCreateInput {
   total_point: Int
   updateAt: DateTime
-  userId: UserRelateToOneForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
 input UserPointOrderByInput {
@@ -1329,7 +1329,7 @@ input UserPointUpdateArgs {
 input UserPointUpdateInput {
   total_point: Int
   updateAt: DateTime
-  userId: UserRelateToOneForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
 input UserPointWhereInput {
@@ -1339,23 +1339,23 @@ input UserPointWhereInput {
   id: IDFilter
   total_point: IntFilter
   updateAt: DateTimeNullableFilter
-  userId: UserWhereInput
+  user: UserWhereInput
 }
 
 input UserPointWhereUniqueInput {
   id: ID
-  userId: UserWhereUniqueInput
+  user: UserWhereUniqueInput
 }
 
 type UserPreference {
   id: ID!
   setting: UserPreference_setting_Document
-  userId: User
+  user: User
 }
 
 input UserPreferenceCreateInput {
   setting: JSON
-  userId: UserRelateToOneForCreateInput
+  user: UserRelateToOneForCreateInput
 }
 
 input UserPreferenceOrderByInput {
@@ -1380,7 +1380,7 @@ input UserPreferenceUpdateArgs {
 
 input UserPreferenceUpdateInput {
   setting: JSON
-  userId: UserRelateToOneForUpdateInput
+  user: UserRelateToOneForUpdateInput
 }
 
 input UserPreferenceWhereInput {
@@ -1388,12 +1388,12 @@ input UserPreferenceWhereInput {
   NOT: [UserPreferenceWhereInput!]
   OR: [UserPreferenceWhereInput!]
   id: IDFilter
-  userId: UserWhereInput
+  user: UserWhereInput
 }
 
 input UserPreferenceWhereUniqueInput {
   id: ID
-  userId: UserWhereUniqueInput
+  user: UserWhereUniqueInput
 }
 
 type UserPreference_setting_Document {

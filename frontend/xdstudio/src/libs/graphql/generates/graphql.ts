@@ -889,7 +889,7 @@ export type Order = {
   items?: Maybe<Array<OrderItem>>;
   itemsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
-  userId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 
@@ -910,7 +910,7 @@ export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForCreateInput>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export enum OrderDirection {
@@ -921,7 +921,7 @@ export enum OrderDirection {
 export type OrderItem = {
   __typename?: 'OrderItem';
   id: Scalars['ID']['output'];
-  orderId?: Maybe<Order>;
+  order?: Maybe<Order>;
   productId?: Maybe<Product>;
   unitPrice?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
@@ -929,7 +929,7 @@ export type OrderItem = {
 };
 
 export type OrderItemCreateInput = {
-  orderId?: InputMaybe<OrderRelateToOneForCreateInput>;
+  order?: InputMaybe<OrderRelateToOneForCreateInput>;
   productId?: InputMaybe<ProductRelateToOneForCreateInput>;
   unitPrice?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -977,7 +977,7 @@ export type OrderItemUpdateArgs = {
 };
 
 export type OrderItemUpdateInput = {
-  orderId?: InputMaybe<OrderRelateToOneForUpdateInput>;
+  order?: InputMaybe<OrderRelateToOneForUpdateInput>;
   productId?: InputMaybe<ProductRelateToOneForUpdateInput>;
   unitPrice?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -989,7 +989,7 @@ export type OrderItemWhereInput = {
   NOT?: InputMaybe<Array<OrderItemWhereInput>>;
   OR?: InputMaybe<Array<OrderItemWhereInput>>;
   id?: InputMaybe<IdFilter>;
-  orderId?: InputMaybe<OrderWhereInput>;
+  order?: InputMaybe<OrderWhereInput>;
   productId?: InputMaybe<ProductWhereInput>;
   unitPrice?: InputMaybe<IntNullableFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
@@ -1045,7 +1045,7 @@ export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForUpdateInput>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type OrderWhereInput = {
@@ -1056,7 +1056,7 @@ export type OrderWhereInput = {
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<OrderItemManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
-  userId?: InputMaybe<UserWhereInput>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type OrderWhereUniqueInput = {
@@ -1251,7 +1251,7 @@ export type Product = {
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   status?: Maybe<Scalars['String']['output']>;
-  suppilersId?: Maybe<Supplier>;
+  suppilers?: Maybe<Supplier>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -1276,7 +1276,7 @@ export type ProductCreateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  suppilersId?: InputMaybe<SupplierRelateToOneForCreateInput>;
+  suppilers?: InputMaybe<SupplierRelateToOneForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -1409,7 +1409,7 @@ export type ProductUpdateInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   status?: InputMaybe<Scalars['String']['input']>;
-  suppilersId?: InputMaybe<SupplierRelateToOneForUpdateInput>;
+  suppilers?: InputMaybe<SupplierRelateToOneForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
@@ -1424,7 +1424,7 @@ export type ProductWhereInput = {
   name?: InputMaybe<StringFilter>;
   publishedAt?: InputMaybe<DateTimeNullableFilter>;
   status?: InputMaybe<StringFilter>;
-  suppilersId?: InputMaybe<SupplierWhereInput>;
+  suppilers?: InputMaybe<SupplierWhereInput>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
@@ -1876,7 +1876,7 @@ export type Supplier = {
   productsCount?: Maybe<Scalars['Int']['output']>;
   supplierDetails?: Maybe<Scalars['String']['output']>;
   supplierName?: Maybe<Scalars['String']['output']>;
-  userId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 
@@ -1897,7 +1897,7 @@ export type SupplierCreateInput = {
   products?: InputMaybe<ProductRelateToManyForCreateInput>;
   supplierDetails?: InputMaybe<Scalars['String']['input']>;
   supplierName?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<UserRelateToOneForCreateInput>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export type SupplierManyRelationFilter = {
@@ -1944,7 +1944,7 @@ export type SupplierUpdateInput = {
   products?: InputMaybe<ProductRelateToManyForUpdateInput>;
   supplierDetails?: InputMaybe<Scalars['String']['input']>;
   supplierName?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<UserRelateToOneForUpdateInput>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type SupplierWhereInput = {
@@ -1955,7 +1955,7 @@ export type SupplierWhereInput = {
   products?: InputMaybe<ProductManyRelationFilter>;
   supplierDetails?: InputMaybe<StringFilter>;
   supplierName?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<UserWhereInput>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type SupplierWhereUniqueInput = {
@@ -2173,18 +2173,18 @@ export type UserItem = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   item?: Maybe<OrderItem>;
-  productId?: Maybe<Product>;
+  product?: Maybe<Product>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
-  userId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 export type UserItemCreateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForCreateInput>;
-  productId?: InputMaybe<ProductRelateToOneForCreateInput>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForCreateInput>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export type UserItemManyRelationFilter = {
@@ -2231,9 +2231,9 @@ export type UserItemUpdateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForUpdateInput>;
-  productId?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForUpdateInput>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type UserItemWhereInput = {
@@ -2243,9 +2243,9 @@ export type UserItemWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   item?: InputMaybe<OrderItemWhereInput>;
-  productId?: InputMaybe<ProductWhereInput>;
+  product?: InputMaybe<ProductWhereInput>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
-  userId?: InputMaybe<UserWhereInput>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type UserItemWhereUniqueInput = {
@@ -2277,13 +2277,13 @@ export type UserPoint = {
   id: Scalars['ID']['output'];
   total_point?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
-  userId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 export type UserPointCreateInput = {
   total_point?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForCreateInput>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export type UserPointOrderByInput = {
@@ -2311,7 +2311,7 @@ export type UserPointUpdateArgs = {
 export type UserPointUpdateInput = {
   total_point?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
-  userId?: InputMaybe<UserRelateToOneForUpdateInput>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type UserPointWhereInput = {
@@ -2321,24 +2321,24 @@ export type UserPointWhereInput = {
   id?: InputMaybe<IdFilter>;
   total_point?: InputMaybe<IntFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
-  userId?: InputMaybe<UserWhereInput>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type UserPointWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  userId?: InputMaybe<UserWhereUniqueInput>;
+  user?: InputMaybe<UserWhereUniqueInput>;
 };
 
 export type UserPreference = {
   __typename?: 'UserPreference';
   id: Scalars['ID']['output'];
   setting?: Maybe<UserPreference_Setting_Document>;
-  userId?: Maybe<User>;
+  user?: Maybe<User>;
 };
 
 export type UserPreferenceCreateInput = {
   setting?: InputMaybe<Scalars['JSON']['input']>;
-  userId?: InputMaybe<UserRelateToOneForCreateInput>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export type UserPreferenceOrderByInput = {
@@ -2363,7 +2363,7 @@ export type UserPreferenceUpdateArgs = {
 
 export type UserPreferenceUpdateInput = {
   setting?: InputMaybe<Scalars['JSON']['input']>;
-  userId?: InputMaybe<UserRelateToOneForUpdateInput>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type UserPreferenceWhereInput = {
@@ -2371,12 +2371,12 @@ export type UserPreferenceWhereInput = {
   NOT?: InputMaybe<Array<UserPreferenceWhereInput>>;
   OR?: InputMaybe<Array<UserPreferenceWhereInput>>;
   id?: InputMaybe<IdFilter>;
-  userId?: InputMaybe<UserWhereInput>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type UserPreferenceWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-  userId?: InputMaybe<UserWhereUniqueInput>;
+  user?: InputMaybe<UserWhereUniqueInput>;
 };
 
 export type UserPreference_Setting_Document = {
@@ -2504,11 +2504,7 @@ export type CreateImageMutationVariables = Exact<{
 
 export type CreateImageMutation = { __typename?: 'Mutation', createImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null } | null };
 
-export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, supplierName?: string | null, supplierDetails?: string | null, productsCount?: number | null, userId?: { __typename?: 'User', id: string, email?: string | null, username?: string | null } | null } & { ' $fragmentName'?: 'SupplierFieldsFragment' };
-
-export type ImageFieldsFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } & { ' $fragmentName'?: 'ImageFieldsFragment' };
-
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, details?: string | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilersId?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, details?: string | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
   ) | null, images?: Array<(
@@ -2537,6 +2533,10 @@ export type GetProductQuery = { __typename?: 'Query', product?: (
     { __typename?: 'Product' }
     & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
   ) | null };
+
+export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, supplierName?: string | null, supplierDetails?: string | null, productsCount?: number | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null } | null } & { ' $fragmentName'?: 'SupplierFieldsFragment' };
+
+export type ImageFieldsFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } & { ' $fragmentName'?: 'ImageFieldsFragment' };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2591,7 +2591,7 @@ export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
   id
   supplierName
   supplierDetails
-  userId {
+  user {
     id
     email
     username
@@ -2617,7 +2617,7 @@ export const ImageFieldsFragmentDoc = new TypedDocumentString(`
 export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     fragment ProductFields on Product {
   id
-  suppilersId {
+  suppilers {
     ...SupplierFields
   }
   name
@@ -2635,7 +2635,7 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   id
   supplierName
   supplierDetails
-  userId {
+  user {
     id
     email
     username
@@ -2743,11 +2743,27 @@ export const GetProductsDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment SupplierFields on Supplier {
+    fragment ProductFields on Product {
+  id
+  suppilers {
+    ...SupplierFields
+  }
+  name
+  details
+  status
+  publishedAt
+  updateAt
+  createdAt
+  images {
+    ...ImageFields
+  }
+  imagesCount
+}
+fragment SupplierFields on Supplier {
   id
   supplierName
   supplierDetails
-  userId {
+  user {
     id
     email
     username
@@ -2766,22 +2782,6 @@ fragment ImageFields on Image {
     extension
     url
   }
-}
-fragment ProductFields on Product {
-  id
-  suppilersId {
-    ...SupplierFields
-  }
-  name
-  details
-  status
-  publishedAt
-  updateAt
-  createdAt
-  images {
-    ...ImageFields
-  }
-  imagesCount
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
 export const GetProductDocument = new TypedDocumentString(`
     query getProduct($where: ProductWhereUniqueInput!) {
@@ -2789,11 +2789,27 @@ export const GetProductDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment SupplierFields on Supplier {
+    fragment ProductFields on Product {
+  id
+  suppilers {
+    ...SupplierFields
+  }
+  name
+  details
+  status
+  publishedAt
+  updateAt
+  createdAt
+  images {
+    ...ImageFields
+  }
+  imagesCount
+}
+fragment SupplierFields on Supplier {
   id
   supplierName
   supplierDetails
-  userId {
+  user {
     id
     email
     username
@@ -2812,22 +2828,6 @@ fragment ImageFields on Image {
     extension
     url
   }
-}
-fragment ProductFields on Product {
-  id
-  suppilersId {
-    ...SupplierFields
-  }
-  name
-  details
-  status
-  publishedAt
-  updateAt
-  createdAt
-  images {
-    ...ImageFields
-  }
-  imagesCount
 }`) as unknown as TypedDocumentString<GetProductQuery, GetProductQueryVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {

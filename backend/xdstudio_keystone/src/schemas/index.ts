@@ -31,6 +31,9 @@ import { UserPoint } from './UserPoint.schema'
 import { Image } from './Image.schema'
 import { Post } from './Post.schema'
 import { Supplier } from './Supplier.schema'
+import { list } from '@keystone-6/core'
+import { allowAll } from '@keystone-6/core/access'
+import { text } from '@keystone-6/core/fields'
 
 export const lists = {
   User,

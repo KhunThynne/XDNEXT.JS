@@ -11,11 +11,12 @@ export const UserPreference: ListConfig<any> = list({
     }
   },
   fields: {
-    userId: relationship({
+    user: relationship({
       ref: 'User.preference',
       ui: {
         displayMode: 'select'
-      }
+      },
+      many: false
     }),
     setting: document({
       formatting: true,

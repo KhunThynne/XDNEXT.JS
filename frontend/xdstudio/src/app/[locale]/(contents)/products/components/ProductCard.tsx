@@ -1,5 +1,6 @@
 "use client";
 
+import { Product } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -9,22 +10,14 @@ import {
 } from "@/shared/components/shadcn/card";
 import { Link } from "@navigation";
 import clsx from "clsx";
+import _ from "lodash";
 import Image from "next/image";
-
-interface Product {
-  id: string;
-  name: string;
-  description?: string;
-  price?: number;
-  imageUrl?: string;
-  href?: string;
-}
 
 export const CardProduct = ({
   product,
   className,
   classNames,
-}: { product: Product } & GlobalPropsClassNames<
+}: { product: Product & { href?: string } } & GlobalPropsClassNames<
   "containerImage" | "image"
 >) => {
   return (
@@ -41,10 +34,10 @@ export const CardProduct = ({
             classNames?.containerImage
           )}
         >
-          {product.imageUrl && (
+          {product.images?.[0]?.src?.url && (
             <Image
-              src={product.imageUrl}
-              alt={product.name}
+              src={product.images[0].src.url}
+              alt={product.images[0].altText ?? "unknown"}
               fill
               className={clsx("object-contain", classNames?.image)}
             />
@@ -56,21 +49,21 @@ export const CardProduct = ({
           <CardTitle className="truncate text-xl font-semibold">
             {product.name}
           </CardTitle>
-          {product.description && (
+          {product.details && (
             <div className="h-15 overflow-auto">
               <p className="text-md text-muted-foreground line-clamp-3 break-all text-sm">
-                {product.description}
+                {product.details}
               </p>
             </div>
           )}
         </Link>
       </CardContent>
       <CardFooter className="flex justify-between gap-4">
-        {product.price && (
+        {/* {product.price && (
           <p className="text-primary text-md font-bold">
             ฿{product.price.toLocaleString()}
           </p>
-        )}
+        )} */}
         {/* <Button className="">Add to cart</Button> */}
       </CardFooter>
     </Card>

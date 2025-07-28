@@ -10,7 +10,7 @@ export const OrderItem: ListConfig<any> = list({
     }
   },
   fields: {
-    orderId: relationship({ ref: 'Order.items', many: false }),
+    order: relationship({ ref: 'Order.items', many: false }),
     productId: relationship({ ref: 'Product' }),
     userItem: relationship({ ref: 'UserItem.item', many: false }),
     unitPrice: integer(),

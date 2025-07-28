@@ -5,30 +5,31 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
     const token = await getToken({ req, secret: env.AUTH_SECRET });
-    if (!token?.jwt_token) {
-      return NextResponse.json(
-        { error: "Unauthorized: Missing JWT token" },
-        { status: 401 }
-      );
+
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    if (token?.sessionToken) {
+      headers["Authorization"] = `Bearer ${token.sessionToken}`;
     }
-    const response = await fetch(`${env.API_BACKEND_URL}/graphql`, {
+
+    const response = await fetch(`${env.API_BACKEND_URL}/api/graphql`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token.jwt_token}`,
-      },
+      headers,
       body: JSON.stringify(body),
     });
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("GraphQL Error:", errorText);
-
       return NextResponse.json(
         { error: "GraphQL request failed", message: errorText },
         { status: response.status }
       );
     }
+
     const result = await response.json();
     return NextResponse.json(result);
   } catch (error) {

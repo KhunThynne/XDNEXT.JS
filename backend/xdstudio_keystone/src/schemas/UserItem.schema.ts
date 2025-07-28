@@ -1,6 +1,6 @@
 import { list, ListConfig } from '@keystone-6/core'
 import { allowAll } from '@keystone-6/core/access'
-import { text, relationship, select, timestamp, password, json } from '@keystone-6/core/fields'
+import { relationship, timestamp, json } from '@keystone-6/core/fields'
 export const UserItem: ListConfig<any> = list({
   access: allowAll,
   ui: {
@@ -11,7 +11,7 @@ export const UserItem: ListConfig<any> = list({
     }
   },
   fields: {
-    userId: relationship({
+    user: relationship({
       ref: 'User.yourItem',
       many: false,
       ui: {
@@ -23,7 +23,7 @@ export const UserItem: ListConfig<any> = list({
       }
     }),
 
-    productId: relationship({
+    product: relationship({
       ref: 'Product'
     }),
     item: relationship({

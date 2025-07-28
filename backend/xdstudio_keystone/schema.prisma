@@ -22,11 +22,11 @@ model User {
   email                        String             @unique @default("")
   createdAt                    DateTime?          @default(now())
   password                     String
-  yourItem                     UserItem[]         @relation("UserItem_userId")
+  yourItem                     UserItem[]         @relation("UserItem_user")
   yourPoint                    UserPoint?         @relation("User_yourPoint", fields: [yourPointId], references: [id])
   yourPointId                  String?            @unique @map("yourPoint") @postgresql.Uuid
-  yourSuppiler                 Supplier[]         @relation("Supplier_userId")
-  order                        Order[]            @relation("Order_userId")
+  yourSuppiler                 Supplier[]         @relation("Supplier_user")
+  order                        Order[]            @relation("Order_user")
   preference                   UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
   preferenceId                 String?            @unique @map("preference") @postgresql.Uuid
   posts                        Post[]             @relation("Post_author")
@@ -37,59 +37,59 @@ model User {
 }
 
 model UserItem {
-  id          String     @id @default(uuid()) @postgresql.Uuid
-  userId      User?      @relation("UserItem_userId", fields: [userIdId], references: [id])
-  userIdId    String?    @map("userId") @postgresql.Uuid
-  productId   Product?   @relation("UserItem_productId", fields: [productIdId], references: [id])
-  productIdId String?    @map("productId") @postgresql.Uuid
-  item        OrderItem? @relation("OrderItem_userItem")
-  config      Json?      @default("{}")
-  createdAt   DateTime?  @default(now())
-  updateAt    DateTime?  @default(now())
+  id        String     @id @default(uuid()) @postgresql.Uuid
+  user      User?      @relation("UserItem_user", fields: [userId], references: [id])
+  userId    String?    @map("user") @postgresql.Uuid
+  product   Product?   @relation("UserItem_product", fields: [productId], references: [id])
+  productId String?    @map("product") @postgresql.Uuid
+  item      OrderItem? @relation("OrderItem_userItem")
+  config    Json?      @default("{}")
+  createdAt DateTime?  @default(now())
+  updateAt  DateTime?  @default(now())
 
-  @@index([userIdId])
-  @@index([productIdId])
+  @@index([userId])
+  @@index([productId])
 }
 
 model UserPreference {
   id      String @id @default(uuid()) @postgresql.Uuid
-  userId  User?  @relation("User_preference")
+  user    User?  @relation("User_preference")
   setting Json   @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
 }
 
 model UserPoint {
   id          String    @id @default(uuid()) @postgresql.Uuid
-  userId      User?     @relation("User_yourPoint")
+  user        User?     @relation("User_yourPoint")
   total_point Int       @default(0)
   updateAt    DateTime? @default(now())
 }
 
 model Supplier {
   id              String    @id @default(uuid()) @postgresql.Uuid
-  userId          User?     @relation("Supplier_userId", fields: [userIdId], references: [id])
-  userIdId        String?   @map("userId") @postgresql.Uuid
-  products        Product[] @relation("Product_suppilersId")
+  user            User?     @relation("Supplier_user", fields: [userId], references: [id])
+  userId          String?   @map("user") @postgresql.Uuid
+  products        Product[] @relation("Product_suppilers")
   supplierName    String    @default("")
   supplierDetails String    @default("")
 
-  @@index([userIdId])
+  @@index([userId])
 }
 
 model Order {
   id        String      @id @default(uuid()) @postgresql.Uuid
-  userId    User?       @relation("Order_userId", fields: [userIdId], references: [id])
-  userIdId  String?     @map("userId") @postgresql.Uuid
-  items     OrderItem[] @relation("OrderItem_orderId")
+  user      User?       @relation("Order_user", fields: [userId], references: [id])
+  userId    String?     @map("user") @postgresql.Uuid
+  items     OrderItem[] @relation("OrderItem_order")
   createdAt DateTime?   @default(now())
   updateAt  DateTime?   @default(now())
 
-  @@index([userIdId])
+  @@index([userId])
 }
 
 model OrderItem {
   id          String    @id @default(uuid()) @postgresql.Uuid
-  orderId     Order?    @relation("OrderItem_orderId", fields: [orderIdId], references: [id])
-  orderIdId   String?   @map("orderId") @postgresql.Uuid
+  order       Order?    @relation("OrderItem_order", fields: [orderId], references: [id])
+  orderId     String?   @map("order") @postgresql.Uuid
   productId   Product?  @relation("OrderItem_productId", fields: [productIdId], references: [id])
   productIdId String?   @map("productId") @postgresql.Uuid
   userItem    UserItem? @relation("OrderItem_userItem", fields: [userItemId], references: [id])
@@ -97,14 +97,14 @@ model OrderItem {
   unitPrice   Int?
   updateAt    DateTime?
 
-  @@index([orderIdId])
+  @@index([orderId])
   @@index([productIdId])
 }
 
 model Product {
   id                              String             @id @default(uuid()) @postgresql.Uuid
-  suppilersId                     Supplier?          @relation("Product_suppilersId", fields: [suppilersIdId], references: [id])
-  suppilersIdId                   String?            @map("suppilersId") @postgresql.Uuid
+  suppilers                       Supplier?          @relation("Product_suppilers", fields: [suppilersId], references: [id])
+  suppilersId                     String?            @map("suppilers") @postgresql.Uuid
   name                            String             @default("")
   details                         String             @default("")
   status                          String             @default("draft")
@@ -112,11 +112,11 @@ model Product {
   updateAt                        DateTime?          @default(now())
   createdAt                       DateTime?          @default(now())
   images                          Image[]            @relation("Product_images")
-  from_UserItem_productId         UserItem[]         @relation("UserItem_productId")
+  from_UserItem_product           UserItem[]         @relation("UserItem_product")
   from_OrderItem_productId        OrderItem[]        @relation("OrderItem_productId")
   from_ProductPromotion_productId ProductPromotion[] @relation("ProductPromotion_productId")
 
-  @@index([suppilersIdId])
+  @@index([suppilersId])
 }
 
 model ProductPromotion {
