@@ -14,7 +14,7 @@ export const User: ListConfig<any> = list({
     username: text({ validation: { isRequired: true } }),
     provider: text({ defaultValue: 'credentials' }),
     image: text(),
-    images: relationship({ ref: 'Image', many: true }),
+    avartar: relationship({ ref: 'Image', many: false }),
     role: select({
       options: [
         { label: 'Admin', value: 'ADMIN' },

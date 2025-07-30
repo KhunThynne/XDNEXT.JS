@@ -110,6 +110,17 @@ export type ImageRelateToManyForUpdateInput = {
   set?: InputMaybe<Array<ImageWhereUniqueInput>>;
 };
 
+export type ImageRelateToOneForCreateInput = {
+  connect?: InputMaybe<ImageWhereUniqueInput>;
+  create?: InputMaybe<ImageCreateInput>;
+};
+
+export type ImageRelateToOneForUpdateInput = {
+  connect?: InputMaybe<ImageWhereUniqueInput>;
+  create?: InputMaybe<ImageCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type ImageUpdateArgs = {
   data: ImageUpdateInput;
   where: ImageWhereUniqueInput;
@@ -1244,6 +1255,7 @@ export type Post_Content_DocumentDocumentArgs = {
 export type Product = {
   __typename?: 'Product';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
   details?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Image>>;
@@ -1271,6 +1283,7 @@ export type ProductImagesCountArgs = {
 
 export type ProductCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<ImageRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -1288,6 +1301,7 @@ export type ProductManyRelationFilter = {
 
 export type ProductOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
+  description?: InputMaybe<OrderDirection>;
   details?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   name?: InputMaybe<OrderDirection>;
@@ -1404,6 +1418,7 @@ export type ProductUpdateArgs = {
 
 export type ProductUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['String']['input']>;
   images?: InputMaybe<ImageRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
@@ -1418,6 +1433,7 @@ export type ProductWhereInput = {
   NOT?: InputMaybe<Array<ProductWhereInput>>;
   OR?: InputMaybe<Array<ProductWhereInput>>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
+  description?: InputMaybe<StringFilter>;
   details?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ImageManyRelationFilter>;
@@ -2037,12 +2053,11 @@ export type TagWhereUniqueInput = {
 
 export type User = {
   __typename?: 'User';
+  avartar?: Maybe<Image>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
-  images?: Maybe<Array<Image>>;
-  imagesCount?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   order?: Maybe<Array<Order>>;
   orderCount?: Maybe<Scalars['Int']['output']>;
@@ -2061,20 +2076,6 @@ export type User = {
   yourPoint?: Maybe<UserPoint>;
   yourSuppiler?: Maybe<Array<Supplier>>;
   yourSuppilerCount?: Maybe<Scalars['Int']['output']>;
-};
-
-
-export type UserImagesArgs = {
-  cursor?: InputMaybe<ImageWhereUniqueInput>;
-  orderBy?: Array<ImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: ImageWhereInput;
-};
-
-
-export type UserImagesCountArgs = {
-  where?: ImageWhereInput;
 };
 
 
@@ -2147,10 +2148,10 @@ export type UserAuthenticationWithPasswordSuccess = {
 };
 
 export type UserCreateInput = {
+  avartar?: InputMaybe<ImageRelateToOneForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  images?: InputMaybe<ImageRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToManyForCreateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -2418,10 +2419,10 @@ export type UserUpdateArgs = {
 };
 
 export type UserUpdateInput = {
+  avartar?: InputMaybe<ImageRelateToOneForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  images?: InputMaybe<ImageRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   order?: InputMaybe<OrderRelateToManyForUpdateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
@@ -2442,11 +2443,11 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  avartar?: InputMaybe<ImageWhereInput>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   image?: InputMaybe<StringFilter>;
-  images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
   order?: InputMaybe<OrderManyRelationFilter>;
   passwordResetIssuedAt?: InputMaybe<DateTimeNullableFilter>;
@@ -2548,7 +2549,10 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, id: string, images?: Array<{ __typename?: 'Image', name?: string | null, id: string, altText?: string | null }> | null } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: (
+      { __typename?: 'Image' }
+      & { ' $fragmentRefs'?: { 'ImageFieldsFragment': ImageFieldsFragment } }
+    ) | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2844,15 +2848,38 @@ export const GetUserDocument = new TypedDocumentString(`
     createdAt
     email
     image
+    name
+    username
     id
-    images {
-      name
+    role
+    password {
+      isSet
+    }
+    provider
+    avartar {
+      ...ImageFields
+    }
+    preference {
       id
-      altText
+      setting {
+        document
+      }
     }
   }
 }
-    `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+    fragment ImageFields on Image {
+  id
+  name
+  altText
+  src {
+    id
+    filesize
+    width
+    height
+    extension
+    url
+  }
+}`) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
 export const CreateUserDocument = new TypedDocumentString(`
     mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String) {
   createUser(

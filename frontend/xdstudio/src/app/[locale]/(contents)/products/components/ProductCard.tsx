@@ -4,7 +4,6 @@ import { Product } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/components/shadcn/card";
@@ -18,7 +17,13 @@ export const CardProduct = ({
   className,
   classNames,
 }: { product: Product & { href?: string } } & GlobalPropsClassNames<
-  "containerImage" | "image"
+  | "containerImage"
+  | "image"
+  | "title"
+  | "containerTitle"
+  | "header"
+  | "content"
+  | "containerDetail"
 >) => {
   return (
     <Card
@@ -27,30 +32,44 @@ export const CardProduct = ({
         className
       )}
     >
-      <CardHeader className="bg-primary-foreground rounded-t-xl p-3">
+      <CardHeader
+        className={clsx(
+          "bg-primary-foreground dark:bg-accent relative rounded-t-xl",
+          classNames?.header
+        )}
+      >
         <div
-          className={clsx(
-            "relative aspect-square max-h-40 w-full",
-            classNames?.containerImage
-          )}
+          className={clsx("max-w-45 aspect-square", classNames?.containerImage)}
         >
           {product.images?.[0]?.src?.url && (
             <Image
               src={product.images[0].src.url}
               alt={product.images[0].altText ?? "unknown"}
               fill
-              className={clsx("object-contain", classNames?.image)}
+              className={clsx("rounded object-contain", classNames?.image)}
             />
           )}
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className={clsx(classNames?.content)}>
         <Link href={product.href ?? `/products/${product.id}`}>
-          <CardTitle className="truncate text-xl font-semibold">
-            {product.name}
+          <CardTitle
+            className={clsx(
+              "text-xl font-semibold",
+              classNames?.containerTitle
+            )}
+          >
+            <h1 className={clsx(`max-w-full truncate`, classNames?.title)}>
+              {product.name}
+            </h1>
           </CardTitle>
           {product.details && (
-            <div className="h-15 overflow-auto">
+            <div
+              className={clsx(
+                "h-15 overflow-auto",
+                classNames?.containerDetail
+              )}
+            >
               <p className="text-md text-muted-foreground line-clamp-3 break-all text-sm">
                 {product.details}
               </p>
@@ -58,14 +77,14 @@ export const CardProduct = ({
           )}
         </Link>
       </CardContent>
-      <CardFooter className="flex justify-between gap-4">
-        {/* {product.price && (
+      {/* <CardFooter className="flex justify-between gap-4">
+        {product.price && (
           <p className="text-primary text-md font-bold">
             ฿{product.price.toLocaleString()}
           </p>
-        )} */}
-        {/* <Button className="">Add to cart</Button> */}
-      </CardFooter>
+        )}
+        <Button className="">Add to cart</Button>
+      </CardFooter> */}
     </Card>
   );
 };

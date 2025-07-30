@@ -2,7 +2,7 @@ import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { Separator } from "../shadcn/separator";
 
-interface ContentSectionProps
+interface ContainerSectionProps
   extends GlobalPropsClassNames<
     "container" | "description" | "title" | "content" | "contentContainer"
   > {
@@ -10,16 +10,16 @@ interface ContentSectionProps
   description?: string | React.JSX.Element;
 }
 
-export const ContentSection = ({
+export const ContainerSection = ({
   className,
   classNames,
   children,
   title,
   description,
-}: ContentSectionProps) => {
+}: ContainerSectionProps) => {
   return (
     <section
-      id="content-section"
+      id="container-content-section"
       className={clsx(
         "flex h-full flex-col gap-2",
         className,

@@ -16,11 +16,22 @@ graphql(`
       createdAt
       email
       image
+      name
+      username
       id
-      images {
-        name
+      role
+      password {
+        isSet
+      }
+      provider
+      avartar {
+        ...ImageFields
+      }
+      preference {
         id
-        altText
+        setting {
+          document
+        }
       }
     }
   }

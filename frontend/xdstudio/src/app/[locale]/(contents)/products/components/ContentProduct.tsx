@@ -1,6 +1,6 @@
 "use client";
 
-import { ContentSection } from "@/shared/components/ui/ContentSection";
+import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
 import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
@@ -73,7 +73,7 @@ const ProductDetail = (props: Product) => {
 export const ContentProduct = (props: Product) => {
   const { id, ...product } = props;
   return (
-    <ContentSection
+    <ContainerSection
       title="Product"
       classNames={{
         content: "lg:gap-6  grid  grid-cols-3 xl:grid-cols-8 gap-y-3 grow",
@@ -157,9 +157,9 @@ export const ContentProduct = (props: Product) => {
         <ProductDetail {...props} />
       </section>
 
-      <ContentSection className="col-span-full" title="image">
+      <ContainerSection className="col-span-full" title="image">
         zxczxcxzczxcxzcxz
-      </ContentSection>
-    </ContentSection>
+      </ContainerSection>
+    </ContainerSection>
   );
 };

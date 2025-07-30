@@ -1,4 +1,4 @@
-import { ContentSection } from "@/shared/components/ui/ContentSection";
+import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
@@ -6,7 +6,7 @@ import clsx from "clsx";
 
 export default function DefaultCotent() {
   return (
-    <ContentSection
+    <ContainerSection
       title="Our Featured Products"
       description={
         <div className="flex items-center justify-between max-lg:flex-col max-lg:items-end lg:gap-2">
@@ -27,12 +27,12 @@ export default function DefaultCotent() {
       }
       classNames={{
         content: clsx(
-          "grid  @min-lg:grid-cols-2 @min-3xl:grid-cols-3 @min-5xl:grid-cols-4 @min-7xl:grid-cols-5",
+          "grid  @min-lg:grid-cols-3 @min-3xl:grid-cols-4 @min-5xl:grid-cols-5 @min-7xl:grid-cols-6",
           "gap-5"
         ),
       }}
     >
       <ContentProducts />
-    </ContentSection>
+    </ContainerSection>
   );
 }

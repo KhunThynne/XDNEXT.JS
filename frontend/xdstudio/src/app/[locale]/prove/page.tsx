@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 
-export default function PageTest() {
+export default function ProvePage() {
   return (
     <section
       id="content-section"

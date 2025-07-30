@@ -92,6 +92,17 @@ input ImageRelateToManyForUpdateInput {
   set: [ImageWhereUniqueInput!]
 }
 
+input ImageRelateToOneForCreateInput {
+  connect: ImageWhereUniqueInput
+  create: ImageCreateInput
+}
+
+input ImageRelateToOneForUpdateInput {
+  connect: ImageWhereUniqueInput
+  create: ImageCreateInput
+  disconnect: Boolean
+}
+
 input ImageUpdateArgs {
   data: ImageUpdateInput!
   where: ImageWhereUniqueInput!
@@ -683,6 +694,7 @@ type Post_content_Document {
 
 type Product {
   createdAt: DateTime
+  description: String
   details: String
   id: ID!
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
@@ -696,6 +708,7 @@ type Product {
 
 input ProductCreateInput {
   createdAt: DateTime
+  description: String
   details: String
   images: ImageRelateToManyForCreateInput
   name: String
@@ -713,6 +726,7 @@ input ProductManyRelationFilter {
 
 input ProductOrderByInput {
   createdAt: OrderDirection
+  description: OrderDirection
   details: OrderDirection
   id: OrderDirection
   name: OrderDirection
@@ -800,6 +814,7 @@ input ProductUpdateArgs {
 
 input ProductUpdateInput {
   createdAt: DateTime
+  description: String
   details: String
   images: ImageRelateToManyForUpdateInput
   name: String
@@ -814,6 +829,7 @@ input ProductWhereInput {
   NOT: [ProductWhereInput!]
   OR: [ProductWhereInput!]
   createdAt: DateTimeNullableFilter
+  description: StringFilter
   details: StringFilter
   id: IDFilter
   images: ImageManyRelationFilter
@@ -1129,12 +1145,11 @@ input TagWhereUniqueInput {
 scalar Upload
 
 type User {
+  avartar: Image
   createdAt: DateTime
   email: String
   id: ID!
   image: String
-  images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
   name: String
   order(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
   orderCount(where: OrderWhereInput! = {}): Int
@@ -1167,10 +1182,10 @@ type UserAuthenticationWithPasswordSuccess {
 }
 
 input UserCreateInput {
+  avartar: ImageRelateToOneForCreateInput
   createdAt: DateTime
   email: String
   image: String
-  images: ImageRelateToManyForCreateInput
   name: String
   order: OrderRelateToManyForCreateInput
   password: String
@@ -1429,10 +1444,10 @@ input UserUpdateArgs {
 }
 
 input UserUpdateInput {
+  avartar: ImageRelateToOneForUpdateInput
   createdAt: DateTime
   email: String
   image: String
-  images: ImageRelateToManyForUpdateInput
   name: String
   order: OrderRelateToManyForUpdateInput
   password: String
@@ -1453,11 +1468,11 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  avartar: ImageWhereInput
   createdAt: DateTimeNullableFilter
   email: StringFilter
   id: IDFilter
   image: StringFilter
-  images: ImageManyRelationFilter
   name: StringFilter
   order: OrderManyRelationFilter
   passwordResetIssuedAt: DateTimeNullableFilter

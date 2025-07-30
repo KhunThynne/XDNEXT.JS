@@ -1,3 +1,6 @@
+import { Button } from "@/shared/components/shadcn/button";
+import TextComponent from "@/shared/components/TestComponent";
+import { Link } from "@navigation";
 import { Fragment } from "react";
 
 export default async function NotFoundRoot() {

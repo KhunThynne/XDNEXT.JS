@@ -17,7 +17,8 @@ model User {
   username                     String             @default("")
   provider                     String             @default("credentials")
   image                        String             @default("")
-  images                       Image[]            @relation("User_images")
+  avartar                      Image?             @relation("User_avartar", fields: [avartarId], references: [id])
+  avartarId                    String?            @map("avartar") @postgresql.Uuid
   role                         String?            @default("USER")
   email                        String             @unique @default("")
   createdAt                    DateTime?          @default(now())
@@ -34,6 +35,8 @@ model User {
   passwordResetIssuedAt        DateTime?
   passwordResetRedeemedAt      DateTime?
   from_PointTransaction_userId PointTransaction[] @relation("PointTransaction_userId")
+
+  @@index([avartarId])
 }
 
 model UserItem {
@@ -157,7 +160,7 @@ model Image {
   src_width                    Int?
   src_height                   Int?
   src_extension                String?
-  from_User_images             User[]             @relation("User_images")
+  from_User_avartar            User[]             @relation("User_avartar")
   from_Product_images          Product[]          @relation("Product_images")
   from_ProductPromotion_images ProductPromotion[] @relation("ProductPromotion_images")
 }

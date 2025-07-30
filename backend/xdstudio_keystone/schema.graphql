@@ -7,8 +7,7 @@ type User {
   username: String
   provider: String
   image: String
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
+  avartar: Image
   role: String
   email: String
   createdAt: DateTime
@@ -50,7 +49,7 @@ input UserWhereInput {
   username: StringFilter
   provider: StringFilter
   image: StringFilter
-  images: ImageManyRelationFilter
+  avartar: ImageWhereInput
   role: StringNullableFilter
   email: StringFilter
   createdAt: DateTimeNullableFilter
@@ -108,12 +107,6 @@ input NestedStringFilter {
   startsWith: String
   endsWith: String
   not: NestedStringFilter
-}
-
-input ImageManyRelationFilter {
-  every: ImageWhereInput
-  some: ImageWhereInput
-  none: ImageWhereInput
 }
 
 input StringNullableFilter {
@@ -193,7 +186,7 @@ input UserUpdateInput {
   username: String
   provider: String
   image: String
-  images: ImageRelateToManyForUpdateInput
+  avartar: ImageRelateToOneForUpdateInput
   role: String
   email: String
   createdAt: DateTime
@@ -209,11 +202,10 @@ input UserUpdateInput {
   passwordResetRedeemedAt: DateTime
 }
 
-input ImageRelateToManyForUpdateInput {
-  disconnect: [ImageWhereUniqueInput!]
-  set: [ImageWhereUniqueInput!]
-  create: [ImageCreateInput!]
-  connect: [ImageWhereUniqueInput!]
+input ImageRelateToOneForUpdateInput {
+  create: ImageCreateInput
+  connect: ImageWhereUniqueInput
+  disconnect: Boolean
 }
 
 input UserItemRelateToManyForUpdateInput {
@@ -266,7 +258,7 @@ input UserCreateInput {
   username: String
   provider: String
   image: String
-  images: ImageRelateToManyForCreateInput
+  avartar: ImageRelateToOneForCreateInput
   role: String
   email: String
   createdAt: DateTime
@@ -282,9 +274,9 @@ input UserCreateInput {
   passwordResetRedeemedAt: DateTime
 }
 
-input ImageRelateToManyForCreateInput {
-  create: [ImageCreateInput!]
-  connect: [ImageWhereUniqueInput!]
+input ImageRelateToOneForCreateInput {
+  create: ImageCreateInput
+  connect: ImageWhereUniqueInput
 }
 
 input UserItemRelateToManyForCreateInput {
@@ -758,6 +750,12 @@ input ProductWhereInput {
   images: ImageManyRelationFilter
 }
 
+input ImageManyRelationFilter {
+  every: ImageWhereInput
+  some: ImageWhereInput
+  none: ImageWhereInput
+}
+
 input ProductOrderByInput {
   id: OrderDirection
   name: OrderDirection
@@ -787,6 +785,13 @@ input SupplierRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
+input ImageRelateToManyForUpdateInput {
+  disconnect: [ImageWhereUniqueInput!]
+  set: [ImageWhereUniqueInput!]
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
+}
+
 input ProductUpdateArgs {
   where: ProductWhereUniqueInput!
   data: ProductUpdateInput!
@@ -807,6 +812,11 @@ input ProductCreateInput {
 input SupplierRelateToOneForCreateInput {
   create: SupplierCreateInput
   connect: SupplierWhereUniqueInput
+}
+
+input ImageRelateToManyForCreateInput {
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
 }
 
 type ProductPromotion {

@@ -13,115 +13,23 @@ import clsx from "clsx";
 import { Card, CardContent } from "@/shared/components/shadcn/card";
 import Image from "next/image";
 import { usePathname } from "@navigation";
+import { useGetProductsQuery } from "@/app/[locale]/(contents)/products/hooks/useGetProductsQuery";
+import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
 // Mock product list (จริง ๆ คุณอาจจะ fetch มาจาก API)
-const productOptions = [
-  {
-    id: "prod_a",
-    name: "Product A",
-    imageUrl: "/images/product-a.jpg",
-  },
-  {
-    id: "prod_b",
-    name: "Product B",
-    imageUrl: "/images/product-b.jpg",
-  },
-  {
-    id: "prod_c",
-    name: "Product C",
-    imageUrl: "/images/product-c.jpg",
-  },
-  {
-    id: "prod_d",
-    name: "Product D",
-    imageUrl: "/images/product-d.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-  {
-    id: "prod_e",
-    name: "Product E",
-    imageUrl: "/images/product-e.jpg",
-  },
-];
-
-type PurchasedProductsForm = {
-  email: string;
-  name: string;
-  username: string;
-  providers: string;
-  image: string;
-  role: string;
-  password: string;
-  product_id: string[];
-};
 
 export default function PurchasedProductsForm() {
-  const method = useForm<PurchasedProductsForm>({
+  const method = useForm({
     defaultValues: {
       providers: "Credential",
       product_id: [],
+      search: "",
     },
   });
-
+  const { data, status } = useGetProductsQuery({
+    orderBy: { name: OrderDirection.Asc },
+    skip: 0,
+    take: 10,
+  });
   const pathname = usePathname();
   const [styleForm, setStyleForm] = useState<"list" | "grid">("grid");
   return (
@@ -159,61 +67,87 @@ export default function PurchasedProductsForm() {
           <List />
         </Button>
       </div>
+      {status === "success" && (
+        <form className="@container mt-3 space-y-4">
+          <AnimatePresence mode="wait">
+            {styleForm === "grid" && (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.1 }}
+                className={clsx(
+                  `grid`,
+                  "@min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5 @min-xl:grid-col-5 gap-3"
+                )}
+              >
+                {data?.products?.map((props, index) => {
+                  const product = props as Product;
+                  return (
+                    <CardProduct
+                      key={`grid-${index}`}
+                      className="hover:animate-pop relative aspect-square max-w-full pb-0 duration-300 hover:scale-105 hover:shadow-xl"
+                      classNames={{
+                        title:
+                          "text-sm place-self-end hover:underline hover:brightness-125 ",
+                        header: "absolute inset-0 ",
+                        containerImage: "max-h-full ",
+                        image: "object-cover rounded-lg",
+                        content:
+                          "z-1 absolute bottom-0 shadow w-full p-5 bg-primary-foreground/50",
 
-      <form className="mt-3 space-y-4">
-        <AnimatePresence mode="wait">
-          {styleForm === "grid" && (
-            <motion.div
-              key="grid"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
-              className="xs:grid-cols-3 grid grid-cols-2 gap-3 lg:grid-cols-4"
-            >
-              {productOptions.map((product, index) => (
-                <CardProduct
-                  key={`grid-${index}`}
-                  className="max-w-full"
-                  product={{ href: `${pathname}/config`, ...product }}
-                />
-              ))}
-            </motion.div>
-          )}
-          {styleForm === "list" && (
-            <motion.div
-              key="list"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.1 }}
-            >
-              <Card>
-                <CardContent>
-                  <ul className="space-y-3 divide-y">
-                    {productOptions.map((product, index) => (
-                      <li
-                        key={`list-${index}`}
-                        className="flex items-center gap-4 pb-3"
-                      >
-                        <div className="size-15 relative aspect-square overflow-hidden rounded-lg border bg-gray-100">
-                          <Image
-                            src={product?.imageUrl}
-                            alt={product.name}
-                            className="h-full w-full object-cover"
-                            fill
-                          />
-                        </div>
-                        <span>{product.name}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </form>
+                        containerDetail: "hidden",
+                      }}
+                      product={{
+                        href: `${pathname}/config`,
+                        ...product,
+                      }}
+                    />
+                  );
+                })}
+              </motion.div>
+            )}
+            {styleForm === "list" && (
+              <motion.div
+                key="list"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.1 }}
+              >
+                <Card>
+                  <CardContent>
+                    <ul className="space-y-3 divide-y">
+                      {data?.products?.map((props, index) => {
+                        const product = props as Product;
+                        return (
+                          <li
+                            key={`list-${index}`}
+                            className="flex items-center gap-4 pb-3"
+                          >
+                            <div className="size-15 relative aspect-square overflow-hidden rounded-lg border bg-gray-100">
+                              {product?.images?.[0] && (
+                                <Image
+                                  src={product?.images[0].src?.url ?? ""}
+                                  alt={product.images[0]?.altText ?? ""}
+                                  className="h-full w-full object-cover"
+                                  fill
+                                />
+                              )}
+                            </div>
+                            <span>{product.name}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </form>
+      )}
     </Form>
   );
 }

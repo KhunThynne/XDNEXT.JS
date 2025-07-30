@@ -1,12 +1,10 @@
-import NextAuth, { AuthError, DefaultSession, Session } from "next-auth";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
-import { execute, executeAuth } from "./libs/graphql/execute";
+import { executeAuth } from "./libs/graphql/execute";
 import {
   GetUserByEmailQuery,
   LoginDocument,
-  User,
-  UserAuthenticationWithPasswordSuccess,
 } from "./libs/graphql/generates/graphql";
 import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
 import { JWT } from "next-auth/jwt";
@@ -14,8 +12,6 @@ import { env } from "@/env";
 import { DiscordUser } from "@type/user.type";
 import { CreateUserMutationDocument } from "./libs/graphql/operations/user/createUser.mutation";
 import { GetUserByEmailDocument } from "./libs/graphql/operations/user/getUserByEmail";
-import { email } from "zod";
-
 declare module "next-auth" {
   interface Session {
     user: GqlUser;

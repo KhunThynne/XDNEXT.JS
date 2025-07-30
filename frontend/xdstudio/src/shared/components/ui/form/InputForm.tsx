@@ -59,7 +59,7 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
             </FormLabel>
           )}
           <FormControl>
-            <div className={clsx("flex", classNames?.container)}>
+            <div className={clsx("flex items-end", classNames?.container)}>
               {renderInput ? (
                 renderInput(field)
               ) : (

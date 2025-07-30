@@ -1,60 +1,54 @@
 "use client";
 
+import { User } from "@/libs/graphql/generates/graphql";
 import { Form } from "@/shared/components/shadcn/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useForm } from "react-hook-form";
 
-type AccountFormData = {
-  email: string;
-  name: string;
-  username: string;
-  providers: string;
-  image: string;
-  role: string;
-  password: string;
-};
-
-export default function AccountPreferenceForm() {
-  const method = useForm<AccountFormData>({
+export default function AccountPreferenceForm(props: User) {
+  const method = useForm<User>({
     defaultValues: {
-      email: "",
-      name: "",
-      username: "",
-      providers: "",
-      image: "",
-      role: "",
-      password: "",
+      ...props,
     },
   });
-
+  const { control } = method;
   return (
     <Form {...method}>
       <form className="space-y-4">
-        <InputForm name="email" label="Email" placeholder="you@example.com" />
-
+        <div className="flex gap-3 max-md:flex-col">
+          <InputForm
+            name="email"
+            disabled
+            label="Email"
+            className="grow"
+            placeholder="you@example.com"
+          />
+          <InputForm name="provider" control={control} disabled />
+        </div>
         <div className="flex gap-3 max-md:flex-col">
           <InputForm
             name="name"
             label="Name"
             placeholder="Full Name"
             className="grow"
+            control={control}
           />
           <InputForm
             className="grow"
             name="username"
             label="Username"
             placeholder="your_username"
+            control={control}
           />
         </div>
 
         <InputForm
-          name="providers"
-          label="Providers"
-          disabled
-          value={"Credentail"}
+          name="avartar.src.url"
+          label="Image URL"
+          placeholder="https://..."
+          control={control}
         />
-        <InputForm name="image" label="Image URL" placeholder="https://..." />
-        <InputForm name="role" label="Role" placeholder="admin / user" />
+
         <InputForm
           name="password"
           label="Password"
