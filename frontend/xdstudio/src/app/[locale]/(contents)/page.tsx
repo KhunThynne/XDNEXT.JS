@@ -3,7 +3,9 @@ import { Button } from "@/shared/components/shadcn/button";
 import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
 import clsx from "clsx";
-
+export async function generateStaticParams() {
+  return [{ locale: "en" }, { locale: "th" }];
+}
 export default function DefaultCotent() {
   return (
     <ContainerSection

@@ -14,6 +14,8 @@ import {
 import clsx from "clsx";
 import { ChevronDownIcon } from "lucide-react";
 import Image from "next/image";
+import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
+import { Separator } from "@/shared/components/shadcn/separator";
 const ProductDetail = (props: Product) => {
   const productFAQs = [
     {
@@ -37,7 +39,7 @@ const ProductDetail = (props: Product) => {
   ];
 
   return (
-    <Card className="h-full">
+    <Card className="h-full duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
         <h1 className="text-xl font-semibold">{props.name}</h1>
       </CardHeader>
@@ -70,6 +72,18 @@ const ProductDetail = (props: Product) => {
   );
 };
 
+const Gallery = () => {
+  return (
+    <EmblaCarousel className="h-25">
+      {/* <div className="min-w-xs h-full border bg-amber-400" />
+      <div className="min-w-xs size-40 border" /> */}
+      <p className="mx-auto place-self-center text-3xl opacity-30">
+        Comming soon ..
+      </p>
+    </EmblaCarousel>
+  );
+};
+
 export const ContentProduct = (props: Product) => {
   const { id, ...product } = props;
   return (
@@ -84,17 +98,23 @@ export const ContentProduct = (props: Product) => {
         id="image"
       >
         <div className="flex gap-3 max-lg:flex-col">
-          <div className="relative h-80 grow rounded-lg border">
-            {product.images?.[0]?.src?.url && (
-              <Image
-                src={product.images[0].src.url}
-                alt={product.images[0].altText ?? "unknown"}
-                fill
-                className="aspect-video object-contain"
-              />
-            )}
+          <div className="flex grow flex-col gap-3">
+            <div className="relative h-80 rounded-lg border">
+              {product.images?.[0]?.src?.url && (
+                <Image
+                  src={product.images[0].src.url}
+                  alt={product.images[0].altText ?? "unknown"}
+                  fill
+                  className="aspect-video object-contain"
+                />
+              )}
+            </div>
+            <Separator />
+            <div className="">
+              <Gallery />
+            </div>
           </div>
-          <Card className="lg:w-xs shadow-lg">
+          <Card className="lg:w-xs group duration-300 hover:shadow-lg">
             <CardHeader className="text-lg font-semibold">
               Product Info
             </CardHeader>
@@ -116,7 +136,7 @@ export const ContentProduct = (props: Product) => {
         </div>
 
         <div>
-          <Card className="h-full">
+          <Card className="h-full duration-300 hover:shadow-lg">
             <CardHeader className="text-lg font-semibold">
               Product Description
             </CardHeader>

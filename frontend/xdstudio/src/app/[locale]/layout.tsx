@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
 import Content from "@/shared/components/ui/Content";
-import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {

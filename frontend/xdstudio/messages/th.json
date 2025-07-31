@@ -23,5 +23,9 @@
     "goToLogin": "ไปยังหน้าล็อกอิน",
     "signInAgain": "เข้าสู่ระบบอีกครั้ง",
     "backToSignIn": "กลับไปที่หน้าล็อกอิน"
+  },
+  "not_found": {
+    "description": "ขออภัยหน้าคุณกำลังมองหาไม่มีอยู่จริง",
+    "navigation": "Go back home"
   }
 }

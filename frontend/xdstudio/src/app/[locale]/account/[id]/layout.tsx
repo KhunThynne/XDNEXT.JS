@@ -17,7 +17,7 @@ export default async function AuthenticationLayout({
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <ContainerSection
-        className="lg:col-span-7"
+        className="@container relative lg:col-span-7"
         title="Purchased Products"
         description="These are the products you have successfully purchased and activated."
       >

@@ -22,10 +22,10 @@ export type DialogOptions = {
 };
 export type DialogInstanceProps = {
   options?: DialogOptions;
-  title: string;
-  description: string;
-  content?: React.ReactNode;
-  footer?: React.ReactNode;
+  title?: string;
+  description?: string;
+  content?: React.ReactNode | React.JSX.Element;
+  footer?: React.ReactNode | React.JSX.Element;
   trigger?: React.ReactNode | string;
   mode?: "static" | "dismissable";
 };

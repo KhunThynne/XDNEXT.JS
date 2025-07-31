@@ -3,9 +3,10 @@ import clsx from "clsx";
 export default function Content({
   classNames,
   children,
-}: Omit<GlobalPropsClassNames<"content" | "outsite">, "className">) {
+  className,
+}: GlobalPropsClassNames<"content" | "outsite">) {
   return (
-    <div className={classNames?.outsite}>
+    <div className={clsx(className, classNames?.outsite)}>
       <div
         className={clsx(
           "absolute inset-0 -z-20",

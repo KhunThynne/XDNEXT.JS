@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/shared/components/providers";
 import { DialogProvider } from "@/libs/dialog/DialogProvider";
-import { SessionProvider } from "next-auth/react";
 import { useLocaleStore } from "@/shared/stores/useLocaleStore";
 const queryClient = new QueryClient();
 export const Providers = ({
