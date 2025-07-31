@@ -1,13 +1,13 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { text, relationship, select, timestamp, password } from '@keystone-6/core/fields'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { text, relationship, select, timestamp, password } from '@keystone-6/core/fields';
 export const User: ListConfig<any> = list({
   access: allowAll,
   ui: {
     listView: {
       initialColumns: ['name', 'username', 'email', 'role'],
-      pageSize: 10
-    }
+      pageSize: 10,
+    },
   },
   fields: {
     name: text({ validation: { isRequired: true } }),
@@ -20,14 +20,14 @@ export const User: ListConfig<any> = list({
         { label: 'Admin', value: 'ADMIN' },
         { label: 'User', value: 'USER' },
         { label: 'Moderator', value: 'MODERATOR' },
-        { label: 'Guest', value: 'GUEST' }
+        { label: 'Guest', value: 'GUEST' },
       ],
       defaultValue: 'USER',
-      ui: { displayMode: 'select' }
+      ui: { displayMode: 'select' },
     }),
     email: text({
       validation: { isRequired: true },
-      isIndexed: 'unique'
+      isIndexed: 'unique',
     }),
     createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     password: password({ validation: { isRequired: true } }),
@@ -36,7 +36,7 @@ export const User: ListConfig<any> = list({
     yourSuppiler: relationship({ ref: 'Supplier.user', many: true }),
     order: relationship({ ref: 'Order.user', many: true }),
     preference: relationship({ ref: 'UserPreference.user', many: false }),
-    posts: relationship({ ref: 'Post.author', many: true })
+    posts: relationship({ ref: 'Post.author', many: true }),
   },
   hooks: {
     afterOperation: async ({ operation, item, context }) => {
@@ -45,16 +45,16 @@ export const User: ListConfig<any> = list({
           data: {
             supplierName: `Supplier for ${item.name}`,
             supplierDetails: `Supplier initails`,
-            user: { connect: { id: item.id } }
-          }
-        })
+            user: { connect: { id: item.id } },
+          },
+        });
 
         await context.db.UserPreference.createOne({
           data: {
-            user: { connect: { id: item.id } }
-          }
-        })
+            user: { connect: { id: item.id } },
+          },
+        });
       }
-    }
-  }
-})
+    },
+  },
+});

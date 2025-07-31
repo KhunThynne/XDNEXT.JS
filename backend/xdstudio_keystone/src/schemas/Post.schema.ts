@@ -1,7 +1,7 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { relationship, text } from '@keystone-6/core/fields'
-import { document } from '@keystone-6/fields-document'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { relationship, text } from '@keystone-6/core/fields';
+import { document } from '@keystone-6/fields-document';
 export const Post: ListConfig<any> = list({
   access: allowAll,
   fields: {
@@ -13,10 +13,10 @@ export const Post: ListConfig<any> = list({
         [1, 1, 1],
         [2, 1],
         [1, 2],
-        [1, 2, 1]
+        [1, 2, 1],
       ],
       links: true,
-      dividers: true
+      dividers: true,
     }),
     author: relationship({
       ref: 'User.posts',
@@ -25,9 +25,9 @@ export const Post: ListConfig<any> = list({
         cardFields: ['name', 'email'],
         inlineEdit: { fields: ['name', 'email'] },
         linkToItem: true,
-        inlineConnect: true
+        inlineConnect: true,
       },
-      many: false
+      many: false,
     }),
     tags: relationship({
       ref: 'Tag.posts',
@@ -38,8 +38,8 @@ export const Post: ListConfig<any> = list({
         inlineEdit: { fields: ['name'] },
         linkToItem: true,
         inlineConnect: true,
-        inlineCreate: { fields: ['name'] }
-      }
-    })
-  }
-})
+        inlineCreate: { fields: ['name'] },
+      },
+    }),
+  },
+});

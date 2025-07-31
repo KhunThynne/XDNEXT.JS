@@ -1,7 +1,7 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { integer, relationship, select } from '@keystone-6/core/fields'
-import { document } from '@keystone-6/fields-document'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { integer, relationship, select } from '@keystone-6/core/fields';
+import { document } from '@keystone-6/fields-document';
 export const PointTransaction: ListConfig<any> = list({
   access: allowAll,
   fields: {
@@ -9,13 +9,13 @@ export const PointTransaction: ListConfig<any> = list({
     type: select({
       options: [
         { label: 'Earn', value: 'earn' },
-        { label: 'Redeem', value: 'redeem' }
+        { label: 'Redeem', value: 'redeem' },
       ],
       defaultValue: 'Earn',
       ui: {
-        displayMode: 'select'
+        displayMode: 'select',
       },
-      validation: { isRequired: true }
+      validation: { isRequired: true },
     }),
     amount: integer(),
     description: document({
@@ -25,10 +25,10 @@ export const PointTransaction: ListConfig<any> = list({
         [1, 1, 1],
         [2, 1],
         [1, 2],
-        [1, 2, 1]
+        [1, 2, 1],
       ],
       links: true,
-      dividers: true
-    })
-  }
-})
+      dividers: true,
+    }),
+  },
+});

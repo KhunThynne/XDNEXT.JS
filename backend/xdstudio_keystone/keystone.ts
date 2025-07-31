@@ -4,17 +4,17 @@
 //
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
-import './configs/dotenv.config'
-import { config, graphql } from '@keystone-6/core'
+import './configs/dotenv.config';
+import { config, graphql } from '@keystone-6/core';
 
 // to keep this file tidy, we define our schema in a different file
 
 // authentication is configured separately here too, but you might move this elsewhere
 // when you write your list-level access control functions, as they typically rely on session data
-import { withAuth, session } from './auth'
-import env from './env'
-import { Context } from '.keystone/types'
-import { lists } from './src/schemas'
+import { withAuth, session } from './auth';
+import env from './env';
+import { Context } from '.keystone/types';
+import { lists } from './src/schemas';
 
 export default withAuth(
   config({
@@ -28,7 +28,7 @@ export default withAuth(
       // Optional advanced configuration
       enableLogging: true,
       idField: { kind: 'uuid' },
-      shadowDatabaseUrl: env.SHADOW_DATABASE_URL
+      shadowDatabaseUrl: env.SHADOW_DATABASE_URL,
     },
 
     lists,
@@ -38,33 +38,33 @@ export default withAuth(
         type: 'image',
         generateUrl: (path: string) => `${env.API_BACKEND_URL}${env.IMAGE_PATH}${path}`,
         serverRoute: {
-          path: env.IMAGE_PATH
+          path: env.IMAGE_PATH,
         },
-        storagePath: env.STORAGE_IMAGE_PATH
-      }
+        storagePath: env.STORAGE_IMAGE_PATH,
+      },
     },
     graphql: {
       extendGraphqlSchema: graphql.extend((base) => {
         const RegisterAndLoginResult = graphql.object<{
-          item: any
-          sessionToken: string
+          item: any;
+          sessionToken: string;
         }>()({
           name: 'RegisterAndLoginResult',
           fields: {
             item: graphql.field({
               type: base.object('User'),
               resolve(source) {
-                return source.item
-              }
+                return source.item;
+              },
             }),
             sessionToken: graphql.field({
               type: graphql.String,
               resolve(source) {
-                return source.sessionToken
-              }
-            })
-          }
-        })
+                return source.sessionToken;
+              },
+            }),
+          },
+        });
 
         return {
           mutation: {
@@ -75,32 +75,32 @@ export default withAuth(
                 password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
                 username: graphql.arg({ type: graphql.String }),
                 image: graphql.arg({ type: graphql.String }),
-                provider: graphql.arg({ type: graphql.String })
+                provider: graphql.arg({ type: graphql.String }),
               },
               async resolve(_, arg, context: Context) {
-                const { email, username, provider } = arg
-                let user = await context.db.User.findOne({ where: { email } })
+                const { email, username, provider } = arg;
+                let user = await context.db.User.findOne({ where: { email } });
 
                 if (!user) {
                   user = await context.db.User.createOne({
-                    data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' }
-                  })
+                    data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' },
+                  });
                 }
                 const sessionToken = await context.session.authenticateUserWithPassword({
-                  data: { email: user.email, password: arg.password }
-                })
-                return { item: user, sessionToken }
-              }
-            })
-          }
-        }
-      })
+                  data: { email: user.email, password: arg.password },
+                });
+                return { item: user, sessionToken };
+              },
+            }),
+          },
+        };
+      }),
     },
     session,
     server: { port: env.PORT },
     ui: {
-      isAccessAllowed: () => true
+      isAccessAllowed: () => true,
       // : false,
-    }
-  })
-)
+    },
+  }),
+);

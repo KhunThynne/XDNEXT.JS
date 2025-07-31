@@ -1,14 +1,14 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { relationship, timestamp, json } from '@keystone-6/core/fields'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { relationship, timestamp, json } from '@keystone-6/core/fields';
 export const UserItem: ListConfig<any> = list({
   access: allowAll,
   ui: {
     label: 'User Product',
     listView: {
       initialColumns: ['userId', 'createdAt'],
-      pageSize: 10
-    }
+      pageSize: 10,
+    },
   },
   fields: {
     user: relationship({
@@ -19,29 +19,29 @@ export const UserItem: ListConfig<any> = list({
         cardFields: ['name', 'email'],
         inlineEdit: { fields: ['name', 'email'] },
         linkToItem: true,
-        inlineConnect: true
-      }
+        inlineConnect: true,
+      },
     }),
 
     product: relationship({
-      ref: 'Product'
+      ref: 'Product',
     }),
     item: relationship({
       ref: 'OrderItem.userItem',
-      many: false
+      many: false,
     }),
     config: json({
       defaultValue: {},
-      ui: {}
+      ui: {},
     }),
     createdAt: timestamp({
       defaultValue: { kind: 'now' },
       ui: {
-        itemView: { fieldMode: 'read' }
-      }
+        itemView: { fieldMode: 'read' },
+      },
     }),
     updateAt: timestamp({
-      defaultValue: { kind: 'now' }
-    })
-  }
-})
+      defaultValue: { kind: 'now' },
+    }),
+  },
+});

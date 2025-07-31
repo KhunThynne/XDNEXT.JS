@@ -13,7 +13,7 @@ export default async function PageProducts() {
             Click on any product to learn more or make a purchase."
         classNames={{
           content: clsx(
-            "grid  @min-lg:grid-cols-3 @min-3xl:grid-cols-4 @min-5xl:grid-cols-5 @min-7xl:grid-cols-6",
+            "grid  @min-lg:grid-cols-2 @min-3xl:grid-cols-3 @min-5xl:grid-cols-4 @min-7xl:grid-cols-5",
             "gap-5"
           ),
         }}

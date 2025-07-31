@@ -68,12 +68,12 @@ model UserPoint {
 }
 
 model Supplier {
-  id              String    @id @default(uuid()) @postgresql.Uuid
-  user            User?     @relation("Supplier_user", fields: [userId], references: [id])
-  userId          String?   @map("user") @postgresql.Uuid
-  products        Product[] @relation("Product_suppilers")
-  supplierName    String    @default("")
-  supplierDetails String    @default("")
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  user        User?     @relation("Supplier_user", fields: [userId], references: [id])
+  userId      String?   @map("user") @postgresql.Uuid
+  products    Product[] @relation("Product_suppilers")
+  name        String    @default("")
+  description String    @default("")
 
   @@index([userId])
 }
@@ -106,16 +106,17 @@ model OrderItem {
 
 model Product {
   id                              String             @id @default(uuid()) @postgresql.Uuid
+  status                          String             @default("draft")
   suppilers                       Supplier?          @relation("Product_suppilers", fields: [suppilersId], references: [id])
   suppilersId                     String?            @map("suppilers") @postgresql.Uuid
+  tags                            Tag[]              @relation("Product_tags")
   name                            String             @default("")
-  details                         String             @default("")
-  status                          String             @default("draft")
   description                     String             @default("")
+  details                         Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  images                          Image[]            @relation("Product_images")
   publishedAt                     DateTime?
   updateAt                        DateTime?          @default(now())
   createdAt                       DateTime?          @default(now())
-  images                          Image[]            @relation("Product_images")
   from_UserItem_product           UserItem[]         @relation("UserItem_product")
   from_OrderItem_productId        OrderItem[]        @relation("OrderItem_productId")
   from_ProductPromotion_productId ProductPromotion[] @relation("ProductPromotion_productId")
@@ -166,9 +167,10 @@ model Image {
 }
 
 model Tag {
-  id    String @id @default(uuid()) @postgresql.Uuid
-  name  String @default("")
-  posts Post[] @relation("Post_tags")
+  id                String    @id @default(uuid()) @postgresql.Uuid
+  name              String    @default("")
+  posts             Post[]    @relation("Post_tags")
+  from_Product_tags Product[] @relation("Product_tags")
 }
 
 model Post {

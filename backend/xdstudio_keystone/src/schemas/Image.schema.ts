@@ -1,15 +1,31 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { image, text } from '@keystone-6/core/fields'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { image, text } from '@keystone-6/core/fields';
 export const Image: ListConfig<any> = list({
   access: allowAll,
   fields: {
     name: text({
-      validation: {
-        isRequired: true
-      }
+      // validation: {
+      //   isRequired: true
+      // }
     }),
     altText: text(),
-    src: image({ storage: 'my_local_images' })
-  }
-})
+    src: image({
+      storage: 'my_local_images',
+      ui: {
+        itemView: { fieldMode: 'read' },
+      },
+    }),
+  },
+  hooks: {
+    resolveInput: ({ operation, inputData, resolvedData }) => {
+      if (operation === 'create') {
+        console.log(resolvedData);
+        if (!resolvedData.name && resolvedData.src?.filename) {
+          resolvedData.name = resolvedData.src.filename;
+        }
+      }
+      return resolvedData;
+    },
+  },
+});

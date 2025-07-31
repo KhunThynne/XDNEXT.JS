@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
@@ -14,13 +14,13 @@ const envSchema = z.object({
   ACCESS_TOKEN_EXPIRE: z
     .string()
     .regex(/^\d+[smhd]$/, {
-      message: 'Must be a valid ms string (e.g. 15m, 7d, 1h)'
+      message: 'Must be a valid ms string (e.g. 15m, 7d, 1h)',
     })
     .default('15m'),
   REFRESH_TOKEN_EXPIRE: z
     .string()
     .regex(/^\d+[smhd]$/, {
-      message: 'Must be a valid ms string (e.g. 7d, 30m)'
+      message: 'Must be a valid ms string (e.g. 7d, 30m)',
     })
     .default('15m'),
   NODE_ENV: z.enum(['development', 'product']).optional(),
@@ -36,14 +36,14 @@ const envSchema = z.object({
 
   // เพิ่ม IMAGE_PATH
   IMAGE_PATH: z.string().default('/images'),
-  STORAGE_IMAGE_PATH: z.string()
-})
+  STORAGE_IMAGE_PATH: z.string(),
+});
 
-const parsedEnv = envSchema.safeParse(process.env)
+const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error('❌ Invalid environment variables:', parsedEnv.error.format())
-  process.exit(1)
+  console.error('❌ Invalid environment variables:', parsedEnv.error.format());
+  process.exit(1);
 }
 
 const env = {
@@ -63,7 +63,7 @@ const env = {
   DATABASE_PORT: parsedEnv.data.DATABASE_PORT,
   SESSION_SECRET: parsedEnv.data.SESSION_SECRET,
   STORAGE_IMAGE_PATH: parsedEnv.data.STORAGE_IMAGE_PATH,
-  IMAGE_PATH: parsedEnv.data.IMAGE_PATH
-}
+  IMAGE_PATH: parsedEnv.data.IMAGE_PATH,
+};
 
-export default env
+export default env;

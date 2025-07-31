@@ -6,6 +6,7 @@ import { Button } from "@/shared/components/shadcn/button";
 import _ from "lodash";
 import { ThemeProvider } from "@/shared/components/providers";
 import Content from "@/shared/components/ui/Content";
+import clsx from "clsx";
 export default async function NotFoundRoot() {
   const locale = await getLocale();
   const { messages } = await getRequestConfig({
@@ -17,7 +18,7 @@ export default async function NotFoundRoot() {
   const t = createTranslator({ locale, messages });
   return (
     <html key="global-not-found">
-      <body>
+      <body className={clsx(`antialiased`)}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

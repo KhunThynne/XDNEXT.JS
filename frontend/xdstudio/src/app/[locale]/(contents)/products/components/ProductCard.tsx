@@ -1,9 +1,11 @@
 "use client";
 
 import { Product } from "@/libs/graphql/generates/graphql";
+import { Button } from "@/shared/components/shadcn/button";
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/components/shadcn/card";
@@ -28,7 +30,7 @@ export const CardProduct = ({
   return (
     <Card
       className={clsx(
-        "@md:max-w-2xs max-w-2xs size-full overflow-auto pt-0",
+        "@md:max-w-2xs size-full max-w-full overflow-auto pt-0",
         className
       )}
     >
@@ -39,7 +41,7 @@ export const CardProduct = ({
         )}
       >
         <div
-          className={clsx("max-w-45 aspect-square", classNames?.containerImage)}
+          className={clsx("aspect-square max-w-32", classNames?.containerImage)}
         >
           {product.images?.[0]?.src?.url && (
             <Image
@@ -51,7 +53,7 @@ export const CardProduct = ({
           )}
         </div>
       </CardHeader>
-      <CardContent className={clsx(classNames?.content)}>
+      <CardContent className={clsx(`border-b`, classNames?.content)}>
         <Link href={product.href ?? `/products/${product.id}`}>
           <CardTitle
             className={clsx(
@@ -77,14 +79,11 @@ export const CardProduct = ({
           )}
         </Link>
       </CardContent>
-      {/* <CardFooter className="flex justify-between gap-4">
-        {product.price && (
-          <p className="text-primary text-md font-bold">
-            ฿{product.price.toLocaleString()}
-          </p>
-        )}
+      <CardFooter className="flex justify-between gap-4">
+        <p className="text-primary text-md font-bold">฿ 556</p>
+
         <Button className="">Add to cart</Button>
-      </CardFooter> */}
+      </CardFooter>
     </Card>
   );
 };

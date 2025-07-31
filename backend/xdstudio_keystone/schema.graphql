@@ -501,8 +501,8 @@ type Supplier {
   user: User
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  supplierName: String
-  supplierDetails: String
+  name: String
+  description: String
 }
 
 input SupplierWhereUniqueInput {
@@ -516,8 +516,8 @@ input SupplierWhereInput {
   id: IDFilter
   user: UserWhereInput
   products: ProductManyRelationFilter
-  supplierName: StringFilter
-  supplierDetails: StringFilter
+  name: StringFilter
+  description: StringFilter
 }
 
 input ProductManyRelationFilter {
@@ -528,15 +528,15 @@ input ProductManyRelationFilter {
 
 input SupplierOrderByInput {
   id: OrderDirection
-  supplierName: OrderDirection
-  supplierDetails: OrderDirection
+  name: OrderDirection
+  description: OrderDirection
 }
 
 input SupplierUpdateInput {
   user: UserRelateToOneForUpdateInput
   products: ProductRelateToManyForUpdateInput
-  supplierName: String
-  supplierDetails: String
+  name: String
+  description: String
 }
 
 input ProductRelateToManyForUpdateInput {
@@ -554,8 +554,8 @@ input SupplierUpdateArgs {
 input SupplierCreateInput {
   user: UserRelateToOneForCreateInput
   products: ProductRelateToManyForCreateInput
-  supplierName: String
-  supplierDetails: String
+  name: String
+  description: String
 }
 
 input ProductRelateToManyForCreateInput {
@@ -718,16 +718,22 @@ input UserItemRelateToOneForCreateInput {
 
 type Product {
   id: ID!
-  suppilers: Supplier
-  name: String
-  details: String
   status: String
+  suppilers: Supplier
+  tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
+  name: String
   description: String
+  details: Product_details_Document
+  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  imagesCount(where: ImageWhereInput! = {}): Int
   publishedAt: DateTime
   updateAt: DateTime
   createdAt: DateTime
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
+}
+
+type Product_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input ProductWhereUniqueInput {
@@ -739,15 +745,21 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   id: IDFilter
-  suppilers: SupplierWhereInput
-  name: StringFilter
-  details: StringFilter
   status: StringFilter
+  suppilers: SupplierWhereInput
+  tags: TagManyRelationFilter
+  name: StringFilter
   description: StringFilter
+  images: ImageManyRelationFilter
   publishedAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
   createdAt: DateTimeNullableFilter
-  images: ImageManyRelationFilter
+}
+
+input TagManyRelationFilter {
+  every: TagWhereInput
+  some: TagWhereInput
+  none: TagWhereInput
 }
 
 input ImageManyRelationFilter {
@@ -758,9 +770,8 @@ input ImageManyRelationFilter {
 
 input ProductOrderByInput {
   id: OrderDirection
-  name: OrderDirection
-  details: OrderDirection
   status: OrderDirection
+  name: OrderDirection
   description: OrderDirection
   publishedAt: OrderDirection
   updateAt: OrderDirection
@@ -768,21 +779,29 @@ input ProductOrderByInput {
 }
 
 input ProductUpdateInput {
-  suppilers: SupplierRelateToOneForUpdateInput
-  name: String
-  details: String
   status: String
+  suppilers: SupplierRelateToOneForUpdateInput
+  tags: TagRelateToManyForUpdateInput
+  name: String
   description: String
+  details: JSON
+  images: ImageRelateToManyForUpdateInput
   publishedAt: DateTime
   updateAt: DateTime
   createdAt: DateTime
-  images: ImageRelateToManyForUpdateInput
 }
 
 input SupplierRelateToOneForUpdateInput {
   create: SupplierCreateInput
   connect: SupplierWhereUniqueInput
   disconnect: Boolean
+}
+
+input TagRelateToManyForUpdateInput {
+  disconnect: [TagWhereUniqueInput!]
+  set: [TagWhereUniqueInput!]
+  create: [TagCreateInput!]
+  connect: [TagWhereUniqueInput!]
 }
 
 input ImageRelateToManyForUpdateInput {
@@ -798,20 +817,26 @@ input ProductUpdateArgs {
 }
 
 input ProductCreateInput {
-  suppilers: SupplierRelateToOneForCreateInput
-  name: String
-  details: String
   status: String
+  suppilers: SupplierRelateToOneForCreateInput
+  tags: TagRelateToManyForCreateInput
+  name: String
   description: String
+  details: JSON
+  images: ImageRelateToManyForCreateInput
   publishedAt: DateTime
   updateAt: DateTime
   createdAt: DateTime
-  images: ImageRelateToManyForCreateInput
 }
 
 input SupplierRelateToOneForCreateInput {
   create: SupplierCreateInput
   connect: SupplierWhereUniqueInput
+}
+
+input TagRelateToManyForCreateInput {
+  create: [TagCreateInput!]
+  connect: [TagWhereUniqueInput!]
 }
 
 input ImageRelateToManyForCreateInput {
@@ -1139,12 +1164,6 @@ input PostWhereInput {
   tags: TagManyRelationFilter
 }
 
-input TagManyRelationFilter {
-  every: TagWhereInput
-  some: TagWhereInput
-  none: TagWhereInput
-}
-
 input PostOrderByInput {
   id: OrderDirection
   title: OrderDirection
@@ -1157,13 +1176,6 @@ input PostUpdateInput {
   tags: TagRelateToManyForUpdateInput
 }
 
-input TagRelateToManyForUpdateInput {
-  disconnect: [TagWhereUniqueInput!]
-  set: [TagWhereUniqueInput!]
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
-}
-
 input PostUpdateArgs {
   where: PostWhereUniqueInput!
   data: PostUpdateInput!
@@ -1174,11 +1186,6 @@ input PostCreateInput {
   content: JSON
   author: UserRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
-}
-
-input TagRelateToManyForCreateInput {
-  create: [TagCreateInput!]
-  connect: [TagWhereUniqueInput!]
 }
 
 """

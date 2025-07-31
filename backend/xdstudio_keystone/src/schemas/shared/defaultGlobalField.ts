@@ -1,20 +1,35 @@
-import { BaseFields } from '@keystone-6/core'
-import { timestamp } from '@keystone-6/core/fields'
-import { BaseListTypeInfo } from '@keystone-6/core/types'
+import { BaseFields } from '@keystone-6/core';
+import { timestamp } from '@keystone-6/core/fields';
+import { BaseListTypeInfo } from '@keystone-6/core/types';
 
 export const defaultGlobalField: BaseFields<BaseListTypeInfo> = {
-  createdAt: timestamp({
+  // The date and time when the content was published
+  publishedAt: timestamp({
+    ui: {
+      description: 'The date this content was published.',
+      createView: { fieldMode: 'hidden' },
+      itemView: { fieldMode: 'read' },
+    },
+  }),
+
+  // The last time this item was updated
+  updateAt: timestamp({
     defaultValue: { kind: 'now' },
     ui: {
-      createView: { fieldMode: 'hidden' }
-    }
+      description: 'The last time this item was updated.',
+      createView: { fieldMode: 'hidden' },
+      itemView: { fieldMode: 'read' },
+    },
   }),
-  updateAt: timestamp({
+
+  // The date and time when the item was created
+  createdAt: timestamp({
     defaultValue: { kind: 'now' },
     validation: { isRequired: false },
     ui: {
-      createView: { fieldMode: 'edit' },
-      itemView: { fieldMode: 'read' }
-    }
-  })
-}
+      description: 'The date this item was created.',
+      createView: { fieldMode: 'hidden' },
+      itemView: { fieldMode: 'read' },
+    },
+  }),
+};

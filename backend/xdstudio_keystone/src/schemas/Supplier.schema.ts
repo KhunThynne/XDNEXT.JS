@@ -1,13 +1,22 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { text, relationship } from '@keystone-6/core/fields'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { text, relationship } from '@keystone-6/core/fields';
 
 export const Supplier: ListConfig<any> = list({
   access: allowAll,
   fields: {
     user: relationship({ ref: 'User.yourSuppiler', many: false }),
-    products: relationship({ ref: 'Product.suppilers', many: true }),
-    supplierName: text(),
-    supplierDetails: text()
-  }
-})
+    products: relationship({
+      ref: 'Product.suppilers',
+      many: true,
+      ui: {
+        description: 'Related products from this supplier.',
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'hidden' },
+      },
+    }),
+
+    name: text({ validation: { isRequired: true } }),
+    description: text({ ui: { displayMode: 'textarea' } }),
+  },
+});

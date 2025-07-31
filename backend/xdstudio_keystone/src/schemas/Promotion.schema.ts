@@ -1,6 +1,6 @@
-import { list, ListConfig } from '@keystone-6/core'
-import { allowAll } from '@keystone-6/core/access'
-import { integer, select, text, timestamp } from '@keystone-6/core/fields'
+import { list, ListConfig } from '@keystone-6/core';
+import { allowAll } from '@keystone-6/core/access';
+import { integer, select, text, timestamp } from '@keystone-6/core/fields';
 export const Promotion: ListConfig<any> = list({
   access: allowAll,
   fields: {
@@ -9,12 +9,12 @@ export const Promotion: ListConfig<any> = list({
       options: [
         { label: 'Percent', value: 'percent' },
         { label: 'Fixed', value: 'fixed' },
-        { label: 'Bogo', value: 'bogo' }
+        { label: 'Bogo', value: 'bogo' },
       ],
       defaultValue: 'Percent',
       ui: {
-        displayMode: 'select'
-      }
+        displayMode: 'select',
+      },
     }),
     discountValue: integer({ defaultValue: 0 }),
     publishedAt: timestamp({
@@ -22,8 +22,8 @@ export const Promotion: ListConfig<any> = list({
       validation: { isRequired: false },
       ui: {
         createView: { fieldMode: 'edit' },
-        itemView: { fieldMode: 'read' }
-      }
-    })
-  }
-})
+        itemView: { fieldMode: 'read' },
+      },
+    }),
+  },
+});
