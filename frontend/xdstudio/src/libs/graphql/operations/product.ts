@@ -7,7 +7,17 @@ graphql(`
       ...SupplierFields
     }
     name
-    details
+    description
+    details {
+      document
+    }
+    price {
+      price
+      description
+      price_type
+      price_type
+      id
+    }
     status
     publishedAt
     updateAt

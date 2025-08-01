@@ -86,6 +86,7 @@ export default function PurchasedProductsForm() {
                   const product = props as Product;
                   return (
                     <CardProduct
+                      footer={false}
                       key={`grid-${index}`}
                       className="hover:animate-pop relative aspect-square max-w-full pb-0 duration-300 hover:scale-105 hover:shadow-xl"
                       classNames={{

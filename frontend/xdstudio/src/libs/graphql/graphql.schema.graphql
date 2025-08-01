@@ -24,6 +24,17 @@ input DateTimeNullableFilter {
   notIn: [DateTime!]
 }
 
+input FloatNullableFilter {
+  equals: Float
+  gt: Float
+  gte: Float
+  in: [Float!]
+  lt: Float
+  lte: Float
+  not: FloatNullableFilter
+  notIn: [Float!]
+}
+
 input IDFilter {
   equals: ID
   gt: ID
@@ -299,6 +310,8 @@ type Mutation {
   createPointTransactions(data: [PointTransactionCreateInput!]!): [PointTransaction]
   createPost(data: PostCreateInput!): Post
   createPosts(data: [PostCreateInput!]!): [Post]
+  createPrice(data: PriceCreateInput!): Price
+  createPrices(data: [PriceCreateInput!]!): [Price]
   createProduct(data: ProductCreateInput!): Product
   createProductPromotion(data: ProductPromotionCreateInput!): ProductPromotion
   createProductPromotions(data: [ProductPromotionCreateInput!]!): [ProductPromotion]
@@ -327,6 +340,8 @@ type Mutation {
   deletePointTransactions(where: [PointTransactionWhereUniqueInput!]!): [PointTransaction]
   deletePost(where: PostWhereUniqueInput!): Post
   deletePosts(where: [PostWhereUniqueInput!]!): [Post]
+  deletePrice(where: PriceWhereUniqueInput!): Price
+  deletePrices(where: [PriceWhereUniqueInput!]!): [Price]
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteProductPromotion(where: ProductPromotionWhereUniqueInput!): ProductPromotion
   deleteProductPromotions(where: [ProductPromotionWhereUniqueInput!]!): [ProductPromotion]
@@ -358,6 +373,8 @@ type Mutation {
   updatePointTransactions(data: [PointTransactionUpdateArgs!]!): [PointTransaction]
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updatePosts(data: [PostUpdateArgs!]!): [Post]
+  updatePrice(data: PriceUpdateInput!, where: PriceWhereUniqueInput!): Price
+  updatePrices(data: [PriceUpdateArgs!]!): [Price]
   updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   updateProductPromotion(data: ProductPromotionUpdateInput!, where: ProductPromotionWhereUniqueInput!): ProductPromotion
   updateProductPromotions(data: [ProductPromotionUpdateArgs!]!): [ProductPromotion]
@@ -692,29 +709,118 @@ type Post_content_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
+type Price {
+  createdAt: DateTime
+  description: String
+  id: ID!
+  price: Float
+  price_type: PricePriceTypeType
+  product(cursor: ProductWhereUniqueInput, orderBy: [ProductOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductWhereInput! = {}): [Product!]
+  productCount(where: ProductWhereInput! = {}): Int
+  updateAt: DateTime
+}
+
+input PriceCreateInput {
+  createdAt: DateTime
+  description: String
+  price: Float
+  price_type: PricePriceTypeType
+  product: ProductRelateToManyForCreateInput
+  updateAt: DateTime
+}
+
+input PriceOrderByInput {
+  createdAt: OrderDirection
+  description: OrderDirection
+  id: OrderDirection
+  price: OrderDirection
+  price_type: OrderDirection
+  updateAt: OrderDirection
+}
+
+enum PricePriceTypeType {
+  base
+  retail
+  wholesale
+}
+
+input PricePriceTypeTypeNullableFilter {
+  equals: PricePriceTypeType
+  in: [PricePriceTypeType!]
+  not: PricePriceTypeTypeNullableFilter
+  notIn: [PricePriceTypeType!]
+}
+
+input PriceRelateToOneForCreateInput {
+  connect: PriceWhereUniqueInput
+  create: PriceCreateInput
+}
+
+input PriceRelateToOneForUpdateInput {
+  connect: PriceWhereUniqueInput
+  create: PriceCreateInput
+  disconnect: Boolean
+}
+
+input PriceUpdateArgs {
+  data: PriceUpdateInput!
+  where: PriceWhereUniqueInput!
+}
+
+input PriceUpdateInput {
+  createdAt: DateTime
+  description: String
+  price: Float
+  price_type: PricePriceTypeType
+  product: ProductRelateToManyForUpdateInput
+  updateAt: DateTime
+}
+
+input PriceWhereInput {
+  AND: [PriceWhereInput!]
+  NOT: [PriceWhereInput!]
+  OR: [PriceWhereInput!]
+  createdAt: DateTimeNullableFilter
+  description: StringFilter
+  id: IDFilter
+  price: FloatNullableFilter
+  price_type: PricePriceTypeTypeNullableFilter
+  product: ProductManyRelationFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input PriceWhereUniqueInput {
+  id: ID
+}
+
 type Product {
   createdAt: DateTime
   description: String
-  details: String
+  details: Product_details_Document
   id: ID!
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
   name: String
+  price: Price
   publishedAt: DateTime
   status: String
   suppilers: Supplier
+  tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
 }
 
 input ProductCreateInput {
   createdAt: DateTime
   description: String
-  details: String
+  details: JSON
   images: ImageRelateToManyForCreateInput
   name: String
+  price: PriceRelateToOneForCreateInput
   publishedAt: DateTime
   status: String
   suppilers: SupplierRelateToOneForCreateInput
+  tags: TagRelateToManyForCreateInput
   updateAt: DateTime
 }
 
@@ -727,7 +833,6 @@ input ProductManyRelationFilter {
 input ProductOrderByInput {
   createdAt: OrderDirection
   description: OrderDirection
-  details: OrderDirection
   id: OrderDirection
   name: OrderDirection
   publishedAt: OrderDirection
@@ -815,12 +920,14 @@ input ProductUpdateArgs {
 input ProductUpdateInput {
   createdAt: DateTime
   description: String
-  details: String
+  details: JSON
   images: ImageRelateToManyForUpdateInput
   name: String
+  price: PriceRelateToOneForUpdateInput
   publishedAt: DateTime
   status: String
   suppilers: SupplierRelateToOneForUpdateInput
+  tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
 }
 
@@ -830,18 +937,23 @@ input ProductWhereInput {
   OR: [ProductWhereInput!]
   createdAt: DateTimeNullableFilter
   description: StringFilter
-  details: StringFilter
   id: IDFilter
   images: ImageManyRelationFilter
   name: StringFilter
+  price: PriceWhereInput
   publishedAt: DateTimeNullableFilter
   status: StringFilter
   suppilers: SupplierWhereInput
+  tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
 }
 
 input ProductWhereUniqueInput {
   id: ID
+}
+
+type Product_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Promotion {
@@ -930,6 +1042,9 @@ type Query {
   post(where: PostWhereUniqueInput!): Post
   posts(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
+  price(where: PriceWhereUniqueInput!): Price
+  prices(cursor: PriceWhereUniqueInput, orderBy: [PriceOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PriceWhereInput! = {}): [Price!]
+  pricesCount(where: PriceWhereInput! = {}): Int
   product(where: ProductWhereUniqueInput!): Product
   productPromotion(where: ProductPromotionWhereUniqueInput!): ProductPromotion
   productPromotions(cursor: ProductPromotionWhereUniqueInput, orderBy: [ProductPromotionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductPromotionWhereInput! = {}): [ProductPromotion!]
@@ -1006,18 +1121,18 @@ input StringNullableFilter {
 }
 
 type Supplier {
+  description: String
   id: ID!
+  name: String
   products(cursor: ProductWhereUniqueInput, orderBy: [ProductOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ProductWhereInput! = {}): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
-  supplierDetails: String
-  supplierName: String
   user: User
 }
 
 input SupplierCreateInput {
+  description: String
+  name: String
   products: ProductRelateToManyForCreateInput
-  supplierDetails: String
-  supplierName: String
   user: UserRelateToOneForCreateInput
 }
 
@@ -1028,9 +1143,9 @@ input SupplierManyRelationFilter {
 }
 
 input SupplierOrderByInput {
+  description: OrderDirection
   id: OrderDirection
-  supplierDetails: OrderDirection
-  supplierName: OrderDirection
+  name: OrderDirection
 }
 
 input SupplierRelateToManyForCreateInput {
@@ -1062,9 +1177,9 @@ input SupplierUpdateArgs {
 }
 
 input SupplierUpdateInput {
+  description: String
+  name: String
   products: ProductRelateToManyForUpdateInput
-  supplierDetails: String
-  supplierName: String
   user: UserRelateToOneForUpdateInput
 }
 
@@ -1072,10 +1187,10 @@ input SupplierWhereInput {
   AND: [SupplierWhereInput!]
   NOT: [SupplierWhereInput!]
   OR: [SupplierWhereInput!]
+  description: StringFilter
   id: IDFilter
+  name: StringFilter
   products: ProductManyRelationFilter
-  supplierDetails: StringFilter
-  supplierName: StringFilter
   user: UserWhereInput
 }
 
@@ -1150,6 +1265,8 @@ type User {
   email: String
   id: ID!
   image: String
+  item(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
+  itemCount(where: UserItemWhereInput! = {}): Int
   name: String
   order(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
   orderCount(where: OrderWhereInput! = {}): Int
@@ -1157,17 +1274,15 @@ type User {
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
   passwordResetToken: PasswordState
+  point: UserPoint
   posts(cursor: PostWhereUniqueInput, orderBy: [PostOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PostWhereInput! = {}): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
   preference: UserPreference
   provider: String
   role: String
+  suppiler(cursor: SupplierWhereUniqueInput, orderBy: [SupplierOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SupplierWhereInput! = {}): [Supplier!]
+  suppilerCount(where: SupplierWhereInput! = {}): Int
   username: String
-  yourItem(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
-  yourItemCount(where: UserItemWhereInput! = {}): Int
-  yourPoint: UserPoint
-  yourSuppiler(cursor: SupplierWhereUniqueInput, orderBy: [SupplierOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SupplierWhereInput! = {}): [Supplier!]
-  yourSuppilerCount(where: SupplierWhereInput! = {}): Int
 }
 
 type UserAuthenticationWithPasswordFailure {
@@ -1186,20 +1301,20 @@ input UserCreateInput {
   createdAt: DateTime
   email: String
   image: String
+  item: UserItemRelateToManyForCreateInput
   name: String
   order: OrderRelateToManyForCreateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
   passwordResetToken: String
+  point: UserPointRelateToOneForCreateInput
   posts: PostRelateToManyForCreateInput
   preference: UserPreferenceRelateToOneForCreateInput
   provider: String
   role: String
+  suppiler: SupplierRelateToManyForCreateInput
   username: String
-  yourItem: UserItemRelateToManyForCreateInput
-  yourPoint: UserPointRelateToOneForCreateInput
-  yourSuppiler: SupplierRelateToManyForCreateInput
 }
 
 type UserItem {
@@ -1448,20 +1563,20 @@ input UserUpdateInput {
   createdAt: DateTime
   email: String
   image: String
+  item: UserItemRelateToManyForUpdateInput
   name: String
   order: OrderRelateToManyForUpdateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
   passwordResetToken: String
+  point: UserPointRelateToOneForUpdateInput
   posts: PostRelateToManyForUpdateInput
   preference: UserPreferenceRelateToOneForUpdateInput
   provider: String
   role: String
+  suppiler: SupplierRelateToManyForUpdateInput
   username: String
-  yourItem: UserItemRelateToManyForUpdateInput
-  yourPoint: UserPointRelateToOneForUpdateInput
-  yourSuppiler: SupplierRelateToManyForUpdateInput
 }
 
 input UserWhereInput {
@@ -1473,26 +1588,26 @@ input UserWhereInput {
   email: StringFilter
   id: IDFilter
   image: StringFilter
+  item: UserItemManyRelationFilter
   name: StringFilter
   order: OrderManyRelationFilter
   passwordResetIssuedAt: DateTimeNullableFilter
   passwordResetRedeemedAt: DateTimeNullableFilter
   passwordResetToken: PasswordFilter
+  point: UserPointWhereInput
   posts: PostManyRelationFilter
   preference: UserPreferenceWhereInput
   provider: StringFilter
   role: StringNullableFilter
+  suppiler: SupplierManyRelationFilter
   username: StringFilter
-  yourItem: UserItemManyRelationFilter
-  yourPoint: UserPointWhereInput
-  yourSuppiler: SupplierManyRelationFilter
 }
 
 input UserWhereUniqueInput {
   email: String
   id: ID
+  point: UserPointWhereUniqueInput
   preference: UserPreferenceWhereUniqueInput
-  yourPoint: UserPointWhereUniqueInput
 }
 
 type ValidateUserPasswordResetTokenResult {

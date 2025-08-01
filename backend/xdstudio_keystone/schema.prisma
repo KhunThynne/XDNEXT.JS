@@ -23,10 +23,10 @@ model User {
   email                        String             @unique @default("")
   createdAt                    DateTime?          @default(now())
   password                     String
-  yourItem                     UserItem[]         @relation("UserItem_user")
-  yourPoint                    UserPoint?         @relation("User_yourPoint", fields: [yourPointId], references: [id])
-  yourPointId                  String?            @unique @map("yourPoint") @postgresql.Uuid
-  yourSuppiler                 Supplier[]         @relation("Supplier_user")
+  item                         UserItem[]         @relation("UserItem_user")
+  point                        UserPoint?         @relation("User_point", fields: [pointId], references: [id])
+  pointId                      String?            @unique @map("point") @postgresql.Uuid
+  suppiler                     Supplier[]         @relation("Supplier_user")
   order                        Order[]            @relation("Order_user")
   preference                   UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
   preferenceId                 String?            @unique @map("preference") @postgresql.Uuid
@@ -62,7 +62,7 @@ model UserPreference {
 
 model UserPoint {
   id          String    @id @default(uuid()) @postgresql.Uuid
-  user        User?     @relation("User_yourPoint")
+  user        User?     @relation("User_point")
   total_point Int       @default(0)
   updateAt    DateTime? @default(now())
 }
@@ -104,6 +104,16 @@ model OrderItem {
   @@index([productIdId])
 }
 
+model Price {
+  id          String              @id @default(uuid()) @postgresql.Uuid
+  price       Float?              @default(0)
+  price_type  PricePriceTypeType? @default(retail)
+  product     Product[]           @relation("Product_price")
+  description String              @default("")
+  createdAt   DateTime?           @default(now())
+  updateAt    DateTime?           @default(now())
+}
+
 model Product {
   id                              String             @id @default(uuid()) @postgresql.Uuid
   status                          String             @default("draft")
@@ -111,17 +121,20 @@ model Product {
   suppilersId                     String?            @map("suppilers") @postgresql.Uuid
   tags                            Tag[]              @relation("Product_tags")
   name                            String             @default("")
+  price                           Price?             @relation("Product_price", fields: [priceId], references: [id])
+  priceId                         String?            @map("price") @postgresql.Uuid
   description                     String             @default("")
   details                         Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   images                          Image[]            @relation("Product_images")
   publishedAt                     DateTime?
-  updateAt                        DateTime?          @default(now())
   createdAt                       DateTime?          @default(now())
+  updateAt                        DateTime?          @default(now())
   from_UserItem_product           UserItem[]         @relation("UserItem_product")
   from_OrderItem_productId        OrderItem[]        @relation("OrderItem_productId")
   from_ProductPromotion_productId ProductPromotion[] @relation("ProductPromotion_productId")
 
   @@index([suppilersId])
+  @@index([priceId])
 }
 
 model ProductPromotion {
@@ -182,4 +195,10 @@ model Post {
   tags     Tag[]   @relation("Post_tags")
 
   @@index([authorId])
+}
+
+enum PricePriceTypeType {
+  retail
+  wholesale
+  base
 }

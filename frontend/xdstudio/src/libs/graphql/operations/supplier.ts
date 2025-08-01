@@ -3,8 +3,8 @@ import { graphql } from "../generates";
 graphql(`
   fragment SupplierFields on Supplier {
     id
-    supplierName
-    supplierDetails
+    name
+    description
     user {
       id
       email

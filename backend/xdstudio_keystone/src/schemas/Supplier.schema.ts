@@ -5,7 +5,17 @@ import { text, relationship } from '@keystone-6/core/fields';
 export const Supplier: ListConfig<any> = list({
   access: allowAll,
   fields: {
-    user: relationship({ ref: 'User.yourSuppiler', many: false }),
+    user: relationship({
+      ref: 'User.suppiler',
+      many: false,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['username', 'email'],
+        inlineEdit: { fields: ['username', 'email'] },
+        linkToItem: true,
+        inlineConnect: true,
+      },
+    }),
     products: relationship({
       ref: 'Product.suppilers',
       many: true,
@@ -18,5 +28,13 @@ export const Supplier: ListConfig<any> = list({
 
     name: text({ validation: { isRequired: true } }),
     description: text({ ui: { displayMode: 'textarea' } }),
+  },
+
+  hooks: {
+    validateInput: ({ resolvedData, addValidationError }) => {
+      if (!resolvedData.user) {
+        addValidationError('User is required.');
+      }
+    },
   },
 });

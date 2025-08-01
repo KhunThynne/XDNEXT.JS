@@ -1,8 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
-
+@import './base.css';
+@import './xdstudio.css';
 
 @theme inline {
   --color-background: var(--background);
@@ -114,24 +114,5 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* @theme {
-  --hover-pop:
-}
-@layer utilities {
-  .hover-pop {
-    @apply transition duration-300   hover:scale-105 hover:shadow-xl;
-  }
-} */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
 
 
-
-
-}

@@ -23,7 +23,6 @@ import { PointTransaction } from './PointTransaction.schema';
 import { Product } from './Product.schema';
 import { ProductPromotion } from './ProductPromotion.schema';
 import { Promotion } from './Promotion.schema';
-
 import { Tag } from './Tag.schema';
 import { User } from './User.schema';
 import { UserItem } from './UserItem.schema';
@@ -31,9 +30,7 @@ import { UserPoint } from './UserPoint.schema';
 import { Image } from './Image.schema';
 import { Post } from './Post.schema';
 import { Supplier } from './Supplier.schema';
-import { list } from '@keystone-6/core';
-import { allowAll } from '@keystone-6/core/access';
-import { text } from '@keystone-6/core/fields';
+import { Price } from './Price.schema';
 
 export const lists = {
   User,
@@ -43,6 +40,7 @@ export const lists = {
   Supplier,
   Order,
   OrderItem,
+  Price,
   Product,
   ProductPromotion,
   Promotion,

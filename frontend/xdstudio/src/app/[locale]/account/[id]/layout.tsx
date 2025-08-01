@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { Card, CardContent } from "@/shared/components/shadcn/card";
+import { Card, CardContent, CardHeader } from "@/shared/components/shadcn/card";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 
 import { Loader, Loader2 } from "lucide-react";
@@ -26,11 +26,14 @@ export default async function AuthenticationLayout({
       </ContainerSection>
       <ContainerSection
         className="lg:col-span-5"
-        title="Product Preferences"
+        title="User Preferences"
         classNames={{ description: "truncate" }}
         description="Customize settings and preferences for each product you are currently using."
       >
-        <Card className="@container relative min-h-[50vh]">
+        <Card className="@container relative min-h-[50vh] divide-y">
+          <CardHeader>
+            <h1 className="font-semibold">Preferences</h1>
+          </CardHeader>
           <CardContent>{preferences}</CardContent>
         </Card>
       </ContainerSection>

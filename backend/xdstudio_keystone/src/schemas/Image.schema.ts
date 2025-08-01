@@ -18,11 +18,12 @@ export const Image: ListConfig<any> = list({
     }),
   },
   hooks: {
-    resolveInput: ({ operation, inputData, resolvedData }) => {
+    resolveInput: async ({ operation, inputData, resolvedData }) => {
+      console.log("test")
       if (operation === 'create') {
-        console.log(resolvedData);
-        if (!resolvedData.name && resolvedData.src?.filename) {
-          resolvedData.name = resolvedData.src.filename;
+        const upload = await inputData.src.upload;
+        if (!resolvedData.name) {
+          resolvedData.name = upload.filename;
         }
       }
       return resolvedData;

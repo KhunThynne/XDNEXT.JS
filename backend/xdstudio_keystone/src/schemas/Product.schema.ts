@@ -45,6 +45,19 @@ export const Product: ListConfig<any> = list({
       },
     }),
     name: text({ ui: { description: 'Product name.' }, validation: { isRequired: true } }),
+    price: relationship({
+      ref: 'Price.product',
+      ui: {
+        displayMode: 'select',
+        labelField: 'price',
+        hideCreate: false,
+        createView: {
+          fieldMode: 'edit',
+        },
+      },
+      many: false,
+    }),
+
     description: text({
       ui: {
         displayMode: 'textarea',
@@ -73,7 +86,7 @@ export const Product: ListConfig<any> = list({
         inlineConnect: true, // ✅ ตรงนี้จะช่วยให้เลือกจากรายการที่มีอยู่ได้
       },
     }),
-    ...defaultGlobalField,
+    ...defaultGlobalField(),
   },
   hooks: {
     resolveInput: ({ resolvedData, operation, item }) => {
