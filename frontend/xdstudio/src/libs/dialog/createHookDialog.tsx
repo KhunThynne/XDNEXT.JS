@@ -52,7 +52,7 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
         remove(id);
       };
       node.addEventListener("animationend", handle);
-      node.addEventListener("transitionend", handle);  
+      node.addEventListener("transitionend", handle);
       return () => {
         node.removeEventListener("animationend", handle);
         node.removeEventListener("transitionend", handle);

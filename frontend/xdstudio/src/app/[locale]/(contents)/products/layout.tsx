@@ -3,5 +3,5 @@ export default function LayoutProducts({
 }: {
   children: React.ReactNode;
 }) {
-  return  children;
+  return children;
 }

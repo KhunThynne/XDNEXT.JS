@@ -1,8 +1,4 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/libs/shadcn/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/libs/shadcn/ui/avatar";
 import { Button } from "@/libs/shadcn/ui/button";
 import {
   Popover,
