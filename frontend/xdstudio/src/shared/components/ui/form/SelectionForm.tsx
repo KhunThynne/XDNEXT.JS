@@ -7,7 +7,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/libs/shadcn/ui/form";
-import { Input } from "@/libs/shadcn/ui/input";
 import { Control, FieldValues, Path } from "react-hook-form";
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";
@@ -20,7 +19,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "../../shadcn/select";
+} from "@/libs/shadcn/ui/select";
+
 type Option = {
   label: string;
   value: string;

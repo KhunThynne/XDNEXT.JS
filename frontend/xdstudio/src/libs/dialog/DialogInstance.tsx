@@ -18,6 +18,7 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
+import clsx from "clsx";
 // import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({
@@ -38,6 +39,11 @@ const DialogContentInstance = ({
       {...(mode === "static" && {
         onInteractOutside: (e: Event) => e.preventDefault(),
       })}
+      className={clsx(
+        "max-h-screen overflow-y-auto",
+        `max-sm:h-screen max-sm:max-w-none max-sm:rounded-none`,
+        options?.content?.className
+      )}
     >
       <DialogHeader {...options?.header}>
         {<DialogTitle {...options?.title}>{title}</DialogTitle>}

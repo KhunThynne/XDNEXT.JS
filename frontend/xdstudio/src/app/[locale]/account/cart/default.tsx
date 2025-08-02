@@ -1,3 +1,3 @@
-export default function AccountDefault() {
+export default function CartDefault() {
   return null;
 }
