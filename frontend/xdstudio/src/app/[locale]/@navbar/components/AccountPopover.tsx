@@ -2,13 +2,13 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@/shared/components/shadcn/avatar";
-import { Button } from "@/shared/components/shadcn/button";
+} from "@/libs/shadcn/ui/avatar";
+import { Button } from "@/libs/shadcn/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/shared/components/shadcn/popover";
+} from "@/libs/shadcn/ui/popover";
 
 import _ from "lodash";
 import { LogOut, User } from "lucide-react";
@@ -16,10 +16,10 @@ import { User as UserType } from "next-auth";
 import { signOut } from "next-auth/react";
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";
-import { Badge } from "@/shared/components/shadcn/badge";
+import { Badge } from "@/libs/shadcn/ui/badge";
 import { useFormatter } from "next-intl";
 import { Link, usePathname } from "@navigation";
-import { Separator } from "@/shared/components/shadcn/separator";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export function AccountPopover(user: Partial<UserType>) {
   const avatarUsername = useMemo(
@@ -38,8 +38,8 @@ export function AccountPopover(user: Partial<UserType>) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent align="end" alignOffset={-30} className="w-xs relative">
-        <div className="flex items-center gap-3">
+      <PopoverContent align="end" className="w-xs">
+        <div className="relative flex items-center gap-3">
           <div>
             <Avatar className="mx-auto size-10">
               <AvatarImage src={user?.image ?? ""} />

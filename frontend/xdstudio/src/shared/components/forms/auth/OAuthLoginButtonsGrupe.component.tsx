@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
 

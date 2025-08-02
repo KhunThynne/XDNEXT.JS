@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/shared/components/shadcn/breadcrumb";
+} from "@/libs/shadcn/ui/breadcrumb";
 
 import { usePathname } from "@navigation";
 import _ from "lodash";

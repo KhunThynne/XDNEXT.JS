@@ -981,7 +981,7 @@ export type OrderItem = {
   __typename?: 'OrderItem';
   id: Scalars['ID']['output'];
   order?: Maybe<Order>;
-  productId?: Maybe<Product>;
+  product?: Maybe<Product>;
   unitPrice?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   userItem?: Maybe<UserItem>;
@@ -989,7 +989,7 @@ export type OrderItem = {
 
 export type OrderItemCreateInput = {
   order?: InputMaybe<OrderRelateToOneForCreateInput>;
-  productId?: InputMaybe<ProductRelateToOneForCreateInput>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   unitPrice?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   userItem?: InputMaybe<UserItemRelateToOneForCreateInput>;
@@ -1037,7 +1037,7 @@ export type OrderItemUpdateArgs = {
 
 export type OrderItemUpdateInput = {
   order?: InputMaybe<OrderRelateToOneForUpdateInput>;
-  productId?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   unitPrice?: InputMaybe<Scalars['Int']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   userItem?: InputMaybe<UserItemRelateToOneForUpdateInput>;
@@ -1049,7 +1049,7 @@ export type OrderItemWhereInput = {
   OR?: InputMaybe<Array<OrderItemWhereInput>>;
   id?: InputMaybe<IdFilter>;
   order?: InputMaybe<OrderWhereInput>;
-  productId?: InputMaybe<ProductWhereInput>;
+  product?: InputMaybe<ProductWhereInput>;
   unitPrice?: InputMaybe<IntNullableFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   userItem?: InputMaybe<UserItemWhereInput>;
@@ -2705,6 +2705,13 @@ export type CreateImageMutationVariables = Exact<{
 
 export type CreateImageMutation = { __typename?: 'Mutation', createImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null } | null };
 
+export type GetOrderQueryVariables = Exact<{
+  where: OrderWhereUniqueInput;
+}>;
+
+
+export type GetOrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', createdAt?: any | null, id: string, itemsCount?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, suppiler?: Array<{ __typename?: 'Supplier', id: string, name?: string | null }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null } | null };
+
 export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
@@ -2951,6 +2958,31 @@ export const CreateImageDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateImageMutation, CreateImageMutationVariables>;
+export const GetOrderDocument = new TypedDocumentString(`
+    query getOrder($where: OrderWhereUniqueInput!) {
+  order(where: $where) {
+    createdAt
+    id
+    itemsCount
+    updateAt
+    user {
+      id
+      email
+      username
+      suppiler {
+        id
+        name
+      }
+    }
+    items {
+      id
+      product {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query getProducts($take: Int, $skip: Int!, $orderBy: [ProductOrderByInput!]!) {
   products(take: $take, skip: $skip, orderBy: $orderBy) {

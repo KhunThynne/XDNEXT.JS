@@ -633,7 +633,7 @@ input OrderItemRelateToManyForCreateInput {
 type OrderItem {
   id: ID!
   order: Order
-  productId: Product
+  product: Product
   userItem: UserItem
   unitPrice: Int
   updateAt: DateTime
@@ -650,7 +650,7 @@ input OrderItemWhereInput {
   NOT: [OrderItemWhereInput!]
   id: IDFilter
   order: OrderWhereInput
-  productId: ProductWhereInput
+  product: ProductWhereInput
   userItem: UserItemWhereInput
   unitPrice: IntNullableFilter
   updateAt: DateTimeNullableFilter
@@ -675,7 +675,7 @@ input OrderItemOrderByInput {
 
 input OrderItemUpdateInput {
   order: OrderRelateToOneForUpdateInput
-  productId: ProductRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
   userItem: UserItemRelateToOneForUpdateInput
   unitPrice: Int
   updateAt: DateTime
@@ -700,7 +700,7 @@ input OrderItemUpdateArgs {
 
 input OrderItemCreateInput {
   order: OrderRelateToOneForCreateInput
-  productId: ProductRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
   userItem: UserItemRelateToOneForCreateInput
   unitPrice: Int
   updateAt: DateTime

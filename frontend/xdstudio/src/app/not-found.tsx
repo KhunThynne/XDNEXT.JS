@@ -2,7 +2,7 @@ import { getLocale } from "next-intl/server";
 import getRequestConfig from "@/libs/i18n/request";
 import { createTranslator } from "next-intl";
 import Link from "next/link";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import _ from "lodash";
 import { ThemeProvider } from "@/shared/components/providers";
 import Content from "@/shared/components/ui/Content";

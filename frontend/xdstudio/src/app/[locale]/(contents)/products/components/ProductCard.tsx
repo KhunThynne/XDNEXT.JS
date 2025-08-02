@@ -2,14 +2,14 @@
 
 import { Product } from "@/libs/graphql/generates/graphql";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/shared/components/shadcn/card";
+} from "@/libs/shadcn/ui/card";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";

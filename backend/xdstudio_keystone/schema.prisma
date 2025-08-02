@@ -90,18 +90,18 @@ model Order {
 }
 
 model OrderItem {
-  id          String    @id @default(uuid()) @postgresql.Uuid
-  order       Order?    @relation("OrderItem_order", fields: [orderId], references: [id])
-  orderId     String?   @map("order") @postgresql.Uuid
-  productId   Product?  @relation("OrderItem_productId", fields: [productIdId], references: [id])
-  productIdId String?   @map("productId") @postgresql.Uuid
-  userItem    UserItem? @relation("OrderItem_userItem", fields: [userItemId], references: [id])
-  userItemId  String?   @unique @map("userItem") @postgresql.Uuid
-  unitPrice   Int?
-  updateAt    DateTime?
+  id         String    @id @default(uuid()) @postgresql.Uuid
+  order      Order?    @relation("OrderItem_order", fields: [orderId], references: [id])
+  orderId    String?   @map("order") @postgresql.Uuid
+  product    Product?  @relation("OrderItem_product", fields: [productId], references: [id])
+  productId  String?   @map("product") @postgresql.Uuid
+  userItem   UserItem? @relation("OrderItem_userItem", fields: [userItemId], references: [id])
+  userItemId String?   @unique @map("userItem") @postgresql.Uuid
+  unitPrice  Int?
+  updateAt   DateTime?
 
   @@index([orderId])
-  @@index([productIdId])
+  @@index([productId])
 }
 
 model Price {
@@ -130,7 +130,7 @@ model Product {
   createdAt                       DateTime?          @default(now())
   updateAt                        DateTime?          @default(now())
   from_UserItem_product           UserItem[]         @relation("UserItem_product")
-  from_OrderItem_productId        OrderItem[]        @relation("OrderItem_productId")
+  from_OrderItem_product          OrderItem[]        @relation("OrderItem_product")
   from_ProductPromotion_productId ProductPromotion[] @relation("ProductPromotion_productId")
 
   @@index([suppilersId])

@@ -1,19 +1,15 @@
 import { auth } from "@/auth";
-import { Card, CardContent, CardHeader } from "@/shared/components/shadcn/card";
+import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-
-import { Loader, Loader2 } from "lucide-react";
-import { getToken } from "next-auth/jwt";
-import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 export default async function AuthenticationLayout({
   children,
   userProducts,
   preferences,
 }: NextJSReactNodes<"userProducts" | "preferences">) {
-  // const session = await auth();
-  // const token = await getToken({ req: { cookies: cookies() } });
-  // if (!session?.jwt_token) return notFound();
+  const session = await auth();
+  if (!session?.user) return notFound();
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <ContainerSection

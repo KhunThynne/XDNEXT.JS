@@ -8,7 +8,7 @@ import {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "@/shared/components/shadcn/dialog";
+} from "@/libs/shadcn/ui/dialog";
 import { DialogInstanceProps } from "./index.type";
 import {
   createContext,

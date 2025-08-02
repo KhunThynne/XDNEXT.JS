@@ -1,8 +1,8 @@
 "use client";
 
 import { CardProduct } from "@/app/[locale]/(contents)/products/components/ProductCard";
-import { Button } from "@/shared/components/shadcn/button";
-import { Form } from "@/shared/components/shadcn/form";
+import { Button } from "@/libs/shadcn/ui/button";
+import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { Grid3X3, List } from "lucide-react";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 
 import { motion, AnimatePresence } from "framer-motion";
 import clsx from "clsx";
-import { Card, CardContent } from "@/shared/components/shadcn/card";
+import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import Image from "next/image";
 import { usePathname } from "@navigation";
 import { useGetProductsQuery } from "@/app/[locale]/(contents)/products/hooks/useGetProductsQuery";

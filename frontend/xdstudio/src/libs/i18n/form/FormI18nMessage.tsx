@@ -1,5 +1,5 @@
-import { cn } from "@/libs/utils";
-import { useFormField } from "@/shared/components/shadcn/form";
+import { cn } from "@/libs/shadcn/utils";
+import { useFormField } from "@/libs/shadcn/ui/form";
 import { useI18n } from "../hooks/useI18n";
 
 export function FormI18nMessage({

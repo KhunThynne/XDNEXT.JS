@@ -6,13 +6,13 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/shared/components/shadcn/collapsible";
+} from "@/libs/shadcn/ui/collapsible";
 import { ChevronDown } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import clsx from "clsx";
 import { Link, usePathname } from "@navigation";
 import Translations from "@/libs/i18n/Translations";
-import { Separator } from "@/shared/components/shadcn/separator";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 const NavigationItem = ({
   href,
@@ -35,7 +35,9 @@ const NavigationItem = ({
     return (
       <div className={clsx(active ? "bg-accent/50" : "", "grow px-5 py-3")}>
         <Link href={href} className="font-medium capitalize">
-          <Translations text={title} namespace="navbar" />
+          <h4 className="grow font-medium capitalize">
+            <Translations text={title} namespace="navbar" />
+          </h4>
         </Link>
         <p className="text-muted-foreground">{description}</p>
       </div>
@@ -48,9 +50,9 @@ const NavigationItem = ({
         className={clsx(active ? "bg-accent/50" : "", "py-3")}
       >
         <div className="flex flex-wrap items-center px-5">
-          <h1 className="grow font-medium capitalize">
+          <h4 className="grow font-medium capitalize">
             <Translations text={title} namespace="navbar" />
-          </h1>
+          </h4>
 
           <ChevronDown
             className={clsx(

@@ -433,7 +433,7 @@ enum OrderDirection {
 type OrderItem {
   id: ID!
   order: Order
-  productId: Product
+  product: Product
   unitPrice: Int
   updateAt: DateTime
   userItem: UserItem
@@ -441,7 +441,7 @@ type OrderItem {
 
 input OrderItemCreateInput {
   order: OrderRelateToOneForCreateInput
-  productId: ProductRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
   unitPrice: Int
   updateAt: DateTime
   userItem: UserItemRelateToOneForCreateInput
@@ -489,7 +489,7 @@ input OrderItemUpdateArgs {
 
 input OrderItemUpdateInput {
   order: OrderRelateToOneForUpdateInput
-  productId: ProductRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
   unitPrice: Int
   updateAt: DateTime
   userItem: UserItemRelateToOneForUpdateInput
@@ -501,7 +501,7 @@ input OrderItemWhereInput {
   OR: [OrderItemWhereInput!]
   id: IDFilter
   order: OrderWhereInput
-  productId: ProductWhereInput
+  product: ProductWhereInput
   unitPrice: IntNullableFilter
   updateAt: DateTimeNullableFilter
   userItem: UserItemWhereInput

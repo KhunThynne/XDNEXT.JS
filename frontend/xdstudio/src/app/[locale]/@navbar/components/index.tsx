@@ -7,13 +7,14 @@ import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
-import { LogInIcon } from "lucide-react";
+import { LogInIcon, ShoppingBag } from "lucide-react";
 import { useSignDialog } from "@/shared/components/forms/auth/SignForm";
-import { Button } from "@/shared/components/shadcn/button";
-import { Skeleton } from "@/shared/components/shadcn/skeleton";
+import { Button } from "@/libs/shadcn/ui/button";
+import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 import { SwitchTheme } from "@/shared/components/ui/SwitchTheme";
 import { AccountPopover } from "./AccountPopover";
 import { Session } from "next-auth";
+import { ShoppingPopover } from "./ShoppingPopover";
 
 const NavbarActionSection = ({
   className,
@@ -27,15 +28,19 @@ const NavbarActionSection = ({
   return (
     <section className={clsx(className)}>
       <SwitchTheme />
-      {status === "loading" ? (
-        <Skeleton className="size-8 rounded-sm" />
-      ) : status === "unauthenticated" ? (
-        <Button variant="ghost" size="icon" onClick={openDialog}>
-          <LogInIcon />
-        </Button>
-      ) : (
-        <AccountPopover {...session?.user} />
-      )}
+
+      <span>
+        <ShoppingPopover />
+        {status === "loading" ? (
+          <Skeleton className="size-8 rounded-sm" />
+        ) : status === "unauthenticated" ? (
+          <Button variant="ghost" size="icon" onClick={openDialog}>
+            <LogInIcon />
+          </Button>
+        ) : (
+          <AccountPopover {...session?.user} />
+        )}
+      </span>
     </section>
   );
 };

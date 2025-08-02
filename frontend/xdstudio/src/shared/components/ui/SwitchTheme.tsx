@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import { Moon, Sun } from "lucide-react";
 
 export const SwitchTheme = () => {

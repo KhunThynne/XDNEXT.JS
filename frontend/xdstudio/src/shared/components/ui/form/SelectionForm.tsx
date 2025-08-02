@@ -6,8 +6,8 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/shared/components/shadcn/form";
-import { Input } from "@/shared/components/shadcn/input";
+} from "@/libs/shadcn/ui/form";
+import { Input } from "@/libs/shadcn/ui/input";
 import { Control, FieldValues, Path } from "react-hook-form";
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";

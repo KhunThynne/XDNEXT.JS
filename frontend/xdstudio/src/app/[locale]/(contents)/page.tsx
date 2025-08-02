@@ -1,5 +1,5 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
 import clsx from "clsx";

@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/libs/graphql/generates/graphql";
-import { Form } from "@/shared/components/shadcn/form";
+import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useForm } from "react-hook-form";
 

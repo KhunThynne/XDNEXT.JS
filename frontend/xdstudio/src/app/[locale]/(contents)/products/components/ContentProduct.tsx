@@ -4,8 +4,8 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
 import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
-import { Card, CardContent, CardHeader } from "@/shared/components/shadcn/card";
-import { Button } from "@/shared/components/shadcn/button";
+import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { Button } from "@/libs/shadcn/ui/button";
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -15,7 +15,7 @@ import clsx from "clsx";
 import { ChevronDownIcon } from "lucide-react";
 import Image from "next/image";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Separator } from "@/shared/components/shadcn/separator";
+import { Separator } from "@/libs/shadcn/ui/separator";
 const ProductDetail = (props: Product) => {
   const productFAQs = [
     {

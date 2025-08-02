@@ -1,7 +1,7 @@
 "use client";
 
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import { useRouter } from "@navigation";
 
 export const ConfigForm = () => {
