@@ -1,6 +1,6 @@
+import { Separator } from "@/libs/shadcn/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
-import { Separator } from "../shadcn/separator";
 
 interface ContainerSectionProps
   extends GlobalPropsClassNames<

@@ -6,13 +6,15 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useDialoguseContext } from "@/libs/dialog/DialogInstance";
-import { Button } from "../../shadcn/button";
+
 import { InputForm } from "../../ui/form/InputForm";
-import { Form } from "../../shadcn/form";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 import { usePathname } from "@navigation";
+import { Form } from "@/libs/shadcn/ui/form";
+import { Button } from "@/libs/shadcn/ui/button";
 
 export const SignForm = () => {
   const method = useForm({

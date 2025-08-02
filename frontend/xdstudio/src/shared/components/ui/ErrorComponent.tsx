@@ -2,9 +2,10 @@
 import { Fragment } from "react";
 
 import { Link } from "@navigation";
-import { Button } from "../shadcn/button";
+
 import Translations from "@/libs/i18n/Translations";
 import Error from "next/error";
+import { Button } from "@/libs/shadcn/ui/button";
 
 export const ErrorComponent = ({
   buttonText,

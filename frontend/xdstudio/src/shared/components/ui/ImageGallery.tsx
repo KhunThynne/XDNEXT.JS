@@ -2,12 +2,13 @@
 import React, { memo, useEffect } from "react";
 import clsx from "clsx";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
-import { Button, ButtonProps } from "../shadcn/button";
+
 import { ChevronLeftIcon, ChevronRightIcon, EyeClosed } from "lucide-react";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { Image } from "@/libs/graphql/generates/graphql";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
+import { Button } from "@/libs/shadcn/ui/button";
 
 interface ImageGalleryProps {
   files: Partial<Image>[];
@@ -37,7 +38,7 @@ const NavigationGallerry = ({ children }: { children: React.ReactNode }) => {
     setValue("selectedIndex", newIndex);
   };
 
-  const Navigation = memo(function Navigation(props: ButtonProps) {
+  const Navigation = memo(function Navigation(props: any) {
     return <Button variant="ghost" {...props} />;
   });
 
