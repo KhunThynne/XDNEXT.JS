@@ -9,6 +9,7 @@
     "generate": "keystone prisma migrate dev",
     "start": "keystone start",
     "eslint": "eslint . --fix",
+    "update": "npx npm-check-updates --dep prod,dev --upgrade",
     "deploy": "keystone build && keystone prisma migrate deploy"
   },
   "dependencies": {
@@ -22,7 +23,8 @@
     "postinstall": "^0.11.2",
     "slate-dom": "^0.117.4",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.38.0"
+    "typescript-eslint": "^8.38.0",
+    "zod": "^4.0.14"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
