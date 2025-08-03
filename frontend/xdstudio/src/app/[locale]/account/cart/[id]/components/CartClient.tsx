@@ -41,7 +41,7 @@ export function CartClient() {
   const total = subtotal + tax;
 
   return (
-    <Card>
+    <Card className="h-fit">
       <CardHeader className="text-lg font-semibold">Order Summary</CardHeader>
       <CardContent className="space-y-4">
         <div className="flex justify-between text-sm">

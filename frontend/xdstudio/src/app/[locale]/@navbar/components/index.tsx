@@ -7,7 +7,7 @@ import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
-import { LogInIcon, ShoppingBag } from "lucide-react";
+import { Loader, LoaderCircle, LogInIcon, ShoppingBag } from "lucide-react";
 import { useSignDialog } from "@/shared/components/forms/auth/SignForm";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
@@ -29,11 +29,14 @@ const NavbarActionSection = ({
     <section className={clsx(className)}>
       <SwitchTheme />
 
-      <span>
+      <span className="inline-flex">
         <ShoppingPopover />
-        {status === "loading" ? (
-          <Skeleton className="size-8 rounded-sm" />
-        ) : status === "unauthenticated" ? (
+        {status === "loading" && (
+          <Button variant="ghost" size="icon" disabled>
+            <LoaderCircle className="animate-spin" />
+          </Button>
+        )}
+        {status === "unauthenticated" ? (
           <Button variant="ghost" size="icon" onClick={openDialog}>
             <LogInIcon />
           </Button>

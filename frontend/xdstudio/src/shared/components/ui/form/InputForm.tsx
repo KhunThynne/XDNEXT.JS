@@ -18,29 +18,21 @@ import { ReactNode } from "react";
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
-
-interface InputFormProps<TFieldValues extends FieldValues = FieldValues>
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: Path<TFieldValues>;
-  label?: string;
-  description?: string;
-  control?: Control<TFieldValues>;
-  renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
-}
+import { FormXdProps } from "./shared/index.type";
 
 export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
-  placeholder,
   control,
-  type,
   renderInput,
   children,
   className,
   classNames,
   ...inputProps
-}: InputFormProps<TFieldValues> &
+}: FormXdProps<TFieldValues> & {
+  renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
+} & React.ComponentProps<typeof Input> &
   GlobalPropsClassNames<"container" | "label" | "description" | "input">) {
   return (
     <FormField
@@ -65,10 +57,8 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
               ) : (
                 <Input
                   className={clsx(`w-full`, classNames?.input)}
-                  placeholder={placeholder}
                   {...field}
                   {...inputProps}
-                  type={type}
                 />
               )}
               {children}
