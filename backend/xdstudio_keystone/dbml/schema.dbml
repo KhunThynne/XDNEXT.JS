@@ -1,0 +1,262 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  name String [not null, default: '']
+  username String [not null, default: '']
+  provider String [not null, default: 'credentials']
+  image String [not null, default: '']
+  avartar Image
+  avartarId String
+  role String [default: 'USER']
+  email String [unique, not null, default: '']
+  password String [not null]
+  createdAt DateTime [default: `now()`]
+  carts Cart [not null]
+  items UserItem [not null]
+  point UserPoint
+  pointId String [unique]
+  suppiler Supplier [not null]
+  orders Order [not null]
+  preference UserPreference
+  preferenceId String [unique]
+  posts Post [not null]
+  passwordResetToken String
+  passwordResetIssuedAt DateTime
+  passwordResetRedeemedAt DateTime
+  from_PointTransaction_userId PointTransaction [not null]
+}
+
+Table UserItem {
+  id String [pk]
+  user User
+  userId String
+  product Product
+  productId String
+  item OrderItem
+  config Json [default: '{}']
+  createdAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table UserPreference {
+  id String [pk]
+  user User
+  setting Json [not null, default: '[{"type":"paragraph","children":[{"text":""}]}]']
+}
+
+Table UserPoint {
+  id String [pk]
+  user User
+  total_point Int [not null, default: 0]
+  updateAt DateTime [default: `now()`]
+}
+
+Table Supplier {
+  id String [pk]
+  user User
+  userId String
+  products Product [not null]
+  name String [not null, default: '']
+  description String [not null, default: '']
+}
+
+Table Cart {
+  id String [pk]
+  user User
+  userId String
+  status String [default: 'ACTIVE']
+  items CartItem [not null]
+  createdAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table CartItem {
+  id String [pk]
+  cart Cart
+  cartId String
+  product Product
+  productId String
+  quantity Int [not null, default: 1]
+}
+
+Table Order {
+  id String [pk]
+  user User
+  userId String
+  items OrderItem [not null]
+  status String [not null, default: 'PENDING']
+  createdAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table OrderItem {
+  id String [pk]
+  order Order
+  orderId String
+  product Product
+  productId String
+  userItem UserItem
+  userItemId String [unique]
+  unitPrice Int
+  updateAt DateTime
+}
+
+Table Price {
+  id String [pk]
+  price Float [default: 0]
+  price_type PricePriceTypeType [default: 'retail']
+  product Product [not null]
+  description String [not null, default: '']
+  createdAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table Product {
+  id String [pk]
+  status String [not null, default: 'draft']
+  suppilers Supplier
+  suppilersId String
+  tags Tag [not null]
+  name String [not null, default: '']
+  price Price
+  priceId String
+  description String [not null, default: '']
+  details Json [not null, default: '[{"type":"paragraph","children":[{"text":""}]}]']
+  images Image [not null]
+  publishedAt DateTime
+  createdAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+  from_UserItem_product UserItem [not null]
+  from_CartItem_product CartItem [not null]
+  from_OrderItem_product OrderItem [not null]
+  from_ProductPromotion_productId ProductPromotion [not null]
+}
+
+Table ProductPromotion {
+  id String [pk]
+  productId Product
+  productIdId String
+  promotionId Promotion [not null]
+  publishedAt DateTime
+  images Image [not null]
+}
+
+Table Promotion {
+  id String [pk]
+  name String [not null, default: '']
+  discountType String [default: 'Percent']
+  discountValue Int [default: 0]
+  publishedAt DateTime [default: `now()`]
+  from_ProductPromotion_promotionId ProductPromotion [not null]
+}
+
+Table PointTransaction {
+  id String [pk]
+  userId User [not null]
+  type String [not null, default: 'Earn']
+  amount Int
+  description Json [not null, default: '[{"type":"paragraph","children":[{"text":""}]}]']
+}
+
+Table Image {
+  id String [pk]
+  name String [not null, default: '']
+  altText String [not null, default: '']
+  src_id String
+  src_filesize Int
+  src_width Int
+  src_height Int
+  src_extension String
+  from_User_avartar User [not null]
+  from_Product_images Product [not null]
+  from_ProductPromotion_images ProductPromotion [not null]
+}
+
+Table Tag {
+  id String [pk]
+  name String [not null, default: '']
+  posts Post [not null]
+  from_Product_tags Product [not null]
+}
+
+Table Post {
+  id String [pk]
+  title String [not null, default: '']
+  content Json [not null, default: '[{"type":"paragraph","children":[{"text":""}]}]']
+  author User
+  authorId String
+  tags Tag [not null]
+}
+
+Table PointTransaction_userId {
+  from_pointtransaction_useridId String [ref: > PointTransaction.id]
+  useridId String [ref: > User.id]
+}
+
+Table Product_tags {
+  tagsId String [ref: > Tag.id]
+  from_product_tagsId String [ref: > Product.id]
+}
+
+Table Product_images {
+  imagesId String [ref: > Image.id]
+  from_product_imagesId String [ref: > Product.id]
+}
+
+Table ProductPromotion_promotionId {
+  promotionidId String [ref: > Promotion.id]
+  from_productpromotion_promotionidId String [ref: > ProductPromotion.id]
+}
+
+Table ProductPromotion_images {
+  imagesId String [ref: > Image.id]
+  from_productpromotion_imagesId String [ref: > ProductPromotion.id]
+}
+
+Table Post_tags {
+  postsId String [ref: > Post.id]
+  tagsId String [ref: > Tag.id]
+}
+
+Enum PricePriceTypeType {
+  retail
+  wholesale
+  base
+}
+
+Ref: User.avartarId > Image.id
+
+Ref: User.pointId - UserPoint.id
+
+Ref: User.preferenceId - UserPreference.id
+
+Ref: UserItem.userId > User.id
+
+Ref: UserItem.productId > Product.id
+
+Ref: Supplier.userId > User.id
+
+Ref: Cart.userId > User.id
+
+Ref: CartItem.cartId > Cart.id
+
+Ref: CartItem.productId > Product.id
+
+Ref: Order.userId > User.id
+
+Ref: OrderItem.orderId > Order.id
+
+Ref: OrderItem.productId > Product.id
+
+Ref: OrderItem.userItemId - UserItem.id
+
+Ref: Product.suppilersId > Supplier.id
+
+Ref: Product.priceId > Price.id
+
+Ref: ProductPromotion.productIdId > Product.id
+
+Ref: Post.authorId > User.id

@@ -1,6 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, select, timestamp, password } from '@keystone-6/core/fields';
+import { defaultGlobalField } from './shared/defaultGlobalField';
 export const User: ListConfig<any> = list({
   access: allowAll,
   ui: {
@@ -29,14 +30,87 @@ export const User: ListConfig<any> = list({
       validation: { isRequired: true },
       isIndexed: 'unique',
     }),
-    createdAt: timestamp({ defaultValue: { kind: 'now' } }),
     password: password({ validation: { isRequired: true } }),
-    item: relationship({ ref: 'UserItem.user', many: true }),
-    point: relationship({ ref: 'UserPoint.user', many: false }),
-    suppiler: relationship({ ref: 'Supplier.user', many: true }),
-    order: relationship({ ref: 'Order.user', many: true }),
-    preference: relationship({ ref: 'UserPreference.user', many: false }),
-    posts: relationship({ ref: 'Post.author', many: true }),
+    ...defaultGlobalField({ includeCreatedAt: true }),
+    carts: relationship({
+      ref: 'Cart.user',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['status', 'createdAt', 'updateAt'],
+        inlineCreate: { fields: ['status'] },
+        inlineEdit: { fields: ['status'] },
+        linkToItem: true,
+      },
+    }),
+    items: relationship({
+      ref: 'UserItem.user',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['product'],
+        inlineCreate: { fields: ['product'] },
+        inlineEdit: { fields: ['product'] },
+        linkToItem: true,
+      },
+    }),
+    point: relationship({
+      ref: 'UserPoint.user',
+      many: false,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['total_point'],
+        // inlineCreate: { fields: ['total_point'] },
+        inlineEdit: { fields: ['total_point'] },
+        linkToItem: true,
+        removeMode: 'none',
+      },
+    }),
+    suppiler: relationship({
+      ref: 'Supplier.user',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['name', 'description'],
+        inlineCreate: { fields: ['name', 'description'] },
+        inlineEdit: { fields: ['name', 'description'] },
+        linkToItem: true,
+      },
+    }),
+    orders: relationship({
+      ref: 'Order.user',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['status', 'createdAt'],
+        inlineCreate: { fields: ['status'] },
+        inlineEdit: { fields: ['status'] },
+        linkToItem: true,
+      },
+    }),
+    preference: relationship({
+      ref: 'UserPreference.user',
+      many: false,
+      // ui: {
+      //   displayMode: 'cards',
+      //   cardFields: ['setting'],
+      //   // inlineCreate: { fields: ['total_point'] },
+      //   inlineEdit: { fields: ['setting'] },
+      //   linkToItem: true,
+      //   removeMode: 'none',
+      // },
+    }),
+    posts: relationship({
+      ref: 'Post.author',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['title'],
+        inlineCreate: { fields: ['title'] },
+        inlineEdit: { fields: ['title'] },
+        linkToItem: true,
+      },
+    }),
   },
   hooks: {
     afterOperation: async ({ operation, item, context }) => {
@@ -48,7 +122,11 @@ export const User: ListConfig<any> = list({
             user: { connect: { id: item.id } },
           },
         });
-
+        await context.db.Cart.createOne({
+          data: {
+            user: { connect: { id: item.id } },
+          },
+        });
         await context.db.UserPreference.createOne({
           data: {
             user: { connect: { id: item.id } },

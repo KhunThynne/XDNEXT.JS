@@ -31,6 +31,8 @@ import { Image } from './Image.schema';
 import { Post } from './Post.schema';
 import { Supplier } from './Supplier.schema';
 import { Price } from './Price.schema';
+import { Cart } from './Cart.schema';
+import { CartItem } from './CartItem.schema';
 
 export const lists = {
   User,
@@ -38,6 +40,8 @@ export const lists = {
   UserPreference,
   UserPoint,
   Supplier,
+  Cart,
+  CartItem,
   Order,
   OrderItem,
   Price,

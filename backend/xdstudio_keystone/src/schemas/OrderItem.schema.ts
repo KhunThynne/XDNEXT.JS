@@ -4,10 +4,7 @@ import { integer, relationship, timestamp } from '@keystone-6/core/fields';
 export const OrderItem: ListConfig<any> = list({
   access: allowAll,
   ui: {
-    label: 'Order Item',
-    listView: {
-      initialColumns: ['orderId', 'productId', 'unitPrice'],
-    },
+    isHidden: true,
   },
   fields: {
     order: relationship({ ref: 'Order.items', many: false }),

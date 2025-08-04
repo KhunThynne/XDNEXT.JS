@@ -4,7 +4,7 @@ import { relationship } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 export const UserPreference: ListConfig<any> = list({
   access: allowAll,
-  ui: { isHidden: true },
+  // ui: { isHidden: true },
   fields: {
     user: relationship({
       ref: 'User.preference',

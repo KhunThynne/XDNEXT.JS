@@ -174,6 +174,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         token.username = user.username;
         token.role = user.role;
         token.id = user.id ?? "";
+        token.carts = user.carts;
       }
       return token;
     },
@@ -182,6 +183,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.role = token.role;
         session.user.id = token.id;
         session.user.username = token.username;
+        session.user.carts = token.carts;
       }
       // console.log("session", token);
       return session;

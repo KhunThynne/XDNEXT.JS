@@ -29,6 +29,13 @@ export default withAuth(
       enableLogging: true,
       idField: { kind: 'uuid' },
       shadowDatabaseUrl: env.SHADOW_DATABASE_URL,
+      extendPrismaSchema: (schema) => {
+        return `generator dbml {
+                provider = "prisma-dbml-generator"
+                output   = "./dbml"
+      }
+  ${schema}`;
+      },
     },
 
     lists,

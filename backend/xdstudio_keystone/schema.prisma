@@ -21,13 +21,14 @@ model User {
   avartarId                    String?            @map("avartar") @postgresql.Uuid
   role                         String?            @default("USER")
   email                        String             @unique @default("")
-  createdAt                    DateTime?          @default(now())
   password                     String
-  item                         UserItem[]         @relation("UserItem_user")
+  createdAt                    DateTime?          @default(now())
+  carts                        Cart[]             @relation("Cart_user")
+  items                        UserItem[]         @relation("UserItem_user")
   point                        UserPoint?         @relation("User_point", fields: [pointId], references: [id])
   pointId                      String?            @unique @map("point") @postgresql.Uuid
   suppiler                     Supplier[]         @relation("Supplier_user")
-  order                        Order[]            @relation("Order_user")
+  orders                       Order[]            @relation("Order_user")
   preference                   UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
   preferenceId                 String?            @unique @map("preference") @postgresql.Uuid
   posts                        Post[]             @relation("Post_author")
@@ -78,11 +79,36 @@ model Supplier {
   @@index([userId])
 }
 
+model Cart {
+  id        String     @id @default(uuid()) @postgresql.Uuid
+  user      User?      @relation("Cart_user", fields: [userId], references: [id])
+  userId    String?    @map("user") @postgresql.Uuid
+  status    String?    @default("ACTIVE")
+  items     CartItem[] @relation("CartItem_cart")
+  createdAt DateTime?  @default(now())
+  updateAt  DateTime?  @default(now())
+
+  @@index([userId])
+}
+
+model CartItem {
+  id        String   @id @default(uuid()) @postgresql.Uuid
+  cart      Cart?    @relation("CartItem_cart", fields: [cartId], references: [id])
+  cartId    String?  @map("cart") @postgresql.Uuid
+  product   Product? @relation("CartItem_product", fields: [productId], references: [id])
+  productId String?  @map("product") @postgresql.Uuid
+  quantity  Int      @default(1)
+
+  @@index([cartId])
+  @@index([productId])
+}
+
 model Order {
   id        String      @id @default(uuid()) @postgresql.Uuid
   user      User?       @relation("Order_user", fields: [userId], references: [id])
   userId    String?     @map("user") @postgresql.Uuid
   items     OrderItem[] @relation("OrderItem_order")
+  status    String      @default("PENDING")
   createdAt DateTime?   @default(now())
   updateAt  DateTime?   @default(now())
 
@@ -130,6 +156,7 @@ model Product {
   createdAt                       DateTime?          @default(now())
   updateAt                        DateTime?          @default(now())
   from_UserItem_product           UserItem[]         @relation("UserItem_product")
+  from_CartItem_product           CartItem[]         @relation("CartItem_product")
   from_OrderItem_product          OrderItem[]        @relation("OrderItem_product")
   from_ProductPromotion_productId ProductPromotion[] @relation("ProductPromotion_productId")
 

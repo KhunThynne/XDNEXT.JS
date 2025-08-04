@@ -12,7 +12,7 @@ export const UserItem: ListConfig<any> = list({
   },
   fields: {
     user: relationship({
-      ref: 'User.item',
+      ref: 'User.items',
       many: false,
       ui: {
         displayMode: 'cards',

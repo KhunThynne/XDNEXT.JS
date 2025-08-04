@@ -10,15 +10,17 @@ type User {
   avartar: Image
   role: String
   email: String
-  createdAt: DateTime
   password: PasswordState
-  item(where: UserItemWhereInput! = {}, orderBy: [UserItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserItemWhereUniqueInput): [UserItem!]
-  itemCount(where: UserItemWhereInput! = {}): Int
+  createdAt: DateTime
+  carts(where: CartWhereInput! = {}, orderBy: [CartOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartWhereUniqueInput): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
+  items(where: UserItemWhereInput! = {}, orderBy: [UserItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserItemWhereUniqueInput): [UserItem!]
+  itemsCount(where: UserItemWhereInput! = {}): Int
   point: UserPoint
   suppiler(where: SupplierWhereInput! = {}, orderBy: [SupplierOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SupplierWhereUniqueInput): [Supplier!]
   suppilerCount(where: SupplierWhereInput! = {}): Int
-  order(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
-  orderCount(where: OrderWhereInput! = {}): Int
+  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   preference: UserPreference
   posts(where: PostWhereInput! = {}, orderBy: [PostOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PostWhereUniqueInput): [Post!]
   postsCount(where: PostWhereInput! = {}): Int
@@ -27,11 +29,11 @@ type User {
   passwordResetRedeemedAt: DateTime
 }
 
-scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
-
 type PasswordState {
   isSet: Boolean!
 }
+
+scalar DateTime @specifiedBy(url: "https://datatracker.ietf.org/doc/html/rfc3339#section-5.6")
 
 input UserWhereUniqueInput {
   id: ID
@@ -53,10 +55,11 @@ input UserWhereInput {
   role: StringNullableFilter
   email: StringFilter
   createdAt: DateTimeNullableFilter
-  item: UserItemManyRelationFilter
+  carts: CartManyRelationFilter
+  items: UserItemManyRelationFilter
   point: UserPointWhereInput
   suppiler: SupplierManyRelationFilter
-  order: OrderManyRelationFilter
+  orders: OrderManyRelationFilter
   preference: UserPreferenceWhereInput
   posts: PostManyRelationFilter
   passwordResetToken: PasswordFilter
@@ -135,6 +138,12 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input CartManyRelationFilter {
+  every: CartWhereInput
+  some: CartWhereInput
+  none: CartWhereInput
+}
+
 input UserItemManyRelationFilter {
   every: UserItemWhereInput
   some: UserItemWhereInput
@@ -189,12 +198,13 @@ input UserUpdateInput {
   avartar: ImageRelateToOneForUpdateInput
   role: String
   email: String
-  createdAt: DateTime
   password: String
-  item: UserItemRelateToManyForUpdateInput
+  createdAt: DateTime
+  carts: CartRelateToManyForUpdateInput
+  items: UserItemRelateToManyForUpdateInput
   point: UserPointRelateToOneForUpdateInput
   suppiler: SupplierRelateToManyForUpdateInput
-  order: OrderRelateToManyForUpdateInput
+  orders: OrderRelateToManyForUpdateInput
   preference: UserPreferenceRelateToOneForUpdateInput
   posts: PostRelateToManyForUpdateInput
   passwordResetToken: String
@@ -206,6 +216,13 @@ input ImageRelateToOneForUpdateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
   disconnect: Boolean
+}
+
+input CartRelateToManyForUpdateInput {
+  disconnect: [CartWhereUniqueInput!]
+  set: [CartWhereUniqueInput!]
+  create: [CartCreateInput!]
+  connect: [CartWhereUniqueInput!]
 }
 
 input UserItemRelateToManyForUpdateInput {
@@ -261,12 +278,13 @@ input UserCreateInput {
   avartar: ImageRelateToOneForCreateInput
   role: String
   email: String
-  createdAt: DateTime
   password: String
-  item: UserItemRelateToManyForCreateInput
+  createdAt: DateTime
+  carts: CartRelateToManyForCreateInput
+  items: UserItemRelateToManyForCreateInput
   point: UserPointRelateToOneForCreateInput
   suppiler: SupplierRelateToManyForCreateInput
-  order: OrderRelateToManyForCreateInput
+  orders: OrderRelateToManyForCreateInput
   preference: UserPreferenceRelateToOneForCreateInput
   posts: PostRelateToManyForCreateInput
   passwordResetToken: String
@@ -277,6 +295,11 @@ input UserCreateInput {
 input ImageRelateToOneForCreateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
+}
+
+input CartRelateToManyForCreateInput {
+  create: [CartCreateInput!]
+  connect: [CartWhereUniqueInput!]
 }
 
 input UserItemRelateToManyForCreateInput {
@@ -563,11 +586,138 @@ input ProductRelateToManyForCreateInput {
   connect: [ProductWhereUniqueInput!]
 }
 
+type Cart {
+  id: ID!
+  user: User
+  status: String
+  items(where: CartItemWhereInput! = {}, orderBy: [CartItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartItemWhereUniqueInput): [CartItem!]
+  itemsCount(where: CartItemWhereInput! = {}): Int
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input CartWhereUniqueInput {
+  id: ID
+}
+
+input CartWhereInput {
+  AND: [CartWhereInput!]
+  OR: [CartWhereInput!]
+  NOT: [CartWhereInput!]
+  id: IDFilter
+  user: UserWhereInput
+  status: StringNullableFilter
+  items: CartItemManyRelationFilter
+  createdAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  some: CartItemWhereInput
+  none: CartItemWhereInput
+}
+
+input CartOrderByInput {
+  id: OrderDirection
+  status: OrderDirection
+  createdAt: OrderDirection
+  updateAt: OrderDirection
+}
+
+input CartUpdateInput {
+  user: UserRelateToOneForUpdateInput
+  status: String
+  items: CartItemRelateToManyForUpdateInput
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input CartItemRelateToManyForUpdateInput {
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
+}
+
+input CartUpdateArgs {
+  where: CartWhereUniqueInput!
+  data: CartUpdateInput!
+}
+
+input CartCreateInput {
+  user: UserRelateToOneForCreateInput
+  status: String
+  items: CartItemRelateToManyForCreateInput
+  createdAt: DateTime
+  updateAt: DateTime
+}
+
+input CartItemRelateToManyForCreateInput {
+  create: [CartItemCreateInput!]
+  connect: [CartItemWhereUniqueInput!]
+}
+
+type CartItem {
+  id: ID!
+  cart: Cart
+  product: Product
+  quantity: Int
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  id: IDFilter
+  cart: CartWhereInput
+  product: ProductWhereInput
+  quantity: IntFilter
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+}
+
+input CartItemUpdateInput {
+  cart: CartRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
+  quantity: Int
+}
+
+input CartRelateToOneForUpdateInput {
+  create: CartCreateInput
+  connect: CartWhereUniqueInput
+  disconnect: Boolean
+}
+
+input CartItemUpdateArgs {
+  where: CartItemWhereUniqueInput!
+  data: CartItemUpdateInput!
+}
+
+input CartItemCreateInput {
+  cart: CartRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
+  quantity: Int
+}
+
+input CartRelateToOneForCreateInput {
+  create: CartCreateInput
+  connect: CartWhereUniqueInput
+}
+
 type Order {
   id: ID!
   user: User
   items(where: OrderItemWhereInput! = {}, orderBy: [OrderItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderItemWhereUniqueInput): [OrderItem!]
   itemsCount(where: OrderItemWhereInput! = {}): Int
+  status: String
   createdAt: DateTime
   updateAt: DateTime
 }
@@ -583,6 +733,7 @@ input OrderWhereInput {
   id: IDFilter
   user: UserWhereInput
   items: OrderItemManyRelationFilter
+  status: StringFilter
   createdAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
 }
@@ -595,6 +746,7 @@ input OrderItemManyRelationFilter {
 
 input OrderOrderByInput {
   id: OrderDirection
+  status: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection
 }
@@ -602,6 +754,7 @@ input OrderOrderByInput {
 input OrderUpdateInput {
   user: UserRelateToOneForUpdateInput
   items: OrderItemRelateToManyForUpdateInput
+  status: String
   createdAt: DateTime
   updateAt: DateTime
 }
@@ -621,6 +774,7 @@ input OrderUpdateArgs {
 input OrderCreateInput {
   user: UserRelateToOneForCreateInput
   items: OrderItemRelateToManyForCreateInput
+  status: String
   createdAt: DateTime
   updateAt: DateTime
 }
@@ -1323,6 +1477,18 @@ type Mutation {
   updateSuppliers(data: [SupplierUpdateArgs!]!): [Supplier]
   deleteSupplier(where: SupplierWhereUniqueInput!): Supplier
   deleteSuppliers(where: [SupplierWhereUniqueInput!]!): [Supplier]
+  createCart(data: CartCreateInput!): Cart
+  createCarts(data: [CartCreateInput!]!): [Cart]
+  updateCart(where: CartWhereUniqueInput!, data: CartUpdateInput!): Cart
+  updateCarts(data: [CartUpdateArgs!]!): [Cart]
+  deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
+  updateCartItem(where: CartItemWhereUniqueInput!, data: CartItemUpdateInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
   createOrder(data: OrderCreateInput!): Order
   createOrders(data: [OrderCreateInput!]!): [Order]
   updateOrder(where: OrderWhereUniqueInput!, data: OrderUpdateInput!): Order
@@ -1440,6 +1606,12 @@ type Query {
   supplier(where: SupplierWhereUniqueInput!): Supplier
   suppliers(where: SupplierWhereInput! = {}, orderBy: [SupplierOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: SupplierWhereUniqueInput): [Supplier!]
   suppliersCount(where: SupplierWhereInput! = {}): Int
+  cart(where: CartWhereUniqueInput!): Cart
+  carts(where: CartWhereInput! = {}, orderBy: [CartOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartWhereUniqueInput): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItems(where: CartItemWhereInput! = {}, orderBy: [CartItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartItemWhereUniqueInput): [CartItem!]
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
   order(where: OrderWhereUniqueInput!): Order
   orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int

@@ -5,6 +5,150 @@ schema {
 
 union AuthenticatedItem = User
 
+type Cart {
+  createdAt: DateTime
+  id: ID!
+  items(cursor: CartItemWhereUniqueInput, orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  itemsCount(where: CartItemWhereInput! = {}): Int
+  status: String
+  updateAt: DateTime
+  user: User
+}
+
+input CartCreateInput {
+  createdAt: DateTime
+  items: CartItemRelateToManyForCreateInput
+  status: String
+  updateAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
+type CartItem {
+  cart: Cart
+  id: ID!
+  product: Product
+  quantity: Int
+}
+
+input CartItemCreateInput {
+  cart: CartRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
+  quantity: Int
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  none: CartItemWhereInput
+  some: CartItemWhereInput
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+}
+
+input CartItemRelateToManyForCreateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+}
+
+input CartItemRelateToManyForUpdateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+}
+
+input CartItemUpdateArgs {
+  data: CartItemUpdateInput!
+  where: CartItemWhereUniqueInput!
+}
+
+input CartItemUpdateInput {
+  cart: CartRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
+  quantity: Int
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  cart: CartWhereInput
+  id: IDFilter
+  product: ProductWhereInput
+  quantity: IntFilter
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
+input CartManyRelationFilter {
+  every: CartWhereInput
+  none: CartWhereInput
+  some: CartWhereInput
+}
+
+input CartOrderByInput {
+  createdAt: OrderDirection
+  id: OrderDirection
+  status: OrderDirection
+  updateAt: OrderDirection
+}
+
+input CartRelateToManyForCreateInput {
+  connect: [CartWhereUniqueInput!]
+  create: [CartCreateInput!]
+}
+
+input CartRelateToManyForUpdateInput {
+  connect: [CartWhereUniqueInput!]
+  create: [CartCreateInput!]
+  disconnect: [CartWhereUniqueInput!]
+  set: [CartWhereUniqueInput!]
+}
+
+input CartRelateToOneForCreateInput {
+  connect: CartWhereUniqueInput
+  create: CartCreateInput
+}
+
+input CartRelateToOneForUpdateInput {
+  connect: CartWhereUniqueInput
+  create: CartCreateInput
+  disconnect: Boolean
+}
+
+input CartUpdateArgs {
+  data: CartUpdateInput!
+  where: CartWhereUniqueInput!
+}
+
+input CartUpdateInput {
+  createdAt: DateTime
+  items: CartItemRelateToManyForUpdateInput
+  status: String
+  updateAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input CartWhereInput {
+  AND: [CartWhereInput!]
+  NOT: [CartWhereInput!]
+  OR: [CartWhereInput!]
+  createdAt: DateTimeNullableFilter
+  id: IDFilter
+  items: CartItemManyRelationFilter
+  status: StringNullableFilter
+  updateAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input CartWhereUniqueInput {
+  id: ID
+}
+
 input CreateInitialUserInput {
   email: String
   name: String
@@ -299,6 +443,10 @@ type KeystoneMeta {
 type Mutation {
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createAndLogin(email: String!, image: String, password: String!, provider: String, username: String): RegisterAndLoginResult
+  createCart(data: CartCreateInput!): Cart
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
+  createCarts(data: [CartCreateInput!]!): [Cart]
   createImage(data: ImageCreateInput!): Image
   createImages(data: [ImageCreateInput!]!): [Image]
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -330,6 +478,10 @@ type Mutation {
   createUserPreference(data: UserPreferenceCreateInput!): UserPreference
   createUserPreferences(data: [UserPreferenceCreateInput!]!): [UserPreference]
   createUsers(data: [UserCreateInput!]!): [User]
+  deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
+  deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
   deleteOrder(where: OrderWhereUniqueInput!): Order
@@ -363,6 +515,10 @@ type Mutation {
   endSession: Boolean!
   redeemUserPasswordResetToken(email: String!, password: String!, token: String!): RedeemUserPasswordResetTokenResult
   sendUserPasswordResetLink(email: String!): Boolean!
+  updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
+  updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
+  updateCarts(data: [CartUpdateArgs!]!): [Cart]
   updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
   updateImages(data: [ImageUpdateArgs!]!): [Image]
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
@@ -1026,6 +1182,12 @@ input PromotionWhereUniqueInput {
 
 type Query {
   authenticatedItem: AuthenticatedItem
+  cart(where: CartWhereUniqueInput!): Cart
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItems(cursor: CartItemWhereUniqueInput, orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
+  carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
   image(where: ImageWhereUniqueInput!): Image
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
@@ -1261,15 +1423,17 @@ scalar Upload
 
 type User {
   avartar: Image
+  carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
   createdAt: DateTime
   email: String
   id: ID!
   image: String
-  item(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
-  itemCount(where: UserItemWhereInput! = {}): Int
+  items(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
+  itemsCount(where: UserItemWhereInput! = {}): Int
   name: String
-  order(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
-  orderCount(where: OrderWhereInput! = {}): Int
+  orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   password: PasswordState
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1298,12 +1462,13 @@ type UserAuthenticationWithPasswordSuccess {
 
 input UserCreateInput {
   avartar: ImageRelateToOneForCreateInput
+  carts: CartRelateToManyForCreateInput
   createdAt: DateTime
   email: String
   image: String
-  item: UserItemRelateToManyForCreateInput
+  items: UserItemRelateToManyForCreateInput
   name: String
-  order: OrderRelateToManyForCreateInput
+  orders: OrderRelateToManyForCreateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1560,12 +1725,13 @@ input UserUpdateArgs {
 
 input UserUpdateInput {
   avartar: ImageRelateToOneForUpdateInput
+  carts: CartRelateToManyForUpdateInput
   createdAt: DateTime
   email: String
   image: String
-  item: UserItemRelateToManyForUpdateInput
+  items: UserItemRelateToManyForUpdateInput
   name: String
-  order: OrderRelateToManyForUpdateInput
+  orders: OrderRelateToManyForUpdateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1584,13 +1750,14 @@ input UserWhereInput {
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
   avartar: ImageWhereInput
+  carts: CartManyRelationFilter
   createdAt: DateTimeNullableFilter
   email: StringFilter
   id: IDFilter
   image: StringFilter
-  item: UserItemManyRelationFilter
+  items: UserItemManyRelationFilter
   name: StringFilter
-  order: OrderManyRelationFilter
+  orders: OrderManyRelationFilter
   passwordResetIssuedAt: DateTimeNullableFilter
   passwordResetRedeemedAt: DateTimeNullableFilter
   passwordResetToken: PasswordFilter

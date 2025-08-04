@@ -1,17 +1,17 @@
 {
   "folders": [
     {
-      "path": "."                  
-    },
-    {
-      "path": "frontend/xdstudio"
+      "path": "."
     },
     {
       "path": "backend/xdstudio_keystone"
+    },
+    {
+      "path": "frontend/xdstudio"
     }
   ],
   "settings": {
-    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.tsdk": "frontend/xdstudio/node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "i18n-ally.localesPaths": [
       "frontend/xdstudio/messages",
