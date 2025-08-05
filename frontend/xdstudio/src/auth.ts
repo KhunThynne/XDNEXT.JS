@@ -136,7 +136,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
 
         case "credentials":
-          console.log("🧾 Credentials login:", user);
+          // console.log("🧾 Credentials login:", user);
           return true;
 
         case "google":

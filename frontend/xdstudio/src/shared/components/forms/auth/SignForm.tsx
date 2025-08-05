@@ -1,8 +1,9 @@
+
 import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
-import { useState } from "react";
+import { use, useCallback, useState } from "react";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useDialoguseContext } from "@/libs/dialog/DialogInstance";
@@ -15,38 +16,40 @@ import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 import { usePathname } from "@navigation";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
+import loginAction, { test } from "./actions/Login.action";
 
 export const SignForm = () => {
-  const onSubmit = async (data: TypeSignInInterface) => {
-    try {
-      await signIn("credentials", {
-        callbackUrl: pathname,
-        // redirect: false,
-        email: data.email,
-        password: data.password,
-      })
-        .then(() => {
-          toast.success("Login success!");
+  const pathname = usePathname();
+
+  const onSubmit = useCallback(
+    async (data: TypeSignInInterface) => {
+      console.log(pathname);
+      if (pathname) {
+        await loginAction("credentials", {
+          callbackUrl: pathname,
+          // redirect: false,
+          email: data.email,
+          password: data.password,
         })
-        .catch(() => {
-          throw new Error("can't login");
-        })
-        .finally(() => {
-          closeDialog();
-        });
-    } catch (err) {
-      console.error("test", err);
-      toast.error("Login failed! user or password invalidate");
-      return;
-    }
-  };
+          .then(() => {
+            toast.success("Login success!");
+          })
+          .catch(() => {
+            throw new Error("can't login");
+          });
+        // .finally(() => {
+        //   closeDialog();
+        // });
+      }
+    },
+    [pathname]
+  );
   const method = useForm({
     resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
   });
   const [hidePassword, setHidePassword] = useState(false);
   const { closeDialog } = useDialoguseContext();
-  const pathname = usePathname();
 
   return (
     <Form {...method}>
@@ -64,6 +67,9 @@ export const SignForm = () => {
           description="Please enter a valid email address (e.g. name@example.com)."
         />
 
+        <Button type="button" onClick={async () => await test(pathname)}>
+          TEst
+        </Button>
         <InputForm
           label="Password"
           control={method.control}
