@@ -30,11 +30,11 @@ export const Supplier: ListConfig<any> = list({
     description: text({ ui: { displayMode: 'textarea' } }),
   },
 
-  hooks: {
-    validateInput: ({ resolvedData, addValidationError }) => {
-      if (!resolvedData.user) {
-        addValidationError('User is required.');
-      }
-    },
-  },
+  // hooks: {
+  //   validateInput: ({ resolvedData, addValidationError }) => {
+  //     if (!resolvedData.user) {
+  //       addValidationError('User is required.');
+  //     }
+  //   },
+  // },
 });

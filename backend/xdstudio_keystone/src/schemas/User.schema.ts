@@ -1,6 +1,6 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { text, relationship, select, timestamp, password } from '@keystone-6/core/fields';
+import { text, relationship, select, password } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 export const User: ListConfig<any> = list({
   access: allowAll,
@@ -12,7 +12,7 @@ export const User: ListConfig<any> = list({
   },
   fields: {
     name: text({ validation: { isRequired: true } }),
-    username: text({ validation: { isRequired: true } }),
+    username: text(),
     provider: text({ defaultValue: 'credentials' }),
     image: text(),
     avartar: relationship({ ref: 'Image', many: false }),
@@ -60,7 +60,7 @@ export const User: ListConfig<any> = list({
       ui: {
         displayMode: 'cards',
         cardFields: ['total_point'],
-        // inlineCreate: { fields: ['total_point'] },
+        inlineCreate: { fields: ['total_point'] },
         inlineEdit: { fields: ['total_point'] },
         linkToItem: true,
         removeMode: 'none',
@@ -91,14 +91,14 @@ export const User: ListConfig<any> = list({
     preference: relationship({
       ref: 'UserPreference.user',
       many: false,
-      // ui: {
-      //   displayMode: 'cards',
-      //   cardFields: ['setting'],
-      //   // inlineCreate: { fields: ['total_point'] },
-      //   inlineEdit: { fields: ['setting'] },
-      //   linkToItem: true,
-      //   removeMode: 'none',
-      // },
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['setting'],
+        inlineCreate: { fields: ['setting'] },
+        inlineEdit: { fields: ['setting'] },
+        linkToItem: true,
+        removeMode: 'none',
+      },
     }),
     posts: relationship({
       ref: 'Post.author',
@@ -113,6 +113,13 @@ export const User: ListConfig<any> = list({
     }),
   },
   hooks: {
+    beforeOperation: async ({ operation, resolvedData, context }) => {
+      if (operation === 'create') {
+        if (!resolvedData.username && resolvedData.name) {
+          resolvedData.username = resolvedData.name;
+        }
+      }
+    },
     afterOperation: async ({ operation, item, context }) => {
       if (operation === 'create') {
         await context.db.Supplier.createOne({
@@ -122,6 +129,7 @@ export const User: ListConfig<any> = list({
             user: { connect: { id: item.id } },
           },
         });
+
         await context.db.Cart.createOne({
           data: {
             user: { connect: { id: item.id } },

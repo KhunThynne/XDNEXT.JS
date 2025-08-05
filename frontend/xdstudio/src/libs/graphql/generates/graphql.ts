@@ -493,7 +493,6 @@ export type KeystoneMeta = {
 export type Mutation = {
   __typename?: 'Mutation';
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
-  createAndLogin?: Maybe<RegisterAndLoginResult>;
   createCart?: Maybe<Cart>;
   createCartItem?: Maybe<CartItem>;
   createCartItems?: Maybe<Array<Maybe<CartItem>>>;
@@ -606,15 +605,6 @@ export type Mutation = {
 export type MutationAuthenticateUserWithPasswordArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
-};
-
-
-export type MutationCreateAndLoginArgs = {
-  email: Scalars['String']['input'];
-  image?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
-  provider?: InputMaybe<Scalars['String']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -1181,6 +1171,7 @@ export type Order = {
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OrderItem>>;
   itemsCount?: Maybe<Scalars['Int']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
 };
@@ -1202,6 +1193,7 @@ export type OrderItemsCountArgs = {
 export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForCreateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
@@ -1303,6 +1295,7 @@ export type OrderManyRelationFilter = {
 export type OrderOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
 };
 
@@ -1337,6 +1330,7 @@ export type OrderUpdateArgs = {
 export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
@@ -1348,6 +1342,7 @@ export type OrderWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<OrderItemManyRelationFilter>;
+  status?: InputMaybe<StringFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
@@ -2327,12 +2322,6 @@ export type RedeemUserPasswordResetTokenResult = {
   message: Scalars['String']['output'];
 };
 
-export type RegisterAndLoginResult = {
-  __typename?: 'RegisterAndLoginResult';
-  item?: Maybe<User>;
-  sessionToken?: Maybe<Scalars['String']['output']>;
-};
-
 export type StringFilter = {
   contains?: InputMaybe<Scalars['String']['input']>;
   endsWith?: InputMaybe<Scalars['String']['input']>;
@@ -2979,7 +2968,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
+export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
 
 export type GetImageQueryVariables = Exact<{
   where: ImageWhereUniqueInput;
@@ -3190,6 +3179,12 @@ export const LoginDocument = new TypedDocumentString(`
         createdAt
         password {
           isSet
+        }
+        orders {
+          id
+        }
+        carts {
+          id
         }
         posts {
           id

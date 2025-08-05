@@ -22,7 +22,7 @@
     "jsonwebtoken": "^9.0.2",
     "postinstall": "^0.11.2",
     "slate-dom": "^0.117.4",
-    "typescript": "^5.9.2",
+     "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "zod": "^4.0.14"
   },
@@ -37,8 +37,7 @@
     "eslint-plugin-prettier": "^5.5.3",
     "globals": "^16.3.0",
     "jsonc-eslint-parser": "^2.4.0",
-    "prettier": "^3.6.2",
-    "prisma-dbml-generator": "^0.12.0",
-    "prisma-erd-generator": "^2.0.4"
+    "prettier": "^3.6.2"
+
   }
 }

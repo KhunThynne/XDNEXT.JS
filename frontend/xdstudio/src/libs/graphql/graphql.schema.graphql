@@ -442,7 +442,6 @@ type KeystoneMeta {
 
 type Mutation {
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
-  createAndLogin(email: String!, image: String, password: String!, provider: String, username: String): RegisterAndLoginResult
   createCart(data: CartCreateInput!): Cart
   createCartItem(data: CartItemCreateInput!): CartItem
   createCartItems(data: [CartItemCreateInput!]!): [CartItem]
@@ -570,6 +569,7 @@ type Order {
   id: ID!
   items(cursor: OrderItemWhereUniqueInput, orderBy: [OrderItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderItemWhereInput! = {}): [OrderItem!]
   itemsCount(where: OrderItemWhereInput! = {}): Int
+  status: String
   updateAt: DateTime
   user: User
 }
@@ -577,6 +577,7 @@ type Order {
 input OrderCreateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForCreateInput
+  status: String
   updateAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -677,6 +678,7 @@ input OrderManyRelationFilter {
 input OrderOrderByInput {
   createdAt: OrderDirection
   id: OrderDirection
+  status: OrderDirection
   updateAt: OrderDirection
 }
 
@@ -711,6 +713,7 @@ input OrderUpdateArgs {
 input OrderUpdateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForUpdateInput
+  status: String
   updateAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -722,6 +725,7 @@ input OrderWhereInput {
   createdAt: DateTimeNullableFilter
   id: IDFilter
   items: OrderItemManyRelationFilter
+  status: StringFilter
   updateAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -1245,11 +1249,6 @@ enum QueryMode {
 type RedeemUserPasswordResetTokenResult {
   code: PasswordResetRedemptionErrorCode!
   message: String!
-}
-
-type RegisterAndLoginResult {
-  item: User
-  sessionToken: String
 }
 
 input StringFilter {

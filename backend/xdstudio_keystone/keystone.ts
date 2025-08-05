@@ -13,7 +13,7 @@ import { config, graphql } from '@keystone-6/core';
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth';
 import env from './env';
-import { Context } from '.keystone/types';
+
 import { lists } from './src/schemas';
 
 export default withAuth(
@@ -26,16 +26,25 @@ export default withAuth(
       url: env.DATABASE_URL,
       // onConnect: async context => { /* ... */ },
       // Optional advanced configuration
+      onConnect: async (context) => {
+        const users = await context.db.User.findMany({});
+        if (users.length === 0) {
+          await context.db.User.createOne({
+            data: { name: 'Thynne', email: 'khunthynne@gmail.com', password: '0926234961' },
+          });
+          console.log('Seeded initial user data');
+        }
+      },
       enableLogging: true,
       idField: { kind: 'uuid' },
       shadowDatabaseUrl: env.SHADOW_DATABASE_URL,
-      extendPrismaSchema: (schema) => {
-        return `generator dbml {
-                provider = "prisma-dbml-generator"
-                output   = "./dbml"
-      }
-  ${schema}`;
-      },
+      //     extendPrismaSchema: (schema) => {
+      //       return `generator dbml {
+      //               provider = "prisma-dbml-generator"
+      //               output   = "./dbml"
+      //     }
+      // ${schema}`;
+      //     },
     },
 
     lists,
@@ -50,59 +59,59 @@ export default withAuth(
         storagePath: env.STORAGE_IMAGE_PATH,
       },
     },
-    graphql: {
-      extendGraphqlSchema: graphql.extend((base) => {
-        const RegisterAndLoginResult = graphql.object<{
-          item: any;
-          sessionToken: string;
-        }>()({
-          name: 'RegisterAndLoginResult',
-          fields: {
-            item: graphql.field({
-              type: base.object('User'),
-              resolve(source) {
-                return source.item;
-              },
-            }),
-            sessionToken: graphql.field({
-              type: graphql.String,
-              resolve(source) {
-                return source.sessionToken;
-              },
-            }),
-          },
-        });
+    // graphql: {
+    //   extendGraphqlSchema: graphql.extend((base) => {
+    //     const RegisterAndLoginResult = graphql.object<{
+    //       item: any;
+    //       sessionToken: string;
+    //     }>()({
+    //       name: 'RegisterAndLoginResult',
+    //       fields: {
+    //         item: graphql.field({
+    //           type: base.object('User'),
+    //           resolve(source) {
+    //             return source.item;
+    //           },
+    //         }),
+    //         sessionToken: graphql.field({
+    //           type: graphql.String,
+    //           resolve(source) {
+    //             return source.sessionToken;
+    //           },
+    //         }),
+    //       },
+    //     });
 
-        return {
-          mutation: {
-            createAndLogin: graphql.field({
-              type: RegisterAndLoginResult,
-              args: {
-                email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-                password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-                username: graphql.arg({ type: graphql.String }),
-                image: graphql.arg({ type: graphql.String }),
-                provider: graphql.arg({ type: graphql.String }),
-              },
-              async resolve(_, arg, context: Context) {
-                const { email, username, provider } = arg;
-                let user = await context.db.User.findOne({ where: { email } });
+    //     return {
+    //       mutation: {
+    //         createAndLogin: graphql.field({
+    //           type: RegisterAndLoginResult,
+    //           args: {
+    //             email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+    //             password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
+    //             username: graphql.arg({ type: graphql.String }),
+    //             image: graphql.arg({ type: graphql.String }),
+    //             provider: graphql.arg({ type: graphql.String }),
+    //           },
+    //           async resolve(_, arg, context: Context) {
+    //             const { email, username, provider } = arg;
+    //             let user = await context.db.User.findOne({ where: { email } });
 
-                if (!user) {
-                  user = await context.db.User.createOne({
-                    data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' },
-                  });
-                }
-                const sessionToken = await context.session.authenticateUserWithPassword({
-                  data: { email: user.email, password: arg.password },
-                });
-                return { item: user, sessionToken };
-              },
-            }),
-          },
-        };
-      }),
-    },
+    //             if (!user) {
+    //               user = await context.db.User.createOne({
+    //                 data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' },
+    //               });
+    //             }
+    //             const sessionToken = await context.session.authenticateUserWithPassword({
+    //               data: { email: user.email, password: arg.password },
+    //             });
+    //             return { item: user, sessionToken };
+    //           },
+    //         }),
+    //       },
+    //     };
+    //   }),
+    // },
     session,
     server: { port: env.PORT },
     ui: {

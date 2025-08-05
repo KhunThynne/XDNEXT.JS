@@ -60,14 +60,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           if ("item" in authResult && authResult.sessionToken) {
             const user = authResult.item;
             return {
-              name: user.name,
-              email: user.email,
-              role: user.role,
+              ...user,
               sessionToken: authResult.sessionToken,
-              provider: user.provider,
-              username: user.username,
-              id: user.id,
-              image: user.image,
             };
           }
 
@@ -106,11 +100,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             let user_: GetUserByEmailQuery["user"] = userData.data.user;
             if (!user_) {
               const res = await executeAuth(CreateUserMutationDocument, {
-                email: discordUser.email,
+                ...discordUser,
                 password,
-                username: discordUser.username,
-                name: discordUser.username,
-                image: discordUser.image_url,
                 provider: "discord",
               });
               user_ = res.data.createUser as GetUserByEmailQuery["user"];
@@ -129,15 +120,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
               if ("item" in authResult && authResult.sessionToken) {
                 const login = authResult.item;
-
-                user.name = login.name;
-                user.email = login.email;
-                user.role = login.role;
-                user.sessionToken = authResult.sessionToken;
-                user.provider = login.provider;
-                user.username = login.username;
-                user.id = login.id;
-                user.image = login.image;
+                user = {
+                  ...login,
+                  sessionToken: authResult.sessionToken,
+                };
               }
               return true;
             } else {
@@ -168,13 +154,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.sessionToken = user?.sessionToken ?? "";
-        token.email = user.email;
-        token.name = user.name;
-        token.username = user.username;
-        token.role = user.role;
-        token.id = user.id ?? "";
-        token.carts = user.carts;
+        Object.assign(token, {
+          ...user,
+          sessionToken: user?.sessionToken ?? "",
+        });
       }
       return token;
     },

@@ -36,8 +36,8 @@ services:
         SECRET_KEY: ${SECRET_KEY}
     container_name: backend
     volumes:
-      # - .env.local:/backend/xdstudio_keystone/.env.local
-      - ../../.env:/backend/xdstudio_keystone/.env
+      - .env.local:/backend/xdstudio_keystone/.env.local
+      # - ../../.env:/backend/xdstudio_keystone/.env
     working_dir: /backend/xdstudio_keystone
     env_file:
       - ./.env

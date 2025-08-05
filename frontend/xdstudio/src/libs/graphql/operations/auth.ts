@@ -18,6 +18,12 @@ graphql(`
           password {
             isSet
           }
+          orders {
+            id
+          }
+          carts {
+            id
+          }
           posts {
             id
             title

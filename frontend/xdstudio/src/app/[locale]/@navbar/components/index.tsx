@@ -1,7 +1,7 @@
 "use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
@@ -30,7 +30,6 @@ const NavbarActionSection = ({
       <SwitchTheme />
 
       <span className="inline-flex">
-        <ShoppingPopover />
         {status === "loading" && (
           <Button variant="ghost" size="icon" disabled>
             <LoaderCircle className="animate-spin" />
@@ -41,7 +40,10 @@ const NavbarActionSection = ({
             <LogInIcon />
           </Button>
         ) : (
-          <AccountPopover {...session?.user} />
+          <Fragment>
+            <ShoppingPopover />
+            <AccountPopover {...session?.user} />
+          </Fragment>
         )}
       </span>
     </section>
@@ -50,7 +52,6 @@ const NavbarActionSection = ({
 export default function Navbar({ className }: GlobalDefaultProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { status, data } = useSession();
-
   return (
     <div
       className={clsx(

@@ -26,8 +26,9 @@ export const SignForm = () => {
   const pathname = usePathname();
   const onSubmit = async (data: TypeSignInInterface) => {
     try {
-      const res = await signIn("credentials", {
+      await signIn("credentials", {
         callbackUrl: pathname,
+        // redirect: false,
         email: data.email,
         password: data.password,
       })
@@ -39,9 +40,9 @@ export const SignForm = () => {
         })
         .finally(() => {
           closeDialog();
-          console.log("User logged in:", res);
         });
-    } catch (_) {
+    } catch (err) {
+      console.error("test", err);
       toast.error("Login failed! user or password invalidate");
       return;
     }
@@ -71,7 +72,7 @@ export const SignForm = () => {
           description="Password must be 6-10 characters, include uppercase and number."
           classNames={{ container: "gap-2" }}
           placeholder="Enter your password"
-          maxLength={10}
+          maxLength={20}
           // pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$"
         >
           <Button
