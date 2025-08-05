@@ -17,13 +17,6 @@ import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
 
 export const SignForm = () => {
-  const method = useForm({
-    resolver: zodResolver(ZSignInSchema),
-    defaultValues: { password: "", email: "" },
-  });
-  const [hidePassword, setHidePassword] = useState(false);
-  const { closeDialog } = useDialoguseContext();
-  const pathname = usePathname();
   const onSubmit = async (data: TypeSignInInterface) => {
     try {
       await signIn("credentials", {
@@ -47,6 +40,13 @@ export const SignForm = () => {
       return;
     }
   };
+  const method = useForm({
+    resolver: zodResolver(ZSignInSchema),
+    defaultValues: { password: "", email: "" },
+  });
+  const [hidePassword, setHidePassword] = useState(false);
+  const { closeDialog } = useDialoguseContext();
+  const pathname = usePathname();
 
   return (
     <Form {...method}>

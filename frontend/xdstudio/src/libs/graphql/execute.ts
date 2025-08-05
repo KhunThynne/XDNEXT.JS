@@ -26,7 +26,7 @@ export async function execute<TResult, TVariables>(
   ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
   return executeWithEndpoint(
-    `${env.NEXT_PUBLIC_API_URL}/graphql`,
+    `${env.NEXT_PUBLIC_BASE_URL}/api/graphql`,
     query,
     ...variables
   );
@@ -37,7 +37,7 @@ export async function executeAuth<TResult, TVariables>(
   ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
   return executeWithEndpoint(
-    `${env.NEXT_PUBLIC_API_URL}/auth/graphql`,
+    `${env.NEXT_PUBLIC_BASE_URL}/api/auth/graphql`,
     query,
     ...variables
   );
