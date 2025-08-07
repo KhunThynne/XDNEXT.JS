@@ -2970,26 +2970,37 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
 
+export type ImageFieldFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', filesize: number, width: number, height: number, extension: ImageExtension, url: string, id: string } | null } & { ' $fragmentName'?: 'ImageFieldFragment' };
+
 export type GetImageQueryVariables = Exact<{
   where: ImageWhereUniqueInput;
 }>;
 
 
-export type GetImageQuery = { __typename?: 'Query', image?: { __typename?: 'Image', name?: string | null, id: string, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null } | null };
+export type GetImageQuery = { __typename?: 'Query', image?: (
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null };
 
 export type CreateImagesMutationVariables = Exact<{
   data: Array<ImageCreateInput> | ImageCreateInput;
 }>;
 
 
-export type CreateImagesMutation = { __typename?: 'Mutation', createImages?: Array<{ __typename?: 'Image', name?: string | null, id: string, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } | null> | null };
+export type CreateImagesMutation = { __typename?: 'Mutation', createImages?: Array<(
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null> | null };
 
 export type CreateImageMutationVariables = Exact<{
   data: ImageCreateInput;
 }>;
 
 
-export type CreateImageMutation = { __typename?: 'Mutation', createImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null } | null };
+export type CreateImageMutation = { __typename?: 'Mutation', createImage?: (
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null };
 
 export type GetOrderQueryVariables = Exact<{
   where: OrderWhereUniqueInput;
@@ -3003,7 +3014,7 @@ export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?:
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
   ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, images?: Array<(
     { __typename?: 'Image' }
-    & { ' $fragmentRefs'?: { 'ImageFieldsFragment': ImageFieldsFragment } }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
   )> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
 
 export type GetProductsQueryVariables = Exact<{
@@ -3030,8 +3041,6 @@ export type GetProductQuery = { __typename?: 'Query', product?: (
 
 export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, name?: string | null, description?: string | null, productsCount?: number | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null } | null } & { ' $fragmentName'?: 'SupplierFieldsFragment' };
 
-export type ImageFieldsFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } & { ' $fragmentName'?: 'ImageFieldsFragment' };
-
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3042,10 +3051,7 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: (
-      { __typename?: 'Image' }
-      & { ' $fragmentRefs'?: { 'ImageFieldsFragment': ImageFieldsFragment } }
-    ) | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: { __typename?: 'Image', altText?: string | null, id: string, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, url: string, height: number, width: number } | null } | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3053,6 +3059,7 @@ export type CreateUserMutationVariables = Exact<{
   provider?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -3063,7 +3070,7 @@ export type GetUserByEmailQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null } | null };
+export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, avartar?: { __typename?: 'Image', id: string } | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -3096,21 +3103,21 @@ export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
   productsCount
 }
     `, {"fragmentName":"SupplierFields"}) as unknown as TypedDocumentString<SupplierFieldsFragment, unknown>;
-export const ImageFieldsFragmentDoc = new TypedDocumentString(`
-    fragment ImageFields on Image {
+export const ImageFieldFragmentDoc = new TypedDocumentString(`
+    fragment ImageField on Image {
   id
   name
   altText
   src {
-    id
     filesize
     width
     height
     extension
     url
+    id
   }
 }
-    `, {"fragmentName":"ImageFields"}) as unknown as TypedDocumentString<ImageFieldsFragment, unknown>;
+    `, {"fragmentName":"ImageField"}) as unknown as TypedDocumentString<ImageFieldFragment, unknown>;
 export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     fragment ProductFields on Product {
   id
@@ -3134,11 +3141,24 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
-    fragment SupplierFields on Supplier {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment SupplierFields on Supplier {
   id
   name
   description
@@ -3148,19 +3168,6 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
 export const LoginDocument = new TypedDocumentString(`
     mutation Login($email: String!, $password: String!) {
@@ -3202,54 +3209,60 @@ export const LoginDocument = new TypedDocumentString(`
 export const GetImageDocument = new TypedDocumentString(`
     query GetImage($where: ImageWhereUniqueInput!) {
   image(where: $where) {
-    name
-    src {
-      id
-      extension
-      filesize
-      height
-      url
-      width
-    }
-    id
-    altText
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<GetImageQuery, GetImageQueryVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<GetImageQuery, GetImageQueryVariables>;
 export const CreateImagesDocument = new TypedDocumentString(`
     mutation CreateImages($data: [ImageCreateInput!]!) {
   createImages(data: $data) {
-    name
-    id
-    altText
-    src {
-      id
-      filesize
-      width
-      height
-      extension
-      url
-    }
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<CreateImagesMutation, CreateImagesMutationVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<CreateImagesMutation, CreateImagesMutationVariables>;
 export const CreateImageDocument = new TypedDocumentString(`
     mutation CreateImage($data: ImageCreateInput!) {
   createImage(data: $data) {
-    altText
-    id
-    name
-    src {
-      extension
-      filesize
-      height
-      id
-      url
-      width
-    }
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<CreateImageMutation, CreateImageMutationVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<CreateImageMutation, CreateImageMutationVariables>;
 export const GetOrderDocument = new TypedDocumentString(`
     query getOrder($where: OrderWhereUniqueInput!) {
   order(where: $where) {
@@ -3281,7 +3294,20 @@ export const GetProductsDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment ProductFields on Product {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
   id
   suppilers {
     ...SupplierFields
@@ -3303,7 +3329,7 @@ export const GetProductsDocument = new TypedDocumentString(`
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
@@ -3317,19 +3343,6 @@ fragment SupplierFields on Supplier {
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
 export const GetProductDocument = new TypedDocumentString(`
     query getProduct($where: ProductWhereUniqueInput!) {
@@ -3337,7 +3350,20 @@ export const GetProductDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment ProductFields on Product {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
   id
   suppilers {
     ...SupplierFields
@@ -3359,7 +3385,7 @@ export const GetProductDocument = new TypedDocumentString(`
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
@@ -3373,19 +3399,6 @@ fragment SupplierFields on Supplier {
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`) as unknown as TypedDocumentString<GetProductQuery, GetProductQueryVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {
@@ -3411,7 +3424,14 @@ export const GetUserDocument = new TypedDocumentString(`
     }
     provider
     avartar {
-      ...ImageFields
+      altText
+      id
+      src {
+        extension
+        url
+        height
+        width
+      }
     }
     preference {
       id
@@ -3429,23 +3449,11 @@ export const GetUserDocument = new TypedDocumentString(`
     }
   }
 }
-    fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
-}`) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+    `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
 export const CreateUserDocument = new TypedDocumentString(`
-    mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String) {
+    mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String, $image: String) {
   createUser(
-    data: {name: $name, username: $username, provider: $provider, password: $password, email: $email}
+    data: {name: $name, username: $username, provider: $provider, password: $password, email: $email, image: $image}
   ) {
     id
     name
@@ -3469,6 +3477,9 @@ export const GetUserByEmailDocument = new TypedDocumentString(`
     username
     provider
     image
+    avartar {
+      id
+    }
     role
     email
     postsCount

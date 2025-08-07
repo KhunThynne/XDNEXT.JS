@@ -25,7 +25,14 @@ graphql(`
       }
       provider
       avartar {
-        ...ImageFields
+        altText
+        id
+        src {
+          extension
+          url
+          height
+          width
+        }
       }
       preference {
         id

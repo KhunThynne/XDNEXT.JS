@@ -3,6 +3,8 @@ import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { executeAuth } from "./libs/graphql/execute";
 import {
+  CreateUserDocument,
+  GetUserByEmailDocument,
   GetUserByEmailQuery,
   LoginDocument,
 } from "./libs/graphql/generates/graphql";
@@ -10,8 +12,7 @@ import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
 import { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import { DiscordUser } from "@type/user.type";
-import { CreateUserMutationDocument } from "./libs/graphql/operations/user/createUser.mutation";
-import { GetUserByEmailDocument } from "./libs/graphql/operations/user/getUserByEmail";
+
 declare module "next-auth" {
   interface Session {
     user: GqlUser;
@@ -82,13 +83,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
-    },
     async signIn({ user, account, profile }) {
       if (!account?.provider) return false;
       console.log("🔐 SignIn via provider:", account.provider);
@@ -100,20 +94,23 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             const userData = await executeAuth(GetUserByEmailDocument, {
               email: discordUser.email,
             });
+
             let user_: GetUserByEmailQuery["user"] = userData.data.user;
             if (!user_) {
-              const res = await executeAuth(CreateUserMutationDocument, {
-                ...discordUser,
+              const res = await executeAuth(CreateUserDocument, {
+                email: discordUser.email,
+                name: discordUser.username,
                 password,
                 provider: "discord",
               });
-              user_ = res.data.createUser as GetUserByEmailQuery["user"];
+
+              user_ = res.data.createUser;
             }
 
             if (user_) {
               const res = await executeAuth(LoginDocument, {
                 email: user_.email as string,
-                password: password,
+                password,
               });
 
               const authResult = res.data?.authenticateUserWithPassword;
@@ -123,13 +120,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
               if ("item" in authResult && authResult.sessionToken) {
                 const login = authResult.item;
-                user = {
+
+                Object.assign(user, {
                   ...login,
-                  sessionToken: authResult.sessionToken,
-                };
+                  image: discordUser.image_url,
+                  sessionToken: user?.sessionToken ?? "",
+                });
               }
               return true;
             } else {
+              return false;
               throw new Error("Discord fail auth");
             }
           } catch (err) {
@@ -170,13 +170,21 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.id = token.id;
         session.user.username = token.username;
         session.user.carts = token.carts;
+        session.user.image = token.image;
       }
       // console.log("session", token);
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
   },
   pages: {
     signIn: "/login",
-    error: "/error",
+    error: "/login",
   },
 });

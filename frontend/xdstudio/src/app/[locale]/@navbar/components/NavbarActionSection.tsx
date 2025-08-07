@@ -20,7 +20,6 @@ export const NavbarActionSection = ({
   return (
     <section className={clsx(className)}>
       <SwitchTheme />
-
       <span className="inline-flex">
         {status === "loading" ? (
           <Button variant="ghost" size="icon" disabled>

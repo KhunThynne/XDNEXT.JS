@@ -31,7 +31,7 @@ export function OAuthLoginButtonsGrupe({
             variant="outline"
             type="button"
             disabled={disable}
-            onClick={() => signIn(id, { callbackUrl })}
+            onClick={() => signIn(id, { redirectTo: callbackUrl, callbackUrl })}
             className="relative hover:brightness-125"
           >
             <Image

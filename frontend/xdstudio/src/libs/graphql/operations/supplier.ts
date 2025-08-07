@@ -12,18 +12,4 @@ graphql(`
     }
     productsCount
   }
-
-  fragment ImageFields on Image {
-    id
-    name
-    altText
-    src {
-      id
-      filesize
-      width
-      height
-      extension
-      url
-    }
-  }
 `);

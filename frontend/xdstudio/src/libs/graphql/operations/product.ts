@@ -23,7 +23,7 @@ graphql(`
     updateAt
     createdAt
     images {
-      ...ImageFields
+      ...ImageField
     }
     imagesCount
   }

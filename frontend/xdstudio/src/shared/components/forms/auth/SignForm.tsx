@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
-import { startTransition, useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { InputForm } from "../../ui/form/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -74,7 +74,7 @@ export const SignForm = () => {
         </InputForm>
         <section className="flex flex-col">
           <Button disabled={formState.isSubmitting}>Login</Button>
-          <OAuthLoginButtonsGrupe className="mt-5" callbackUrl={pathname} />
+          <OAuthLoginButtonsGrupe className="mt-5" callbackUrl={callbackUrl} />
         </section>
       </form>
     </Form>

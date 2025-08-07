@@ -124,8 +124,8 @@ export const User: ListConfig<any> = list({
       if (operation === 'create') {
         await context.db.Supplier.createOne({
           data: {
-            supplierName: `Supplier for ${item.name}`,
-            supplierDetails: `Supplier initails`,
+            name: `Supplier for ${item.name}`,
+            description: `Supplier initails`,
             user: { connect: { id: item.id } },
           },
         });
