@@ -4,6 +4,14 @@ import React, { useId } from "react";
 
 import { DialogInstance } from "./DialogInstance";
 import { DialogInstanceProps, DialogOptions } from "./index.type";
+const DialogState = {
+  OPEN: "open",
+  CLOSE: "close",
+} as const;
+type DialogStateType = (typeof DialogState)[keyof typeof DialogState];
+
+// ใช้งาน:
+
 /**
  * Creates a custom React hook for managing a dynamic Dialog instance.
  *
@@ -37,7 +45,10 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
   return function useDialog(hookProps?: Partial<DialogInstanceProps>) {
     const id = useId();
     const strictModeHandledRef = React.useRef(false);
-    const refDialog = React.useRef<{ closeDialogRef: () => void }>(null);
+    const refDialog = React.useRef<{
+      closeDialogRef: () => void;
+      state: boolean;
+    }>(null);
     const contentRef = React.useRef<HTMLDivElement>(null);
     const { add, remove } = useDialogDispatcher();
     const props: Partial<DialogInstanceProps> = React.useMemo(
@@ -102,6 +113,7 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return {
+      state: refDialog.current?.state ? DialogState.OPEN : DialogState.CLOSE,
       openDialog,
       closeDialog,
     };

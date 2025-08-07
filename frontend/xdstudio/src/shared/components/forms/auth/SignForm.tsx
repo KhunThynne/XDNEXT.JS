@@ -1,55 +1,63 @@
-
+"use client"
 import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
-import { use, useCallback, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { signIn } from "next-auth/react";
-import { useDialoguseContext } from "@/libs/dialog/DialogInstance";
-
 import { InputForm } from "../../ui/form/InputForm";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 import { usePathname } from "@navigation";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
-import loginAction, { test } from "./actions/Login.action";
+import loginAction from "./actions/Login.action";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const SignForm = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
+  const callbackUrl = searchParams.get("callbackUrl") ?? "";
   const onSubmit = useCallback(
     async (data: TypeSignInInterface) => {
-      console.log(pathname);
-      if (pathname) {
-        await loginAction("credentials", {
-          callbackUrl: pathname,
+      try {
+        const res = await loginAction("credentials", {
+          callbackUrl,
           // redirect: false,
           email: data.email,
           password: data.password,
-        })
-          .then(() => {
-            toast.success("Login success!");
-          })
-          .catch(() => {
-            throw new Error("can't login");
-          });
-        // .finally(() => {
-        //   closeDialog();
-        // });
+        });
+        console.log(res);
+        if (res) {
+          toast.success("Login success!");
+          window.location.reload();
+        }
+      } catch (err) {
+        console.log(err);
+        toast.error("can't login");
       }
     },
-    [pathname]
+    [callbackUrl]
   );
+
   const method = useForm({
     resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
   });
   const [hidePassword, setHidePassword] = useState(false);
-  const { closeDialog } = useDialoguseContext();
+
+  useEffect(() => {
+    return () => {
+      if (callbackUrl) {
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("callbackUrl");
+        router.push(`?${params.toString()}`);
+      }
+    };
+  });
 
   return (
     <Form {...method}>
@@ -67,9 +75,6 @@ export const SignForm = () => {
           description="Please enter a valid email address (e.g. name@example.com)."
         />
 
-        <Button type="button" onClick={async () => await test(pathname)}>
-          TEst
-        </Button>
         <InputForm
           label="Password"
           control={method.control}

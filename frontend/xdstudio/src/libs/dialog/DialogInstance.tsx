@@ -91,7 +91,10 @@ export const useDialoguseContext = () => {
 
 export function DialogInstance(
   props: Partial<DialogInstanceProps> & {
-    refDialog?: React.RefObject<{ closeDialogRef: () => void } | null>;
+    refDialog?: React.RefObject<{
+      closeDialogRef: () => void;
+      state: boolean;
+    } | null>;
     refContent?: React.RefObject<HTMLDivElement | null>;
   }
 ) {
@@ -110,8 +113,9 @@ export function DialogInstance(
       closeDialogRef() {
         setDialogState(false);
       },
+      state: dailogState,
     };
-  }, [setDialogState]);
+  }, [dailogState, setDialogState]);
 
   return (
     <Dialog {...propsDialog.options?.dialog} open={dailogState}>

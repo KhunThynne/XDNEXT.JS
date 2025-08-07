@@ -11,26 +11,28 @@ export default async function loginAction(
   { callbackUrl, email, password }: any
 ) {
   const locale = await getLocale();
-  console.log("TEST", locale, callbackUrl);
+
+  const normalizedPathname = callbackUrl.replace(/\/+$/, "") || "/";
+
   try {
     await signIn("credentials", {
-      callbackUrl,
       redirect: false,
       email: email,
       password: password,
     });
-    return RedirectI18n({ href: callbackUrl, locale });
+
+    return true;
   } catch (err) {
     console.log(err);
-    if (err instanceof AuthError) {
-      return RedirectI18n({ href: `error?error=${err.type}`, locale });
-    }
+    // if (err instanceof AuthError) {
+    //   return RedirectI18n({ href: `error?error=${err.type}`, locale });
+    // }
     throw err;
   }
 }
 export async function test(pathname: string) {
   const locale = await getLocale();
   const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
-  
+
   RedirectI18n({ href: normalizedPathname, locale });
 }

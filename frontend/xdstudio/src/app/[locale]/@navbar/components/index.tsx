@@ -15,6 +15,7 @@ import { SwitchTheme } from "@/shared/components/ui/SwitchTheme";
 import { AccountPopover } from "./AccountPopover";
 import { Session } from "next-auth";
 import { ShoppingPopover } from "./ShoppingPopover";
+import { SignButton } from "./SignButton";
 
 const NavbarActionSection = ({
   className,
@@ -24,7 +25,6 @@ const NavbarActionSection = ({
   session: Session | null;
   status: "loading" | "authenticated" | "unauthenticated";
 } & GlobalDefaultProps) => {
-  const { openDialog } = useSignDialog();
   return (
     <section className={clsx(className)}>
       <SwitchTheme />
@@ -36,9 +36,7 @@ const NavbarActionSection = ({
           </Button>
         )}
         {status === "unauthenticated" ? (
-          <Button variant="ghost" size="icon" onClick={openDialog}>
-            <LogInIcon />
-          </Button>
+          <SignButton />
         ) : (
           <Fragment>
             <ShoppingPopover />
@@ -65,6 +63,7 @@ export default function Navbar({ className }: GlobalDefaultProps) {
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
+          {status}
           <NavbarActionSection
             className="flex gap-2"
             status={status}
