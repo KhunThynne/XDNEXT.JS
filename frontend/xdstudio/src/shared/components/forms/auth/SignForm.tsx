@@ -1,71 +1,48 @@
-"use client"
+"use client";
 import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
-import { use, useCallback, useEffect, useState } from "react";
+import { startTransition, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { InputForm } from "../../ui/form/InputForm";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
+import { ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 import { usePathname } from "@navigation";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
-import loginAction from "./actions/Login.action";
-import { useRouter, useSearchParams } from "next/navigation";
+
+import { useSearchParams } from "next/navigation";
+import { authenticate } from "./actions/Login.action";
 
 export const SignForm = () => {
   const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const callbackUrl = searchParams.get("callbackUrl") ?? "";
-  const onSubmit = useCallback(
-    async (data: TypeSignInInterface) => {
-      try {
-        const res = await loginAction("credentials", {
-          callbackUrl,
-          // redirect: false,
-          email: data.email,
-          password: data.password,
-        });
-        console.log(res);
-        if (res) {
-          toast.success("Login success!");
-          window.location.reload();
-        }
-      } catch (err) {
-        console.log(err);
-        toast.error("can't login");
-      }
-    },
-    [callbackUrl]
-  );
 
   const method = useForm({
     resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
   });
+  const searchParams = useSearchParams();
+  const { formState } = method;
+  const callbackUrl = searchParams.get("callbackUrl") ?? "";
   const [hidePassword, setHidePassword] = useState(false);
-
-  useEffect(() => {
-    return () => {
-      if (callbackUrl) {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("callbackUrl");
-        router.push(`?${params.toString()}`);
+  const onSubmit = method.handleSubmit(async (data) => {
+    await authenticate("", {
+      redirectTo: callbackUrl,
+      ...data,
+    }).then((res) => {
+      if (res) {
+        toast.error(String(res));
+        return;
       }
-    };
+    });
   });
-
   return (
     <Form {...method}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={method.handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" />
+
         <InputForm
           label="Email"
           control={method.control}
@@ -95,9 +72,8 @@ export const SignForm = () => {
             {!hidePassword ? <EyeOff /> : <EyeIcon />}
           </Button>
         </InputForm>
-
         <section className="flex flex-col">
-          <Button>Login</Button>
+          <Button disabled={formState.isSubmitting}>Login</Button>
           <OAuthLoginButtonsGrupe className="mt-5" callbackUrl={pathname} />
         </section>
       </form>

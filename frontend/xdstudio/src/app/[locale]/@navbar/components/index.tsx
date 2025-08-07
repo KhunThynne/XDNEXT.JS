@@ -1,55 +1,23 @@
 "use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { Fragment, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
 import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
-import { Loader, LoaderCircle, LogInIcon, ShoppingBag } from "lucide-react";
-import { useSignDialog } from "@/shared/components/forms/auth/SignForm";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Skeleton } from "@/libs/shadcn/ui/skeleton";
-import { SwitchTheme } from "@/shared/components/ui/SwitchTheme";
-import { AccountPopover } from "./AccountPopover";
+
+import { NavbarActionSection } from "./NavbarActionSection";
 import { Session } from "next-auth";
-import { ShoppingPopover } from "./ShoppingPopover";
-import { SignButton } from "./SignButton";
 
-const NavbarActionSection = ({
+export default function Navbar({
   className,
-  status,
   session,
-}: {
-  session: Session | null;
-  status: "loading" | "authenticated" | "unauthenticated";
-} & GlobalDefaultProps) => {
-  return (
-    <section className={clsx(className)}>
-      <SwitchTheme />
-
-      <span className="inline-flex">
-        {status === "loading" && (
-          <Button variant="ghost" size="icon" disabled>
-            <LoaderCircle className="animate-spin" />
-          </Button>
-        )}
-        {status === "unauthenticated" ? (
-          <SignButton />
-        ) : (
-          <Fragment>
-            <ShoppingPopover />
-            <AccountPopover {...session?.user} />
-          </Fragment>
-        )}
-      </span>
-    </section>
-  );
-};
-export default function Navbar({ className }: GlobalDefaultProps) {
+}: GlobalDefaultProps & { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { status, data } = useSession();
+  const { status, data, update } = useSession();
+
   return (
     <div
       className={clsx(
@@ -63,11 +31,10 @@ export default function Navbar({ className }: GlobalDefaultProps) {
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
-          {status}
           <NavbarActionSection
             className="flex gap-2"
             status={status}
-            session={data}
+            session={session}
           />
         </nav>
         <MenuButton
@@ -94,7 +61,7 @@ export default function Navbar({ className }: GlobalDefaultProps) {
               <NavbarActionSection
                 className="spcae-x-2"
                 status={status}
-                session={data}
+                session={session}
               />
             </li>
           </ul>

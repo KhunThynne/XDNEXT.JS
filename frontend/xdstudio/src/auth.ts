@@ -54,6 +54,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const authResult = data?.authenticateUserWithPassword;
 
           if (!authResult) {
+            return null;
             throw new Error("No authentication result");
           }
 
@@ -66,11 +67,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           }
 
           if ("message" in authResult) {
-            throw new Error(authResult.message);
+            return null;
+            // throw new Error(authResult.message);
           }
 
           throw new Error("Authentication failed");
         } catch (err) {
+          return null;
           throw new Error(
             (err as { message?: string }).message ?? "Login failed"
           );
@@ -80,10 +83,10 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   ],
   callbacks: {
     async redirect({ url, baseUrl }) {
-      if (url.startsWith(baseUrl)) return url;
-
+      // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
     async signIn({ user, account, profile }) {
@@ -174,6 +177,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   },
   pages: {
     signIn: "/login",
-    error: "/auth/error",
+    error: "/error",
   },
 });

@@ -1,38 +1,28 @@
 "use server";
 import { signIn } from "@/auth";
-import { redirect as RedirectI18n } from "@navigation";
+import { redirect, redirect as RedirectI18n } from "@navigation";
 import { AuthError } from "next-auth";
+import { SignInOptions } from "next-auth/react";
 
 import { getLocale } from "next-intl/server";
-import { redirect } from "next/navigation";
 
-export default async function loginAction(
-  providers: string,
-  { callbackUrl, email, password }: any
+export async function authenticate(
+  prevState: string | undefined,
+  formData: SignInOptions
 ) {
   const locale = await getLocale();
 
-  const normalizedPathname = callbackUrl.replace(/\/+$/, "") || "/";
-
   try {
-    await signIn("credentials", {
-      redirect: false,
-      email: email,
-      password: password,
-    });
-
-    return true;
-  } catch (err) {
-    console.log(err);
-    // if (err instanceof AuthError) {
-    //   return RedirectI18n({ href: `error?error=${err.type}`, locale });
-    // }
-    throw err;
+    await signIn("credentials", { ...formData });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
   }
-}
-export async function test(pathname: string) {
-  const locale = await getLocale();
-  const normalizedPathname = pathname.replace(/\/+$/, "") || "/";
-
-  RedirectI18n({ href: normalizedPathname, locale });
 }
