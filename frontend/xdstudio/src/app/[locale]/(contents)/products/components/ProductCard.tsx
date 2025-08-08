@@ -13,15 +13,21 @@ import {
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";
-import { Diamond, DiamondMinus, ImageOff } from "lucide-react";
+import { Diamond, ImageOff } from "lucide-react";
 import Image from "next/image";
+import { AddItemButton } from "./AddItem.button";
+import { Session } from "next-auth";
 
 export const CardProduct = ({
   product,
   className,
   classNames,
+  session,
   footer = true,
-}: { product: Product & { href?: string } } & GlobalPropsClassNames<
+}: {
+  product: Product & { href?: string };
+  session: Session | null;
+} & GlobalPropsClassNames<
   | "containerImage"
   | "image"
   | "title"
@@ -89,10 +95,12 @@ export const CardProduct = ({
             <Diamond className="text-xd size-4 animate-pulse self-center duration-500" />
             {` ${product.price?.price ?? 0}`}
           </p>
-
-          <Button className="" disabled={!product.price?.price}>
-            Add to cart
-          </Button>
+          <AddItemButton
+            session={session}
+            productId={product?.id}
+            className="cursor-pointer"
+            disabled={!product.price?.price}
+          />
         </CardFooter>
       )}
     </Card>

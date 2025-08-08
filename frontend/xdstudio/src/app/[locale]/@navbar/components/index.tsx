@@ -1,7 +1,7 @@
 "use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useDeferredValue, useEffect, useLayoutEffect, useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
@@ -16,8 +16,8 @@ export default function Navbar({
   session,
 }: GlobalDefaultProps & { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { status, data, update } = useSession();
-
+  const { status } = useSession();
+  const statusDefer = useDeferredValue(status);
   return (
     <div
       className={clsx(
@@ -33,7 +33,7 @@ export default function Navbar({
           <RenderLink render={conf.navbar} />
           <NavbarActionSection
             className="flex gap-2"
-            status={status}
+            status={statusDefer}
             session={session}
           />
         </nav>
@@ -60,7 +60,7 @@ export default function Navbar({
             <li className="bg-secondary sticky bottom-0 flex justify-end p-2">
               <NavbarActionSection
                 className="spcae-x-2"
-                status={status}
+                status={statusDefer}
                 session={session}
               />
             </li>

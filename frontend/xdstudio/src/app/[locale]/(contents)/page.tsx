@@ -3,8 +3,10 @@ import { Button } from "@/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
 import clsx from "clsx";
+import { auth } from "@/auth";
 
 export default async function PageCotent() {
+  const session = await auth();
   return (
     <ContainerSection
       title="Our Featured Products"
@@ -16,7 +18,6 @@ export default async function PageCotent() {
           </p>
           <Button
             asChild
-            variant="secondary"
             className="max-lg:h-5 max-lg:bg-inherit max-lg:shadow-none"
           >
             <Link href={"products"} className="max-lg:underline">
@@ -32,7 +33,7 @@ export default async function PageCotent() {
         ),
       }}
     >
-      <ContentProducts />
+      <ContentProducts session={session} />
     </ContainerSection>
   );
 }

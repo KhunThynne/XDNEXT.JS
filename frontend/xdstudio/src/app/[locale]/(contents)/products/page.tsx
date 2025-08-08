@@ -2,8 +2,10 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { ContentProducts } from "./components/ContentProducts";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
 import clsx from "clsx";
+import { auth } from "@/auth";
 
 export default async function PageProducts() {
+  const session = await auth();
   return (
     <>
       <BreadcrumbComponent />
@@ -18,7 +20,7 @@ export default async function PageProducts() {
           ),
         }}
       >
-        <ContentProducts />
+        <ContentProducts session={session} />
       </ContainerSection>
     </>
   );

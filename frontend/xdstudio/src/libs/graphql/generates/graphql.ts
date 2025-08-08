@@ -2970,6 +2970,20 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
 
+export type CreateCartItemMutationVariables = Exact<{
+  data: CartItemCreateInput;
+}>;
+
+
+export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: string, quantity?: number | null, cart?: { __typename?: 'Cart', id: string } | null, product?: { __typename?: 'Product', id: string } | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where: CartWhereUniqueInput;
+}>;
+
+
+export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
+
 export type ImageFieldFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', filesize: number, width: number, height: number, extension: ImageExtension, url: string, id: string } | null } & { ' $fragmentName'?: 'ImageFieldFragment' };
 
 export type GetImageQueryVariables = Exact<{
@@ -3206,6 +3220,70 @@ export const LoginDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
+export const CreateCartItemDocument = new TypedDocumentString(`
+    mutation CreateCartItem($data: CartItemCreateInput!) {
+  createCartItem(data: $data) {
+    cart {
+      id
+    }
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: CartWhereUniqueInput!) {
+  cart(where: $where) {
+    createdAt
+    id
+    items {
+      id
+      quantity
+      product {
+        images {
+          src {
+            extension
+            filesize
+            height
+            id
+            url
+            width
+          }
+          altText
+          id
+          name
+        }
+        id
+        description
+        details {
+          document
+        }
+        name
+        price {
+          price
+          id
+        }
+        publishedAt
+        status
+        suppilers {
+          id
+        }
+        updateAt
+        createdAt
+      }
+    }
+    status
+    updateAt
+    user {
+      id
+      username
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
 export const GetImageDocument = new TypedDocumentString(`
     query GetImage($where: ImageWhereUniqueInput!) {
   image(where: $where) {
