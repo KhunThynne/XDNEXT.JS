@@ -29,6 +29,9 @@ export const useCartDocument = ({
     staleTime: 1000 * 60 * 5,
     enabled: !!cartId,
   });
+  const invalidate = () => {
+    cartQueryClient.invalidateQueries({ queryKey });
+  };
   const mutation = useMutation({
     mutationFn: async () => {
       const res = await execute(CreateCartItemDocument, {
@@ -41,7 +44,7 @@ export const useCartDocument = ({
       return res;
     },
     onSuccess: (data) => {
-      cartQueryClient.invalidateQueries({ queryKey });
+      invalidate();
       console.log("Item added to cart", data);
     },
     onError: (error) => {
@@ -49,5 +52,5 @@ export const useCartDocument = ({
     },
   });
 
-  return { mutation, queryKey, cartQueryClient, query };
+  return { mutation, queryKey, invalidate, query };
 };

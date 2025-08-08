@@ -1,7 +1,7 @@
 "use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useDeferredValue, useEffect, useLayoutEffect, useState } from "react";
+import { useDeferredValue, useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
@@ -14,7 +14,7 @@ import { Session } from "next-auth";
 export default function Navbar({
   className,
   session,
-}: GlobalDefaultProps & { session: Session | null }) {
+}: WithlDefaultProps & { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
   const statusDefer = useDeferredValue(status);

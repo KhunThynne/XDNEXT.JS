@@ -4,8 +4,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { Providers } from "./providers";
 import type { Metadata } from "next";
-import Content from "@/shared/components/ui/Content";
-import { getSession, SessionProvider } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 
 export const metadata: Metadata = {
@@ -17,13 +16,13 @@ export default async function LocaleLayout({
   params,
   footer,
   navbar,
-}: GlobalDefaultProps &
+}: WithlDefaultProps &
   NextJSReactNodes<"footer" | "navbar"> & {
     params: Promise<{ locale: string }>;
   }) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
-
+  const session = await auth();
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
@@ -38,7 +37,7 @@ export default async function LocaleLayout({
       >
         <SessionProvider>
           <NextIntlClientProvider>
-            <Providers locale={locale}>
+            <Providers locale={locale} session={session}>
               <main className={clsx("flex flex-col", "min-h-screen")}>
                 {navbar}
                 {children}

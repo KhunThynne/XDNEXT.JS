@@ -32,6 +32,18 @@ export const Product: ListConfig<any> = list({
       },
       many: false,
     }),
+    stock: relationship({
+      ref: 'Stock.product',
+      many: false,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['quantity', 'type', 'updateAt'],
+        inlineEdit: { fields: ['quantity', 'type'] },
+        linkToItem: true,
+        removeMode: 'none',
+        // inlineConnect: true,
+      },
+    }),
     tags: relationship({
       ref: 'Tag',
       many: true,
@@ -83,17 +95,16 @@ export const Product: ListConfig<any> = list({
         cardFields: ['name', 'src'],
         inlineCreate: { fields: ['name', 'src'] },
         inlineEdit: { fields: ['name', 'src'] },
-        inlineConnect: true, // ✅ ตรงนี้จะช่วยให้เลือกจากรายการที่มีอยู่ได้
+        inlineConnect: true,
       },
     }),
     ...defaultGlobalField(),
   },
   hooks: {
-    resolveInput: ({ resolvedData, operation, item }) => {
+    resolveInput: async ({ resolvedData, operation, item }) => {
       const now = new Date().toISOString();
 
       resolvedData.updateAt = now;
-
       if (
         resolvedData.status === 'published' &&
         (operation === 'create' || item?.status !== 'published')
@@ -102,6 +113,32 @@ export const Product: ListConfig<any> = list({
       }
 
       return resolvedData;
+    },
+    beforeOperation: async ({ operation, item, context }) => {
+      if (operation === 'delete') {
+        const stockId = item?.stockId;
+        if (stockId) {
+          await context.prisma.stock.delete({
+            where: { id: stockId },
+          });
+        }
+      }
+    },
+    afterOperation: async ({ operation, item, context }) => {
+      if (operation === 'create') {
+        const stocks = await context.db.Stock.findMany({
+          where: { product: { id: { equals: item.id } } },
+        });
+
+        if (stocks.length === 0) {
+          await context.db.Stock.createOne({
+            data: {
+              product: { connect: { id: item.id } },
+              quantity: 0,
+            },
+          });
+        }
+      }
     },
   },
 });

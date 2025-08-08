@@ -11,7 +11,7 @@ type PropType = {
   edgeGlow?: boolean;
 } & GlobalPropsClassNames<"container" | "view"> &
   WithChildren;
-export function EdgeGlow({ className = "" }: GlobalPropClassName) {
+export function EdgeGlow({ className = "" }: WithClassName) {
   const shadowClassName = clsx(
     "h-full w-10! animate-pulse shadow-2xl backdrop-blur-3xl dark:shadow-white/30"
   );

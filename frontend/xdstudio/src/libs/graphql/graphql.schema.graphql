@@ -465,6 +465,8 @@ type Mutation {
   createProducts(data: [ProductCreateInput!]!): [Product]
   createPromotion(data: PromotionCreateInput!): Promotion
   createPromotions(data: [PromotionCreateInput!]!): [Promotion]
+  createStock(data: StockCreateInput!): Stock
+  createStocks(data: [StockCreateInput!]!): [Stock]
   createSupplier(data: SupplierCreateInput!): Supplier
   createSuppliers(data: [SupplierCreateInput!]!): [Supplier]
   createTag(data: TagCreateInput!): Tag
@@ -499,6 +501,8 @@ type Mutation {
   deleteProducts(where: [ProductWhereUniqueInput!]!): [Product]
   deletePromotion(where: PromotionWhereUniqueInput!): Promotion
   deletePromotions(where: [PromotionWhereUniqueInput!]!): [Promotion]
+  deleteStock(where: StockWhereUniqueInput!): Stock
+  deleteStocks(where: [StockWhereUniqueInput!]!): [Stock]
   deleteSupplier(where: SupplierWhereUniqueInput!): Supplier
   deleteSuppliers(where: [SupplierWhereUniqueInput!]!): [Supplier]
   deleteTag(where: TagWhereUniqueInput!): Tag
@@ -536,6 +540,8 @@ type Mutation {
   updateProducts(data: [ProductUpdateArgs!]!): [Product]
   updatePromotion(data: PromotionUpdateInput!, where: PromotionWhereUniqueInput!): Promotion
   updatePromotions(data: [PromotionUpdateArgs!]!): [Promotion]
+  updateStock(data: StockUpdateInput!, where: StockWhereUniqueInput!): Stock
+  updateStocks(data: [StockUpdateArgs!]!): [Stock]
   updateSupplier(data: SupplierUpdateInput!, where: SupplierWhereUniqueInput!): Supplier
   updateSuppliers(data: [SupplierUpdateArgs!]!): [Supplier]
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
@@ -964,6 +970,7 @@ type Product {
   price: Price
   publishedAt: DateTime
   status: String
+  stock: Stock
   suppilers: Supplier
   tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
@@ -979,6 +986,7 @@ input ProductCreateInput {
   price: PriceRelateToOneForCreateInput
   publishedAt: DateTime
   status: String
+  stock: StockRelateToOneForCreateInput
   suppilers: SupplierRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
@@ -1086,6 +1094,7 @@ input ProductUpdateInput {
   price: PriceRelateToOneForUpdateInput
   publishedAt: DateTime
   status: String
+  stock: StockRelateToOneForUpdateInput
   suppilers: SupplierRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
@@ -1103,6 +1112,7 @@ input ProductWhereInput {
   price: PriceWhereInput
   publishedAt: DateTimeNullableFilter
   status: StringFilter
+  stock: StockWhereInput
   suppilers: SupplierWhereInput
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
@@ -1110,6 +1120,7 @@ input ProductWhereInput {
 
 input ProductWhereUniqueInput {
   id: ID
+  stock: StockWhereUniqueInput
 }
 
 type Product_details_Document {
@@ -1220,6 +1231,9 @@ type Query {
   promotion(where: PromotionWhereUniqueInput!): Promotion
   promotions(cursor: PromotionWhereUniqueInput, orderBy: [PromotionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PromotionWhereInput! = {}): [Promotion!]
   promotionsCount(where: PromotionWhereInput! = {}): Int
+  stock(where: StockWhereUniqueInput!): Stock
+  stocks(cursor: StockWhereUniqueInput, orderBy: [StockOrderByInput!]! = [], skip: Int! = 0, take: Int, where: StockWhereInput! = {}): [Stock!]
+  stocksCount(where: StockWhereInput! = {}): Int
   supplier(where: SupplierWhereUniqueInput!): Supplier
   suppliers(cursor: SupplierWhereUniqueInput, orderBy: [SupplierOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SupplierWhereInput! = {}): [Supplier!]
   suppliersCount(where: SupplierWhereInput! = {}): Int
@@ -1249,6 +1263,67 @@ enum QueryMode {
 type RedeemUserPasswordResetTokenResult {
   code: PasswordResetRedemptionErrorCode!
   message: String!
+}
+
+type Stock {
+  id: ID!
+  product: Product
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockCreateInput {
+  product: ProductRelateToOneForCreateInput
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+  type: OrderDirection
+  updateAt: OrderDirection
+}
+
+input StockRelateToOneForCreateInput {
+  connect: StockWhereUniqueInput
+  create: StockCreateInput
+}
+
+input StockRelateToOneForUpdateInput {
+  connect: StockWhereUniqueInput
+  create: StockCreateInput
+  disconnect: Boolean
+}
+
+input StockUpdateArgs {
+  data: StockUpdateInput!
+  where: StockWhereUniqueInput!
+}
+
+input StockUpdateInput {
+  product: ProductRelateToOneForUpdateInput
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockWhereInput {
+  AND: [StockWhereInput!]
+  NOT: [StockWhereInput!]
+  OR: [StockWhereInput!]
+  id: IDFilter
+  product: ProductWhereInput
+  quantity: IntFilter
+  type: StringFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input StockWhereUniqueInput {
+  id: ID
+  product: ProductWhereUniqueInput
 }
 
 input StringFilter {

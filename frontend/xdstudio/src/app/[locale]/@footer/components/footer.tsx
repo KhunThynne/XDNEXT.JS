@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 
-export default function Footer({ className }: GlobalDefaultProps) {
+export default function Footer({ className }: WithlDefaultProps) {
   const { dataStore } = useStore();
   const { setTest, testStore } = useTestStore();
   return (

@@ -2,23 +2,24 @@ declare global {
   type WithChildren<T = unknown> = T & {
     children?: React.ReactNode;
   };
-  type GlobalDefaultProps = {
+
+  type NonEmptyString<T extends string> = T extends "" ? never : T;
+
+  type WithlDefaultProps = {
     children?: React.ReactNode;
     className?: string;
   };
-
-  type NonEmptyString<T extends string> = T extends "" ? never : T;
 
   type NextJSReactNodes<K extends string> = WithChildren & {
     [P in NonEmptyString<K>]: Exclude<React.ReactNode, null | undefined>;
   };
 
-  type GlobalPropClassName<T = unknown> = T & {
+  type WithClassName<T = unknown> = T & {
     className?: string;
   };
 
   type GlobalPropsClassNames<T extends string = string, Base = object> = Base &
-    GlobalDefaultProps & {
+    WithlDefaultProps & {
       classNames?: Partial<Record<T, string>>;
     };
   type NextImage = React.ComponentProps<"img">;

@@ -15,7 +15,16 @@ export const Cart: ListConfig<any> = list({
       defaultValue: 'ACTIVE',
       ui: { displayMode: 'segmented-control' },
     }),
-    items: relationship({ ref: 'CartItem.cart', many: true }),
+    items: relationship({
+      ref: 'CartItem.cart',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['product', 'quantity'], // แสดง field เหล่านี้ใน card preview
+        // inlineCreate: { fields: ['product', 'quantity'] }, // สร้าง item ใหม่ inline ได้
+        inlineEdit: { fields: ['quantity'] }, // แก้ไข inline ได้
+      },
+    }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
 });

@@ -145,6 +145,8 @@ model Product {
   status                          String             @default("draft")
   suppilers                       Supplier?          @relation("Product_suppilers", fields: [suppilersId], references: [id])
   suppilersId                     String?            @map("suppilers") @postgresql.Uuid
+  stock                           Stock?             @relation("Product_stock", fields: [stockId], references: [id])
+  stockId                         String?            @unique @map("stock") @postgresql.Uuid
   tags                            Tag[]              @relation("Product_tags")
   name                            String             @default("")
   price                           Price?             @relation("Product_price", fields: [priceId], references: [id])
@@ -162,6 +164,14 @@ model Product {
 
   @@index([suppilersId])
   @@index([priceId])
+}
+
+model Stock {
+  id       String    @id @default(uuid()) @postgresql.Uuid
+  product  Product?  @relation("Product_stock")
+  type     String    @default("by_stock")
+  quantity Int
+  updateAt DateTime? @default(now())
 }
 
 model ProductPromotion {

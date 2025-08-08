@@ -48,8 +48,6 @@ const defaultItems: CartItem[] = [
 ];
 
 export const OrdersForm = () => {
-  // const {} = useGetOrderQuery({where:{id}});
-  
   const method = useForm<FormValues>({
     defaultValues: {
       cartItems: defaultItems,

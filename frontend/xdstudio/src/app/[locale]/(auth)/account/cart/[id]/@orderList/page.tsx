@@ -1,8 +1,7 @@
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
 
-import { OrdersForm } from "./forms/OrdersForm";
-
 import { auth } from "@/auth";
+import { OrdersQueryClient } from "./forms/OrdersQueryClient";
 
 export default async function PageOrderList() {
   // const res = await execute(GetOrderDocument, { where: { id } });
@@ -14,9 +13,8 @@ export default async function PageOrderList() {
   if (!session?.user) return null;
   return (
     <Card>
-      {JSON.stringify(session)}
       <CardContent className="h-[65vh] divide-y overflow-auto">
-        <OrdersForm />
+        <OrdersQueryClient />
       </CardContent>
     </Card>
   );

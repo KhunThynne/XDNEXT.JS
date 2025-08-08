@@ -17,6 +17,7 @@ import { Diamond, ImageOff } from "lucide-react";
 import Image from "next/image";
 import { AddItemButton } from "./AddItem.button";
 import { Session } from "next-auth";
+import PointDiamon from "@/shared/components/PointDiamod";
 
 export const CardProduct = ({
   product,
@@ -92,8 +93,8 @@ export const CardProduct = ({
       {footer && (
         <CardFooter className="flex justify-between gap-4">
           <p className="text-primary text-md flex grow gap-1 truncate font-bold">
-            <Diamond className="text-xd size-4 animate-pulse self-center duration-500" />
-            {` ${product.price?.price ?? 0}`}
+            <PointDiamon />
+            {` ${product.price?.price ?? `Free`}`}
           </p>
           <AddItemButton
             session={session}

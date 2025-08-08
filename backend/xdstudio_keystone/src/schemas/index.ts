@@ -33,6 +33,7 @@ import { Supplier } from './Supplier.schema';
 import { Price } from './Price.schema';
 import { Cart } from './Cart.schema';
 import { CartItem } from './CartItem.schema';
+import { Stock } from './Stock.schema';
 
 export const lists = {
   User,
@@ -46,6 +47,7 @@ export const lists = {
   OrderItem,
   Price,
   Product,
+  Stock,
   ProductPromotion,
   Promotion,
   PointTransaction,

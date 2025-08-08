@@ -17,8 +17,8 @@ export type DialogOptions = {
   dialog?: DialogProps;
   title?: DialogTitleProps;
   description?: DialogDescriptionProps;
-  footer?: GlobalPropClassName;
-  header?: GlobalPropClassName;
+  footer?: WithClassName;
+  header?: WithClassName;
 };
 export type DialogInstanceProps = {
   options?: DialogOptions;

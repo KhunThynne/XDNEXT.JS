@@ -958,6 +958,7 @@ type Product {
   id: ID!
   status: String
   suppilers: Supplier
+  stock: Stock
   tags(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   name: String
@@ -977,6 +978,7 @@ type Product_details_Document {
 
 input ProductWhereUniqueInput {
   id: ID
+  stock: StockWhereUniqueInput
 }
 
 input ProductWhereInput {
@@ -986,6 +988,7 @@ input ProductWhereInput {
   id: IDFilter
   status: StringFilter
   suppilers: SupplierWhereInput
+  stock: StockWhereInput
   tags: TagManyRelationFilter
   name: StringFilter
   price: PriceWhereInput
@@ -1021,6 +1024,7 @@ input ProductOrderByInput {
 input ProductUpdateInput {
   status: String
   suppilers: SupplierRelateToOneForUpdateInput
+  stock: StockRelateToOneForUpdateInput
   tags: TagRelateToManyForUpdateInput
   name: String
   price: PriceRelateToOneForUpdateInput
@@ -1035,6 +1039,12 @@ input ProductUpdateInput {
 input SupplierRelateToOneForUpdateInput {
   create: SupplierCreateInput
   connect: SupplierWhereUniqueInput
+  disconnect: Boolean
+}
+
+input StockRelateToOneForUpdateInput {
+  create: StockCreateInput
+  connect: StockWhereUniqueInput
   disconnect: Boolean
 }
 
@@ -1066,6 +1076,7 @@ input ProductUpdateArgs {
 input ProductCreateInput {
   status: String
   suppilers: SupplierRelateToOneForCreateInput
+  stock: StockRelateToOneForCreateInput
   tags: TagRelateToManyForCreateInput
   name: String
   price: PriceRelateToOneForCreateInput
@@ -1082,6 +1093,11 @@ input SupplierRelateToOneForCreateInput {
   connect: SupplierWhereUniqueInput
 }
 
+input StockRelateToOneForCreateInput {
+  create: StockCreateInput
+  connect: StockWhereUniqueInput
+}
+
 input TagRelateToManyForCreateInput {
   create: [TagCreateInput!]
   connect: [TagWhereUniqueInput!]
@@ -1095,6 +1111,56 @@ input PriceRelateToOneForCreateInput {
 input ImageRelateToManyForCreateInput {
   create: [ImageCreateInput!]
   connect: [ImageWhereUniqueInput!]
+}
+
+type Stock {
+  id: ID!
+  product: Product
+  type: String
+  quantity: Int
+  updateAt: DateTime
+}
+
+input StockWhereUniqueInput {
+  id: ID
+  product: ProductWhereUniqueInput
+}
+
+input StockWhereInput {
+  AND: [StockWhereInput!]
+  OR: [StockWhereInput!]
+  NOT: [StockWhereInput!]
+  id: IDFilter
+  product: ProductWhereInput
+  type: StringFilter
+  quantity: IntFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input StockOrderByInput {
+  id: OrderDirection
+  type: OrderDirection
+  quantity: OrderDirection
+  updateAt: OrderDirection
+}
+
+input StockUpdateInput {
+  product: ProductRelateToOneForUpdateInput
+  type: String
+  quantity: Int
+  updateAt: DateTime
+}
+
+input StockUpdateArgs {
+  where: StockWhereUniqueInput!
+  data: StockUpdateInput!
+}
+
+input StockCreateInput {
+  product: ProductRelateToOneForCreateInput
+  type: String
+  quantity: Int
+  updateAt: DateTime
 }
 
 type ProductPromotion {
@@ -1513,6 +1579,12 @@ type Mutation {
   updateProducts(data: [ProductUpdateArgs!]!): [Product]
   deleteProduct(where: ProductWhereUniqueInput!): Product
   deleteProducts(where: [ProductWhereUniqueInput!]!): [Product]
+  createStock(data: StockCreateInput!): Stock
+  createStocks(data: [StockCreateInput!]!): [Stock]
+  updateStock(where: StockWhereUniqueInput!, data: StockUpdateInput!): Stock
+  updateStocks(data: [StockUpdateArgs!]!): [Stock]
+  deleteStock(where: StockWhereUniqueInput!): Stock
+  deleteStocks(where: [StockWhereUniqueInput!]!): [Stock]
   createProductPromotion(data: ProductPromotionCreateInput!): ProductPromotion
   createProductPromotions(data: [ProductPromotionCreateInput!]!): [ProductPromotion]
   updateProductPromotion(where: ProductPromotionWhereUniqueInput!, data: ProductPromotionUpdateInput!): ProductPromotion
@@ -1618,6 +1690,9 @@ type Query {
   product(where: ProductWhereUniqueInput!): Product
   products(where: ProductWhereInput! = {}, orderBy: [ProductOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductWhereUniqueInput): [Product!]
   productsCount(where: ProductWhereInput! = {}): Int
+  stock(where: StockWhereUniqueInput!): Stock
+  stocks(where: StockWhereInput! = {}, orderBy: [StockOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: StockWhereUniqueInput): [Stock!]
+  stocksCount(where: StockWhereInput! = {}): Int
   productPromotion(where: ProductPromotionWhereUniqueInput!): ProductPromotion
   productPromotions(where: ProductPromotionWhereInput! = {}, orderBy: [ProductPromotionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ProductPromotionWhereUniqueInput): [ProductPromotion!]
   productPromotionsCount(where: ProductPromotionWhereInput! = {}): Int
