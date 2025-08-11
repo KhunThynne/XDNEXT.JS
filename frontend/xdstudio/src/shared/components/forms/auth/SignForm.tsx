@@ -86,6 +86,7 @@ export const useSignDialog = createHookDialog({
   description: "Welcome to xd studio",
   mode: "static",
   content: <SignForm />,
+  variant: "fullscreen",
 });
 
 export const SignDialog = createDialog({
@@ -93,6 +94,7 @@ export const SignDialog = createDialog({
   description: "Welcome to xd studio",
   content: <SignForm />,
   mode: "static",
+  variant: "fullscreen",
   trigger: (
     <Button variant="ghost" size="icon">
       <LogInIcon />

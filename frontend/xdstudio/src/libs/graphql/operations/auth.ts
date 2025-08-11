@@ -24,6 +24,11 @@ graphql(`
           carts {
             id
           }
+          point {
+            id
+            total_point
+            updateAt
+          }
           posts {
             id
             title

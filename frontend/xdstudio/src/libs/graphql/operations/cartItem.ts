@@ -6,4 +6,10 @@ graphql(`
       id
     }
   }
+
+  mutation DeleteCartItems($where: [CartItemWhereUniqueInput!]!) {
+    deleteCartItems(where: $where) {
+      id
+    }
+  }
 `);

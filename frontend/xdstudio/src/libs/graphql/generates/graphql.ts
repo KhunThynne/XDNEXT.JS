@@ -3094,7 +3094,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
+export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
 
 export type CreateCartItemMutationVariables = Exact<{
   data: CartItemCreateInput;
@@ -3116,6 +3116,13 @@ export type DeleteCartItemMutationVariables = Exact<{
 
 
 export type DeleteCartItemMutation = { __typename?: 'Mutation', deleteCartItem?: { __typename?: 'CartItem', id: string } | null };
+
+export type DeleteCartItemsMutationVariables = Exact<{
+  where: Array<CartItemWhereUniqueInput> | CartItemWhereUniqueInput;
+}>;
+
+
+export type DeleteCartItemsMutation = { __typename?: 'Mutation', deleteCartItems?: Array<{ __typename?: 'CartItem', id: string } | null> | null };
 
 export type ImageFieldFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', filesize: number, width: number, height: number, extension: ImageExtension, url: string, id: string } | null } & { ' $fragmentName'?: 'ImageFieldFragment' };
 
@@ -3218,6 +3225,13 @@ export type GetUserByEmailQueryVariables = Exact<{
 
 
 export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, avartar?: { __typename?: 'Image', id: string } | null } | null };
+
+export type GetUserPointQueryVariables = Exact<{
+  where: UserPointWhereUniqueInput;
+}>;
+
+
+export type GetUserPointQuery = { __typename?: 'Query', userPoint?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -3340,6 +3354,11 @@ export const LoginDocument = new TypedDocumentString(`
         carts {
           id
         }
+        point {
+          id
+          total_point
+          updateAt
+        }
         posts {
           id
           title
@@ -3424,6 +3443,13 @@ export const DeleteCartItemDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export const DeleteCartItemsDocument = new TypedDocumentString(`
+    mutation DeleteCartItems($where: [CartItemWhereUniqueInput!]!) {
+  deleteCartItems(where: $where) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCartItemsMutation, DeleteCartItemsMutationVariables>;
 export const GetImageDocument = new TypedDocumentString(`
     query GetImage($where: ImageWhereUniqueInput!) {
   image(where: $where) {
@@ -3707,3 +3733,15 @@ export const GetUserByEmailDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserPointDocument = new TypedDocumentString(`
+    query GetUserPoint($where: UserPointWhereUniqueInput!) {
+  userPoint(where: $where) {
+    id
+    total_point
+    updateAt
+    user {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPointQuery, GetUserPointQueryVariables>;

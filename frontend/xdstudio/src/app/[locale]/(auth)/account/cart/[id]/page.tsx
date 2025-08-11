@@ -1,5 +1,5 @@
-import { CartClient } from "./components/CartClient";
+import { CartOrdersSummaryForm } from "./components/CartOrdersSummary.form";
 
 export default function CartPage() {
-  return <CartClient />;
+  return <CartOrdersSummaryForm />;
 }

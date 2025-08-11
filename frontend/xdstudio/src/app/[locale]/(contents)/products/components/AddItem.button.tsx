@@ -2,7 +2,6 @@ import { execute } from "@/libs/graphql/execute";
 import { CreateCartItemDocument } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 

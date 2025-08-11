@@ -1,141 +1,239 @@
 "use client";
 
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
-
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
+import { useForm } from "react-hook-form";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
-
 import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
 import clsx from "clsx";
-import { Heart, Minus, Trash } from "lucide-react";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { ImageOff, Minus, Trash } from "lucide-react";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
-import { useGetOrderQuery } from "../../../hooks/useGetOrderQuery";
+import PointDiamon from "@/shared/components/PointDiamod";
+import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
+import Image from "next/image";
+import { OrderFormProps } from "../../components/cartOrder.type";
+import { CartItem } from "@/libs/graphql/generates/graphql";
+import { Link } from "@navigation";
+import {
+  DialogFooterAction,
+  useDialogGlobal,
+} from "../../components/useDialogGlobal";
 
-type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  imageUrl: string;
-  selected: boolean;
-};
-
-type FormValues = {
-  cartItems: CartItem[];
-};
-
-const defaultItems: CartItem[] = [
-  {
-    id: "1",
-    name: "Red Hoodie",
-    price: 890,
-    quantity: 2,
-    imageUrl: "/images/red-hoodie.jpg",
-    selected: true,
-  },
-  {
-    id: "2",
-    name: "Sneakers",
-    price: 1500,
-    quantity: 1,
-    imageUrl: "/images/sneakers.jpg",
-    selected: true,
-  },
-];
-
-export const OrdersForm = () => {
-  const method = useForm<FormValues>({
+export const OrdersForm = ({
+  cartItems: defaultCartItems,
+  invalidateCart,
+  setValueCart,
+}: OrderFormProps) => {
+  const method = useForm<OrderFormProps>({
     defaultValues: {
-      cartItems: defaultItems,
+      cartItems: defaultCartItems,
     },
   });
-  const { control, watch, setValue } = method;
-  const { fields, remove } = useFieldArray({
-    control,
-    name: "cartItems",
-  });
+  useEffect(() => {
+    method.setValue("cartItems", defaultCartItems);
+  }, [defaultCartItems, method]);
+  const { watch } = method;
 
   const cartItems = watch("cartItems");
-  const selectedItems = cartItems.filter((item) => item.selected);
+  const { openDialog, closeDialog } = useDialogGlobal();
+  // init from defaultCartItems (so initial mount selects all)
+  const [selectedIds, setSelectedIds] = useState<string[]>(() =>
+    defaultCartItems.map((i) => i.id)
+  );
 
-  const allChecked = cartItems.every((item) => item.selected);
-  const someChecked = cartItems.some((item) => item.selected);
+  // keep selectedIds in sync when cartItems change:
+  //  - remove any selected id that no longer exists in cartItems
+  useLayoutEffect(() => {
+    setSelectedIds((prev) => {
+      const ids = new Set(cartItems.map((i) => i.id));
+      return prev.filter((id) => ids.has(id));
+    });
+  }, [cartItems]);
+  useLayoutEffect(() => {
+    const selectedCartItems = cartItems.filter((item) =>
+      selectedIds.includes(item.id)
+    );
+    setValueCart("cartsOrderItem", selectedCartItems);
+  }, [cartItems, selectedIds, setValueCart]);
+
+  const allChecked = useMemo(
+    () => cartItems.length > 0 && selectedIds.length === cartItems.length,
+    [cartItems, selectedIds]
+  );
+  const someChecked = useMemo(
+    () =>
+      selectedIds.length > 0 &&
+      selectedIds.length < cartItems.length &&
+      cartItems.length > 0,
+    [cartItems, selectedIds]
+  );
+
   const handleToggleAll = (checked: boolean) => {
-    cartItems.forEach((_, index) => {
-      setValue(`cartItems.${index}.selected`, checked);
+    if (checked) {
+      setSelectedIds(cartItems.map((item) => item.id));
+    } else {
+      setSelectedIds([]);
+    }
+  };
+
+  const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
+    handleSuccess() {
+      invalidateCart();
+    },
+  });
+
+  const handleDeleteMore = async (ids: CartItem["id"][]) => {
+    const current = method.getValues("cartItems");
+    const updated = current.filter((item) => !ids.includes(item.id));
+
+    const confirmDelete = () => {
+      method.reset({ cartItems: updated });
+      setSelectedIds((prev) => prev.filter((id) => !ids.includes(id)));
+      mutationDeleteItems.mutate(ids);
+      closeDialog();
+    };
+
+    openDialog({
+      title: "Confirm Deletion",
+      description: `You are about to delete ${ids.length} item${ids.length > 1 ? "s" : ""}. This action cannot be undone.`,
+      content: (
+        <p>
+          Please confirm that you want to permanently delete the selected item
+          {ids.length > 1 ? "s" : ""}. This action cannot be undone.
+        </p>
+      ),
+      footer: (
+        <DialogFooterAction onCancel={closeDialog} onConfirm={confirmDelete} />
+      ),
     });
   };
 
-  const subtotal = selectedItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-  const tax = subtotal * 0.07;
+  const handleDelete = async (idToDelete: CartItem["id"]) => {
+    const confirmDelete = () => {
+      const current = method.getValues("cartItems");
+      const updated = current.filter((item) => item.id !== idToDelete);
+      method.setValue("cartItems", updated, { shouldDirty: true });
+      setSelectedIds((prev) => prev.filter((id) => id !== idToDelete));
+      mutationDeleteItem.mutate(idToDelete);
+      closeDialog();
+    };
+
+    const itemName = method
+      .getValues("cartItems")
+      .find((item) => item.id === idToDelete)?.product?.name;
+
+    openDialog({
+      title: "Confirm Deletion",
+      description: `You are about to delete "${itemName || "this item"}". This action cannot be undone.`,
+      content: (
+        <p>
+          Please confirm that you want to permanently delete{" "}
+          <strong>{itemName || "this item"}</strong>. This action cannot be
+          undone.
+        </p>
+      ),
+      footer: (
+        <DialogFooterAction onCancel={closeDialog} onConfirm={confirmDelete} />
+      ),
+    });
+  };
+
+  const toggleOne = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+  };
+
   return (
     <Form {...method}>
       <ContainerSection
         title="Orders"
         classNames={{ separator: "hidden" }}
         description={
-          <section className="flex items-center gap-2">
+          <section className="flex items-center gap-2 px-4 py-2">
             <CheckboxForm
               name={""}
               disabled={cartItems.length < 1}
-              checked={cartItems.length < 1 ? false : allChecked || someChecked}
-              onCheckedChange={(val) => {
-                handleToggleAll(!!val);
-              }}
+              checked={allChecked || someChecked}
+              onCheckedChange={(val) => handleToggleAll(!!val)}
               {...(allChecked
                 ? {}
                 : { indicator: <Minus className="size-3.5" /> })}
               data-state={clsx({
                 checked: allChecked,
-                indeterminate: !allChecked && someChecked,
+                indeterminate: someChecked,
                 unchecked:
                   (!allChecked && !someChecked) || cartItems.length < 1,
               })}
             />
+            <Button
+              size="sm"
+              variant={"ghost"}
+              className="text-destructive"
+              disabled={selectedIds.length < 1}
+              onClick={() => handleDeleteMore(selectedIds)}
+            >
+              Delete
+            </Button>
           </section>
         }
       >
-        <ul className="divide-y">
-          {fields.map((item, index) => {
-            const selected = watch(`cartItems.${index}.selected`);
-            return (
-              <li key={item.id} className={clsx("flex items-center gap-5 p-4")}>
-                <CheckboxForm
-                  label="TESTSS"
-                  description="ascasas"
-                  control={control}
-                  name={`cartItems.${index}.selected`}
-                />
-                <div className="size-10 rounded-md border px-3" />
-                <div className="grow px-3">
-                  <p className="font-medium">{item.name}</p>
-                </div>
-                <div className="px-3 text-right">
-                  <p className="font-medium">
-                    ฿{(item.price * cartItems[index].quantity).toLocaleString()}
-                  </p>
-                  <p className="text-muted-foreground text-sm">
-                    (฿{item.price.toLocaleString()} each)
-                  </p>
-                </div>
-
-                <Button
-                  variant={"ghost"}
-                  size={"icon"}
-                  onClick={() => remove(index)}
+        <ul className="divide-y border-t">
+          {cartItems.map((item) => (
+            <li key={item.id} className={clsx("flex items-center gap-5 p-4")}>
+              <CheckboxForm
+                checked={selectedIds.includes(item.id)}
+                name={""}
+                onCheckedChange={() => toggleOne(item.id)}
+              />
+              <div className="relative size-12 overflow-hidden rounded">
+                {item?.product?.images?.[0]?.src?.url ? (
+                  <Image
+                    src={item?.product?.images?.[0]?.src?.url ?? ""}
+                    alt={
+                      item?.product?.description || item?.product?.name || ""
+                    }
+                    fill
+                    draggable={false}
+                    className="select-none object-cover"
+                  />
+                ) : (
+                  <ImageOff className="size-full self-center rounded border" />
+                )}
+              </div>
+              <div className="flex grow flex-col px-3">
+                <Link
+                  href={`/products/${item?.product?.id}`}
+                  className="w-fit hover:underline"
                 >
-                  <Trash />
-                </Button>
-              </li>
-            );
-          })}
+                  <p className="font-medium">{item.product?.name}</p>
+                </Link>
+                <aside>{item.product?.description}</aside>
+              </div>
+              <div className="px-3 text-right">
+                {item?.product?.price?.price && (
+                  <>
+                    <p className="flex font-medium">
+                      <PointDiamon />
+                      {(
+                        item?.product?.price?.price * (item?.quantity ?? 0)
+                      ).toLocaleString()}
+                    </p>
+                    <p className="text-muted-foreground text-sm">
+                      (฿{item?.product?.price?.price.toLocaleString()} each)
+                    </p>
+                  </>
+                )}
+              </div>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                onClick={() => handleDelete(item.id)}
+              >
+                <Trash />
+              </Button>
+            </li>
+          ))}
         </ul>
       </ContainerSection>
     </Form>

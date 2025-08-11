@@ -10,8 +10,6 @@ const DialogState = {
 } as const;
 type DialogStateType = (typeof DialogState)[keyof typeof DialogState];
 
-// ใช้งาน:
-
 /**
  * Creates a custom React hook for managing a dynamic Dialog instance.
  *
@@ -21,6 +19,7 @@ type DialogStateType = (typeof DialogState)[keyof typeof DialogState];
  * them at runtime if needed.
  *
  * @param initialProps - Default dialog props such as title, description, content, etc.
+ * @param variant - modal || fullscreen
  *
  * @returns A hook that provides:
  * - `openDialog`: Function to open the dialog with optional runtime overrides.
@@ -52,7 +51,7 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
     const contentRef = React.useRef<HTMLDivElement>(null);
     const { add, remove } = useDialogDispatcher();
     const props: Partial<DialogInstanceProps> = React.useMemo(
-      () => ({ ...initialProps, ...hookProps }),
+      () => ({ ...{ variant: "modal", ...initialProps }, ...hookProps }),
       [hookProps]
     );
     const closeDialog = React.useCallback(() => {

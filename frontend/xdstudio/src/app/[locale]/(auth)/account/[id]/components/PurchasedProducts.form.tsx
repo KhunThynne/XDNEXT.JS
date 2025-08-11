@@ -104,6 +104,7 @@ export default function PurchasedProductsForm() {
                         href: `${pathname}/config`,
                         ...product,
                       }}
+                      session={null}
                     />
                   );
                 })}

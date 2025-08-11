@@ -5,9 +5,10 @@ import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import { Fragment, useMemo } from "react";
 import { AccountPopover } from "./AccountPopover";
-import { ShoppingPopover } from "./ShoppingPopover";
+
 import { SignButton } from "./SignButton";
 import { Session } from "next-auth";
+import { ShoppingPopover } from "@/shared/components/ui/shopping/ShoppingPopover";
 
 export const NavbarActionSection = ({
   className,

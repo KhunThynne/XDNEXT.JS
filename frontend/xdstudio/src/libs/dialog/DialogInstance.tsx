@@ -19,6 +19,7 @@ import {
   useState,
 } from "react";
 import clsx from "clsx";
+import { DialogOverlayProps } from "@radix-ui/react-dialog";
 // import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({
@@ -29,6 +30,7 @@ const DialogContentInstance = ({
   footer,
   mode = "dismissable",
   options,
+  variant,
 }: Partial<DialogInstanceProps> & {
   ref?: React.RefObject<HTMLDivElement | null>;
 }) => {
@@ -40,15 +42,21 @@ const DialogContentInstance = ({
         onInteractOutside: (e: Event) => e.preventDefault(),
       })}
       className={clsx(
-        "max-h-screen overflow-y-auto",
-        `max-sm:h-screen max-sm:max-w-none max-sm:rounded-none`,
+        {
+          "max-h-screen overflow-y-auto max-sm:h-screen max-sm:max-w-none max-sm:rounded-none":
+            variant === "fullscreen",
+        },
         options?.content?.className
       )}
     >
       <DialogHeader {...options?.header}>
-        {<DialogTitle {...options?.title}>{title}</DialogTitle>}
         {
-          <DialogDescription {...options?.description}>
+          <DialogTitle className="text-left" {...options?.title}>
+            {title}
+          </DialogTitle>
+        }
+        {
+          <DialogDescription className="text-left" {...options?.description}>
             {description}
           </DialogDescription>
         }
@@ -125,7 +133,10 @@ export function DialogInstance(
         </DialogTrigger>
       )}
       {props?.options?.overlay && (
-        <DialogOverlay {...props?.options?.overlay} />
+        <DialogOverlay
+          className="backdrop-blur"
+          {...(props?.options?.overlay as DialogOverlayProps)}
+        />
       )}
       {options?.portal ? (
         <DialogPortal {...options.portal}>

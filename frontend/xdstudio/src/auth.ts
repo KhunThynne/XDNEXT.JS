@@ -171,6 +171,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.username = token.username;
         session.user.carts = token.carts;
         session.user.image = token.image;
+        session.user.point = token.point;
       }
       // console.log("session", token);
       return session;

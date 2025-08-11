@@ -6,7 +6,12 @@ import {
   Product,
   User,
 } from "@/libs/graphql/generates/graphql";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
 
 export const useCartDocument = ({
   cartId,
@@ -19,7 +24,9 @@ export const useCartDocument = ({
 }) => {
   const queryKey = ["cart", userId];
   const cartQueryClient = useQueryClient();
-
+  const invalidate = () => {
+    cartQueryClient.invalidateQueries({ queryKey });
+  };
   const query = useQuery({
     queryKey: queryKey,
     refetchOnWindowFocus: true,
@@ -27,11 +34,10 @@ export const useCartDocument = ({
       return await execute(GetCartDocument, { where: { id: cartId } });
     },
     staleTime: 1000 * 60 * 5,
+
     enabled: !!cartId,
   });
-  const invalidate = () => {
-    cartQueryClient.invalidateQueries({ queryKey });
-  };
+
   const mutation = useMutation({
     mutationFn: async () => {
       const res = await execute(CreateCartItemDocument, {

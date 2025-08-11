@@ -4,6 +4,7 @@ export default function PointDiamon({ className }: WithClassName) {
   return (
     <Diamond
       className={clsx(
+        `inline-block`,
         "text-xd animate-pulse self-center duration-500",
         `size-4`,
         className

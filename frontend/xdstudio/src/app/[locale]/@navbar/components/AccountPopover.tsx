@@ -16,6 +16,8 @@ import { Badge } from "@/libs/shadcn/ui/badge";
 import { useFormatter } from "next-intl";
 import { Link, usePathname } from "@navigation";
 import { Separator } from "@/libs/shadcn/ui/separator";
+import PointDiamon from "@/shared/components/PointDiamod";
+import Point from "@/shared/components/ui/Point";
 
 export function AccountPopover(user: Partial<UserType>) {
   const avatarUsername = useMemo(
@@ -64,17 +66,18 @@ export function AccountPopover(user: Partial<UserType>) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div>
-            <small className="text-xs font-bold capitalize">
-              <span>point :</span>
-              <Badge
-                variant="secondary"
-                className="max-w-18 mx-1 rounded-full px-1 font-mono text-[10px] tabular-nums"
-              >
-                <span className="w-full truncate">{format.number(1000)}</span>
-              </Badge>
-            </small>
-          </div>
+          <section className="text-xs font-bold capitalize">
+            <Badge
+              variant="secondary"
+              className="mx-1 max-w-20 rounded-full px-2 font-mono tabular-nums"
+            >
+              <PointDiamon />
+              <span className="w-full truncate text-[0.65rem]">
+                <Point userPoint={user.point} />
+              </span>
+            </Badge>
+          </section>
+
           <div>
             <Button
               className=""

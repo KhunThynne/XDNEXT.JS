@@ -21,7 +21,7 @@ export default function Navbar({
   return (
     <div
       className={clsx(
-        "bg-background sticky top-0 z-50 w-full border-b",
+        "bg-background sticky top-0 z-20 w-full border-b",
         className
       )}
     >

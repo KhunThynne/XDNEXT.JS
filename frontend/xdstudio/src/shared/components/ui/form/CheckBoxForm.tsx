@@ -49,7 +49,7 @@ export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({
                   field.onChange(val);
                 }}
                 {...props}
-                className={clsx(`peer`)}
+                className={clsx(`peer cursor-pointer`)}
               />
               <section className={clsx(`grid gap-2`)}>
                 {label && (
