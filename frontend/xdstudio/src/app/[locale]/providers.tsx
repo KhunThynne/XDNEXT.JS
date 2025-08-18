@@ -1,12 +1,13 @@
 "use client";
 import React, { ReactNode, useLayoutEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "sonner";
+
 import { ThemeProvider } from "@/shared/components/providers";
 import { DialogProvider } from "@/libs/dialog/DialogProvider";
 import { useLocaleStore } from "@/shared/stores/useLocaleStore";
 import { Session } from "next-auth";
 import { useCartsStore } from "@/shared/stores/useCartsStore";
+import { Toaster } from "@/libs/shadcn/ui/sonner";
 const queryClient = new QueryClient();
 export const Providers = ({
   children,

@@ -40,6 +40,15 @@ model User {
   @@index([avartarId])
 }
 
+model Rating {
+  id                   String    @id @default(uuid()) @postgresql.Uuid
+  score                Int
+  comment              String    @default("")
+  createdAt            DateTime? @default(now())
+  updateAt             DateTime? @default(now())
+  from_Product_ratings Product[] @relation("Product_ratings")
+}
+
 model UserItem {
   id        String     @id @default(uuid()) @postgresql.Uuid
   user      User?      @relation("UserItem_user", fields: [userId], references: [id])
@@ -153,7 +162,11 @@ model Product {
   priceId                         String?            @map("price") @postgresql.Uuid
   description                     String             @default("")
   details                         Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  tag                             Tag[]              @relation("Product_tag")
   images                          Image[]            @relation("Product_images")
+  faqs                            FAQ[]              @relation("Product_faqs")
+  averageScore                    Float?             @default(0)
+  ratings                         Rating[]           @relation("Product_ratings")
   publishedAt                     DateTime?
   createdAt                       DateTime?          @default(now())
   updateAt                        DateTime?          @default(now())
@@ -183,6 +196,13 @@ model ProductPromotion {
   images      Image[]     @relation("ProductPromotion_images")
 
   @@index([productIdId])
+}
+
+model FAQ {
+  id                String    @id @default(uuid()) @postgresql.Uuid
+  question          String    @default("")
+  answer            Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  from_Product_faqs Product[] @relation("Product_faqs")
 }
 
 model Promotion {
@@ -221,6 +241,7 @@ model Tag {
   name              String    @default("")
   posts             Post[]    @relation("Post_tags")
   from_Product_tags Product[] @relation("Product_tags")
+  from_Product_tag  Product[] @relation("Product_tag")
 }
 
 model Post {

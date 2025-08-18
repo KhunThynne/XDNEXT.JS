@@ -200,6 +200,73 @@ export type DateTimeNullableFilter = {
   notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
 };
 
+export type Faq = {
+  __typename?: 'FAQ';
+  answer?: Maybe<Faq_Answer_Document>;
+  id: Scalars['ID']['output'];
+  question?: Maybe<Scalars['String']['output']>;
+};
+
+export type FaqCreateInput = {
+  answer?: InputMaybe<Scalars['JSON']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FaqManyRelationFilter = {
+  every?: InputMaybe<FaqWhereInput>;
+  none?: InputMaybe<FaqWhereInput>;
+  some?: InputMaybe<FaqWhereInput>;
+};
+
+export type FaqOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  question?: InputMaybe<OrderDirection>;
+};
+
+export type FaqRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  create?: InputMaybe<Array<FaqCreateInput>>;
+};
+
+export type FaqRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  create?: InputMaybe<Array<FaqCreateInput>>;
+  disconnect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  set?: InputMaybe<Array<FaqWhereUniqueInput>>;
+};
+
+export type FaqUpdateArgs = {
+  data: FaqUpdateInput;
+  where: FaqWhereUniqueInput;
+};
+
+export type FaqUpdateInput = {
+  answer?: InputMaybe<Scalars['JSON']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FaqWhereInput = {
+  AND?: InputMaybe<Array<FaqWhereInput>>;
+  NOT?: InputMaybe<Array<FaqWhereInput>>;
+  OR?: InputMaybe<Array<FaqWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  question?: InputMaybe<StringFilter>;
+};
+
+export type FaqWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type Faq_Answer_Document = {
+  __typename?: 'FAQ_answer_Document';
+  document: Scalars['JSON']['output'];
+};
+
+
+export type Faq_Answer_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean']['input'];
+};
+
 export type FloatNullableFilter = {
   equals?: InputMaybe<Scalars['Float']['input']>;
   gt?: InputMaybe<Scalars['Float']['input']>;
@@ -497,6 +564,8 @@ export type Mutation = {
   createCartItem?: Maybe<CartItem>;
   createCartItems?: Maybe<Array<Maybe<CartItem>>>;
   createCarts?: Maybe<Array<Maybe<Cart>>>;
+  createFAQ?: Maybe<Faq>;
+  createFAQS?: Maybe<Array<Maybe<Faq>>>;
   createImage?: Maybe<Image>;
   createImages?: Maybe<Array<Maybe<Image>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
@@ -516,6 +585,8 @@ export type Mutation = {
   createProducts?: Maybe<Array<Maybe<Product>>>;
   createPromotion?: Maybe<Promotion>;
   createPromotions?: Maybe<Array<Maybe<Promotion>>>;
+  createRating?: Maybe<Rating>;
+  createRatings?: Maybe<Array<Maybe<Rating>>>;
   createStock?: Maybe<Stock>;
   createStocks?: Maybe<Array<Maybe<Stock>>>;
   createSupplier?: Maybe<Supplier>;
@@ -534,6 +605,8 @@ export type Mutation = {
   deleteCartItem?: Maybe<CartItem>;
   deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
   deleteCarts?: Maybe<Array<Maybe<Cart>>>;
+  deleteFAQ?: Maybe<Faq>;
+  deleteFAQS?: Maybe<Array<Maybe<Faq>>>;
   deleteImage?: Maybe<Image>;
   deleteImages?: Maybe<Array<Maybe<Image>>>;
   deleteOrder?: Maybe<Order>;
@@ -552,6 +625,8 @@ export type Mutation = {
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
   deletePromotion?: Maybe<Promotion>;
   deletePromotions?: Maybe<Array<Maybe<Promotion>>>;
+  deleteRating?: Maybe<Rating>;
+  deleteRatings?: Maybe<Array<Maybe<Rating>>>;
   deleteStock?: Maybe<Stock>;
   deleteStocks?: Maybe<Array<Maybe<Stock>>>;
   deleteSupplier?: Maybe<Supplier>;
@@ -573,6 +648,8 @@ export type Mutation = {
   updateCartItem?: Maybe<CartItem>;
   updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
   updateCarts?: Maybe<Array<Maybe<Cart>>>;
+  updateFAQ?: Maybe<Faq>;
+  updateFAQS?: Maybe<Array<Maybe<Faq>>>;
   updateImage?: Maybe<Image>;
   updateImages?: Maybe<Array<Maybe<Image>>>;
   updateOrder?: Maybe<Order>;
@@ -591,6 +668,8 @@ export type Mutation = {
   updateProducts?: Maybe<Array<Maybe<Product>>>;
   updatePromotion?: Maybe<Promotion>;
   updatePromotions?: Maybe<Array<Maybe<Promotion>>>;
+  updateRating?: Maybe<Rating>;
+  updateRatings?: Maybe<Array<Maybe<Rating>>>;
   updateStock?: Maybe<Stock>;
   updateStocks?: Maybe<Array<Maybe<Stock>>>;
   updateSupplier?: Maybe<Supplier>;
@@ -631,6 +710,16 @@ export type MutationCreateCartItemsArgs = {
 
 export type MutationCreateCartsArgs = {
   data: Array<CartCreateInput>;
+};
+
+
+export type MutationCreateFaqArgs = {
+  data: FaqCreateInput;
+};
+
+
+export type MutationCreateFaqsArgs = {
+  data: Array<FaqCreateInput>;
 };
 
 
@@ -729,6 +818,16 @@ export type MutationCreatePromotionsArgs = {
 };
 
 
+export type MutationCreateRatingArgs = {
+  data: RatingCreateInput;
+};
+
+
+export type MutationCreateRatingsArgs = {
+  data: Array<RatingCreateInput>;
+};
+
+
 export type MutationCreateStockArgs = {
   data: StockCreateInput;
 };
@@ -819,6 +918,16 @@ export type MutationDeleteCartsArgs = {
 };
 
 
+export type MutationDeleteFaqArgs = {
+  where: FaqWhereUniqueInput;
+};
+
+
+export type MutationDeleteFaqsArgs = {
+  where: Array<FaqWhereUniqueInput>;
+};
+
+
 export type MutationDeleteImageArgs = {
   where: ImageWhereUniqueInput;
 };
@@ -906,6 +1015,16 @@ export type MutationDeletePromotionArgs = {
 
 export type MutationDeletePromotionsArgs = {
   where: Array<PromotionWhereUniqueInput>;
+};
+
+
+export type MutationDeleteRatingArgs = {
+  where: RatingWhereUniqueInput;
+};
+
+
+export type MutationDeleteRatingsArgs = {
+  where: Array<RatingWhereUniqueInput>;
 };
 
 
@@ -1013,6 +1132,17 @@ export type MutationUpdateCartsArgs = {
 };
 
 
+export type MutationUpdateFaqArgs = {
+  data: FaqUpdateInput;
+  where: FaqWhereUniqueInput;
+};
+
+
+export type MutationUpdateFaqsArgs = {
+  data: Array<FaqUpdateArgs>;
+};
+
+
 export type MutationUpdateImageArgs = {
   data: ImageUpdateInput;
   where: ImageWhereUniqueInput;
@@ -1109,6 +1239,17 @@ export type MutationUpdatePromotionArgs = {
 
 export type MutationUpdatePromotionsArgs = {
   data: Array<PromotionUpdateArgs>;
+};
+
+
+export type MutationUpdateRatingArgs = {
+  data: RatingUpdateInput;
+  where: RatingWhereUniqueInput;
+};
+
+
+export type MutationUpdateRatingsArgs = {
+  data: Array<RatingUpdateArgs>;
 };
 
 
@@ -1667,21 +1808,42 @@ export type PriceWhereUniqueInput = {
 
 export type Product = {
   __typename?: 'Product';
+  averageScore?: Maybe<Scalars['Float']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   details?: Maybe<Product_Details_Document>;
+  faqs?: Maybe<Array<Faq>>;
+  faqsCount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Image>>;
   imagesCount?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Price>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  ratings?: Maybe<Array<Rating>>;
+  ratingsCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<Scalars['String']['output']>;
   stock?: Maybe<Stock>;
   suppilers?: Maybe<Supplier>;
+  tag?: Maybe<Array<Tag>>;
+  tagCount?: Maybe<Scalars['Int']['output']>;
   tags?: Maybe<Array<Tag>>;
   tagsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type ProductFaqsArgs = {
+  cursor?: InputMaybe<FaqWhereUniqueInput>;
+  orderBy?: Array<FaqOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: FaqWhereInput;
+};
+
+
+export type ProductFaqsCountArgs = {
+  where?: FaqWhereInput;
 };
 
 
@@ -1699,6 +1861,34 @@ export type ProductImagesCountArgs = {
 };
 
 
+export type ProductRatingsArgs = {
+  cursor?: InputMaybe<RatingWhereUniqueInput>;
+  orderBy?: Array<RatingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: RatingWhereInput;
+};
+
+
+export type ProductRatingsCountArgs = {
+  where?: RatingWhereInput;
+};
+
+
+export type ProductTagArgs = {
+  cursor?: InputMaybe<TagWhereUniqueInput>;
+  orderBy?: Array<TagOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: TagWhereInput;
+};
+
+
+export type ProductTagCountArgs = {
+  where?: TagWhereInput;
+};
+
+
 export type ProductTagsArgs = {
   cursor?: InputMaybe<TagWhereUniqueInput>;
   orderBy?: Array<TagOrderByInput>;
@@ -1713,16 +1903,20 @@ export type ProductTagsCountArgs = {
 };
 
 export type ProductCreateInput = {
+  averageScore?: InputMaybe<Scalars['Float']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
+  faqs?: InputMaybe<FaqRelateToManyForCreateInput>;
   images?: InputMaybe<ImageRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<PriceRelateToOneForCreateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  ratings?: InputMaybe<RatingRelateToManyForCreateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
   stock?: InputMaybe<StockRelateToOneForCreateInput>;
   suppilers?: InputMaybe<SupplierRelateToOneForCreateInput>;
+  tag?: InputMaybe<TagRelateToManyForCreateInput>;
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -1734,6 +1928,7 @@ export type ProductManyRelationFilter = {
 };
 
 export type ProductOrderByInput = {
+  averageScore?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   description?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
@@ -1850,16 +2045,20 @@ export type ProductUpdateArgs = {
 };
 
 export type ProductUpdateInput = {
+  averageScore?: InputMaybe<Scalars['Float']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
+  faqs?: InputMaybe<FaqRelateToManyForUpdateInput>;
   images?: InputMaybe<ImageRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<PriceRelateToOneForUpdateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  ratings?: InputMaybe<RatingRelateToManyForUpdateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
   stock?: InputMaybe<StockRelateToOneForUpdateInput>;
   suppilers?: InputMaybe<SupplierRelateToOneForUpdateInput>;
+  tag?: InputMaybe<TagRelateToManyForUpdateInput>;
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -1868,16 +2067,20 @@ export type ProductWhereInput = {
   AND?: InputMaybe<Array<ProductWhereInput>>;
   NOT?: InputMaybe<Array<ProductWhereInput>>;
   OR?: InputMaybe<Array<ProductWhereInput>>;
+  averageScore?: InputMaybe<FloatNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   description?: InputMaybe<StringFilter>;
+  faqs?: InputMaybe<FaqManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
   price?: InputMaybe<PriceWhereInput>;
   publishedAt?: InputMaybe<DateTimeNullableFilter>;
+  ratings?: InputMaybe<RatingManyRelationFilter>;
   status?: InputMaybe<StringFilter>;
   stock?: InputMaybe<StockWhereInput>;
   suppilers?: InputMaybe<SupplierWhereInput>;
+  tag?: InputMaybe<TagManyRelationFilter>;
   tags?: InputMaybe<TagManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
 };
@@ -1975,6 +2178,9 @@ export type Query = {
   cartItemsCount?: Maybe<Scalars['Int']['output']>;
   carts?: Maybe<Array<Cart>>;
   cartsCount?: Maybe<Scalars['Int']['output']>;
+  fAQ?: Maybe<Faq>;
+  fAQS?: Maybe<Array<Faq>>;
+  fAQSCount?: Maybe<Scalars['Int']['output']>;
   image?: Maybe<Image>;
   images?: Maybe<Array<Image>>;
   imagesCount?: Maybe<Scalars['Int']['output']>;
@@ -2003,6 +2209,9 @@ export type Query = {
   promotion?: Maybe<Promotion>;
   promotions?: Maybe<Array<Promotion>>;
   promotionsCount?: Maybe<Scalars['Int']['output']>;
+  rating?: Maybe<Rating>;
+  ratings?: Maybe<Array<Rating>>;
+  ratingsCount?: Maybe<Scalars['Int']['output']>;
   stock?: Maybe<Stock>;
   stocks?: Maybe<Array<Stock>>;
   stocksCount?: Maybe<Scalars['Int']['output']>;
@@ -2063,6 +2272,25 @@ export type QueryCartsArgs = {
 
 export type QueryCartsCountArgs = {
   where?: CartWhereInput;
+};
+
+
+export type QueryFAqArgs = {
+  where: FaqWhereUniqueInput;
+};
+
+
+export type QueryFAqsArgs = {
+  cursor?: InputMaybe<FaqWhereUniqueInput>;
+  orderBy?: Array<FaqOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: FaqWhereInput;
+};
+
+
+export type QueryFAqsCountArgs = {
+  where?: FaqWhereInput;
 };
 
 
@@ -2237,6 +2465,25 @@ export type QueryPromotionsCountArgs = {
 };
 
 
+export type QueryRatingArgs = {
+  where: RatingWhereUniqueInput;
+};
+
+
+export type QueryRatingsArgs = {
+  cursor?: InputMaybe<RatingWhereUniqueInput>;
+  orderBy?: Array<RatingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: RatingWhereInput;
+};
+
+
+export type QueryRatingsCountArgs = {
+  where?: RatingWhereInput;
+};
+
+
 export type QueryStockArgs = {
   where: StockWhereUniqueInput;
 };
@@ -2379,6 +2626,75 @@ export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive'
 }
+
+export type Rating = {
+  __typename?: 'Rating';
+  comment?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  score?: Maybe<Scalars['Int']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type RatingCreateInput = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type RatingManyRelationFilter = {
+  every?: InputMaybe<RatingWhereInput>;
+  none?: InputMaybe<RatingWhereInput>;
+  some?: InputMaybe<RatingWhereInput>;
+};
+
+export type RatingOrderByInput = {
+  comment?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  score?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
+};
+
+export type RatingRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  create?: InputMaybe<Array<RatingCreateInput>>;
+};
+
+export type RatingRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  create?: InputMaybe<Array<RatingCreateInput>>;
+  disconnect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  set?: InputMaybe<Array<RatingWhereUniqueInput>>;
+};
+
+export type RatingUpdateArgs = {
+  data: RatingUpdateInput;
+  where: RatingWhereUniqueInput;
+};
+
+export type RatingUpdateInput = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type RatingWhereInput = {
+  AND?: InputMaybe<Array<RatingWhereInput>>;
+  NOT?: InputMaybe<Array<RatingWhereInput>>;
+  OR?: InputMaybe<Array<RatingWhereInput>>;
+  comment?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  score?: InputMaybe<IntFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type RatingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
 
 export type RedeemUserPasswordResetTokenResult = {
   __typename?: 'RedeemUserPasswordResetTokenResult';
@@ -3163,10 +3479,10 @@ export type GetOrderQueryVariables = Exact<{
 
 export type GetOrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', createdAt?: any | null, id: string, itemsCount?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, suppiler?: Array<{ __typename?: 'Supplier', id: string, name?: string | null }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
-  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, images?: Array<(
+  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
     { __typename?: 'Image' }
     & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
   )> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
@@ -3297,6 +3613,19 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt
@@ -3568,6 +3897,19 @@ fragment ProductFields on Product {
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt
@@ -3624,6 +3966,19 @@ fragment ProductFields on Product {
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt

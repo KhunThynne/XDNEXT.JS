@@ -15,6 +15,7 @@ import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
 import { FormXdProps } from "./shared/index.type";
+import _ from "lodash";
 
 export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({
   name,
@@ -56,7 +57,7 @@ export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({
                   <FormLabel
                     className={clsx(`inline-block`, classNames?.label)}
                   >
-                    <Translations text={label} />
+                    {_.isString(label) ? <Translations text={label} /> : label}
                   </FormLabel>
                 )}
                 {description && (

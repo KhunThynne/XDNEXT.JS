@@ -18,6 +18,7 @@ import {
   DialogFooterAction,
   useDialogGlobal,
 } from "../../components/useDialogGlobal";
+import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 
 export const OrdersForm = ({
   cartItems: defaultCartItems,
@@ -208,7 +209,11 @@ export const OrdersForm = ({
                 >
                   <p className="font-medium">{item.product?.name}</p>
                 </Link>
-                <aside>{item.product?.description}</aside>
+                {/* <SafeHtml
+                  html={item.product?.description}
+                  as="aside"
+                  className="line-clamp-1 "
+                /> */}
               </div>
               <div className="px-3 text-right">
                 {item?.product?.price?.price && (

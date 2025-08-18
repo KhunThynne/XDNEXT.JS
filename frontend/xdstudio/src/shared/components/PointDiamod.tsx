@@ -7,6 +7,7 @@ export default function PointDiamon({ className }: WithClassName) {
         `inline-block`,
         "text-xd animate-pulse self-center duration-500",
         `size-4`,
+        `fill-blue-500`,
         className
       )}
     />

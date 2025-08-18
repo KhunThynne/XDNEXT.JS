@@ -129,6 +129,12 @@ export const User: ListConfig<any> = list({
             user: { connect: { id: item.id } },
           },
         });
+        await context.db.UserPoint.createOne({
+          data: {
+            total_point: 0,
+            user: { connect: { id: item.id } },
+          },
+        });
 
         await context.db.Cart.createOne({
           data: {

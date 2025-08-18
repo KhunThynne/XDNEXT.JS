@@ -11,6 +11,7 @@ export default function Content({
         className={clsx(
           "absolute inset-0 -z-20",
           "[mask-image:linear-gradient(to_bottom,white,transparent)]",
+          `bg-gradient-to-br`,
           // Light mode
           "bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] opacity-60",
           // Dark mode
@@ -19,6 +20,7 @@ export default function Content({
           "flex flex-col"
         )}
       />
+
       <div className={clsx(classNames?.content)}>{children}</div>
     </div>
   );

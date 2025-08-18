@@ -1,6 +1,6 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { relationship, select, text, timestamp } from '@keystone-6/core/fields';
+import { float, relationship, select, text, timestamp } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 export const Product: ListConfig<any> = list({
@@ -87,6 +87,18 @@ export const Product: ListConfig<any> = list({
       links: true,
       dividers: true,
     }),
+    tag: relationship({
+      ref: 'Tag',
+      ui: {
+        displayMode: 'select',
+        labelField: 'name',
+        hideCreate: false,
+        createView: {
+          fieldMode: 'edit',
+        },
+      },
+      many: true,
+    }),
     images: relationship({
       ref: 'Image',
       many: true,
@@ -96,6 +108,34 @@ export const Product: ListConfig<any> = list({
         inlineCreate: { fields: ['name', 'src'] },
         inlineEdit: { fields: ['name', 'src'] },
         inlineConnect: true,
+      },
+    }),
+    faqs: relationship({
+      ref: 'FAQ',
+      many: true,
+      ui: {
+        displayMode: 'cards', // Display FAQs as cards with slide-out effect for inline create/edit
+        cardFields: ['question', 'answer'], // Show both question and answer on the card
+        inlineCreate: { fields: ['question', 'answer'] }, // Fields to fill when creating FAQ inline
+        inlineEdit: { fields: ['question', 'answer'] }, // Fields editable inline
+        description:
+          'A list of FAQs related to this product. Each FAQ has a question and an answer.', // <-- English description
+      },
+    }),
+    averageScore: float({
+      validation: { min: 0, max: 5 },
+      defaultValue: 0,
+      ui: {
+        description: 'Average Score form Ratings',
+      },
+    }),
+    ratings: relationship({
+      ref: 'Rating',
+      many: true,
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'hidden' },
+        listView: { fieldMode: 'hidden' },
       },
     }),
     ...defaultGlobalField(),

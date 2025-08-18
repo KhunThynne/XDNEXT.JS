@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import clsx from "clsx";
 import { Separator } from "@/libs/shadcn/ui/separator";
 
 type PropType = {
-  options?: EmblaOptionsType;
+  options?: EmblaOptionsType & { mode?: "auto" | "manual" };
   selectedIndex?: number;
   edgeGlow?: boolean;
 } & GlobalPropsClassNames<"container" | "view"> &
@@ -28,6 +28,7 @@ export function EdgeGlow({ className = "" }: WithClassName) {
     </span>
   );
 }
+
 const EmblaCarousel = (props: PropType) => {
   const {
     children,
@@ -37,18 +38,37 @@ const EmblaCarousel = (props: PropType) => {
     selectedIndex,
     edgeGlow = true,
   } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options);
 
+  const { mode = "auto", ...emblaOptions } = options ?? {};
+  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
   useEffect(() => {
     if (emblaApi && selectedIndex !== undefined) {
       emblaApi.scrollTo(selectedIndex);
     }
   }, [emblaApi, selectedIndex]);
+  useEffect(() => {
+    if (mode === "manual") return;
+    if (!emblaApi) return;
 
+    const checkOverflow = () => {
+      const el = emblaApi.containerNode();
+      const isOverflowing = el.scrollWidth > el.clientWidth;
+
+      emblaApi.reInit({
+        ...options,
+        active: isOverflowing,
+      });
+    };
+
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, [emblaApi, mode, options]);
   return (
-    <section className={clsx(`relative overflow-x-hidden`, className)}>
+    <section
+      className={clsx(`@container relative overflow-x-hidden`, className)}
+    >
       {edgeGlow && <EdgeGlow />}
-
       <span
         className={clsx("embla__viewport absolute inset-0", classNames?.view)}
         ref={emblaRef}

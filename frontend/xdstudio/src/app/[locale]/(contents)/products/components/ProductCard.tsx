@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/libs/graphql/generates/graphql";
+import { Maybe, Product, Tag } from "@/libs/graphql/generates/graphql";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
 import { Button } from "@/libs/shadcn/ui/button";
 import {
@@ -18,6 +18,11 @@ import Image from "next/image";
 import { AddItemButton } from "./AddItem.button";
 import { Session } from "next-auth";
 import PointDiamon from "@/shared/components/PointDiamod";
+import SafeHtml from "@/libs/sanitize-html/SafeHtml";
+import { Badge } from "@/libs/shadcn/ui/badge";
+import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
+import { ProductTag } from "./ProductTag";
+
 
 export const CardProduct = ({
   product,
@@ -67,39 +72,55 @@ export const CardProduct = ({
           )}
         </div>
       </CardHeader>
-      <CardContent className={clsx(`pb-2`, classNames?.content)}>
-        <Link href={product.href ?? `/products/${product.id}`}>
-          <CardTitle
-            className={clsx(
-              "text-xl font-semibold",
-              classNames?.containerTitle
-            )}
-          >
-            <h3 className={clsx(`max-w-full truncate`, classNames?.title)}>
-              {product.name}
-            </h3>
-          </CardTitle>
-        </Link>
-        {product.description && (
-          <div
-            className={clsx("h-15 overflow-auto", classNames?.containerDetail)}
-          >
-            <div className="text-md text-muted-foreground line-clamp-3 break-all text-sm">
-              {product.description}
+      <CardContent
+        className={clsx(`min-h-30 space-y-2 px-0`, classNames?.content)}
+      >
+        <ProductTag tags={product.tag} />
+        <section className="space-y-2 px-6">
+          <Link href={product.href ?? `/products/${product.id}`}>
+            <CardTitle
+              className={clsx(
+                "text-xl font-semibold",
+                classNames?.containerTitle
+              )}
+            >
+              <h3 className={clsx(`max-w-full truncate`, classNames?.title)}>
+                {product.name}
+              </h3>
+            </CardTitle>
+          </Link>
+          {product.description && (
+            <div
+              className={clsx(
+                "h-full overflow-auto",
+                classNames?.containerDetail
+              )}
+            >
+              <SafeHtml
+                className={clsx(
+                  "text-md text-muted-foreground break-all text-sm",
+                  _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
+                )}
+                html={product.description}
+              />
             </div>
-          </div>
-        )}
+          )}
+        </section>
       </CardContent>
       {footer && (
-        <CardFooter className="flex justify-between gap-4">
-          <p className="text-primary text-md flex grow gap-1 truncate font-bold">
-            <PointDiamon />
-            {` ${product.price?.price ?? `Free`}`}
-          </p>
+        <CardFooter className="flex-col justify-end gap-6">
+          <div className="flex w-full items-center justify-between">
+            <p className="text-primary text-md flex grow gap-1 truncate font-bold">
+              <PointDiamon />
+              {` ${product.price?.price ?? `Free`}`}
+            </p>
+            <small>rating</small>
+          </div>
+
           <AddItemButton
             session={session}
             productId={product?.id}
-            className="cursor-pointer"
+            className="w-full cursor-pointer"
             disabled={!product.price?.price}
           />
         </CardFooter>

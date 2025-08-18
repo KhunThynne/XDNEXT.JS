@@ -34,9 +34,12 @@ import { Price } from './Price.schema';
 import { Cart } from './Cart.schema';
 import { CartItem } from './CartItem.schema';
 import { Stock } from './Stock.schema';
+import { FAQ } from './FAQ';
+import { Rating } from './Ratting';
 
 export const lists = {
   User,
+  Rating,
   UserItem,
   UserPreference,
   UserPoint,
@@ -49,6 +52,7 @@ export const lists = {
   Product,
   Stock,
   ProductPromotion,
+  FAQ,
   Promotion,
   PointTransaction,
   Image,

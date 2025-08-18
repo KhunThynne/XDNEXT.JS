@@ -9,6 +9,7 @@ import { AccountPopover } from "./AccountPopover";
 import { SignButton } from "./SignButton";
 import { Session } from "next-auth";
 import { ShoppingPopover } from "@/shared/components/ui/shopping/ShoppingPopover";
+import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
 
 export const NavbarActionSection = ({
   className,
@@ -24,7 +25,7 @@ export const NavbarActionSection = ({
 
   return (
     <section className={clsx(className)}>
-      <SwitchTheme />
+      <ThemeMenu />
       <span className="inline-flex">
         {status === "loading" ? (
           <Button variant="ghost" size="icon" disabled>

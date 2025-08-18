@@ -19,6 +19,7 @@ import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 import { FormXdProps } from "./shared/index.type";
+import _ from "lodash";
 
 export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   name,
@@ -47,7 +48,7 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
                 classNames?.label
               )}
             >
-              <Translations text={label} />
+              {_.isString(label) ? <Translations text={label} /> : label}
             </FormLabel>
           )}
           <FormControl>

@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
-import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
+import { EyeIcon, EyeOff, Lock, LogInIcon, Mail } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { InputForm } from "../../ui/form/InputForm";
@@ -17,8 +17,6 @@ import { useSearchParams } from "next/navigation";
 import { authenticate } from "./actions/Login.action";
 
 export const SignForm = () => {
-  const pathname = usePathname();
-
   const method = useForm({
     resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
@@ -41,19 +39,39 @@ export const SignForm = () => {
   return (
     <Form {...method}>
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
-        <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" />
-
+        {/* <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" /> */}
+        <header className="space-y-2 text-center">
+          <div className="bg-primary mx-auto mb-4 flex size-16 items-center justify-center rounded-2xl">
+            <Lock className="text-primary-foreground size-8" />
+          </div>
+          <h1 className="text-foreground text-3xl font-bold">Welcome Back</h1>
+          <p className="text-muted-foreground">
+            Sign in to your account to continue
+          </p>
+        </header>
         <InputForm
-          label="Email"
+          label={
+            <section className="flex items-center gap-2">
+              <Mail className="text-muted-foreground size-4 self-center" />
+              Email
+            </section>
+          }
           control={method.control}
           name="email"
           type="email"
+          className="relative"
+          classNames={{ container: "gap-3" }}
           placeholder="Enter your email address"
           description="Please enter a valid email address (e.g. name@example.com)."
-        />
+        ></InputForm>
 
         <InputForm
-          label="Password"
+          label={
+            <section className="flex items-center gap-2">
+              <Lock className="text-muted-foreground size-4 self-center" />
+              Password
+            </section>
+          }
           control={method.control}
           name="password"
           type={hidePassword ? "text" : "password"}
