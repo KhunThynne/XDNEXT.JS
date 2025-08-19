@@ -4,6 +4,7 @@ import { text, relationship } from '@keystone-6/core/fields';
 
 export const Supplier: ListConfig<any> = list({
   access: allowAll,
+  ui: { isHidden: true },
   fields: {
     user: relationship({
       ref: 'User.suppiler',

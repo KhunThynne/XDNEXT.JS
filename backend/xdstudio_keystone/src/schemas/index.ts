@@ -36,9 +36,11 @@ import { CartItem } from './CartItem.schema';
 import { Stock } from './Stock.schema';
 import { FAQ } from './FAQ';
 import { Rating } from './Ratting';
+import { Account } from './Account';
 
 export const lists = {
   User,
+  Account,
   Rating,
   UserItem,
   UserPreference,

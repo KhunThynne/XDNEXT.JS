@@ -15,6 +15,7 @@ import { withAuth, session } from './auth';
 import env from './env';
 
 import { lists } from './src/schemas';
+import { extendGraphqlSchema } from './src/extendGraphqlSchema';
 
 export default withAuth(
   config({
@@ -58,6 +59,9 @@ export default withAuth(
         },
         storagePath: env.STORAGE_IMAGE_PATH,
       },
+    },
+    graphql: {
+      extendGraphqlSchema,
     },
     // graphql: {
     //   extendGraphqlSchema: graphql.extend((base) => {

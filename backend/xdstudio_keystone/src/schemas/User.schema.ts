@@ -13,6 +13,7 @@ export const User: ListConfig<any> = list({
   fields: {
     name: text({ validation: { isRequired: true } }),
     username: text(),
+
     provider: text({ defaultValue: 'credentials' }),
     image: text(),
     avartar: relationship({ ref: 'Image', many: false }),
@@ -32,6 +33,15 @@ export const User: ListConfig<any> = list({
     }),
     password: password({ validation: { isRequired: true } }),
     ...defaultGlobalField({ includeCreatedAt: true }),
+    accounts: relationship({
+      ref: 'Account.user',
+      many: true,
+      ui: {
+        description: 'All provider accounts linked to this user',
+        hideCreate: true,
+        displayMode: 'count',
+      },
+    }),
     carts: relationship({
       ref: 'Cart.user',
       many: true,

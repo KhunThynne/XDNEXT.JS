@@ -17,12 +17,13 @@
     "@keystone-6/core": "^6.5.1",
     "@keystone-6/fields-document": "^9.1.1",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/lodash": "^4.17.20",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
     "jsonwebtoken": "^9.0.2",
     "postinstall": "^0.11.2",
     "slate-dom": "^0.117.4",
-     "typescript": "^5.9.2",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.39.0",
     "zod": "^4.0.14"
   },
@@ -38,6 +39,5 @@
     "globals": "^16.3.0",
     "jsonc-eslint-parser": "^2.4.0",
     "prettier": "^3.6.2"
-
   }
 }

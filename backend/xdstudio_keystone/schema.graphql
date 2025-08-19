@@ -12,6 +12,8 @@ type User {
   email: String
   password: PasswordState
   createdAt: DateTime
+  accounts(where: AccountWhereInput! = {}, orderBy: [AccountOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AccountWhereUniqueInput): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   carts(where: CartWhereInput! = {}, orderBy: [CartOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: CartWhereUniqueInput): [Cart!]
   cartsCount(where: CartWhereInput! = {}): Int
   items(where: UserItemWhereInput! = {}, orderBy: [UserItemOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserItemWhereUniqueInput): [UserItem!]
@@ -55,6 +57,7 @@ input UserWhereInput {
   role: StringNullableFilter
   email: StringFilter
   createdAt: DateTimeNullableFilter
+  accounts: AccountManyRelationFilter
   carts: CartManyRelationFilter
   items: UserItemManyRelationFilter
   point: UserPointWhereInput
@@ -138,6 +141,12 @@ input DateTimeNullableFilter {
   not: DateTimeNullableFilter
 }
 
+input AccountManyRelationFilter {
+  every: AccountWhereInput
+  some: AccountWhereInput
+  none: AccountWhereInput
+}
+
 input CartManyRelationFilter {
   every: CartWhereInput
   some: CartWhereInput
@@ -200,6 +209,7 @@ input UserUpdateInput {
   email: String
   password: String
   createdAt: DateTime
+  accounts: AccountRelateToManyForUpdateInput
   carts: CartRelateToManyForUpdateInput
   items: UserItemRelateToManyForUpdateInput
   point: UserPointRelateToOneForUpdateInput
@@ -216,6 +226,13 @@ input ImageRelateToOneForUpdateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
   disconnect: Boolean
+}
+
+input AccountRelateToManyForUpdateInput {
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+  create: [AccountCreateInput!]
+  connect: [AccountWhereUniqueInput!]
 }
 
 input CartRelateToManyForUpdateInput {
@@ -280,6 +297,7 @@ input UserCreateInput {
   email: String
   password: String
   createdAt: DateTime
+  accounts: AccountRelateToManyForCreateInput
   carts: CartRelateToManyForCreateInput
   items: UserItemRelateToManyForCreateInput
   point: UserPointRelateToOneForCreateInput
@@ -295,6 +313,11 @@ input UserCreateInput {
 input ImageRelateToOneForCreateInput {
   create: ImageCreateInput
   connect: ImageWhereUniqueInput
+}
+
+input AccountRelateToManyForCreateInput {
+  create: [AccountCreateInput!]
+  connect: [AccountWhereUniqueInput!]
 }
 
 input CartRelateToManyForCreateInput {
@@ -330,6 +353,84 @@ input UserPreferenceRelateToOneForCreateInput {
 input PostRelateToManyForCreateInput {
   create: [PostCreateInput!]
   connect: [PostWhereUniqueInput!]
+}
+
+type Account {
+  id: ID!
+  provider: String
+  providerAccountId: String
+  user: User
+  accessToken: String
+  refreshToken: String
+  expiresAt: DateTime
+  scope: String
+  meta: JSON
+}
+
+input AccountWhereUniqueInput {
+  id: ID
+}
+
+input AccountWhereInput {
+  AND: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  id: IDFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  user: UserWhereInput
+  accessToken: StringFilter
+  refreshToken: StringFilter
+  expiresAt: DateTimeNullableFilter
+  scope: StringFilter
+}
+
+input AccountOrderByInput {
+  id: OrderDirection
+  provider: OrderDirection
+  providerAccountId: OrderDirection
+  accessToken: OrderDirection
+  refreshToken: OrderDirection
+  expiresAt: OrderDirection
+  scope: OrderDirection
+}
+
+input AccountUpdateInput {
+  provider: String
+  providerAccountId: String
+  user: UserRelateToOneForUpdateInput
+  accessToken: String
+  refreshToken: String
+  expiresAt: DateTime
+  scope: String
+  meta: JSON
+}
+
+input UserRelateToOneForUpdateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+}
+
+input AccountUpdateArgs {
+  where: AccountWhereUniqueInput!
+  data: AccountUpdateInput!
+}
+
+input AccountCreateInput {
+  provider: String
+  providerAccountId: String
+  user: UserRelateToOneForCreateInput
+  accessToken: String
+  refreshToken: String
+  expiresAt: DateTime
+  scope: String
+  meta: JSON
+}
+
+input UserRelateToOneForCreateInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type Rating {
@@ -435,12 +536,6 @@ input UserItemUpdateInput {
   updateAt: DateTime
 }
 
-input UserRelateToOneForUpdateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
-  disconnect: Boolean
-}
-
 input ProductRelateToOneForUpdateInput {
   create: ProductCreateInput
   connect: ProductWhereUniqueInput
@@ -465,11 +560,6 @@ input UserItemCreateInput {
   config: JSON
   createdAt: DateTime
   updateAt: DateTime
-}
-
-input UserRelateToOneForCreateInput {
-  create: UserCreateInput
-  connect: UserWhereUniqueInput
 }
 
 input ProductRelateToOneForCreateInput {
@@ -1667,6 +1757,12 @@ type Mutation {
   updateUsers(data: [UserUpdateArgs!]!): [User]
   deleteUser(where: UserWhereUniqueInput!): User
   deleteUsers(where: [UserWhereUniqueInput!]!): [User]
+  createAccount(data: AccountCreateInput!): Account
+  createAccounts(data: [AccountCreateInput!]!): [Account]
+  updateAccount(where: AccountWhereUniqueInput!, data: AccountUpdateInput!): Account
+  updateAccounts(data: [AccountUpdateArgs!]!): [Account]
+  deleteAccount(where: AccountWhereUniqueInput!): Account
+  deleteAccounts(where: [AccountWhereUniqueInput!]!): [Account]
   createRating(data: RatingCreateInput!): Rating
   createRatings(data: [RatingCreateInput!]!): [Rating]
   updateRating(where: RatingWhereUniqueInput!, data: RatingUpdateInput!): Rating
@@ -1786,6 +1882,20 @@ type Mutation {
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   sendUserPasswordResetLink(email: String!): Boolean!
   redeemUserPasswordResetToken(email: String!, token: String!, password: String!): RedeemUserPasswordResetTokenResult
+  authenticateAndLinkProvider(provider: String!, email: String!, name: String, providerAccountId: String!, accessToken: String, refreshToken: String): AuthProvidersResponse
+}
+
+union AuthProvidersResponse = AuthProvidersSuccess | AuthProvidersFailure
+
+type AuthProvidersSuccess {
+  item: User!
+  accessToken: String!
+  refetchToken: String
+  sessionToken: String!
+}
+
+type AuthProvidersFailure {
+  message: String
 }
 
 union UserAuthenticationWithPasswordResult = UserAuthenticationWithPasswordSuccess | UserAuthenticationWithPasswordFailure
@@ -1820,6 +1930,9 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
   usersCount(where: UserWhereInput! = {}): Int
+  account(where: AccountWhereUniqueInput!): Account
+  accounts(where: AccountWhereInput! = {}, orderBy: [AccountOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: AccountWhereUniqueInput): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   rating(where: RatingWhereUniqueInput!): Rating
   ratings(where: RatingWhereInput! = {}, orderBy: [RatingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: RatingWhereUniqueInput): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int

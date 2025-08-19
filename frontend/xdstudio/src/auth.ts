@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { executeAuth } from "./libs/graphql/execute";
 import {
+  AuthenticateAndLinkProviderDocument,
   CreateUserDocument,
   GetUserByEmailDocument,
   GetUserByEmailQuery,
@@ -86,52 +87,68 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       if (!account?.provider) return false;
       console.log("🔐 SignIn via provider:", account.provider);
+
+      async function AuthenticateAndLinkProvider({
+        accessToken,
+        email,
+        provider,
+        providerAccountId,
+        refreshToken,
+        name,
+      }: {
+        provider: string;
+        accessToken: string;
+        refreshToken?: string;
+        email: string;
+        name: string | undefined | null;
+        providerAccountId: string;
+      }) {
+        try {
+          const res = await executeAuth(AuthenticateAndLinkProviderDocument, {
+            email,
+            name,
+            provider,
+            providerAccountId,
+            accessToken,
+            refreshToken,
+          });
+          return res.data;
+        } catch (err) {
+          console.error("❌ Error during Discord RegisterAndLogin", err);
+          return false;
+        }
+      }
       switch (account.provider) {
         case "discord": {
           const discordUser = profile as unknown as DiscordUser;
-          const password = `${discordUser.id}-${discordUser.email}`;
           try {
-            const userData = await executeAuth(GetUserByEmailDocument, {
-              email: discordUser.email,
+            if (!account.access_token || !profile?.email) return false;
+
+            const authResult = await AuthenticateAndLinkProvider({
+              accessToken: account.access_token,
+              email: profile.email,
+              name: discordUser.username,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+              refreshToken: account.refresh_token,
             });
+            if (authResult) {
+              const login = authResult?.authenticateAndLinkProvider;
 
-            let user_: GetUserByEmailQuery["user"] = userData.data.user;
-            if (!user_) {
-              const res = await executeAuth(CreateUserDocument, {
-                email: discordUser.email,
-                name: discordUser.username,
-                password,
-                provider: "discord",
-              });
-
-              user_ = res.data.createUser;
-            }
-
-            if (user_) {
-              const res = await executeAuth(LoginDocument, {
-                email: user_.email as string,
-                password,
-              });
-
-              const authResult = res.data?.authenticateUserWithPassword;
-              if (!authResult) {
-                throw new Error("No authentication result");
+              if (!login || login.__typename !== "AuthProvidersSuccess") {
+                return false;
               }
 
-              if ("item" in authResult && authResult.sessionToken) {
-                const login = authResult.item;
+              const { item, ...secret } = login;
+              Object.assign(user, {
+                ...item,
+                ...secret,
+                image: discordUser.image_url,
+              });
 
-                Object.assign(user, {
-                  ...login,
-                  image: discordUser.image_url,
-                  sessionToken: user?.sessionToken ?? "",
-                });
-              }
               return true;
-            } else {
-              return false;
-              throw new Error("Discord fail auth");
             }
+            throw new Error("Discord auth fail");
           } catch (err) {
             console.error("❌ Error during Discord RegisterAndLogin", err);
             return false;
@@ -159,21 +176,27 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (user) {
         Object.assign(token, {
           ...user,
-          sessionToken: user?.sessionToken ?? "",
         });
       }
       return token;
     },
-    async session({ session, token, user }) {
+
+    async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role;
-        session.user.id = token.id;
-        session.user.username = token.username;
-        session.user.carts = token.carts;
-        session.user.image = token.image;
-        session.user.point = token.point;
+        const {
+          sessionToken,
+          accessToken,
+          refetchToken,
+          passwordResetIssuedAt,
+          passwordResetRedeemedAt,
+          ...rest
+        } = token;
+        session.user = {
+          ...session.user,
+          ...rest,
+          email: token.email ?? "",
+        };
       }
-      // console.log("session", token);
       return session;
     },
     async redirect({ url, baseUrl }) {

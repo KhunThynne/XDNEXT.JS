@@ -36,7 +36,7 @@ export function AccountPopover(user: Partial<UserType>) {
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent align="end" className="w-xs">
+      <PopoverContent align="end" className="w-xs space-y-2">
         <div className="relative flex items-center gap-3">
           <div>
             <Avatar className="mx-auto size-10">
@@ -59,10 +59,6 @@ export function AccountPopover(user: Partial<UserType>) {
 
             <p className="text-muted-foreground truncate">{user.email}</p>
           </div>
-        </div>
-
-        <div className="mt-2">
-          <p>{user.provider}</p>
         </div>
 
         <div className="flex items-center justify-between">

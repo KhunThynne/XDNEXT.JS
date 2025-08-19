@@ -9,6 +9,7 @@ export const UserItem: ListConfig<any> = list({
       initialColumns: ['userId', 'createdAt'],
       pageSize: 10,
     },
+    isHidden: true,
   },
   fields: {
     user: relationship({

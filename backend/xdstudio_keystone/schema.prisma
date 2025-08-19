@@ -23,6 +23,7 @@ model User {
   email                        String             @unique @default("")
   password                     String
   createdAt                    DateTime?          @default(now())
+  accounts                     Account[]          @relation("Account_user")
   carts                        Cart[]             @relation("Cart_user")
   items                        UserItem[]         @relation("UserItem_user")
   point                        UserPoint?         @relation("User_point", fields: [pointId], references: [id])
@@ -38,6 +39,21 @@ model User {
   from_PointTransaction_userId PointTransaction[] @relation("PointTransaction_userId")
 
   @@index([avartarId])
+}
+
+model Account {
+  id                String    @id @default(uuid()) @postgresql.Uuid
+  provider          String    @default("")
+  providerAccountId String    @default("")
+  user              User?     @relation("Account_user", fields: [userId], references: [id])
+  userId            String?   @map("user") @postgresql.Uuid
+  accessToken       String    @default("")
+  refreshToken      String    @default("")
+  expiresAt         DateTime?
+  scope             String    @default("")
+  meta              Json?
+
+  @@index([userId])
 }
 
 model Rating {

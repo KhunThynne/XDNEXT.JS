@@ -3,6 +3,104 @@ schema {
   mutation: Mutation
 }
 
+type Account {
+  accessToken: String
+  expiresAt: DateTime
+  id: ID!
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: User
+}
+
+input AccountCreateInput {
+  accessToken: String
+  expiresAt: DateTime
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: UserRelateToOneForCreateInput
+}
+
+input AccountManyRelationFilter {
+  every: AccountWhereInput
+  none: AccountWhereInput
+  some: AccountWhereInput
+}
+
+input AccountOrderByInput {
+  accessToken: OrderDirection
+  expiresAt: OrderDirection
+  id: OrderDirection
+  provider: OrderDirection
+  providerAccountId: OrderDirection
+  refreshToken: OrderDirection
+  scope: OrderDirection
+}
+
+input AccountRelateToManyForCreateInput {
+  connect: [AccountWhereUniqueInput!]
+  create: [AccountCreateInput!]
+}
+
+input AccountRelateToManyForUpdateInput {
+  connect: [AccountWhereUniqueInput!]
+  create: [AccountCreateInput!]
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+}
+
+input AccountUpdateArgs {
+  data: AccountUpdateInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountUpdateInput {
+  accessToken: String
+  expiresAt: DateTime
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: UserRelateToOneForUpdateInput
+}
+
+input AccountWhereInput {
+  AND: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  accessToken: StringFilter
+  expiresAt: DateTimeNullableFilter
+  id: IDFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  refreshToken: StringFilter
+  scope: StringFilter
+  user: UserWhereInput
+}
+
+input AccountWhereUniqueInput {
+  id: ID
+}
+
+type AuthProvidersFailure {
+  message: String
+}
+
+union AuthProvidersResponse = AuthProvidersFailure | AuthProvidersSuccess
+
+type AuthProvidersSuccess {
+  accessToken: String!
+  item: User!
+  refetchToken: String
+  sessionToken: String!
+}
+
 union AuthenticatedItem = User
 
 type Cart {
@@ -501,7 +599,10 @@ type KeystoneMeta {
 }
 
 type Mutation {
+  authenticateAndLinkProvider(accessToken: String, email: String!, name: String, provider: String!, providerAccountId: String!, refreshToken: String): AuthProvidersResponse
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
+  createAccount(data: AccountCreateInput!): Account
+  createAccounts(data: [AccountCreateInput!]!): [Account]
   createCart(data: CartCreateInput!): Cart
   createCartItem(data: CartItemCreateInput!): CartItem
   createCartItems(data: [CartItemCreateInput!]!): [CartItem]
@@ -543,6 +644,8 @@ type Mutation {
   createUserPreference(data: UserPreferenceCreateInput!): UserPreference
   createUserPreferences(data: [UserPreferenceCreateInput!]!): [UserPreference]
   createUsers(data: [UserCreateInput!]!): [User]
+  deleteAccount(where: AccountWhereUniqueInput!): Account
+  deleteAccounts(where: [AccountWhereUniqueInput!]!): [Account]
   deleteCart(where: CartWhereUniqueInput!): Cart
   deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
   deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
@@ -586,6 +689,8 @@ type Mutation {
   endSession: Boolean!
   redeemUserPasswordResetToken(email: String!, password: String!, token: String!): RedeemUserPasswordResetTokenResult
   sendUserPasswordResetLink(email: String!): Boolean!
+  updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
+  updateAccounts(data: [AccountUpdateArgs!]!): [Account]
   updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
   updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
   updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
@@ -1288,6 +1393,9 @@ input PromotionWhereUniqueInput {
 }
 
 type Query {
+  account(where: AccountWhereUniqueInput!): Account
+  accounts(cursor: AccountWhereUniqueInput, orderBy: [AccountOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AccountWhereInput! = {}): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   authenticatedItem: AuthenticatedItem
   cart(where: CartWhereUniqueInput!): Cart
   cartItem(where: CartItemWhereUniqueInput!): CartItem
@@ -1662,6 +1770,8 @@ input TagWhereUniqueInput {
 scalar Upload
 
 type User {
+  accounts(cursor: AccountWhereUniqueInput, orderBy: [AccountOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AccountWhereInput! = {}): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   avartar: Image
   carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
   cartsCount(where: CartWhereInput! = {}): Int
@@ -1701,6 +1811,7 @@ type UserAuthenticationWithPasswordSuccess {
 }
 
 input UserCreateInput {
+  accounts: AccountRelateToManyForCreateInput
   avartar: ImageRelateToOneForCreateInput
   carts: CartRelateToManyForCreateInput
   createdAt: DateTime
@@ -1964,6 +2075,7 @@ input UserUpdateArgs {
 }
 
 input UserUpdateInput {
+  accounts: AccountRelateToManyForUpdateInput
   avartar: ImageRelateToOneForUpdateInput
   carts: CartRelateToManyForUpdateInput
   createdAt: DateTime
@@ -1989,6 +2101,7 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  accounts: AccountManyRelationFilter
   avartar: ImageWhereInput
   carts: CartManyRelationFilter
   createdAt: DateTimeNullableFilter

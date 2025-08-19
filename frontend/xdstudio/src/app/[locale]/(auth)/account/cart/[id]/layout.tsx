@@ -19,13 +19,14 @@ export default async function LayoutCart({
   const point = session?.user?.point;
   if (cartId !== cartIdSession) return notFound();
 
-  if (!cartId || !userId || !point) {
+  if (!cartId || !userId || point === undefined || point === null) {
     throw new Error(
       clsx(
         "Missing required:",
         !cartId && " cartId",
         !userId && " userId",
-        !point && " point"
+        point === null && " point",
+        point === undefined && " point"
       )
     );
   }
