@@ -1,11 +1,9 @@
-import { Button, ButtonStateProps } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
-
-export const MenuButton = ({
-  state,
-  className,
-  ...props
-}: ButtonStateProps<boolean>) => {
+type MenuButton = React.ComponentProps<typeof Button> & {
+  state?: boolean;
+};
+export const MenuButton = ({ state, className, ...props }: MenuButton) => {
   return (
     <Button
       variant="ghost"

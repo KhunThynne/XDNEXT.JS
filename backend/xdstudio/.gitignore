@@ -22,3 +22,5 @@ test.js
 *.njsproj
 *.sln
 *.sw?
+
+uploads/*

@@ -49,10 +49,16 @@ export function createHookStore<T, K extends string = "data">({
     `set${finalKey.charAt(0).toUpperCase() + finalKey.slice(1)}` as `set${Capitalize<K>}`;
 
   return create<StoreType>()(
-    devtools((set) => ({
+    devtools((set, get) => ({
       [`${lowerKey}Store`]: initial,
-      [setKey]: (data: T) =>
-        set({ [`${lowerKey}Store`]: data } as any, false, `${finalKey}/set`),
+      [setKey]: (data: T | Partial<T>) => {
+        const current = get()[`${lowerKey}Store`];
+        const next =
+          Array.isArray(current) && Array.isArray(data)
+            ? data // ถ้าเป็น array assign ตรง ๆ
+            : { ...current, ...data }; // ถ้าเป็น object merge
+        set({ [`${lowerKey}Store`]: next } as any, false, `${finalKey}/set`);
+      },
     }))
   );
 }

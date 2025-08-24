@@ -1,22 +1,109 @@
 "use client";
-import { useStore, useTestStore } from "@/shared/stores/useNameStore";
+import { Separator } from "@/libs/shadcn/ui/separator";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { CheckCircle } from "lucide-react";
 import Image from "next/image";
 
-export default function Footer({ className }: GlobalDefaultProps) {
-  const { dataStore } = useStore();
-  const { setTest, testStore } = useTestStore();
+export default function Footer({ className }: WithlDefaultProps) {
   return (
     <footer
       className={clsx(
-        "border-t-1 bg-background w-full items-center",
+        "border-t-1 bg-background @container w-full items-center",
         "text-xs",
+        "space-y-3",
         className
       )}
     >
+      <div className="mx-auto flex max-w-screen-lg flex-wrap gap-8 py-3">
+        <div className="lg:flex-2 max-lg:w-full">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-foreground text-lg font-bold">XDShope</span>
+          </div>
+          <p className="text-muted-foreground text-sm">
+            Your trusted marketplace for premium game scripts and automation
+            tools.
+          </p>
+        </div>
+        <div className="grow">
+          <h4 className="text-foreground mb-4 font-semibold">Products</h4>
+          <ul className="text-muted-foreground space-y-2 text-sm">
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Scripts
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Mods
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Tools
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Bundles
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="grow">
+          <h4 className="text-foreground mb-4 font-semibold">Support</h4>
+          <ul className="text-muted-foreground space-y-2 text-sm">
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Help Center
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                FAQ
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Community
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div className="grow">
+          <h4 className="text-foreground mb-4 font-semibold">Company</h4>
+          <ul className="text-muted-foreground space-y-2 text-sm">
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Terms of Service
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-foreground transition-colors">
+                Developers
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <div className="container mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 max-sm:flex-col">
+        <Separator className="opacity-50" />
         <div className="flex items-center">
           <Image
             className="border-1 mx-auto rounded-full"

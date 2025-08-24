@@ -1,5 +1,5 @@
-import { createHandler } from "graphql-http/lib/use/express";
-import { schema } from "./schema";
+import { createHandler } from 'graphql-http/lib/use/express';
+import { schema } from './schema';
 
 export const handler = createHandler({
   schema,

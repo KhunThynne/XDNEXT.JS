@@ -1,0 +1,12 @@
+@theme default {
+  --color-xd:var(--xd)
+}
+
+:root {
+   --xd:#C70302;
+ 
+}
+
+.dark {
+  --xd:#ff0000;
+}

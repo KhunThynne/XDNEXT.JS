@@ -1,3 +1,3 @@
-export default async function DefaultProducts() {
+export default function DefaultNavBar() {
   return null;
 }

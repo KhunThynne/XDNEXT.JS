@@ -3,20 +3,24 @@ import clsx from "clsx";
 export default function Content({
   classNames,
   children,
-}: Omit<GlobalPropsClassNames<"content" | "outsite">, "className">) {
+  className,
+}: GlobalPropsClassNames<"content" | "outsite">) {
   return (
-    <div className={classNames?.outsite}>
+    <div className={clsx(className, classNames?.outsite)}>
       <div
         className={clsx(
           "absolute inset-0 -z-20",
           "[mask-image:linear-gradient(to_bottom,white,transparent)]",
+          `bg-gradient-to-br`,
           // Light mode
           "bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] opacity-60",
           // Dark mode
           "dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]",
-          "bg-[size:40px_40px]"
+          "bg-[size:40px_40px]",
+          "flex flex-col"
         )}
       />
+
       <div className={clsx(classNames?.content)}>{children}</div>
     </div>
   );

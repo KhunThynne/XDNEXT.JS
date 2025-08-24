@@ -1,0 +1,43 @@
+{
+  "name": "keystone-app",
+  "version": "1.0.3",
+  "private": true,
+  "scripts": {
+    "build": "keystone build",
+    "dev": "keystone dev",
+    "postinstall": "keystone postinstall",
+    "generate": "keystone prisma migrate dev",
+    "start": "keystone start",
+    "eslint": "eslint . --fix",
+    "update": "npx npm-check-updates --dep prod,dev --upgrade",
+    "deploy": "keystone build && keystone prisma migrate deploy"
+  },
+  "dependencies": {
+    "@keystone-6/auth": "^8.1.0",
+    "@keystone-6/core": "^6.5.1",
+    "@keystone-6/fields-document": "^9.1.1",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/lodash": "^4.17.20",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^17.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "postinstall": "^0.11.2",
+    "slate-dom": "^0.117.4",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.40.0",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@eslint/js": "^9.33.0",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsonc": "^2.20.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.3.0",
+    "jsonc-eslint-parser": "^2.4.0",
+    "prettier": "^3.6.2"
+  }
+}

@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/shared/components/shadcn/navigation-menu";
+} from "@/libs/shadcn/ui/navigation-menu";
 
 const ListItem = ({
   title,
@@ -56,7 +56,7 @@ const RenderChildren = ({
   className,
 }: {
   nested?: TypeNavbarItem[];
-} & GlobalPropClassName) => {
+} & WithClassName) => {
   if (!_.isArray(nested)) return;
   return (
     <ul className={clsx(className)}>

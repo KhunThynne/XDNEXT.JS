@@ -1,8 +1,8 @@
-import { Resolvers, UserProvider } from "@/types/graphql";
-import prisma from "@prisma";
+import { Resolvers, UserProvider } from '@/types/graphql';
+import prisma from '@prisma';
 
-import { compare, hashSync } from "bcrypt-ts";
-import { Role as GqlRole } from "@/types/graphql";
+import { compare, hashSync } from 'bcrypt-ts';
+import { Role as GqlRole } from '@/types/graphql';
 export const resolvers: Resolvers = {
   Query: {
     users: async (_, __, context) => {

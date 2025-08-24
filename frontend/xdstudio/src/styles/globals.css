@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
 @custom-variant dark (&:is(.dark *));
+@import './base.css';
+@import './xdstudio.css';
 
 @theme inline {
   --color-background: var(--background);
@@ -185,3 +186,5 @@ body {
     -webkit-backdrop-filter: blur(12.9px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
+
+

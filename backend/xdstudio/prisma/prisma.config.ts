@@ -1,5 +1,5 @@
-import "../configs/dotenv.config";
-import type { PrismaConfig } from "prisma";
+import '../configs/dotenv.config';
+import type { PrismaConfig } from 'prisma';
 
 export default {
   earlyAccess: true,

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import "@configs/dotenv.config";
-import env from "@/env";
-import app from "@/index";
-import chalk from "chalk";
-import http from "http";
+import '@configs/dotenv.config';
+import env from '@/env';
+import app from '@/index';
+import chalk from 'chalk';
+import http from 'http';
 
 const server = http.createServer(app);
 function normalizePort(val: string) {
@@ -18,19 +18,19 @@ function normalizePort(val: string) {
 }
 
 function onError(error: NodeJS.ErrnoException) {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof Port === "string" ? "Pipe " + Port : "Port " + Port;
+  const bind = typeof Port === 'string' ? 'Pipe ' + Port : 'Port ' + Port;
 
   switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
       process.exit(1);
       break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
 
       process.exit(1);
       break;
@@ -41,26 +41,26 @@ function onError(error: NodeJS.ErrnoException) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === "string" ? "pipe " + addr : "port " + addr?.port;
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
   console.log(chalk.green(`Server listening on ${bind}`));
 }
 
-const Port = normalizePort(String(env.PORT ?? "8080"));
-app.set("Port", Port);
+const Port = normalizePort(String(env.PORT ?? '8080'));
+app.set('Port', Port);
 server.listen(Port);
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 console.log(
-  chalk.bgBlue.white.bold("\n🚀 Application Started 🚀") +
-    "\n" +
-    chalk.yellow("Listening on port: ") +
+  chalk.bgBlue.white.bold('\n🚀 Application Started 🚀') +
+    '\n' +
+    chalk.yellow('Listening on port: ') +
     chalk.cyan(Port) +
-    "\n\n" +
+    '\n\n' +
     chalk.green(`👉 http://localhost:${Port}`) +
-    "\n" +
+    '\n' +
     chalk.green(`👉 http://127.0.0.1:${Port}`) +
-    "\n",
+    '\n'
 );
 // Setting up a variety of color code constants
 

@@ -1,69 +1,84 @@
+"use client";
 import { useForm } from "react-hook-form";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { createDialog } from "@/libs/dialog/createDialog";
-import { EyeIcon, EyeOff, LogInIcon } from "lucide-react";
+import { EyeIcon, EyeOff, Lock, LogInIcon, Mail } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { signIn } from "next-auth/react";
-import { useDialoguseContext } from "@/libs/dialog/DialogInstance";
-import { Button } from "../../shadcn/button";
 import { InputForm } from "../../ui/form/InputForm";
-import { Form } from "../../shadcn/form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TypeSignInInterface, ZSignInSchema } from "./auth.zod";
+import { ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
+import { usePathname } from "@navigation";
+import { Form } from "@/libs/shadcn/ui/form";
+import { Button } from "@/libs/shadcn/ui/button";
+
+import { useSearchParams } from "next/navigation";
+import { authenticate } from "./actions/Login.action";
 
 export const SignForm = () => {
   const method = useForm({
     resolver: zodResolver(ZSignInSchema),
     defaultValues: { password: "", email: "" },
   });
+  const searchParams = useSearchParams();
+  const { formState } = method;
+  const callbackUrl = searchParams.get("callbackUrl") ?? "";
   const [hidePassword, setHidePassword] = useState(false);
-  const { closeDialog } = useDialoguseContext();
-  const onSubmit = async (data: TypeSignInInterface) => {
-    try {
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: data.email,
-        password: data.password,
-      });
-      if (res?.ok) {
-        if (res?.error) throw new Error("Login failed");
-        toast.success("Login success!");
-        closeDialog();
-        console.log("User logged in:", res);
+  const onSubmit = method.handleSubmit(async (data) => {
+    await authenticate("", {
+      redirectTo: callbackUrl,
+      ...data,
+    }).then((res) => {
+      if (res) {
+        toast.error(String(res));
+        return;
       }
-    } catch (_) {
-      toast.error("Login failed! user or password invalidate");
-      return;
-    }
-  };
-
+    });
+  });
   return (
     <Form {...method}>
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={method.handleSubmit(onSubmit)}
-      >
-        <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" />
+      <form className="flex flex-col gap-4" onSubmit={onSubmit}>
+        {/* <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" /> */}
+        <header className="space-y-2 text-center">
+          <div className="bg-primary mx-auto mb-4 flex size-16 items-center justify-center rounded-2xl">
+            <Lock className="text-primary-foreground size-8" />
+          </div>
+          <h1 className="text-foreground text-3xl font-bold">Welcome Back</h1>
+          <p className="text-muted-foreground">
+            Sign in to your account to continue
+          </p>
+        </header>
         <InputForm
-          label="Email"
+          label={
+            <section className="flex items-center gap-2">
+              <Mail className="text-muted-foreground size-4 self-center" />
+              Email
+            </section>
+          }
           control={method.control}
           name="email"
           type="email"
+          className="relative"
+          classNames={{ container: "gap-3" }}
           placeholder="Enter your email address"
           description="Please enter a valid email address (e.g. name@example.com)."
-        />
+        ></InputForm>
 
         <InputForm
-          label="Password"
+          label={
+            <section className="flex items-center gap-2">
+              <Lock className="text-muted-foreground size-4 self-center" />
+              Password
+            </section>
+          }
           control={method.control}
           name="password"
           type={hidePassword ? "text" : "password"}
           description="Password must be 6-10 characters, include uppercase and number."
           classNames={{ container: "gap-2" }}
           placeholder="Enter your password"
-          maxLength={10}
+          maxLength={20}
           // pattern="^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,10}$"
         >
           <Button
@@ -75,10 +90,9 @@ export const SignForm = () => {
             {!hidePassword ? <EyeOff /> : <EyeIcon />}
           </Button>
         </InputForm>
-
         <section className="flex flex-col">
-          <Button>Login</Button>
-          <OAuthLoginButtonsGrupe className="mt-5" />
+          <Button disabled={formState.isSubmitting}>Login</Button>
+          <OAuthLoginButtonsGrupe className="mt-5" callbackUrl={callbackUrl} />
         </section>
       </form>
     </Form>
@@ -90,6 +104,7 @@ export const useSignDialog = createHookDialog({
   description: "Welcome to xd studio",
   mode: "static",
   content: <SignForm />,
+  variant: "fullscreen",
 });
 
 export const SignDialog = createDialog({
@@ -97,6 +112,7 @@ export const SignDialog = createDialog({
   description: "Welcome to xd studio",
   content: <SignForm />,
   mode: "static",
+  variant: "fullscreen",
   trigger: (
     <Button variant="ghost" size="icon">
       <LogInIcon />

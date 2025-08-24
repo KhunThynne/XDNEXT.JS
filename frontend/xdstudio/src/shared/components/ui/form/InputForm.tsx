@@ -1,15 +1,13 @@
 "use client";
 
 import {
-  Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/shared/components/shadcn/form";
-import { Input } from "@/shared/components/shadcn/input";
+} from "@/libs/shadcn/ui/form";
+import { Input } from "@/libs/shadcn/ui/input";
 import {
   Control,
   ControllerRenderProps,
@@ -20,35 +18,29 @@ import { ReactNode } from "react";
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
-
-interface InputFormProps<TFieldValues extends FieldValues = FieldValues>
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: Path<TFieldValues>;
-  label?: string;
-  description?: string;
-  control?: Control<TFieldValues>;
-  renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
-}
+import { FormXdProps } from "./shared/index.type";
+import _ from "lodash";
 
 export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   name,
   label,
   description,
-  placeholder,
   control,
-  type,
   renderInput,
   children,
+  className,
   classNames,
   ...inputProps
-}: InputFormProps<TFieldValues> &
-  GlobalPropsClassNames<"container" | "label" | "description">) {
+}: FormXdProps<TFieldValues> & {
+  renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
+} & React.ComponentProps<typeof Input> &
+  GlobalPropsClassNames<"container" | "label" | "description" | "input">) {
   return (
     <FormField
       {...(control ? { control } : {})}
       name={name as Path<TFieldValues>}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={clsx(className)}>
           {label && (
             <FormLabel
               className={clsx(
@@ -56,20 +48,18 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
                 classNames?.label
               )}
             >
-              <Translations text={label} />
+              {_.isString(label) ? <Translations text={label} /> : label}
             </FormLabel>
           )}
           <FormControl>
-            <div className={clsx("flex", classNames?.container)}>
+            <div className={clsx("flex items-end", classNames?.container)}>
               {renderInput ? (
                 renderInput(field)
               ) : (
                 <Input
-                  className="w-full"
-                  placeholder={placeholder}
+                  className={clsx(`w-full`, classNames?.input)}
                   {...field}
                   {...inputProps}
-                  type={type}
                 />
               )}
               {children}

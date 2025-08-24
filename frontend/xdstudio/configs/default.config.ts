@@ -8,36 +8,31 @@ const config: TypeConfigDefault = {
       description: "Back to the homepage",
       children: [],
     },
-    {
-      title: "Services",
-      href: "/services",
-      description: "Explore what we can do for you",
-      children: [
-        {
-          title: "Web Development",
-          href: "/services/web-development",
-          description: "Custom websites, web apps and platforms",
-        },
-        {
-          title: "Mobile Apps",
-          href: "/services/mobile-apps",
-          description: "iOS and Android native or cross-platform apps",
-          children: [],
-        },
-      ],
-    },
-    {
-      title: "About Us",
-      href: "/about",
-      description: "Learn more about our team and mission",
-      children: [],
-    },
-    {
-      title: "Contact",
-      href: "/contact",
-      description: "Get in touch with us",
-      children: [],
-    },
+    // {
+    //   title: "Services",
+    //   href: "/services",
+    //   description: "Explore what we can do for you",
+    //   children: [
+    //     {
+    //       title: "Web Development",
+    //       href: "/services/web-development",
+    //       description: "Custom websites, web apps and platforms",
+    //     },
+    //     {
+    //       title: "Mobile Apps",
+    //       href: "/services/mobile-apps",
+    //       description: "iOS and Android native or cross-platform apps",
+    //       children: [],
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "About Us",
+    //   href: "/about",
+    //   description: "Learn more about our team and mission",
+    //   children: [],
+    // },
+
     {
       title: "Products",
       href: "/products",
@@ -69,6 +64,12 @@ const config: TypeConfigDefault = {
           children: [],
         },
       ],
+    },
+    {
+      title: "Contact",
+      href: "/contact",
+      description: "Get in touch with us",
+      children: [],
     },
   ],
 };

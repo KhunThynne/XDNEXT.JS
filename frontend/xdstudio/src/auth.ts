@@ -1,12 +1,13 @@
-import NextAuth, { AuthError, DefaultSession, Session } from "next-auth";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import { executeAuth } from "./libs/graphql/execute";
 import {
+  AuthenticateAndLinkProviderDocument,
+  CreateUserDocument,
+  GetUserByEmailDocument,
+  GetUserByEmailQuery,
   LoginDocument,
-  RegisterAndLoginDocument,
-  Role,
-  UserProvider,
 } from "./libs/graphql/generates/graphql";
 import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
 import { JWT } from "next-auth/jwt";
@@ -15,20 +16,17 @@ import { DiscordUser } from "@type/user.type";
 
 declare module "next-auth" {
   interface Session {
-    user: GqlUser & Omit<DefaultSession["user"], "image">;
-    jwt_token?: string;
+    user: GqlUser;
   }
+
   interface User extends GqlUser {
-    __brand?: "User";
-    jwt_token?: string;
+    sessionToken?: string;
   }
 }
 
 declare module "next-auth/jwt" {
-  interface JWT {
-    jwt_token?: string;
-    documentId?: string;
-    role?: Role;
+  interface JWT extends GqlUser {
+    sessionToken?: string;
   }
 }
 
@@ -48,35 +46,38 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         if (!credentials) return null;
 
-        console.log(credentials);
-
         try {
           const res = await executeAuth(LoginDocument, {
             email: credentials.email as string,
             password: credentials.password as string,
           });
-          const data = res.data;
 
-          if (data?.login?.user && data.login.jwt_token) {
-            const { login } = data;
-            if (!login?.user || !login.jwt_token) {
-              throw new AuthError("Invalid credentials");
-            }
+          const data = res.data;
+          const authResult = data?.authenticateUserWithPassword;
+
+          if (!authResult) {
+            return null;
+            throw new Error("No authentication result");
+          }
+
+          if ("item" in authResult && authResult.sessionToken) {
+            const user = authResult.item;
             return {
-              documentId: login.user.documentId.toString(),
-              name: login.user.username,
-              email: login.user.email,
-              role: login.user.role,
-              jwt_token: login.jwt_token,
-              provider: login.user.provider,
-              username: login.user.username,
+              ...user,
+              sessionToken: authResult.sessionToken,
             };
           }
-          throw new AuthError("Auth error");
+
+          if ("message" in authResult) {
+            return null;
+            // throw new Error(authResult.message);
+          }
+
+          throw new Error("Authentication failed");
         } catch (err) {
-          // console.error("Auth error:", err);
+          return null;
           throw new Error(
-            (err as { message: string }).message ?? "Login failed"
+            (err as { message?: string }).message ?? "Login failed"
           );
         }
       },
@@ -86,27 +87,68 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     async signIn({ user, account, profile }) {
       if (!account?.provider) return false;
       console.log("🔐 SignIn via provider:", account.provider);
+
+      async function AuthenticateAndLinkProvider({
+        accessToken,
+        email,
+        provider,
+        providerAccountId,
+        refreshToken,
+        name,
+      }: {
+        provider: string;
+        accessToken: string;
+        refreshToken?: string;
+        email: string;
+        name: string | undefined | null;
+        providerAccountId: string;
+      }) {
+        try {
+          const res = await executeAuth(AuthenticateAndLinkProviderDocument, {
+            email,
+            name,
+            provider,
+            providerAccountId,
+            accessToken,
+            refreshToken,
+          });
+          return res.data;
+        } catch (err) {
+          console.error("❌ Error during Discord RegisterAndLogin", err);
+          return false;
+        }
+      }
       switch (account.provider) {
         case "discord": {
           const discordUser = profile as unknown as DiscordUser;
-          const password = `${discordUser.id}-${discordUser.email}`;
           try {
-            const res = await executeAuth(RegisterAndLoginDocument, {
-              email: discordUser.email,
-              password,
-              username: discordUser.username,
-              image: discordUser.image_url,
-              provider: UserProvider.Discord,
+            if (!account.access_token || !profile?.email) return false;
+
+            const authResult = await AuthenticateAndLinkProvider({
+              accessToken: account.access_token,
+              email: profile.email,
+              name: discordUser.username,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+              refreshToken: account.refresh_token,
             });
-            const login = res.data?.registerAndLogin;
-            if (login?.jwt_token) {
-              user.documentId = login.user.documentId.toString();
-              user.role = login.user.role;
-              user.jwt_token = login.jwt_token;
+            if (authResult) {
+              const login = authResult?.authenticateAndLinkProvider;
+
+              if (!login || login.__typename !== "AuthProvidersSuccess") {
+                return false;
+              }
+
+              const { item, ...secret } = login;
+              Object.assign(user, {
+                ...item,
+                ...secret,
+                image: discordUser.image_url,
+              });
+
               return true;
-            } else {
-              throw new Error("Discord fail auth");
             }
+            throw new Error("Discord auth fail");
           } catch (err) {
             console.error("❌ Error during Discord RegisterAndLogin", err);
             return false;
@@ -114,7 +156,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         }
 
         case "credentials":
-          console.log("🧾 Credentials login:", user);
+          // console.log("🧾 Credentials login:", user);
           return true;
 
         case "google":
@@ -132,26 +174,41 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.documentId =
-          typeof user.documentId === "string"
-            ? user.documentId
-            : String(user.documentId ?? "");
-        token.role = user.role ?? Role.User;
-        token.jwt_token = user.jwt_token;
+        Object.assign(token, {
+          ...user,
+        });
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
-      if (session.user) {
-        session.user.documentId = token.documentId!;
-        session.user.role = token.role;
-      }
 
+    async session({ session, token }) {
+      if (session.user) {
+        const {
+          sessionToken,
+          accessToken,
+          refetchToken,
+          passwordResetIssuedAt,
+          passwordResetRedeemedAt,
+          ...rest
+        } = token;
+        session.user = {
+          ...session.user,
+          ...rest,
+          email: token.email ?? "",
+        };
+      }
       return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
   },
   pages: {
     signIn: "/login",
-    error: "/auth/error",
+    error: "/login",
   },
 });

@@ -1,7 +1,7 @@
 // lib/prisma.ts
-import env from "@/env";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "@prisma/client";
+import env from '@/env';
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaClient } from '@prisma/client';
 const adapter = new PrismaMariaDb({
   host: env.SQL_HOST,
   port: env.DATABASE_PORT,
@@ -16,9 +16,8 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({ adapter, log: ["query", "error", "warn"] });
+  globalForPrisma.prisma ?? new PrismaClient({ adapter, log: ['query', 'error', 'warn'] });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export default prisma;

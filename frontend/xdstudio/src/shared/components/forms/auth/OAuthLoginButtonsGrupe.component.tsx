@@ -1,5 +1,5 @@
 import { signIn } from "next-auth/react";
-import { Button } from "@/shared/components/shadcn/button";
+import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
 
@@ -31,7 +31,7 @@ export function OAuthLoginButtonsGrupe({
             variant="outline"
             type="button"
             disabled={disable}
-            onClick={() => signIn(id, { callbackUrl })}
+            onClick={() => signIn(id, { redirectTo: callbackUrl, callbackUrl })}
             className="relative hover:brightness-125"
           >
             <Image

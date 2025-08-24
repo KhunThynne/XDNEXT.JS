@@ -8,7 +8,6 @@ export const useDialogExample = createHookDialog({
   options: { content: {} },
 });
 
-
 export const useDialogDD = createHookDialog({
   title: "Test",
   description: "xxx",

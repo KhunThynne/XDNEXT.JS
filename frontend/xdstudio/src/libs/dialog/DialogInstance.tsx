@@ -8,7 +8,7 @@ import {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-} from "@/shared/components/shadcn/dialog";
+} from "@/libs/shadcn/ui/dialog";
 import { DialogInstanceProps } from "./index.type";
 import {
   createContext,
@@ -18,6 +18,8 @@ import {
   useLayoutEffect,
   useState,
 } from "react";
+import clsx from "clsx";
+import { DialogOverlayProps } from "@radix-ui/react-dialog";
 // import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({
@@ -28,6 +30,7 @@ const DialogContentInstance = ({
   footer,
   mode = "dismissable",
   options,
+  variant,
 }: Partial<DialogInstanceProps> & {
   ref?: React.RefObject<HTMLDivElement | null>;
 }) => {
@@ -38,11 +41,22 @@ const DialogContentInstance = ({
       {...(mode === "static" && {
         onInteractOutside: (e: Event) => e.preventDefault(),
       })}
+      className={clsx(
+        {
+          "max-h-screen overflow-y-auto max-sm:h-screen max-sm:max-w-none max-sm:rounded-none":
+            variant === "fullscreen",
+        },
+        options?.content?.className
+      )}
     >
       <DialogHeader {...options?.header}>
-        {<DialogTitle {...options?.title}>{title}</DialogTitle>}
         {
-          <DialogDescription {...options?.description}>
+          <DialogTitle className="text-left" {...options?.title}>
+            {title}
+          </DialogTitle>
+        }
+        {
+          <DialogDescription className="text-left" {...options?.description}>
             {description}
           </DialogDescription>
         }
@@ -62,7 +76,7 @@ const DialogContextInstance = createContext<
   DialogContextInstanceType | undefined
 >(undefined);
 
-export const DialogInstanceProvider = ({ children }: GlobalDefaultProps) => {
+export const DialogInstanceProvider = ({ children }: WithlDefaultProps) => {
   const [dailogState, setDialogState] = useState(true);
   const closeDialog = useCallback(() => {
     setDialogState(false);
@@ -85,7 +99,10 @@ export const useDialoguseContext = () => {
 
 export function DialogInstance(
   props: Partial<DialogInstanceProps> & {
-    refDialog?: React.RefObject<{ closeDialogRef: () => void } | null>;
+    refDialog?: React.RefObject<{
+      closeDialogRef: () => void;
+      state: boolean;
+    } | null>;
     refContent?: React.RefObject<HTMLDivElement | null>;
   }
 ) {
@@ -104,8 +121,9 @@ export function DialogInstance(
       closeDialogRef() {
         setDialogState(false);
       },
+      state: dailogState,
     };
-  }, [setDialogState]);
+  }, [dailogState, setDialogState]);
 
   return (
     <Dialog {...propsDialog.options?.dialog} open={dailogState}>
@@ -115,7 +133,10 @@ export function DialogInstance(
         </DialogTrigger>
       )}
       {props?.options?.overlay && (
-        <DialogOverlay {...props?.options?.overlay} />
+        <DialogOverlay
+          className="backdrop-blur"
+          {...(props?.options?.overlay as DialogOverlayProps)}
+        />
       )}
       {options?.portal ? (
         <DialogPortal {...options.portal}>

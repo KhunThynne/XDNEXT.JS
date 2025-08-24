@@ -1,16 +1,16 @@
 import { env } from "@/env";
+import { getToken } from "next-auth/jwt";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const res = await fetch(`${env.API_BACKEND_URL}/auth/graphql`, {
+    const res = await fetch(`${env.API_BACKEND_URL}/api/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
     });
-
     if (!res.ok) {
       const errorText = await res.text();
       return new Response(errorText, {

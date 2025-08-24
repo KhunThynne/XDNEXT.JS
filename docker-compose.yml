@@ -1,33 +1,57 @@
-version: "3.9"
-
 services:
-  mariadb:
-    image: mariadb:11 
-    container_name: mariadb
+  # mariadb:
+  #   image: mariadb:11 
+  #   container_name: mariadb
+  #   restart: always
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: ${SQL_PASSWORD}
+  #     MARIADB_DATABASE: ${SQL_DATABASE_NAME}
+  #   volumes:
+  #     - mariadb-data:/var/lib/mysql
+  #   ports:
+  #     - "33061:3306"
+      
+  postgresql:
+    image: postgres:15
+    container_name: postgres
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: ${SQL_PASSWORD}
-      MARIADB_DATABASE: ${SQL_DATABASE_NAME}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD}     
+      POSTGRES_DB: ${SQL_DATABASE_NAME}      
+      POSTGRES_USER: ${SQL_USER:-postgres}    
     volumes:
-      - mariadb-data:/var/lib/mysql
+      - postgresql-data:/var/lib/postgresql/data
     ports:
-      - "33061:3306"
+      - "5432:5432"
+      
 
   backend:
     build:
-      context: ./backend/xdstudio
+      context: ./backend/xdstudio_keystone
+      args:
+        DATABASE_URL: ${DATABASE_URL}
+        SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
+        JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+        JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+        SECRET_KEY: ${SECRET_KEY}
     container_name: backend
+    volumes:
+      - .env.local:/backend/xdstudio_keystone/.env.local
+      # - ../../.env:/backend/xdstudio_keystone/.env
+    working_dir: /backend/xdstudio_keystone
     env_file:
-      - .env
-    depends_on:
-      - mariadb
+      - ./.env
+      - ./backend/xdstudio_keystone/.env.production
     ports:
-      - "${PORT}:4000"
-    command: node dist/bin/www.js
+      - "3001:3001"
+    depends_on:
+      - postgresql
+    
+    command: sh -c "npm run start"
 
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend/xdstudio
     container_name: frontend
     env_file:
       - .env
@@ -35,7 +59,7 @@ services:
       - "3000:3000"
     depends_on:
       - backend
-    command: yarn dev
+    command: sh -c "npm run start"
 
 volumes:
-   mariadb-data:
+   postgresql-data:
