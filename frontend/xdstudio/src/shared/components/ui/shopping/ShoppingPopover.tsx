@@ -20,6 +20,7 @@ import { useCartDocument } from "@/shared/hooks/useCartDocument";
 import _ from "lodash";
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm } from "./CartShopping.form";
+import CartStoreProvider from "./CartStoreProvider";
 
 export const ShoppingPopover = ({
   cartId,
@@ -39,6 +40,7 @@ export const ShoppingPopover = ({
   const count = Number(data?.data?.cart?.items?.length);
   return (
     <Popover>
+      <CartStoreProvider cart={data?.data?.cart} />
       <PopoverTrigger asChild className="max-md:hidden">
         <Button variant="ghost" size="icon" className="group relative">
           <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} />

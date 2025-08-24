@@ -23,7 +23,6 @@ import { Badge } from "@/libs/shadcn/ui/badge";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { ProductTag } from "./ProductTag";
 
-
 export const CardProduct = ({
   product,
   className,

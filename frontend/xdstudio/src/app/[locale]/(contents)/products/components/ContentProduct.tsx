@@ -34,6 +34,10 @@ import PointDiamon from "@/shared/components/PointDiamod";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { ProductTag } from "./ProductTag";
 import _ from "lodash";
+import { AddItemButton } from "./AddItem.button";
+import { useSession } from "next-auth/react";
+import { useRouter } from "@navigation";
+import { Session } from "next-auth";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -67,7 +71,10 @@ export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
     </ContainerSection>
   );
 };
-const ProductDetail = (props: Product) => {
+const ProductDetail = (
+  props: Product & { session?: Session | null | undefined }
+) => {
+  const router = useRouter();
   if (!props.faqs) {
     return null;
   }
@@ -132,23 +139,25 @@ const ProductDetail = (props: Product) => {
 
         <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
           <hr className="grow" />
-          <Button
-            size={"lg"}
-            // onClick={handleAddToCart}
-            disabled={props.status === "out-of-stock"}
-            className="cursor-pointer"
-          >
-            <Plus className="mr-2 size-5" />
-            เพิ่มลงตะกร้า
-          </Button>
-          <Button
-            size={"lg"}
-            variant="secondary"
-            // disabled={product.status === "out-of-stock"}
-            className="cursor-pointer"
+
+          <AddItemButton productId={props.id} session={props.session}>
+            <Plus className="size-5" />
+          </AddItemButton>
+          <AddItemButton
+            productId={props.id}
+            session={props.session}
+            variant={"secondary"}
+            className="w-20"
+            disableText
+            addTo
+            onClick={() =>
+              router.push(
+                `/account/cart/${props.session?.user?.carts?.[0]?.id ?? ""}`
+              )
+            }
           >
             ซื้อทันที
-          </Button>
+          </AddItemButton>
         </div>
 
         <ProductFAQ faqs={props.faqs} />
@@ -169,7 +178,9 @@ const Gallery = () => {
   );
 };
 
-export const ContentProduct = (props: Product) => {
+export const ContentProduct = (
+  props: Product & { session: Session | null | undefined }
+) => {
   const { id, ...product } = props;
   return (
     <ContainerSection

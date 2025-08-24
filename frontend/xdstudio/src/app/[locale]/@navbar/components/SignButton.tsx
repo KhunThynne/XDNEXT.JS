@@ -1,6 +1,6 @@
 import { Button } from "@/libs/shadcn/ui/button";
+import { Users } from "lucide-react";
 
-import { LogInIcon } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
@@ -14,7 +14,7 @@ export const SignButton = () => {
       disabled={!!callbackUrl}
       onClick={() => signIn()}
     >
-      <LogInIcon />
+      <Users />
     </Button>
   );
 };

@@ -1,196 +1,384 @@
-"use client";
-
-import { useState } from "react";
-
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { Badge } from "@/libs/shadcn/ui/badge";
+import { Button } from "@/libs/shadcn/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
+  CardFooter,
 } from "@/libs/shadcn/ui/card";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Input } from "@/libs/shadcn/ui/input";
-import { Label } from "@radix-ui/react-label";
+import {
+  Star,
+  ShoppingCart,
+  Code,
+  Gamepad2,
+  Zap,
+  Users,
+  Shield,
+  Download,
+} from "lucide-react";
 
-export default function PageProve() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+export default function HomePage() {
+  const featuredProducts = [
+    {
+      id: 1,
+      name: "Auto-Farm Script Pro",
+      description: "Advanced farming automation for RPG games",
+      price: "$29.99",
+      rating: 4.8,
+      downloads: "12.5K",
+      category: "Automation",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+    {
+      id: 2,
+      name: "PvP Combat Enhancer",
+      description: "Optimize your combat performance in competitive games",
+      price: "$19.99",
+      rating: 4.9,
+      downloads: "8.2K",
+      category: "Combat",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+    {
+      id: 3,
+      name: "Resource Manager Plus",
+      description: "Intelligent resource management for strategy games",
+      price: "$24.99",
+      rating: 4.7,
+      downloads: "15.3K",
+      category: "Strategy",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+  ];
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("[v0] Sign in attempt:", { email, password: "***" });
-    setIsLoading(false);
-  };
+  const categories = [
+    { name: "Automation Scripts", icon: Zap, count: "150+" },
+    { name: "Combat Tools", icon: Shield, count: "89+" },
+    { name: "Strategy Helpers", icon: Gamepad2, count: "120+" },
+    { name: "Custom Mods", icon: Code, count: "200+" },
+  ];
 
   return (
-    <div className="space-y-6">
+    <div className="bg-background min-h-screen">
       {/* Header */}
-      <header className="space-y-2 text-center">
-        <div className="bg-primary mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
-          <Lock className="text-primary-foreground h-8 w-8" />
+      <header className="border-border bg-card/50 sticky top-0 z-50 border-b backdrop-blur-sm">
+        <div className="container mx-auto flex items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-2">
+            <Gamepad2 className="text-primary h-8 w-8" />
+            <h1 className="text-foreground text-2xl font-bold">
+              GameScript Hub
+            </h1>
+          </div>
+          <nav className="hidden items-center gap-6 md:flex">
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Scripts
+            </a>
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Mods
+            </a>
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Tools
+            </a>
+            <a
+              href="#"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Community
+            </a>
+          </nav>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm">
+              <Users className="mr-2 h-4 w-4" />
+              Login
+            </Button>
+            <Button size="sm">
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Cart
+            </Button>
+          </div>
         </div>
-        <h1 className="text-foreground text-3xl font-bold">Welcome Back</h1>
-        <p className="text-muted-foreground">
-          Sign in to your account to continue
-        </p>
       </header>
 
-      {/* Sign In Form */}
-      <Card className="border-border/50 shadow-lg backdrop-blur-sm">
-        <CardHeader className="space-y-1 pb-4">
-          <CardTitle className="text-center text-2xl font-semibold">
-            Sign In
-          </CardTitle>
-          <CardDescription className="text-center">
-            Enter your credentials to access your account
-          </CardDescription>
-        </CardHeader>
-
-        <form onSubmit={handleSubmit}>
-          <CardContent className="space-y-4">
-            {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">
-                Email Address
-              </Label>
-              <div className="relative">
-                <Mail className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="bg-input border-border focus:ring-ring h-12 pl-10 focus:border-transparent focus:ring-2"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Password Field */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium">
-                Password
-              </Label>
-              <div className="relative">
-                <Lock className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-input border-border focus:ring-ring h-12 pl-10 pr-10 focus:border-transparent focus:ring-2"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="text-muted-foreground hover:text-foreground absolute right-3 top-1/2 -translate-y-1/2 transform transition-colors"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-4 w-4" />
-                  ) : (
-                    <Eye className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Forgot Password Link */}
-            <div className="flex justify-end">
-              <Link
-                href="/forgot-password"
-                className="text-primary hover:text-primary/80 text-sm transition-colors"
-              >
-                Forgot your password?
-              </Link>
-            </div>
-          </CardContent>
-
-          <CardFooter className="flex flex-col space-y-4 pt-2">
-            {/* Sign In Button */}
-            <Button
-              type="submit"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground group h-12 w-full font-medium transition-all duration-200"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center space-x-2">
-                  <div className="border-primary-foreground/30 border-t-primary-foreground h-4 w-4 animate-spin rounded-full border-2" />
-                  <span>Signing In...</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2">
-                  <span>Sign In</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </div>
-              )}
-            </Button>
-
-            {/* Divider */}
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="border-border w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card text-muted-foreground px-2">Or</span>
-              </div>
-            </div>
-
-            {/* Sign Up Link */}
-            <div className="space-y-2 text-center">
-              <p className="text-muted-foreground text-sm">
-                {"Don't have an account?"}
-              </p>
-              <Button
-                variant="outline"
-                className="border-border hover:bg-accent hover:text-accent-foreground h-12 w-full transition-all duration-200"
-                asChild
-              >
-                <Link href="/signup">Create New Account</Link>
+      {/* Hero Section */}
+      <section className="from-primary/10 via-background to-accent/10 relative bg-gradient-to-br px-4 py-20">
+        <div className="container mx-auto text-center">
+          <div className="mx-auto max-w-4xl">
+            <h2 className="text-foreground mb-6 text-5xl font-bold leading-tight md:text-6xl">
+              Level Up Your Game with
+              <span className="text-primary block">Custom Scripts & Tools</span>
+            </h2>
+            <p className="text-muted-foreground mb-8 text-xl leading-relaxed">
+              Discover premium game scripts, automation tools, and mods crafted
+              by expert developers. Enhance your gaming experience with our
+              trusted marketplace.
+            </p>
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
+              <Button size="lg" className="px-8 py-6 text-lg">
+                <Download className="mr-2 h-5 w-5" />
+                Shop Now
+              </Button>
+              <Button variant="outline" size="lg" className="px-8 py-6 text-lg">
+                <Code className="mr-2 h-5 w-5" />
+                Explore Tools
               </Button>
             </div>
-          </CardFooter>
-        </form>
-      </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories Section */}
+      <section className="px-4 py-16">
+        <div className="container mx-auto">
+          <h3 className="text-foreground mb-12 text-center text-3xl font-bold">
+            Browse Categories
+          </h3>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {categories.map((category, index) => (
+              <Card
+                key={index}
+                className="border-border cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <CardContent className="p-6 text-center">
+                  <category.icon className="text-primary mx-auto mb-4 h-12 w-12" />
+                  <h4 className="text-foreground mb-2 text-lg font-semibold">
+                    {category.name}
+                  </h4>
+                  <Badge variant="secondary" className="text-sm">
+                    {category.count} items
+                  </Badge>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="bg-muted/30 px-4 py-16">
+        <div className="container mx-auto">
+          <h3 className="text-foreground mb-12 text-center text-3xl font-bold">
+            Featured Scripts
+          </h3>
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {featuredProducts.map((product) => (
+              <Card
+                key={product.id}
+                className="border-border transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              >
+                <div className="aspect-video overflow-hidden rounded-t-lg">
+                  <img
+                    src={product.image || "/placeholder.svg"}
+                    alt={product.name}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <Badge variant="outline" className="text-xs">
+                      {product.category}
+                    </Badge>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <span className="text-muted-foreground text-sm">
+                        {product.rating}
+                      </span>
+                    </div>
+                  </div>
+                  <CardTitle className="text-xl">{product.name}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    {product.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-primary text-2xl font-bold">
+                      {product.price}
+                    </span>
+                    <span className="text-muted-foreground text-sm">
+                      {product.downloads} downloads
+                    </span>
+                  </div>
+                  <Button className="ml-4">
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    Add to Cart
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Community Section */}
+      <section className="px-4 py-16">
+        <div className="container mx-auto text-center">
+          <h3 className="text-foreground mb-8 text-3xl font-bold">
+            Join Our Gaming Community
+          </h3>
+          <p className="text-muted-foreground mx-auto mb-8 max-w-2xl text-lg">
+            Connect with thousands of gamers, share your experiences, and get
+            support from our expert developers.
+          </p>
+          <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="text-center">
+              <div className="text-primary mb-2 text-3xl font-bold">50K+</div>
+              <div className="text-muted-foreground">Active Users</div>
+            </div>
+            <div className="text-center">
+              <div className="text-primary mb-2 text-3xl font-bold">500+</div>
+              <div className="text-muted-foreground">Premium Scripts</div>
+            </div>
+            <div className="text-center">
+              <div className="text-primary mb-2 text-3xl font-bold">24/7</div>
+              <div className="text-muted-foreground">Support</div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="space-y-4 text-center">
-        <div className="text-muted-foreground flex justify-center space-x-6 text-sm">
-          <Link
-            href="/privacy"
-            className="hover:text-foreground transition-colors"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            href="/terms"
-            className="hover:text-foreground transition-colors"
-          >
-            Terms of Service
-          </Link>
-          <Link
-            href="/contact"
-            className="hover:text-foreground transition-colors"
-          >
-            Contact Us
-          </Link>
+      <footer className="bg-card border-border border-t px-4 py-12">
+        <div className="container mx-auto">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+            <div>
+              <div className="mb-4 flex items-center gap-2">
+                <Gamepad2 className="text-primary h-6 w-6" />
+                <span className="text-foreground text-lg font-bold">
+                  GameScript Hub
+                </span>
+              </div>
+              <p className="text-muted-foreground text-sm">
+                Your trusted marketplace for premium game scripts and automation
+                tools.
+              </p>
+            </div>
+            <div>
+              <h4 className="text-foreground mb-4 font-semibold">Products</h4>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Scripts
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Mods
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Tools
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Bundles
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-foreground mb-4 font-semibold">Support</h4>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Help Center
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    FAQ
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Community
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-foreground mb-4 font-semibold">Company</h4>
+              <ul className="text-muted-foreground space-y-2 text-sm">
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Terms of Service
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="hover:text-foreground transition-colors"
+                  >
+                    Developers
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-border text-muted-foreground mt-8 border-t pt-8 text-center text-sm">
+            <p>&copy; 2024 GameScript Hub. All rights reserved.</p>
+          </div>
         </div>
-        <p className="text-muted-foreground text-xs">
-          © 2024 Your App. All rights reserved.
-        </p>
       </footer>
     </div>
   );

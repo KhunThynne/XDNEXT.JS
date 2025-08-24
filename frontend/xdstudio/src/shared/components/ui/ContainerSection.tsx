@@ -25,11 +25,7 @@ export const ContainerSection = ({
   return (
     <section
       id="container-content-section"
-      className={clsx(
-        "flex h-full flex-col gap-2",
-        className,
-        classNames?.container
-      )}
+      className={clsx("flex flex-col gap-2", className, classNames?.container)}
     >
       <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
         {title}

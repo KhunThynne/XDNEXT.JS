@@ -24,18 +24,18 @@
     "postinstall": "^0.11.2",
     "slate-dom": "^0.117.4",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.39.0",
-    "zod": "^4.0.14"
+    "typescript-eslint": "^8.40.0",
+    "zod": "^4.0.17"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.32.0",
+    "@eslint/js": "^9.33.0",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
-    "@typescript-eslint/parser": "^8.39.0",
-    "eslint": "^9.32.0",
+    "@typescript-eslint/parser": "^8.40.0",
+    "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-jsonc": "^2.20.1",
-    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.3.0",
     "jsonc-eslint-parser": "^2.4.0",
     "prettier": "^3.6.2"

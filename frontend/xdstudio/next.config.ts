@@ -5,6 +5,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 const backendUrl = new URL(env.API_BACKEND_URL);
 const nextConfig = {
   trailingSlash: true,
+  typedRoutes: false,
   images: {
     remotePatterns: [
       {

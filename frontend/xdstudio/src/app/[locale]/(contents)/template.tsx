@@ -1,3 +1,3 @@
 export default function TemplateProducts({ children }: WithChildren) {
-  return <div className="px-5"> {children} </div>;
+  return <div className="space-y-4 px-5"> {children} </div>;
 }

@@ -51,17 +51,14 @@ export function createHookStore<T, K extends string = "data">({
   return create<StoreType>()(
     devtools((set, get) => ({
       [`${lowerKey}Store`]: initial,
-      [setKey]: (data: Partial<T>) =>
-        set(
-          {
-            [`${lowerKey}Store`]: {
-              ...get()[`${lowerKey}Store`],
-              ...data,
-            },
-          } as any,
-          false,
-          `${finalKey}/set`
-        ),
+      [setKey]: (data: T | Partial<T>) => {
+        const current = get()[`${lowerKey}Store`];
+        const next =
+          Array.isArray(current) && Array.isArray(data)
+            ? data // ถ้าเป็น array assign ตรง ๆ
+            : { ...current, ...data }; // ถ้าเป็น object merge
+        set({ [`${lowerKey}Store`]: next } as any, false, `${finalKey}/set`);
+      },
     }))
   );
 }
