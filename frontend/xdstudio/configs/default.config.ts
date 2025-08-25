@@ -1,6 +1,6 @@
 import { TypeConfigDefault } from "@type/config.type";
 const config: TypeConfigDefault = {
-  branner: "XDStudio",
+  branner: "XD.TECH",
   navbar: [
     {
       title: "Home",
@@ -39,28 +39,28 @@ const config: TypeConfigDefault = {
       description: "Browse our digital and physical products",
       children: [
         {
-          title: "Digital",
+          title: "Fivem Scripts",
           href: "/products/digital",
-          description: "Downloadable content like eBooks and courses",
+          description: "fivem scripts and custom scripts",
           children: [
             {
-              title: "eBooks",
-              href: "/products/digital/ebooks",
-              description: "Knowledge-packed digital books",
+              title: "MYSHOP SCRIPTS",
+              href: "/products/fivem/scripts",
+              description: "Fivem product scripts",
               children: [],
             },
             {
-              title: "Courses",
-              href: "/products/digital/courses",
-              description: "Online learning to boost your skills",
+              title: "CUSTOM SCRIPTS",
+              href: "/products/fivem/custom-scripts",
+              description: "Fivem custom scripts",
               children: [],
             },
           ],
         },
         {
-          title: "Physical",
-          href: "/products/physical",
-          description: "Tangible products shipped to your door",
+          title: "WEBSITE",
+          href: "/products/website/custom",
+          description: "packages for custom website development",
           children: [],
         },
       ],

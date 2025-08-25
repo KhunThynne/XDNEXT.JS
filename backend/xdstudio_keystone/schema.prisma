@@ -183,6 +183,8 @@ model Product {
   faqs                            FAQ[]              @relation("Product_faqs")
   averageScore                    Float?             @default(0)
   ratings                         Rating[]           @relation("Product_ratings")
+  youtubeId                       String             @default("")
+  gallery                         Image[]            @relation("Product_gallery")
   publishedAt                     DateTime?
   createdAt                       DateTime?          @default(now())
   updateAt                        DateTime?          @default(now())
@@ -249,6 +251,7 @@ model Image {
   src_extension                String?
   from_User_avartar            User[]             @relation("User_avartar")
   from_Product_images          Product[]          @relation("Product_images")
+  from_Product_gallery         Product[]          @relation("Product_gallery")
   from_ProductPromotion_images ProductPromotion[] @relation("ProductPromotion_images")
 }
 

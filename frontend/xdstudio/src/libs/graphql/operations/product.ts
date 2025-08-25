@@ -39,6 +39,11 @@ graphql(`
       ...ImageField
     }
     imagesCount
+    youtubeId
+    gallery {
+      ...ImageField
+    }
+    galleryCount
   }
 
   query getProducts(

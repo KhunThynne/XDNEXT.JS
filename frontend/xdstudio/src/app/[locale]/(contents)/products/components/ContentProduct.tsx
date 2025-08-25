@@ -1,14 +1,7 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { CardProduct } from "./ProductCard";
-import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
-import {
-  Faq,
-  Maybe,
-  OrderDirection,
-  Product,
-} from "@/libs/graphql/generates/graphql";
+import { Faq, Maybe, Product } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -16,26 +9,20 @@ import {
   CardTitle,
 } from "@/libs/shadcn/ui/card";
 import { Button } from "@/libs/shadcn/ui/button";
-import { renderToStaticMarkup } from "react-dom/server";
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
-import { ChevronDownIcon, Heart, Plus, Star } from "lucide-react";
-import Image from "next/image";
+import { ChevronDownIcon, CircleDollarSign, Plus, Star } from "lucide-react";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
-import { object } from "zod";
-import PointDiamon from "@/shared/components/PointDiamod";
-import { Badge } from "@/libs/shadcn/ui/badge";
 import { ProductTag } from "./ProductTag";
 import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
-import { useSession } from "next-auth/react";
 import { useRouter } from "@navigation";
 import { Session } from "next-auth";
 
@@ -121,8 +108,9 @@ const ProductDetail = (
 
       <CardContent className="space-y-4">
         {/* Price */}
-        <div className="flex text-4xl font-bold text-blue-600 dark:text-blue-400">
-          <PointDiamon className="size-7" />
+        <div className="flex items-center gap-2 text-4xl font-bold text-blue-600 dark:text-red-400">
+          {/* <PointDiamon className="size-7" /> */}
+          <CircleDollarSign className="size-7" />
           {props.price?.price?.toLocaleString()}
         </div>
 
@@ -184,7 +172,7 @@ export const ContentProduct = (
   const { id, ...product } = props;
   return (
     <ContainerSection
-      title="Product"
+      title={`Product`}
       classNames={{
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
@@ -192,16 +180,18 @@ export const ContentProduct = (
       <div className="flex h-full flex-col gap-5 xl:col-span-3" id="image">
         <div className="flex gap-3 max-lg:flex-col">
           <div className="flex grow flex-col gap-3">
-            <div className="relative h-[500px] rounded-lg border">
-              {product.images?.[0]?.src?.url && (
-                <Image
-                  src={product.images[0].src.url}
-                  alt={product.images[0].altText ?? "unknown"}
-                  fill
-                  className="aspect-video object-contain"
+            <Card className="h-full p-0 duration-300 hover:shadow-lg">
+              <div className="relative aspect-video">
+                <iframe
+                  className="absolute left-0 top-0 h-full w-full rounded-2xl"
+                  src={`https://www.youtube.com/embed/${props.youtubeId}`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                 />
-              )}
-            </div>
+              </div>
+            </Card>
             <Separator />
             <div className="">
               <Gallery />

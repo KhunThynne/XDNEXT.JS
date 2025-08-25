@@ -12,7 +12,8 @@ function Checkbox({
 }: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
   indicator?: React.ReactNode;
 }) {
-  const { indicator = <CheckIcon className="size-3.5" />, ...propClean } = props;
+  const { indicator = <CheckIcon className="size-3.5" />, ...propClean } =
+    props;
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"

@@ -7,7 +7,7 @@ export const Product: ListConfig<any> = list({
   access: allowAll,
   ui: {
     listView: {
-      initialColumns: ['id', 'name', 'createdAt', 'details'],
+      initialColumns: ['id', 'name', 'createdAt', 'details', 'youtubeId'],
       pageSize: 10,
     },
   },
@@ -86,6 +86,7 @@ export const Product: ListConfig<any> = list({
       ],
       links: true,
       dividers: true,
+      componentBlocks: {},
     }),
     tag: relationship({
       ref: 'Tag',
@@ -138,6 +139,30 @@ export const Product: ListConfig<any> = list({
         listView: { fieldMode: 'hidden' },
       },
     }),
+
+    youtubeId: text({
+      validation: {
+        length: { max: 20 },
+      },
+      ui: {
+        description:
+          'YouTube video ID (เช่น dQw4w9WgXcQ). สามารถวางเป็น URL ก็ได้ ระบบจะตัดให้เอง',
+      },
+    }),
+
+    gallery: relationship({
+      ref: 'Image',
+      many: true,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['name', 'src'],
+        inlineCreate: { fields: ['name', 'src'] },
+        inlineEdit: { fields: ['name', 'src'] },
+        inlineConnect: true,
+        description: 'รูปภาพเพิ่มเติมสำหรับแสดงเป็นแกลเลอรีของสินค้า',
+      },
+    }),
+
     ...defaultGlobalField(),
   },
   hooks: {
@@ -150,6 +175,18 @@ export const Product: ListConfig<any> = list({
         (operation === 'create' || item?.status !== 'published')
       ) {
         resolvedData.publishedAt = now;
+      }
+
+      if (typeof resolvedData.youtubeId === 'string' && resolvedData.youtubeId.trim()) {
+        const raw = resolvedData.youtubeId.trim();
+        const match =
+          raw.match(/(?:v=|\/embed\/|youtu\.be\/|\/shorts\/)([A-Za-z0-9_-]{6,20})/) ||
+          raw.match(/^([A-Za-z0-9_-]{6,20})$/);
+        if (match) {
+          resolvedData.youtubeId = match[1];
+        } else {
+          resolvedData.youtubeId = raw;
+        }
       }
 
       return resolvedData;

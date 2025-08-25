@@ -1,3 +1,4 @@
+import Translations from "@/libs/i18n/Translations";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
@@ -28,7 +29,7 @@ export const ContainerSection = ({
       className={clsx("flex flex-col gap-2", className, classNames?.container)}
     >
       <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
-        {title}
+        <Translations text={title} />
       </Label>
       {description && (
         <span

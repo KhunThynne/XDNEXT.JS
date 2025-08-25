@@ -47,7 +47,18 @@ export default function Point({
           refetch();
         }}
       >
-        {formatter.number(total_point)}
+        {formatter.number(total_point ?? 0)}
+      </span>
+    );
+  else
+    return (
+      <span
+        className="cursor-pointer hover:animate-pulse"
+        onClick={async () => {
+          refetch();
+        }}
+      >
+        {formatter.number(total_point ?? 0)}
       </span>
     );
 }

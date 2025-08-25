@@ -67,7 +67,8 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
           where: { email },
         });
         if (!user) {
-          user = await context.db.User.createOne({
+          //New User
+          await context.query.User.createOne({
             data: {
               name: name ?? email,
               email,
@@ -75,7 +76,11 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
               role: 'USER',
             },
           });
+          user = await context.db.User.findOne({
+            where: { email },
+          });
         }
+
         if (!_.isEmpty(accountdata)) {
           const [accountSelect] = accountdata;
           account = await context.db.Account.updateOne({

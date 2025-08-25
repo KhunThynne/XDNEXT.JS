@@ -16,13 +16,11 @@ export default async function PageCotent() {
         <div className="container mx-auto text-center">
           <div className="mx-auto max-w-4xl">
             <h2 className="text-foreground mb-6 text-5xl font-bold leading-tight md:text-6xl">
-              Level Up Your Game with
-              <span className="text-primary block">Custom Scripts & Tools</span>
+              Level Up Your Experience with
+              <span className="text-primary block">Custom Scripts & Websites</span>
             </h2>
             <p className="text-muted-foreground mb-8 text-xl leading-relaxed">
-              Discover premium game scripts, automation tools, and mods crafted
-              by expert developers. Enhance your gaming experience with our
-              trusted marketplace.
+              Custom FiveM scripts, automation tools, and websites built for your server. Reliable, secure, and made by professionals.
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Button size="lg" className="cursor-pointer py-6">
@@ -46,15 +44,15 @@ export default async function PageCotent() {
         <SectionPoint />
       </section> */}
       <section className="top-15 z-20 md:sticky">
-        <Notification />
+        {/* <Notification /> */}
       </section>
+
       <ContainerSection
-        title="Our Featured Products"
+        title="Product Lastest"
         description={
           <div className="flex items-center justify-between max-lg:flex-col max-lg:items-end lg:gap-2">
             <p className="max-w-3xl">
-              Explore our curated selection of top-selling and high-quality
-              items. Click on any product to learn more or make a purchase.
+              New Product & Featured. Check out our latest
             </p>
             <Button asChild size="sm" variant={"link"}>
               <Link href={"products"}>Product all</Link>

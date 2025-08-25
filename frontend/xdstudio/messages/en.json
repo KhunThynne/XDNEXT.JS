@@ -27,5 +27,9 @@
   "not_found": {
     "description": "Sorry,the page you are looking for does not exist",
     "navigation": "Go back home"
-  }
+  },
+  "test-project": "TEST PROJECT",
+  "testerx": "TESTER X",
+  "all_featured_products": "All Featured Products",
+  "welcome-back": "Welcome Back"
 }

@@ -15,6 +15,7 @@ import { Button } from "@/libs/shadcn/ui/button";
 
 import { useSearchParams } from "next/navigation";
 import { authenticate } from "./actions/Login.action";
+import { useTranslations } from "next-intl";
 
 export const SignForm = () => {
   const method = useForm({
@@ -25,6 +26,7 @@ export const SignForm = () => {
   const { formState } = method;
   const callbackUrl = searchParams.get("callbackUrl") ?? "";
   const [hidePassword, setHidePassword] = useState(false);
+  const t = useTranslations();
   const onSubmit = method.handleSubmit(async (data) => {
     await authenticate("", {
       redirectTo: callbackUrl,
@@ -44,7 +46,7 @@ export const SignForm = () => {
           <div className="bg-primary mx-auto mb-4 flex size-16 items-center justify-center rounded-2xl">
             <Lock className="text-primary-foreground size-8" />
           </div>
-          <h1 className="text-foreground text-3xl font-bold">Welcome Back</h1>
+          <h1 className="text-foreground text-3xl font-bold">{ t('welcome-back')}</h1>
           <p className="text-muted-foreground">
             Sign in to your account to continue
           </p>

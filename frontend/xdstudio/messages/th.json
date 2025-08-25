@@ -6,7 +6,7 @@
   "navbar": {
     "home": "หน้าหลัก",
     "services": "บริการ",
-    "contact": "ติดต่อ",
+    "contact": "ติดต่อเรา",
     "products": "สินค้า"
   },
   "auth": {
@@ -27,5 +27,8 @@
   "not_found": {
     "description": "ขออภัยหน้าคุณกำลังมองหาไม่มีอยู่จริง",
     "navigation": "Go back home"
-  }
+  },
+  "test-project": "โครงการทดสอบ",
+  "all_featured_products": "รายการสินค้าทั้งหมด",
+  "welcome-back": "ยินดีต้อนรับ"
 }

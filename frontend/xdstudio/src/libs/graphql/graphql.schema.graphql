@@ -1143,6 +1143,8 @@ type Product {
   details: Product_details_Document
   faqs(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
+  gallery(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
+  galleryCount(where: ImageWhereInput! = {}): Int
   id: ID!
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
@@ -1159,6 +1161,7 @@ type Product {
   tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
+  youtubeId: String
 }
 
 input ProductCreateInput {
@@ -1167,6 +1170,7 @@ input ProductCreateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForCreateInput
+  gallery: ImageRelateToManyForCreateInput
   images: ImageRelateToManyForCreateInput
   name: String
   price: PriceRelateToOneForCreateInput
@@ -1178,6 +1182,7 @@ input ProductCreateInput {
   tag: TagRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
+  youtubeId: String
 }
 
 input ProductManyRelationFilter {
@@ -1195,6 +1200,7 @@ input ProductOrderByInput {
   publishedAt: OrderDirection
   status: OrderDirection
   updateAt: OrderDirection
+  youtubeId: OrderDirection
 }
 
 type ProductPromotion {
@@ -1280,6 +1286,7 @@ input ProductUpdateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForUpdateInput
+  gallery: ImageRelateToManyForUpdateInput
   images: ImageRelateToManyForUpdateInput
   name: String
   price: PriceRelateToOneForUpdateInput
@@ -1291,6 +1298,7 @@ input ProductUpdateInput {
   tag: TagRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
+  youtubeId: String
 }
 
 input ProductWhereInput {
@@ -1301,6 +1309,7 @@ input ProductWhereInput {
   createdAt: DateTimeNullableFilter
   description: StringFilter
   faqs: FAQManyRelationFilter
+  gallery: ImageManyRelationFilter
   id: IDFilter
   images: ImageManyRelationFilter
   name: StringFilter
@@ -1313,6 +1322,7 @@ input ProductWhereInput {
   tag: TagManyRelationFilter
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
+  youtubeId: StringFilter
 }
 
 input ProductWhereUniqueInput {

@@ -13,15 +13,12 @@ import {
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";
-import { Diamond, ImageOff } from "lucide-react";
+import { CircleDollarSign, ImageOff } from "lucide-react";
 import Image from "next/image";
-import { AddItemButton } from "./AddItem.button";
 import { Session } from "next-auth";
-import PointDiamon from "@/shared/components/PointDiamod";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
-import { Badge } from "@/libs/shadcn/ui/badge";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { ProductTag } from "./ProductTag";
+import { DetailsButton } from "./Detail.button";
 
 export const CardProduct = ({
   product,
@@ -110,13 +107,13 @@ export const CardProduct = ({
         <CardFooter className="flex-col justify-end gap-6">
           <div className="flex w-full items-center justify-between">
             <p className="text-primary text-md flex grow gap-1 truncate font-bold">
-              <PointDiamon />
+              <CircleDollarSign />
               {` ${product.price?.price ?? `Free`}`}
             </p>
             <small>rating</small>
           </div>
 
-          <AddItemButton
+          <DetailsButton
             session={session}
             productId={product?.id}
             className="w-full cursor-pointer"

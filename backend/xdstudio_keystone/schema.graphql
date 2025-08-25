@@ -1114,6 +1114,9 @@ type Product {
   averageScore: Float
   ratings(where: RatingWhereInput! = {}, orderBy: [RatingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: RatingWhereUniqueInput): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
+  youtubeId: String
+  gallery(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
+  galleryCount(where: ImageWhereInput! = {}): Int
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
@@ -1145,6 +1148,8 @@ input ProductWhereInput {
   faqs: FAQManyRelationFilter
   averageScore: FloatNullableFilter
   ratings: RatingManyRelationFilter
+  youtubeId: StringFilter
+  gallery: ImageManyRelationFilter
   publishedAt: DateTimeNullableFilter
   createdAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
@@ -1180,6 +1185,7 @@ input ProductOrderByInput {
   name: OrderDirection
   description: OrderDirection
   averageScore: OrderDirection
+  youtubeId: OrderDirection
   publishedAt: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection
@@ -1199,6 +1205,8 @@ input ProductUpdateInput {
   faqs: FAQRelateToManyForUpdateInput
   averageScore: Float
   ratings: RatingRelateToManyForUpdateInput
+  youtubeId: String
+  gallery: ImageRelateToManyForUpdateInput
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
@@ -1269,6 +1277,8 @@ input ProductCreateInput {
   faqs: FAQRelateToManyForCreateInput
   averageScore: Float
   ratings: RatingRelateToManyForCreateInput
+  youtubeId: String
+  gallery: ImageRelateToManyForCreateInput
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
