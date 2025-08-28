@@ -51,3 +51,24 @@ graphql(`
     }
   }
 `);
+
+graphql(`
+  query GetUserItem($where: UserWhereUniqueInput!) {
+    user(where: $where) {
+      itemsCount
+      items {
+        config
+        createdAt
+        updateAt
+        item {
+          id
+          product {
+            status
+            createdAt
+            updateAt
+          }
+        }
+      }
+    }
+  }
+`);

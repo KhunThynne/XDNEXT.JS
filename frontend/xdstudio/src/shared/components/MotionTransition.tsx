@@ -12,7 +12,7 @@ type PresetType =
   | "zoom"
   | "none";
 
-interface PageTransitionWrapperProps {
+export interface MotionTransitionWrapperProps {
   children: ReactNode;
   className?: string;
   duration?: number;
@@ -71,7 +71,7 @@ export function MotionTransition({
   duration = 0.3,
   animationKey,
   preset = "fade",
-}: PageTransitionWrapperProps) {
+}: MotionTransitionWrapperProps) {
   const pathname = usePathname();
   const key = animationKey || pathname;
 

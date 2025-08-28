@@ -7,13 +7,14 @@ export default async function AuthenticationLayout({
   children,
   userProducts,
   preferences,
-}: NextJSReactNodes<"userProducts" | "preferences">) {
+  payment,
+}: NextJSReactNodes<"userProducts" | "payment" | "preferences">) {
   const session = await auth();
   if (!session?.user) return notFound();
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-8 max-md:px-5 lg:grid-cols-9">
       <ContainerSection
-        className="@container relative lg:col-span-7"
+        className="@container relative lg:col-span-5"
         title="Purchased Products"
         description="These are the products you have successfully purchased and activated."
       >
@@ -21,17 +22,13 @@ export default async function AuthenticationLayout({
         {userProducts}
       </ContainerSection>
       <ContainerSection
-        className="lg:col-span-5"
-        title="User Preferences"
-        classNames={{ description: "truncate" }}
+        className="lg:col-span-4"
+        title="User"
+        classNames={{ description: "truncate", content: "" }}
         description="Customize settings and preferences for each product you are currently using."
       >
-        <Card className="@container relative min-h-[50vh] divide-y">
-          <CardHeader>
-            <h1 className="font-semibold">Preferences</h1>
-          </CardHeader>
-          <CardContent>{preferences}</CardContent>
-        </Card>
+        {payment}
+        {preferences}
       </ContainerSection>
     </div>
   );

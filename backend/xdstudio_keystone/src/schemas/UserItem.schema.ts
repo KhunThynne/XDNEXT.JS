@@ -1,10 +1,10 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, timestamp, json } from '@keystone-6/core/fields';
+import { defaultGlobalField } from './shared/defaultGlobalField';
 export const UserItem: ListConfig<any> = list({
   access: allowAll,
   ui: {
-    label: 'User Product',
     listView: {
       initialColumns: ['userId', 'createdAt'],
       pageSize: 10,
@@ -23,10 +23,6 @@ export const UserItem: ListConfig<any> = list({
         inlineConnect: true,
       },
     }),
-
-    product: relationship({
-      ref: 'Product',
-    }),
     item: relationship({
       ref: 'OrderItem.userItem',
       many: false,
@@ -35,14 +31,6 @@ export const UserItem: ListConfig<any> = list({
       defaultValue: {},
       ui: {},
     }),
-    createdAt: timestamp({
-      defaultValue: { kind: 'now' },
-      ui: {
-        itemView: { fieldMode: 'read' },
-      },
-    }),
-    updateAt: timestamp({
-      defaultValue: { kind: 'now' },
-    }),
+    ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
 });

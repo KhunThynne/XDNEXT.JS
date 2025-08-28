@@ -37,33 +37,33 @@ const config: TypeConfigDefault = {
       title: "Products",
       href: "/products",
       description: "Browse our digital and physical products",
-      children: [
-        {
-          title: "Fivem Scripts",
-          href: "/products/digital",
-          description: "fivem scripts and custom scripts",
-          children: [
-            {
-              title: "MYSHOP SCRIPTS",
-              href: "/products/fivem/scripts",
-              description: "Fivem product scripts",
-              children: [],
-            },
-            {
-              title: "CUSTOM SCRIPTS",
-              href: "/products/fivem/custom-scripts",
-              description: "Fivem custom scripts",
-              children: [],
-            },
-          ],
-        },
-        {
-          title: "WEBSITE",
-          href: "/products/website/custom",
-          description: "packages for custom website development",
-          children: [],
-        },
-      ],
+      // children: [
+      //   {
+      //     title: "Digital",
+      //     href: "/products/digital",
+      //     description: "Downloadable content like eBooks and courses",
+      //     children: [
+      //       {
+      //         title: "eBooks",
+      //         href: "/products/digital/ebooks",
+      //         description: "Knowledge-packed digital books",
+      //         children: [],
+      //       },
+      //       {
+      //         title: "Courses",
+      //         href: "/products/digital/courses",
+      //         description: "Online learning to boost your skills",
+      //         children: [],
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: "Physical",
+      //     href: "/products/physical",
+      //     description: "Tangible products shipped to your door",
+      //     children: [],
+      //   },
+      // ],
     },
     {
       title: "Contact",

@@ -1,9 +1,10 @@
-import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import _ from "lodash";
+import { create, StateCreator } from "zustand";
+import { devtools, persist, PersistOptions } from "zustand/middleware";
 type StoreWrapper<T, K extends string> = {
   [key in `${Lowercase<K>}Store`]: T;
 } & {
-  [key in `set${Capitalize<K>}`]: (data: T) => void;
+  [key in `set${Capitalize<K>}`]: (data: Partial<T>) => void;
 };
 
 /**
@@ -36,18 +37,45 @@ type StoreWrapper<T, K extends string> = {
 export function createHookStore<T, K extends string = "data">({
   key,
   initial,
+  persistant,
 }: {
   key?: K;
   initial: T;
+  persistant?: {
+    name?: string;
+  } & Omit<PersistOptions<any>, "name">;
 }) {
   const finalKey = (key ?? "data") as K;
 
   type StoreType = StoreWrapper<T, K>;
 
   const lowerKey = finalKey.toLowerCase() as Lowercase<K>;
+  const camelKey = _.camelCase(finalKey);
   const setKey =
-    `set${finalKey.charAt(0).toUpperCase() + finalKey.slice(1)}` as `set${Capitalize<K>}`;
+    `set${camelKey.charAt(0).toUpperCase() + camelKey.slice(1)}` as `set${Capitalize<K>}`;
 
+  if (persistant) {
+    return create<StoreType>()(
+      persist(
+        devtools((set, get) => ({
+          [`${lowerKey}Store`]: initial,
+          [setKey]: (data: T | Partial<T>) => {
+            const current = get()[`${lowerKey}Store`];
+            const next =
+              Array.isArray(current) && Array.isArray(data)
+                ? data
+                : { ...current, ...data };
+            set(
+              { [`${lowerKey}Store`]: next } as any,
+              false,
+              `${finalKey}/set`
+            );
+          },
+        })),
+        { name: _.kebabCase(lowerKey), ...persistant }
+      )
+    );
+  }
   return create<StoreType>()(
     devtools((set, get) => ({
       [`${lowerKey}Store`]: initial,
@@ -55,8 +83,8 @@ export function createHookStore<T, K extends string = "data">({
         const current = get()[`${lowerKey}Store`];
         const next =
           Array.isArray(current) && Array.isArray(data)
-            ? data // ถ้าเป็น array assign ตรง ๆ
-            : { ...current, ...data }; // ถ้าเป็น object merge
+            ? data
+            : { ...current, ...data };
         set({ [`${lowerKey}Store`]: next } as any, false, `${finalKey}/set`);
       },
     }))

@@ -1,286 +1,148 @@
-"use client";
+"use client"
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import QRCode from "qrcode";
+import { motion } from "framer-motion";
 
-import type React from "react";
-
-import { useState } from "react";
-
-import { Smartphone, CreditCard, ArrowLeft, Star } from "lucide-react";
+import { Copy, Download, RefreshCcw } from "lucide-react";
+import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/libs/shadcn/ui/card";
-import { Separator } from "@radix-ui/react-separator";
-import { Badge } from "@/libs/shadcn/ui/badge";
+import { Input } from "@/libs/shadcn/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Tabs, TabsList, TabsTrigger } from "@/libs/shadcn/ui/tabs";
 
-interface PointPackage {
-  id: string;
-  points: number;
-  price: number;
-  bonus?: number;
-  popular?: boolean;
+/**
+ * Single-file demo page for generating Thai PromptPay QR (EMVCo) in Next.js.
+ *
+ * ✅ Supports account types: mobile, national ID (tax ID), and e-wallet.
+ * ✅ Optional: amount (THB), bill number, Ref1, Ref2.
+ * ✅ Dynamic QR (POI method 12) when any dynamic field is present; otherwise static (11).
+ * ✅ Client-side generation using the `qrcode` package.
+ *
+ * Drop this file into `app/promptpay/page.tsx` and ensure shadcn/ui + Tailwind are set up.
+ */
+
+// -----------------------------
+// EMV/PromptPay payload builder
+// -----------------------------
+
+type AccountType = "mobile" | "nationalId" | "ewallet";
+
+function toTag(id: string, value: string): string {
+  const len = value.length.toString().padStart(2, "0");
+  return `${id}${len}${value}`;
 }
 
-interface PaymentMethod {
-  id: string;
-  name: string;
-  icon: React.ReactNode;
-  description: string;
+// CRC16-CCITT (poly 0x1021) per EMVCo, initial 0xFFFF, no xorout
+function crc16(data: string): string {
+  let crc = 0xffff;
+  for (let i = 0; i < data.length; i++) {
+    crc ^= data.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+      else crc <<= 1;
+      crc &= 0xffff;
+    }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, "0");
 }
 
-const pointPackages: PointPackage[] = [
-  { id: "1", points: 100, price: 50 },
-  { id: "2", points: 500, price: 200, bonus: 50 },
-  { id: "3", points: 1000, price: 350, bonus: 150, popular: true },
-  { id: "4", points: 2000, price: 650, bonus: 400 },
-];
-
-const paymentMethods: PaymentMethod[] = [
-  {
-    id: "mobile-banking",
-    name: "Mobile Banking",
-    icon: <Smartphone className="h-6 w-6" />,
-    description: "ธนาคารกสิกรไทย, ธนาคารไทยพาณิชย์, ธนาคารกรุงเทพ",
-  },
-  {
-    id: "promptpay",
-    name: "PromptPay",
-    icon: <CreditCard className="h-6 w-6" />,
-    description: "โอนเงินผ่าน QR Code หรือเบอร์โทรศัพท์",
-  },
-];
-
-export function PointTopupPage() {
-  const [step, setStep] = useState<"packages" | "payment" | "confirmation">(
-    "packages"
-  );
-  const [selectedPackage, setSelectedPackage] = useState<PointPackage | null>(
-    null
-  );
-  const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(
-    null
-  );
-
-  const handlePackageSelect = (pkg: PointPackage) => {
-    setSelectedPackage(pkg);
-    setStep("payment");
-  };
-
-  const handlePaymentSelect = (method: PaymentMethod) => {
-    setSelectedPayment(method);
-    setStep("confirmation");
-  };
-
-  const handleConfirm = () => {
-    // Handle payment confirmation
-    console.log("Processing payment...", { selectedPackage, selectedPayment });
-  };
-
-  return (
-    <div className="bg-background min-h-screen">
-      <div className="container mx-auto max-w-md px-4 py-6">
-        {/* Header */}
-        <div className="mb-6 flex items-center gap-3">
-          {step !== "packages" && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() =>
-                setStep(step === "confirmation" ? "payment" : "packages")
-              }
-              className="p-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          )}
-          <div>
-            <h1 className="text-foreground text-2xl font-bold">เติม Point</h1>
-            <p className="text-muted-foreground text-sm">
-              เลือกแพ็คเกจและวิธีการชำระเงิน
-            </p>
-          </div>
-        </div>
-
-        {/* Step 1: Package Selection */}
-        {step === "packages" && (
-          <div className="space-y-4">
-            <div className="mb-6 text-center">
-              <h2 className="text-foreground mb-2 text-lg font-semibold">
-                เลือกแพ็คเกจ Point
-              </h2>
-              <p className="text-muted-foreground text-sm">
-                เลือกจำนวน Point ที่ต้องการเติม
-              </p>
-            </div>
-
-            <div className="grid gap-3">
-              {pointPackages.map((pkg) => (
-                <Card
-                  key={pkg.id}
-                  className={`cursor-pointer border-2 transition-all hover:shadow-md ${
-                    pkg.popular
-                      ? "border-primary bg-card"
-                      : "border-border hover:border-primary/50"
-                  }`}
-                  onClick={() => handlePackageSelect(pkg)}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="mb-1 flex items-center gap-2">
-                          <span className="text-foreground text-lg font-bold">
-                            {pkg.points.toLocaleString()} Points
-                          </span>
-                          {pkg.popular && (
-                            <Badge
-                              variant="secondary"
-                              className="bg-accent text-accent-foreground"
-                            >
-                              <Star className="mr-1 h-3 w-3" />
-                              ยอดนิยม
-                            </Badge>
-                          )}
-                        </div>
-                        {pkg.bonus && (
-                          <p className="text-primary text-sm font-medium">
-                            + โบนัส {pkg.bonus} Points ฟรี!
-                          </p>
-                        )}
-                      </div>
-                      <div className="text-right">
-                        <div className="text-foreground text-xl font-bold">
-                          ฿{pkg.price}
-                        </div>
-                        {pkg.bonus && (
-                          <div className="text-muted-foreground text-xs line-through">
-                            ฿{Math.round(pkg.price * 1.2)}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Payment Method Selection */}
-        {step === "payment" && selectedPackage && (
-          <div className="space-y-4">
-            <div className="mb-6 text-center">
-              <h2 className="text-foreground mb-2 text-lg font-semibold">
-                เลือกวิธีการชำระเงิน
-              </h2>
-              <p className="text-muted-foreground text-sm">
-                {selectedPackage.points.toLocaleString()} Points - ฿
-                {selectedPackage.price}
-              </p>
-            </div>
-
-            <div className="grid gap-3">
-              {paymentMethods.map((method) => (
-                <Card
-                  key={method.id}
-                  className="border-border hover:border-primary/50 cursor-pointer border-2 transition-all hover:shadow-md"
-                  onClick={() => handlePaymentSelect(method)}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-primary/10 text-primary flex-shrink-0 rounded-lg p-2">
-                        {method.icon}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-foreground font-semibold">
-                          {method.name}
-                        </h3>
-                        <p className="text-muted-foreground text-sm">
-                          {method.description}
-                        </p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Confirmation */}
-        {step === "confirmation" && selectedPackage && selectedPayment && (
-          <div className="space-y-6">
-            <div className="mb-6 text-center">
-              <h2 className="text-foreground mb-2 text-lg font-semibold">
-                ยืนยันการชำระเงิน
-              </h2>
-              <p className="text-muted-foreground text-sm">
-                ตรวจสอบรายละเอียดก่อนชำระเงิน
-              </p>
-            </div>
-
-            <Card className="border-primary/20 border-2">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">
-                  รายละเอียดการสั่งซื้อ
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-foreground">Points</span>
-                  <span className="font-semibold">
-                    {selectedPackage.points.toLocaleString()}
-                  </span>
-                </div>
-                {selectedPackage.bonus && (
-                  <div className="text-primary flex items-center justify-between">
-                    <span>โบนัส Points</span>
-                    <span className="font-semibold">
-                      +{selectedPackage.bonus}
-                    </span>
-                  </div>
-                )}
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <span className="text-foreground">รวม Points ที่ได้รับ</span>
-                  <span className="text-primary text-lg font-bold">
-                    {(
-                      selectedPackage.points + (selectedPackage.bonus || 0)
-                    ).toLocaleString()}
-                  </span>
-                </div>
-                <Separator />
-                <div className="flex items-center justify-between">
-                  <span className="text-foreground">วิธีการชำระเงิน</span>
-                  <span className="font-semibold">{selectedPayment.name}</span>
-                </div>
-                <div className="flex items-center justify-between text-lg">
-                  <span className="text-foreground font-semibold">ยอดชำระ</span>
-                  <span className="text-primary font-bold">
-                    ฿{selectedPackage.price}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Button
-              onClick={handleConfirm}
-              className="bg-primary hover:bg-primary/90 h-12 w-full text-base font-semibold"
-            >
-              ยืนยันการชำระเงิน ฿{selectedPackage.price}
-            </Button>
-
-            <div className="text-center">
-              <p className="text-muted-foreground text-xs">
-                การชำระเงินจะปลอดภัยและเข้ารหัส
-                <br />
-                Points จะเข้าสู่บัญชีทันทีหลังชำระเงินสำเร็จ
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+function normalizeMobile(msisdn: string): string {
+  // Convert Thai mobile formats to PromptPay (country code 66, drop leading 0)
+  const digits = msisdn.replace(/\D/g, "");
+  if (digits.startsWith("66")) return digits;
+  if (digits.startsWith("0")) return `66${digits.slice(1)}`;
+  return `66${digits}`;
 }
+
+function buildPromptPayPayload(opts: {
+  accountType: AccountType;
+  account: string; // mobile(10), nationalId(13), ewallet(15)
+  amount?: string | number;
+  billNumber?: string;
+  ref1?: string;
+  ref2?: string;
+  merchantName?: string; // 59 (optional but recommended for dynamic)
+  merchantCity?: string; // 60 (optional)
+}): string {
+  const {
+    accountType,
+    amount,
+    billNumber,
+    ref1,
+    ref2,
+    merchantName = "MERCHANT",
+    merchantCity = "BANGKOK",
+  } = opts;
+
+  let acct = opts.account.trim();
+  let subtype: string; // 01 mobile, 02 national ID, 03 e-wallet
+
+  if (accountType === "mobile") {
+    acct = normalizeMobile(acct);
+    subtype = "01";
+  } else if (accountType === "nationalId") {
+    acct = acct.replace(/\D/g, "");
+    subtype = "02";
+  } else {
+    acct = acct.replace(/\D/g, "");
+    subtype = "03";
+  }
+
+  // 00: Payload Format Indicator (always 01)
+  const tag00 = toTag("00", "01");
+
+  // 01: POI Method - 11 (static), 12 (dynamic)
+  const isDynamic = Boolean(amount || billNumber || ref1 || ref2);
+  const tag01 = toTag("01", isDynamic ? "12" : "11");
+
+  // 29: Merchant Account Information (PromptPay AID)
+  // Sub-tags:
+  // 00: AID = A000000677010111 (PromptPay)
+  // 01/02/03: account identifiers
+  const mai = [toTag("00", "A000000677010111"), toTag(subtype, acct)].join("");
+  const tag29 = toTag("29", mai);
+
+  // 52: Merchant Category Code (0000 when not specified)
+  const tag52 = toTag("52", "0000");
+  // 53: Transaction Currency (764 = THB)
+  const tag53 = toTag("53", "764");
+  // 54: Amount (optional, decimal allowed)
+  const tag54 = amount ? toTag("54", String(amount)) : "";
+  // 58: Country Code
+  const tag58 = toTag("58", "TH");
+  // 59/60: Merchant Name/City
+  const tag59 = toTag("59", merchantName.slice(0, 25) || "-");
+  const tag60 = toTag("60", merchantCity.slice(0, 15) || "-");
+
+  // 62: Additional Data Field Template (optional)
+  const adf: string[] = [];
+  if (billNumber) adf.push(toTag("01", billNumber.slice(0, 25)));
+  if (ref1) adf.push(toTag("05", ref1.slice(0, 25)));
+  if (ref2) adf.push(toTag("06", ref2.slice(0, 25)));
+  const tag62 = adf.length ? toTag("62", adf.join("")) : "";
+
+  // Assemble without CRC (63) first
+  const payloadNoCRC = [
+    tag00,
+    tag01,
+    tag29,
+    tag52,
+    tag53,
+    tag54,
+    tag58,
+    tag59,
+    tag60,
+    tag62,
+    "63", // CRC tag id only; length+value appended after computing
+    "04",
+  ].join("");
+
+  const crc = crc16(payloadNoCRC);
+  return payloadNoCRC + crc;
+}
+
+// -----------------------------
+// UI
+// -----------------------------
+
+ 

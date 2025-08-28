@@ -8,12 +8,7 @@ import {
   FormLabel,
 } from "@/libs/shadcn/ui/form";
 import { Input } from "@/libs/shadcn/ui/input";
-import {
-  Control,
-  ControllerRenderProps,
-  FieldValues,
-  Path,
-} from "react-hook-form";
+import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { ReactNode } from "react";
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";

@@ -497,7 +497,6 @@ input RatingCreateInput {
 type UserItem {
   id: ID!
   user: User
-  product: Product
   item: OrderItem
   config: JSON
   createdAt: DateTime
@@ -515,7 +514,6 @@ input UserItemWhereInput {
   NOT: [UserItemWhereInput!]
   id: IDFilter
   user: UserWhereInput
-  product: ProductWhereInput
   item: OrderItemWhereInput
   createdAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
@@ -529,17 +527,10 @@ input UserItemOrderByInput {
 
 input UserItemUpdateInput {
   user: UserRelateToOneForUpdateInput
-  product: ProductRelateToOneForUpdateInput
   item: OrderItemRelateToOneForUpdateInput
   config: JSON
   createdAt: DateTime
   updateAt: DateTime
-}
-
-input ProductRelateToOneForUpdateInput {
-  create: ProductCreateInput
-  connect: ProductWhereUniqueInput
-  disconnect: Boolean
 }
 
 input OrderItemRelateToOneForUpdateInput {
@@ -555,16 +546,10 @@ input UserItemUpdateArgs {
 
 input UserItemCreateInput {
   user: UserRelateToOneForCreateInput
-  product: ProductRelateToOneForCreateInput
   item: OrderItemRelateToOneForCreateInput
   config: JSON
   createdAt: DateTime
   updateAt: DateTime
-}
-
-input ProductRelateToOneForCreateInput {
-  create: ProductCreateInput
-  connect: ProductWhereUniqueInput
 }
 
 input OrderItemRelateToOneForCreateInput {
@@ -836,6 +821,12 @@ input CartRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
+input ProductRelateToOneForUpdateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+  disconnect: Boolean
+}
+
 input CartItemUpdateArgs {
   where: CartItemWhereUniqueInput!
   data: CartItemUpdateInput!
@@ -850,6 +841,11 @@ input CartItemCreateInput {
 input CartRelateToOneForCreateInput {
   create: CartCreateInput
   connect: CartWhereUniqueInput
+}
+
+input ProductRelateToOneForCreateInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
 }
 
 type Order {

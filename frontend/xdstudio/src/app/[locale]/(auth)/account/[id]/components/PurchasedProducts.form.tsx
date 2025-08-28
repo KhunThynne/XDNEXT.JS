@@ -14,10 +14,16 @@ import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import Image from "next/image";
 import { usePathname } from "@navigation";
 import { useGetProductsQuery } from "@/app/[locale]/(contents)/products/hooks/useGetProductsQuery";
-import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
-// Mock product list (จริง ๆ คุณอาจจะ fetch มาจาก API)
+import { GetUserItemDocument, Product } from "@/libs/graphql/generates/graphql";
+import { useQuery } from "@tanstack/react-query";
+import { execute } from "@/libs/graphql/execute";
+import { Session } from "next-auth";
 
-export default function PurchasedProductsForm() {
+export default function PurchasedProductsForm({
+  session,
+}: {
+  session: Session;
+}) {
   const method = useForm({
     defaultValues: {
       providers: "Credential",
@@ -25,10 +31,15 @@ export default function PurchasedProductsForm() {
       search: "",
     },
   });
-  const { data, status } = useGetProductsQuery({
-    orderBy: { name: OrderDirection.Asc },
-    skip: 0,
-    take: 10,
+  const { data, status } = useQuery({
+    queryKey: ["user-items", session.user.id],
+    queryFn: async () => {
+      const res = await execute(GetUserItemDocument, {
+        where: { id: session.user.id },
+      });
+      return res;
+    },
+    enabled: !!session.user.id,
   });
   const pathname = usePathname();
   const [styleForm, setStyleForm] = useState<"list" | "grid">("grid");
@@ -82,7 +93,7 @@ export default function PurchasedProductsForm() {
                   "@min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5 @min-xl:grid-col-5 gap-3"
                 )}
               >
-                {data?.products?.map((props, index) => {
+                {data?.data?.user?.items?.map((props, index) => {
                   const product = props as Product;
                   return (
                     <CardProduct
@@ -121,7 +132,7 @@ export default function PurchasedProductsForm() {
                 <Card>
                   <CardContent>
                     <ul className="space-y-3 divide-y">
-                      {data?.products?.map((props, index) => {
+                      {data?.data?.user?.items?.map((props, index) => {
                         const product = props as Product;
                         return (
                           <li

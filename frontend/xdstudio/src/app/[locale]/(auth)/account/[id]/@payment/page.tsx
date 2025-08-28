@@ -1,12 +1,11 @@
 import { execute } from "@/libs/graphql/execute";
-import AccountPreferenceForm from "../components/AccountPreference.form";
+
 import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
-import _ from "lodash";
 import { CardCollapsible } from "../components/CardCollapsible";
-import PreferencesCollapsible from "./components/PreferencesCollapsible";
+import PaymentCollapsible from "./components/PreferencesCollapsible";
 
-export default async function PreferencesPage({
+export default async function PagePayment({
   params,
 }: {
   params: Promise<{ locale: string; id: string }>;
@@ -16,9 +15,5 @@ export default async function PreferencesPage({
   if (!res.data.user) {
     return notFound();
   }
-  return (
-    <PreferencesCollapsible>
-      <AccountPreferenceForm {...(res.data.user as User)} />{" "}
-    </PreferencesCollapsible>
-  );
+  return <PaymentCollapsible>test</PaymentCollapsible>;
 }
