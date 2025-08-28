@@ -3288,7 +3288,6 @@ export type UserItem = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   item?: Maybe<OrderItem>;
-  product?: Maybe<Product>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
 };
@@ -3297,7 +3296,6 @@ export type UserItemCreateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForCreateInput>;
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
@@ -3346,7 +3344,6 @@ export type UserItemUpdateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForUpdateInput>;
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
@@ -3358,7 +3355,6 @@ export type UserItemWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   item?: InputMaybe<OrderItemWhereInput>;
-  product?: InputMaybe<ProductWhereInput>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
@@ -3732,6 +3728,13 @@ export type GetUserQueryVariables = Exact<{
 
 
 export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: { __typename?: 'Image', altText?: string | null, id: string, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, url: string, height: number, width: number } | null } | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
+
+export type GetUserItemQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', status?: string | null, createdAt?: any | null, updateAt?: any | null } | null } | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4353,6 +4356,26 @@ export const GetUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+export const GetUserItemDocument = new TypedDocumentString(`
+    query GetUserItem($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    itemsCount
+    items {
+      config
+      createdAt
+      updateAt
+      item {
+        id
+        product {
+          status
+          createdAt
+          updateAt
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserItemQuery, GetUserItemQueryVariables>;
 export const CreateUserDocument = new TypedDocumentString(`
     mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String, $image: String) {
   createUser(

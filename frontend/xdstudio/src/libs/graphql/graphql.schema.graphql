@@ -1838,7 +1838,6 @@ type UserItem {
   createdAt: DateTime
   id: ID!
   item: OrderItem
-  product: Product
   updateAt: DateTime
   user: User
 }
@@ -1847,7 +1846,6 @@ input UserItemCreateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForCreateInput
-  product: ProductRelateToOneForCreateInput
   updateAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -1896,7 +1894,6 @@ input UserItemUpdateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForUpdateInput
-  product: ProductRelateToOneForUpdateInput
   updateAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -1908,7 +1905,6 @@ input UserItemWhereInput {
   createdAt: DateTimeNullableFilter
   id: IDFilter
   item: OrderItemWhereInput
-  product: ProductWhereInput
   updateAt: DateTimeNullableFilter
   user: UserWhereInput
 }

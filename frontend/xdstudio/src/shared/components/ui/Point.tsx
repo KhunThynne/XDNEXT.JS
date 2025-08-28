@@ -39,6 +39,7 @@ export default function Point({
   });
   const { data, status, refetch } = query;
   const total_point = data?.data.userPoint?.total_point || 0;
+
   if (status === "success")
     return (
       <span

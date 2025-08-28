@@ -32,7 +32,10 @@ export const ContainerSection = ({
       </Label>
       {description && (
         <span
-          className={clsx("text-muted-foreground", classNames?.description)}
+          className={clsx(
+            "text-muted-foreground break-all",
+            classNames?.description
+          )}
         >
           {description}
         </span>

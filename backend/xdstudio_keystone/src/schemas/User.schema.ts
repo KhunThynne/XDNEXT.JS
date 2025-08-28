@@ -58,9 +58,9 @@ export const User: ListConfig<any> = list({
       many: true,
       ui: {
         displayMode: 'cards',
-        cardFields: ['product'],
-        inlineCreate: { fields: ['product'] },
-        inlineEdit: { fields: ['product'] },
+        cardFields: ['item'],
+        inlineCreate: { fields: ['item'] },
+        inlineEdit: { fields: ['item'] },
         linkToItem: true,
       },
     }),
@@ -132,6 +132,7 @@ export const User: ListConfig<any> = list({
     },
     afterOperation: async ({ operation, item, context }) => {
       if (operation === 'create') {
+        console.log('HI');
         await context.db.Supplier.createOne({
           data: {
             name: `Supplier for ${item.name}`,
