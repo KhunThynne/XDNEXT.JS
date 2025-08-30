@@ -4,6 +4,8 @@ import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
 import { CardCollapsible } from "../components/CardCollapsible";
 import PaymentCollapsible from "./components/PreferencesCollapsible";
+import Point from "@/shared/components/ui/Point";
+import { PaymentForm } from "./components/Payment.form";
 
 export default async function PagePayment({
   params,
@@ -15,5 +17,9 @@ export default async function PagePayment({
   if (!res.data.user) {
     return notFound();
   }
-  return <PaymentCollapsible>test</PaymentCollapsible>;
+  return (
+    <PaymentCollapsible>
+      <PaymentForm />
+    </PaymentCollapsible>
+  );
 }

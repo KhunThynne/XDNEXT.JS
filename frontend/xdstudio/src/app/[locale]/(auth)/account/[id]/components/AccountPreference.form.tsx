@@ -23,12 +23,12 @@ export default function AccountPreferenceForm(props: User) {
   return (
     <Form {...method}>
       <form className="space-y-4">
-        <AvatarForm
+        {/* <AvatarForm
           onSubmit={() => {}}
           currentImageUrl={
             data?.user.image ?? method.getValues("avartar.src.url")
           }
-        />
+        /> */}
 
         <InputForm
           name="email"

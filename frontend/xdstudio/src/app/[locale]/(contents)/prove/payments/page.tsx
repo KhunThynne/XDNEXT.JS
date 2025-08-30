@@ -1,5 +1,5 @@
 import React from "react";
-import PromptPayQRPage from "./components/point-topup-page";
+
 import QRPaymentDecoderDemo from "./components/SlipDecode";
 import {
   Tabs,
@@ -25,9 +25,7 @@ export default function PagePaymentsTabs() {
 
         <div>
           <TabsContent value="generate">
-            <div className="space-y-4">
-              <PromptPayQRPage />
-            </div>
+            <div className="space-y-4">{/* <PromptPayQRPage /> */}</div>
           </TabsContent>
 
           <TabsContent value="decode">

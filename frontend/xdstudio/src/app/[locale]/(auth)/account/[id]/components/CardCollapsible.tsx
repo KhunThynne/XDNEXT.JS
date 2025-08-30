@@ -9,11 +9,11 @@ import {
   MotionTransition,
   MotionTransitionWrapperProps,
 } from "@/shared/components/MotionTransition";
-import { Separator } from "@radix-ui/react-separator";
 import { ChevronDownIcon } from "lucide-react";
 import { PreferencesCard } from "../@preferences/components/PreferencesCard";
 import { CollapsibleProps } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export const CardCollapsible = ({
   children,
@@ -48,7 +48,7 @@ export const CardCollapsible = ({
         </CollapsibleTrigger>
         <CollapsibleContent className="group space-y-5">
           <Separator />
-          <MotionTransition {...motion}>
+          <MotionTransition animationKey={title ?? `unkown`} {...motion}>
             <CardContent>{children}</CardContent>
           </MotionTransition>
         </CollapsibleContent>

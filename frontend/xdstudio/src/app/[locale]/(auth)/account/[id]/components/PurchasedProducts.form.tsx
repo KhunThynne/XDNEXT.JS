@@ -94,7 +94,7 @@ export default function PurchasedProductsForm({
                 )}
               >
                 {data?.data?.user?.items?.map((props, index) => {
-                  const product = props as Product;
+                  const product = props.item?.product as Product;
                   return (
                     <CardProduct
                       footer={false}
@@ -133,7 +133,7 @@ export default function PurchasedProductsForm({
                   <CardContent>
                     <ul className="space-y-3 divide-y">
                       {data?.data?.user?.items?.map((props, index) => {
-                        const product = props as Product;
+                        const product = props.item?.product as Product;
                         return (
                           <li
                             key={`list-${index}`}
