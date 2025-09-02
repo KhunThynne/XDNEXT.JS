@@ -27,6 +27,7 @@ import { Input } from "@/libs/shadcn/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
 import { Label } from "@/libs/shadcn/ui/label";
 import { Separator } from "@/libs/shadcn/ui/separator";
+import { InputForm } from "@/shared/components/ui/form/InputForm";
 
 // Form schemas for each step
 const paymentMethodSchema = z.object({
@@ -278,19 +279,7 @@ export const PaymentForm = () => {
               <span className="font-medium">promptpay Card Details</span>
             </div>
 
-            <FormField
-              control={promptpayForm.control}
-              name="cardNumber"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Card Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="1234 5678 9012 3456" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <InputForm name="cardNumber" label="Card Number" />
 
             <div className="grid grid-cols-2 gap-4">
               <FormField

@@ -6,7 +6,7 @@ export default function LayoutProducts({ children }: WithChildren) {
   return (
     <Content
       classNames={{
-        outsite: "grow min-h-screen  grid  bg-secondary-foreground/5 ",
+        outsite: "grow min-h-screen  grid  bg-accent-foreground/10",
         content: "container mx-auto md:py-5 flex flex-col gap-4",
       }}
     >

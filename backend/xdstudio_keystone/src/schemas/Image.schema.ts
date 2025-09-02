@@ -19,7 +19,6 @@ export const Image: ListConfig<any> = list({
   },
   hooks: {
     resolveInput: async ({ operation, inputData, resolvedData }) => {
-      console.log("test")
       if (operation === 'create') {
         const upload = await inputData.src.upload;
         if (!resolvedData.name) {

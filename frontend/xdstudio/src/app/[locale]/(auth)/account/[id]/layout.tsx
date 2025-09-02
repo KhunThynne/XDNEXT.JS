@@ -1,13 +1,12 @@
 import { auth } from "@/auth";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { notFound } from "next/navigation";
 
 export default async function AuthenticationLayout({
   children,
   userProducts,
-  preferences,
   payment,
+  preferences,
 }: NextJSReactNodes<"userProducts" | "payment" | "preferences">) {
   const session = await auth();
   if (!session?.user) return notFound();

@@ -1,4 +1,4 @@
 import { ConfigForm } from "./components/ConfigForm";
-export default function ProductConfig() {
+export default async function ProductConfig() {
   return <ConfigForm />;
 }

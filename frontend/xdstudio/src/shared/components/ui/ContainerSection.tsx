@@ -40,7 +40,12 @@ export const ContainerSection = ({
           {description}
         </span>
       )}
-      <Separator className={clsx(`mb-5 mt-2`, classNames?.separator)} />
+      <Separator
+        className={clsx(
+          `bg-secondary-foreground/15 mb-5 mt-2`,
+          classNames?.separator
+        )}
+      />
       <section className={clsx("@container", classNames?.contentContainer)}>
         <div className={clsx(classNames?.content)}>{children}</div>
       </section>

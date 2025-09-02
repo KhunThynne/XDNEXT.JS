@@ -43,15 +43,17 @@ export function CartOrdersSummaryForm() {
       ),
     });
   };
-  if (cartsOrderItem)
-    return (
-      <Form {...method}>
-        <form onSubmit={method.handleSubmit(handleSubmit)}>
-          <Card className="h-fit">
-            <CardHeader className="text-lg font-semibold">
-              Order Summary
-            </CardHeader>
-            <CardContent className="space-y-4">
+
+  return (
+    <Card className="h-fit">
+      <CardHeader className="text-lg font-semibold">Order Summary</CardHeader>
+      <CardContent>
+        {cartsOrderItem ? (
+          <Form {...method}>
+            <form
+              onSubmit={method.handleSubmit(handleSubmit)}
+              className="space-y-4"
+            >
               <div className="flex justify-between text-sm">
                 <span>Subtotal</span>
                 <span className="flex gap-1">
@@ -71,7 +73,6 @@ export function CartOrdersSummaryForm() {
                   <PointDiamon /> {formatter.number(total)}
                 </span>
               </div>
-
               <Button
                 className="mt-4 w-full cursor-pointer"
                 disabled={cartsOrderItem?.length < 1}
@@ -85,10 +86,13 @@ export function CartOrdersSummaryForm() {
                 type="button"
               >
                 <Link href={"/products"}>Continue Shopping</Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </form>
-      </Form>
-    );
+              </Button>{" "}
+            </form>
+          </Form>
+        ) : (
+          <></>
+        )}
+      </CardContent>
+    </Card>
+  );
 }
