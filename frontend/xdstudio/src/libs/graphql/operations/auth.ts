@@ -47,6 +47,10 @@ graphql(`
     }
   }
 
+  mutation SendUserPasswordResetToken($email: String!) {
+    sendUserPasswordResetLink(email: $email)
+  }
+
   mutation AuthenticateAndLinkProvider(
     $provider: String!
     $email: String!

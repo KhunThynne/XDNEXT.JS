@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { notFound } from "next/navigation";
+import { PreferencesTabs } from "./@preferences/components/PreferencesTabs";
 
 export default async function AuthenticationLayout({
   children,
@@ -23,11 +24,13 @@ export default async function AuthenticationLayout({
       <ContainerSection
         className="lg:col-span-4"
         title="User"
-        classNames={{ description: "truncate", content: "" }}
+        classNames={{ description: "truncate", content: "space-y-5" }}
         description="Customize settings and preferences for each product you are currently using."
       >
-        {payment}
-        {preferences}
+        <PreferencesTabs>
+          {preferences}
+          {payment}
+        </PreferencesTabs>
       </ContainerSection>
     </div>
   );

@@ -20,8 +20,11 @@ import { createAuth } from '@keystone-6/auth';
 
 // see https://keystonejs.com/docs/apis/session for the session docs
 import { statelessSessions } from '@keystone-6/core/session';
-import env from './env';
 
+import { Context } from '.keystone/types';
+import _ from 'lodash';
+import { sendEmail } from './utils/sendEmail';
+import env from '../env';
 // withAuth is a function we can use to wrap our base configuration
 const { withAuth } = createAuth({
   listKey: 'User',
@@ -32,13 +35,27 @@ const { withAuth } = createAuth({
   //   you can find out more at https://keystonejs.com/docs/guides/auth-and-access-control
   sessionData: 'name createdAt',
   secretField: 'password',
+
   passwordResetLink: {
-    sendToken: async ({ itemId, identity, token, context }) => {
-      /* ... */
+    sendToken: async (args) => {
+      const { itemId, identity, token, context } = args;
+      const test = context;
+      const contextCon = context as unknown as Context;
+
+      const setting = await contextCon.db.Setting.findOne({
+        where: { id: '1' },
+      });
+      if (!setting) throw new Error('System settings not found');
+      await sendEmail(setting, {
+        to: identity,
+        subject: 'Reset your password',
+        text: `Click here to reset: <a href='${setting?.redirect ?? 'unknown'}?token=${token}?email=${identity}'>Click here</a>`,
+      });
     },
     tokensValidForMins: 60,
   },
-  // WARNING: remove initFirstItem functionality in production
+
+  //   WARNING: remove initFirstItem functionality in production
   //   see https://keystonejs.com/docs/config/auth#init-first-item for more
   initFirstItem: {
     // if there are no items in the database, by configuring this field

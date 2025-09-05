@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, text } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
-export const Post: ListConfig<any> = list({
+export const Post = list({
   access: allowAll,
   fields: {
     title: text({ validation: { isRequired: true } }),
@@ -42,4 +42,4 @@ export const Post: ListConfig<any> = list({
       },
     }),
   },
-});
+}) satisfies ListConfig<any>;

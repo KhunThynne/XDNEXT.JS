@@ -1,6 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
 import Content from "@/shared/components/ui/Content";
-import { Code, Download } from "lucide-react";
 
 export default function LayoutProducts({ children }: WithChildren) {
   return (

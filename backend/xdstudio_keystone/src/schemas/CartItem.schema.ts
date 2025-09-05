@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship } from '@keystone-6/core/fields';
 
-export const CartItem: ListConfig<any> = list({
+export const CartItem = list({
   access: allowAll,
   ui: {
     isHidden: true,
@@ -49,4 +49,4 @@ export const CartItem: ListConfig<any> = list({
       return inputData;
     },
   },
-});
+}) satisfies ListConfig<any>;

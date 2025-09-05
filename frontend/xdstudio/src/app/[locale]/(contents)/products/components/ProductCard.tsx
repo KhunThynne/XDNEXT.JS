@@ -19,8 +19,6 @@ import { AddItemButton } from "./AddItem.button";
 import { Session } from "next-auth";
 import PointDiamon from "@/shared/components/PointDiamod";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
-import { Badge } from "@/libs/shadcn/ui/badge";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { ProductTag } from "./ProductTag";
 
 export const CardProduct = ({
@@ -74,8 +72,8 @@ export const CardProduct = ({
       <CardContent
         className={clsx(`min-h-30 space-y-2 px-0`, classNames?.content)}
       >
-        <ProductTag tags={product.tag} />
         <section className="space-y-2 px-6">
+          <ProductTag tags={product.tag} />
           <Link href={product.href ?? `/products/${product.id}`}>
             <CardTitle
               className={clsx(

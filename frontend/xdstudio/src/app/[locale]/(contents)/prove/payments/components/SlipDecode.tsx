@@ -156,7 +156,6 @@ export default function QRPaymentDecoderDemo() {
         const objectUrl = URL.createObjectURL(file);
         const reader = new BrowserQRCodeReader();
         const res = await reader.decodeFromImageUrl(objectUrl);
-        console.log("d", res);
         handleDecodeText(res.getText());
         URL.revokeObjectURL(objectUrl);
       } catch (err: any) {

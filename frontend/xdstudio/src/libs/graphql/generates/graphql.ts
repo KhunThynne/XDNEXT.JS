@@ -691,6 +691,8 @@ export type Mutation = {
   createPromotions?: Maybe<Array<Maybe<Promotion>>>;
   createRating?: Maybe<Rating>;
   createRatings?: Maybe<Array<Maybe<Rating>>>;
+  createSetting?: Maybe<Setting>;
+  createSettings?: Maybe<Array<Maybe<Setting>>>;
   createStock?: Maybe<Stock>;
   createStocks?: Maybe<Array<Maybe<Stock>>>;
   createSupplier?: Maybe<Supplier>;
@@ -733,6 +735,8 @@ export type Mutation = {
   deletePromotions?: Maybe<Array<Maybe<Promotion>>>;
   deleteRating?: Maybe<Rating>;
   deleteRatings?: Maybe<Array<Maybe<Rating>>>;
+  deleteSetting?: Maybe<Setting>;
+  deleteSettings?: Maybe<Array<Maybe<Setting>>>;
   deleteStock?: Maybe<Stock>;
   deleteStocks?: Maybe<Array<Maybe<Stock>>>;
   deleteSupplier?: Maybe<Supplier>;
@@ -778,6 +782,8 @@ export type Mutation = {
   updatePromotions?: Maybe<Array<Maybe<Promotion>>>;
   updateRating?: Maybe<Rating>;
   updateRatings?: Maybe<Array<Maybe<Rating>>>;
+  updateSetting?: Maybe<Setting>;
+  updateSettings?: Maybe<Array<Maybe<Setting>>>;
   updateStock?: Maybe<Stock>;
   updateStocks?: Maybe<Array<Maybe<Stock>>>;
   updateSupplier?: Maybe<Supplier>;
@@ -953,6 +959,16 @@ export type MutationCreateRatingArgs = {
 
 export type MutationCreateRatingsArgs = {
   data: Array<RatingCreateInput>;
+};
+
+
+export type MutationCreateSettingArgs = {
+  data: SettingCreateInput;
+};
+
+
+export type MutationCreateSettingsArgs = {
+  data: Array<SettingCreateInput>;
 };
 
 
@@ -1163,6 +1179,16 @@ export type MutationDeleteRatingArgs = {
 
 export type MutationDeleteRatingsArgs = {
   where: Array<RatingWhereUniqueInput>;
+};
+
+
+export type MutationDeleteSettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationDeleteSettingsArgs = {
+  where: Array<SettingWhereUniqueInput>;
 };
 
 
@@ -1399,6 +1425,17 @@ export type MutationUpdateRatingArgs = {
 
 export type MutationUpdateRatingsArgs = {
   data: Array<RatingUpdateArgs>;
+};
+
+
+export type MutationUpdateSettingArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationUpdateSettingsArgs = {
+  data: Array<SettingUpdateArgs>;
 };
 
 
@@ -2364,6 +2401,9 @@ export type Query = {
   rating?: Maybe<Rating>;
   ratings?: Maybe<Array<Rating>>;
   ratingsCount?: Maybe<Scalars['Int']['output']>;
+  setting?: Maybe<Setting>;
+  settings?: Maybe<Array<Setting>>;
+  settingsCount?: Maybe<Scalars['Int']['output']>;
   stock?: Maybe<Stock>;
   stocks?: Maybe<Array<Stock>>;
   stocksCount?: Maybe<Scalars['Int']['output']>;
@@ -2655,6 +2695,25 @@ export type QueryRatingsCountArgs = {
 };
 
 
+export type QuerySettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type QuerySettingsArgs = {
+  cursor?: InputMaybe<SettingWhereUniqueInput>;
+  orderBy?: Array<SettingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: SettingWhereInput;
+};
+
+
+export type QuerySettingsCountArgs = {
+  where?: SettingWhereInput;
+};
+
+
 export type QueryStockArgs = {
   where: StockWhereUniqueInput;
 };
@@ -2871,6 +2930,62 @@ export type RedeemUserPasswordResetTokenResult = {
   __typename?: 'RedeemUserPasswordResetTokenResult';
   code: PasswordResetRedemptionErrorCode;
   message: Scalars['String']['output'];
+};
+
+export type Setting = {
+  __typename?: 'Setting';
+  id: Scalars['ID']['output'];
+  redirect?: Maybe<Scalars['String']['output']>;
+  smtpHost?: Maybe<Scalars['String']['output']>;
+  smtpPass?: Maybe<Scalars['String']['output']>;
+  smtpPort?: Maybe<Scalars['String']['output']>;
+  smtpUser?: Maybe<Scalars['String']['output']>;
+};
+
+export type SettingCreateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  redirect?: InputMaybe<OrderDirection>;
+  smtpHost?: InputMaybe<OrderDirection>;
+  smtpPass?: InputMaybe<OrderDirection>;
+  smtpPort?: InputMaybe<OrderDirection>;
+  smtpUser?: InputMaybe<OrderDirection>;
+};
+
+export type SettingUpdateArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+export type SettingUpdateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingWhereInput = {
+  AND?: InputMaybe<Array<SettingWhereInput>>;
+  NOT?: InputMaybe<Array<SettingWhereInput>>;
+  OR?: InputMaybe<Array<SettingWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  redirect?: InputMaybe<StringFilter>;
+  smtpHost?: InputMaybe<StringFilter>;
+  smtpPass?: InputMaybe<StringFilter>;
+  smtpPort?: InputMaybe<StringFilter>;
+  smtpUser?: InputMaybe<StringFilter>;
+};
+
+export type SettingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Stock = {
@@ -3603,6 +3718,13 @@ export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassw
       & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
     ) } | null };
 
+export type SendUserPasswordResetTokenMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendUserPasswordResetTokenMutation = { __typename?: 'Mutation', sendUserPasswordResetLink: boolean };
+
 export type AuthenticateAndLinkProviderMutationVariables = Exact<{
   provider: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -3952,6 +4074,11 @@ export const LoginDocument = new TypedDocumentString(`
   passwordResetIssuedAt
   passwordResetRedeemedAt
 }`) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
+export const SendUserPasswordResetTokenDocument = new TypedDocumentString(`
+    mutation SendUserPasswordResetToken($email: String!) {
+  sendUserPasswordResetLink(email: $email)
+}
+    `) as unknown as TypedDocumentString<SendUserPasswordResetTokenMutation, SendUserPasswordResetTokenMutationVariables>;
 export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
     mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String) {
   authenticateAndLinkProvider(

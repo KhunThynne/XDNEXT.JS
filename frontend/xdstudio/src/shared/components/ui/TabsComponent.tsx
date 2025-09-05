@@ -7,6 +7,7 @@ import {
 } from "@/libs/shadcn/ui/tabs";
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import clsx from "clsx";
+import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 
 interface TabInterface<T extends string> {
   tabsList?: React.ComponentProps<typeof TabsList>;
@@ -38,28 +39,38 @@ const TabsComponentBase = <T extends string>({
     >
       <TabsList
         {...tabsList}
-        className={clsx(
-          "dark:bg-primary-foreground gap-1",
-          tabsList?.className
-        )}
+        className={clsx("bg-transparent! w-full p-0", tabsList?.className)}
       >
-        {tabs.map((tab) => {
-          const { className: classNameTab, label, children, ...tabProps } = tab;
-          return (
-            <TabsTrigger
-              key={tab.value}
-              {...tabProps}
-              className={clsx(
-                "z-0 cursor-pointer transition-all data-[state=active]:-z-0",
-                `data-[stat=closed]:bg-accent`,
-                classNameTab
-              )}
-            >
-              {label}
-              {children}
-            </TabsTrigger>
-          );
-        })}
+        <EmblaCarousel
+          className="w-full"
+          classNames={{
+            container: "bg-primary-foreground gap-1 rounded-lg p-[3px]",
+          }}
+        >
+          {tabs.map((tab) => {
+            const {
+              className: classNameTab,
+              label,
+              children,
+              ...tabProps
+            } = tab;
+            return (
+              <TabsTrigger
+                key={tab.value}
+                {...tabProps}
+                className={clsx(
+                  `data-[state=active]:-z-0`,
+                  "z-0 min-h-[29px] cursor-pointer transition-all",
+                  `data-[state=inactive]:text-primary/50 hover:text-primary!`,
+                  classNameTab
+                )}
+              >
+                {label}
+                {children}
+              </TabsTrigger>
+            );
+          })}
+        </EmblaCarousel>
       </TabsList>
       {card ? (
         <Card className={clsx(classNames?.card)}>

@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, timestamp, json } from '@keystone-6/core/fields';
 
-export const Account: ListConfig<any> = list({
+export const Account = list({
   access: allowAll,
   fields: {
     provider: text({
@@ -43,4 +43,4 @@ export const Account: ListConfig<any> = list({
     },
     isHidden: true,
   },
-});
+}) satisfies ListConfig<any>;

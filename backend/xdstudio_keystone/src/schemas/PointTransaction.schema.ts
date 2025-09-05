@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, select } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
-export const PointTransaction: ListConfig<any> = list({
+export const PointTransaction = list({
   access: allowAll,
   fields: {
     userId: relationship({ ref: 'User', many: true }),
@@ -31,4 +31,4 @@ export const PointTransaction: ListConfig<any> = list({
       dividers: true,
     }),
   },
-});
+}) satisfies ListConfig<any>;

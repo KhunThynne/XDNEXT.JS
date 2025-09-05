@@ -2,7 +2,8 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, select, password } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-export const User: ListConfig<any> = list({
+import { BaseListTypeInfo } from '@keystone-6/core/types';
+export const User = list({
   access: allowAll,
   ui: {
     listView: {
@@ -160,4 +161,4 @@ export const User: ListConfig<any> = list({
       }
     },
   },
-});
+}) satisfies ListConfig<any>;

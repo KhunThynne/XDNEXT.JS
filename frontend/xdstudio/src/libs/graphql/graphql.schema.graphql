@@ -630,6 +630,8 @@ type Mutation {
   createPromotions(data: [PromotionCreateInput!]!): [Promotion]
   createRating(data: RatingCreateInput!): Rating
   createRatings(data: [RatingCreateInput!]!): [Rating]
+  createSetting(data: SettingCreateInput!): Setting
+  createSettings(data: [SettingCreateInput!]!): [Setting]
   createStock(data: StockCreateInput!): Stock
   createStocks(data: [StockCreateInput!]!): [Stock]
   createSupplier(data: SupplierCreateInput!): Supplier
@@ -672,6 +674,8 @@ type Mutation {
   deletePromotions(where: [PromotionWhereUniqueInput!]!): [Promotion]
   deleteRating(where: RatingWhereUniqueInput!): Rating
   deleteRatings(where: [RatingWhereUniqueInput!]!): [Rating]
+  deleteSetting(where: SettingWhereUniqueInput! = {id: 1}): Setting
+  deleteSettings(where: [SettingWhereUniqueInput!]!): [Setting]
   deleteStock(where: StockWhereUniqueInput!): Stock
   deleteStocks(where: [StockWhereUniqueInput!]!): [Stock]
   deleteSupplier(where: SupplierWhereUniqueInput!): Supplier
@@ -717,6 +721,8 @@ type Mutation {
   updatePromotions(data: [PromotionUpdateArgs!]!): [Promotion]
   updateRating(data: RatingUpdateInput!, where: RatingWhereUniqueInput!): Rating
   updateRatings(data: [RatingUpdateArgs!]!): [Rating]
+  updateSetting(data: SettingUpdateInput!, where: SettingWhereUniqueInput! = {id: 1}): Setting
+  updateSettings(data: [SettingUpdateArgs!]!): [Setting]
   updateStock(data: StockUpdateInput!, where: StockWhereUniqueInput!): Stock
   updateStocks(data: [StockUpdateArgs!]!): [Stock]
   updateSupplier(data: SupplierUpdateInput!, where: SupplierWhereUniqueInput!): Supplier
@@ -1437,6 +1443,9 @@ type Query {
   rating(where: RatingWhereUniqueInput!): Rating
   ratings(cursor: RatingWhereUniqueInput, orderBy: [RatingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: RatingWhereInput! = {}): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
+  setting(where: SettingWhereUniqueInput! = {id: 1}): Setting
+  settings(cursor: SettingWhereUniqueInput, orderBy: [SettingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SettingWhereInput! = {id: {equals: 1}}): [Setting!]
+  settingsCount(where: SettingWhereInput! = {id: {equals: 1}}): Int
   stock(where: StockWhereUniqueInput!): Stock
   stocks(cursor: StockWhereUniqueInput, orderBy: [StockOrderByInput!]! = [], skip: Int! = 0, take: Int, where: StockWhereInput! = {}): [Stock!]
   stocksCount(where: StockWhereInput! = {}): Int
@@ -1537,6 +1546,61 @@ input RatingWhereUniqueInput {
 type RedeemUserPasswordResetTokenResult {
   code: PasswordResetRedemptionErrorCode!
   message: String!
+}
+
+type Setting {
+  id: ID!
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingCreateInput {
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingOrderByInput {
+  id: OrderDirection
+  redirect: OrderDirection
+  smtpHost: OrderDirection
+  smtpPass: OrderDirection
+  smtpPort: OrderDirection
+  smtpUser: OrderDirection
+}
+
+input SettingUpdateArgs {
+  data: SettingUpdateInput!
+  where: SettingWhereUniqueInput! = {id: 1}
+}
+
+input SettingUpdateInput {
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingWhereInput {
+  AND: [SettingWhereInput!]
+  NOT: [SettingWhereInput!]
+  OR: [SettingWhereInput!]
+  id: IDFilter
+  redirect: StringFilter
+  smtpHost: StringFilter
+  smtpPass: StringFilter
+  smtpPort: StringFilter
+  smtpUser: StringFilter
+}
+
+input SettingWhereUniqueInput {
+  id: ID
 }
 
 type Stock {

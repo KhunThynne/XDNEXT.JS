@@ -17,6 +17,7 @@ export default function Navbar({
 }: WithlDefaultProps & { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
+
   const statusDefer = useDeferredValue(status);
   return (
     <div

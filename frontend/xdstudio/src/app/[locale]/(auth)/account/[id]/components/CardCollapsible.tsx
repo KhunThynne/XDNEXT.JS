@@ -1,5 +1,5 @@
 import { Button } from "@/libs/shadcn/ui/button";
-import { CardHeader, CardContent } from "@/libs/shadcn/ui/card";
+import { CardHeader, CardContent, Card } from "@/libs/shadcn/ui/card";
 import {
   Collapsible,
   CollapsibleContent,
@@ -10,7 +10,6 @@ import {
   MotionTransitionWrapperProps,
 } from "@/shared/components/MotionTransition";
 import { ChevronDownIcon } from "lucide-react";
-import { PreferencesCard } from "../@preferences/components/PreferencesCard";
 import { CollapsibleProps } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { Separator } from "@/libs/shadcn/ui/separator";
@@ -30,7 +29,7 @@ export const CardCollapsible = ({
       className={clsx("group transition-all data-[state=open]:pb-5", className)}
       {...collapsible}
     >
-      <PreferencesCard className="group-data-[state=closed]:py-0">
+      <Card className="group-data-[state=closed]:py-0">
         <CollapsibleTrigger className="group" asChild>
           <CardHeader className="flex w-full cursor-pointer select-none items-center justify-between group-data-[state=closed]:py-3">
             <h4 className="font-semibold">{title}</h4>
@@ -52,7 +51,7 @@ export const CardCollapsible = ({
             <CardContent>{children}</CardContent>
           </MotionTransition>
         </CollapsibleContent>
-      </PreferencesCard>
+      </Card>
     </Collapsible>
   );
 };

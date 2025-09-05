@@ -4,7 +4,7 @@ import { text } from '@keystone-6/core/fields';
 
 import { document } from '@keystone-6/fields-document';
 
-export const FAQ: ListConfig<any> = list({
+export const FAQ = list({
   access: allowAll,
   ui: {
     isHidden: true,
@@ -17,4 +17,4 @@ export const FAQ: ListConfig<any> = list({
       dividers: true,
     }),
   },
-});
+}) satisfies ListConfig<any>;

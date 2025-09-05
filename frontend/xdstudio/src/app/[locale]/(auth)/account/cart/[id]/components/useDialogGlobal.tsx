@@ -1,22 +1,32 @@
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { Button } from "@/libs/shadcn/ui/button";
+import clsx from "clsx";
 
 type DialogFooterActionProps = {
   onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
   onCancel?: React.MouseEventHandler<HTMLButtonElement>;
+  buttonConfirm?: React.ComponentProps<typeof Button>;
+  buttonCancel?: React.ComponentProps<typeof Button>;
 };
 
 export const DialogFooterAction = ({
   onConfirm,
   onCancel,
-}: DialogFooterActionProps) => {
+  buttonConfirm,
+  buttonCancel,
+  className,
+}: DialogFooterActionProps & WithClassName) => {
   return (
-    <section key={"dialog-footer-action"} className="space-x-3 place-self-end">
-      <Button onClick={onConfirm} className="cursor-pointer">
+    <section
+      key={"dialog-footer-action"}
+      className={clsx("space-x-3 place-self-end", className)}
+    >
+      <Button onClick={onConfirm} className="cursor-pointer" {...buttonConfirm}>
         Confirm
       </Button>
       <Button
         variant={"destructive"}
+        {...buttonCancel}
         className="cursor-pointer"
         onClick={onCancel}
       >

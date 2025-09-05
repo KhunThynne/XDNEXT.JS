@@ -3,8 +3,8 @@ import AccountPreferenceForm from "../components/AccountPreference.form";
 import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
 import _ from "lodash";
-import { CardCollapsible } from "../components/CardCollapsible";
-import PreferencesCollapsible from "./components/PreferencesCollapsible";
+import { PreferencesTabs } from "./components/PreferencesTabs";
+import { TabsContent } from "@radix-ui/react-tabs";
 
 export default async function PreferencesPage({
   params,
@@ -17,8 +17,8 @@ export default async function PreferencesPage({
     return notFound();
   }
   return (
-    <PreferencesCollapsible>
-      <AccountPreferenceForm {...(res.data.user as User)} />{" "}
-    </PreferencesCollapsible>
+    <TabsContent value="general">
+      <AccountPreferenceForm {...(res.data.user as User)} />
+    </TabsContent>
   );
 }

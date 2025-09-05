@@ -1,8 +1,9 @@
 // keystone/mutations/oauthLogin.ts
 import { graphql } from '@keystone-6/core';
-import { Context, Lists, UserWhereInput } from '.keystone/types';
-import { email } from 'zod';
+import { Context } from '.keystone/types';
+
 import _ from 'lodash';
+import { session } from '../../auth';
 
 interface AuthProvidersFailure {
   message: string;
@@ -105,7 +106,7 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
           throw new Error('Not found access token');
         }
         if (user) {
-          const sessionToken = await context.sessionStrategy?.start({
+          const sessionToken = await session.start({
             context,
             data: { id: user.id },
           });

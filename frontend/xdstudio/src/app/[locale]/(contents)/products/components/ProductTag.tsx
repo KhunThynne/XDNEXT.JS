@@ -11,10 +11,9 @@ export const ProductTag = ({
   if (_.isEmpty(tags)) return null;
   return (
     <EmblaCarousel
-      className="h-5"
       classNames={{
         container: "gap-1.5 ",
-        view: clsx(`px-5`, classNames?.view),
+        view: clsx(classNames?.view),
       }}
     >
       {tags?.map((tag) => {

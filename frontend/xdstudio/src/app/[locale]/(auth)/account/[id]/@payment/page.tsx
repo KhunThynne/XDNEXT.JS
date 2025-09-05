@@ -1,8 +1,8 @@
 import { execute } from "@/libs/graphql/execute";
 import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
-import PaymentCollapsible from "./components/PreferencesCollapsible";
 import { PaymentForm } from "./components/Payment.form";
+import { TabsContent } from "@radix-ui/react-tabs";
 
 export default async function PagePayment({
   params,
@@ -15,8 +15,8 @@ export default async function PagePayment({
     return notFound();
   }
   return (
-    <PaymentCollapsible>
+    <TabsContent value="payment">
       <PaymentForm />
-    </PaymentCollapsible>
+    </TabsContent>
   );
 }

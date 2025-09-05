@@ -3,7 +3,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, select } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 
-export const Stock: ListConfig<any> = list({
+export const Stock = list({
   access: {
     operation: {
       query: allowAll,
@@ -63,4 +63,4 @@ export const Stock: ListConfig<any> = list({
       return resolvedData;
     },
   },
-});
+}) satisfies ListConfig<any>;
