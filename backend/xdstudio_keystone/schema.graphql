@@ -1939,7 +1939,7 @@ type Mutation {
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
   sendUserPasswordResetLink(email: String!): Boolean!
   redeemUserPasswordResetToken(email: String!, token: String!, password: String!): RedeemUserPasswordResetTokenResult
-  authenticateAndLinkProvider(provider: String!, email: String!, name: String, providerAccountId: String!, accessToken: String, refreshToken: String): AuthProvidersResponse
+  authenticateAndLinkProvider(provider: String!, email: String!, name: String, providerAccountId: String!, accessToken: String, refreshToken: String, image: String): AuthProvidersResponse
 }
 
 union AuthProvidersResponse = AuthProvidersSuccess | AuthProvidersFailure

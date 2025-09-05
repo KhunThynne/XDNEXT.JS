@@ -57,7 +57,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
           if (!authResult) {
             return null;
-            throw new Error("No authentication result");
+            // throw new Error("No authentication result");
           }
 
           if ("item" in authResult && authResult.sessionToken) {
@@ -95,6 +95,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         providerAccountId,
         refreshToken,
         name,
+        image,
       }: {
         provider: string;
         accessToken: string;
@@ -102,6 +103,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         email: string;
         name: string | undefined | null;
         providerAccountId: string;
+        image: string;
       }) {
         try {
           const res = await executeAuth(AuthenticateAndLinkProviderDocument, {
@@ -111,6 +113,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             providerAccountId,
             accessToken,
             refreshToken,
+            image,
           });
           return res.data;
         } catch (err) {
@@ -123,7 +126,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           const discordUser = profile as unknown as DiscordUser;
           try {
             if (!account.access_token || !profile?.email) return false;
-
             const authResult = await AuthenticateAndLinkProvider({
               accessToken: account.access_token,
               email: profile.email,
@@ -131,6 +133,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               provider: account.provider,
               providerAccountId: account.providerAccountId,
               refreshToken: account.refresh_token,
+              image: discordUser.image_url,
             });
             if (authResult) {
               const login = authResult?.authenticateAndLinkProvider;

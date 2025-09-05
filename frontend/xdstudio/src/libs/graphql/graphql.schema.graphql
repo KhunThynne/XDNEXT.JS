@@ -599,7 +599,7 @@ type KeystoneMeta {
 }
 
 type Mutation {
-  authenticateAndLinkProvider(accessToken: String, email: String!, name: String, provider: String!, providerAccountId: String!, refreshToken: String): AuthProvidersResponse
+  authenticateAndLinkProvider(accessToken: String, email: String!, image: String, name: String, provider: String!, providerAccountId: String!, refreshToken: String): AuthProvidersResponse
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
   createAccount(data: AccountCreateInput!): Account
   createAccounts(data: [AccountCreateInput!]!): [Account]

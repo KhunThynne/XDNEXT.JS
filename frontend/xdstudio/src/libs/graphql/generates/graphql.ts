@@ -804,6 +804,7 @@ export type Mutation = {
 export type MutationAuthenticateAndLinkProviderArgs = {
   accessToken?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   provider: Scalars['String']['input'];
   providerAccountId: Scalars['String']['input'];
@@ -3707,6 +3708,23 @@ export type ValidateUserPasswordResetTokenResult = {
 
 export type AuthUserItemFragment = { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } & { ' $fragmentName'?: 'AuthUserItemFragment' };
 
+export type ValidateUserPasswordResetTokenQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type ValidateUserPasswordResetTokenQuery = { __typename?: 'Query', validateUserPasswordResetToken?: { __typename?: 'ValidateUserPasswordResetTokenResult', message: string, code: PasswordResetRedemptionErrorCode } | null };
+
+export type RedeemUserPasswordResetTokenResultMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type RedeemUserPasswordResetTokenResultMutation = { __typename?: 'Mutation', redeemUserPasswordResetToken?: { __typename?: 'RedeemUserPasswordResetTokenResult', code: PasswordResetRedemptionErrorCode, message: string } | null };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -3732,6 +3750,7 @@ export type AuthenticateAndLinkProviderMutationVariables = Exact<{
   refreshToken?: InputMaybe<Scalars['String']['input']>;
   providerAccountId: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -4028,6 +4047,22 @@ fragment SupplierFields on Supplier {
   }
   productsCount
 }`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
+export const ValidateUserPasswordResetTokenDocument = new TypedDocumentString(`
+    query ValidateUserPasswordResetToken($email: String!, $token: String!) {
+  validateUserPasswordResetToken(email: $email, token: $token) {
+    message
+    code
+  }
+}
+    `) as unknown as TypedDocumentString<ValidateUserPasswordResetTokenQuery, ValidateUserPasswordResetTokenQueryVariables>;
+export const RedeemUserPasswordResetTokenResultDocument = new TypedDocumentString(`
+    mutation RedeemUserPasswordResetTokenResult($email: String!, $token: String!, $password: String!) {
+  redeemUserPasswordResetToken(email: $email, token: $token, password: $password) {
+    code
+    message
+  }
+}
+    `) as unknown as TypedDocumentString<RedeemUserPasswordResetTokenResultMutation, RedeemUserPasswordResetTokenResultMutationVariables>;
 export const LoginDocument = new TypedDocumentString(`
     mutation Login($email: String!, $password: String!) {
   authenticateUserWithPassword(email: $email, password: $password) {
@@ -4080,7 +4115,7 @@ export const SendUserPasswordResetTokenDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<SendUserPasswordResetTokenMutation, SendUserPasswordResetTokenMutationVariables>;
 export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
-    mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String) {
+    mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String, $image: String) {
   authenticateAndLinkProvider(
     provider: $provider
     email: $email
@@ -4088,6 +4123,7 @@ export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
     accessToken: $accessToken
     refreshToken: $refreshToken
     providerAccountId: $providerAccountId
+    image: $image
   ) {
     ... on AuthProvidersSuccess {
       sessionToken

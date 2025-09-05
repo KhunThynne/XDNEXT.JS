@@ -39,9 +39,7 @@ const { withAuth } = createAuth({
   passwordResetLink: {
     sendToken: async (args) => {
       const { itemId, identity, token, context } = args;
-      const test = context;
       const contextCon = context as unknown as Context;
-
       const setting = await contextCon.db.Setting.findOne({
         where: { id: '1' },
       });
@@ -49,7 +47,7 @@ const { withAuth } = createAuth({
       await sendEmail(setting, {
         to: identity,
         subject: 'Reset your password',
-        text: `Click here to reset: <a href='${setting?.redirect ?? 'unknown'}?token=${token}?email=${identity}'>Click here</a>`,
+        text: `Click here to reset: <a href='${setting?.redirect ?? 'unknown'}?token=${token}&email=${identity}'>Click here</a>`,
       });
     },
     tokensValidForMins: 60,

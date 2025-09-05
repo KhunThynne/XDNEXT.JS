@@ -20,13 +20,21 @@ import { useDialogContext } from "@/libs/dialog/DialogInstance";
 const ZEmailSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
 });
-const SendResetForm = () => {
-  const method = useForm({ resolver: zodResolver(ZEmailSchema) });
+const SendResetForm = ({ email }: { email?: User["email"] }) => {
+  const method = useForm({
+    resolver: zodResolver(ZEmailSchema),
+    defaultValues: { email: email! },
+  });
   const { closeDialog } = useDialogContext();
-  const { control, handleSubmit } = method;
-  const { sendTokenResetMutation } = useAuthDocument();
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = method;
+  const { useSendTokenResetMutation } = useAuthDocument();
+  const sendReset = useSendTokenResetMutation();
   const ConfirmHandle = async (form: z.infer<typeof ZEmailSchema>) => {
-    await sendTokenResetMutation
+    await sendReset
       .mutateAsync(form.email)
       .then((res) => {
         if (res.data.sendUserPasswordResetLink) {
@@ -47,11 +55,13 @@ const SendResetForm = () => {
           control={control}
           name="email"
           label="Email"
+          disabled={!!email}
           placeholder="Insert your email"
         />
         <DialogFooterAction
           className="mt-4"
           buttonCancel={{ type: "button" }}
+          loading={isSubmitting}
           onCancel={closeDialog}
         />
       </form>
@@ -110,7 +120,7 @@ export default function AccountPreferenceForm(props: User) {
                 title: "Confirm Reset",
                 description:
                   "Are you sure you want to reset? This action cannot be undone.",
-                content: <SendResetForm />,
+                content: <SendResetForm email={method.watch("email")} />,
               })
             }
           >

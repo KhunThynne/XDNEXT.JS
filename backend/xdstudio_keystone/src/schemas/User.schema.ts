@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, select, password } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-import { BaseListTypeInfo } from '@keystone-6/core/types';
+
 export const User = list({
   access: allowAll,
   ui: {
@@ -32,7 +32,7 @@ export const User = list({
       validation: { isRequired: true },
       isIndexed: 'unique',
     }),
-    password: password({ validation: { isRequired: true } }),
+    password: password({ validation: { isRequired: true } ,}),
     ...defaultGlobalField({ includeCreatedAt: true }),
     accounts: relationship({
       ref: 'Account.user',
@@ -125,15 +125,17 @@ export const User = list({
   },
   hooks: {
     beforeOperation: async ({ operation, resolvedData, context }) => {
+      console.log(`tessssssssssssssssssssssssssssssssssssssssssssss`, operation);
       if (operation === 'create') {
         if (!resolvedData.username && resolvedData.name) {
           resolvedData.username = resolvedData.name;
         }
       }
     },
+
     afterOperation: async ({ operation, item, context }) => {
+      console.log(`tessssssssssssssssssssssssssssssssssssssssssssss`, operation);
       if (operation === 'create') {
-        console.log('HI');
         await context.db.Supplier.createOne({
           data: {
             name: `Supplier for ${item.name}`,
