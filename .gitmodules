@@ -1,0 +1,3 @@
+[submodule "backend/xdtechnology_fastap"]
+	path = backend/xdtechnology_fastap
+	url = https://github.com/KhunThynne/FastApi-Xdtechnology.git
