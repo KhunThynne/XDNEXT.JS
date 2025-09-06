@@ -1,3 +1,5 @@
+import Loading from "@/shared/components/ui/Loading";
+
 export default function RootLoading() {
-  return <div className="bg-primary h-screen w-full">Load</div>;
+  return <Loading  />;
 }

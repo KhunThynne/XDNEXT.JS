@@ -13,7 +13,6 @@ export const PreferencesTabs = ({
       className={clsx(className)}
       tabs={[
         { label: "General", value: "general" },
-        { label: "Change Password", value: "change" },
         { label: "Payment", value: "payment" },
       ]}
     >

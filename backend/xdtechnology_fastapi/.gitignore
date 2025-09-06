@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# venv
+venv/
+.env
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Poetry / dependency lock
+poetry.lock
+
+# Byte-compiled / temp
+*.egg-info/
+.eggs/
+*.log
+
+# Database / local files
+*.sqlite3
+*.db
+
+# IDE / Editor files
+.idea/
+*.iml
+
+# Coverage / test
+.coverage
+htmlcov/
+*.pytest_cache/
+*.mypy_cache/
+.pytest_cache/

@@ -1,6 +1,5 @@
-
 import Loading from "@/shared/components/ui/Loading";
 
-export default function ContentsProduct() {
+export default function LoadingPage() {
   return <Loading />;
 }

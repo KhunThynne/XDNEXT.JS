@@ -3,7 +3,7 @@
 import { CardProduct } from "@/app/[locale]/(contents)/products/components/ProductCard";
 import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { Grid3X3, List } from "lucide-react";
+import { Grid3X3, List, Package, PackageOpen } from "lucide-react";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import Image from "next/image";
@@ -20,6 +20,7 @@ import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
+import _ from "lodash";
 
 const ListItems = ({
   items,
@@ -76,32 +77,42 @@ const GridItems = ({
         "@min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5 @min-xl:grid-col-5 gap-3"
       )}
     >
-      {items?.map((props, index) => {
-        const product = props.item?.product as Product;
-        return (
-          <CardProduct
-            footer={false}
-            key={`grid-${index}`}
-            className="hover:animate-pop relative aspect-square max-w-full pb-0 duration-300 hover:scale-105 hover:shadow-xl"
-            classNames={{
-              title:
-                "text-sm place-self-end hover:underline hover:brightness-125 ",
-              header: "absolute inset-0 ",
-              containerImage: "max-h-full ",
-              image: "object-cover rounded-lg",
-              content:
-                "z-1 absolute bottom-0 shadow w-full p-5 bg-primary-foreground/50",
+      {_.isEmpty(items) ? (
+        <section className="col-span-full flex min-h-[50vh] flex-col items-center justify-center gap-4">
+          <PackageOpen className="size-40 opacity-40" />
+          <div className="text-xl font-semibold">No items found</div>
+          <p className="brightness-50">
+            You haven’t purchased any products yet.
+          </p>
+        </section>
+      ) : (
+        items?.map((props, index) => {
+          const product = props.item?.product as Product;
+          return (
+            <CardProduct
+              footer={false}
+              key={`grid-${index}`}
+              className="hover:animate-pop relative aspect-square max-w-full pb-0 duration-300 hover:scale-105 hover:shadow-xl"
+              classNames={{
+                title:
+                  "text-sm place-self-end hover:underline hover:brightness-125 ",
+                header: "absolute inset-0 ",
+                containerImage: "max-h-full ",
+                image: "object-cover rounded-lg",
+                content:
+                  "z-1 absolute bottom-0 shadow w-full p-5 bg-primary-foreground/50",
 
-              containerDetail: "hidden",
-            }}
-            product={{
-              href: `${pathname}/config`,
-              ...product,
-            }}
-            session={null}
-          />
-        );
-      })}
+                containerDetail: "hidden",
+              }}
+              product={{
+                href: `${pathname}/config`,
+                ...product,
+              }}
+              session={null}
+            />
+          );
+        })
+      )}
     </MotionTransition>
   );
 };
@@ -150,10 +161,10 @@ export default function PurchasedProductsForm({
                 label: <Grid3X3 />,
                 value: "grid",
               },
-              {
-                label: <List />,
-                value: "list",
-              },
+              // {
+              //   label: <List />,
+              //   value: "list",
+              // },
             ]}
           >
             <TabsComponent.Content value="grid">
