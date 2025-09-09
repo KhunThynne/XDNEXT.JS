@@ -27,7 +27,7 @@ source venv/Scripts/activate  (git branch) || venv\Scripts\activate.bat(cmd)
 ``python -m src.app.main``
 
 # FastApi-Xdtechnology
-
+./run.bat
 
 
 ## Git branch for current develop-thynne
@@ -35,3 +35,8 @@ fastapi    https://github.com/KhunThynne/FastApi-Xdtechnology.git (fetch)
 fastapi    https://github.com/KhunThynne/FastApi-Xdtechnology.git (push)
 black-drops  https://github.com/Black-Drops/FastApi-Xdtechnology.git (fetch)
 black-drops  https://github.com/Black-Drops/FastApi-Xdtechnology.git (push)
+
+<!-- Git bash -->
+./run.bat  
+<!-- CMD -->
+run.bat

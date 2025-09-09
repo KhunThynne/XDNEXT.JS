@@ -4,5 +4,13 @@ pydantic
 sqlmodel==0.0.8
 python-dotenv==1.0.1
 psycopg2-binary==2.9.9
+python-dotenv
 # httpx==1.2.3           # สำหรับ call Keystone API
 # strawberry-graphql==1.15.0  # ถ้าอยากทำ GraphQL
+
+# Linters / type checker / formatter
+mypy==1.5.1
+flake8==6.1.0
+black==24.8.0
+isort==5.13.0
+typeguard

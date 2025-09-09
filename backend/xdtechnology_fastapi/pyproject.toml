@@ -1,1 +1,4 @@
 start = "uvicorn app.main:app --reload"
+[tool.isort]
+profile = "black"
+lines_between_types = 1

@@ -1,7 +1,9 @@
 from fastapi import APIRouter
+
 from src.app.models.schemas import UserSettings
 
 router = APIRouter()
+
 
 # ตัวอย่าง endpoint
 @router.get("/settings")
