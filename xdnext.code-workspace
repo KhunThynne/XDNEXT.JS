@@ -6,6 +6,9 @@
     {
       "path": "backend/xdstudio_keystone"
     },
+      {
+      "path": "backend/xdtechnology_fastapi"
+    },
     {
       "path": "frontend/xdstudio"
     }

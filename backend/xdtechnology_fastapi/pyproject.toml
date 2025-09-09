@@ -1,1 +1,1 @@
-start = "uvicorn xdtechnology_fastapi.main:app --reload"
+start = "uvicorn app.main:app --reload"
