@@ -8,6 +8,8 @@ python-dotenv
 # httpx==1.2.3           # สำหรับ call Keystone API
 # strawberry-graphql==1.15.0  # ถ้าอยากทำ GraphQL
 
+omise
+
 # Linters / type checker / formatter
 mypy==1.5.1
 flake8==6.1.0

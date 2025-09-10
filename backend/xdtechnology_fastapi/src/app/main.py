@@ -1,11 +1,11 @@
 import uvicorn
 
 from fastapi import FastAPI
-from sqlmodel import SQLModel, create_engine
+from sqlalchemy import create_engine
 from typeguard import typechecked
 
-from src.app.api.routes import router as api_router
-from src.app.core.config import settings
+from app.api.routes import router as api_router
+from app.env import env
 
 DATABASE_URL = "postgresql://root:root@localhost:5432/fastapi_db"
 engine = create_engine(DATABASE_URL, echo=True)
@@ -23,8 +23,8 @@ def root():
 
 if __name__ == "__main__":
     uvicorn.run(
-        "src.app.main:app",
-        host=settings.HOST,
-        port=settings.PORT,
-        reload=settings.DEBUG,
+        "app.main:app",
+        host=env.HOST,
+        port=env.PORT,
+        reload=env.DEBUG,
     )

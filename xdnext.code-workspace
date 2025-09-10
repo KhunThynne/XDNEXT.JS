@@ -24,10 +24,11 @@
   // Format on save
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-      "source.organizeImports": true  // run isort on save
+    "source.organizeImports": "explicit"
   },
 "python.analysis.diagnosticSeverityOverrides": {
-    "reportUnusedImport": "warning",
+    "reportUnusedImport": "warning", 
+    "reportUnusedVariable": "warning",
     "reportOptionalMemberAccess": "warning"
 }
 ,

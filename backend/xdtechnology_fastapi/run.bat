@@ -3,7 +3,7 @@ REM cd ไป folder ที่ .bat อยู่
 cd /d "%~dp0"
 
 REM ตั้ง PYTHONPATH เป็น path ของ .bat (ให้ Python หา src เจอ)
-set PYTHONPATH=%CD%
+set PYTHONPATH=%CD%\src
 
 REM activate venv (อยู่ใน folder เดียวกับ .bat)
 call venv\Scripts\activate
