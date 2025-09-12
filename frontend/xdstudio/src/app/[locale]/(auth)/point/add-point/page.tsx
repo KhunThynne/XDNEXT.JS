@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
-import { PaymentForm } from "../[id]/@payment/components/Payment.form";
+import { PaymentForm } from "@/shared/components/forms/payment/Payment.form";
+
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 
 export default function AddPointPage() {

@@ -1,7 +1,8 @@
 import { execute } from "@/libs/graphql/execute";
-import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
+import { GetUserDocument } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
-import { PaymentForm } from "./components/Payment.form";
+
+import { PaymentForm } from "@/shared/components/forms/payment/Payment.form";
 import { TabsContent } from "@radix-ui/react-tabs";
 
 export default async function PagePayment({
