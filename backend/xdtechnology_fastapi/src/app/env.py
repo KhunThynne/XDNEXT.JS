@@ -1,4 +1,8 @@
 # env.py
-from app.core.config import Env
+from app.core.config import Env as _Evn
 
-env = Env()
+_env = _Evn()
+
+
+def __getattr__(name: str):
+    return getattr(_env, name)

@@ -1,4 +1,8 @@
+from dotenv import load_dotenv
 from pydantic import BaseSettings, Field
+
+load_dotenv(".env")
+load_dotenv(".env.local", override=True)
 
 
 class Env(BaseSettings):
@@ -7,6 +11,8 @@ class Env(BaseSettings):
     HOST: str = "127.0.0.1"
     PORT: int = 8000
     DATABASE_URL: str = Field(default=None)
+    OMISE_PUBLIC_KEY: str = Field(default=None)
+    OMISE_SECRET_KEY: str = Field(default=None)
 
     class Config:
-        env_file = ".env"
+        pass

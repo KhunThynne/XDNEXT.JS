@@ -5,6 +5,7 @@ sqlmodel==0.0.8
 python-dotenv==1.0.1
 psycopg2-binary==2.9.9
 python-dotenv
+types-requests
 # httpx==1.2.3           # สำหรับ call Keystone API
 # strawberry-graphql==1.15.0  # ถ้าอยากทำ GraphQL
 
