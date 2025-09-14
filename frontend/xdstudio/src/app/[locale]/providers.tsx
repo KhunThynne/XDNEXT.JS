@@ -8,7 +8,6 @@ import { useLocaleStore } from "@/shared/stores/useLocaleStore";
 import { Session } from "next-auth";
 import { useCartsStore } from "@/shared/stores/useCartsStore";
 import { Toaster } from "@/libs/shadcn/ui/sonner";
-import Navbar from "./@navbar/components";
 const queryClient = new QueryClient();
 export const Providers = ({
   children,

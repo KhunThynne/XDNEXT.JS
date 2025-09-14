@@ -1,6 +1,5 @@
 "use client";
 
-import { CardProduct } from "@/app/[locale]/(contents)/products/components/ProductCard";
 import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { Grid3X3, List, Package, PackageOpen } from "lucide-react";
@@ -21,6 +20,7 @@ import { MotionTransition } from "@/shared/components/MotionTransition";
 import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
+import { CardProduct } from "@/app/[locale]/(main)/(contants)/products/components/ProductCard";
 
 const ListItems = ({
   items,

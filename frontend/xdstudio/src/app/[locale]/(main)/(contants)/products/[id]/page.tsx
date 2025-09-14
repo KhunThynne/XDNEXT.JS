@@ -2,6 +2,7 @@ import { execute } from "@/libs/graphql/execute";
 import { GetProductDocument, Product } from "@/libs/graphql/generates/graphql";
 import { ContentProduct } from "../components/ContentProduct";
 import { auth } from "@/auth";
+import { notFound } from "next/navigation";
 
 export default async function PageProduct({
   params,
@@ -13,5 +14,6 @@ export default async function PageProduct({
   const req = await execute(GetProductDocument, { where: { id } });
   const { product } = req.data;
   // return JSON.stringify(req.data);
+  if (!product) return notFound();
   return <ContentProduct session={session} {...(product as Product)} />;
 }

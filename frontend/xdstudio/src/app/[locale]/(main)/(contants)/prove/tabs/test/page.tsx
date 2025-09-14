@@ -1,6 +1,5 @@
 import { TabsContent } from "@/libs/shadcn/ui/tabs";
 import { TabsComponent } from "@/shared/components/ui/TabsComponent";
-import { TestComponent } from "./tst.component";
 
 export default function TabsPage() {
   return (
@@ -13,7 +12,6 @@ export default function TabsPage() {
       ]}
     >
       <TabsContent value="password">
-        <TestComponent />
         <div>Password Content</div>
       </TabsContent>
       <TabsComponent.Content value="extra">Test</TabsComponent.Content>
