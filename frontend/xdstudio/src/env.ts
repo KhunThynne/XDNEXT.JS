@@ -15,12 +15,14 @@ export const env = createEnv({
     AUTH_SECRET: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
     DISCORD_CLIENT_ID: z.string(),
+    XDCoreApi: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
     NEXT_PUBLIC_BASE_URL: z.string().url(),
   },
   runtimeEnv: {
+    XDCoreApi: process.env.XDCoreApi,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     SQL_HOST: process.env.SQL_HOST,

@@ -25,6 +25,12 @@ declare global {
   type NextImage = React.ComponentProps<"img">;
 
   type DivProps = React.HTMLAttributes<HTMLDivElement>;
+
+  type ApiResponseBad = {
+    message: string;
+    code?: number;
+    details?: any;
+  };
 }
 
 export {};

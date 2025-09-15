@@ -6,3 +6,8 @@ export interface FormXdProps<TFieldValues extends FieldValues = FieldValues> {
   description?: string;
   control?: Control<TFieldValues>;
 }
+
+export type LabelDescription = {
+  label?: string | React.ReactNode;
+  description?: string | React.ReactNode;
+};

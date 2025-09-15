@@ -1,20 +1,14 @@
 "use client";
 
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/libs/shadcn/ui/form";
+import { FormControl, FormField, FormItem } from "@/libs/shadcn/ui/form";
 import { Input } from "@/libs/shadcn/ui/input";
 import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import { ReactNode } from "react";
 import clsx from "clsx";
-import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 import { FormXdProps } from "./shared/index.type";
 import _ from "lodash";
+import LabelAndDescriptionForm from "./shared/LabelAndDescriptionForm";
 
 export function InputForm<TFieldValues extends FieldValues = FieldValues>({
   name,
@@ -36,40 +30,23 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
       name={name as Path<TFieldValues>}
       render={({ field }) => (
         <FormItem className={clsx(className)}>
-          {label && (
-            <FormLabel
-              className={clsx(
-                "inline-block max-w-full truncate break-all pb-0.5",
-                classNames?.label
-              )}
-            >
-              {_.isString(label) ? <Translations text={label} /> : label}
-            </FormLabel>
-          )}
-          <FormControl>
-            <div className={clsx("flex items-end", classNames?.container)}>
-              {renderInput ? (
-                renderInput(field)
-              ) : (
-                <Input
-                  className={clsx(`w-full`, classNames?.input)}
-                  {...field}
-                  {...inputProps}
-                />
-              )}
-              {children}
-            </div>
-          </FormControl>
-          {description && (
-            <FormDescription
-              className={clsx(
-                "line-clamp-3 max-w-full break-all",
-                classNames?.description
-              )}
-            >
-              <Translations text={description} />
-            </FormDescription>
-          )}
+          <LabelAndDescriptionForm label={label} description={description}>
+            <FormControl>
+              <div className={clsx("flex items-end", classNames?.container)}>
+                {renderInput ? (
+                  renderInput(field)
+                ) : (
+                  <Input
+                    className={clsx(`w-full`, classNames?.input)}
+                    {...field}
+                    {...inputProps}
+                  />
+                )}
+                {children}
+              </div>
+            </FormControl>
+          </LabelAndDescriptionForm>
+
           <FormI18nMessage />
         </FormItem>
       )}
