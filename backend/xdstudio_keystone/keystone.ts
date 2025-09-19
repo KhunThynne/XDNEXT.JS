@@ -26,7 +26,7 @@ export default withAuth(
       url: env.DATABASE_URL,
       // Optional advanced configuration
       onConnect: async (context) => {
-        console.log(env.NODE_ENV)
+        console.log(env.NODE_ENV);
         await SeedData(context);
       },
       enableLogging: true,
