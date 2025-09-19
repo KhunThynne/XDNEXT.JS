@@ -16,7 +16,6 @@ export async function POST(req: Request) {
       headers["Authorization"] = `Bearer ${token.sessionToken}`;
     }
     const url = `${env.API_BACKEND_URL}/api/graphql`;
-    console.log(url);
     const response = await fetch(url, {
       method: "POST",
       headers,
