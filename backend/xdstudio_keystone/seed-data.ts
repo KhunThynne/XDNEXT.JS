@@ -1,4 +1,5 @@
 import { Context } from '.keystone/types';
+import env from './env';
 type SeedTask = (context: Context) => Promise<void>;
 
 const seedUser: SeedTask = async (context) => {
@@ -19,6 +20,7 @@ const seedSetting: SeedTask = async (context) => {
         smtpPort: '587',
         smtpUser: 'khunthynne@gmail.com',
         smtpPass: 'gjaf vtdl qktw bjku',
+        redirect:env.NEXT_PUBLIC_BASE_URL
       },
     });
     console.log('✅ Seeded Setting');

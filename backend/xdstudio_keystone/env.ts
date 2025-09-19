@@ -37,6 +37,7 @@ const envSchema = z.object({
   // เพิ่ม IMAGE_PATH
   IMAGE_PATH: z.string().default('/images'),
   STORAGE_IMAGE_PATH: z.string(),
+  NEXT_PUBLIC_BASE_URL: z.string(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -65,6 +66,7 @@ const env = {
   STORAGE_IMAGE_PATH: parsedEnv.data.STORAGE_IMAGE_PATH,
   IMAGE_PATH: parsedEnv.data.IMAGE_PATH,
   NODE_ENV: parsedEnv.data.NODE_ENV,
+  NEXT_PUBLIC_BASE_URL:parsedEnv.data.NEXT_PUBLIC_BASE_URL
 };
 
 export default env;
