@@ -1,17 +1,7 @@
 import React from "react";
-import { FormPoint } from "./components/FormPoint";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 
-export default function PagePoint() {
-  return (
-    <Card className="w-lg mx-auto">
-      <CardHeader>
-        <h1 className="">Payments</h1>
-      </CardHeader>
+import { FormPointAndChooseMethod } from "./components/FormPointAndChooseMethod";
 
-      <CardContent>
-        <FormPoint />
-      </CardContent>
-    </Card>
-  );
+export default async function PagePoint() {
+  return <FormPointAndChooseMethod />;
 }

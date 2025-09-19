@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({
   children,
   params,
-}: WithlDefaultProps & {
+}: WithChildren & {
   params: Promise<{ locale: string }>;
 }) {
   // Ensure that the incoming `locale` is valid

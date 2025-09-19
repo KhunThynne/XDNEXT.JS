@@ -72,7 +72,8 @@ export function RadioForm<TFieldValues extends FieldValues = FieldValues>({
                 >
                   {items.map((item, index) => {
                     const id = `${name}-${item.value}-${index}`;
-                    const { label, description, classNames } = item;
+                    const { label, description, classNames, ...propItem } =
+                      item;
                     return (
                       <div
                         className={clsx(
@@ -82,7 +83,7 @@ export function RadioForm<TFieldValues extends FieldValues = FieldValues>({
                         )}
                         key={id}
                       >
-                        <RadioGroupItem id={id} {...item} />
+                        <RadioGroupItem id={id} {...propItem} />
                         <section
                           className={clsx(
                             "flex flex-col",

@@ -11,16 +11,20 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext } from "react-hook-form";
 import z from "zod";
-import { TypeFormPoint } from "./FormPoint";
+
 import {
   RadioForm,
   RadioFormItemsType,
 } from "@/shared/components/ui/form/RadioForm";
-import { apiOmise } from "@/shared/services/graphql/restApi/omise";
+import { createPaymentQrCode } from "@/shared/services/graphql/restApi/omise";
 import { ButtonForm } from "@/shared/components/ui/form/ButtonForm";
+import { ZSourcesSchema } from "@/app/api/omise/[...resource]/services/shared/ZSchema";
+import _ from "lodash";
+import { TypeFormPoint } from "./FormPointProvider";
+import { usePathname, useRouter } from "@navigation";
 
 const PointMethodSchema = z.object({
-  method: apiOmise.sources.SourcesSchema.shape.type,
+  method: ZSourcesSchema.shape.type,
   point: z.string().min(1, { message: "กรุณาเลือกแต้ม" }),
 });
 
@@ -50,20 +54,32 @@ export const FormPointAndChooseMethod = () => {
     resolver: zodResolver(PointMethodSchema),
     defaultValues: {
       method: "promptpay",
-      point: formPoint.getValues("point"),
+      point: "",
     },
   });
-
+  const pathname = usePathname();
+  const router = useRouter();
+  if (!_.isEmpty(formPoint.watch())) {
+    return null;
+  }
   return (
     <Form {...method}>
       <form
         className="space-y-5"
         onSubmit={method.handleSubmit(async (form) => {
+          const res = await createPaymentQrCode({
+            amount: parseInt(form?.point) * 100,
+            // Change satang unit to bath
+          });
           // const res = await apiOmise.sources.ApiPostOmiseSources(null, {
           //   amount: parseInt(form.point),
           //   type: form?.method,
           // });
-          await new Promise((resolve) => setTimeout(resolve, 2000));
+
+          if (res?._attributes.id) {
+            router.replace(pathname + `/${res?._attributes.id}`);
+          }
+          // await new Promise((resolve) => setTimeout(resolve, 2000));
         })}
       >
         <SelectForm

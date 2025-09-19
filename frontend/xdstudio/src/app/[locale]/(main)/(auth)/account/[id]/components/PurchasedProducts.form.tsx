@@ -20,7 +20,7 @@ import { MotionTransition } from "@/shared/components/MotionTransition";
 import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
-import { CardProduct } from "@/app/[locale]/(main)/(contants)/products/components/ProductCard";
+import { CardProduct } from "@/app/[locale]/(main)/(contents)/products/components/ProductCard";
 
 const ListItems = ({
   items,

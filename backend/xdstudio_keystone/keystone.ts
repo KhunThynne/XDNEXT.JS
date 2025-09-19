@@ -13,11 +13,9 @@ import { config, graphql } from '@keystone-6/core';
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './src/auth';
 import env from './env';
-
 import { lists } from './src/schemas';
 import { extendGraphqlSchema } from './src/extendGraphqlSchema';
 import { SeedData } from './seed-data';
-
 export default withAuth(
   config({
     db: {
@@ -28,6 +26,7 @@ export default withAuth(
       url: env.DATABASE_URL,
       // Optional advanced configuration
       onConnect: async (context) => {
+        console.log(env.NODE_ENV)
         await SeedData(context);
       },
       enableLogging: true,

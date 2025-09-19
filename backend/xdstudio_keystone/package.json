@@ -3,10 +3,10 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
-    "build": "keystone build",
     "dev": "keystone dev",
     "postinstall": "keystone postinstall",
     "generate": "keystone prisma migrate dev",
+    "build": "keystone build",
     "start": "keystone start",
     "eslint": "eslint . --fix",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",

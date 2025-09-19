@@ -13,6 +13,15 @@ const nextConfig = {
         hostname: backendUrl.hostname,
         pathname: "/images/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "api.omise.co",
+      },
     ],
   },
 } satisfies NextConfig;

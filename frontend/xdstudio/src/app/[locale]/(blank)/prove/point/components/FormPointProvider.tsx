@@ -12,19 +12,17 @@ import {
   FormPointAndChooseMethod,
   TypePointMethodSchema,
 } from "./FormPointAndChooseMethod";
+import { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import { FormPaymentQrCode } from "./FormPaymentQrCode";
 
-export type TypeFormPoint = TypePointMethodSchema;
-export const FormPoint = () => {
+export type TypeFormPoint = OmiseChargeResponse;
+export const FormPointProvider = ({ children }: WithChildren) => {
   const method = useForm<TypeFormPoint>({
     // resolver: zodResolver(SelectPointSchema),
-    defaultValues: { point: "" },
   });
-
   return (
     <Form {...method}>
-      <section className="space-y-5">
-        <FormPointAndChooseMethod />
-      </section>
+      <section className="space-y-5">{children}</section>
     </Form>
   );
 };
