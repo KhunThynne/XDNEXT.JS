@@ -2,3 +2,59 @@
 2025/09/20 06:32:58 [notice] 43248#11028: signal process started
 2025/09/20 06:36:09 [notice] 48660#1860: signal process started
 2025/09/20 06:36:35 [notice] 31900#9160: signal process started
+2025/09/20 06:45:11 [emerg] 12348#13776: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:47:38 [emerg] 13208#3784: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:48:40 [emerg] 11812#6240: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:49:00 [emerg] 15032#3320: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:49:11 [notice] 1384#956: signal process started
+2025/09/20 06:49:11 [error] 1384#956: OpenEvent("Global\ngx_reload_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:49:21 [notice] 10828#15588: signal process started
+2025/09/20 06:49:21 [error] 10828#15588: OpenEvent("Global\ngx_reload_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:49:36 [emerg] 5608#13128: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:49:40 [emerg] 12848#11200: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:50:25 [emerg] 13552#4992: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:50:31 [emerg] 10244#16272: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:50:38 [emerg] 11520#9512: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:51:34 [notice] 13700#6212: signal process started
+2025/09/20 06:51:34 [error] 13700#6212: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:51:34 [notice] 8700#15944: signal process started
+2025/09/20 06:51:34 [error] 8700#15944: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:51:36 [notice] 11912#13720: signal process started
+2025/09/20 06:51:36 [error] 11912#13720: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:51:40 [notice] 14708#14288: signal process started
+2025/09/20 06:51:40 [error] 14708#14288: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:51:44 [notice] 12356#11836: signal process started
+2025/09/20 06:51:44 [error] 12356#11836: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:51:52 [emerg] 11640#8428: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:51:56 [emerg] 14668#8: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:54:29 [emerg] 15744#8540: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:56:14 [emerg] 11352#14488: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:57:01 [emerg] 4056#7008: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 06:57:32 [notice] 11716#15204: signal process started
+2025/09/20 06:57:32 [error] 11716#15204: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:57:47 [notice] 12504#16308: signal process started
+2025/09/20 06:57:47 [error] 12504#16308: OpenEvent("Global\ngx_quit_7868") failed (2: The system cannot find the file specified)
+2025/09/20 06:58:20 [emerg] 15200#5692: CreateDirectory() "C:\Users\Administrator\Desktop\XD Shop\XDNEXT.JS\nginx/temp/client_body_temp" failed (3: The system cannot find the path specified)
+2025/09/20 07:02:29 [notice] 15404#11960: signal process started
+2025/09/20 07:08:00 [error] 6264#7972: *342 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET /th/ HTTP/1.1", upstream: "http://127.0.0.1:3000/th/", host: "localhost"
+2025/09/20 07:08:01 [error] 6264#7972: *342 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:3000/favicon.ico", host: "localhost", referrer: "http://localhost/th/"
+2025/09/20 07:08:34 [notice] 13960#3040: signal process started
+2025/09/20 07:10:41 [notice] 16232#10736: signal process started
+2025/09/20 07:12:14 [error] 14296#6948: *610 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 1.20.190.153, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:3000/favicon.ico", host: "45.144.166.131", referrer: "http://45.144.166.131/en/login/?callbackUrl=/en/account/57f19105-6779-4622-912d-0dfa3d9104c4/"
+2025/09/20 07:12:16 [error] 14296#6948: *610 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 1.20.190.153, server: _, request: "GET /en/login/?callbackUrl=/en/account/57f19105-6779-4622-912d-0dfa3d9104c4/ HTTP/1.1", upstream: "http://127.0.0.1:3000/en/login/?callbackUrl=/en/account/57f19105-6779-4622-912d-0dfa3d9104c4/", host: "45.144.166.131", referrer: "http://45.144.166.131/en/account/57f19105-6779-4622-912d-0dfa3d9104c4/"
+2025/09/20 07:12:17 [error] 14296#6948: *610 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 1.20.190.153, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:3000/favicon.ico", host: "45.144.166.131", referrer: "http://45.144.166.131/en/login/?callbackUrl=/en/account/57f19105-6779-4622-912d-0dfa3d9104c4/"
+2025/09/20 07:12:34 [notice] 6268#3976: signal process started
+2025/09/20 07:12:41 [alert] 14372#16064: *652 connect() failed (10049: The requested address is not valid in its context) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://0.0.0.0:3000/", host: "localhost"
+2025/09/20 07:12:41 [alert] 14372#16064: *652 connect() failed (10049: The requested address is not valid in its context) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://0.0.0.0:3000/favicon.ico", host: "localhost", referrer: "http://localhost/"
+2025/09/20 07:12:51 [notice] 5368#14496: signal process started
+2025/09/20 07:12:53 [alert] 14372#16064: *653 connect() failed (10049: The requested address is not valid in its context) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET / HTTP/1.1", upstream: "http://0.0.0.0:3000/", host: "localhost"
+2025/09/20 07:12:53 [alert] 14372#16064: *656 connect() failed (10049: The requested address is not valid in its context) while connecting to upstream, client: 127.0.0.1, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://0.0.0.0:3000/favicon.ico", host: "localhost", referrer: "http://localhost/"
+2025/09/20 08:35:01 [error] 1084#14988: *784 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET / HTTP/1.1", upstream: "http://45.144.166.131:3000/", host: "45.144.166.131"
+2025/09/20 08:35:02 [error] 1084#14988: *786 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /form.html HTTP/1.1", upstream: "http://45.144.166.131:3000/form.html", host: "45.144.166.131"
+2025/09/20 08:35:04 [error] 1084#14988: *788 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /upl.php HTTP/1.1", upstream: "http://45.144.166.131:3000/upl.php", host: "45.144.166.131"
+2025/09/20 08:35:05 [error] 1084#14988: *790 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /t4 HTTP/1.1", upstream: "http://45.144.166.131:3000/t4", host: "45.144.166.131"
+2025/09/20 08:35:07 [error] 1084#14988: *792 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /geoip/ HTTP/1.1", upstream: "http://45.144.166.131:3000/geoip/", host: "45.144.166.131"
+2025/09/20 08:35:08 [error] 1084#14988: *794 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /favicon.ico HTTP/1.1", upstream: "http://45.144.166.131:3000/favicon.ico", host: "45.144.166.131"
+2025/09/20 08:35:09 [error] 1084#14988: *796 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /1.php HTTP/1.1", upstream: "http://45.144.166.131:3000/1.php", host: "45.144.166.131"
+2025/09/20 08:35:11 [error] 1084#14988: *798 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /systembc/password.php HTTP/1.1", upstream: "http://45.144.166.131:3000/systembc/password.php", host: "45.144.166.131"
+2025/09/20 08:35:12 [error] 1084#14988: *800 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 138.68.72.43, server: _, request: "GET /password.php HTTP/1.1", upstream: "http://45.144.166.131:3000/password.php", host: "45.144.166.131"

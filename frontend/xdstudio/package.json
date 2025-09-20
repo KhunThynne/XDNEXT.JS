@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev  --turbopack",
     "build": "next build",
-    "start": "next start ",
+    "start": "next start -H 45.144.166.131",
     "lint": "next lint",
     "install:prod": "npm install --production",
     "lint:fix": "next lint --fix",
