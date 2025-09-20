@@ -20,7 +20,7 @@ const seedSetting: SeedTask = async (context) => {
         smtpPort: '587',
         smtpUser: 'khunthynne@gmail.com',
         smtpPass: 'gjaf vtdl qktw bjku',
-        redirect:env.NEXT_PUBLIC_BASE_URL
+        redirect:env.NEXT_PUBLIC_SITE_URL
       },
     });
     console.log('✅ Seeded Setting');

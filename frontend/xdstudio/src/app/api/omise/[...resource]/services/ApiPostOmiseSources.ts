@@ -67,7 +67,7 @@ export const ApiPostOmiseSources = async (
 ): Promise<OmiseSourcesRespone> => {
   const validated = await ZSourcesSchema.parseAsync(arg);
   const response = await fetch(
-    `${url ?? env.NEXT_PUBLIC_BASE_URL}/api/omise/sources`,
+    `${url ?? env.NEXT_PUBLIC_SITE_URL}/api/omise/sources`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

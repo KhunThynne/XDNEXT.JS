@@ -3,10 +3,17 @@ import React from "react";
 
 export default async function PagePoint() {
   return (
-    <pre>
-      {Object.entries(env)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join("\n")}
-    </pre>
+    <div className="grid grid-cols-2 gap-5">
+      <pre>
+        {Object.entries(process.env)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("\n")}
+      </pre>
+      <pre>
+        {Object.entries(env)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("\n")}
+      </pre>
+    </div>
   );
 }

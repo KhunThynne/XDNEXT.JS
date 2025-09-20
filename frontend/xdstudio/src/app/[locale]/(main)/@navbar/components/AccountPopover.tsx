@@ -78,7 +78,7 @@ export function AccountPopover(user: Partial<UserType>) {
             <Button
               className=""
               variant="ghost"
-              onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_BASE_URL })}
+              onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_SITE_URL })}
             >
               <small className="text-xs">Logout</small>
 
