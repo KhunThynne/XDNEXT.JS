@@ -21,7 +21,7 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
-    NEXT_PUBLIC_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_SITE_URL: z.string().url(),
   },
   runtimeEnv: {
     XDCoreApi: process.env.XDCoreApi,
@@ -41,6 +41,6 @@ export const env = createEnv({
     OMISE_SECRET_KEY: process.env.OMISE_SECRET_KEY,
     // ClientSide
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
 });

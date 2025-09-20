@@ -55,7 +55,7 @@ export const ApiPostOmiseCharge = async (
   const validated = await ZChargeSchema.parseAsync(arg);
 
   const response = await fetch(
-    `${url ?? env.NEXT_PUBLIC_BASE_URL}/api/omise/charges`,
+    `${url ?? env.NEXT_PUBLIC_SITE_URL}/api/omise/charges`,
     {
       method: "POST",
       headers: {

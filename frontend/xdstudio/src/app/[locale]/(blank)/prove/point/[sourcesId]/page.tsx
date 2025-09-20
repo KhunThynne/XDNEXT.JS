@@ -9,7 +9,7 @@ export default async function PagePaymentQrCode({
 }) {
   const { sourcesId } = await params;
   const res = await fetch(
-    `${env.NEXT_PUBLIC_BASE_URL}/api/omise/charges/${sourcesId}`
+    `${env.NEXT_PUBLIC_SITE_URL}/api/omise/charges/${sourcesId}`
   );
   const charges = (await res.json()) as OmiseChargeResponse["_attributes"];
 
