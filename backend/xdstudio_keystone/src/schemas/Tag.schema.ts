@@ -1,7 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, text } from '@keystone-6/core/fields';
-export const Tag: ListConfig<any> = list({
+export const Tag = list({
   access: allowAll,
   ui: {
     isHidden: true,
@@ -10,4 +10,4 @@ export const Tag: ListConfig<any> = list({
     name: text(),
     posts: relationship({ ref: 'Post.tags', many: true }),
   },
-});
+}) satisfies ListConfig<any>;

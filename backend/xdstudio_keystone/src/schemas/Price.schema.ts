@@ -3,7 +3,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { float, relationship, select, text } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 
-export const Price: ListConfig<any> = list({
+export const Price = list({
   access: allowAll,
   ui: { isHidden: true },
   fields: {
@@ -35,4 +35,4 @@ export const Price: ListConfig<any> = list({
     description: text({ ui: { displayMode: 'textarea' } }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
-});
+}) satisfies ListConfig<any>;

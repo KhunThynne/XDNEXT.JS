@@ -1,8 +1,9 @@
 // keystone/mutations/oauthLogin.ts
 import { graphql } from '@keystone-6/core';
-import { Context, Lists, UserWhereInput } from '.keystone/types';
-import { email } from 'zod';
+import { Context } from '.keystone/types';
+
 import _ from 'lodash';
+import { session } from '../../auth';
 
 interface AuthProvidersFailure {
   message: string;
@@ -51,10 +52,11 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
       providerAccountId: graphql.arg({ type: graphql.nonNull(graphql.String) }),
       accessToken: graphql.arg({ type: graphql.String }),
       refreshToken: graphql.arg({ type: graphql.String }),
+      image: graphql.arg({ type: graphql.String }),
     },
     async resolve(
       __,
-      { provider, providerAccountId, email, accessToken, refreshToken, name },
+      { provider, providerAccountId, email, accessToken, refreshToken, name, image },
       context: Context,
     ) {
       let account;
@@ -73,6 +75,7 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
               name: name ?? email,
               email,
               password: `${provider}-${providerAccountId}`,
+              image,
               role: 'USER',
             },
           });
@@ -105,7 +108,7 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
           throw new Error('Not found access token');
         }
         if (user) {
-          const sessionToken = await context.sessionStrategy?.start({
+          const sessionToken = await session.start({
             context,
             data: { id: user.id },
           });

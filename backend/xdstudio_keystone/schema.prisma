@@ -11,6 +11,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Setting {
+  id       Int    @id
+  smtpHost String @default("")
+  smtpPort String @default("")
+  smtpUser String @default("")
+  smtpPass String @default("")
+  redirect String @default("")
+}
+
 model User {
   id                           String             @id @default(uuid()) @postgresql.Uuid
   name                         String             @default("")

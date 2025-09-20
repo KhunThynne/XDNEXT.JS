@@ -1,24 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { z } from "zod";
 import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Camera, ImagePlus, Pencil, Trash2, Upload, X } from "lucide-react";
+import { ImagePlus, Upload, X } from "lucide-react";
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
 
 import { Input } from "@/libs/shadcn/ui/input";
 import { cn } from "@/libs/shadcn/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/libs/shadcn/ui/avatar";
+
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 
 // ⛳️ NOTE: Adjust these import paths to match your project structure.

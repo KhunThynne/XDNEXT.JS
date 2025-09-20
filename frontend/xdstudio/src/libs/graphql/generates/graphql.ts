@@ -691,6 +691,8 @@ export type Mutation = {
   createPromotions?: Maybe<Array<Maybe<Promotion>>>;
   createRating?: Maybe<Rating>;
   createRatings?: Maybe<Array<Maybe<Rating>>>;
+  createSetting?: Maybe<Setting>;
+  createSettings?: Maybe<Array<Maybe<Setting>>>;
   createStock?: Maybe<Stock>;
   createStocks?: Maybe<Array<Maybe<Stock>>>;
   createSupplier?: Maybe<Supplier>;
@@ -733,6 +735,8 @@ export type Mutation = {
   deletePromotions?: Maybe<Array<Maybe<Promotion>>>;
   deleteRating?: Maybe<Rating>;
   deleteRatings?: Maybe<Array<Maybe<Rating>>>;
+  deleteSetting?: Maybe<Setting>;
+  deleteSettings?: Maybe<Array<Maybe<Setting>>>;
   deleteStock?: Maybe<Stock>;
   deleteStocks?: Maybe<Array<Maybe<Stock>>>;
   deleteSupplier?: Maybe<Supplier>;
@@ -778,6 +782,8 @@ export type Mutation = {
   updatePromotions?: Maybe<Array<Maybe<Promotion>>>;
   updateRating?: Maybe<Rating>;
   updateRatings?: Maybe<Array<Maybe<Rating>>>;
+  updateSetting?: Maybe<Setting>;
+  updateSettings?: Maybe<Array<Maybe<Setting>>>;
   updateStock?: Maybe<Stock>;
   updateStocks?: Maybe<Array<Maybe<Stock>>>;
   updateSupplier?: Maybe<Supplier>;
@@ -798,6 +804,7 @@ export type Mutation = {
 export type MutationAuthenticateAndLinkProviderArgs = {
   accessToken?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   provider: Scalars['String']['input'];
   providerAccountId: Scalars['String']['input'];
@@ -953,6 +960,16 @@ export type MutationCreateRatingArgs = {
 
 export type MutationCreateRatingsArgs = {
   data: Array<RatingCreateInput>;
+};
+
+
+export type MutationCreateSettingArgs = {
+  data: SettingCreateInput;
+};
+
+
+export type MutationCreateSettingsArgs = {
+  data: Array<SettingCreateInput>;
 };
 
 
@@ -1163,6 +1180,16 @@ export type MutationDeleteRatingArgs = {
 
 export type MutationDeleteRatingsArgs = {
   where: Array<RatingWhereUniqueInput>;
+};
+
+
+export type MutationDeleteSettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationDeleteSettingsArgs = {
+  where: Array<SettingWhereUniqueInput>;
 };
 
 
@@ -1399,6 +1426,17 @@ export type MutationUpdateRatingArgs = {
 
 export type MutationUpdateRatingsArgs = {
   data: Array<RatingUpdateArgs>;
+};
+
+
+export type MutationUpdateSettingArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationUpdateSettingsArgs = {
+  data: Array<SettingUpdateArgs>;
 };
 
 
@@ -2388,6 +2426,9 @@ export type Query = {
   rating?: Maybe<Rating>;
   ratings?: Maybe<Array<Rating>>;
   ratingsCount?: Maybe<Scalars['Int']['output']>;
+  setting?: Maybe<Setting>;
+  settings?: Maybe<Array<Setting>>;
+  settingsCount?: Maybe<Scalars['Int']['output']>;
   stock?: Maybe<Stock>;
   stocks?: Maybe<Array<Stock>>;
   stocksCount?: Maybe<Scalars['Int']['output']>;
@@ -2679,6 +2720,25 @@ export type QueryRatingsCountArgs = {
 };
 
 
+export type QuerySettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type QuerySettingsArgs = {
+  cursor?: InputMaybe<SettingWhereUniqueInput>;
+  orderBy?: Array<SettingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: SettingWhereInput;
+};
+
+
+export type QuerySettingsCountArgs = {
+  where?: SettingWhereInput;
+};
+
+
 export type QueryStockArgs = {
   where: StockWhereUniqueInput;
 };
@@ -2895,6 +2955,62 @@ export type RedeemUserPasswordResetTokenResult = {
   __typename?: 'RedeemUserPasswordResetTokenResult';
   code: PasswordResetRedemptionErrorCode;
   message: Scalars['String']['output'];
+};
+
+export type Setting = {
+  __typename?: 'Setting';
+  id: Scalars['ID']['output'];
+  redirect?: Maybe<Scalars['String']['output']>;
+  smtpHost?: Maybe<Scalars['String']['output']>;
+  smtpPass?: Maybe<Scalars['String']['output']>;
+  smtpPort?: Maybe<Scalars['String']['output']>;
+  smtpUser?: Maybe<Scalars['String']['output']>;
+};
+
+export type SettingCreateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  redirect?: InputMaybe<OrderDirection>;
+  smtpHost?: InputMaybe<OrderDirection>;
+  smtpPass?: InputMaybe<OrderDirection>;
+  smtpPort?: InputMaybe<OrderDirection>;
+  smtpUser?: InputMaybe<OrderDirection>;
+};
+
+export type SettingUpdateArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+export type SettingUpdateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingWhereInput = {
+  AND?: InputMaybe<Array<SettingWhereInput>>;
+  NOT?: InputMaybe<Array<SettingWhereInput>>;
+  OR?: InputMaybe<Array<SettingWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  redirect?: InputMaybe<StringFilter>;
+  smtpHost?: InputMaybe<StringFilter>;
+  smtpPass?: InputMaybe<StringFilter>;
+  smtpPort?: InputMaybe<StringFilter>;
+  smtpUser?: InputMaybe<StringFilter>;
+};
+
+export type SettingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type Stock = {
@@ -3616,16 +3732,43 @@ export type ValidateUserPasswordResetTokenResult = {
 
 export type AuthUserItemFragment = { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } & { ' $fragmentName'?: 'AuthUserItemFragment' };
 
+export type ValidateUserPasswordResetTokenQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type ValidateUserPasswordResetTokenQuery = { __typename?: 'Query', validateUserPasswordResetToken?: { __typename?: 'ValidateUserPasswordResetTokenResult', message: string, code: PasswordResetRedemptionErrorCode } | null };
+
+export type RedeemUserPasswordResetTokenResultMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type RedeemUserPasswordResetTokenResultMutation = { __typename?: 'Mutation', redeemUserPasswordResetToken?: { __typename?: 'RedeemUserPasswordResetTokenResult', code: PasswordResetRedemptionErrorCode, message: string } | null };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: (
-      { __typename?: 'User' }
-      & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
-    ) } | null };
+export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?:
+    | { __typename?: 'UserAuthenticationWithPasswordFailure', message: string }
+    | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
+
+export type SendUserPasswordResetTokenMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendUserPasswordResetTokenMutation = { __typename?: 'Mutation', sendUserPasswordResetLink: boolean };
 
 export type AuthenticateAndLinkProviderMutationVariables = Exact<{
   provider: Scalars['String']['input'];
@@ -3634,13 +3777,17 @@ export type AuthenticateAndLinkProviderMutationVariables = Exact<{
   refreshToken?: InputMaybe<Scalars['String']['input']>;
   providerAccountId: Scalars['String']['input'];
   name?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', authenticateAndLinkProvider?: { __typename?: 'AuthProvidersFailure', message?: string | null } | { __typename: 'AuthProvidersSuccess', sessionToken: string, accessToken: string, refetchToken?: string | null, item: (
-      { __typename?: 'User' }
-      & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
-    ) } | null };
+export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', authenticateAndLinkProvider?:
+    | { __typename?: 'AuthProvidersFailure', message?: string | null }
+    | { __typename: 'AuthProvidersSuccess', sessionToken: string, accessToken: string, refetchToken?: string | null, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
 
 export type CreateCartItemMutationVariables = Exact<{
   data: CartItemCreateInput;
@@ -3754,14 +3901,14 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: { __typename?: 'Image', altText?: string | null, id: string, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, url: string, height: number, width: number } | null } | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, avartar?: { __typename?: 'Image', altText?: string | null, id: string, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, url: string, height: number, width: number } | null } | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
 
 export type GetUserItemQueryVariables = Exact<{
   where: UserWhereUniqueInput;
 }>;
 
 
-export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', status?: string | null, createdAt?: any | null, updateAt?: any | null } | null } | null }> | null } | null };
+export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null }> | null } | null } | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -3938,6 +4085,22 @@ fragment SupplierFields on Supplier {
   }
   productsCount
 }`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
+export const ValidateUserPasswordResetTokenDocument = new TypedDocumentString(`
+    query ValidateUserPasswordResetToken($email: String!, $token: String!) {
+  validateUserPasswordResetToken(email: $email, token: $token) {
+    message
+    code
+  }
+}
+    `) as unknown as TypedDocumentString<ValidateUserPasswordResetTokenQuery, ValidateUserPasswordResetTokenQueryVariables>;
+export const RedeemUserPasswordResetTokenResultDocument = new TypedDocumentString(`
+    mutation RedeemUserPasswordResetTokenResult($email: String!, $token: String!, $password: String!) {
+  redeemUserPasswordResetToken(email: $email, token: $token, password: $password) {
+    code
+    message
+  }
+}
+    `) as unknown as TypedDocumentString<RedeemUserPasswordResetTokenResultMutation, RedeemUserPasswordResetTokenResultMutationVariables>;
 export const LoginDocument = new TypedDocumentString(`
     mutation Login($email: String!, $password: String!) {
   authenticateUserWithPassword(email: $email, password: $password) {
@@ -3984,8 +4147,13 @@ export const LoginDocument = new TypedDocumentString(`
   passwordResetIssuedAt
   passwordResetRedeemedAt
 }`) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
+export const SendUserPasswordResetTokenDocument = new TypedDocumentString(`
+    mutation SendUserPasswordResetToken($email: String!) {
+  sendUserPasswordResetLink(email: $email)
+}
+    `) as unknown as TypedDocumentString<SendUserPasswordResetTokenMutation, SendUserPasswordResetTokenMutationVariables>;
 export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
-    mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String) {
+    mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String, $image: String) {
   authenticateAndLinkProvider(
     provider: $provider
     email: $email
@@ -3993,6 +4161,7 @@ export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
     accessToken: $accessToken
     refreshToken: $refreshToken
     providerAccountId: $providerAccountId
+    image: $image
   ) {
     ... on AuthProvidersSuccess {
       sessionToken
@@ -4371,6 +4540,11 @@ export const GetUserDocument = new TypedDocumentString(`
       isSet
     }
     provider
+    point {
+      id
+      total_point
+      updateAt
+    }
     avartar {
       altText
       id
@@ -4403,12 +4577,26 @@ export const GetUserItemDocument = new TypedDocumentString(`
   user(where: $where) {
     itemsCount
     items {
+      id
       config
       createdAt
       updateAt
       item {
         id
         product {
+          name
+          images {
+            altText
+            id
+            name
+            src {
+              extension
+              filesize
+              height
+              url
+              width
+            }
+          }
           status
           createdAt
           updateAt

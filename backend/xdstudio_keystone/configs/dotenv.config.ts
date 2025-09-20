@@ -1,19 +1,21 @@
 import path from 'path';
 import * as dotenv from 'dotenv';
 
-if (process.env.NODE_ENV !== 'product') {
-  const envFiles = [
-    path.resolve(process.cwd(), '.env.local'),
-    '/backend/.env.local',
-    path.resolve(process.cwd(), '../../.env'),
-    '/backend/.env',
-  ];
+const isProd = process.env.NODE_ENV === 'product';
 
-  for (const envPath of envFiles) {
-    dotenv.config({
-      path: envPath,
-      debug: false,
-      quiet: true,
-    });
-  }
+const envFiles = isProd
+  ? [
+      '.env.production.local',
+      '.env.production',
+      '../../.env.production',
+      'backend/.env.production',
+      '.env', // fallback
+    ]
+  : ['../../.env', 'backend/.env', '.env'];
+
+for (const envPath of envFiles) {
+  dotenv.config({
+    path: path.resolve(process.cwd(), envPath),
+    override: true,
+  });
 }

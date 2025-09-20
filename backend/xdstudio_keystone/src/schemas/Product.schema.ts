@@ -3,7 +3,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { float, relationship, select, text, timestamp } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-export const Product: ListConfig<any> = list({
+export const Product = list({
   access: allowAll,
   ui: {
     listView: {
@@ -218,4 +218,4 @@ export const Product: ListConfig<any> = list({
       }
     },
   },
-});
+}) satisfies ListConfig<any>;

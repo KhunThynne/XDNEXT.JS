@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, select } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-export const Cart: ListConfig<any> = list({
+export const Cart = list({
   access: allowAll,
   fields: {
     user: relationship({ ref: 'User.carts', many: false, ui: { displayMode: 'select' } }),
@@ -27,4 +27,4 @@ export const Cart: ListConfig<any> = list({
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
-});
+}) satisfies ListConfig<any>;

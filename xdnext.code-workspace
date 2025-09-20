@@ -6,6 +6,9 @@
     {
       "path": "backend/xdstudio_keystone"
     },
+      {
+      "path": "backend/xdtechnology_fastapi"
+    },
     {
       "path": "frontend/xdstudio"
     }
@@ -16,7 +19,33 @@
     "i18n-ally.localesPaths": [
       "frontend/xdstudio/messages",
       "frontend/xdstudio/src/libs/i18n"
-    ],
-    "i18n-ally.keystyle": "nested"
-  }
+    ], 
+  
+  // Format on save
+  // "editor.formatOnSave": true,
+  // "editor.codeActionsOnSave": {
+  //   "source.organizeImports": "explicit"
+  // },
+"python.analysis.diagnosticSeverityOverrides": {
+    "reportUnusedImport": "warning", 
+    "reportUnusedVariable": "warning",
+    "reportOptionalMemberAccess": "warning"
+}
+,
+  // Python formatter
+  "python.formatting.provider": "black",
+
+  // Linting
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=120"],
+
+  // Type checking (mypy)
+  "python.analysis.typeCheckingMode": "basic",
+
+  // Optional: enable auto linting on save
+  "editor.codeActionsOnSaveTimeout": 5000
+
+  },
+
 }

@@ -1,6 +1,5 @@
 "use server";
 import { signIn } from "@/auth";
-import { redirect, redirect as RedirectI18n } from "@navigation";
 import { AuthError } from "next-auth";
 import { SignInOptions } from "next-auth/react";
 

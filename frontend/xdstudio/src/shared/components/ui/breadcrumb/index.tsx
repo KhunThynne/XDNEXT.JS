@@ -42,7 +42,7 @@ export function BreadcrumbComponent() {
   const { breadcrumbeStore } = useBreadBrumbStore();
   if (breadcrumbeStore.disable) return false;
   return (
-    <Breadcrumb className="mb-5">
+    <Breadcrumb className="my-5">
       <BreadcrumbList>
         <BreadcrumbItemComponent
           href={"/"}

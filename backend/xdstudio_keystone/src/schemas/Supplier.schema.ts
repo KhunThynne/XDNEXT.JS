@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship } from '@keystone-6/core/fields';
 
-export const Supplier: ListConfig<any> = list({
+export const Supplier = list({
   access: allowAll,
   ui: { isHidden: true },
   fields: {
@@ -38,4 +38,4 @@ export const Supplier: ListConfig<any> = list({
   //     }
   //   },
   // },
-});
+}) satisfies ListConfig<any>;

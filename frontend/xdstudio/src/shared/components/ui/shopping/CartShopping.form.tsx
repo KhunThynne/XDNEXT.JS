@@ -13,6 +13,7 @@ import { useForm, useFormContext } from "react-hook-form";
 import { CartItemComponent } from "./CartItemsComponent";
 import PointDiamon from "../../PointDiamod";
 import _ from "lodash";
+import { Separator } from "@/libs/shadcn/ui/separator";
 export const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
@@ -61,6 +62,7 @@ export const CartSummery = ({ navigation }: { navigation: string }) => {
           <PointDiamon className="size-1" /> {summary.totalPrice}
         </span>
       </div>
+      <Separator />
       <Button className="w-full" size="sm" variant="secondary" asChild>
         <Link href={navigation}> Go to cart. </Link>
       </Button>
@@ -118,6 +120,7 @@ export const CartShoppingForm = ({
           );
         })}
       </ul>
+
       <CartSummery navigation={navigation} />
     </Form>
   );

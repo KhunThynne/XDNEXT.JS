@@ -1,7 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, select, timestamp } from '@keystone-6/core/fields';
-export const Order: ListConfig<any> = list({
+export const Order = list({
   access: allowAll,
   fields: {
     user: relationship({ ref: 'User.orders', many: false }),
@@ -37,4 +37,4 @@ export const Order: ListConfig<any> = list({
       },
     }),
   },
-});
+}) satisfies ListConfig<any>;

@@ -39,6 +39,13 @@ const config: TypeConfigDefault = {
       description: "Browse our digital and physical products",
       // children: [
       //   {
+      //     title: "Buy Point",
+      //     href: "/account/add-point",
+      //     description: "Downloadable content like eBooks and courses",
+      //   },
+      // ],
+      //  children: [
+      //   {
       //     title: "Digital",
       //     href: "/products/digital",
       //     description: "Downloadable content like eBooks and courses",

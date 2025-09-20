@@ -37,8 +37,10 @@ import { Stock } from './Stock.schema';
 import { FAQ } from './FAQ';
 import { Rating } from './Ratting';
 import { Account } from './Account';
+import { Setting } from './Setting.schema';
 
 export const lists = {
+  Setting,
   User,
   Account,
   Rating,

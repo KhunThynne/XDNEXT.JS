@@ -24,6 +24,11 @@ graphql(`
         isSet
       }
       provider
+      point {
+        id
+        total_point
+        updateAt
+      }
       avartar {
         altText
         id
@@ -57,12 +62,26 @@ graphql(`
     user(where: $where) {
       itemsCount
       items {
+        id
         config
         createdAt
         updateAt
         item {
           id
           product {
+            name
+            images {
+              altText
+              id
+              name
+              src {
+                extension
+                filesize
+                height
+                url
+                width
+              }
+            }
             status
             createdAt
             updateAt

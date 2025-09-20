@@ -70,10 +70,15 @@ const EmblaCarousel = (props: PropType) => {
     >
       {edgeGlow && <EdgeGlow />}
       <span
-        className={clsx("embla__viewport absolute inset-0", classNames?.view)}
+        className={clsx("embla__viewport", classNames?.view)}
         ref={emblaRef}
       >
-        <div className={clsx("flex size-full", classNames?.container)}>
+        <div
+          className={clsx(
+            "embla__container flex max-w-fit",
+            classNames?.container
+          )}
+        >
           {children}
         </div>
       </span>

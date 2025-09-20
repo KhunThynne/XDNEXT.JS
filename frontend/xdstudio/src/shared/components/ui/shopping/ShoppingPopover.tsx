@@ -1,17 +1,10 @@
-import Image from "next/image";
 import { Button } from "@/libs/shadcn/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/libs/shadcn/ui/popover";
-import {
-  Delete,
-  ImageOff,
-  ShoppingBag,
-  ShoppingCart,
-  Trash,
-} from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
 import { Cart, Maybe, User } from "@/libs/graphql/generates/graphql";
 
@@ -54,7 +47,7 @@ export const ShoppingPopover = ({
         </Link>
       </Button>
       <PopoverContent align="end" className="w-sm p-0">
-        <h4 className="px-4 pb-3 pt-4 font-semibold">รายการของคุณ</h4>
+        <h4 className="px-4 pb-3 pt-4 font-semibold">Your items cart</h4>
         <section className="flex max-h-[70vh] w-full flex-col space-y-4 overflow-auto">
           <CartShoppingForm
             cartItems={cartItems}

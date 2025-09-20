@@ -1,3 +1,4 @@
+"use client";
 import { execute } from "@/libs/graphql/execute";
 import {
   GetUserPointDocument,

@@ -87,7 +87,7 @@ export const DialogInstanceProvider = ({ children }: WithlDefaultProps) => {
     </DialogContextInstance>
   );
 };
-export const useDialoguseContext = () => {
+export const useDialogContext = () => {
   const context = useContext(DialogContextInstance);
   if (!context) {
     throw new Error(
@@ -109,7 +109,7 @@ export function DialogInstance(
   const options = props.options;
   const { refContent, refDialog, ...propsDialog } = props;
 
-  const { dailogState, setDialogState } = useDialoguseContext();
+  const { dailogState, setDialogState } = useDialogContext();
 
   // const [open, setOpen] = useState(props.options?.dialog?.open);
 

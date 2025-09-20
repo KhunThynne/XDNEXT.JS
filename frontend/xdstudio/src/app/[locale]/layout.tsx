@@ -14,12 +14,9 @@ export const metadata: Metadata = {
 export default async function LocaleLayout({
   children,
   params,
-  footer,
-  navbar,
-}: WithlDefaultProps &
-  NextJSReactNodes<"footer" | "navbar"> & {
-    params: Promise<{ locale: string }>;
-  }) {
+}: WithChildren & {
+  params: Promise<{ locale: string }>;
+}) {
   // Ensure that the incoming `locale` is valid
   const { locale } = await params;
   const session = await auth();
@@ -38,11 +35,7 @@ export default async function LocaleLayout({
         <SessionProvider>
           <NextIntlClientProvider>
             <Providers locale={locale} session={session}>
-              <main className={clsx("flex flex-col", "min-h-screen")}>
-                {navbar}
-                {children}
-                {footer}
-              </main>
+              {children}
             </Providers>
           </NextIntlClientProvider>
         </SessionProvider>

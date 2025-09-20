@@ -1,7 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, timestamp } from '@keystone-6/core/fields';
-export const ProductPromotion: ListConfig<any> = list({
+export const ProductPromotion = list({
   access: allowAll,
   ui: {
     listView: {
@@ -15,4 +15,4 @@ export const ProductPromotion: ListConfig<any> = list({
     publishedAt: timestamp(),
     images: relationship({ ref: 'Image', many: true }),
   },
-});
+}) satisfies ListConfig<any>;

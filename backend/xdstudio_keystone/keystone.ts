@@ -11,12 +11,11 @@ import { config, graphql } from '@keystone-6/core';
 
 // authentication is configured separately here too, but you might move this elsewhere
 // when you write your list-level access control functions, as they typically rely on session data
-import { withAuth, session } from './auth';
+import { withAuth, session } from './src/auth';
 import env from './env';
-
 import { lists } from './src/schemas';
 import { extendGraphqlSchema } from './src/extendGraphqlSchema';
-
+import { SeedData } from './seed-data';
 export default withAuth(
   config({
     db: {
@@ -25,27 +24,14 @@ export default withAuth(
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
       provider: 'postgresql',
       url: env.DATABASE_URL,
-      // onConnect: async context => { /* ... */ },
       // Optional advanced configuration
       onConnect: async (context) => {
-        const users = await context.db.User.findMany({});
-        if (users.length === 0) {
-          await context.db.User.createOne({
-            data: { name: 'Thynne', email: 'khunthynne@gmail.com', password: '0926234961' },
-          });
-          console.log('Seeded initial user data');
-        }
+        console.log(env.NODE_ENV);
+        await SeedData(context);
       },
       enableLogging: true,
       idField: { kind: 'uuid' },
       shadowDatabaseUrl: env.SHADOW_DATABASE_URL,
-      //     extendPrismaSchema: (schema) => {
-      //       return `generator dbml {
-      //               provider = "prisma-dbml-generator"
-      //               output   = "./dbml"
-      //     }
-      // ${schema}`;
-      //     },
     },
 
     lists,
@@ -63,61 +49,11 @@ export default withAuth(
     graphql: {
       extendGraphqlSchema,
     },
-    // graphql: {
-    //   extendGraphqlSchema: graphql.extend((base) => {
-    //     const RegisterAndLoginResult = graphql.object<{
-    //       item: any;
-    //       sessionToken: string;
-    //     }>()({
-    //       name: 'RegisterAndLoginResult',
-    //       fields: {
-    //         item: graphql.field({
-    //           type: base.object('User'),
-    //           resolve(source) {
-    //             return source.item;
-    //           },
-    //         }),
-    //         sessionToken: graphql.field({
-    //           type: graphql.String,
-    //           resolve(source) {
-    //             return source.sessionToken;
-    //           },
-    //         }),
-    //       },
-    //     });
-
-    //     return {
-    //       mutation: {
-    //         createAndLogin: graphql.field({
-    //           type: RegisterAndLoginResult,
-    //           args: {
-    //             email: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-    //             password: graphql.arg({ type: graphql.nonNull(graphql.String) }),
-    //             username: graphql.arg({ type: graphql.String }),
-    //             image: graphql.arg({ type: graphql.String }),
-    //             provider: graphql.arg({ type: graphql.String }),
-    //           },
-    //           async resolve(_, arg, context: Context) {
-    //             const { email, username, provider } = arg;
-    //             let user = await context.db.User.findOne({ where: { email } });
-
-    //             if (!user) {
-    //               user = await context.db.User.createOne({
-    //                 data: { ...arg, name: username, provider: provider ?? 'gust', role: 'user' },
-    //               });
-    //             }
-    //             const sessionToken = await context.session.authenticateUserWithPassword({
-    //               data: { email: user.email, password: arg.password },
-    //             });
-    //             return { item: user, sessionToken };
-    //           },
-    //         }),
-    //       },
-    //     };
-    //   }),
-    // },
     session,
-    server: { port: env.PORT },
+    server: {
+      // cors: { origin: false }, options: { host: '127.0.0.1' },
+      port: env.PORT,
+    },
     ui: {
       isAccessAllowed: () => true,
       // : false,

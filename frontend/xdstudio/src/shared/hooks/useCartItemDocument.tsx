@@ -1,14 +1,9 @@
 import { execute } from "@/libs/graphql/execute";
 import {
-  Cart,
-  CreateCartItemDocument,
   DeleteCartItemDocument,
   DeleteCartItemsDocument,
-  GetCartDocument,
-  Product,
-  User,
 } from "@/libs/graphql/generates/graphql";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useCartItemDocument = ({
   handleSuccess,

@@ -1,8 +1,8 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { relationship, timestamp, json } from '@keystone-6/core/fields';
+import { relationship, json } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-export const UserItem: ListConfig<any> = list({
+export const UserItem = list({
   access: allowAll,
   ui: {
     listView: {
@@ -33,4 +33,4 @@ export const UserItem: ListConfig<any> = list({
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
-});
+}) satisfies ListConfig<any>;

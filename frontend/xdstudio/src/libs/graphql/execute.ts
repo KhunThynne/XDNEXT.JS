@@ -1,5 +1,6 @@
 import { env } from "@/env";
 import { TypedDocumentString } from "./generates/graphql";
+import getBaseUrl from "@/utils/getBaseUrl";
 
 async function executeWithEndpoint<TResult, TVariables>(
   endpoint: string,
@@ -25,8 +26,10 @@ export async function execute<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
+  const baseUrl = getBaseUrl();
+
   return executeWithEndpoint(
-    `${env.NEXT_PUBLIC_BASE_URL}/api/graphql`,
+    `${baseUrl ?? env.NEXT_PUBLIC_SITE_URL}/api/graphql`,
     query,
     ...variables
   );
@@ -36,8 +39,10 @@ export async function executeAuth<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
+  const baseUrl = getBaseUrl();
+
   return executeWithEndpoint(
-    `${env.NEXT_PUBLIC_BASE_URL}/api/auth/graphql`,
+    `${baseUrl ?? env.NEXT_PUBLIC_SITE_URL}/api/auth/graphql`,
     query,
     ...variables
   );

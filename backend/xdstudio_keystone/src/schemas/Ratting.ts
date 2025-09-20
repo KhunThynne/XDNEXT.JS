@@ -3,7 +3,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 
-export const Rating: ListConfig<any> = list({
+export const Rating = list({
   access: allowAll,
   ui: {
     label: 'Rating',
@@ -42,4 +42,4 @@ export const Rating: ListConfig<any> = list({
       }
     },
   },
-});
+}) satisfies ListConfig<any>;

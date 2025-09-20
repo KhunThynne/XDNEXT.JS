@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
-export const UserPreference: ListConfig<any> = list({
+export const UserPreference = list({
   access: allowAll,
   ui: { isHidden: true },
   fields: {
@@ -26,4 +26,4 @@ export const UserPreference: ListConfig<any> = list({
       ],
     }),
   },
-});
+}) satisfies ListConfig<any>;
