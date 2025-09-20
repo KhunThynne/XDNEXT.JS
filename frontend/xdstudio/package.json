@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev  --turbopack",
+    "dev": "next dev -H 192.168.1.2 --turbopack",
     "build": "next build",
     "start": "next start -H 45.144.166.131",
     "lint": "next lint",
