@@ -15,12 +15,16 @@ export const env = createEnv({
     AUTH_SECRET: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
     DISCORD_CLIENT_ID: z.string(),
+    XDCoreApi: z.string(),
+    OMISE_PUBLIC_KEY: z.string(),
+    OMISE_SECRET_KEY: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
-    NEXT_PUBLIC_API_URL: z.string().url(),
+    NEXT_PUBLIC_SITE_URL: z.string().url(),
   },
   runtimeEnv: {
+    XDCoreApi: process.env.XDCoreApi,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     SQL_HOST: process.env.SQL_HOST,
@@ -32,8 +36,11 @@ export const env = createEnv({
     PORT: process.env.PORT,
     CODEGEN_TOKEN: process.env.CODEGEN_TOKEN,
     API_BACKEND_URL: process.env.API_BACKEND_URL,
-    NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    OMISE_PUBLIC_KEY: process.env.OMISE_PUBLIC_KEY,
+    OMISE_SECRET_KEY: process.env.OMISE_SECRET_KEY,
+    // ClientSide
+    NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
 });

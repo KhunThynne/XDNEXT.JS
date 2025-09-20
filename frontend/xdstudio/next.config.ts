@@ -4,12 +4,23 @@ import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 const backendUrl = new URL(env.API_BACKEND_URL);
 const nextConfig = {
+  trailingSlash: true,
+  typedRoutes: false,
   images: {
     remotePatterns: [
       {
         protocol: backendUrl.protocol.replace(":", "") as "http" | "https",
         hostname: backendUrl.hostname,
         pathname: "/images/**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "api.omise.co",
       },
     ],
   },

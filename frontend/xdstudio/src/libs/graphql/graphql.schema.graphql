@@ -3,7 +3,249 @@ schema {
   mutation: Mutation
 }
 
+type Account {
+  accessToken: String
+  expiresAt: DateTime
+  id: ID!
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: User
+}
+
+input AccountCreateInput {
+  accessToken: String
+  expiresAt: DateTime
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: UserRelateToOneForCreateInput
+}
+
+input AccountManyRelationFilter {
+  every: AccountWhereInput
+  none: AccountWhereInput
+  some: AccountWhereInput
+}
+
+input AccountOrderByInput {
+  accessToken: OrderDirection
+  expiresAt: OrderDirection
+  id: OrderDirection
+  provider: OrderDirection
+  providerAccountId: OrderDirection
+  refreshToken: OrderDirection
+  scope: OrderDirection
+}
+
+input AccountRelateToManyForCreateInput {
+  connect: [AccountWhereUniqueInput!]
+  create: [AccountCreateInput!]
+}
+
+input AccountRelateToManyForUpdateInput {
+  connect: [AccountWhereUniqueInput!]
+  create: [AccountCreateInput!]
+  disconnect: [AccountWhereUniqueInput!]
+  set: [AccountWhereUniqueInput!]
+}
+
+input AccountUpdateArgs {
+  data: AccountUpdateInput!
+  where: AccountWhereUniqueInput!
+}
+
+input AccountUpdateInput {
+  accessToken: String
+  expiresAt: DateTime
+  meta: JSON
+  provider: String
+  providerAccountId: String
+  refreshToken: String
+  scope: String
+  user: UserRelateToOneForUpdateInput
+}
+
+input AccountWhereInput {
+  AND: [AccountWhereInput!]
+  NOT: [AccountWhereInput!]
+  OR: [AccountWhereInput!]
+  accessToken: StringFilter
+  expiresAt: DateTimeNullableFilter
+  id: IDFilter
+  provider: StringFilter
+  providerAccountId: StringFilter
+  refreshToken: StringFilter
+  scope: StringFilter
+  user: UserWhereInput
+}
+
+input AccountWhereUniqueInput {
+  id: ID
+}
+
+type AuthProvidersFailure {
+  message: String
+}
+
+union AuthProvidersResponse = AuthProvidersFailure | AuthProvidersSuccess
+
+type AuthProvidersSuccess {
+  accessToken: String!
+  item: User!
+  refetchToken: String
+  sessionToken: String!
+}
+
 union AuthenticatedItem = User
+
+type Cart {
+  createdAt: DateTime
+  id: ID!
+  items(cursor: CartItemWhereUniqueInput, orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  itemsCount(where: CartItemWhereInput! = {}): Int
+  status: String
+  updateAt: DateTime
+  user: User
+}
+
+input CartCreateInput {
+  createdAt: DateTime
+  items: CartItemRelateToManyForCreateInput
+  status: String
+  updateAt: DateTime
+  user: UserRelateToOneForCreateInput
+}
+
+type CartItem {
+  cart: Cart
+  id: ID!
+  product: Product
+  quantity: Int
+}
+
+input CartItemCreateInput {
+  cart: CartRelateToOneForCreateInput
+  product: ProductRelateToOneForCreateInput
+  quantity: Int
+}
+
+input CartItemManyRelationFilter {
+  every: CartItemWhereInput
+  none: CartItemWhereInput
+  some: CartItemWhereInput
+}
+
+input CartItemOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+}
+
+input CartItemRelateToManyForCreateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+}
+
+input CartItemRelateToManyForUpdateInput {
+  connect: [CartItemWhereUniqueInput!]
+  create: [CartItemCreateInput!]
+  disconnect: [CartItemWhereUniqueInput!]
+  set: [CartItemWhereUniqueInput!]
+}
+
+input CartItemUpdateArgs {
+  data: CartItemUpdateInput!
+  where: CartItemWhereUniqueInput!
+}
+
+input CartItemUpdateInput {
+  cart: CartRelateToOneForUpdateInput
+  product: ProductRelateToOneForUpdateInput
+  quantity: Int
+}
+
+input CartItemWhereInput {
+  AND: [CartItemWhereInput!]
+  NOT: [CartItemWhereInput!]
+  OR: [CartItemWhereInput!]
+  cart: CartWhereInput
+  id: IDFilter
+  product: ProductWhereInput
+  quantity: IntFilter
+}
+
+input CartItemWhereUniqueInput {
+  id: ID
+}
+
+input CartManyRelationFilter {
+  every: CartWhereInput
+  none: CartWhereInput
+  some: CartWhereInput
+}
+
+input CartOrderByInput {
+  createdAt: OrderDirection
+  id: OrderDirection
+  status: OrderDirection
+  updateAt: OrderDirection
+}
+
+input CartRelateToManyForCreateInput {
+  connect: [CartWhereUniqueInput!]
+  create: [CartCreateInput!]
+}
+
+input CartRelateToManyForUpdateInput {
+  connect: [CartWhereUniqueInput!]
+  create: [CartCreateInput!]
+  disconnect: [CartWhereUniqueInput!]
+  set: [CartWhereUniqueInput!]
+}
+
+input CartRelateToOneForCreateInput {
+  connect: CartWhereUniqueInput
+  create: CartCreateInput
+}
+
+input CartRelateToOneForUpdateInput {
+  connect: CartWhereUniqueInput
+  create: CartCreateInput
+  disconnect: Boolean
+}
+
+input CartUpdateArgs {
+  data: CartUpdateInput!
+  where: CartWhereUniqueInput!
+}
+
+input CartUpdateInput {
+  createdAt: DateTime
+  items: CartItemRelateToManyForUpdateInput
+  status: String
+  updateAt: DateTime
+  user: UserRelateToOneForUpdateInput
+}
+
+input CartWhereInput {
+  AND: [CartWhereInput!]
+  NOT: [CartWhereInput!]
+  OR: [CartWhereInput!]
+  createdAt: DateTimeNullableFilter
+  id: IDFilter
+  items: CartItemManyRelationFilter
+  status: StringNullableFilter
+  updateAt: DateTimeNullableFilter
+  user: UserWhereInput
+}
+
+input CartWhereUniqueInput {
+  id: ID
+}
 
 input CreateInitialUserInput {
   email: String
@@ -22,6 +264,66 @@ input DateTimeNullableFilter {
   lte: DateTime
   not: DateTimeNullableFilter
   notIn: [DateTime!]
+}
+
+type FAQ {
+  answer: FAQ_answer_Document
+  id: ID!
+  question: String
+}
+
+input FAQCreateInput {
+  answer: JSON
+  question: String
+}
+
+input FAQManyRelationFilter {
+  every: FAQWhereInput
+  none: FAQWhereInput
+  some: FAQWhereInput
+}
+
+input FAQOrderByInput {
+  id: OrderDirection
+  question: OrderDirection
+}
+
+input FAQRelateToManyForCreateInput {
+  connect: [FAQWhereUniqueInput!]
+  create: [FAQCreateInput!]
+}
+
+input FAQRelateToManyForUpdateInput {
+  connect: [FAQWhereUniqueInput!]
+  create: [FAQCreateInput!]
+  disconnect: [FAQWhereUniqueInput!]
+  set: [FAQWhereUniqueInput!]
+}
+
+input FAQUpdateArgs {
+  data: FAQUpdateInput!
+  where: FAQWhereUniqueInput!
+}
+
+input FAQUpdateInput {
+  answer: JSON
+  question: String
+}
+
+input FAQWhereInput {
+  AND: [FAQWhereInput!]
+  NOT: [FAQWhereInput!]
+  OR: [FAQWhereInput!]
+  id: IDFilter
+  question: StringFilter
+}
+
+input FAQWhereUniqueInput {
+  id: ID
+}
+
+type FAQ_answer_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input FloatNullableFilter {
@@ -297,8 +599,16 @@ type KeystoneMeta {
 }
 
 type Mutation {
+  authenticateAndLinkProvider(accessToken: String, email: String!, image: String, name: String, provider: String!, providerAccountId: String!, refreshToken: String): AuthProvidersResponse
   authenticateUserWithPassword(email: String!, password: String!): UserAuthenticationWithPasswordResult
-  createAndLogin(email: String!, image: String, password: String!, provider: String, username: String): RegisterAndLoginResult
+  createAccount(data: AccountCreateInput!): Account
+  createAccounts(data: [AccountCreateInput!]!): [Account]
+  createCart(data: CartCreateInput!): Cart
+  createCartItem(data: CartItemCreateInput!): CartItem
+  createCartItems(data: [CartItemCreateInput!]!): [CartItem]
+  createCarts(data: [CartCreateInput!]!): [Cart]
+  createFAQ(data: FAQCreateInput!): FAQ
+  createFAQS(data: [FAQCreateInput!]!): [FAQ]
   createImage(data: ImageCreateInput!): Image
   createImages(data: [ImageCreateInput!]!): [Image]
   createInitialUser(data: CreateInitialUserInput!): UserAuthenticationWithPasswordSuccess!
@@ -318,6 +628,12 @@ type Mutation {
   createProducts(data: [ProductCreateInput!]!): [Product]
   createPromotion(data: PromotionCreateInput!): Promotion
   createPromotions(data: [PromotionCreateInput!]!): [Promotion]
+  createRating(data: RatingCreateInput!): Rating
+  createRatings(data: [RatingCreateInput!]!): [Rating]
+  createSetting(data: SettingCreateInput!): Setting
+  createSettings(data: [SettingCreateInput!]!): [Setting]
+  createStock(data: StockCreateInput!): Stock
+  createStocks(data: [StockCreateInput!]!): [Stock]
   createSupplier(data: SupplierCreateInput!): Supplier
   createSuppliers(data: [SupplierCreateInput!]!): [Supplier]
   createTag(data: TagCreateInput!): Tag
@@ -330,6 +646,14 @@ type Mutation {
   createUserPreference(data: UserPreferenceCreateInput!): UserPreference
   createUserPreferences(data: [UserPreferenceCreateInput!]!): [UserPreference]
   createUsers(data: [UserCreateInput!]!): [User]
+  deleteAccount(where: AccountWhereUniqueInput!): Account
+  deleteAccounts(where: [AccountWhereUniqueInput!]!): [Account]
+  deleteCart(where: CartWhereUniqueInput!): Cart
+  deleteCartItem(where: CartItemWhereUniqueInput!): CartItem
+  deleteCartItems(where: [CartItemWhereUniqueInput!]!): [CartItem]
+  deleteCarts(where: [CartWhereUniqueInput!]!): [Cart]
+  deleteFAQ(where: FAQWhereUniqueInput!): FAQ
+  deleteFAQS(where: [FAQWhereUniqueInput!]!): [FAQ]
   deleteImage(where: ImageWhereUniqueInput!): Image
   deleteImages(where: [ImageWhereUniqueInput!]!): [Image]
   deleteOrder(where: OrderWhereUniqueInput!): Order
@@ -348,6 +672,12 @@ type Mutation {
   deleteProducts(where: [ProductWhereUniqueInput!]!): [Product]
   deletePromotion(where: PromotionWhereUniqueInput!): Promotion
   deletePromotions(where: [PromotionWhereUniqueInput!]!): [Promotion]
+  deleteRating(where: RatingWhereUniqueInput!): Rating
+  deleteRatings(where: [RatingWhereUniqueInput!]!): [Rating]
+  deleteSetting(where: SettingWhereUniqueInput! = {id: 1}): Setting
+  deleteSettings(where: [SettingWhereUniqueInput!]!): [Setting]
+  deleteStock(where: StockWhereUniqueInput!): Stock
+  deleteStocks(where: [StockWhereUniqueInput!]!): [Stock]
   deleteSupplier(where: SupplierWhereUniqueInput!): Supplier
   deleteSuppliers(where: [SupplierWhereUniqueInput!]!): [Supplier]
   deleteTag(where: TagWhereUniqueInput!): Tag
@@ -363,6 +693,14 @@ type Mutation {
   endSession: Boolean!
   redeemUserPasswordResetToken(email: String!, password: String!, token: String!): RedeemUserPasswordResetTokenResult
   sendUserPasswordResetLink(email: String!): Boolean!
+  updateAccount(data: AccountUpdateInput!, where: AccountWhereUniqueInput!): Account
+  updateAccounts(data: [AccountUpdateArgs!]!): [Account]
+  updateCart(data: CartUpdateInput!, where: CartWhereUniqueInput!): Cart
+  updateCartItem(data: CartItemUpdateInput!, where: CartItemWhereUniqueInput!): CartItem
+  updateCartItems(data: [CartItemUpdateArgs!]!): [CartItem]
+  updateCarts(data: [CartUpdateArgs!]!): [Cart]
+  updateFAQ(data: FAQUpdateInput!, where: FAQWhereUniqueInput!): FAQ
+  updateFAQS(data: [FAQUpdateArgs!]!): [FAQ]
   updateImage(data: ImageUpdateInput!, where: ImageWhereUniqueInput!): Image
   updateImages(data: [ImageUpdateArgs!]!): [Image]
   updateOrder(data: OrderUpdateInput!, where: OrderWhereUniqueInput!): Order
@@ -381,6 +719,12 @@ type Mutation {
   updateProducts(data: [ProductUpdateArgs!]!): [Product]
   updatePromotion(data: PromotionUpdateInput!, where: PromotionWhereUniqueInput!): Promotion
   updatePromotions(data: [PromotionUpdateArgs!]!): [Promotion]
+  updateRating(data: RatingUpdateInput!, where: RatingWhereUniqueInput!): Rating
+  updateRatings(data: [RatingUpdateArgs!]!): [Rating]
+  updateSetting(data: SettingUpdateInput!, where: SettingWhereUniqueInput! = {id: 1}): Setting
+  updateSettings(data: [SettingUpdateArgs!]!): [Setting]
+  updateStock(data: StockUpdateInput!, where: StockWhereUniqueInput!): Stock
+  updateStocks(data: [StockUpdateArgs!]!): [Stock]
   updateSupplier(data: SupplierUpdateInput!, where: SupplierWhereUniqueInput!): Supplier
   updateSuppliers(data: [SupplierUpdateArgs!]!): [Supplier]
   updateTag(data: TagUpdateInput!, where: TagWhereUniqueInput!): Tag
@@ -414,6 +758,7 @@ type Order {
   id: ID!
   items(cursor: OrderItemWhereUniqueInput, orderBy: [OrderItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderItemWhereInput! = {}): [OrderItem!]
   itemsCount(where: OrderItemWhereInput! = {}): Int
+  status: String
   updateAt: DateTime
   user: User
 }
@@ -421,6 +766,7 @@ type Order {
 input OrderCreateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForCreateInput
+  status: String
   updateAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -521,6 +867,7 @@ input OrderManyRelationFilter {
 input OrderOrderByInput {
   createdAt: OrderDirection
   id: OrderDirection
+  status: OrderDirection
   updateAt: OrderDirection
 }
 
@@ -555,6 +902,7 @@ input OrderUpdateArgs {
 input OrderUpdateInput {
   createdAt: DateTime
   items: OrderItemRelateToManyForUpdateInput
+  status: String
   updateAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -566,6 +914,7 @@ input OrderWhereInput {
   createdAt: DateTimeNullableFilter
   id: IDFilter
   items: OrderItemManyRelationFilter
+  status: StringFilter
   updateAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -794,32 +1143,45 @@ input PriceWhereUniqueInput {
 }
 
 type Product {
+  averageScore: Float
   createdAt: DateTime
   description: String
   details: Product_details_Document
+  faqs(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
+  faqsCount(where: FAQWhereInput! = {}): Int
   id: ID!
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
   name: String
   price: Price
   publishedAt: DateTime
+  ratings(cursor: RatingWhereUniqueInput, orderBy: [RatingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: RatingWhereInput! = {}): [Rating!]
+  ratingsCount(where: RatingWhereInput! = {}): Int
   status: String
+  stock: Stock
   suppilers: Supplier
+  tag(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
+  tagCount(where: TagWhereInput! = {}): Int
   tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
 }
 
 input ProductCreateInput {
+  averageScore: Float
   createdAt: DateTime
   description: String
   details: JSON
+  faqs: FAQRelateToManyForCreateInput
   images: ImageRelateToManyForCreateInput
   name: String
   price: PriceRelateToOneForCreateInput
   publishedAt: DateTime
+  ratings: RatingRelateToManyForCreateInput
   status: String
+  stock: StockRelateToOneForCreateInput
   suppilers: SupplierRelateToOneForCreateInput
+  tag: TagRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
 }
@@ -831,6 +1193,7 @@ input ProductManyRelationFilter {
 }
 
 input ProductOrderByInput {
+  averageScore: OrderDirection
   createdAt: OrderDirection
   description: OrderDirection
   id: OrderDirection
@@ -918,15 +1281,20 @@ input ProductUpdateArgs {
 }
 
 input ProductUpdateInput {
+  averageScore: Float
   createdAt: DateTime
   description: String
   details: JSON
+  faqs: FAQRelateToManyForUpdateInput
   images: ImageRelateToManyForUpdateInput
   name: String
   price: PriceRelateToOneForUpdateInput
   publishedAt: DateTime
+  ratings: RatingRelateToManyForUpdateInput
   status: String
+  stock: StockRelateToOneForUpdateInput
   suppilers: SupplierRelateToOneForUpdateInput
+  tag: TagRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
 }
@@ -935,21 +1303,27 @@ input ProductWhereInput {
   AND: [ProductWhereInput!]
   NOT: [ProductWhereInput!]
   OR: [ProductWhereInput!]
+  averageScore: FloatNullableFilter
   createdAt: DateTimeNullableFilter
   description: StringFilter
+  faqs: FAQManyRelationFilter
   id: IDFilter
   images: ImageManyRelationFilter
   name: StringFilter
   price: PriceWhereInput
   publishedAt: DateTimeNullableFilter
+  ratings: RatingManyRelationFilter
   status: StringFilter
+  stock: StockWhereInput
   suppilers: SupplierWhereInput
+  tag: TagManyRelationFilter
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
 }
 
 input ProductWhereUniqueInput {
   id: ID
+  stock: StockWhereUniqueInput
 }
 
 type Product_details_Document {
@@ -1025,7 +1399,19 @@ input PromotionWhereUniqueInput {
 }
 
 type Query {
+  account(where: AccountWhereUniqueInput!): Account
+  accounts(cursor: AccountWhereUniqueInput, orderBy: [AccountOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AccountWhereInput! = {}): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   authenticatedItem: AuthenticatedItem
+  cart(where: CartWhereUniqueInput!): Cart
+  cartItem(where: CartItemWhereUniqueInput!): CartItem
+  cartItems(cursor: CartItemWhereUniqueInput, orderBy: [CartItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartItemWhereInput! = {}): [CartItem!]
+  cartItemsCount(where: CartItemWhereInput! = {}): Int
+  carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
+  fAQ(where: FAQWhereUniqueInput!): FAQ
+  fAQS(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
+  fAQSCount(where: FAQWhereInput! = {}): Int
   image(where: ImageWhereUniqueInput!): Image
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
@@ -1054,6 +1440,15 @@ type Query {
   promotion(where: PromotionWhereUniqueInput!): Promotion
   promotions(cursor: PromotionWhereUniqueInput, orderBy: [PromotionOrderByInput!]! = [], skip: Int! = 0, take: Int, where: PromotionWhereInput! = {}): [Promotion!]
   promotionsCount(where: PromotionWhereInput! = {}): Int
+  rating(where: RatingWhereUniqueInput!): Rating
+  ratings(cursor: RatingWhereUniqueInput, orderBy: [RatingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: RatingWhereInput! = {}): [Rating!]
+  ratingsCount(where: RatingWhereInput! = {}): Int
+  setting(where: SettingWhereUniqueInput! = {id: 1}): Setting
+  settings(cursor: SettingWhereUniqueInput, orderBy: [SettingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SettingWhereInput! = {id: {equals: 1}}): [Setting!]
+  settingsCount(where: SettingWhereInput! = {id: {equals: 1}}): Int
+  stock(where: StockWhereUniqueInput!): Stock
+  stocks(cursor: StockWhereUniqueInput, orderBy: [StockOrderByInput!]! = [], skip: Int! = 0, take: Int, where: StockWhereInput! = {}): [Stock!]
+  stocksCount(where: StockWhereInput! = {}): Int
   supplier(where: SupplierWhereUniqueInput!): Supplier
   suppliers(cursor: SupplierWhereUniqueInput, orderBy: [SupplierOrderByInput!]! = [], skip: Int! = 0, take: Int, where: SupplierWhereInput! = {}): [Supplier!]
   suppliersCount(where: SupplierWhereInput! = {}): Int
@@ -1080,14 +1475,193 @@ enum QueryMode {
   insensitive
 }
 
+type Rating {
+  comment: String
+  createdAt: DateTime
+  id: ID!
+  score: Int
+  updateAt: DateTime
+}
+
+input RatingCreateInput {
+  comment: String
+  createdAt: DateTime
+  score: Int
+  updateAt: DateTime
+}
+
+input RatingManyRelationFilter {
+  every: RatingWhereInput
+  none: RatingWhereInput
+  some: RatingWhereInput
+}
+
+input RatingOrderByInput {
+  comment: OrderDirection
+  createdAt: OrderDirection
+  id: OrderDirection
+  score: OrderDirection
+  updateAt: OrderDirection
+}
+
+input RatingRelateToManyForCreateInput {
+  connect: [RatingWhereUniqueInput!]
+  create: [RatingCreateInput!]
+}
+
+input RatingRelateToManyForUpdateInput {
+  connect: [RatingWhereUniqueInput!]
+  create: [RatingCreateInput!]
+  disconnect: [RatingWhereUniqueInput!]
+  set: [RatingWhereUniqueInput!]
+}
+
+input RatingUpdateArgs {
+  data: RatingUpdateInput!
+  where: RatingWhereUniqueInput!
+}
+
+input RatingUpdateInput {
+  comment: String
+  createdAt: DateTime
+  score: Int
+  updateAt: DateTime
+}
+
+input RatingWhereInput {
+  AND: [RatingWhereInput!]
+  NOT: [RatingWhereInput!]
+  OR: [RatingWhereInput!]
+  comment: StringFilter
+  createdAt: DateTimeNullableFilter
+  id: IDFilter
+  score: IntFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input RatingWhereUniqueInput {
+  id: ID
+}
+
 type RedeemUserPasswordResetTokenResult {
   code: PasswordResetRedemptionErrorCode!
   message: String!
 }
 
-type RegisterAndLoginResult {
-  item: User
-  sessionToken: String
+type Setting {
+  id: ID!
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingCreateInput {
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingOrderByInput {
+  id: OrderDirection
+  redirect: OrderDirection
+  smtpHost: OrderDirection
+  smtpPass: OrderDirection
+  smtpPort: OrderDirection
+  smtpUser: OrderDirection
+}
+
+input SettingUpdateArgs {
+  data: SettingUpdateInput!
+  where: SettingWhereUniqueInput! = {id: 1}
+}
+
+input SettingUpdateInput {
+  redirect: String
+  smtpHost: String
+  smtpPass: String
+  smtpPort: String
+  smtpUser: String
+}
+
+input SettingWhereInput {
+  AND: [SettingWhereInput!]
+  NOT: [SettingWhereInput!]
+  OR: [SettingWhereInput!]
+  id: IDFilter
+  redirect: StringFilter
+  smtpHost: StringFilter
+  smtpPass: StringFilter
+  smtpPort: StringFilter
+  smtpUser: StringFilter
+}
+
+input SettingWhereUniqueInput {
+  id: ID
+}
+
+type Stock {
+  id: ID!
+  product: Product
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockCreateInput {
+  product: ProductRelateToOneForCreateInput
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockOrderByInput {
+  id: OrderDirection
+  quantity: OrderDirection
+  type: OrderDirection
+  updateAt: OrderDirection
+}
+
+input StockRelateToOneForCreateInput {
+  connect: StockWhereUniqueInput
+  create: StockCreateInput
+}
+
+input StockRelateToOneForUpdateInput {
+  connect: StockWhereUniqueInput
+  create: StockCreateInput
+  disconnect: Boolean
+}
+
+input StockUpdateArgs {
+  data: StockUpdateInput!
+  where: StockWhereUniqueInput!
+}
+
+input StockUpdateInput {
+  product: ProductRelateToOneForUpdateInput
+  quantity: Int
+  type: String
+  updateAt: DateTime
+}
+
+input StockWhereInput {
+  AND: [StockWhereInput!]
+  NOT: [StockWhereInput!]
+  OR: [StockWhereInput!]
+  id: IDFilter
+  product: ProductWhereInput
+  quantity: IntFilter
+  type: StringFilter
+  updateAt: DateTimeNullableFilter
+}
+
+input StockWhereUniqueInput {
+  id: ID
+  product: ProductWhereUniqueInput
 }
 
 input StringFilter {
@@ -1260,16 +1834,20 @@ input TagWhereUniqueInput {
 scalar Upload
 
 type User {
+  accounts(cursor: AccountWhereUniqueInput, orderBy: [AccountOrderByInput!]! = [], skip: Int! = 0, take: Int, where: AccountWhereInput! = {}): [Account!]
+  accountsCount(where: AccountWhereInput! = {}): Int
   avartar: Image
+  carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
+  cartsCount(where: CartWhereInput! = {}): Int
   createdAt: DateTime
   email: String
   id: ID!
   image: String
-  item(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
-  itemCount(where: UserItemWhereInput! = {}): Int
+  items(cursor: UserItemWhereUniqueInput, orderBy: [UserItemOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserItemWhereInput! = {}): [UserItem!]
+  itemsCount(where: UserItemWhereInput! = {}): Int
   name: String
-  order(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
-  orderCount(where: OrderWhereInput! = {}): Int
+  orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   password: PasswordState
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1297,13 +1875,15 @@ type UserAuthenticationWithPasswordSuccess {
 }
 
 input UserCreateInput {
+  accounts: AccountRelateToManyForCreateInput
   avartar: ImageRelateToOneForCreateInput
+  carts: CartRelateToManyForCreateInput
   createdAt: DateTime
   email: String
   image: String
-  item: UserItemRelateToManyForCreateInput
+  items: UserItemRelateToManyForCreateInput
   name: String
-  order: OrderRelateToManyForCreateInput
+  orders: OrderRelateToManyForCreateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1322,7 +1902,6 @@ type UserItem {
   createdAt: DateTime
   id: ID!
   item: OrderItem
-  product: Product
   updateAt: DateTime
   user: User
 }
@@ -1331,7 +1910,6 @@ input UserItemCreateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForCreateInput
-  product: ProductRelateToOneForCreateInput
   updateAt: DateTime
   user: UserRelateToOneForCreateInput
 }
@@ -1380,7 +1958,6 @@ input UserItemUpdateInput {
   config: JSON
   createdAt: DateTime
   item: OrderItemRelateToOneForUpdateInput
-  product: ProductRelateToOneForUpdateInput
   updateAt: DateTime
   user: UserRelateToOneForUpdateInput
 }
@@ -1392,7 +1969,6 @@ input UserItemWhereInput {
   createdAt: DateTimeNullableFilter
   id: IDFilter
   item: OrderItemWhereInput
-  product: ProductWhereInput
   updateAt: DateTimeNullableFilter
   user: UserWhereInput
 }
@@ -1559,13 +2135,15 @@ input UserUpdateArgs {
 }
 
 input UserUpdateInput {
+  accounts: AccountRelateToManyForUpdateInput
   avartar: ImageRelateToOneForUpdateInput
+  carts: CartRelateToManyForUpdateInput
   createdAt: DateTime
   email: String
   image: String
-  item: UserItemRelateToManyForUpdateInput
+  items: UserItemRelateToManyForUpdateInput
   name: String
-  order: OrderRelateToManyForUpdateInput
+  orders: OrderRelateToManyForUpdateInput
   password: String
   passwordResetIssuedAt: DateTime
   passwordResetRedeemedAt: DateTime
@@ -1583,14 +2161,16 @@ input UserWhereInput {
   AND: [UserWhereInput!]
   NOT: [UserWhereInput!]
   OR: [UserWhereInput!]
+  accounts: AccountManyRelationFilter
   avartar: ImageWhereInput
+  carts: CartManyRelationFilter
   createdAt: DateTimeNullableFilter
   email: StringFilter
   id: IDFilter
   image: StringFilter
-  item: UserItemManyRelationFilter
+  items: UserItemManyRelationFilter
   name: StringFilter
-  order: OrderManyRelationFilter
+  orders: OrderManyRelationFilter
   passwordResetIssuedAt: DateTimeNullableFilter
   passwordResetRedeemedAt: DateTimeNullableFilter
   passwordResetToken: PasswordFilter

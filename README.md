@@ -1,4 +1,28 @@
 🚀 Full Stack Web Application
++-------------------+
+|  Frontend (Next.js)  |
++-------------------+
+          |
+          | POST /api/resource
+          v
++-------------------+
+| Next.js Backend    |
+| (API Route / Proxy)|
++-------------------+
+| - Validate request (Zod)
+| - Authenticate / Authorize
+| - Error handling (handleError)
+| - Call services
+|   ├─ Keystone Backend (DB)
+|   ├─ Core Backend (FastAPI / AI)
+|   └─ Omise API (Payment)
++-------------------+
+          |
+          v
++-------------------+
+| Response to Frontend|
++-------------------+
+
 🧩 Tech Stack
 🖥️ Frontend
 Next.js – React Framework with App Router support

@@ -1,14 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
 import { graphql } from "../../generates";
-import { executeAuth } from "../../execute";
 
-export const CreateUserMutationDocument = graphql(`
+graphql(`
   mutation CreateUser(
     $name: String
     $username: String
     $provider: String
     $password: String
     $email: String
+    $image: String
   ) {
     createUser(
       data: {
@@ -17,6 +16,7 @@ export const CreateUserMutationDocument = graphql(`
         provider: $provider
         password: $password
         email: $email
+        image: $image
       }
     ) {
       id
@@ -33,10 +33,3 @@ export const CreateUserMutationDocument = graphql(`
     }
   }
 `);
-
-export function useCreateUser() {
-  return useMutation({
-    mutationFn: (variables: { email: string; password: string }) =>
-      executeAuth(CreateUserMutationDocument, variables),
-  });
-}

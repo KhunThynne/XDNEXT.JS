@@ -31,18 +31,32 @@ import { Image } from './Image.schema';
 import { Post } from './Post.schema';
 import { Supplier } from './Supplier.schema';
 import { Price } from './Price.schema';
+import { Cart } from './Cart.schema';
+import { CartItem } from './CartItem.schema';
+import { Stock } from './Stock.schema';
+import { FAQ } from './FAQ';
+import { Rating } from './Ratting';
+import { Account } from './Account';
+import { Setting } from './Setting.schema';
 
 export const lists = {
+  Setting,
   User,
+  Account,
+  Rating,
   UserItem,
   UserPreference,
   UserPoint,
   Supplier,
+  Cart,
+  CartItem,
   Order,
   OrderItem,
   Price,
   Product,
+  Stock,
   ProductPromotion,
+  FAQ,
   Promotion,
   PointTransaction,
   Image,

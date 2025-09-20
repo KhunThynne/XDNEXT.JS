@@ -5,6 +5,8 @@ Welcome to Keystone!
 Run
 
 ```
+npm install
+npm dedupe
 npm run dev
 ```
 

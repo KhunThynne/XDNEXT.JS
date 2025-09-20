@@ -37,33 +37,40 @@ const config: TypeConfigDefault = {
       title: "Products",
       href: "/products",
       description: "Browse our digital and physical products",
-      children: [
-        {
-          title: "Digital",
-          href: "/products/digital",
-          description: "Downloadable content like eBooks and courses",
-          children: [
-            {
-              title: "eBooks",
-              href: "/products/digital/ebooks",
-              description: "Knowledge-packed digital books",
-              children: [],
-            },
-            {
-              title: "Courses",
-              href: "/products/digital/courses",
-              description: "Online learning to boost your skills",
-              children: [],
-            },
-          ],
-        },
-        {
-          title: "Physical",
-          href: "/products/physical",
-          description: "Tangible products shipped to your door",
-          children: [],
-        },
-      ],
+      // children: [
+      //   {
+      //     title: "Buy Point",
+      //     href: "/account/add-point",
+      //     description: "Downloadable content like eBooks and courses",
+      //   },
+      // ],
+      //  children: [
+      //   {
+      //     title: "Digital",
+      //     href: "/products/digital",
+      //     description: "Downloadable content like eBooks and courses",
+      //     children: [
+      //       {
+      //         title: "eBooks",
+      //         href: "/products/digital/ebooks",
+      //         description: "Knowledge-packed digital books",
+      //         children: [],
+      //       },
+      //       {
+      //         title: "Courses",
+      //         href: "/products/digital/courses",
+      //         description: "Online learning to boost your skills",
+      //         children: [],
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     title: "Physical",
+      //     href: "/products/physical",
+      //     description: "Tangible products shipped to your door",
+      //     children: [],
+      //   },
+      // ],
     },
     {
       title: "Contact",

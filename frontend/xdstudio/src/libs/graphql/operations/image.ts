@@ -1,51 +1,36 @@
 import { graphql } from "../generates";
 
 graphql(`
+  fragment ImageField on Image {
+    id
+    name
+    altText
+    src {
+      filesize
+      width
+      height
+      extension
+      url
+      id
+    }
+  }
+`);
+graphql(`
   query GetImage($where: ImageWhereUniqueInput!) {
     image(where: $where) {
-      name
-      src {
-        id
-        extension
-        filesize
-        height
-        url
-        width
-      }
-      id
-      altText
+      ...ImageField
     }
   }
 
   mutation CreateImages($data: [ImageCreateInput!]!) {
     createImages(data: $data) {
-      name
-      id
-      altText
-      src {
-        id
-        filesize
-        width
-        height
-        extension
-        url
-      }
+      ...ImageField
     }
   }
 
   mutation CreateImage($data: ImageCreateInput!) {
     createImage(data: $data) {
-      altText
-      id
-      name
-      src {
-        extension
-        filesize
-        height
-        id
-        url
-        width
-      }
+      ...ImageField
     }
   }
 `);

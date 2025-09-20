@@ -4,7 +4,12 @@ import clsx from "clsx";
 
 interface ContainerSectionProps
   extends GlobalPropsClassNames<
-    "container" | "description" | "title" | "content" | "contentContainer"
+    | "container"
+    | "description"
+    | "title"
+    | "content"
+    | "contentContainer"
+    | "separator"
   > {
   title?: string;
   description?: string | React.JSX.Element;
@@ -20,23 +25,27 @@ export const ContainerSection = ({
   return (
     <section
       id="container-content-section"
-      className={clsx(
-        "flex h-full flex-col gap-2",
-        className,
-        classNames?.container
-      )}
+      className={clsx("flex flex-col gap-2", className, classNames?.container)}
     >
       <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
         {title}
       </Label>
       {description && (
         <span
-          className={clsx("text-muted-foreground", classNames?.description)}
+          className={clsx(
+            "text-muted-foreground break-all",
+            classNames?.description
+          )}
         >
           {description}
         </span>
       )}
-      <Separator className={clsx(`bg-primary/50 mb-5 mt-2`)} />
+      <Separator
+        className={clsx(
+          `bg-secondary-foreground/15 mb-5 mt-2`,
+          classNames?.separator
+        )}
+      />
       <section className={clsx("@container", classNames?.contentContainer)}>
         <div className={clsx(classNames?.content)}>{children}</div>
       </section>

@@ -52,7 +52,7 @@ const eslintConfig = [
       'jsonc/comma-dangle': ['error', 'never'],
       'jsonc/key-spacing': ['error', { beforeColon: false, afterColon: true }],
     },
-    ignores: ['tsconfig.json', 'node_modules/', 'package.json', 'graphql.schema.json'],
+    ignores: ['tsconfig.json', 'node_modules/', 'package.json', 'graphql.schema.json', '.keystone'],
   },
   ...tseslint.configs.recommended,
   {

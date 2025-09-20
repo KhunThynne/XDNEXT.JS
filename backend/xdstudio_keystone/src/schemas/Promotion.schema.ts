@@ -1,7 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, select, text, timestamp } from '@keystone-6/core/fields';
-export const Promotion: ListConfig<any> = list({
+export const Promotion = list({
   access: allowAll,
   fields: {
     name: text(),
@@ -26,4 +26,4 @@ export const Promotion: ListConfig<any> = list({
       },
     }),
   },
-});
+}) satisfies ListConfig<any>;

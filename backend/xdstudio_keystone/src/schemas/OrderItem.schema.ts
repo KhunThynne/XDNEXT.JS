@@ -1,13 +1,10 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, timestamp } from '@keystone-6/core/fields';
-export const OrderItem: ListConfig<any> = list({
+export const OrderItem = list({
   access: allowAll,
   ui: {
-    label: 'Order Item',
-    listView: {
-      initialColumns: ['orderId', 'productId', 'unitPrice'],
-    },
+    isHidden: true,
   },
   fields: {
     order: relationship({ ref: 'Order.items', many: false }),
@@ -16,4 +13,4 @@ export const OrderItem: ListConfig<any> = list({
     unitPrice: integer(),
     updateAt: timestamp(),
   },
-});
+}) satisfies ListConfig<any>;

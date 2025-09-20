@@ -2,8 +2,9 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship } from '@keystone-6/core/fields';
 
-export const Supplier: ListConfig<any> = list({
+export const Supplier = list({
   access: allowAll,
+  ui: { isHidden: true },
   fields: {
     user: relationship({
       ref: 'User.suppiler',
@@ -30,11 +31,11 @@ export const Supplier: ListConfig<any> = list({
     description: text({ ui: { displayMode: 'textarea' } }),
   },
 
-  hooks: {
-    validateInput: ({ resolvedData, addValidationError }) => {
-      if (!resolvedData.user) {
-        addValidationError('User is required.');
-      }
-    },
-  },
-});
+  // hooks: {
+  //   validateInput: ({ resolvedData, addValidationError }) => {
+  //     if (!resolvedData.user) {
+  //       addValidationError('User is required.');
+  //     }
+  //   },
+  // },
+}) satisfies ListConfig<any>;

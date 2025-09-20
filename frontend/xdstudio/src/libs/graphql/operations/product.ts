@@ -18,12 +18,25 @@ graphql(`
       price_type
       id
     }
+    tag {
+      id
+      name
+      postsCount
+    }
+    faqs {
+      id
+      question
+      answer {
+        document
+      }
+    }
+    averageScore
     status
     publishedAt
     updateAt
     createdAt
     images {
-      ...ImageFields
+      ...ImageField
     }
     imagesCount
   }

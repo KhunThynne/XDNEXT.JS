@@ -11,14 +11,14 @@ import {
 export type DialogOptions = {
   disableBackdropClose?: boolean;
   portal?: DialogPortalProps;
-  overlay?: DialogOverlayProps;
+  overlay?: DialogOverlayProps | true;
   content?: DialogContentProps;
   trigger?: DialogTriggerProps;
   dialog?: DialogProps;
   title?: DialogTitleProps;
   description?: DialogDescriptionProps;
-  footer?: GlobalPropClassName;
-  header?: GlobalPropClassName;
+  footer?: WithClassName;
+  header?: WithClassName;
 };
 export type DialogInstanceProps = {
   options?: DialogOptions;
@@ -27,5 +27,6 @@ export type DialogInstanceProps = {
   content?: React.ReactNode | React.JSX.Element;
   footer?: React.ReactNode | React.JSX.Element;
   trigger?: React.ReactNode | string;
+  variant?: "fullscreen" | "modal";
   mode?: "static" | "dismissable";
 };

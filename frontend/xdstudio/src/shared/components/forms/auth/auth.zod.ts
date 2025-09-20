@@ -5,7 +5,7 @@ export const ZSignInSchema = z.object({
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
-    .max(10, "Password must not exceed 10 characters"),
+    .max(20, "Password must not exceed 10 characters"),
   // .regex(/[A-Z]/, "Must include at least one uppercase letter")
   // .regex(/\d/, "Must include at least one number"),
 });

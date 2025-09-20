@@ -26,7 +26,6 @@ export function defaultGlobalField(
       },
     });
   }
-
   if (options.includeCreatedAt) {
     fields.createdAt = timestamp({
       defaultValue: { kind: 'now' },
@@ -38,7 +37,6 @@ export function defaultGlobalField(
       },
     });
   }
-
   if (options.includeUpdateAt) {
     fields.updateAt = timestamp({
       defaultValue: { kind: 'now' },

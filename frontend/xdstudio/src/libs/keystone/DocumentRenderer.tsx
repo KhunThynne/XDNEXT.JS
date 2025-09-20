@@ -174,6 +174,5 @@ type Props = {
 };
 
 export default function DocumentRenderer({ document }: Props) {
-  console.log(document);
   return <div>{document.map(renderNode)}</div>;
 }

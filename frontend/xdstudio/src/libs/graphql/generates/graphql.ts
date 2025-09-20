@@ -21,7 +21,268 @@ export type Scalars = {
   Upload: { input: any; output: any; }
 };
 
+export type Account = {
+  __typename?: 'Account';
+  accessToken?: Maybe<Scalars['String']['output']>;
+  expiresAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  meta?: Maybe<Scalars['JSON']['output']>;
+  provider?: Maybe<Scalars['String']['output']>;
+  providerAccountId?: Maybe<Scalars['String']['output']>;
+  refreshToken?: Maybe<Scalars['String']['output']>;
+  scope?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<User>;
+};
+
+export type AccountCreateInput = {
+  accessToken?: InputMaybe<Scalars['String']['input']>;
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+  meta?: InputMaybe<Scalars['JSON']['input']>;
+  provider?: InputMaybe<Scalars['String']['input']>;
+  providerAccountId?: InputMaybe<Scalars['String']['input']>;
+  refreshToken?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
+};
+
+export type AccountManyRelationFilter = {
+  every?: InputMaybe<AccountWhereInput>;
+  none?: InputMaybe<AccountWhereInput>;
+  some?: InputMaybe<AccountWhereInput>;
+};
+
+export type AccountOrderByInput = {
+  accessToken?: InputMaybe<OrderDirection>;
+  expiresAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  provider?: InputMaybe<OrderDirection>;
+  providerAccountId?: InputMaybe<OrderDirection>;
+  refreshToken?: InputMaybe<OrderDirection>;
+  scope?: InputMaybe<OrderDirection>;
+};
+
+export type AccountRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<AccountWhereUniqueInput>>;
+  create?: InputMaybe<Array<AccountCreateInput>>;
+};
+
+export type AccountRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<AccountWhereUniqueInput>>;
+  create?: InputMaybe<Array<AccountCreateInput>>;
+  disconnect?: InputMaybe<Array<AccountWhereUniqueInput>>;
+  set?: InputMaybe<Array<AccountWhereUniqueInput>>;
+};
+
+export type AccountUpdateArgs = {
+  data: AccountUpdateInput;
+  where: AccountWhereUniqueInput;
+};
+
+export type AccountUpdateInput = {
+  accessToken?: InputMaybe<Scalars['String']['input']>;
+  expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
+  meta?: InputMaybe<Scalars['JSON']['input']>;
+  provider?: InputMaybe<Scalars['String']['input']>;
+  providerAccountId?: InputMaybe<Scalars['String']['input']>;
+  refreshToken?: InputMaybe<Scalars['String']['input']>;
+  scope?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
+};
+
+export type AccountWhereInput = {
+  AND?: InputMaybe<Array<AccountWhereInput>>;
+  NOT?: InputMaybe<Array<AccountWhereInput>>;
+  OR?: InputMaybe<Array<AccountWhereInput>>;
+  accessToken?: InputMaybe<StringFilter>;
+  expiresAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  provider?: InputMaybe<StringFilter>;
+  providerAccountId?: InputMaybe<StringFilter>;
+  refreshToken?: InputMaybe<StringFilter>;
+  scope?: InputMaybe<StringFilter>;
+  user?: InputMaybe<UserWhereInput>;
+};
+
+export type AccountWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type AuthProvidersFailure = {
+  __typename?: 'AuthProvidersFailure';
+  message?: Maybe<Scalars['String']['output']>;
+};
+
+export type AuthProvidersResponse = AuthProvidersFailure | AuthProvidersSuccess;
+
+export type AuthProvidersSuccess = {
+  __typename?: 'AuthProvidersSuccess';
+  accessToken: Scalars['String']['output'];
+  item: User;
+  refetchToken?: Maybe<Scalars['String']['output']>;
+  sessionToken: Scalars['String']['output'];
+};
+
 export type AuthenticatedItem = User;
+
+export type Cart = {
+  __typename?: 'Cart';
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  items?: Maybe<Array<CartItem>>;
+  itemsCount?: Maybe<Scalars['Int']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
+};
+
+
+export type CartItemsArgs = {
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
+  orderBy?: Array<CartItemOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartItemWhereInput;
+};
+
+
+export type CartItemsCountArgs = {
+  where?: CartItemWhereInput;
+};
+
+export type CartCreateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  items?: InputMaybe<CartItemRelateToManyForCreateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
+};
+
+export type CartItem = {
+  __typename?: 'CartItem';
+  cart?: Maybe<Cart>;
+  id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
+  quantity?: Maybe<Scalars['Int']['output']>;
+};
+
+export type CartItemCreateInput = {
+  cart?: InputMaybe<CartRelateToOneForCreateInput>;
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type CartItemManyRelationFilter = {
+  every?: InputMaybe<CartItemWhereInput>;
+  none?: InputMaybe<CartItemWhereInput>;
+  some?: InputMaybe<CartItemWhereInput>;
+};
+
+export type CartItemOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  quantity?: InputMaybe<OrderDirection>;
+};
+
+export type CartItemRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartItemCreateInput>>;
+};
+
+export type CartItemRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartItemCreateInput>>;
+  disconnect?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+  set?: InputMaybe<Array<CartItemWhereUniqueInput>>;
+};
+
+export type CartItemUpdateArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+export type CartItemUpdateInput = {
+  cart?: InputMaybe<CartRelateToOneForUpdateInput>;
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type CartItemWhereInput = {
+  AND?: InputMaybe<Array<CartItemWhereInput>>;
+  NOT?: InputMaybe<Array<CartItemWhereInput>>;
+  OR?: InputMaybe<Array<CartItemWhereInput>>;
+  cart?: InputMaybe<CartWhereInput>;
+  id?: InputMaybe<IdFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  quantity?: InputMaybe<IntFilter>;
+};
+
+export type CartItemWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type CartManyRelationFilter = {
+  every?: InputMaybe<CartWhereInput>;
+  none?: InputMaybe<CartWhereInput>;
+  some?: InputMaybe<CartWhereInput>;
+};
+
+export type CartOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
+};
+
+export type CartRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<CartWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartCreateInput>>;
+};
+
+export type CartRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<CartWhereUniqueInput>>;
+  create?: InputMaybe<Array<CartCreateInput>>;
+  disconnect?: InputMaybe<Array<CartWhereUniqueInput>>;
+  set?: InputMaybe<Array<CartWhereUniqueInput>>;
+};
+
+export type CartRelateToOneForCreateInput = {
+  connect?: InputMaybe<CartWhereUniqueInput>;
+  create?: InputMaybe<CartCreateInput>;
+};
+
+export type CartRelateToOneForUpdateInput = {
+  connect?: InputMaybe<CartWhereUniqueInput>;
+  create?: InputMaybe<CartCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type CartUpdateArgs = {
+  data: CartUpdateInput;
+  where: CartWhereUniqueInput;
+};
+
+export type CartUpdateInput = {
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  items?: InputMaybe<CartItemRelateToManyForUpdateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
+};
+
+export type CartWhereInput = {
+  AND?: InputMaybe<Array<CartWhereInput>>;
+  NOT?: InputMaybe<Array<CartWhereInput>>;
+  OR?: InputMaybe<Array<CartWhereInput>>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  items?: InputMaybe<CartItemManyRelationFilter>;
+  status?: InputMaybe<StringNullableFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
+  user?: InputMaybe<UserWhereInput>;
+};
+
+export type CartWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
 
 export type CreateInitialUserInput = {
   email?: InputMaybe<Scalars['String']['input']>;
@@ -38,6 +299,73 @@ export type DateTimeNullableFilter = {
   lte?: InputMaybe<Scalars['DateTime']['input']>;
   not?: InputMaybe<DateTimeNullableFilter>;
   notIn?: InputMaybe<Array<Scalars['DateTime']['input']>>;
+};
+
+export type Faq = {
+  __typename?: 'FAQ';
+  answer?: Maybe<Faq_Answer_Document>;
+  id: Scalars['ID']['output'];
+  question?: Maybe<Scalars['String']['output']>;
+};
+
+export type FaqCreateInput = {
+  answer?: InputMaybe<Scalars['JSON']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FaqManyRelationFilter = {
+  every?: InputMaybe<FaqWhereInput>;
+  none?: InputMaybe<FaqWhereInput>;
+  some?: InputMaybe<FaqWhereInput>;
+};
+
+export type FaqOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  question?: InputMaybe<OrderDirection>;
+};
+
+export type FaqRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  create?: InputMaybe<Array<FaqCreateInput>>;
+};
+
+export type FaqRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  create?: InputMaybe<Array<FaqCreateInput>>;
+  disconnect?: InputMaybe<Array<FaqWhereUniqueInput>>;
+  set?: InputMaybe<Array<FaqWhereUniqueInput>>;
+};
+
+export type FaqUpdateArgs = {
+  data: FaqUpdateInput;
+  where: FaqWhereUniqueInput;
+};
+
+export type FaqUpdateInput = {
+  answer?: InputMaybe<Scalars['JSON']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type FaqWhereInput = {
+  AND?: InputMaybe<Array<FaqWhereInput>>;
+  NOT?: InputMaybe<Array<FaqWhereInput>>;
+  OR?: InputMaybe<Array<FaqWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  question?: InputMaybe<StringFilter>;
+};
+
+export type FaqWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type Faq_Answer_Document = {
+  __typename?: 'FAQ_answer_Document';
+  document: Scalars['JSON']['output'];
+};
+
+
+export type Faq_Answer_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean']['input'];
 };
 
 export type FloatNullableFilter = {
@@ -332,8 +660,16 @@ export type KeystoneMeta = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  authenticateAndLinkProvider?: Maybe<AuthProvidersResponse>;
   authenticateUserWithPassword?: Maybe<UserAuthenticationWithPasswordResult>;
-  createAndLogin?: Maybe<RegisterAndLoginResult>;
+  createAccount?: Maybe<Account>;
+  createAccounts?: Maybe<Array<Maybe<Account>>>;
+  createCart?: Maybe<Cart>;
+  createCartItem?: Maybe<CartItem>;
+  createCartItems?: Maybe<Array<Maybe<CartItem>>>;
+  createCarts?: Maybe<Array<Maybe<Cart>>>;
+  createFAQ?: Maybe<Faq>;
+  createFAQS?: Maybe<Array<Maybe<Faq>>>;
   createImage?: Maybe<Image>;
   createImages?: Maybe<Array<Maybe<Image>>>;
   createInitialUser: UserAuthenticationWithPasswordSuccess;
@@ -353,6 +689,12 @@ export type Mutation = {
   createProducts?: Maybe<Array<Maybe<Product>>>;
   createPromotion?: Maybe<Promotion>;
   createPromotions?: Maybe<Array<Maybe<Promotion>>>;
+  createRating?: Maybe<Rating>;
+  createRatings?: Maybe<Array<Maybe<Rating>>>;
+  createSetting?: Maybe<Setting>;
+  createSettings?: Maybe<Array<Maybe<Setting>>>;
+  createStock?: Maybe<Stock>;
+  createStocks?: Maybe<Array<Maybe<Stock>>>;
   createSupplier?: Maybe<Supplier>;
   createSuppliers?: Maybe<Array<Maybe<Supplier>>>;
   createTag?: Maybe<Tag>;
@@ -365,6 +707,14 @@ export type Mutation = {
   createUserPreference?: Maybe<UserPreference>;
   createUserPreferences?: Maybe<Array<Maybe<UserPreference>>>;
   createUsers?: Maybe<Array<Maybe<User>>>;
+  deleteAccount?: Maybe<Account>;
+  deleteAccounts?: Maybe<Array<Maybe<Account>>>;
+  deleteCart?: Maybe<Cart>;
+  deleteCartItem?: Maybe<CartItem>;
+  deleteCartItems?: Maybe<Array<Maybe<CartItem>>>;
+  deleteCarts?: Maybe<Array<Maybe<Cart>>>;
+  deleteFAQ?: Maybe<Faq>;
+  deleteFAQS?: Maybe<Array<Maybe<Faq>>>;
   deleteImage?: Maybe<Image>;
   deleteImages?: Maybe<Array<Maybe<Image>>>;
   deleteOrder?: Maybe<Order>;
@@ -383,6 +733,12 @@ export type Mutation = {
   deleteProducts?: Maybe<Array<Maybe<Product>>>;
   deletePromotion?: Maybe<Promotion>;
   deletePromotions?: Maybe<Array<Maybe<Promotion>>>;
+  deleteRating?: Maybe<Rating>;
+  deleteRatings?: Maybe<Array<Maybe<Rating>>>;
+  deleteSetting?: Maybe<Setting>;
+  deleteSettings?: Maybe<Array<Maybe<Setting>>>;
+  deleteStock?: Maybe<Stock>;
+  deleteStocks?: Maybe<Array<Maybe<Stock>>>;
   deleteSupplier?: Maybe<Supplier>;
   deleteSuppliers?: Maybe<Array<Maybe<Supplier>>>;
   deleteTag?: Maybe<Tag>;
@@ -398,6 +754,14 @@ export type Mutation = {
   endSession: Scalars['Boolean']['output'];
   redeemUserPasswordResetToken?: Maybe<RedeemUserPasswordResetTokenResult>;
   sendUserPasswordResetLink: Scalars['Boolean']['output'];
+  updateAccount?: Maybe<Account>;
+  updateAccounts?: Maybe<Array<Maybe<Account>>>;
+  updateCart?: Maybe<Cart>;
+  updateCartItem?: Maybe<CartItem>;
+  updateCartItems?: Maybe<Array<Maybe<CartItem>>>;
+  updateCarts?: Maybe<Array<Maybe<Cart>>>;
+  updateFAQ?: Maybe<Faq>;
+  updateFAQS?: Maybe<Array<Maybe<Faq>>>;
   updateImage?: Maybe<Image>;
   updateImages?: Maybe<Array<Maybe<Image>>>;
   updateOrder?: Maybe<Order>;
@@ -416,6 +780,12 @@ export type Mutation = {
   updateProducts?: Maybe<Array<Maybe<Product>>>;
   updatePromotion?: Maybe<Promotion>;
   updatePromotions?: Maybe<Array<Maybe<Promotion>>>;
+  updateRating?: Maybe<Rating>;
+  updateRatings?: Maybe<Array<Maybe<Rating>>>;
+  updateSetting?: Maybe<Setting>;
+  updateSettings?: Maybe<Array<Maybe<Setting>>>;
+  updateStock?: Maybe<Stock>;
+  updateStocks?: Maybe<Array<Maybe<Stock>>>;
   updateSupplier?: Maybe<Supplier>;
   updateSuppliers?: Maybe<Array<Maybe<Supplier>>>;
   updateTag?: Maybe<Tag>;
@@ -431,18 +801,60 @@ export type Mutation = {
 };
 
 
+export type MutationAuthenticateAndLinkProviderArgs = {
+  accessToken?: InputMaybe<Scalars['String']['input']>;
+  email: Scalars['String']['input'];
+  image?: InputMaybe<Scalars['String']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  provider: Scalars['String']['input'];
+  providerAccountId: Scalars['String']['input'];
+  refreshToken?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type MutationAuthenticateUserWithPasswordArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 
 
-export type MutationCreateAndLoginArgs = {
-  email: Scalars['String']['input'];
-  image?: InputMaybe<Scalars['String']['input']>;
-  password: Scalars['String']['input'];
-  provider?: InputMaybe<Scalars['String']['input']>;
-  username?: InputMaybe<Scalars['String']['input']>;
+export type MutationCreateAccountArgs = {
+  data: AccountCreateInput;
+};
+
+
+export type MutationCreateAccountsArgs = {
+  data: Array<AccountCreateInput>;
+};
+
+
+export type MutationCreateCartArgs = {
+  data: CartCreateInput;
+};
+
+
+export type MutationCreateCartItemArgs = {
+  data: CartItemCreateInput;
+};
+
+
+export type MutationCreateCartItemsArgs = {
+  data: Array<CartItemCreateInput>;
+};
+
+
+export type MutationCreateCartsArgs = {
+  data: Array<CartCreateInput>;
+};
+
+
+export type MutationCreateFaqArgs = {
+  data: FaqCreateInput;
+};
+
+
+export type MutationCreateFaqsArgs = {
+  data: Array<FaqCreateInput>;
 };
 
 
@@ -541,6 +953,36 @@ export type MutationCreatePromotionsArgs = {
 };
 
 
+export type MutationCreateRatingArgs = {
+  data: RatingCreateInput;
+};
+
+
+export type MutationCreateRatingsArgs = {
+  data: Array<RatingCreateInput>;
+};
+
+
+export type MutationCreateSettingArgs = {
+  data: SettingCreateInput;
+};
+
+
+export type MutationCreateSettingsArgs = {
+  data: Array<SettingCreateInput>;
+};
+
+
+export type MutationCreateStockArgs = {
+  data: StockCreateInput;
+};
+
+
+export type MutationCreateStocksArgs = {
+  data: Array<StockCreateInput>;
+};
+
+
 export type MutationCreateSupplierArgs = {
   data: SupplierCreateInput;
 };
@@ -598,6 +1040,46 @@ export type MutationCreateUserPreferencesArgs = {
 
 export type MutationCreateUsersArgs = {
   data: Array<UserCreateInput>;
+};
+
+
+export type MutationDeleteAccountArgs = {
+  where: AccountWhereUniqueInput;
+};
+
+
+export type MutationDeleteAccountsArgs = {
+  where: Array<AccountWhereUniqueInput>;
+};
+
+
+export type MutationDeleteCartArgs = {
+  where: CartWhereUniqueInput;
+};
+
+
+export type MutationDeleteCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type MutationDeleteCartItemsArgs = {
+  where: Array<CartItemWhereUniqueInput>;
+};
+
+
+export type MutationDeleteCartsArgs = {
+  where: Array<CartWhereUniqueInput>;
+};
+
+
+export type MutationDeleteFaqArgs = {
+  where: FaqWhereUniqueInput;
+};
+
+
+export type MutationDeleteFaqsArgs = {
+  where: Array<FaqWhereUniqueInput>;
 };
 
 
@@ -691,6 +1173,36 @@ export type MutationDeletePromotionsArgs = {
 };
 
 
+export type MutationDeleteRatingArgs = {
+  where: RatingWhereUniqueInput;
+};
+
+
+export type MutationDeleteRatingsArgs = {
+  where: Array<RatingWhereUniqueInput>;
+};
+
+
+export type MutationDeleteSettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationDeleteSettingsArgs = {
+  where: Array<SettingWhereUniqueInput>;
+};
+
+
+export type MutationDeleteStockArgs = {
+  where: StockWhereUniqueInput;
+};
+
+
+export type MutationDeleteStocksArgs = {
+  where: Array<StockWhereUniqueInput>;
+};
+
+
 export type MutationDeleteSupplierArgs = {
   where: SupplierWhereUniqueInput;
 };
@@ -760,6 +1272,50 @@ export type MutationRedeemUserPasswordResetTokenArgs = {
 
 export type MutationSendUserPasswordResetLinkArgs = {
   email: Scalars['String']['input'];
+};
+
+
+export type MutationUpdateAccountArgs = {
+  data: AccountUpdateInput;
+  where: AccountWhereUniqueInput;
+};
+
+
+export type MutationUpdateAccountsArgs = {
+  data: Array<AccountUpdateArgs>;
+};
+
+
+export type MutationUpdateCartArgs = {
+  data: CartUpdateInput;
+  where: CartWhereUniqueInput;
+};
+
+
+export type MutationUpdateCartItemArgs = {
+  data: CartItemUpdateInput;
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type MutationUpdateCartItemsArgs = {
+  data: Array<CartItemUpdateArgs>;
+};
+
+
+export type MutationUpdateCartsArgs = {
+  data: Array<CartUpdateArgs>;
+};
+
+
+export type MutationUpdateFaqArgs = {
+  data: FaqUpdateInput;
+  where: FaqWhereUniqueInput;
+};
+
+
+export type MutationUpdateFaqsArgs = {
+  data: Array<FaqUpdateArgs>;
 };
 
 
@@ -862,6 +1418,39 @@ export type MutationUpdatePromotionsArgs = {
 };
 
 
+export type MutationUpdateRatingArgs = {
+  data: RatingUpdateInput;
+  where: RatingWhereUniqueInput;
+};
+
+
+export type MutationUpdateRatingsArgs = {
+  data: Array<RatingUpdateArgs>;
+};
+
+
+export type MutationUpdateSettingArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type MutationUpdateSettingsArgs = {
+  data: Array<SettingUpdateArgs>;
+};
+
+
+export type MutationUpdateStockArgs = {
+  data: StockUpdateInput;
+  where: StockWhereUniqueInput;
+};
+
+
+export type MutationUpdateStocksArgs = {
+  data: Array<StockUpdateArgs>;
+};
+
+
 export type MutationUpdateSupplierArgs = {
   data: SupplierUpdateInput;
   where: SupplierWhereUniqueInput;
@@ -947,6 +1536,7 @@ export type Order = {
   id: Scalars['ID']['output'];
   items?: Maybe<Array<OrderItem>>;
   itemsCount?: Maybe<Scalars['Int']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
 };
@@ -968,6 +1558,7 @@ export type OrderItemsCountArgs = {
 export type OrderCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForCreateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
@@ -1069,6 +1660,7 @@ export type OrderManyRelationFilter = {
 export type OrderOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
 };
 
@@ -1103,6 +1695,7 @@ export type OrderUpdateArgs = {
 export type OrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   items?: InputMaybe<OrderItemRelateToManyForUpdateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
@@ -1114,6 +1707,7 @@ export type OrderWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   items?: InputMaybe<OrderItemManyRelationFilter>;
+  status?: InputMaybe<StringFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
@@ -1401,20 +1995,42 @@ export type PriceWhereUniqueInput = {
 
 export type Product = {
   __typename?: 'Product';
+  averageScore?: Maybe<Scalars['Float']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   details?: Maybe<Product_Details_Document>;
+  faqs?: Maybe<Array<Faq>>;
+  faqsCount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Image>>;
   imagesCount?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   price?: Maybe<Price>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
+  ratings?: Maybe<Array<Rating>>;
+  ratingsCount?: Maybe<Scalars['Int']['output']>;
   status?: Maybe<Scalars['String']['output']>;
+  stock?: Maybe<Stock>;
   suppilers?: Maybe<Supplier>;
+  tag?: Maybe<Array<Tag>>;
+  tagCount?: Maybe<Scalars['Int']['output']>;
   tags?: Maybe<Array<Tag>>;
   tagsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+
+export type ProductFaqsArgs = {
+  cursor?: InputMaybe<FaqWhereUniqueInput>;
+  orderBy?: Array<FaqOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: FaqWhereInput;
+};
+
+
+export type ProductFaqsCountArgs = {
+  where?: FaqWhereInput;
 };
 
 
@@ -1432,6 +2048,34 @@ export type ProductImagesCountArgs = {
 };
 
 
+export type ProductRatingsArgs = {
+  cursor?: InputMaybe<RatingWhereUniqueInput>;
+  orderBy?: Array<RatingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: RatingWhereInput;
+};
+
+
+export type ProductRatingsCountArgs = {
+  where?: RatingWhereInput;
+};
+
+
+export type ProductTagArgs = {
+  cursor?: InputMaybe<TagWhereUniqueInput>;
+  orderBy?: Array<TagOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: TagWhereInput;
+};
+
+
+export type ProductTagCountArgs = {
+  where?: TagWhereInput;
+};
+
+
 export type ProductTagsArgs = {
   cursor?: InputMaybe<TagWhereUniqueInput>;
   orderBy?: Array<TagOrderByInput>;
@@ -1446,15 +2090,20 @@ export type ProductTagsCountArgs = {
 };
 
 export type ProductCreateInput = {
+  averageScore?: InputMaybe<Scalars['Float']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
+  faqs?: InputMaybe<FaqRelateToManyForCreateInput>;
   images?: InputMaybe<ImageRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<PriceRelateToOneForCreateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  ratings?: InputMaybe<RatingRelateToManyForCreateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  stock?: InputMaybe<StockRelateToOneForCreateInput>;
   suppilers?: InputMaybe<SupplierRelateToOneForCreateInput>;
+  tag?: InputMaybe<TagRelateToManyForCreateInput>;
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -1466,6 +2115,7 @@ export type ProductManyRelationFilter = {
 };
 
 export type ProductOrderByInput = {
+  averageScore?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
   description?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
@@ -1582,15 +2232,20 @@ export type ProductUpdateArgs = {
 };
 
 export type ProductUpdateInput = {
+  averageScore?: InputMaybe<Scalars['Float']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
+  faqs?: InputMaybe<FaqRelateToManyForUpdateInput>;
   images?: InputMaybe<ImageRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<PriceRelateToOneForUpdateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  ratings?: InputMaybe<RatingRelateToManyForUpdateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
+  stock?: InputMaybe<StockRelateToOneForUpdateInput>;
   suppilers?: InputMaybe<SupplierRelateToOneForUpdateInput>;
+  tag?: InputMaybe<TagRelateToManyForUpdateInput>;
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
@@ -1599,21 +2254,27 @@ export type ProductWhereInput = {
   AND?: InputMaybe<Array<ProductWhereInput>>;
   NOT?: InputMaybe<Array<ProductWhereInput>>;
   OR?: InputMaybe<Array<ProductWhereInput>>;
+  averageScore?: InputMaybe<FloatNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   description?: InputMaybe<StringFilter>;
+  faqs?: InputMaybe<FaqManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
   price?: InputMaybe<PriceWhereInput>;
   publishedAt?: InputMaybe<DateTimeNullableFilter>;
+  ratings?: InputMaybe<RatingManyRelationFilter>;
   status?: InputMaybe<StringFilter>;
+  stock?: InputMaybe<StockWhereInput>;
   suppilers?: InputMaybe<SupplierWhereInput>;
+  tag?: InputMaybe<TagManyRelationFilter>;
   tags?: InputMaybe<TagManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
 export type ProductWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+  stock?: InputMaybe<StockWhereUniqueInput>;
 };
 
 export type Product_Details_Document = {
@@ -1697,7 +2358,19 @@ export type PromotionWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  account?: Maybe<Account>;
+  accounts?: Maybe<Array<Account>>;
+  accountsCount?: Maybe<Scalars['Int']['output']>;
   authenticatedItem?: Maybe<AuthenticatedItem>;
+  cart?: Maybe<Cart>;
+  cartItem?: Maybe<CartItem>;
+  cartItems?: Maybe<Array<CartItem>>;
+  cartItemsCount?: Maybe<Scalars['Int']['output']>;
+  carts?: Maybe<Array<Cart>>;
+  cartsCount?: Maybe<Scalars['Int']['output']>;
+  fAQ?: Maybe<Faq>;
+  fAQS?: Maybe<Array<Faq>>;
+  fAQSCount?: Maybe<Scalars['Int']['output']>;
   image?: Maybe<Image>;
   images?: Maybe<Array<Image>>;
   imagesCount?: Maybe<Scalars['Int']['output']>;
@@ -1726,6 +2399,15 @@ export type Query = {
   promotion?: Maybe<Promotion>;
   promotions?: Maybe<Array<Promotion>>;
   promotionsCount?: Maybe<Scalars['Int']['output']>;
+  rating?: Maybe<Rating>;
+  ratings?: Maybe<Array<Rating>>;
+  ratingsCount?: Maybe<Scalars['Int']['output']>;
+  setting?: Maybe<Setting>;
+  settings?: Maybe<Array<Setting>>;
+  settingsCount?: Maybe<Scalars['Int']['output']>;
+  stock?: Maybe<Stock>;
+  stocks?: Maybe<Array<Stock>>;
+  stocksCount?: Maybe<Scalars['Int']['output']>;
   supplier?: Maybe<Supplier>;
   suppliers?: Maybe<Array<Supplier>>;
   suppliersCount?: Maybe<Scalars['Int']['output']>;
@@ -1745,6 +2427,82 @@ export type Query = {
   users?: Maybe<Array<User>>;
   usersCount?: Maybe<Scalars['Int']['output']>;
   validateUserPasswordResetToken?: Maybe<ValidateUserPasswordResetTokenResult>;
+};
+
+
+export type QueryAccountArgs = {
+  where: AccountWhereUniqueInput;
+};
+
+
+export type QueryAccountsArgs = {
+  cursor?: InputMaybe<AccountWhereUniqueInput>;
+  orderBy?: Array<AccountOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: AccountWhereInput;
+};
+
+
+export type QueryAccountsCountArgs = {
+  where?: AccountWhereInput;
+};
+
+
+export type QueryCartArgs = {
+  where: CartWhereUniqueInput;
+};
+
+
+export type QueryCartItemArgs = {
+  where: CartItemWhereUniqueInput;
+};
+
+
+export type QueryCartItemsArgs = {
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
+  orderBy?: Array<CartItemOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartItemWhereInput;
+};
+
+
+export type QueryCartItemsCountArgs = {
+  where?: CartItemWhereInput;
+};
+
+
+export type QueryCartsArgs = {
+  cursor?: InputMaybe<CartWhereUniqueInput>;
+  orderBy?: Array<CartOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartWhereInput;
+};
+
+
+export type QueryCartsCountArgs = {
+  where?: CartWhereInput;
+};
+
+
+export type QueryFAqArgs = {
+  where: FaqWhereUniqueInput;
+};
+
+
+export type QueryFAqsArgs = {
+  cursor?: InputMaybe<FaqWhereUniqueInput>;
+  orderBy?: Array<FaqOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: FaqWhereInput;
+};
+
+
+export type QueryFAqsCountArgs = {
+  where?: FaqWhereInput;
 };
 
 
@@ -1919,6 +2677,63 @@ export type QueryPromotionsCountArgs = {
 };
 
 
+export type QueryRatingArgs = {
+  where: RatingWhereUniqueInput;
+};
+
+
+export type QueryRatingsArgs = {
+  cursor?: InputMaybe<RatingWhereUniqueInput>;
+  orderBy?: Array<RatingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: RatingWhereInput;
+};
+
+
+export type QueryRatingsCountArgs = {
+  where?: RatingWhereInput;
+};
+
+
+export type QuerySettingArgs = {
+  where?: SettingWhereUniqueInput;
+};
+
+
+export type QuerySettingsArgs = {
+  cursor?: InputMaybe<SettingWhereUniqueInput>;
+  orderBy?: Array<SettingOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: SettingWhereInput;
+};
+
+
+export type QuerySettingsCountArgs = {
+  where?: SettingWhereInput;
+};
+
+
+export type QueryStockArgs = {
+  where: StockWhereUniqueInput;
+};
+
+
+export type QueryStocksArgs = {
+  cursor?: InputMaybe<StockWhereUniqueInput>;
+  orderBy?: Array<StockOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: StockWhereInput;
+};
+
+
+export type QueryStocksCountArgs = {
+  where?: StockWhereInput;
+};
+
+
 export type QuerySupplierArgs = {
   where: SupplierWhereUniqueInput;
 };
@@ -2043,16 +2858,197 @@ export enum QueryMode {
   Insensitive = 'insensitive'
 }
 
+export type Rating = {
+  __typename?: 'Rating';
+  comment?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  score?: Maybe<Scalars['Int']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type RatingCreateInput = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type RatingManyRelationFilter = {
+  every?: InputMaybe<RatingWhereInput>;
+  none?: InputMaybe<RatingWhereInput>;
+  some?: InputMaybe<RatingWhereInput>;
+};
+
+export type RatingOrderByInput = {
+  comment?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
+  id?: InputMaybe<OrderDirection>;
+  score?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
+};
+
+export type RatingRelateToManyForCreateInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  create?: InputMaybe<Array<RatingCreateInput>>;
+};
+
+export type RatingRelateToManyForUpdateInput = {
+  connect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  create?: InputMaybe<Array<RatingCreateInput>>;
+  disconnect?: InputMaybe<Array<RatingWhereUniqueInput>>;
+  set?: InputMaybe<Array<RatingWhereUniqueInput>>;
+};
+
+export type RatingUpdateArgs = {
+  data: RatingUpdateInput;
+  where: RatingWhereUniqueInput;
+};
+
+export type RatingUpdateInput = {
+  comment?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  score?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type RatingWhereInput = {
+  AND?: InputMaybe<Array<RatingWhereInput>>;
+  NOT?: InputMaybe<Array<RatingWhereInput>>;
+  OR?: InputMaybe<Array<RatingWhereInput>>;
+  comment?: InputMaybe<StringFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
+  id?: InputMaybe<IdFilter>;
+  score?: InputMaybe<IntFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type RatingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
 export type RedeemUserPasswordResetTokenResult = {
   __typename?: 'RedeemUserPasswordResetTokenResult';
   code: PasswordResetRedemptionErrorCode;
   message: Scalars['String']['output'];
 };
 
-export type RegisterAndLoginResult = {
-  __typename?: 'RegisterAndLoginResult';
-  item?: Maybe<User>;
-  sessionToken?: Maybe<Scalars['String']['output']>;
+export type Setting = {
+  __typename?: 'Setting';
+  id: Scalars['ID']['output'];
+  redirect?: Maybe<Scalars['String']['output']>;
+  smtpHost?: Maybe<Scalars['String']['output']>;
+  smtpPass?: Maybe<Scalars['String']['output']>;
+  smtpPort?: Maybe<Scalars['String']['output']>;
+  smtpUser?: Maybe<Scalars['String']['output']>;
+};
+
+export type SettingCreateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  redirect?: InputMaybe<OrderDirection>;
+  smtpHost?: InputMaybe<OrderDirection>;
+  smtpPass?: InputMaybe<OrderDirection>;
+  smtpPort?: InputMaybe<OrderDirection>;
+  smtpUser?: InputMaybe<OrderDirection>;
+};
+
+export type SettingUpdateArgs = {
+  data: SettingUpdateInput;
+  where?: SettingWhereUniqueInput;
+};
+
+export type SettingUpdateInput = {
+  redirect?: InputMaybe<Scalars['String']['input']>;
+  smtpHost?: InputMaybe<Scalars['String']['input']>;
+  smtpPass?: InputMaybe<Scalars['String']['input']>;
+  smtpPort?: InputMaybe<Scalars['String']['input']>;
+  smtpUser?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SettingWhereInput = {
+  AND?: InputMaybe<Array<SettingWhereInput>>;
+  NOT?: InputMaybe<Array<SettingWhereInput>>;
+  OR?: InputMaybe<Array<SettingWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  redirect?: InputMaybe<StringFilter>;
+  smtpHost?: InputMaybe<StringFilter>;
+  smtpPass?: InputMaybe<StringFilter>;
+  smtpPort?: InputMaybe<StringFilter>;
+  smtpUser?: InputMaybe<StringFilter>;
+};
+
+export type SettingWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type Stock = {
+  __typename?: 'Stock';
+  id: Scalars['ID']['output'];
+  product?: Maybe<Product>;
+  quantity?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
+};
+
+export type StockCreateInput = {
+  product?: InputMaybe<ProductRelateToOneForCreateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type StockOrderByInput = {
+  id?: InputMaybe<OrderDirection>;
+  quantity?: InputMaybe<OrderDirection>;
+  type?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
+};
+
+export type StockRelateToOneForCreateInput = {
+  connect?: InputMaybe<StockWhereUniqueInput>;
+  create?: InputMaybe<StockCreateInput>;
+};
+
+export type StockRelateToOneForUpdateInput = {
+  connect?: InputMaybe<StockWhereUniqueInput>;
+  create?: InputMaybe<StockCreateInput>;
+  disconnect?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type StockUpdateArgs = {
+  data: StockUpdateInput;
+  where: StockWhereUniqueInput;
+};
+
+export type StockUpdateInput = {
+  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
+  quantity?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type StockWhereInput = {
+  AND?: InputMaybe<Array<StockWhereInput>>;
+  NOT?: InputMaybe<Array<StockWhereInput>>;
+  OR?: InputMaybe<Array<StockWhereInput>>;
+  id?: InputMaybe<IdFilter>;
+  product?: InputMaybe<ProductWhereInput>;
+  quantity?: InputMaybe<IntFilter>;
+  type?: InputMaybe<StringFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
+};
+
+export type StockWhereUniqueInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  product?: InputMaybe<ProductWhereUniqueInput>;
 };
 
 export type StringFilter = {
@@ -2253,16 +3249,20 @@ export type TagWhereUniqueInput = {
 
 export type User = {
   __typename?: 'User';
+  accounts?: Maybe<Array<Account>>;
+  accountsCount?: Maybe<Scalars['Int']['output']>;
   avartar?: Maybe<Image>;
+  carts?: Maybe<Array<Cart>>;
+  cartsCount?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   image?: Maybe<Scalars['String']['output']>;
-  item?: Maybe<Array<UserItem>>;
-  itemCount?: Maybe<Scalars['Int']['output']>;
+  items?: Maybe<Array<UserItem>>;
+  itemsCount?: Maybe<Scalars['Int']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  order?: Maybe<Array<Order>>;
-  orderCount?: Maybe<Scalars['Int']['output']>;
+  orders?: Maybe<Array<Order>>;
+  ordersCount?: Maybe<Scalars['Int']['output']>;
   password?: Maybe<PasswordState>;
   passwordResetIssuedAt?: Maybe<Scalars['DateTime']['output']>;
   passwordResetRedeemedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -2279,7 +3279,35 @@ export type User = {
 };
 
 
-export type UserItemArgs = {
+export type UserAccountsArgs = {
+  cursor?: InputMaybe<AccountWhereUniqueInput>;
+  orderBy?: Array<AccountOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: AccountWhereInput;
+};
+
+
+export type UserAccountsCountArgs = {
+  where?: AccountWhereInput;
+};
+
+
+export type UserCartsArgs = {
+  cursor?: InputMaybe<CartWhereUniqueInput>;
+  orderBy?: Array<CartOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: CartWhereInput;
+};
+
+
+export type UserCartsCountArgs = {
+  where?: CartWhereInput;
+};
+
+
+export type UserItemsArgs = {
   cursor?: InputMaybe<UserItemWhereUniqueInput>;
   orderBy?: Array<UserItemOrderByInput>;
   skip?: Scalars['Int']['input'];
@@ -2288,12 +3316,12 @@ export type UserItemArgs = {
 };
 
 
-export type UserItemCountArgs = {
+export type UserItemsCountArgs = {
   where?: UserItemWhereInput;
 };
 
 
-export type UserOrderArgs = {
+export type UserOrdersArgs = {
   cursor?: InputMaybe<OrderWhereUniqueInput>;
   orderBy?: Array<OrderOrderByInput>;
   skip?: Scalars['Int']['input'];
@@ -2302,7 +3330,7 @@ export type UserOrderArgs = {
 };
 
 
-export type UserOrderCountArgs = {
+export type UserOrdersCountArgs = {
   where?: OrderWhereInput;
 };
 
@@ -2348,13 +3376,15 @@ export type UserAuthenticationWithPasswordSuccess = {
 };
 
 export type UserCreateInput = {
+  accounts?: InputMaybe<AccountRelateToManyForCreateInput>;
   avartar?: InputMaybe<ImageRelateToOneForCreateInput>;
+  carts?: InputMaybe<CartRelateToManyForCreateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  item?: InputMaybe<UserItemRelateToManyForCreateInput>;
+  items?: InputMaybe<UserItemRelateToManyForCreateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<OrderRelateToManyForCreateInput>;
+  orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
   passwordResetRedeemedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -2374,7 +3404,6 @@ export type UserItem = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   item?: Maybe<OrderItem>;
-  product?: Maybe<Product>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
 };
@@ -2383,7 +3412,6 @@ export type UserItemCreateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForCreateInput>;
-  product?: InputMaybe<ProductRelateToOneForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
@@ -2432,7 +3460,6 @@ export type UserItemUpdateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   item?: InputMaybe<OrderItemRelateToOneForUpdateInput>;
-  product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
@@ -2444,7 +3471,6 @@ export type UserItemWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   item?: InputMaybe<OrderItemWhereInput>;
-  product?: InputMaybe<ProductWhereInput>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   user?: InputMaybe<UserWhereInput>;
 };
@@ -2619,13 +3645,15 @@ export type UserUpdateArgs = {
 };
 
 export type UserUpdateInput = {
+  accounts?: InputMaybe<AccountRelateToManyForUpdateInput>;
   avartar?: InputMaybe<ImageRelateToOneForUpdateInput>;
+  carts?: InputMaybe<CartRelateToManyForUpdateInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  item?: InputMaybe<UserItemRelateToManyForUpdateInput>;
+  items?: InputMaybe<UserItemRelateToManyForUpdateInput>;
   name?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<OrderRelateToManyForUpdateInput>;
+  orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   password?: InputMaybe<Scalars['String']['input']>;
   passwordResetIssuedAt?: InputMaybe<Scalars['DateTime']['input']>;
   passwordResetRedeemedAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -2643,14 +3671,16 @@ export type UserWhereInput = {
   AND?: InputMaybe<Array<UserWhereInput>>;
   NOT?: InputMaybe<Array<UserWhereInput>>;
   OR?: InputMaybe<Array<UserWhereInput>>;
+  accounts?: InputMaybe<AccountManyRelationFilter>;
   avartar?: InputMaybe<ImageWhereInput>;
+  carts?: InputMaybe<CartManyRelationFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   email?: InputMaybe<StringFilter>;
   id?: InputMaybe<IdFilter>;
   image?: InputMaybe<StringFilter>;
-  item?: InputMaybe<UserItemManyRelationFilter>;
+  items?: InputMaybe<UserItemManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
-  order?: InputMaybe<OrderManyRelationFilter>;
+  orders?: InputMaybe<OrderManyRelationFilter>;
   passwordResetIssuedAt?: InputMaybe<DateTimeNullableFilter>;
   passwordResetRedeemedAt?: InputMaybe<DateTimeNullableFilter>;
   passwordResetToken?: InputMaybe<PasswordFilter>;
@@ -2676,34 +3706,124 @@ export type ValidateUserPasswordResetTokenResult = {
   message: Scalars['String']['output'];
 };
 
+export type AuthUserItemFragment = { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null, carts?: Array<{ __typename?: 'Cart', id: string }> | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } & { ' $fragmentName'?: 'AuthUserItemFragment' };
+
+export type ValidateUserPasswordResetTokenQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+}>;
+
+
+export type ValidateUserPasswordResetTokenQuery = { __typename?: 'Query', validateUserPasswordResetToken?: { __typename?: 'ValidateUserPasswordResetTokenResult', message: string, code: PasswordResetRedemptionErrorCode } | null };
+
+export type RedeemUserPasswordResetTokenResultMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  token: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type RedeemUserPasswordResetTokenResultMutation = { __typename?: 'Mutation', redeemUserPasswordResetToken?: { __typename?: 'RedeemUserPasswordResetTokenResult', code: PasswordResetRedemptionErrorCode, message: string } | null };
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, role?: string | null, email?: string | null, image?: string | null, postsCount?: number | null, createdAt?: any | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, posts?: Array<{ __typename?: 'Post', id: string, title?: string | null, tagsCount?: number | null }> | null } } | null };
+export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?:
+    | { __typename?: 'UserAuthenticationWithPasswordFailure', message: string }
+    | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
+
+export type SendUserPasswordResetTokenMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type SendUserPasswordResetTokenMutation = { __typename?: 'Mutation', sendUserPasswordResetLink: boolean };
+
+export type AuthenticateAndLinkProviderMutationVariables = Exact<{
+  provider: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  accessToken?: InputMaybe<Scalars['String']['input']>;
+  refreshToken?: InputMaybe<Scalars['String']['input']>;
+  providerAccountId: Scalars['String']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', authenticateAndLinkProvider?:
+    | { __typename?: 'AuthProvidersFailure', message?: string | null }
+    | { __typename: 'AuthProvidersSuccess', sessionToken: string, accessToken: string, refetchToken?: string | null, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
+
+export type CreateCartItemMutationVariables = Exact<{
+  data: CartItemCreateInput;
+}>;
+
+
+export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: string, quantity?: number | null, cart?: { __typename?: 'Cart', id: string } | null, product?: { __typename?: 'Product', id: string } | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where: CartWhereUniqueInput;
+}>;
+
+
+export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
+
+export type DeleteCartItemMutationVariables = Exact<{
+  where: CartItemWhereUniqueInput;
+}>;
+
+
+export type DeleteCartItemMutation = { __typename?: 'Mutation', deleteCartItem?: { __typename?: 'CartItem', id: string } | null };
+
+export type DeleteCartItemsMutationVariables = Exact<{
+  where: Array<CartItemWhereUniqueInput> | CartItemWhereUniqueInput;
+}>;
+
+
+export type DeleteCartItemsMutation = { __typename?: 'Mutation', deleteCartItems?: Array<{ __typename?: 'CartItem', id: string } | null> | null };
+
+export type ImageFieldFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', filesize: number, width: number, height: number, extension: ImageExtension, url: string, id: string } | null } & { ' $fragmentName'?: 'ImageFieldFragment' };
 
 export type GetImageQueryVariables = Exact<{
   where: ImageWhereUniqueInput;
 }>;
 
 
-export type GetImageQuery = { __typename?: 'Query', image?: { __typename?: 'Image', name?: string | null, id: string, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null } | null };
+export type GetImageQuery = { __typename?: 'Query', image?: (
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null };
 
 export type CreateImagesMutationVariables = Exact<{
   data: Array<ImageCreateInput> | ImageCreateInput;
 }>;
 
 
-export type CreateImagesMutation = { __typename?: 'Mutation', createImages?: Array<{ __typename?: 'Image', name?: string | null, id: string, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } | null> | null };
+export type CreateImagesMutation = { __typename?: 'Mutation', createImages?: Array<(
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null> | null };
 
 export type CreateImageMutationVariables = Exact<{
   data: ImageCreateInput;
 }>;
 
 
-export type CreateImageMutation = { __typename?: 'Mutation', createImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null } | null };
+export type CreateImageMutation = { __typename?: 'Mutation', createImage?: (
+    { __typename?: 'Image' }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
+  ) | null };
 
 export type GetOrderQueryVariables = Exact<{
   where: OrderWhereUniqueInput;
@@ -2712,12 +3832,12 @@ export type GetOrderQueryVariables = Exact<{
 
 export type GetOrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', createdAt?: any | null, id: string, itemsCount?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, suppiler?: Array<{ __typename?: 'Supplier', id: string, name?: string | null }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
-  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, images?: Array<(
+  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
     { __typename?: 'Image' }
-    & { ' $fragmentRefs'?: { 'ImageFieldsFragment': ImageFieldsFragment } }
+    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
   )> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
 
 export type GetProductsQueryVariables = Exact<{
@@ -2744,8 +3864,6 @@ export type GetProductQuery = { __typename?: 'Query', product?: (
 
 export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, name?: string | null, description?: string | null, productsCount?: number | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null } | null } & { ' $fragmentName'?: 'SupplierFieldsFragment' };
 
-export type ImageFieldsFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', id: string, filesize: number, width: number, height: number, extension: ImageExtension, url: string } | null } & { ' $fragmentName'?: 'ImageFieldsFragment' };
-
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2756,10 +3874,14 @@ export type GetUserQueryVariables = Exact<{
 }>;
 
 
-export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, avartar?: (
-      { __typename?: 'Image' }
-      & { ' $fragmentRefs'?: { 'ImageFieldsFragment': ImageFieldsFragment } }
-    ) | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null } | null };
+export type GetUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', createdAt?: any | null, email?: string | null, image?: string | null, name?: string | null, username?: string | null, id: string, role?: string | null, provider?: string | null, password?: { __typename?: 'PasswordState', isSet: boolean } | null, point?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null } | null, avartar?: { __typename?: 'Image', altText?: string | null, id: string, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, url: string, height: number, width: number } | null } | null, preference?: { __typename?: 'UserPreference', id: string, setting?: { __typename?: 'UserPreference_setting_Document', document: any } | null } | null, carts?: Array<{ __typename?: 'Cart', id: string, createdAt?: any | null }> | null, orders?: Array<{ __typename?: 'Order', id: string, createdAt?: any | null }> | null } | null };
+
+export type GetUserItemQueryVariables = Exact<{
+  where: UserWhereUniqueInput;
+}>;
+
+
+export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null }> | null } | null } | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -2767,6 +3889,7 @@ export type CreateUserMutationVariables = Exact<{
   provider?: InputMaybe<Scalars['String']['input']>;
   password?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  image?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -2777,7 +3900,14 @@ export type GetUserByEmailQueryVariables = Exact<{
 }>;
 
 
-export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null } | null };
+export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, avartar?: { __typename?: 'Image', id: string } | null } | null };
+
+export type GetUserPointQueryVariables = Exact<{
+  where: UserPointWhereUniqueInput;
+}>;
+
+
+export type GetUserPointQuery = { __typename?: 'Query', userPoint?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -2797,6 +3927,40 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const AuthUserItemFragmentDoc = new TypedDocumentString(`
+    fragment AuthUserItem on User {
+  id
+  name
+  username
+  provider
+  role
+  email
+  image
+  postsCount
+  createdAt
+  password {
+    isSet
+  }
+  orders {
+    id
+  }
+  carts {
+    id
+  }
+  point {
+    id
+    total_point
+    updateAt
+  }
+  posts {
+    id
+    title
+    tagsCount
+  }
+  passwordResetIssuedAt
+  passwordResetRedeemedAt
+}
+    `, {"fragmentName":"AuthUserItem"}) as unknown as TypedDocumentString<AuthUserItemFragment, unknown>;
 export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
     fragment SupplierFields on Supplier {
   id
@@ -2810,21 +3974,21 @@ export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
   productsCount
 }
     `, {"fragmentName":"SupplierFields"}) as unknown as TypedDocumentString<SupplierFieldsFragment, unknown>;
-export const ImageFieldsFragmentDoc = new TypedDocumentString(`
-    fragment ImageFields on Image {
+export const ImageFieldFragmentDoc = new TypedDocumentString(`
+    fragment ImageField on Image {
   id
   name
   altText
   src {
-    id
     filesize
     width
     height
     extension
     url
+    id
   }
 }
-    `, {"fragmentName":"ImageFields"}) as unknown as TypedDocumentString<ImageFieldsFragment, unknown>;
+    `, {"fragmentName":"ImageField"}) as unknown as TypedDocumentString<ImageFieldFragment, unknown>;
 export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     fragment ProductFields on Product {
   id
@@ -2843,16 +4007,42 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
-    fragment SupplierFields on Supplier {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment SupplierFields on Supplier {
   id
   name
   description
@@ -2862,43 +4052,30 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
+export const ValidateUserPasswordResetTokenDocument = new TypedDocumentString(`
+    query ValidateUserPasswordResetToken($email: String!, $token: String!) {
+  validateUserPasswordResetToken(email: $email, token: $token) {
+    message
+    code
+  }
+}
+    `) as unknown as TypedDocumentString<ValidateUserPasswordResetTokenQuery, ValidateUserPasswordResetTokenQueryVariables>;
+export const RedeemUserPasswordResetTokenResultDocument = new TypedDocumentString(`
+    mutation RedeemUserPasswordResetTokenResult($email: String!, $token: String!, $password: String!) {
+  redeemUserPasswordResetToken(email: $email, token: $token, password: $password) {
+    code
+    message
+  }
+}
+    `) as unknown as TypedDocumentString<RedeemUserPasswordResetTokenResultMutation, RedeemUserPasswordResetTokenResultMutationVariables>;
 export const LoginDocument = new TypedDocumentString(`
     mutation Login($email: String!, $password: String!) {
   authenticateUserWithPassword(email: $email, password: $password) {
     ... on UserAuthenticationWithPasswordSuccess {
       sessionToken
       item {
-        id
-        name
-        username
-        provider
-        role
-        email
-        image
-        postsCount
-        createdAt
-        password {
-          isSet
-        }
-        posts {
-          id
-          title
-          tagsCount
-        }
+        ...AuthUserItem
       }
     }
     ... on UserAuthenticationWithPasswordFailure {
@@ -2906,58 +4083,235 @@ export const LoginDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
+    fragment AuthUserItem on User {
+  id
+  name
+  username
+  provider
+  role
+  email
+  image
+  postsCount
+  createdAt
+  password {
+    isSet
+  }
+  orders {
+    id
+  }
+  carts {
+    id
+  }
+  point {
+    id
+    total_point
+    updateAt
+  }
+  posts {
+    id
+    title
+    tagsCount
+  }
+  passwordResetIssuedAt
+  passwordResetRedeemedAt
+}`) as unknown as TypedDocumentString<LoginMutation, LoginMutationVariables>;
+export const SendUserPasswordResetTokenDocument = new TypedDocumentString(`
+    mutation SendUserPasswordResetToken($email: String!) {
+  sendUserPasswordResetLink(email: $email)
+}
+    `) as unknown as TypedDocumentString<SendUserPasswordResetTokenMutation, SendUserPasswordResetTokenMutationVariables>;
+export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
+    mutation AuthenticateAndLinkProvider($provider: String!, $email: String!, $accessToken: String, $refreshToken: String, $providerAccountId: String!, $name: String, $image: String) {
+  authenticateAndLinkProvider(
+    provider: $provider
+    email: $email
+    name: $name
+    accessToken: $accessToken
+    refreshToken: $refreshToken
+    providerAccountId: $providerAccountId
+    image: $image
+  ) {
+    ... on AuthProvidersSuccess {
+      sessionToken
+      accessToken
+      refetchToken
+      __typename
+      item {
+        ...AuthUserItem
+      }
+    }
+    ... on AuthProvidersFailure {
+      message
+    }
+  }
+}
+    fragment AuthUserItem on User {
+  id
+  name
+  username
+  provider
+  role
+  email
+  image
+  postsCount
+  createdAt
+  password {
+    isSet
+  }
+  orders {
+    id
+  }
+  carts {
+    id
+  }
+  point {
+    id
+    total_point
+    updateAt
+  }
+  posts {
+    id
+    title
+    tagsCount
+  }
+  passwordResetIssuedAt
+  passwordResetRedeemedAt
+}`) as unknown as TypedDocumentString<AuthenticateAndLinkProviderMutation, AuthenticateAndLinkProviderMutationVariables>;
+export const CreateCartItemDocument = new TypedDocumentString(`
+    mutation CreateCartItem($data: CartItemCreateInput!) {
+  createCartItem(data: $data) {
+    cart {
+      id
+    }
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: CartWhereUniqueInput!) {
+  cart(where: $where) {
+    createdAt
+    id
+    items {
+      id
+      quantity
+      product {
+        images {
+          src {
+            extension
+            filesize
+            height
+            id
+            url
+            width
+          }
+          altText
+          id
+          name
+        }
+        id
+        description
+        details {
+          document
+        }
+        name
+        price {
+          price
+          id
+        }
+        publishedAt
+        status
+        suppilers {
+          id
+        }
+        updateAt
+        createdAt
+      }
+    }
+    status
+    updateAt
+    user {
+      id
+      username
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
+export const DeleteCartItemDocument = new TypedDocumentString(`
+    mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
+  deleteCartItem(where: $where) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export const DeleteCartItemsDocument = new TypedDocumentString(`
+    mutation DeleteCartItems($where: [CartItemWhereUniqueInput!]!) {
+  deleteCartItems(where: $where) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCartItemsMutation, DeleteCartItemsMutationVariables>;
 export const GetImageDocument = new TypedDocumentString(`
     query GetImage($where: ImageWhereUniqueInput!) {
   image(where: $where) {
-    name
-    src {
-      id
-      extension
-      filesize
-      height
-      url
-      width
-    }
-    id
-    altText
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<GetImageQuery, GetImageQueryVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<GetImageQuery, GetImageQueryVariables>;
 export const CreateImagesDocument = new TypedDocumentString(`
     mutation CreateImages($data: [ImageCreateInput!]!) {
   createImages(data: $data) {
-    name
-    id
-    altText
-    src {
-      id
-      filesize
-      width
-      height
-      extension
-      url
-    }
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<CreateImagesMutation, CreateImagesMutationVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<CreateImagesMutation, CreateImagesMutationVariables>;
 export const CreateImageDocument = new TypedDocumentString(`
     mutation CreateImage($data: ImageCreateInput!) {
   createImage(data: $data) {
-    altText
-    id
-    name
-    src {
-      extension
-      filesize
-      height
-      id
-      url
-      width
-    }
+    ...ImageField
   }
 }
-    `) as unknown as TypedDocumentString<CreateImageMutation, CreateImageMutationVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}`) as unknown as TypedDocumentString<CreateImageMutation, CreateImageMutationVariables>;
 export const GetOrderDocument = new TypedDocumentString(`
     query getOrder($where: OrderWhereUniqueInput!) {
   order(where: $where) {
@@ -2989,7 +4343,20 @@ export const GetProductsDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment ProductFields on Product {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
   id
   suppilers {
     ...SupplierFields
@@ -3006,12 +4373,25 @@ export const GetProductsDocument = new TypedDocumentString(`
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
@@ -3025,19 +4405,6 @@ fragment SupplierFields on Supplier {
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
 export const GetProductDocument = new TypedDocumentString(`
     query getProduct($where: ProductWhereUniqueInput!) {
@@ -3045,7 +4412,20 @@ export const GetProductDocument = new TypedDocumentString(`
     ...ProductFields
   }
 }
-    fragment ProductFields on Product {
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
   id
   suppilers {
     ...SupplierFields
@@ -3062,12 +4442,25 @@ export const GetProductDocument = new TypedDocumentString(`
     price_type
     id
   }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
   status
   publishedAt
   updateAt
   createdAt
   images {
-    ...ImageFields
+    ...ImageField
   }
   imagesCount
 }
@@ -3081,19 +4474,6 @@ fragment SupplierFields on Supplier {
     username
   }
   productsCount
-}
-fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
-  }
 }`) as unknown as TypedDocumentString<GetProductQuery, GetProductQueryVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {
@@ -3118,8 +4498,20 @@ export const GetUserDocument = new TypedDocumentString(`
       isSet
     }
     provider
+    point {
+      id
+      total_point
+      updateAt
+    }
     avartar {
-      ...ImageFields
+      altText
+      id
+      src {
+        extension
+        url
+        height
+        width
+      }
     }
     preference {
       id
@@ -3127,25 +4519,55 @@ export const GetUserDocument = new TypedDocumentString(`
         document
       }
     }
+    carts {
+      id
+      createdAt
+    }
+    orders {
+      id
+      createdAt
+    }
   }
 }
-    fragment ImageFields on Image {
-  id
-  name
-  altText
-  src {
-    id
-    filesize
-    width
-    height
-    extension
-    url
+    `) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+export const GetUserItemDocument = new TypedDocumentString(`
+    query GetUserItem($where: UserWhereUniqueInput!) {
+  user(where: $where) {
+    itemsCount
+    items {
+      id
+      config
+      createdAt
+      updateAt
+      item {
+        id
+        product {
+          name
+          images {
+            altText
+            id
+            name
+            src {
+              extension
+              filesize
+              height
+              url
+              width
+            }
+          }
+          status
+          createdAt
+          updateAt
+        }
+      }
+    }
   }
-}`) as unknown as TypedDocumentString<GetUserQuery, GetUserQueryVariables>;
+}
+    `) as unknown as TypedDocumentString<GetUserItemQuery, GetUserItemQueryVariables>;
 export const CreateUserDocument = new TypedDocumentString(`
-    mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String) {
+    mutation CreateUser($name: String, $username: String, $provider: String, $password: String, $email: String, $image: String) {
   createUser(
-    data: {name: $name, username: $username, provider: $provider, password: $password, email: $email}
+    data: {name: $name, username: $username, provider: $provider, password: $password, email: $email, image: $image}
   ) {
     id
     name
@@ -3169,6 +4591,9 @@ export const GetUserByEmailDocument = new TypedDocumentString(`
     username
     provider
     image
+    avartar {
+      id
+    }
     role
     email
     postsCount
@@ -3178,3 +4603,15 @@ export const GetUserByEmailDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserPointDocument = new TypedDocumentString(`
+    query GetUserPoint($where: UserPointWhereUniqueInput!) {
+  userPoint(where: $where) {
+    id
+    total_point
+    updateAt
+    user {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPointQuery, GetUserPointQueryVariables>;

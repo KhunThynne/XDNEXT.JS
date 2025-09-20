@@ -24,13 +24,68 @@ graphql(`
         isSet
       }
       provider
+      point {
+        id
+        total_point
+        updateAt
+      }
       avartar {
-        ...ImageFields
+        altText
+        id
+        src {
+          extension
+          url
+          height
+          width
+        }
       }
       preference {
         id
         setting {
           document
+        }
+      }
+      carts {
+        id
+        createdAt
+      }
+      orders {
+        id
+        createdAt
+      }
+    }
+  }
+`);
+
+graphql(`
+  query GetUserItem($where: UserWhereUniqueInput!) {
+    user(where: $where) {
+      itemsCount
+      items {
+        id
+        config
+        createdAt
+        updateAt
+        item {
+          id
+          product {
+            name
+            images {
+              altText
+              id
+              name
+              src {
+                extension
+                filesize
+                height
+                url
+                width
+              }
+            }
+            status
+            createdAt
+            updateAt
+          }
         }
       }
     }
