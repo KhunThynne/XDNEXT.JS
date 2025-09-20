@@ -18,6 +18,7 @@ import { Link, usePathname } from "@navigation";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import PointDiamon from "@/shared/components/PointDiamod";
 import Point from "@/shared/components/ui/Point";
+import { env } from "@/env";
 
 export function AccountPopover(user: Partial<UserType>) {
   const avatarUsername = useMemo(
@@ -73,12 +74,11 @@ export function AccountPopover(user: Partial<UserType>) {
               </span>
             </Badge>
           </section>
-
           <div>
             <Button
               className=""
               variant="ghost"
-              onClick={() => signOut({ callbackUrl: pathname })}
+              onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_BASE_URL })}
             >
               <small className="text-xs">Logout</small>
 

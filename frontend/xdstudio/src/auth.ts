@@ -32,6 +32,7 @@ declare module "next-auth/jwt" {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   secret: [env.AUTH_SECRET],
+  // basePath: "/api/auth",
   providers: [
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
@@ -202,12 +203,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       return session;
     },
-    async redirect({ url }) {
+    async redirect({ url, baseUrl = env.NEXT_PUBLIC_BASE_URL }) {
       // // Allows relative callback URLs
-      // console.log("test", url, baseUrl);
-      // if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
       // // Allows callback URLs on the same origin
-      // else if (new URL(url).origin === baseUrl) return url;
+      else if (new URL(url).origin === baseUrl) return url;
       return url;
     },
   },
