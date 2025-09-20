@@ -67,7 +67,7 @@ export function SocialLinks({ contacts }: SocialLinksProps) {
   ];
 
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap justify-start gap-2 lg:justify-center">
       {socialPlatforms.map((platform) => {
         if (!platform.value) return null;
 

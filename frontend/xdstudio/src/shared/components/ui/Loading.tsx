@@ -7,7 +7,7 @@ export default function Loading({
   description?: string;
 } & Partial<WithChildren>) {
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="bg-accent absolute inset-0 z-30 flex size-full items-center justify-center">
       <div className="flex flex-col items-center space-y-8">
         {/* Enhanced Animated Spinner */}
         <div className="relative">

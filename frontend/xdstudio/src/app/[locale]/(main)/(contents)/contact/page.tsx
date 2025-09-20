@@ -4,6 +4,7 @@ import { ContactForm } from "./components/contact-form";
 import { ContactHeader } from "./components/contact-header";
 import { TeamMemberCard } from "./components/team-member-card";
 import { ContactDiscordCard } from "./components/ContactDiscordCard";
+import ContentCard from "@/shared/components/ui/ContentCard";
 
 const teamMembers = [
   {
@@ -34,39 +35,48 @@ const teamMembers = [
       instagram: "https://instagram.com/sarahc_designs",
     },
   },
-  {
-    id: 3,
-    name: "Mike Rodriguez",
-    role: "Content Creator",
-    avatar: "/content-creator-headshot.png",
-    contacts: {
-      discord: "mikerod#9012",
-      facebook: "https://facebook.com/mikerodriguez.content",
-      tiktok: "https://tiktok.com/@mike_creates",
-      linkedin: "https://linkedin.com/in/mikerodriguez",
-      personalFacebook: "https://facebook.com/mike.rodriguez.personal",
-      instagram: "https://instagram.com/mike_content",
-    },
-  },
+  // {
+  //   id: 3,
+  //   name: "Mike Rodriguez",
+  //   role: "Content Creator",
+  //   avatar: "/content-creator-headshot.png",
+  //   contacts: {
+  //     discord: "mikerod#9012",
+  //     facebook: "https://facebook.com/mikerodriguez.content",
+  //     tiktok: "https://tiktok.com/@mike_creates",
+  //     linkedin: "https://linkedin.com/in/mikerodriguez",
+  //     personalFacebook: "https://facebook.com/mike.rodriguez.personal",
+  //     instagram: "https://instagram.com/mike_content",
+  //   },
+  // },
 ];
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen">
-      <div className="mx-auto space-y-8 px-4 py-12">
-        <ContactHeader />
+    <div className="my-5 space-y-5">
+      <ContentCard
+        className="min-h-80!"
+        titile={`Get in Touch`}
+        description={`Connect with our team through your preferred platform. We're here to help and would love to hear from you!.`}
+      >
+        <section>test</section>
+      </ContentCard>
+      <div className="mx-auto flex gap-4 max-lg:flex-col">
         <ContactDiscordCard inviteLink="https://discord.gg/your-server" />
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex justify-center gap-5 max-sm:flex-col">
           {teamMembers.map((member) => (
-            <TeamMemberCard key={member.id} member={member} />
+            <TeamMemberCard
+              key={member.id}
+              member={member}
+              className="max-w-xs"
+            />
           ))}
         </div>
-
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-          <AdditionalContacts />
-          <ContactForm />
-        </div>
       </div>
+      {/* <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+        <AdditionalContacts />
+        <ContactForm />
+      </div> */}
     </div>
   );
 }

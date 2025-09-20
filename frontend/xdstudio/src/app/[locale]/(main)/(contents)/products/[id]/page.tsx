@@ -13,6 +13,7 @@ export default async function PageProduct({
   const session = await auth();
   const req = await execute(GetProductDocument, { where: { id } });
   const { product } = req.data;
+  console.log(req)
   // return JSON.stringify(req.data);
   if (!product) return notFound();
   return <ContentProduct session={session} {...(product as Product)} />;

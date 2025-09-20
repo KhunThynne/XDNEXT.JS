@@ -21,7 +21,6 @@ export async function POST(req: Request) {
       headers,
       body: JSON.stringify(body),
     });
-
     if (!response.ok) {
       const errorText = await response.text();
       return NextResponse.json(

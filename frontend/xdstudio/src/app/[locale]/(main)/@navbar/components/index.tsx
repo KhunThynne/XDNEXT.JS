@@ -49,7 +49,7 @@ export default function Navbar({
         <nav
           aria-label="Mobile navigation"
           className={clsx(
-            "absolute right-0 size-fit shadow-md transition-all",
+            "absolute right-0 size-fit shadow-md transition-all ease-linear",
             "inset-shadow-sm rounded-b-lg",
             "bg-background",
             "w-full max-w-lg",

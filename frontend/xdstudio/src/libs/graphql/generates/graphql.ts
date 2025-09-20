@@ -3731,10 +3731,13 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?: { __typename?: 'UserAuthenticationWithPasswordFailure', message: string } | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: (
-      { __typename?: 'User' }
-      & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
-    ) } | null };
+export type LoginMutation = { __typename?: 'Mutation', authenticateUserWithPassword?:
+    | { __typename?: 'UserAuthenticationWithPasswordFailure', message: string }
+    | { __typename?: 'UserAuthenticationWithPasswordSuccess', sessionToken: string, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
 
 export type SendUserPasswordResetTokenMutationVariables = Exact<{
   email: Scalars['String']['input'];
@@ -3754,10 +3757,13 @@ export type AuthenticateAndLinkProviderMutationVariables = Exact<{
 }>;
 
 
-export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', authenticateAndLinkProvider?: { __typename?: 'AuthProvidersFailure', message?: string | null } | { __typename: 'AuthProvidersSuccess', sessionToken: string, accessToken: string, refetchToken?: string | null, item: (
-      { __typename?: 'User' }
-      & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
-    ) } | null };
+export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', authenticateAndLinkProvider?:
+    | { __typename?: 'AuthProvidersFailure', message?: string | null }
+    | { __typename: 'AuthProvidersSuccess', sessionToken: string, accessToken: string, refetchToken?: string | null, item: (
+        { __typename?: 'User' }
+        & { ' $fragmentRefs'?: { 'AuthUserItemFragment': AuthUserItemFragment } }
+      ) }
+   | null };
 
 export type CreateCartItemMutationVariables = Exact<{
   data: CartItemCreateInput;

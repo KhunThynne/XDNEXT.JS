@@ -15,7 +15,7 @@ export const ContactDiscordCard = ({
   description = "เข้าร่วมกลุ่ม Discord ของเราเพื่อพูดคุย แลกเปลี่ยนข้อมูล และติดตามข่าวสารล่าสุด",
 }: ContactDiscordCardProps) => {
   return (
-    <Card className="border-purple-500 shadow-lg transition-transform duration-200 hover:scale-105 hover:shadow-xl">
+    <Card className="border-purple-500 shadow-lg transition-transform duration-200 hover:scale-105 hover:shadow-xl lg:max-w-sm">
       <CardHeader className="flex items-center gap-3">
         {/* <Discord className="h-6 w-6 text-purple-500" /> */}
         <h3 className="text-lg font-semibold">Join Our Discord</h3>
