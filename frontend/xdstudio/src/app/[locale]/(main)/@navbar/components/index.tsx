@@ -22,7 +22,7 @@ export default function Navbar({
   return (
     <div
       className={clsx(
-        "bg-background sticky top-0 z-20 w-full border-b",
+        "bg-background min-h-16.5 sticky top-0 z-20 w-full place-content-center border-b",
         className
       )}
     >
