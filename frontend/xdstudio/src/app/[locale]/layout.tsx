@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import { GoToTopButton } from "@/shared/components/ui/GoToTopButton";
 
 export const metadata: Metadata = {
   title: "Xdstudio",
@@ -36,6 +37,7 @@ export default async function LocaleLayout({
           <NextIntlClientProvider>
             <Providers locale={locale} session={session}>
               {children}
+              <GoToTopButton />
             </Providers>
           </NextIntlClientProvider>
         </SessionProvider>
