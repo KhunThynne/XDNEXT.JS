@@ -35,7 +35,7 @@ export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {
             "fixed bottom-5 right-5 aspect-square size-10 cursor-pointer rounded-2xl hover:animate-bounce lg:size-12",
             `max-md:bottom-5 max-md:left-1/2 max-md:-translate-x-1/2`,
             `md:border`
-          )}
+          )}  aria-label="Go to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <div className="size-full">

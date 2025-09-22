@@ -34,14 +34,16 @@ export const ShoppingPopover = ({
   return (
     <Popover>
       <CartStoreProvider cart={data?.data?.cart} />
+
+     <span id="shopping-bag-button" className="sr-only">Shopping bag button</span>
       <PopoverTrigger asChild className="max-md:hidden">
-        <Button variant="ghost" size="icon" className="group relative">
+        <Button variant="ghost" size="icon" className="group relative" aria-labelledby="shopping-bag-button">
           <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} />
           <ShoppingCount count={count} />
         </Button>
       </PopoverTrigger>
       <Button className="md:hidden" variant="ghost" size="icon" asChild>
-        <Link href={navigation}>
+        <Link href={navigation} aria-labelledby="shopping-bag-button">
           <ShoppingBag />
           <ShoppingCount count={Number(data?.data?.cart?.items?.length)} />
         </Link>

@@ -39,6 +39,7 @@ export default function Navbar({
           />
         </nav>
         <MenuButton
+         aria-label="menu-navbar"
           className="md:hidden"
           state={isOpen}
           onClick={() => setIsOpen((pre) => !pre)}

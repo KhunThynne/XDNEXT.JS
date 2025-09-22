@@ -32,7 +32,7 @@ export function AccountPopover(user: Partial<UserType>) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" aria-label="open-user-popover">
           <User />
         </Button>
       </PopoverTrigger>
