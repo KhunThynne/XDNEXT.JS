@@ -6,6 +6,13 @@ const backendUrl = new URL(env.API_BACKEND_URL);
 const nextConfig = {
   trailingSlash: true,
   typedRoutes: false,
+  basePath: "",
+  assetPrefix: "/",
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["shop.xd-tect.com"],
+    },
+  },
   images: {
     remotePatterns: [
       {
@@ -17,6 +24,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "xd-tect.com",
       },
       {
         protocol: "https",

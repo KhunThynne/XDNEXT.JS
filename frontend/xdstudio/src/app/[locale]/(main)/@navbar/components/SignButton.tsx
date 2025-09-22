@@ -1,9 +1,9 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { usePathname } from "@navigation";
 import { Users } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 import { useSearchParams } from "next/navigation";
-import signIn from "../utils/signIn";
 
 export const SignButton = () => {
   const searchParams = useSearchParams();
@@ -19,7 +19,7 @@ export const SignButton = () => {
       size="icon"
       disabled={!!callbackUrl}
       onClick={async () => {
-        await signIn("", { redirectTo: pathname });
+        await signIn("", { redirectTo: pathname,callbackUrl:pathname });
       }}
     >
       <Users />

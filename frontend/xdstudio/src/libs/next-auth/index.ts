@@ -204,7 +204,7 @@ export const AuthProvider = NextAuth({
     },
     async redirect({ url, baseUrl }) {
       // // Allows relative callback URLs
-      baseUrl = getBaseUrl() ?? env.NEXT_PUBLIC_SITE_URL;
+      baseUrl = env.NEXT_PUBLIC_SITE_URL;
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;

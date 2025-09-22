@@ -7,6 +7,7 @@ async function executeWithEndpoint<TResult, TVariables>(
   query: TypedDocumentString<TResult, TVariables>,
   ...[variables]: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
+  console.log(endpoint)
   const response = await fetch(`${endpoint}`, {
     method: "POST",
     body: JSON.stringify({

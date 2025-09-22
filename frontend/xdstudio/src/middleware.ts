@@ -6,6 +6,11 @@ import { NextResponse } from "next/server";
 const handleI18nRouting = createMiddleware(routing);
 export default auth(async (req) => {
   const { nextUrl } = req;
+  // const hostname = req.headers.get("host");
+  // if (hostname?.startsWith("shop.")) {
+  //   const newUrl = new URL(`shop`, nextUrl.origin);
+  //   return NextResponse.rewrite(newUrl);
+  // }
   if (!req.auth && req.nextUrl.pathname !== "/login") {
     // return NextResponse.rewrite(new URL("/about-2", req.url));
   }
