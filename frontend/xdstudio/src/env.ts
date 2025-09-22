@@ -17,6 +17,7 @@ export const env = createEnv({
     XDCoreApi: z.string(),
     OMISE_PUBLIC_KEY: z.string(),
     OMISE_SECRET_KEY: z.string(),
+    NODE_ENV: z.enum(["development", "production"]),
 
     AUTH_SECRET: z.string().optional(),
   },
@@ -28,7 +29,7 @@ export const env = createEnv({
     // AUTH_URL: process.env.AUTH_URL,
     AUTH_SECRET: process.env.AUTH_SECRET,
     API_BACKEND_URL: process.env.API_BACKEND_URL,
-
+    NODE_ENV: process.env.NODE_ENV,
     XDCoreApi: process.env.XDCoreApi,
     AUTH_DISCORD_CLIENT_SECRET: process.env.AUTH_DISCORD_CLIENT_SECRET,
     AUTH_DISCORD_CLIENT_ID: process.env.AUTH_DISCORD_CLIENT_ID,
