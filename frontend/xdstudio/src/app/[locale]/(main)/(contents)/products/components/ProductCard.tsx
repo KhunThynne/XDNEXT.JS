@@ -20,6 +20,7 @@ import { Session } from "next-auth";
 import PointDiamon from "@/shared/components/PointDiamod";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import { ProductTag } from "./ProductTag";
+import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 
 export const CardProduct = ({
   product,
@@ -27,9 +28,11 @@ export const CardProduct = ({
   classNames,
   session,
   footer = true,
+  loading = false,
 }: {
-  product: Product & { href?: string };
+  product?: Product & { href?: string };
   session: Session | null;
+  loading?: boolean;
 } & GlobalPropsClassNames<
   | "containerImage"
   | "image"
@@ -42,20 +45,20 @@ export const CardProduct = ({
   return (
     <Card
       className={clsx(
-        "@md:max-w-2xs size-full max-w-full gap-y-3 divide-y overflow-auto pt-0",
+        "size-full max-w-full gap-y-3 divide-y overflow-auto pt-0",
         className
       )}
     >
       <CardHeader
         className={clsx(
-          "bg-primary-foreground inset-shadow-sm inset-shadow-primary/20 dark:bg-accent relative rounded-t-xl",
+          "bg-primary-foreground inset-shadow-sm inset-shadow-primary/20 dark:bg-accent relative aspect-video rounded-t-xl sm:aspect-auto",
           classNames?.header
         )}
       >
         <div
           className={clsx("aspect-square max-w-32", classNames?.containerImage)}
         >
-          {product.images?.[0]?.src?.url ? (
+          {product?.images?.[0]?.src?.url ? (
             <Image
               src={product.images[0].src.url}
               alt={product.images[0].altText ?? "unknown"}
@@ -64,7 +67,11 @@ export const CardProduct = ({
             />
           ) : (
             <div className="absolute inset-0 place-content-center place-items-center">
-              <ImageOff className="size-15 opacity-20" />
+              {loading ? (
+                <Skeleton className="size-full" />
+              ) : (
+                <ImageOff className="size-15 opacity-20" />
+              )}
             </div>
           )}
         </div>
@@ -73,53 +80,91 @@ export const CardProduct = ({
         className={clsx(`min-h-30 space-y-2 px-0`, classNames?.content)}
       >
         <section className="space-y-2 px-6">
-          <ProductTag tags={product.tag} />
-          <Link href={product.href ?? `/products/${product.id}`}>
+          {loading ? (
+            <div className="flex gap-1.5">
+              <Skeleton className="h-5 w-10" />
+              <Skeleton className="h-5 w-10" />
+              <Skeleton className="h-5 w-10" />
+            </div>
+          ) : (
+            <ProductTag tags={product?.tag} />
+          )}
+
+          <Link href={product?.href ?? `/products/${product?.id}`}>
             <CardTitle
               className={clsx(
-                "text-xl font-semibold",
+                "min-h-6 text-xl font-semibold",
                 classNames?.containerTitle
               )}
             >
-              <h3 className={clsx(`max-w-full truncate`, classNames?.title)}>
-                {product.name}
-              </h3>
+              {loading ? (
+                <Skeleton className="h-4.5 w-12" />
+              ) : (
+                <h3 className={clsx(`max-w-full truncate`, classNames?.title)}>
+                  {product?.name}
+                </h3>
+              )}
             </CardTitle>
           </Link>
-          {product.description && (
-            <div
-              className={clsx(
-                "h-full overflow-auto",
-                classNames?.containerDetail
+
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => {
+                const width = Math.floor(Math.random() * (80 - 40 + 1)) + 180;
+                return (
+                  <Skeleton
+                    key={i}
+                    className={`h-3 max-w-full`}
+                    style={{ width: `${width}px` }}
+                  />
+                );
+              })
+            : product?.description && (
+                <div
+                  className={clsx(
+                    "h-full overflow-auto",
+                    classNames?.containerDetail
+                  )}
+                >
+                  <SafeHtml
+                    className={clsx(
+                      "text-md text-muted-foreground break-all text-sm",
+                      _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
+                    )}
+                    html={product.description}
+                  />
+                </div>
               )}
-            >
-              <SafeHtml
-                className={clsx(
-                  "text-md text-muted-foreground break-all text-sm",
-                  _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
-                )}
-                html={product.description}
-              />
-            </div>
-          )}
         </section>
       </CardContent>
       {footer && (
         <CardFooter className="flex-col justify-end gap-6">
-          <div className="flex w-full items-center justify-between">
-            <p className="text-primary text-md flex grow gap-1 truncate font-bold">
-              <PointDiamon />
-              {` ${product.price?.price ?? `Free`}`}
-            </p>
-            <small>rating</small>
+          <div className="flex min-h-6 w-full items-center justify-between">
+            {loading ? (
+              <Skeleton className="h-5 w-12" />
+            ) : (
+              <p className="text-primary text-md flex grow gap-1 truncate font-bold">
+                <PointDiamon />
+                {`${product?.price?.price ?? `Free`}`}
+              </p>
+            )}
+
+            {loading ? (
+              <Skeleton className="h-4 w-10" />
+            ) : (
+              <small>rating</small>
+            )}
           </div>
 
-          <AddItemButton
-            session={session}
-            productId={product?.id}
-            className="w-full cursor-pointer"
-            disabled={!product.price?.price}
-          />
+          {loading ? (
+            <Skeleton className="h-9 w-full" />
+          ) : (
+            <AddItemButton
+              session={session}
+              productId={product?.id}
+              className="w-full cursor-pointer"
+              disabled={!product?.price?.price}
+            />
+          )}
         </CardFooter>
       )}
     </Card>

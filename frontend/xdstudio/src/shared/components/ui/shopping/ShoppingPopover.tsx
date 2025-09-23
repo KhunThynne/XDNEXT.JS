@@ -14,6 +14,7 @@ import _ from "lodash";
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export const ShoppingPopover = ({
   cartId,
@@ -35,9 +36,16 @@ export const ShoppingPopover = ({
     <Popover>
       <CartStoreProvider cart={data?.data?.cart} />
 
-     <span id="shopping-bag-button" className="sr-only">Shopping bag button</span>
+      <span id="shopping-bag-button" className="sr-only">
+        Shopping bag button
+      </span>
       <PopoverTrigger asChild className="max-md:hidden">
-        <Button variant="ghost" size="icon" className="group relative" aria-labelledby="shopping-bag-button">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="group relative"
+          aria-labelledby="shopping-bag-button"
+        >
           <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} />
           <ShoppingCount count={count} />
         </Button>
@@ -50,13 +58,11 @@ export const ShoppingPopover = ({
       </Button>
       <PopoverContent align="end" className="w-sm p-0">
         <h4 className="px-4 pb-3 pt-4 font-semibold">Your items cart</h4>
-        <section className="flex max-h-[70vh] w-full flex-col space-y-4 overflow-auto">
-          <CartShoppingForm
-            cartItems={cartItems}
-            invalidateCart={invalidate}
-            navigation={navigation}
-          />
-        </section>
+        <CartShoppingForm
+          cartItems={cartItems}
+          invalidateCart={invalidate}
+          navigation={navigation}
+        />
       </PopoverContent>
     </Popover>
   );

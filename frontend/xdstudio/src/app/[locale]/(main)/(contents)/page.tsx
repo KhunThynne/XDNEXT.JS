@@ -9,6 +9,7 @@ import Notification from "@/shared/components/ui/Notification";
 import { SectionPoint } from "@/shared/components/ui/SectionPoint";
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/ContentCard";
+import { contentClassName } from "./products/shared/contentClassName";
 
 export default async function PageCotent() {
   const session = await auth();
@@ -53,12 +54,7 @@ export default async function PageCotent() {
             </Button>
           </div>
         }
-        classNames={{
-          content: clsx(
-            "grid  @min-lg:grid-cols-2 @min-3xl:grid-cols-3 @min-5xl:grid-cols-4 @min-7xl:grid-cols-5",
-            "gap-5"
-          ),
-        }}
+        classNames={{ ...contentClassName }}
       >
         <ContentProducts session={session} />
       </ContainerSection>

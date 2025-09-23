@@ -23,7 +23,7 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
-    NEXT_PUBLIC_SITE_URL: z.string().url(),
+    NEXT_PUBLIC_SITE_URL: z.url(),
   },
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,

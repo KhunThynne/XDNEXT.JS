@@ -16,9 +16,10 @@ export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      setShow(scrollTop > 100 && scrollTop + windowHeight < docHeight - 5);
+      // const windowHeight = window.innerHeight;
+      // const docHeight = document.documentElement.scrollHeight;
+      // && scrollTop + windowHeight < docHeight - 5
+      setShow(scrollTop > 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -33,14 +34,17 @@ export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {
           variant="ghost"
           className={clsx(
             "fixed bottom-5 right-5 aspect-square size-10 cursor-pointer rounded-2xl hover:animate-bounce lg:size-12",
-            `max-md:bottom-5 max-md:left-1/2 max-md:-translate-x-1/2`,
+            `max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2`,
             `md:border`
-          )}  aria-label="Go to top"
+          )}
+          aria-label="Go to top"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <div className="size-full">
-            <ArrowBigUpDash className="size-full" />
-            <span className="hidden text-xs max-md:block"> Go to top</span>
+            <ArrowBigUpDash className="size-full max-md:hidden" />
+            <span className="text-primary/70 hidden text-xs/loose max-md:block">
+              Go to top
+            </span>
           </div>
         </Button>
       </MotionTransition>

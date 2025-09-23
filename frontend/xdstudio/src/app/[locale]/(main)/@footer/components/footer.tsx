@@ -9,7 +9,7 @@ export default function Footer({ className }: WithlDefaultProps) {
   return (
     <footer
       className={clsx(
-        "border-t-1 bg-background @container w-full items-center",
+        "border-t-1 bg-background @container w-full items-center max-sm:pb-7",
         "text-xs",
         "space-y-3",
         className
@@ -128,11 +128,11 @@ export default function Footer({ className }: WithlDefaultProps) {
           </div>
         </div>
 
-        <div className="sm:self-end">
+        <div className="space-y-1 sm:self-end">
           <div>Copyright &copy; XD DEV 2024 - 2025 All Rights Reserved.</div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
-            <CheckCircle /> Website{" "}
-            <code className="font-extrabold text-green-400">Protected</code>
+            <CheckCircle className="size-4" /> Website
+            <span className="text-success font-medium">Protected</span>
           </div>
         </div>
       </div>

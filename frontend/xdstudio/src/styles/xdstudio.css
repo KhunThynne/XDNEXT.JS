@@ -1,12 +1,14 @@
 @theme default {
-  --color-xd:var(--xd)
+  --color-xd:var(--xd);
+  --color-success:var(--success);
 }
 
 :root {
    --xd:#C70302;
- 
+   --success:var(--color-green-800);
 }
 
 .dark {
-  --xd:#ff0000;
+  --xd:#ff0000; 
+   --success:var(--color-green-600);
 }

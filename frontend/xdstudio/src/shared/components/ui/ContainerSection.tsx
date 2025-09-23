@@ -1,6 +1,9 @@
+"use client";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
+import { ContainerLog } from "./fallback/ContainerLog";
 
 interface ContainerSectionProps
   extends GlobalPropsClassNames<
@@ -13,6 +16,7 @@ interface ContainerSectionProps
   > {
   title?: string;
   description?: string | React.JSX.Element;
+  log?: boolean;
 }
 
 export const ContainerSection = ({
@@ -21,7 +25,9 @@ export const ContainerSection = ({
   children,
   title,
   description,
+  log,
 }: ContainerSectionProps) => {
+  const ref = useRef<HTMLElement>(null);
   return (
     <section
       id="container-content-section"
@@ -46,7 +52,11 @@ export const ContainerSection = ({
           classNames?.separator
         )}
       />
-      <section className={clsx("@container", classNames?.contentContainer)}>
+      {log && <ContainerLog ref={ref} />}
+      <section
+        className={clsx("@container", classNames?.contentContainer)}
+        ref={ref}
+      >
         <div className={clsx(classNames?.content)}>{children}</div>
       </section>
     </section>

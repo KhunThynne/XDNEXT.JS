@@ -8,7 +8,7 @@ import { signIn } from "next-auth/react";
 import { Fragment, useMemo } from "react";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
-  productId: string;
+  productId?: string;
   session?: Session | null;
   disableText?: boolean;
   addTo?: boolean;
@@ -54,10 +54,10 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     <Button
       {...buttonProps}
       className={clsx(`flex cursor-pointer`, className)}
-      disabled={isPending || (addTo ? false : !!addedItem)}
+      disabled={isPending || (addTo ? false : !!addedItem) || !productId}
       onClick={handleClick}
     >
-      {isPending ? (
+      {isPending || !productId ? (
         <LoaderCircle className="animate-spin" />
       ) : (
         <Fragment>
