@@ -106,21 +106,22 @@ export const CartShoppingForm = ({
   if (_.isEmpty(cartItems)) return <EmptyCart />;
   return (
     <Form {...method}>
-      <ul className="space-y-2 divide-y p-4">
-        {cartItemsForm?.map((item) => {
-          return (
-            <li key={item.id}>
-              <CartItemComponent
-                {...item}
-                onDelete={() => {
-                  handleDelete(item.id);
-                }}
-              />
-            </li>
-          );
-        })}
-      </ul>
-
+      <section className="inset-shadow-sm flex h-60 w-full flex-col space-y-4 overflow-auto">
+        <ul className="space-y-2 divide-y p-4">
+          {cartItemsForm?.map((item) => {
+            return (
+              <li key={item.id}>
+                <CartItemComponent
+                  {...item}
+                  onDelete={() => {
+                    handleDelete(item.id);
+                  }}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </section>
       <CartSummery navigation={navigation} />
     </Form>
   );

@@ -55,7 +55,7 @@ export function BreadcrumbComponent() {
           const isLast = index === pathNames.length - 1;
 
           return (
-            <div key={href} className="flex items-center gap-1">
+            <>
               <BreadcrumbSeparator>
                 <ChevronRight className="size-4" />
               </BreadcrumbSeparator>
@@ -69,7 +69,7 @@ export function BreadcrumbComponent() {
                 }
                 disable={isLast}
               />
-            </div>
+            </>
           );
         })}
       </BreadcrumbList>

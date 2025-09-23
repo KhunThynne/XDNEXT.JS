@@ -13,7 +13,16 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
     skip: 0,
     take: 10,
   });
-  if (status === "success") {
+  if (status === "pending") {
+    return Array.from({ length: 5 }).map((_, index) => (
+      <CardProduct
+        key={index}
+        loading
+        session={session}
+        className="mx-auto animate-pulse duration-300 hover:scale-105 hover:shadow-xl"
+      />
+    ));
+  } else {
     if (_.isEmpty(data?.products)) {
       return (
         <div className="max-h-100 col-span-full flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-lg border">
@@ -29,18 +38,18 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
           </Button>
         </div>
       );
+    } else {
+      return (
+        data?.products &&
+        data.products.map((product, index) => (
+          <CardProduct
+            session={session}
+            key={index}
+            product={product as Product}
+            className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
+          />
+        ))
+      );
     }
-
-    return (
-      data.products &&
-      data.products.map((product, index) => (
-        <CardProduct
-          session={session}
-          key={index}
-          product={product as Product}
-          className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
-        />
-      ))
-    );
   }
 };

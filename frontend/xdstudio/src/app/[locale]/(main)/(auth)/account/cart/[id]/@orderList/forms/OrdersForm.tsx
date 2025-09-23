@@ -233,6 +233,7 @@ export const OrdersForm = ({
               <Button
                 variant={"ghost"}
                 size={"icon"}
+                aria-label="button-trash"
                 onClick={() => handleDelete(item.id)}
               >
                 <Trash />
