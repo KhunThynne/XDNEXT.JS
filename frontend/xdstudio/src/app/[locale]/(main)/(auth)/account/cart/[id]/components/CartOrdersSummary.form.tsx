@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Separator } from "@radix-ui/react-separator";
 import { useFormContext } from "react-hook-form";
@@ -11,6 +10,7 @@ import { Form } from "@/libs/shadcn/ui/form";
 import { DialogFooterAction, useDialogGlobal } from "./useDialogGlobal";
 import { useFormatter } from "next-intl";
 import PointDiamon from "@/shared/components/PointDiamod";
+import { ButtonGrupe } from "@/shared/components/ui";
 
 export function CartOrdersSummaryForm() {
   const method = useFormContext<CartOrderFormProps>();
@@ -44,55 +44,50 @@ export function CartOrdersSummaryForm() {
     });
   };
 
-  return (
-    <Card className="h-fit">
-      <CardHeader className="text-lg font-semibold">Order Summary</CardHeader>
-      <CardContent>
-        {cartsOrderItem ? (
-          <Form {...method}>
-            <form
-              onSubmit={method.handleSubmit(handleSubmit)}
-              className="space-y-4"
-            >
-              <div className="flex justify-between text-sm">
-                <span>Subtotal</span>
-                <span className="flex gap-1">
-                  <PointDiamon /> {formatter.number(subtotal)}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>Tax (7%)</span>
-                <span className="flex gap-1">
-                  <PointDiamon /> {formatter.number(tax)}
-                </span>
-              </div>
-              <Separator />
-              <div className="flex justify-between font-semibold">
-                <span>Total</span>
-                <span className="flex gap-1">
-                  <PointDiamon /> {formatter.number(total)}
-                </span>
-              </div>
-              <Button
-                className="mt-4 w-full cursor-pointer"
-                disabled={cartsOrderItem?.length < 1}
-              >
-                Proceed to Checkout
-              </Button>
-              <Button
-                variant="secondary"
-                className="mt-2 w-full cursor-pointer text-sm"
-                asChild
-                type="button"
-              >
-                <Link href={"/products"}>Continue Shopping</Link>
-              </Button>
-            </form>
-          </Form>
-        ) : (
-          <></>
-        )}
-      </CardContent>
-    </Card>
+  return cartsOrderItem ? (
+    <Form {...method}>
+      <form
+        onSubmit={method.handleSubmit(handleSubmit)}
+        className="flex h-full flex-col gap-4"
+      >
+        <div className="flex justify-between text-sm">
+          <span>Subtotal</span>
+          <span className="flex gap-1">
+            <PointDiamon /> {formatter.number(subtotal)}
+          </span>
+        </div>
+        <div className="flex justify-between text-sm">
+          <span>Tax (7%)</span>
+          <span className="flex gap-1">
+            <PointDiamon /> {formatter.number(tax)}
+          </span>
+        </div>
+        <Separator />
+        <div className="flex justify-between font-semibold">
+          <span>Total</span>
+          <span className="flex gap-1">
+            <PointDiamon /> {formatter.number(total)}
+          </span>
+        </div>
+        <ButtonGrupe className="mt-auto flex-col">
+          <Button
+            className="mt-4 w-full cursor-pointer"
+            disabled={cartsOrderItem?.length < 1}
+          >
+            Proceed to Checkout
+          </Button>
+          <Button
+            variant="secondary"
+            className="mt-2 w-full cursor-pointer text-sm"
+            asChild
+            type="button"
+          >
+            <Link href={"/products"}>Continue Shopping</Link>
+          </Button>
+        </ButtonGrupe>
+      </form>
+    </Form>
+  ) : (
+    <></>
   );
 }
