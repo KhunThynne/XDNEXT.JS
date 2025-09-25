@@ -3,6 +3,7 @@ import { CartOrderForm } from "./components/forms/CartOrder.form";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function LayoutCart({
   children,
@@ -38,17 +39,15 @@ export default async function LayoutCart({
       session={session}
       point={point}
     >
-      <ContainerSection title="Your Shopping Cart" className="px-3">
-        <div className="flex flex-wrap gap-6">
-          {/* Cart Items */}
-          <section className="min-w-lg max-w-full grow max-sm:min-w-full">
-            {orderList}
-          </section>
+      <div className="flex flex-wrap gap-6 lg:grow">
+        {/* Cart Items */}
+        <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full">
+          {orderList}
+        </section>
 
-          {/* Summary */}
-          <section className="grow xl:max-w-sm">{children}</section>
-        </div>
-      </ContainerSection>
+        {/* Summary */}
+        <section className="sm:w-sm min-h-60 max-lg:grow">{children}</section>
+      </div>
     </CartOrderForm>
   );
 }

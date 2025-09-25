@@ -31,27 +31,30 @@ export const ContainerSection = ({
   return (
     <section
       id="container-content-section"
-      className={clsx("flex flex-col gap-2", className, classNames?.container)}
+      className={clsx("flex flex-col gap-8", className, classNames?.container)}
     >
-      <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
-        {title}
-      </Label>
-      {description && (
-        <span
-          className={clsx(
-            "text-muted-foreground break-all",
-            classNames?.description
-          )}
-        >
-          {description}
-        </span>
-      )}
-      <Separator
-        className={clsx(
-          `bg-secondary-foreground/15 mb-5 mt-2`,
-          classNames?.separator
+      <section className="flex flex-col">
+        <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
+          {title}
+        </Label>
+        {description && (
+          <span
+            className={clsx(
+              "text-muted-foreground break-all",
+              classNames?.description
+            )}
+          >
+            {description}
+          </span>
         )}
-      />
+        <Separator
+          className={clsx(
+            `bg-secondary-foreground/15 mt-4`,
+            classNames?.separator
+          )}
+        />
+      </section>
+
       {log && <ContainerLog ref={ref} />}
       <section
         className={clsx("@container", classNames?.contentContainer)}

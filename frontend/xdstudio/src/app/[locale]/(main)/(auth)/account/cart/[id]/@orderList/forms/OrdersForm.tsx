@@ -148,6 +148,7 @@ export const OrdersForm = ({
   return (
     <Form {...method}>
       <ContainerSection
+        className="gap-3!"
         title="Orders"
         classNames={{ separator: "hidden" }}
         description={
