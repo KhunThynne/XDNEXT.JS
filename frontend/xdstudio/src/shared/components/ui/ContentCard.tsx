@@ -30,8 +30,8 @@ export default function ContentCard({
             <p className="text-muted-foreground mb-8 text-xl leading-relaxed">
               {description}
             </p>
-            {children}
           </div>
+          {children}
         </div>
       </CardContent>
     </Card>

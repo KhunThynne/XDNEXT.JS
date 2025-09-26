@@ -1,122 +1,228 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-
-import "./index.css";
+"use client";
+import React, { Fragment } from "react";
 
 //3 TanStack Libraries!!!
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getSortedRowModel,
   OnChangeFn,
   Row,
   SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  keepPreviousData,
-  QueryClient,
-  QueryClientProvider,
-  useInfiniteQuery,
-  useQuery,
-} from "@tanstack/react-query";
+
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { CartItem, GetCartDocument } from "@/libs/graphql/generates/graphql";
-import { execute } from "@/libs/graphql/execute";
+import {
+  useCartDocument,
+  useCartInfinite,
+} from "@/shared/hooks/useCartDocument";
+import {
+  Cart,
+  CartItem,
+  GetCartQuery,
+  User,
+} from "@/libs/graphql/generates/graphql";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/libs/shadcn/ui/table";
+import { Button } from "@/libs/shadcn/ui/button";
+import { InputForm } from "@/shared/components/ui/form/InputForm";
+
+import { ChevronDown, ImageOff, Trash } from "lucide-react";
+import { Form } from "@/libs/shadcn/ui/form";
+import { useForm } from "react-hook-form";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/libs/shadcn/ui/dropdown-menu";
+import Image from "next/image";
+import SafeHtml from "@/libs/sanitize-html/SafeHtml";
+import PointDiamon from "@/shared/components/PointDiamod";
+import {
+  DialogFooterAction,
+  useDialogGlobal,
+} from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/useDialogGlobal";
+import { Card, CardAction } from "@/libs/shadcn/ui/card";
+import { OrderFormProps } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/cartOrder.type";
+import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
+import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
+import { Checkbox } from "@/libs/shadcn/ui/checkbox";
 
 const fetchSize = 50;
 type DataTableDemoProps<T> = {
   columns: ColumnDef<T, any>[];
 };
 
-export function DataTableCartInfiniteScroll<T>({
-  columns,
-}: DataTableDemoProps<T>) {
+export function DataTableCartInfiniteScroll({
+  cartItems: defaultCartItems,
+  invalidateCart,
+  setValueCart,
+  total,
+  query,
+}: OrderFormProps & {
+  total: number;
+  query: UseInfiniteQueryResult<
+    InfiniteData<
+      {
+        data: GetCartQuery;
+      },
+      unknown
+    >,
+    Error
+  >;
+}) {
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-
+  const { isFetching, fetchNextPage, isLoading } = query;
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const { data: DataFetch, status } = useQuery({
-    queryKey: ["user-carts", session.user.id],
-    queryFn: async () => {
-      const res = await execute(GetCartDocument, {
-        where: { id: session.user.id },
-      });
-      return res;
-    },
-    enabled: !!session.user.id,
-  });
+  const { openDialog, closeDialog } = useDialogGlobal();
 
-  //   const columns = React.useMemo<ColumnDef<Person>[]>(
-  //     () => [
-  //       {
-  //         accessorKey: "id",
-  //         header: "ID",
-  //         size: 60,
-  //       },
-  //       {
-  //         accessorKey: "firstName",
-  //         cell: (info) => info.getValue(),
-  //       },
-  //       {
-  //         accessorFn: (row) => row.lastName,
-  //         id: "lastName",
-  //         cell: (info) => info.getValue(),
-  //         header: () => <span>Last Name</span>,
-  //       },
-  //       {
-  //         accessorKey: "age",
-  //         header: () => "Age",
-  //         size: 50,
-  //       },
-  //       {
-  //         accessorKey: "visits",
-  //         header: () => <span>Visits</span>,
-  //         size: 50,
-  //       },
-  //       {
-  //         accessorKey: "status",
-  //         header: "Status",
-  //       },
-  //       {
-  //         accessorKey: "progress",
-  //         header: "Profile Progress",
-  //         size: 80,
-  //       },
-  //       {
-  //         accessorKey: "createdAt",
-  //         header: "Created At",
-  //         cell: (info) => info.getValue<Date>().toLocaleString(),
-  //         size: 200,
-  //       },
-  //     ],
-  //     []
-  //   );
+  // const handleDeleteMore = async (ids: CartItem["id"][]) => {
+  //   const current = method.getValues("cartItems");
+  //   const updated = current.filter((item) => !ids.includes(item.id));
 
-  //react-query has a useInfiniteQuery hook that is perfect for this use case
-  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery<T>({
-    queryKey: [
-      "people",
-      sorting, //refetch when sorting changes
+  //   const confirmDelete = () => {
+  //     method.reset({ cartItems: updated });
+  //     setSelectedIds((prev) => prev.filter((id) => !ids.includes(id)));
+  //     mutationDeleteItems.mutate(ids);
+  //     closeDialog();
+  //   };
+
+  //   openDialog({
+  //     title: "Confirm Deletion",
+  //     description: `You are about to delete ${ids.length} item${ids.length > 1 ? "s" : ""}. This action cannot be undone.`,
+  //     content: (
+  //       <p>
+  //         Please confirm that you want to permanently delete the selected item
+  //         {ids.length > 1 ? "s" : ""}. This action cannot be undone.
+  //       </p>
+  //     ),
+  //     footer: (
+  //       <DialogFooterAction onCancel={closeDialog} onConfirm={confirmDelete} />
+  //     ),
+  //   });
+  // };
+
+  const columns = React.useMemo<ColumnDef<CartItem>[]>(
+    () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      {
+        accessorFn: (row) => row.product?.images?.[0],
+        id: "product",
+        header: "",
+        cell: ({ row }) => {
+          const cell = row.original;
+          const image = cell.product?.images?.[0].src;
+
+          return (
+            <section className="flex gap-4">
+              <div className="bg-accent w-35 relative aspect-square overflow-hidden rounded-lg border">
+                {image ? (
+                  <Image
+                    src={image.url}
+                    alt={image.id}
+                    fill
+                    draggable={false}
+                    className="select-none object-contain"
+                  />
+                ) : (
+                  <ImageOff className="size-full self-center rounded border" />
+                )}
+              </div>
+              <aside className="place-content-center space-y-1">
+                <h3 className="font-bold">{cell.product?.name} </h3>
+                <h4 className="text-xd font-medium">
+                  <PointDiamon /> {cell.product?.price?.price}
+                </h4>
+              </aside>
+            </section>
+          );
+        },
+      },
+      {
+        enableColumnFilter: true,
+        accessorFn: (row) => row.product?.name,
+        id: "name",
+        cell: (info) => info.getValue(),
+        header: () => <span>Name</span>,
+      },
+      {
+        size: 0,
+        enableColumnFilter: true,
+        enableHiding: true,
+        meta: { hidden: true },
+        cell: "",
+        id: "price",
+        header: "",
+        accessorFn: (row) => row.product?.price,
+      },
+      {
+        accessorFn: (row) => row.product?.price?.price,
+        id: "aciton",
+        size: 5,
+        header: () => <div className="place-self-center">Aciton</div>,
+        cell: ({ row }) => {
+          const cell = row.original;
+          return (
+            <>
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                aria-label="button-trash"
+                onClick={() => handleDelete(cell.id)}
+              >
+                <Trash />
+              </Button>
+            </>
+          );
+        },
+      },
+
+      // {
+      //   accessorKey: "createdAt",
+      //   header: "Created At",
+      //   cell: (info) => info.getValue<Date>().toLocaleString(),
+      //   size: 200,
+      // },
     ],
-    queryFn: async ({ pageParam = 0 }) => {
-      const start = (pageParam as number) * fetchSize;
-      //   const fetchedData = await fetchData(start, fetchSize, sorting); //pretend api call
-      //   return fetchedData;
-    },
-    initialPageParam: 0,
-    getNextPageParam: (_lastGroup, groups) => groups.length,
-    refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
-  });
-
-  //flatten the array of arrays from the useInfiniteQuery hook
-  const flatData = React.useMemo(
-    () => data?.pages?.flatMap((page) => page.data) ?? [],
-    [data]
+    []
   );
-  const totalDBRowCount = data?.pages?.[0]?.meta?.totalRowCount ?? 0;
-  const totalFetched = flatData.length;
+  //flatten the array of arrays from the useInfiniteQuery hook
+
+  const totalDBRowCount = total ?? 0;
+  const totalFetched = defaultCartItems.length;
 
   //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table
   const fetchMoreOnBottomReached = React.useCallback(
@@ -141,17 +247,71 @@ export function DataTableCartInfiniteScroll<T>({
     fetchMoreOnBottomReached(tableContainerRef.current);
   }, [fetchMoreOnBottomReached]);
 
+  const method = useForm<OrderFormProps>({
+    defaultValues: {
+      cartItems: defaultCartItems,
+      filter: "",
+    },
+  });
+
+  const { cartItems } = method.watch();
+  const { watch } = method;
+  const filter = watch("filter");
   const table = useReactTable({
-    data: flatData,
+    data: cartItems,
     columns,
     state: {
       sorting,
+      globalFilter: filter,
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: (row, columnId, filterValue) => {
+      const name = row?.original?.product?.name?.toLowerCase();
+      const price = row?.original?.product?.price?.price;
+      const search = String(filterValue).toLowerCase();
+      return (
+        (name?.includes(search) || price?.toString().includes(search)) ?? false
+      );
+    },
     manualSorting: true,
-    debugTable: true,
   });
+
+  const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
+    handleSuccess() {
+      invalidateCart();
+    },
+  });
+  const handleDelete = async (idToDelete: CartItem["id"]) => {
+    const confirmDelete = () => {
+      const current = method.getValues("cartItems");
+      const updated = current.filter((item) => item.id !== idToDelete);
+      method.setValue("cartItems", updated, { shouldDirty: true });
+      // setSelectedIds((prev) => prev.filter((id) => id !== idToDelete));
+      mutationDeleteItem.mutate(idToDelete);
+      closeDialog();
+    };
+
+    const itemName = method
+      .getValues("cartItems")
+      .find((item) => item.id === idToDelete)?.product?.name;
+
+    openDialog({
+      title: "Confirm Deletion",
+      description: `You are about to delete "${itemName || "this item"}". This action cannot be undone.`,
+      content: (
+        <p>
+          Please confirm that you want to permanently delete{" "}
+          <strong>{itemName || "this item"}</strong>. This action cannot be
+          undone.
+        </p>
+      ),
+      footer: (
+        <DialogFooterAction onCancel={closeDialog} onConfirm={confirmDelete} />
+      ),
+    });
+  };
 
   //scroll to top of table when sorting changes
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
@@ -188,14 +348,7 @@ export function DataTableCartInfiniteScroll<T>({
 
   return (
     <div className="app">
-      {process.env.NODE_ENV === "development" ? (
-        <p>
-          <strong>Notice:</strong> You are currently running React in
-          development mode. Virtualized rendering performance will be slightly
-          degraded until this application is built for production.
-        </p>
-      ) : null}
-      ({flatData.length} of {totalDBRowCount} rows fetched)
+      ({defaultCartItems.length} of {totalDBRowCount} rows fetched)
       <div
         className="container"
         onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
@@ -206,8 +359,121 @@ export function DataTableCartInfiniteScroll<T>({
           height: "600px", //should be a fixed height
         }}
       >
+        <Form {...method}>
+          <div className="w-full">
+            <div className="flex items-center gap-5 py-4">
+              <InputForm
+                name="filter"
+                placeholder="Filter emails..."
+                className="max-w-lg grow"
+              />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="ml-auto">
+                    Columns <ChevronDown />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {table
+                    .getAllColumns()
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.id}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.id}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="max-w-full overflow-hidden rounded-md border">
+              <Table>
+                <TableHeader>
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <TableHead key={header.id}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </TableHead>
+                        );
+                      })}
+                    </TableRow>
+                  ))}
+                </TableHeader>
+                <TableBody>
+                  {table.getRowModel().rows?.length ? (
+                    table.getRowModel().rows.map((row) => {
+                      return (
+                        <TableRow
+                          key={row.id}
+                          data-state={row.getIsSelected() && "selected"}
+                        >
+                          {row.getVisibleCells().map((cell) => (
+                            <TableCell key={cell.id}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      );
+                    })
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={columns.length}
+                        className="h-24 text-center"
+                      >
+                        No results.
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="flex items-center justify-end space-x-2 py-4">
+              <div className="text-muted-foreground flex-1 text-sm">
+                {table.getFilteredSelectedRowModel().rows.length} of{" "}
+                {table.getFilteredRowModel().rows.length} row(s) selected.
+              </div>
+              <div className="space-x-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Form>
         {/* Even though we're still using sematic table tags, we must use CSS grid and flexbox for dynamic row heights */}
-        <table style={{ display: "grid" }}>
+        {/* <table style={{ display: "grid" }}>
           <thead
             style={{
               display: "grid",
@@ -261,7 +527,7 @@ export function DataTableCartInfiniteScroll<T>({
             }}
           >
             {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-              const row = rows[virtualRow.index] as Row<Person>;
+              const row = rows[virtualRow.index] as Row<CartItem>;
               return (
                 <tr
                   data-index={virtualRow.index} //needed for dynamic row height measurement
@@ -294,7 +560,7 @@ export function DataTableCartInfiniteScroll<T>({
               );
             })}
           </tbody>
-        </table>
+        </table> */}
       </div>
       {isFetching && <div>Fetching More...</div>}
     </div>

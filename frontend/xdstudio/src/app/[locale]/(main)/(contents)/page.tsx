@@ -4,15 +4,22 @@ import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
 import clsx from "clsx";
 import { auth } from "@/auth";
-import { Code, Download } from "lucide-react";
+import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 import Notification from "@/shared/components/ui/Notification";
 import { SectionPoint } from "@/shared/components/ui/SectionPoint";
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/ContentCard";
 import { contentClassName } from "./products/shared/contentClassName";
+import { Badge } from "@/libs/shadcn/ui/badge";
 
 export default async function PageCotent() {
   const session = await auth();
+  const categories = [
+    { name: "Automation Scripts", icon: Zap, count: "150+" },
+    { name: "Combat Tools", icon: Shield, count: "89+" },
+    { name: "Strategy Helpers", icon: Gamepad2, count: "120+" },
+    { name: "Custom Mods", icon: Code, count: "200+" },
+  ];
   return (
     <>
       <ContentCard
@@ -36,11 +43,36 @@ export default async function PageCotent() {
             <h3 className="font-semibold"> Explore Tools</h3>
           </Button>
         </div>
+        <section className="py-6 max-md:hidden">
+          <div className="container mx-auto">
+            <h3 className="text-foreground mb-8 text-center text-3xl font-bold">
+              Browse Categories
+            </h3>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+              {categories.map((category, index) => (
+                <Card
+                  key={index}
+                  className="border-border cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  <CardContent className="p-6 text-center">
+                    <category.icon className="text-primary mx-auto mb-4 size-10" />
+                    <h4 className="text-foreground mb-2 text-lg font-semibold">
+                      {category.name}
+                    </h4>
+                    <Badge variant="secondary" className="text-sm">
+                      {category.count} items
+                    </Badge>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
       </ContentCard>
 
-      <section className="top-15 z-20 md:sticky">
+      {/* <section className="top-15 z-20 md:sticky">
         <Notification />
-      </section>
+      </section> */}
       <ContainerSection
         title="Our Featured Products"
         description={

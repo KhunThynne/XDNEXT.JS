@@ -9,6 +9,7 @@ import { UseFormSetValue } from "react-hook-form";
 
 export interface OrderFormProps {
   cartItems: CartItem[];
+  filter: string;
   invalidateCart: () => void;
   setValueCart: UseFormSetValue<CartOrderFormProps>;
 }

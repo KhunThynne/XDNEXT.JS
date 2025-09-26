@@ -16,11 +16,17 @@ graphql(`
 `);
 
 graphql(`
-  query getCart($where: CartWhereUniqueInput!) {
+  query getCart(
+    $where: CartWhereUniqueInput!
+    $take: Int
+    $skip: Int!
+    $cursor: CartItemWhereUniqueInput
+  ) {
     cart(where: $where) {
       createdAt
       id
-      items {
+      itemsCount
+      items(take: $take, skip: $skip, cursor: $cursor) {
         id
         quantity
         product {

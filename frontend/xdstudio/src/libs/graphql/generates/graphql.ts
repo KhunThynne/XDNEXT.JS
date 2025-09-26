@@ -3774,10 +3774,13 @@ export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?:
 
 export type GetCartQueryVariables = Exact<{
   where: CartWhereUniqueInput;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip: Scalars['Int']['input'];
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
 }>;
 
 
-export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
+export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, itemsCount?: number | null, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
 
 export type DeleteCartItemMutationVariables = Exact<{
   where: CartItemWhereUniqueInput;
@@ -4192,11 +4195,12 @@ export const CreateCartItemDocument = new TypedDocumentString(`
 }
     `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
 export const GetCartDocument = new TypedDocumentString(`
-    query getCart($where: CartWhereUniqueInput!) {
+    query getCart($where: CartWhereUniqueInput!, $take: Int, $skip: Int!, $cursor: CartItemWhereUniqueInput) {
   cart(where: $where) {
     createdAt
     id
-    items {
+    itemsCount
+    items(take: $take, skip: $skip, cursor: $cursor) {
       id
       quantity
       product {
