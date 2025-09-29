@@ -4,7 +4,7 @@ export default function LayoutProducts({ children }: WithChildren) {
   return (
     <Content
       classNames={{
-        outsite: "grow   grid  bg-accent-foreground/10",
+        outsite: "grow   grid  bg-accent-foreground/5",
         content: "container mx-auto  flex flex-col gap-4",
       }}
     >

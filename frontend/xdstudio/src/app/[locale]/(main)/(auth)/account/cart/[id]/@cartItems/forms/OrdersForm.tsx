@@ -11,21 +11,19 @@ import PointDiamon from "@/shared/components/PointDiamod";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import Image from "next/image";
-import { OrderFormProps } from "../../components/cartOrder.type";
+import { CartItemsFormProps } from "../../components/cartOrder.type";
 import { CartItem } from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
-import {
-  DialogFooterAction,
-  useDialogGlobal,
-} from "../../components/useDialogGlobal";
+
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
+import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 
 export const OrdersForm = ({
   cartItems: defaultCartItems,
-  invalidateCart,
+  invalidateCartAction,
   setValueCart,
-}: OrderFormProps) => {
-  const method = useForm<OrderFormProps>({
+}: CartItemsFormProps) => {
+  const method = useForm<CartItemsFormProps>({
     defaultValues: {
       cartItems: defaultCartItems,
     },
@@ -54,7 +52,7 @@ export const OrdersForm = ({
     const selectedCartItems = cartItems.filter((item) =>
       selectedIds.includes(item.id)
     );
-    setValueCart("cartsOrderItem", selectedCartItems);
+    setValueCart("cartItems", selectedCartItems);
   }, [cartItems, selectedIds, setValueCart]);
 
   const allChecked = useMemo(
@@ -79,7 +77,7 @@ export const OrdersForm = ({
 
   const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
     handleSuccess() {
-      invalidateCart();
+      invalidateCartAction();
     },
   });
 

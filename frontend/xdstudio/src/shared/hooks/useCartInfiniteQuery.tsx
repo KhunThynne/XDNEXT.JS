@@ -1,42 +1,55 @@
+"use client";
 import { execute } from "@/libs/graphql/execute";
 import {
   Cart,
-  CreateCartItemDocument,
-  GetCartDocument,
   Product,
-  User,
+  GetCartDocument,
+  CreateCartItemDocument,
 } from "@/libs/graphql/generates/graphql";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-const take = 10;
+import {
+  useQueryClient,
+  useInfiniteQuery,
+  keepPreviousData,
+  useMutation,
+} from "@tanstack/react-query";
 
-export const useCartDocument = ({
+import { User } from "next-auth";
+const take = 5;
+
+export const useCartInfinite = ({
   cartId,
   productId,
-  userId,
 }: {
   cartId: Cart["id"];
   productId?: Product["id"];
   userId: User["id"];
 }) => {
-  const queryKey = ["cart", userId];
+  const queryKey = ["cart", cartId];
   const cartQueryClient = useQueryClient();
   const invalidate = () => {
     cartQueryClient.invalidateQueries({ queryKey });
   };
-  const query = useQuery({
-    queryKey: queryKey,
-    refetchOnWindowFocus: true,
-    queryFn: async ({ pageParam }) => {
-      return await execute(GetCartDocument, {
+  const query = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await execute(GetCartDocument, {
         where: { id: cartId },
-        skip: (pageParam as number) ?? 0,
-        // cursor: 0,
-        take: 10,
+        skip: pageParam,
+        take,
       });
+      return result;
+    },
+    enabled: !!cartId,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.data?.cart?.items?.length === take) {
+        return allPages.length * take; // offset สำหรับ page ต่อไป
+      }
+      return undefined;
     },
     staleTime: 1000 * 60 * 5,
-
-    enabled: !!cartId,
+    refetchOnWindowFocus: true,
+    placeholderData: keepPreviousData,
   });
 
   const mutation = useMutation({
@@ -59,5 +72,5 @@ export const useCartDocument = ({
     },
   });
 
-  return { mutation, queryKey, invalidate, query };
+  return { query, invalidate, mutation };
 };

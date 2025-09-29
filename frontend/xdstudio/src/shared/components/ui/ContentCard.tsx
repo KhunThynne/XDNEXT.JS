@@ -20,7 +20,7 @@ export default function ContentCard({
         className
       )}
     >
-      <CardContent className=" ">
+      <CardContent className="px-0">
         <div className="mx-auto text-center">
           <div className="mx-auto max-w-4xl">
             <h2 className="text-foreground mb-6 text-5xl font-bold leading-tight md:text-6xl">

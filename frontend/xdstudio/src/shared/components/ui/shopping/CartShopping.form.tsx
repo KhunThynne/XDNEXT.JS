@@ -2,18 +2,27 @@ import { execute } from "@/libs/graphql/execute";
 import {
   CartItem,
   DeleteCartItemDocument,
+  GetCartQuery,
 } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Link } from "@navigation";
-import { useMutation } from "@tanstack/react-query";
-import { ShoppingCart } from "lucide-react";
-import { useMemo } from "react";
+import {
+  InfiniteData,
+  UseInfiniteQueryResult,
+  useMutation,
+} from "@tanstack/react-query";
+import { Loader2, ShoppingCart } from "lucide-react";
+import { useEffect, useLayoutEffect, useMemo } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import { CartItemComponent } from "./CartItemsComponent";
 import PointDiamon from "../../PointDiamod";
 import _ from "lodash";
 import { Separator } from "@/libs/shadcn/ui/separator";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import React from "react";
+import clsx from "clsx";
+import { Badge } from "@/libs/shadcn/ui/badge";
 export const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
@@ -72,11 +81,21 @@ export const CartSummery = ({ navigation }: { navigation: string }) => {
 
 export const CartShoppingForm = ({
   cartItems,
-  invalidateCart,
+  invalidateCartAction,
   navigation,
+  query,
 }: {
+  query: UseInfiniteQueryResult<
+    InfiniteData<
+      {
+        data: GetCartQuery;
+      },
+      unknown
+    >,
+    Error
+  >;
   cartItems: CartItem[];
-  invalidateCart: () => void;
+  invalidateCartAction: () => void;
   navigation: string;
 }) => {
   const method = useForm<{
@@ -86,37 +105,108 @@ export const CartShoppingForm = ({
       cartItems,
     },
   });
+  useLayoutEffect(() => {
+    if (cartItems) {
+      method.reset({ cartItems });
+    }
+  }, [cartItems, method]);
   const mutation = useMutation({
     mutationFn: async (id: string) => {
       await execute(DeleteCartItemDocument, { where: { id } });
     },
     onSuccess: () => {
-      invalidateCart();
+      invalidateCartAction();
     },
   });
   const handleDelete = async (id: string) => {
     const updated = method
       .getValues("cartItems")
       .filter((item) => item.id !== id);
-    method.reset({ cartItems: updated });
+    method.setValue("cartItems", updated, { shouldDirty: true });
     mutation.mutate(id);
   };
+  const { formState } = method;
   const cartItemsForm = method.watch("cartItems");
+  const parentRef = React.useRef<HTMLDivElement>(null);
+  const { hasNextPage, isFetchingNextPage, fetchNextPage } = query;
+  const rowVirtualizer = useVirtualizer({
+    count: hasNextPage ? cartItemsForm?.length + 1 : cartItemsForm?.length,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 75,
+    overscan: 10,
+    paddingEnd: 0,
+  });
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  React.useEffect(() => {
+    const items = virtualItems;
+    const lastItem = items[items.length - 1];
+    if (!lastItem) return;
+    if (
+      lastItem.index >= cartItemsForm.length - 1 &&
+      hasNextPage &&
+      !isFetchingNextPage
+    ) {
+      fetchNextPage();
+    }
+  }, [
+    cartItemsForm.length,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    rowVirtualizer,
+    virtualItems,
+  ]);
+  const itemHeight = rowVirtualizer.options.estimateSize(0);
+  const totalSize = rowVirtualizer.getTotalSize();
 
   if (_.isEmpty(cartItems)) return <EmptyCart />;
   return (
     <Form {...method}>
-      <section className="inset-shadow-sm flex h-60 w-full flex-col space-y-4 overflow-auto">
-        <ul className="space-y-2 divide-y p-4">
-          {cartItemsForm?.map((item) => {
+      <section
+        className="inset-shadow-sm h-60 w-full overflow-auto"
+        ref={parentRef}
+      >
+        <ul
+          className="divide-y"
+          style={{
+            height: `${!formState.isDirty ? totalSize : totalSize - itemHeight}px`,
+            width: "100%",
+            position: "relative",
+          }}
+        >
+          {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+            const isLoaderRow = virtualRow.index > cartItemsForm.length - 1;
+            const item = cartItemsForm[virtualRow.index];
+
             return (
-              <li key={item.id}>
-                <CartItemComponent
-                  {...item}
-                  onDelete={() => {
-                    handleDelete(item.id);
-                  }}
-                />
+              <li
+                key={`${item?.id ?? `loader-row`}-${virtualRow.index}`}
+                className={clsx(
+                  virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven",
+                  "absolute left-0 top-0 flex w-full"
+                )}
+                style={{
+                  height: clsx(`${virtualRow.size}px`),
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+
+                {isLoaderRow ? (
+                  <aside className="bg-accent flex h-full grow items-center justify-center">
+                    {hasNextPage ? (
+                      <Loader2 className="animate-spin" />
+                    ) : (
+                      <Badge variant={"outline"} className="text-sm">
+                        No more
+                      </Badge>
+                    )}
+                  </aside>
+                ) : (
+                  <CartItemComponent
+                    {...item}
+                    onDelete={() => handleDelete(item.id)}
+                  />
+                )}
               </li>
             );
           })}

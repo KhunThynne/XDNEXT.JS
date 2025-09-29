@@ -6,10 +6,7 @@ import { Form } from "@/libs/shadcn/ui/form";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useForm } from "react-hook-form";
-import {
-  DialogFooterAction,
-  useDialogGlobal,
-} from "../../cart/[id]/components/useDialogGlobal";
+
 import { FormInput, Lock } from "lucide-react";
 
 import { useAuthDocument } from "@/shared/hooks/useAuthDocument";
@@ -17,6 +14,7 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
 import { useDialogContext } from "@/libs/dialog/DialogInstance";
+import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 const ZEmailSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
 });

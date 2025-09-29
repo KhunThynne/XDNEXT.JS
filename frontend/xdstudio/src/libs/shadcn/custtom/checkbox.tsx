@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, Minus } from "lucide-react";
 
 import { cn } from "@/libs/shadcn/utils";
 
@@ -12,7 +12,8 @@ function Checkbox({
 }: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
   indicator?: React.ReactNode;
 }) {
-  const { indicator = <CheckIcon className="size-3.5" />, ...propClean } = props;
+  const { indicator = <CheckIcon className="size-3.5" />, ...propClean } =
+    props;
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"

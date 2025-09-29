@@ -2053,6 +2053,19 @@ type Query {
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
   validateUserPasswordResetToken(email: String!, token: String!): ValidateUserPasswordResetTokenResult
+  checkUserProductStatus(productId: String!, userId: String!): CheckProductResponse
+}
+
+union CheckProductResponse = CheckProductSuccess | CheckProductFailure
+
+type CheckProductSuccess {
+  productId: String!
+  inCart: Boolean!
+  inUserItem: Boolean!
+}
+
+type CheckProductFailure {
+  message: String!
 }
 
 union AuthenticatedItem = User

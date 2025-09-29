@@ -20,9 +20,9 @@ export const Cart = list({
       many: true,
       ui: {
         displayMode: 'cards',
-        cardFields: ['product', 'quantity'], // แสดง field เหล่านี้ใน card preview
-        // inlineCreate: { fields: ['product', 'quantity'] }, // สร้าง item ใหม่ inline ได้
-        inlineEdit: { fields: ['quantity'] }, // แก้ไข inline ได้
+        cardFields: ['product', 'quantity'],
+        inlineEdit: { fields: ['quantity'] },
+        // inlineCreate: { fields: ['product', 'quantity'] },
       },
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),

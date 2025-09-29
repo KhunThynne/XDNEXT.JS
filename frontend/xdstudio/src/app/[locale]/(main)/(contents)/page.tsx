@@ -7,10 +7,16 @@ import { auth } from "@/auth";
 import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 import Notification from "@/shared/components/ui/Notification";
 import { SectionPoint } from "@/shared/components/ui/SectionPoint";
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+} from "@/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/ContentCard";
 import { contentClassName } from "./products/shared/contentClassName";
 import { Badge } from "@/libs/shadcn/ui/badge";
+import { ContainerLogDemo } from "@/shared/components/ui/fallback/ContainerLog";
 
 export default async function PageCotent() {
   const session = await auth();
@@ -20,6 +26,7 @@ export default async function PageCotent() {
     { name: "Strategy Helpers", icon: Gamepad2, count: "120+" },
     { name: "Custom Mods", icon: Code, count: "200+" },
   ];
+
   return (
     <>
       <ContentCard
@@ -43,23 +50,26 @@ export default async function PageCotent() {
             <h3 className="font-semibold"> Explore Tools</h3>
           </Button>
         </div>
-        <section className="py-6 max-md:hidden">
-          <div className="container mx-auto">
+        <section className="py-6">
+          <div className="@container container mx-auto">
             <h3 className="text-foreground mb-8 text-center text-3xl font-bold">
               Browse Categories
             </h3>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {/* <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl grid-cols-1 place-content-center gap-3"> */}
+            <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl place-content-center gap-3">
               {categories.map((category, index) => (
                 <Card
                   key={index}
-                  className="border-border cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                  className="cursor-pointer justify-center gap-2 border transition-all duration-300 hover:scale-105 hover:shadow-lg max-md:aspect-video"
                 >
-                  <CardContent className="p-6 text-center">
-                    <category.icon className="text-primary mx-auto mb-4 size-10" />
-                    <h4 className="text-foreground mb-2 text-lg font-semibold">
+                  <CardHeader className="flex flex-col items-center justify-center">
+                    <category.icon className="text-primary size-8" />
+                    <h4 className="text-foreground text-md shrink truncate font-semibold">
                       {category.name}
                     </h4>
-                    <Badge variant="secondary" className="text-sm">
+                  </CardHeader>
+                  <CardContent className="space-y-1 text-center">
+                    <Badge variant="secondary" className="text-xs">
                       {category.count} items
                     </Badge>
                   </CardContent>

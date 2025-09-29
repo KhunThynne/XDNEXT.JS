@@ -78,6 +78,7 @@ const ProductDetail = (
   if (!props.faqs) {
     return null;
   }
+  const { session, ...product } = props;
   return (
     <Card className="h-fit duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
@@ -140,19 +141,19 @@ const ProductDetail = (
         <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
           <hr className="grow" />
 
-          <AddItemButton productId={props.id} session={props.session}>
+          <AddItemButton product={product} session={session}>
             <Plus className="size-5" />
           </AddItemButton>
           <AddItemButton
-            productId={props.id}
-            session={props.session}
+            product={product}
+            session={session}
             variant={"secondary"}
             className="w-20"
             disableText
             addTo
             onClick={() =>
               router.push(
-                `/account/cart/${props.session?.user?.carts?.[0]?.id ?? ""}`
+                `/account/cart/${session?.user?.carts?.[0]?.id ?? ""}`
               )
             }
           >

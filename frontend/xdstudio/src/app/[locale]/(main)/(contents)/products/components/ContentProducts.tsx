@@ -13,6 +13,7 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
     skip: 0,
     take: 10,
   });
+
   if (status === "pending") {
     return Array.from({ length: 5 }).map((_, index) => (
       <CardProduct
@@ -25,7 +26,7 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
   } else {
     if (_.isEmpty(data?.products)) {
       return (
-        <div className="max-h-100 col-span-full flex aspect-video w-full flex-col items-center justify-center gap-3 rounded-lg border">
+        <div className="col-span-full flex aspect-video max-h-full w-full grow flex-col items-center justify-center gap-3 rounded-lg ">
           <Box className="size-40 stroke-1 opacity-20" />
           <h3 className="">No products available.</h3>
           <Button

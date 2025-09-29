@@ -3,13 +3,7 @@ import { notFound } from "next/navigation";
 import clsx from "clsx";
 import { CartOrderForm } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/forms/CartOrder.form";
 
-export default async function LayoutCart({
-  children,
-
-  params,
-}: WithChildren & {
-  params: Promise<{ id: string }>;
-}) {
+export default async function LayoutCart({ children }: WithChildren) {
   const session = await auth();
   if (!session?.user) return notFound();
 
@@ -40,7 +34,7 @@ export default async function LayoutCart({
     >
       <div className="flex flex-wrap gap-6 lg:grow">
         {/* Cart Items */}
-        <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full ">
+        <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full">
           {children}
         </section>
 

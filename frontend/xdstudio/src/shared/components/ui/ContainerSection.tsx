@@ -57,10 +57,12 @@ export const ContainerSection = ({
 
       {log && <ContainerLog ref={ref} />}
       <section
-        className={clsx("@container", classNames?.contentContainer)}
+        className={clsx("@container grow", classNames?.contentContainer)}
         ref={ref}
       >
-        <div className={clsx(classNames?.content)}>{children}</div>
+        <div className={clsx(`content h-full`, classNames?.content)}>
+          {children}
+        </div>
       </section>
     </section>
   );
