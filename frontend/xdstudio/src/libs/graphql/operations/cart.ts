@@ -1,32 +1,18 @@
 import { graphql } from "../generates";
 
 graphql(`
-  mutation CreateCartItem($data: CartItemCreateInput!) {
-    createCartItem(data: $data) {
-      cart {
-        id
-      }
-      id
-      quantity
-      product {
-        id
-      }
-    }
-  }
-`);
-
-graphql(`
   query getCart(
     $where: CartWhereUniqueInput!
     $take: Int
     $skip: Int!
     $cursor: CartItemWhereUniqueInput
+    $orderBy: [CartItemOrderByInput!]
   ) {
     cart(where: $where) {
       createdAt
       id
       itemsCount
-      items(take: $take, skip: $skip, cursor: $cursor) {
+      items(take: $take, skip: $skip, cursor: $cursor, orderBy: $orderBy) {
         id
         quantity
         product {

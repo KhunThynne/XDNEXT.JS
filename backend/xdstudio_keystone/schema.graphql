@@ -843,6 +843,8 @@ type CartItem {
   cart: Cart
   product: Product
   quantity: Int
+  createdAt: DateTime
+  updateAt: DateTime
 }
 
 input CartItemWhereUniqueInput {
@@ -857,17 +859,23 @@ input CartItemWhereInput {
   cart: CartWhereInput
   product: ProductWhereInput
   quantity: IntFilter
+  createdAt: DateTimeNullableFilter
+  updateAt: DateTimeNullableFilter
 }
 
 input CartItemOrderByInput {
   id: OrderDirection
   quantity: OrderDirection
+  createdAt: OrderDirection
+  updateAt: OrderDirection
 }
 
 input CartItemUpdateInput {
   cart: CartRelateToOneForUpdateInput
   product: ProductRelateToOneForUpdateInput
   quantity: Int
+  createdAt: DateTime
+  updateAt: DateTime
 }
 
 input CartRelateToOneForUpdateInput {
@@ -891,6 +899,8 @@ input CartItemCreateInput {
   cart: CartRelateToOneForCreateInput
   product: ProductRelateToOneForCreateInput
   quantity: Int
+  createdAt: DateTime
+  updateAt: DateTime
 }
 
 input CartRelateToOneForCreateInput {

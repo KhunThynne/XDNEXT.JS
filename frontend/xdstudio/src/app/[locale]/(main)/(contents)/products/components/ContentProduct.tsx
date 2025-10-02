@@ -4,6 +4,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
 import {
+  CheckUserProductStatusQuery,
   Faq,
   Maybe,
   OrderDirection,
@@ -38,6 +39,7 @@ import { AddItemButton } from "./AddItem.button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "@navigation";
 import { Session } from "next-auth";
+import { revalidateClient } from "../shared/revalidateClient";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -72,13 +74,16 @@ export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   );
 };
 const ProductDetail = (
-  props: Product & { session?: Session | null | undefined }
+  props: Product & {
+    session?: Session | null | undefined;
+    userProductStatus: CheckUserProductStatusQuery;
+  }
 ) => {
   const router = useRouter();
   if (!props.faqs) {
     return null;
   }
-  const { session, ...product } = props;
+  const { session, userProductStatus, ...product } = props;
   return (
     <Card className="h-fit duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
@@ -138,13 +143,26 @@ const ProductDetail = (
           )}
         </div>
 
+        {/* <Button
+          onClick={async () =>
+            revalidateClient(`${session?.user?.id}-${product.id}-checkProduct`)
+          }
+        >
+          Test
+        </Button> */}
+
         <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
           <hr className="grow" />
 
-          <AddItemButton product={product} session={session}>
+          <AddItemButton
+            product={product}
+            session={session}
+            status={userProductStatus}
+          >
             <Plus className="size-5" />
           </AddItemButton>
           <AddItemButton
+            status={userProductStatus}
             product={product}
             session={session}
             variant={"secondary"}
@@ -180,7 +198,10 @@ const Gallery = () => {
 };
 
 export const ContentProduct = (
-  props: Product & { session: Session | null | undefined }
+  props: Product & {
+    session: Session | null | undefined;
+    userProductStatus: CheckUserProductStatusQuery;
+  }
 ) => {
   const { id, ...product } = props;
   return (

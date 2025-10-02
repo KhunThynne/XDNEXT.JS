@@ -1,10 +1,12 @@
 "use client";
+import { revalidateClient } from "@/app/[locale]/(main)/(contents)/products/shared/revalidateClient";
 import { execute } from "@/libs/graphql/execute";
 import {
   Cart,
   Product,
   GetCartDocument,
   CreateCartItemDocument,
+  OrderDirection,
 } from "@/libs/graphql/generates/graphql";
 import {
   useQueryClient,
@@ -19,6 +21,7 @@ const take = 5;
 export const useCartInfinite = ({
   cartId,
   productId,
+  userId,
 }: {
   cartId: Cart["id"];
   productId?: Product["id"];
@@ -28,6 +31,7 @@ export const useCartInfinite = ({
   const cartQueryClient = useQueryClient();
   const invalidate = () => {
     cartQueryClient.invalidateQueries({ queryKey });
+    revalidateClient(`${cartId}-${userId}-checkProduct`);
   };
   const query = useInfiniteQuery({
     queryKey,
@@ -36,6 +40,7 @@ export const useCartInfinite = ({
         where: { id: cartId },
         skip: pageParam,
         take,
+        orderBy: { createdAt: OrderDirection.Desc },
       });
       return result;
     },
@@ -65,7 +70,6 @@ export const useCartInfinite = ({
     },
     onSuccess: (data) => {
       invalidate();
-      console.log("Item added to cart", data);
     },
     onError: (error) => {
       console.error("Failed to add item to cart", error);

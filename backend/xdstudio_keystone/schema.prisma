@@ -123,12 +123,14 @@ model Cart {
 }
 
 model CartItem {
-  id        String   @id @default(uuid()) @postgresql.Uuid
-  cart      Cart?    @relation("CartItem_cart", fields: [cartId], references: [id])
-  cartId    String?  @map("cart") @postgresql.Uuid
-  product   Product? @relation("CartItem_product", fields: [productId], references: [id])
-  productId String?  @map("product") @postgresql.Uuid
-  quantity  Int      @default(1)
+  id        String    @id @default(uuid()) @postgresql.Uuid
+  cart      Cart?     @relation("CartItem_cart", fields: [cartId], references: [id])
+  cartId    String?   @map("cart") @postgresql.Uuid
+  product   Product?  @relation("CartItem_product", fields: [productId], references: [id])
+  productId String?   @map("product") @postgresql.Uuid
+  quantity  Int       @default(1)
+  createdAt DateTime? @default(now())
+  updateAt  DateTime? @default(now())
 
   @@index([cartId])
   @@index([productId])

@@ -23,6 +23,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
+import { revalidateClient } from "@/app/[locale]/(main)/(contents)/products/shared/revalidateClient";
 export const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
@@ -118,12 +119,14 @@ export const CartShoppingForm = ({
       invalidateCartAction();
     },
   });
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string, item: CartItem) => {
     const updated = method
       .getValues("cartItems")
       .filter((item) => item.id !== id);
     method.setValue("cartItems", updated, { shouldDirty: true });
-    mutation.mutate(id);
+    mutation.mutateAsync(id).then(() => {
+      // revalidateClient(`${item.cart?.id}-${item?.product?.id}-checkProductr`);
+    });
   };
   const { formState } = method;
   const cartItemsForm = method.watch("cartItems");
@@ -190,7 +193,6 @@ export const CartShoppingForm = ({
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
               >
-
                 {isLoaderRow ? (
                   <aside className="bg-accent flex h-full grow items-center justify-center">
                     {hasNextPage ? (
@@ -204,7 +206,7 @@ export const CartShoppingForm = ({
                 ) : (
                   <CartItemComponent
                     {...item}
-                    onDelete={() => handleDelete(item.id)}
+                    onDelete={() => handleDelete(item.id, item)}
                   />
                 )}
               </li>

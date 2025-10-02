@@ -7,7 +7,13 @@ import _ from "lodash";
 import { Box } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
 
-export const ContentProducts = ({ session }: { session: Session | null }) => {
+export const ContentProducts = ({
+  session,
+  max = 10,
+}: {
+  session: Session | null;
+  max?: number;
+}) => {
   const { data, status, refetch, isFetching } = useGetProductsQuery({
     orderBy: { name: OrderDirection.Asc },
     skip: 0,
@@ -26,7 +32,7 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
   } else {
     if (_.isEmpty(data?.products)) {
       return (
-        <div className="col-span-full flex aspect-video max-h-full w-full grow flex-col items-center justify-center gap-3 rounded-lg ">
+        <div className="col-span-full flex aspect-video max-h-full w-full grow flex-col items-center justify-center gap-3 rounded-lg">
           <Box className="size-40 stroke-1 opacity-20" />
           <h3 className="">No products available.</h3>
           <Button
@@ -42,14 +48,16 @@ export const ContentProducts = ({ session }: { session: Session | null }) => {
     } else {
       return (
         data?.products &&
-        data.products.map((product, index) => (
-          <CardProduct
-            session={session}
-            key={index}
-            product={product as Product}
-            className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
-          />
-        ))
+        data.products
+          .slice(0, max)
+          .map((product, index) => (
+            <CardProduct
+              session={session}
+              key={index}
+              product={product as Product}
+              className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
+            />
+          ))
       );
     }
   }

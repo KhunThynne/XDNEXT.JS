@@ -2,21 +2,14 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 import { ContentProducts } from "./products/components/ContentProducts";
-import clsx from "clsx";
+
 import { auth } from "@/auth";
 import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
-import Notification from "@/shared/components/ui/Notification";
-import { SectionPoint } from "@/shared/components/ui/SectionPoint";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardHeader,
-} from "@/libs/shadcn/ui/card";
+
+import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/ContentCard";
 import { contentClassName } from "./products/shared/contentClassName";
 import { Badge } from "@/libs/shadcn/ui/badge";
-import { ContainerLogDemo } from "@/shared/components/ui/fallback/ContainerLog";
 
 export default async function PageCotent() {
   const session = await auth();
@@ -98,7 +91,7 @@ export default async function PageCotent() {
         }
         classNames={{ ...contentClassName }}
       >
-        <ContentProducts session={session} />
+        <ContentProducts session={session} max={5} />
       </ContainerSection>
     </>
   );

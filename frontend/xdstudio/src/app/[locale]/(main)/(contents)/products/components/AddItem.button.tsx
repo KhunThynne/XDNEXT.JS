@@ -1,4 +1,7 @@
-import { Product } from "@/libs/graphql/generates/graphql";
+import {
+  CheckUserProductStatusQuery,
+  Product,
+} from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useCartItemStore } from "@/shared/components/ui/shopping/CartStoreProvider";
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
@@ -7,13 +10,15 @@ import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import { Session } from "next-auth";
 import { signIn } from "next-auth/react";
-import { Fragment, useMemo } from "react";
+import { Fragment, useLayoutEffect, useMemo } from "react";
+import { revalidateClient } from "../shared/revalidateClient";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;
   session?: Session | null;
   disableText?: boolean;
   addTo?: boolean;
+  status?: CheckUserProductStatusQuery;
 };
 
 export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
@@ -25,25 +30,30 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     session,
     onClick,
     children,
+    status,
     ...buttonProps
   } = props;
   const productId = product?.id;
   const cartId = session?.user?.carts?.[0]?.id;
   const userId = session?.user?.id;
-  const { mutation, query } = useCartInfinite({
+  const { mutation } = useCartInfinite({
     cartId: cartId ?? "",
     productId,
     userId: userId ?? "",
   });
-  const { data } = query;
-  const { mutate, isPending } = mutation;
-  const { cartitemStore } = useCartItemStore();
+
+  const { mutate, isPending, status: StatusMutation } = mutation;
+
   const addedItem = useMemo(() => {
-    return (
-      cartitemStore?.find((item) => item.product?.id === productId) || false
-    );
-  }, [cartitemStore, productId]);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (status?.checkUserProductStatus?.__typename === "CheckProductSuccess") {
+      return (
+        status?.checkUserProductStatus.inCart ||
+        status?.checkUserProductStatus.inUserItem
+      );
+    }
+    return false;
+  }, [status]);
+  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isPending) {
       return;
     }
@@ -52,8 +62,13 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
       return;
     }
     onClick?.(event);
-    mutate();
+    mutate(undefined, {
+      onSuccess: () => {
+        revalidateClient(`${session?.user?.id}-${product?.id}-checkProduct`);
+      },
+    });
   };
+
   return (
     <Button
       {...buttonProps}
