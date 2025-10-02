@@ -7,27 +7,36 @@ import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { notFound } from "next/navigation";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
-import { CartOrderFormProps } from "../../components/cartOrder.type";
+import { CartFormProps } from "../../components/cartOrder.type";
+import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
+import { useMemo } from "react";
 
 export const OrdersQueryClient = () => {
-  const { watch, setValue } = useFormContext<CartOrderFormProps>();
+  const { watch, setValue } = useFormContext<CartFormProps>();
   const { cartId, userId } = watch();
 
-  const { query, invalidate } = useCartDocument({
+  const { query, invalidate } = useCartInfinite({
     cartId,
     userId,
   });
   const { data, status } = query;
-  const cartItems = data?.data?.cart?.items || [];
+
+  const flatData = useMemo(
+    () => data?.pages?.[0]?.data?.cart?.items?.flatMap((page) => page) ?? [],
+    [data]
+  );
+
+  const cartItems = flatData;
   const navigation = `/account/cart/${cartId}`;
-  const count = Number(data?.data?.cart?.items?.length);
+  const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
 
   if (status === "success")
-    return count > 0 ? (
+    return itemsCount > 0 ? (
       <OrdersForm
-        invalidateCart={invalidate}
+        invalidateCartAction={invalidate}
         setValueCart={setValue}
         cartItems={cartItems}
+        filter={""}
       />
     ) : (
       <aside className="h-full place-content-center">

@@ -1,13 +1,13 @@
-export default function TestWidth() {
+export default function Page() {
   return (
-    <div className="w-80 space-y-4 border border-amber-400 p-4">
-      <div className=" space-y-4 border border-amber-400 p-4">
-        <div className="w-max border bg-blue-100">
-          <span>loooooooooooooongwordwithoutspaces</span>
+    <div className="h-screen border">
+      <div className="relative flex h-full">
+        <div className="grow overflow-auto border">
+          <div className="h-[200vh] border">
+            <div className="sticky top-0">test</div>
+          </div>
         </div>
-      </div>
-      <div className="w-min border bg-green-100">
-        <span>loooooooooooooongwordwithoutspaces</span>
+        <div className="grow border">ผปแผปแ</div>
       </div>
     </div>
   );

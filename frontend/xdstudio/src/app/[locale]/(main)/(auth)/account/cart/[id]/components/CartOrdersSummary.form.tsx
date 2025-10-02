@@ -3,33 +3,37 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { Separator } from "@radix-ui/react-separator";
 import { useFormContext } from "react-hook-form";
-import { CartOrderFormProps } from "./cartOrder.type";
+import { CartFormProps } from "./cartOrder.type";
 import { useMemo } from "react";
 import { Link } from "@navigation";
 import { Form } from "@/libs/shadcn/ui/form";
-import { DialogFooterAction, useDialogGlobal } from "./useDialogGlobal";
+
 import { useFormatter } from "next-intl";
 import PointDiamon from "@/shared/components/PointDiamod";
-import { ButtonGrupe } from "@/shared/components/ui";
+import {
+  ButtonGrupe,
+  DialogFooterAction,
+  useDialogGlobal,
+} from "@/shared/components/ui";
 
 export function CartOrdersSummaryForm() {
-  const method = useFormContext<CartOrderFormProps>();
+  const method = useFormContext<CartFormProps>();
   const formatter = useFormatter();
   const { watch } = method;
-  const { cartsOrderItem } = watch();
+  const { cartItems } = watch();
   const { openDialog, closeDialog } = useDialogGlobal();
   const subtotal = useMemo(
     () =>
-      cartsOrderItem?.reduce(
+      cartItems?.reduce(
         (total, item) =>
           total + (item?.product?.price?.price ?? 0) * (item?.quantity ?? 0),
         0
       ),
-    [cartsOrderItem]
+    [cartItems]
   );
   const tax = subtotal * 0.07;
   const total = subtotal + tax;
-  const handleSubmit = async (form: CartOrderFormProps) => {
+  const handleSubmit = async (form: CartFormProps) => {
     openDialog({
       title: "Proceed to Checkout",
       content: <p>Are you sure you want to proceed with your order?</p>,
@@ -44,7 +48,7 @@ export function CartOrdersSummaryForm() {
     });
   };
 
-  return cartsOrderItem ? (
+  return cartItems ? (
     <Form {...method}>
       <form
         onSubmit={method.handleSubmit(handleSubmit)}
@@ -72,7 +76,7 @@ export function CartOrdersSummaryForm() {
         <ButtonGrupe className="mt-auto flex-col">
           <Button
             className="mt-4 w-full cursor-pointer"
-            disabled={cartsOrderItem?.length < 1}
+            disabled={cartItems?.length < 1}
           >
             Proceed to Checkout
           </Button>

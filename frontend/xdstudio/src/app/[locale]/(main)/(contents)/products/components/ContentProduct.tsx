@@ -4,6 +4,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
 import {
+  CheckUserProductStatusQuery,
   Faq,
   Maybe,
   OrderDirection,
@@ -38,6 +39,7 @@ import { AddItemButton } from "./AddItem.button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "@navigation";
 import { Session } from "next-auth";
+import { revalidateClient } from "../shared/revalidateClient";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -72,12 +74,16 @@ export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   );
 };
 const ProductDetail = (
-  props: Product & { session?: Session | null | undefined }
+  props: Product & {
+    session?: Session | null | undefined;
+    userProductStatus: CheckUserProductStatusQuery;
+  }
 ) => {
   const router = useRouter();
   if (!props.faqs) {
     return null;
   }
+  const { session, userProductStatus, ...product } = props;
   return (
     <Card className="h-fit duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
@@ -137,22 +143,35 @@ const ProductDetail = (
           )}
         </div>
 
+        {/* <Button
+          onClick={async () =>
+            revalidateClient(`${session?.user?.id}-${product.id}-checkProduct`)
+          }
+        >
+          Test
+        </Button> */}
+
         <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
           <hr className="grow" />
 
-          <AddItemButton productId={props.id} session={props.session}>
+          <AddItemButton
+            product={product}
+            session={session}
+            status={userProductStatus}
+          >
             <Plus className="size-5" />
           </AddItemButton>
           <AddItemButton
-            productId={props.id}
-            session={props.session}
+            status={userProductStatus}
+            product={product}
+            session={session}
             variant={"secondary"}
             className="w-20"
             disableText
             addTo
             onClick={() =>
               router.push(
-                `/account/cart/${props.session?.user?.carts?.[0]?.id ?? ""}`
+                `/account/cart/${session?.user?.carts?.[0]?.id ?? ""}`
               )
             }
           >
@@ -179,7 +198,10 @@ const Gallery = () => {
 };
 
 export const ContentProduct = (
-  props: Product & { session: Session | null | undefined }
+  props: Product & {
+    session: Session | null | undefined;
+    userProductStatus: CheckUserProductStatusQuery;
+  }
 ) => {
   const { id, ...product } = props;
   return (

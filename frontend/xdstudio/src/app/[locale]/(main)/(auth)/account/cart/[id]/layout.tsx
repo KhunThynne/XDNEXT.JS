@@ -7,9 +7,9 @@ import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function LayoutCart({
   children,
-  orderList,
+  cartItems,
   params,
-}: NextJSReactNodes<"orderList"> & {
+}: NextJSReactNodes<"cartItems"> & {
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
@@ -39,14 +39,19 @@ export default async function LayoutCart({
       session={session}
       point={point}
     >
-      <div className="flex flex-wrap gap-6 lg:grow">
-        {/* Cart Items */}
-        <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full">
-          {orderList}
-        </section>
-
-        {/* Summary */}
-        <section className="sm:w-sm min-h-60 max-lg:grow">{children}</section>
+      <div className="grid grow grid-cols-1 gap-6 lg:grid-cols-6">
+        <ContainerSection
+          className="grow max-md:gap-4 lg:col-span-4"
+          title="Your Shopping Cart"
+          classNames={{
+            container: "",
+            contentContainer: "h-[81vh]",
+            separator: "max-sm:hidden",
+          }}
+        >
+          {cartItems}
+        </ContainerSection>
+        <section className="h-full lg:col-span-2">{children}</section>
       </div>
     </CartOrderForm>
   );

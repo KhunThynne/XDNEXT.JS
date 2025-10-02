@@ -1,8 +1,6 @@
 "use client";
 
-import { Maybe, Product, Tag } from "@/libs/graphql/generates/graphql";
-import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Product } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -13,7 +11,7 @@ import {
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";
-import { Diamond, ImageOff } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import Image from "next/image";
 import { AddItemButton } from "./AddItem.button";
 import { Session } from "next-auth";
@@ -21,6 +19,7 @@ import PointDiamon from "@/shared/components/PointDiamod";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import { ProductTag } from "./ProductTag";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { Button } from "@/libs/shadcn/ui/button";
 
 export const CardProduct = ({
   product,
@@ -42,6 +41,7 @@ export const CardProduct = ({
   | "content"
   | "containerDetail"
 > & { footer?: boolean }) => {
+  const href = product?.href ?? `/products/${product?.id}`;
   return (
     <Card
       className={clsx(
@@ -90,7 +90,7 @@ export const CardProduct = ({
             <ProductTag tags={product?.tag} />
           )}
 
-          <Link href={product?.href ?? `/products/${product?.id}`}>
+          <Link href={href}>
             <CardTitle
               className={clsx(
                 "min-h-6 text-xl font-semibold",
@@ -158,12 +158,9 @@ export const CardProduct = ({
           {loading ? (
             <Skeleton className="h-9 w-full" />
           ) : (
-            <AddItemButton
-              session={session}
-              productId={product?.id}
-              className="w-full cursor-pointer"
-              disabled={!product?.price?.price}
-            />
+            <Button size="sm" className="w-full" asChild>
+              <Link href={href}>Go to</Link>
+            </Button>
           )}
         </CardFooter>
       )}

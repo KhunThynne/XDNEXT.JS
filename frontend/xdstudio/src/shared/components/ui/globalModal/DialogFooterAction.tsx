@@ -1,15 +1,7 @@
-import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import { Loader2 } from "lucide-react";
-
-type DialogFooterActionProps = {
-  onConfirm?: React.MouseEventHandler<HTMLButtonElement>;
-  onCancel?: React.MouseEventHandler<HTMLButtonElement>;
-  buttonConfirm?: React.ComponentProps<typeof Button>;
-  buttonCancel?: React.ComponentProps<typeof Button>;
-  loading?: boolean;
-};
+import { DialogFooterActionProps } from ".";
 
 export const DialogFooterAction = ({
   onConfirm,
@@ -50,9 +42,3 @@ export const DialogFooterAction = ({
     </section>
   );
 };
-
-export const useDialogGlobal = createHookDialog({
-  title: "unkhonw",
-  description: "This is dialog global for use any whare .",
-  options: { overlay: true },
-});
