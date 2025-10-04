@@ -41,7 +41,7 @@ export const CardProduct = ({
   | "content"
   | "containerDetail"
 > & { footer?: boolean }) => {
-  const href = product?.href ?? `/products/${product?.id}`;
+  const href = product?.href ?? `/product/${product?.id}`;
   return (
     <Card
       className={clsx(
