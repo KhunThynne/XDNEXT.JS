@@ -4,10 +4,11 @@ import {
   GetProductDocument,
   Product,
 } from "@/libs/graphql/generates/graphql";
-import { ContentProduct } from "../components/ContentProduct";
+
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { unstable_cache } from "next/cache";
+import { ContentProduct } from "../../products/components/ContentProduct";
 const getCachedCheckUserProductStatus = (
   productId: string,
   userId: string,

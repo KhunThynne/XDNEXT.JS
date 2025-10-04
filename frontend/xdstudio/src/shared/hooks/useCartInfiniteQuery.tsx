@@ -1,5 +1,6 @@
 "use client";
-import { revalidateClient } from "@/app/[locale]/(main)/(contents)/products/shared/revalidateClient";
+
+import { revalidateClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/revalidateClient";
 import { execute } from "@/libs/graphql/execute";
 import {
   Cart,

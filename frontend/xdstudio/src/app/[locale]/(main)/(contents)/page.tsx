@@ -1,15 +1,16 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Link } from "@navigation";
-import { ContentProducts } from "./products/components/ContentProducts";
 
 import { auth } from "@/auth";
 import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/ContentCard";
-import { contentClassName } from "./products/shared/contentClassName";
+
 import { Badge } from "@/libs/shadcn/ui/badge";
+import { ContentProducts } from "./(product_content)/products/components/ContentProducts";
+import { contentClassName } from "./(product_content)/products/shared/contentClassName";
 
 export default async function PageCotent() {
   const session = await auth();

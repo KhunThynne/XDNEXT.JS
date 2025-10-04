@@ -3893,10 +3893,15 @@ export type GetProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', products?: Array<(
+export type GetProductsQuery = { __typename?: 'Query', productsCount?: number | null, products?: Array<(
     { __typename?: 'Product' }
     & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
   )> | null };
+
+export type GetProductsCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsCountQuery = { __typename?: 'Query', productsCount?: number | null };
 
 export type GetProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4404,6 +4409,7 @@ export const GetProductsDocument = new TypedDocumentString(`
   products(take: $take, skip: $skip, orderBy: $orderBy) {
     ...ProductFields
   }
+  productsCount
 }
     fragment ImageField on Image {
   id
@@ -4468,6 +4474,11 @@ fragment SupplierFields on Supplier {
   }
   productsCount
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductsCountDocument = new TypedDocumentString(`
+    query getProductsCount {
+  productsCount
+}
+    `) as unknown as TypedDocumentString<GetProductsCountQuery, GetProductsCountQueryVariables>;
 export const GetProductDocument = new TypedDocumentString(`
     query getProduct($where: ProductWhereUniqueInput!) {
   product(where: $where) {
