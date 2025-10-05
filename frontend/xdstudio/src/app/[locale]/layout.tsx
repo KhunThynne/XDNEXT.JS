@@ -9,7 +9,7 @@ import { auth } from "@/auth";
 import { GoToTopButton } from "@/shared/components/ui/GoToTopButton";
 
 export const metadata: Metadata = {
-  title: "Xdstudio",
+  title: "XD Shop",
   description: "This is a static description for all locales",
 };
 export default async function LocaleLayout({

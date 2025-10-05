@@ -7,9 +7,9 @@ import Image from "next/image";
 
 export default function Footer({ className }: WithlDefaultProps) {
   return (
-    <footer
+    <article
       className={clsx(
-        "border-t-1 bg-background @container w-full items-center max-sm:pb-7",
+        "bg-background @container w-full items-center max-sm:pb-7",
         "text-xs",
         "space-y-3",
         className
@@ -136,6 +136,6 @@ export default function Footer({ className }: WithlDefaultProps) {
           </div>
         </div>
       </div>
-    </footer>
+    </article>
   );
 }

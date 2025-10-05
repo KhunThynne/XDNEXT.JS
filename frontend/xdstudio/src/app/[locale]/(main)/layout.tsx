@@ -3,7 +3,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Xdstudio",
+  title: "XD Shop",
   description: "This is a static description for all locales",
 };
 export default async function LocaleLayout({
@@ -12,10 +12,10 @@ export default async function LocaleLayout({
   navbar,
 }: WithlDefaultProps & NextJSReactNodes<"footer" | "navbar">) {
   return (
-    <main className={clsx("flex flex-col")}>
-      {navbar}
-      {children}
-      {footer}
-    </main>
+    <div className={clsx("flex min-h-screen flex-col")}>
+      <header>{navbar}</header>
+      <main className="flex-1">{children}</main>
+      <footer className="flex-none">{footer}</footer>
+    </div>
   );
 }

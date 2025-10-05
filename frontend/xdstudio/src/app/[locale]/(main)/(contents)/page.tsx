@@ -6,11 +6,11 @@ import { auth } from "@/auth";
 import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
-import ContentCard from "@/shared/components/ui/ContentCard";
 
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { ContentProducts } from "./(product_content)/products/components/ContentProducts";
 import { contentClassName } from "./(product_content)/products/shared/contentClassName";
+import ContentCard from "@/shared/components/ui/cards/ContentCard";
 
 export default async function PageCotent() {
   const session = await auth();

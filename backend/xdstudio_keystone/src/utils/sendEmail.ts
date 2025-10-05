@@ -28,7 +28,7 @@ export async function sendEmail(
   });
 
   await transporter.sendMail({
-    from: `"XDStudio Support" <${setting.smtpUser}>`,
+    from: `"XD Shop Support" <${setting.smtpUser}>`,
     to,
     subject,
     text,

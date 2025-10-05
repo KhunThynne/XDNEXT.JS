@@ -12,7 +12,7 @@ import { Metadata } from "next";
 
 // Error boundaries must be Client Components
 export const metadata: Metadata = {
-  title: "Xdstudio - Error",
+  title: "XD Shop - Error",
   description: "This is a static description for all locales",
 };
 

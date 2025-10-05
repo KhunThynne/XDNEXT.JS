@@ -28,7 +28,12 @@ export const NavbarActionSection = ({
       <ThemeMenu />
       <span className="inline-flex">
         {status === "loading" ? (
-          <Button variant="ghost" size="icon" disabled aria-label="loader-button">
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled
+            aria-label="loader-button"
+          >
             <LoaderCircle className="animate-spin" />
           </Button>
         ) : !session ? (

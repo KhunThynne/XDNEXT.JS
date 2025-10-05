@@ -18,8 +18,9 @@ export const SignButton = () => {
       variant="ghost"
       size="icon"
       disabled={!!callbackUrl}
+      aria-label="sign-button"
       onClick={async () => {
-        await signIn("", { redirectTo: pathname,callbackUrl:pathname });
+        await signIn("", { redirectTo: pathname, callbackUrl: pathname });
       }}
     >
       <Users />

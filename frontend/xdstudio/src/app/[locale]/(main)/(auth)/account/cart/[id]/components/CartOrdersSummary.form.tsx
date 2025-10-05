@@ -11,7 +11,7 @@ import { Form } from "@/libs/shadcn/ui/form";
 import { useFormatter } from "next-intl";
 import PointDiamon from "@/shared/components/PointDiamod";
 import {
-  ButtonGrupe,
+  ButtonGroup,
   DialogFooterAction,
   useDialogGlobal,
 } from "@/shared/components/ui";
@@ -73,7 +73,7 @@ export function CartOrdersSummaryForm() {
             <PointDiamon /> {formatter.number(total)}
           </span>
         </div>
-        <ButtonGrupe className="mt-auto flex-col">
+        <ButtonGroup className="mt-auto flex-col">
           <Button
             className="mt-4 w-full cursor-pointer"
             disabled={cartItems?.length < 1}
@@ -88,7 +88,7 @@ export function CartOrdersSummaryForm() {
           >
             <Link href={"/products"}>Continue Shopping</Link>
           </Button>
-        </ButtonGrupe>
+        </ButtonGroup>
       </form>
     </Form>
   ) : (

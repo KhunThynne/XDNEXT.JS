@@ -1,9 +1,8 @@
-import { revalidateTag, unstable_cache } from "next/cache";
-import { PaginationDemo } from "./PaginationDemo";
+import { unstable_cache } from "next/cache";
 import { execute } from "@/libs/graphql/execute";
 import { GetProductsCountDocument } from "@/libs/graphql/generates/graphql";
-import { Button } from "@/libs/shadcn/ui/button";
-import { revalidateClient } from "../shared/revalidateClient";
+import { PaginationDemo } from "./shared/components/PaginationDemo";
+
 const getProductsCountCache = () =>
   unstable_cache(
     async () => {
@@ -17,15 +16,17 @@ const getProductsCountCache = () =>
     }
   )();
 const take = 10;
-export default async function PaginationPage() {
-  // const { page = 1 } = await searchParams;
+export default async function PaginationPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page: number }>;
+}) {
+  const { page = 1 } = await searchParams;
   const { data } = await getProductsCountCache();
-
   const totalPages = Math.ceil((data?.productsCount ?? 0) / take);
-
   return (
     <>
-      <PaginationDemo totalPages={totalPages} />
+      <PaginationDemo totalPages={totalPages} currentPage={page} />
     </>
   );
 }

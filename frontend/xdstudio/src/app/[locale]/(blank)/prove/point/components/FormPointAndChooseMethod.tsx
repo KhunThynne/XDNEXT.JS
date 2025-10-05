@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form, FormMessage } from "@/libs/shadcn/ui/form";
-import { ButtonGrupe } from "@/shared/components/ui";
+import { ButtonGroup } from "@/shared/components/ui";
 import {
   SelectForm,
   SelectFormProps,
@@ -96,12 +96,12 @@ export const FormPointAndChooseMethod = () => {
           defaultValue="s"
           items={methodItem.items}
         />
-        <ButtonGrupe>
+        <ButtonGroup>
           <ButtonForm type="button" variant={"outline"}>
             Clear
           </ButtonForm>
           <ButtonForm>Next</ButtonForm>
-        </ButtonGrupe>
+        </ButtonGroup>
       </form>
     </Form>
   );

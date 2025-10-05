@@ -23,7 +23,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
-import { revalidateClient } from "@/app/[locale]/(main)/(contents)/products/shared/revalidateClient";
+
 export const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">

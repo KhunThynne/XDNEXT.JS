@@ -12,40 +12,27 @@ import {
   PaginationPrevious,
 } from "@/libs/shadcn/ui/pagination";
 import { useEffect, useMemo } from "react";
-import { SelectForm } from "@/shared/components/ui/form/SelectForm";
 import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { Separator } from "@/libs/shadcn/ui/separator";
-import { Slash, SlashIcon } from "lucide-react";
-import { Button } from "@/libs/shadcn/ui/button";
-import { revalidateClient } from "../shared/revalidateClient";
+import { SlashIcon } from "lucide-react";
+import { getVisiblePages } from "../utils/getVisiblePages";
 
 interface Props {
   totalPages: number;
+  currentPage?: number;
 }
 
 interface FormValues {
   currentPage: number;
 }
-const getVisiblePages = (totalPages: number, currentPage: number) => {
-  const delta = 1;
-  const range: number[] = [];
-  for (let i = 1; i <= totalPages; i++) {
-    if (
-      i === 1 ||
-      i === totalPages ||
-      (i >= currentPage - delta && i <= currentPage + delta)
-    ) {
-      range.push(i);
-    }
-  }
-  return range;
-};
 
-export function PaginationDemo({ totalPages }: Props) {
+export function PaginationDemo({
+  totalPages,
+  currentPage: currentPageProp = 1,
+}: Props) {
   const router = useRouter();
   const method = useForm<FormValues & Props>({
-    defaultValues: { currentPage: 1, totalPages },
+    defaultValues: { currentPage: currentPageProp, totalPages },
   });
   const { control, setValue, watch } = method;
   const currentPage = Number(watch("currentPage"));
@@ -62,17 +49,10 @@ export function PaginationDemo({ totalPages }: Props) {
     watch("currentPage");
   }, [watch]);
 
-  let lastPage = 0;
+  const lastPage = 0;
 
   return (
     <Form {...method}>
-      <Button
-        onClick={() => {
-          revalidateClient("product-pagination");
-        }}
-      >
-        Reload
-      </Button>
       <Pagination className="md:justify-end">
         <PaginationContent>
           {/* Previous */}
@@ -88,20 +68,18 @@ export function PaginationDemo({ totalPages }: Props) {
             />
           </PaginationItem>
           {/* Desktop */}
-          <section className="contents max-md:hidden">
-            {visiblePages.map((page) => {
-              const showEllipsis = page - lastPage > 1;
-              const elements = [];
 
-              if (showEllipsis) {
-                elements.push(
-                  <PaginationItem key={`ellipsis-${page}`}>
+          <section className="contents max-md:hidden">
+            {visiblePages.map((page, index) => {
+              if (page === 0) {
+                return (
+                  <PaginationItem key={`ellipsis-${index}`}>
                     <PaginationEllipsis />
                   </PaginationItem>
                 );
               }
 
-              elements.push(
+              return (
                 <PaginationItem key={page}>
                   <Controller
                     name="currentPage"
@@ -121,12 +99,8 @@ export function PaginationDemo({ totalPages }: Props) {
                   />
                 </PaginationItem>
               );
-
-              lastPage = page;
-              return elements;
             })}
           </section>
-
           <section className="content md:hidden">
             <PaginationItem className="flex gap-1">
               <InputForm

@@ -1,0 +1,25 @@
+
+
+@theme default {
+  --color-discord-bt:var(--discord-bt);
+  --color-discord-secondary: var( --discord-secondary);
+  --color-discord-bg: var( --discord-bg);  
+  --color-discord-foreground: var( --discord-foreground);
+}
+
+:root {
+  --discord-bt:#7289da;
+  --discord-secondary:#99aab5;
+  --discord-bg:#ffffff;
+  --discord-bg-foreground:#2c2f33;
+  --discord-foreground:#23272a;
+
+}
+
+.dark {
+  --discord-bt:#7289da;
+  --discord-secondary:#292b2f;
+  --discord-bg:#2f3136;
+  --discord-bg-foreground:#40444b;
+  --discord-foreground:#40444b;
+}

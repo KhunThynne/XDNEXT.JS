@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export default function ButtonGrupe({
+export default function ButtonGroup({
   className,
   children,
 }: WithlDefaultProps) {
