@@ -29,7 +29,7 @@ export function TeamMemberCard({
   return (
     <Card
       className={clsx(
-        "transition-shadow duration-300 hover:shadow-lg max-sm:max-w-full",
+        "overflow-auto transition-shadow duration-300 hover:shadow-lg max-sm:max-w-full",
         className
       )}
     >

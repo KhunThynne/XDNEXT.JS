@@ -7,6 +7,7 @@ interface ContentCardProps extends WithlDefaultProps {
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
 }
+
 export default function ContentCard({
   className,
   title,
@@ -16,7 +17,7 @@ export default function ContentCard({
   return (
     <Card
       className={clsx(
-        "from-primary/10 min-h-125 to-accent/10 shadow-xs place-content-center bg-gradient-to-br px-4 max-sm:-mx-5 max-sm:rounded-b-none max-sm:rounded-t-none sm:my-5",
+        "from-primary/10 min-h-125 to-accent/10 shadow-xs place-content-center overflow-auto bg-gradient-to-br px-4 max-sm:-mx-5 max-sm:rounded-b-none max-sm:rounded-t-none sm:my-5",
         className
       )}
     >

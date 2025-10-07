@@ -10,9 +10,9 @@ const config: CodegenConfig = {
     // },
     {
       [`${env.API_BACKEND_URL}/api/graphql`]: {
-        // headers: {
-        //   Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
+        },
       },
     },
   ],

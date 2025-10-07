@@ -12,17 +12,22 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends(
-    "next/core-web-vitals",
+    // "next/core-web-vitals",
     "next/typescript",
+    "plugin:react-hooks/recommended-legacy",
     "plugin:prettier/recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended-legacy",
-    "prettier",
-    "next"
+    "prettier"
+    // "next"
 
-    // "eslint:recommended"
+    // ,"eslint:recommended"
   ),
   ...compat.config({
+    settings: {
+      react: {
+        version: "detect", // ใช้ react version จาก node_modules
+      },
+    },
     rules: {
       "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",

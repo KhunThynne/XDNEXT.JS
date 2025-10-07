@@ -52,7 +52,7 @@ const teamMembers = [
 
 export default function ContactPage() {
   return (
-    <div className=" ">
+    <div className="max-w-screen overflow-hidden">
       {/* <ContentCard
         className="min-h-80!"
         title={`Get in Touch`}
@@ -61,7 +61,7 @@ export default function ContactPage() {
         <section>test</section>
       </ContentCard> */}
 
-      <div className="container mx-auto space-y-6">
+      <div className="container mx-auto space-y-6 px-4">
         <ContentCard
           title={"Our Team & Community"}
           description="Get in touch with us, meet the team behind the project, and connect with our Discord community."
@@ -87,7 +87,7 @@ export default function ContactPage() {
           classNames={{
             title: " ",
             content:
-              "grid grid-cols-1  @min-xl:grid-cols-2 @min-5xl:grid-cols-3 @min-7xl:grid-cols-4 gap-5 place-items-center",
+              "grid @max-xs:grid-cols-1  @min-xl:grid-cols-2 @min-5xl:grid-cols-3 @min-7xl:grid-cols-4 gap-5 place-items-center",
           }}
         >
           {[

@@ -44,7 +44,7 @@ export const DiscordServerCard = ({
             {serverName}
           </CardTitle>
           {/* Member Status */}
-          <div className="mt-1 flex items-center gap-4 text-sm text-zinc-400">
+          <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
             <div className="flex items-center gap-1.5">
               <Circle className="h-2 w-2 fill-green-500 text-green-500" />
               <span>{onlineCount} Online</span>

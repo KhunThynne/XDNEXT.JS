@@ -12,7 +12,7 @@ interface ContactDiscordCardProps {
   inviteLink?: string; // ลิงก์ invite ไปยัง Discord server
   description?: string;
 }
-
+const test = "";
 export const ContactDiscordCard = ({
   inviteLink = "https://discord.gg/24m55m6ZWK",
   description = "เข้าร่วมกลุ่ม Discord ของเราเพื่อพูดคุย แลกเปลี่ยนข้อมูล และติดตามข่าวสารล่าสุด",
