@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import z from "zod";
+import type z from "zod";
 import { ZSourcesSchema } from "./shared/ZSchema";
 
 export type ApiPostOmiseSourcesType = z.infer<typeof ZSourcesSchema>;

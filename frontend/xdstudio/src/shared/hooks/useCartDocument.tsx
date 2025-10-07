@@ -1,10 +1,8 @@
 import { execute } from "@/libs/graphql/execute";
+import type { Cart, Product, User } from "@/libs/graphql/generates/graphql";
 import {
-  Cart,
   CreateCartItemDocument,
   GetCartDocument,
-  Product,
-  User,
 } from "@/libs/graphql/generates/graphql";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 const take = 10;

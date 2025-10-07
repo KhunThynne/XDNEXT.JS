@@ -1,6 +1,6 @@
 "use client";
 
-import { Cart, CartItem, Maybe } from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem, Maybe } from "@/libs/graphql/generates/graphql";
 import { createHookStore } from "@/libs/zustand/createHookStore";
 import { useLayoutEffect } from "react";
 

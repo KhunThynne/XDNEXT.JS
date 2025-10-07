@@ -7,7 +7,7 @@ import { Fragment, useMemo } from "react";
 import { AccountPopover } from "./AccountPopover";
 
 import { SignButton } from "./SignButton";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { ShoppingPopover } from "@/shared/components/ui/shopping/ShoppingPopover";
 import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
 

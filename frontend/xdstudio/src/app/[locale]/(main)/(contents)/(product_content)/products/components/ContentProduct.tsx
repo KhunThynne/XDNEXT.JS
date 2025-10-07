@@ -3,13 +3,13 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
-import {
+import type {
   CheckUserProductStatusQuery,
   Faq,
   Maybe,
-  OrderDirection,
   Product,
 } from "@/libs/graphql/generates/graphql";
+import { OrderDirection } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -38,7 +38,7 @@ import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "@navigation";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { revalidateClient } from "../shared/revalidateClient";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {

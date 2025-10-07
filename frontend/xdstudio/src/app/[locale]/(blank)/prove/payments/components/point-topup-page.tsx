@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 import { motion } from "framer-motion";
@@ -144,5 +144,3 @@ function buildPromptPayPayload(opts: {
 // -----------------------------
 // UI
 // -----------------------------
-
- 

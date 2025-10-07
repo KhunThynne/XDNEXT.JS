@@ -1,6 +1,6 @@
 import { env } from "@/env";
 import { FormPaymentQrCode } from "../components/FormPaymentQrCode";
-import { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import type { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
 
 export default async function PagePaymentQrCode({
   params,

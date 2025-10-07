@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { Link, usePathname } from "@navigation";
 import Translations from "@/libs/i18n/Translations";
-import { TypeNavbarItem } from "@type/config.type";
+import type { TypeNavbarItem } from "@type/config.type";
 import clsx from "clsx";
 import {
   NavigationMenu,

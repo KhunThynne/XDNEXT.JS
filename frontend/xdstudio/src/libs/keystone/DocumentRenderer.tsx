@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 
 type TextNode = {
   text: string;
@@ -146,7 +147,7 @@ function renderNode(node: TextNode | ElementNode, key: number): ReactNode {
         </a>
       );
 
-    case "layout":
+    case "layout": {
       // Assume layout: [number, ...number[]] means grid columns
       const gridCols = node.layout?.length || 1;
       return (
@@ -161,11 +162,14 @@ function renderNode(node: TextNode | ElementNode, key: number): ReactNode {
           {children}
         </div>
       );
-    case "list-item-content":
+    }
+    case "list-item-content": {
       return <>{children}</>;
-    default:
+    }
+    default: {
       // fallback to div for unknown blocks
       return <div key={key}>{children}</div>;
+    }
   }
 }
 

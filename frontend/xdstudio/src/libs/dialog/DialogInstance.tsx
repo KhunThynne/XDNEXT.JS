@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/libs/shadcn/ui/dialog";
-import { DialogInstanceProps } from "./index.type";
+import type { DialogInstanceProps } from "./index.type";
 import {
   createContext,
   useCallback,
@@ -19,7 +19,7 @@ import {
   useState,
 } from "react";
 import clsx from "clsx";
-import { DialogOverlayProps } from "@radix-ui/react-dialog";
+import type { DialogOverlayProps } from "@radix-ui/react-dialog";
 // import { DialogInstanceProps } from "./dialog.type";
 
 const DialogContentInstance = ({

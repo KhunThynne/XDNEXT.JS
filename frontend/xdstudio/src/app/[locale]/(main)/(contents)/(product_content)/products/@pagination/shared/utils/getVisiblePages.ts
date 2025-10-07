@@ -2,7 +2,6 @@ export const getVisiblePages = (
   totalPages: number,
   currentPage: number
 ): number[] => {
-
   const SIBLING_COUNT = 2;
 
   const TOTAL_BUTTONS = 3 + SIBLING_COUNT * 2;

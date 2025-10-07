@@ -2,25 +2,23 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form, FormMessage } from "@/libs/shadcn/ui/form";
 import { ButtonGroup } from "@/shared/components/ui";
+import type { SelectionFormOptionsType } from "@/shared/components/ui/form/SelectForm";
 import {
   SelectForm,
   SelectFormProps,
-  SelectionFormOptionsType,
 } from "@/shared/components/ui/form/SelectForm";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormContext } from "react-hook-form";
 import z from "zod";
 
-import {
-  RadioForm,
-  RadioFormItemsType,
-} from "@/shared/components/ui/form/RadioForm";
+import type { RadioFormItemsType } from "@/shared/components/ui/form/RadioForm";
+import { RadioForm } from "@/shared/components/ui/form/RadioForm";
 import { createPaymentQrCode } from "@/shared/services/graphql/restApi/omise";
 import { ButtonForm } from "@/shared/components/ui/form/ButtonForm";
 import { ZSourcesSchema } from "@/app/api/omise/[...resource]/services/shared/ZSchema";
 import _ from "lodash";
-import { TypeFormPoint } from "./FormPointProvider";
+import type { TypeFormPoint } from "./FormPointProvider";
 import { usePathname, useRouter } from "@navigation";
 
 const PointMethodSchema = z.object({

@@ -6,7 +6,7 @@ import {
 } from "@/libs/shadcn/ui/popover";
 import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
-import { Cart, Maybe, User } from "@/libs/graphql/generates/graphql";
+import type { Cart, Maybe, User } from "@/libs/graphql/generates/graphql";
 
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
 

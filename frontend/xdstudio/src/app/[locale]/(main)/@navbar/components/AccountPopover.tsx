@@ -8,7 +8,7 @@ import {
 
 import _ from "lodash";
 import { LogOut, User } from "lucide-react";
-import { User as UserType } from "next-auth";
+import type { User as UserType } from "next-auth";
 import { signOut } from "next-auth/react";
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";

@@ -7,16 +7,18 @@ import { contentClassName } from "./shared/contentClassName";
 import { ContentProductsSSR } from "./components/ContentProductSSR";
 import { getSkipFromPage } from "./shared/utils/paginationUtil";
 import { execute } from "@/libs/graphql/execute";
-import {
+import type {
   GetProductsQueryVariables,
+  Product,
+} from "@/libs/graphql/generates/graphql";
+import {
   GetProductsDocument,
   OrderDirection,
-  Product,
 } from "@/libs/graphql/generates/graphql";
 import { unstable_cache } from "next/cache";
 import _ from "lodash";
 import { redirect } from "@navigation";
-import { Locale } from "next-intl";
+import type { Locale } from "next-intl";
 
 const getProductsCache = (variables: GetProductsQueryVariables) =>
   unstable_cache(

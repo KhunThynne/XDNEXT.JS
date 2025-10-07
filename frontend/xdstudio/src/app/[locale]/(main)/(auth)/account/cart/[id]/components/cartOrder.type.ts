@@ -1,13 +1,9 @@
-import {
-  Cart,
-  CartItem,
-  GetCartQuery,
-  User,
-} from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem, User } from "@/libs/graphql/generates/graphql";
+import { GetCartQuery } from "@/libs/graphql/generates/graphql";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
-import { Session } from "next-auth";
-import { UseFormSetValue } from "react-hook-form";
+import type { ColumnDef } from "@tanstack/react-table";
+import type { Session } from "next-auth";
+import type { UseFormSetValue } from "react-hook-form";
 
 export interface CartItemsFormProps {
   cartItems: CartItem[];

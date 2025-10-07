@@ -5,7 +5,7 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { ChevronLeftIcon, ChevronRightIcon, EyeClosed } from "lucide-react";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Image } from "@/libs/graphql/generates/graphql";
+import type { Image } from "@/libs/graphql/generates/graphql";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { Button } from "@/libs/shadcn/ui/button";

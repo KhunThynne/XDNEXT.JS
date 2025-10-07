@@ -4,7 +4,7 @@ import { Input } from "@/libs/shadcn/ui/input";
 import clsx from "clsx";
 import _ from "lodash";
 import { Fragment } from "react";
-import { LabelDescription } from "./index.type";
+import type { LabelDescription } from "./index.type";
 
 export default function LabelAndDescriptionForm({
   classNames,

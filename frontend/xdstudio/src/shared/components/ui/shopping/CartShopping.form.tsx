@@ -1,17 +1,14 @@
 import { execute } from "@/libs/graphql/execute";
-import {
-  CartItem,
-  DeleteCartItemDocument,
-  GetCartQuery,
-} from "@/libs/graphql/generates/graphql";
+import type { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
+import { DeleteCartItemDocument } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Link } from "@navigation";
-import {
+import type {
   InfiniteData,
   UseInfiniteQueryResult,
-  useMutation,
 } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo } from "react";
 import { useForm, useFormContext } from "react-hook-form";

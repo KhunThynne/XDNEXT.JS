@@ -1,8 +1,9 @@
 "use client";
 import { CardProduct } from "./ProductCard";
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
-import { OrderDirection, Product } from "@/libs/graphql/generates/graphql";
-import { Session } from "next-auth";
+import type { Product } from "@/libs/graphql/generates/graphql";
+import { OrderDirection } from "@/libs/graphql/generates/graphql";
+import type { Session } from "next-auth";
 import _ from "lodash";
 import { Box } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
@@ -24,6 +25,7 @@ export const ContentProducts = ({
     return Array.from({ length: 5 }).map((_, index) => (
       <CardProduct
         key={index}
+        motion={{ preset: "none" }}
         loading
         session={session}
         className="mx-auto animate-pulse duration-300 hover:scale-105 hover:shadow-xl"

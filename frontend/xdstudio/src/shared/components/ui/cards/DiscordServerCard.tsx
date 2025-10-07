@@ -1,12 +1,15 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import {
   Card,
+  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/libs/shadcn/ui/card";
 import { Link } from "@navigation";
+import clsx from "clsx";
 import { Circle, Users, ArrowRight, Image } from "lucide-react"; // Import icons from Lucide
+import { useFormatter } from "next-intl";
 
 // กำหนด Type ของ Props เพื่อความชัดเจน
 interface DiscordServerCardProps {
@@ -24,41 +27,50 @@ export const DiscordServerCard = ({
   memberCount = 0,
   inviteLink = "",
 }: DiscordServerCardProps) => {
+  const formater = useFormatter();
   return (
-    <Card className="border-discord-secondary bg-discord-bg w-full max-w-md">
-      <CardHeader className="flex flex-row items-center gap-4 p-4">
+    <Card className="min-h-62 bg-discord-bg relative w-full max-w-md place-content-end gap-3 overflow-hidden">
+      <CardHeader
+        className={clsx(
+          "h-18 border-discord-secondary absolute left-0 top-0 flex w-full flex-row items-center gap-4 border-b bg-gradient-to-b from-transparent to-[#a7a6a6]"
+        )}
+      >
+        <div></div>
+      </CardHeader>
+      <CardContent className="z-0 space-y-1">
         {iconUrl ? (
           <img
             src={iconUrl}
             alt={`${serverName} Icon`}
-            className="h-14 w-14 rounded-full object-cover"
+            className="size-17 border-discord-secondary rounded-2xl border-2 object-cover shadow"
           />
         ) : (
-          <Image className="size-14" />
+          <Image className="size-15" />
         )}
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 text-zinc-400">
           <CardTitle
-            className="truncate text-lg font-semibold"
+            className="text-md text-primary truncate font-semibold"
             title={serverName}
           >
             {serverName}
           </CardTitle>
           {/* Member Status */}
-          <div className="mt-1 flex flex-wrap items-center gap-4 text-sm text-zinc-400">
-            <div className="flex items-center gap-1.5">
-              <Circle className="h-2 w-2 fill-green-500 text-green-500" />
-              <span>{onlineCount} Online</span>
+          <div className="flex flex-wrap items-center gap-2.5 text-sm">
+            <div className="flex items-center gap-1">
+              <Circle className="size-2.5 fill-green-700 text-green-700" />
+              <span>{formater.number(onlineCount)} Online</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Users className="h-3 w-3" />
-              <span>{memberCount} Members</span>
+            <div className="flex items-center gap-1">
+              <Circle className="size-2.5 fill-gray-400 text-gray-400" />
+              <span>{formater.number(memberCount)} Members</span>
             </div>
           </div>
+          <p className="text-sm">Ets. Nov 2022</p>
         </div>
-      </CardHeader>
-      <CardContent className="p-4 pt-0">
+      </CardContent>
+      <CardAction className="w-full px-4">
         <Button
-          className="bg-discord-bt hover:bg-discord w-full text-white hover:brightness-110"
+          className="hover:bg-discord w-full bg-green-700 text-white hover:brightness-75"
           asChild
         >
           <Link
@@ -71,7 +83,7 @@ export const DiscordServerCard = ({
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
-      </CardContent>
+      </CardAction>
     </Card>
   );
 };

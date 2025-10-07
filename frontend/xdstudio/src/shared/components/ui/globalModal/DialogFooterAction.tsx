@@ -1,7 +1,7 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import { Loader2 } from "lucide-react";
-import { DialogFooterActionProps } from ".";
+import type { DialogFooterActionProps } from ".";
 
 export const DialogFooterAction = ({
   onConfirm,

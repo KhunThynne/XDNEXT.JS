@@ -26,8 +26,8 @@ import { useFormatter } from "next-intl";
 import { Loader, Loader2, LoaderIcon, Timer } from "lucide-react";
 import { CountdownTimer } from "@/shared/components/CountdownTimer";
 import { use, useMemo, useState } from "react";
-import { TypeFormPoint } from "./FormPointProvider";
-import { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import type { TypeFormPoint } from "./FormPointProvider";
+import type { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
 
 export const FormPaymentQrCode = (
   charges: OmiseChargeResponse["_attributes"]

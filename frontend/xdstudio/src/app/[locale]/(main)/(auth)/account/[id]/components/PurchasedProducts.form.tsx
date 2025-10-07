@@ -7,14 +7,14 @@ import { useForm } from "react-hook-form";
 import clsx from "clsx";
 import Image from "next/image";
 import { usePathname } from "@navigation";
-import {
-  GetUserItemDocument,
+import type {
   GetUserItemQuery,
   Product,
 } from "@/libs/graphql/generates/graphql";
+import { GetUserItemDocument } from "@/libs/graphql/generates/graphql";
 import { useQuery } from "@tanstack/react-query";
 import { execute } from "@/libs/graphql/execute";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import UserProductLoading from "../@userProducts/loading";
@@ -31,7 +31,7 @@ const ListItems = ({
     <MotionTransition animationKey="list">
       <ul className="space-y-3 divide-y">
         {items?.map((props, index) => {
-          const product = props.item?.product as Product;
+          const product = props!.item?.product as Product;
           return (
             <li key={`list-${index}`} className="flex items-center gap-4">
               <div className="size-15 relative aspect-square overflow-hidden rounded-lg border bg-gray-100">
@@ -47,7 +47,7 @@ const ListItems = ({
               <div className="flex-grow">
                 <h3 className="mb-1 text-lg font-semibold">{product.name}</h3>
                 <p className="mb-2 text-sm">{product.description}</p>
-                <p className="text-xs font-light">Update: {props.updateAt}</p>
+                <p className="text-xs font-light">Update: {props!.updateAt}</p>
               </div>
               <div className="flex-shrink-0 text-right">
                 <p className="text-accent mb-2 text-xl font-bold">
@@ -87,7 +87,7 @@ const GridItems = ({
         </section>
       ) : (
         items?.map((props, index) => {
-          const product = props.item?.product as Product;
+          const product = props!.item?.product as Product;
           return (
             <CardProduct
               footer={false}

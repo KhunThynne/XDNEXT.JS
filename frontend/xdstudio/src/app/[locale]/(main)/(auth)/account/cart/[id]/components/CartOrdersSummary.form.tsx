@@ -3,7 +3,7 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { Separator } from "@radix-ui/react-separator";
 import { useFormContext } from "react-hook-form";
-import { CartFormProps } from "./cartOrder.type";
+import type { CartFormProps } from "./cartOrder.type";
 import { useMemo } from "react";
 import { Link } from "@navigation";
 import { Form } from "@/libs/shadcn/ui/form";

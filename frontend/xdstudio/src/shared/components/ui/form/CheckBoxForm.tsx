@@ -8,13 +8,13 @@ import {
   FormLabel,
 } from "@/libs/shadcn/ui/form";
 
-import { FieldValues } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 
 import clsx from "clsx";
 import Translations from "@/libs/i18n/Translations";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
 import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
-import { FormXdProps } from "./shared/index.type";
+import type { FormXdProps } from "./shared/index.type";
 import _ from "lodash";
 
 export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({

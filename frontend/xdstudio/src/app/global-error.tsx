@@ -8,7 +8,7 @@ import {
   CardHeader,
 } from "@/libs/shadcn/ui/card";
 import Content from "@/shared/components/ui/Content";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 // Error boundaries must be Client Components
 export const metadata: Metadata = {

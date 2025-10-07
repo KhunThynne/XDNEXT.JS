@@ -7,7 +7,7 @@ import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { notFound } from "next/navigation";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
-import { CartFormProps } from "../../components/cartOrder.type";
+import type { CartFormProps } from "../../components/cartOrder.type";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import { useMemo } from "react";
 

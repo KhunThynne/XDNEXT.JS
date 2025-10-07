@@ -12,7 +12,7 @@ import {
   FormPointAndChooseMethod,
   TypePointMethodSchema,
 } from "./FormPointAndChooseMethod";
-import { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import type { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
 import { FormPaymentQrCode } from "./FormPaymentQrCode";
 
 export type TypeFormPoint = OmiseChargeResponse;

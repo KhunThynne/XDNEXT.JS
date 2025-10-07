@@ -4,6 +4,7 @@
   --color-discord-bt:var(--discord-bt);
   --color-discord-secondary: var( --discord-secondary);
   --color-discord-bg: var( --discord-bg);  
+   --color-discord-bg-foreground: var( --discord-bg-foreground); 
   --color-discord-foreground: var( --discord-foreground);
 }
 
@@ -19,7 +20,7 @@
 .dark {
   --discord-bt:#7289da;
   --discord-secondary:#292b2f;
-  --discord-bg:#2f3136;
+  --discord-bg:#222325;
   --discord-bg-foreground:#40444b;
   --discord-foreground:#40444b;
 }

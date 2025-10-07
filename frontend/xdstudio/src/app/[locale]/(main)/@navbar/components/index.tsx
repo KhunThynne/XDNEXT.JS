@@ -9,7 +9,7 @@ import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
 
 import { NavbarActionSection } from "./NavbarActionSection";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 export default function Navbar({
   className,

@@ -1,7 +1,7 @@
 "use client";
 import { Form } from "@/libs/shadcn/ui/form";
 import { useForm } from "react-hook-form";
-import { CartFormProps } from "../cartOrder.type";
+import type { CartFormProps } from "../cartOrder.type";
 import { Cart, User } from "@/libs/graphql/generates/graphql";
 import { Session } from "next-auth";
 
