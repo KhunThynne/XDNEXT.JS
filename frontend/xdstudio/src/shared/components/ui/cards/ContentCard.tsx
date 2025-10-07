@@ -4,12 +4,12 @@ import clsx from "clsx";
 import { Code, Download } from "lucide-react";
 
 interface ContentCardProps extends WithlDefaultProps {
-  titile?: string | React.ReactNode;
+  title?: string | React.ReactNode;
   description?: string | React.ReactNode;
 }
 export default function ContentCard({
   className,
-  titile,
+  title,
   description,
   children,
 }: ContentCardProps) {
@@ -24,7 +24,7 @@ export default function ContentCard({
         <div className="mx-auto text-center">
           <div className="mx-auto max-w-4xl">
             <h2 className="text-foreground mb-6 text-5xl font-bold leading-tight md:text-6xl">
-              {titile}
+              {title}
             </h2>
 
             <p className="text-muted-foreground mb-8 text-xl leading-relaxed">

@@ -24,7 +24,7 @@ export default async function PageCotent() {
   return (
     <>
       <ContentCard
-        titile={
+        title={
           <>
             Level Up Your Game with
             <span className="text-primary block">Custom Scripts & Tools</span>

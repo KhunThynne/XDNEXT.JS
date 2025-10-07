@@ -55,14 +55,17 @@ export default function ContactPage() {
     <div className=" ">
       {/* <ContentCard
         className="min-h-80!"
-        titile={`Get in Touch`}
+        title={`Get in Touch`}
         description={`Connect with our team through your preferred platform. We're here to help and would love to hear from you!.`}
       >
         <section>test</section>
       </ContentCard> */}
 
       <div className="container mx-auto space-y-6">
-        <ContentCard description="asdsadas" titile="XD ">
+        <ContentCard
+          title={"Our Team & Community"}
+          description="Get in touch with us, meet the team behind the project, and connect with our Discord community."
+        >
           <ContainerSection
             title="TEAM Members"
             classNames={{ title: " self-start" }}
