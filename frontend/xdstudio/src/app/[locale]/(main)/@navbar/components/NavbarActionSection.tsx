@@ -40,7 +40,11 @@ export const NavbarActionSection = ({
           <SignButton />
         ) : (
           <Fragment>
-            <ShoppingPopover userId={session.user.id} cartId={cartId!} />
+            <ShoppingPopover
+              pointId={session.user.point?.id ?? ""}
+              userId={session.user.id}
+              cartId={cartId!}
+            />
             <AccountPopover {...session?.user} />
           </Fragment>
         )}

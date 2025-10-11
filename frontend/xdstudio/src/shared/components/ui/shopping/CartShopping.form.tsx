@@ -20,6 +20,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
+import { SummaryCartDisplay } from "./SummaryCartDisplay";
 
 export const EmptyCart = () => {
   return (
@@ -38,18 +39,20 @@ export const EmptyCart = () => {
   );
 };
 
-export const CartSummery = ({ navigation }: { navigation: string }) => {
-  const { watch } = useFormContext<{
-    cartItems: CartItem[];
-  }>();
+export const CartSummary = ({
+  navigation,
+  userTotalPoint,
+  className,
+}: {
+  navigation?: string;
+  userTotalPoint?: number;
+} & WithClassName) => {
+  const { watch } = useFormContext<{ cartItems: CartItem[] }>();
   const cartItemsForm = watch("cartItems");
+
   const summary = useMemo(() => {
-    if (!cartItemsForm.length) {
-      return {
-        totalQuantity: 0,
-        totalPrice: 0,
-      };
-    }
+    if (!cartItemsForm?.length) return { totalQuantity: 0, totalPrice: 0 };
+
     return cartItemsForm.reduce(
       (acc, item) => {
         const quantity = item.quantity || 1;
@@ -61,18 +64,30 @@ export const CartSummery = ({ navigation }: { navigation: string }) => {
       { totalQuantity: 0, totalPrice: 0 }
     );
   }, [cartItemsForm]);
+
+  // ✅ คำนวณแต้มคงเหลือหลังจากใช้จ่าย
+  const remainingPoint = Math.max(
+    (userTotalPoint ?? 0) - summary.totalPrice,
+    0
+  );
+
   return (
-    <aside className="sticky bottom-0 space-y-3 rounded-b p-4 backdrop-blur">
-      <div className="flex justify-between text-sm font-semibold">
-        <span>รวม</span>
-        <span className="flex gap-1">
-          <PointDiamon className="size-1" /> {summary.totalPrice}
-        </span>
-      </div>
-      <Separator />
-      <Button className="w-full" size="sm" variant="secondary" asChild>
-        <Link href={navigation}> Go to cart. </Link>
-      </Button>
+    <aside
+      className={clsx(
+        "sticky bottom-0 space-y-3 rounded-b backdrop-blur",
+        className
+      )}
+    >
+      <SummaryCartDisplay
+        remainingPoint={remainingPoint}
+        totalPrice={summary.totalPrice}
+        userTotalPoint={userTotalPoint}
+      />
+      {navigation && (
+        <Button className="w-full" size="sm" variant="secondary" asChild>
+          <Link href={navigation}>Go to cart.</Link>
+        </Button>
+      )}
     </aside>
   );
 };
@@ -82,6 +97,7 @@ export const CartShoppingForm = ({
   invalidateCartAction,
   navigation,
   query,
+  children,
 }: {
   query: UseInfiniteQueryResult<
     InfiniteData<
@@ -95,7 +111,7 @@ export const CartShoppingForm = ({
   cartItems: CartItem[];
   invalidateCartAction: () => void;
   navigation: string;
-}) => {
+} & WithChildren) => {
   const method = useForm<{
     cartItems: CartItem[];
   }>({
@@ -211,7 +227,7 @@ export const CartShoppingForm = ({
           })}
         </ul>
       </section>
-      <CartSummery navigation={navigation} />
+      {children}
     </Form>
   );
 };

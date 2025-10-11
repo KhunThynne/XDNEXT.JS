@@ -6,6 +6,7 @@ import type { Session } from "next-auth";
 import _ from "lodash";
 import { Box } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
+import { useTheme } from "next-themes";
 
 interface ContentProductsProps {
   session: Session | null;
@@ -24,6 +25,7 @@ export const ContentProductsSSR = ({
   onRefetch,
   isFetching,
 }: ContentProductsProps) => {
+  const { theme } = useTheme();
   if (loading) {
     return Array.from({ length: 5 }).map((_, index) => (
       <CardProduct

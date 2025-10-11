@@ -1,9 +1,8 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { CartOrderForm } from "./components/forms/CartOrder.form";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import CartOrderFormProvider from "./components/CartOrderFormProvider";
 
 export default async function LayoutCart({
   children,
@@ -33,13 +32,13 @@ export default async function LayoutCart({
   }
 
   return (
-    <CartOrderForm
+    <CartOrderFormProvider
       cartId={cartId}
       userId={userId}
       session={session}
       point={point}
     >
-      <div className="grid grow grid-cols-1 gap-6 lg:grid-cols-6">
+      <div className="grid grow grid-cols-1 gap-8 lg:grid-cols-6">
         <ContainerSection
           className="grow max-md:gap-4 lg:col-span-4"
           title="Your Shopping Cart"
@@ -51,8 +50,10 @@ export default async function LayoutCart({
         >
           {cartItems}
         </ContainerSection>
-        <section className="h-full lg:col-span-2">{children}</section>
+        <section className="flex h-full flex-col gap-4 lg:col-span-2">
+          {children}
+        </section>
       </div>
-    </CartOrderForm>
+    </CartOrderFormProvider>
   );
 }

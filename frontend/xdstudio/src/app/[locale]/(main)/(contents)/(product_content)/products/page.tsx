@@ -1,7 +1,5 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { ContentProducts } from "./components/ContentProducts";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
-import clsx from "clsx";
 import { auth } from "@/auth";
 import { contentClassName } from "./shared/contentClassName";
 import { ContentProductsSSR } from "./components/ContentProductSSR";

@@ -5,7 +5,7 @@ import type { Product } from "@/libs/graphql/generates/graphql";
 import { OrderDirection } from "@/libs/graphql/generates/graphql";
 import type { Session } from "next-auth";
 import _ from "lodash";
-import { Box } from "lucide-react";
+import { AlertTriangle, Box } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
 
 export const ContentProducts = ({
@@ -21,6 +21,22 @@ export const ContentProducts = ({
     take: 10,
   });
 
+  if (status === "error") {
+    return (
+      <div className="min-h-100 col-span-full flex max-h-full w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
+        <AlertTriangle className="size-40 stroke-1 opacity-20" />
+        <h3 className="">Error data</h3>
+        <Button
+          onClick={() => refetch()}
+          variant={"outline"}
+          className="cursor-pointer"
+          disabled={isFetching}
+        >
+          Load
+        </Button>
+      </div>
+    );
+  }
   if (status === "pending") {
     return Array.from({ length: 5 }).map((_, index) => (
       <CardProduct
@@ -34,7 +50,7 @@ export const ContentProducts = ({
   } else {
     if (_.isEmpty(data?.products)) {
       return (
-        <div className="col-span-full flex aspect-video max-h-full w-full grow flex-col items-center justify-center gap-3 rounded-lg">
+        <div className="min-h-100 col-span-full flex max-h-full w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
           <Box className="size-40 stroke-1 opacity-20" />
           <h3 className="">No products available.</h3>
           <Button

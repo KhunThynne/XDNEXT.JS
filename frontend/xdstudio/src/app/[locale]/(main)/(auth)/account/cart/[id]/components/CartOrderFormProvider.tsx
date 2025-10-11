@@ -1,11 +1,9 @@
 "use client";
 import { Form } from "@/libs/shadcn/ui/form";
 import { useForm } from "react-hook-form";
-import type { CartFormProps } from "../cartOrder.type";
-import { Cart, User } from "@/libs/graphql/generates/graphql";
-import { Session } from "next-auth";
+import type { CartFormProps } from "./cartOrder.type";
 
-export const CartOrderForm = ({
+const CartOrderFormProvider = ({
   children,
   cartId,
   userId,
@@ -16,3 +14,5 @@ export const CartOrderForm = ({
   });
   return <Form {...method}>{children}</Form>;
 };
+
+export default CartOrderFormProvider;

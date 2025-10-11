@@ -70,7 +70,7 @@ export function AccountPopover(user: Partial<UserType>) {
             >
               <PointDiamon />
               <span className="w-full truncate text-[0.65rem]">
-                <Point userPoint={user.point} />
+                <Point pointId={user.point?.id} />
               </span>
             </Badge>
           </section>

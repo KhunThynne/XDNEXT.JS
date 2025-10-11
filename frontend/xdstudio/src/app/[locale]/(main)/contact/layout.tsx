@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactLayout({ children }: WithChildren) {
-  return <section className="mx-auto my-6 h-full grow">{children}</section>;
+  return <section className="mx-auto my-6 size-full grow">{children}</section>;
 }

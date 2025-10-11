@@ -12,18 +12,14 @@ import { Toaster } from "@/libs/shadcn/ui/sonner";
 const queryClient = new QueryClient();
 export const Providers = ({
   children,
-  locale,
   session,
 }: {
   children: ReactNode;
   locale: string;
   session: Session | null;
 }) => {
-  const { setData } = useLocaleStore();
   const { setCart } = useCartsStore();
-  useLayoutEffect(() => {
-    setData({ locale });
-  }, [locale, setData]);
+
   useLayoutEffect(() => {
     const cart = session?.user?.carts?.[0];
     if (!cart) {
