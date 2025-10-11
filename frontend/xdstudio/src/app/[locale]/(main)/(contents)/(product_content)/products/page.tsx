@@ -17,17 +17,21 @@ import { unstable_cache } from "next/cache";
 import _ from "lodash";
 import { redirect } from "@navigation";
 import type { Locale } from "next-intl";
+import { Fragment } from "react";
 
-const getProductsCache = (variables: GetProductsQueryVariables) =>
+const getProductsCache = (
+  variables: GetProductsQueryVariables,
+  currentPage: number
+) =>
   unstable_cache(
     async () => {
       return execute(GetProductsDocument, {
         ...variables,
       });
     },
-    [`Products-${variables.skip}`],
+    [`products-${currentPage}`],
     {
-      tags: [`Products-${variables.skip}`],
+      tags: [`products-${currentPage}`],
       revalidate: 60,
     }
   )();
@@ -45,16 +49,19 @@ export default async function PageProducts({
   const page = Number(pageParam) || 1;
   const take = 10;
   const skip = getSkipFromPage(page, take);
-  const fetchCache = await getProductsCache({
-    skip,
-    take,
-    orderBy: { createdAt: OrderDirection.Desc },
-  });
+  const fetchCache = await getProductsCache(
+    {
+      skip,
+      take,
+      orderBy: { createdAt: OrderDirection.Desc },
+    },
+    page
+  );
 
   if (!_.isEmpty(fetchCache.data.products)) {
     const { products } = fetchCache.data;
     return (
-      <>
+      <Fragment>
         <BreadcrumbComponent />
         <ContainerSection
           title="All Featured Products"
@@ -68,7 +75,7 @@ export default async function PageProducts({
           />
           {/* <ContentProducts session={session} /> */}
         </ContainerSection>
-      </>
+      </Fragment>
     );
   }
   return redirect({ href: `/products`, locale });

@@ -57,10 +57,10 @@ export const ContentProductsSSR = ({
   }
   return products!
     .slice(0, max)
-    .map((product, index) => (
+    .map((product) => (
       <CardProduct
         session={session}
-        key={product.id || index}
+        key={product.id}
         product={product}
         className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
       />

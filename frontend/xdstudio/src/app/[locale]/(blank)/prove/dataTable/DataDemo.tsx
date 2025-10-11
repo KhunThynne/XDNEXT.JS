@@ -11,7 +11,7 @@ import {
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import type { Payment } from "./DataTable";
-import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
+import { Checkbox } from "@/libs/shadcn/custom/checkbox";
 
 export const data: Payment[] = [
   {

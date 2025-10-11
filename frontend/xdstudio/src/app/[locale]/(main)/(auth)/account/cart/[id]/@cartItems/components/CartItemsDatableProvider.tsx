@@ -1,8 +1,7 @@
 "use client";
 
 import { useForm, useFormContext } from "react-hook-form";
-import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import type {
   CartFormProps,
   CartItemsDatableFormProps,
@@ -17,7 +16,7 @@ import Image from "next/image";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import { Form } from "@/libs/shadcn/ui/form";
-import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
+import { Checkbox } from "@/libs/shadcn/custom/checkbox";
 
 export const CartItemsDatableProvider = ({
   children,

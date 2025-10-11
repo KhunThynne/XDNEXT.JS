@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
   Pagination,
   PaginationContent,
@@ -10,7 +9,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/libs/shadcn/ui/pagination";
+} from "@/libs/shadcn/custom/pagination";
 import { useEffect, useMemo } from "react";
 import { Form } from "@/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
@@ -30,17 +29,15 @@ export function PaginationDemo({
   totalPages,
   currentPage: currentPageProp = 1,
 }: Props) {
-  const router = useRouter();
   const method = useForm<FormValues & Props>({
     defaultValues: { currentPage: currentPageProp, totalPages },
   });
   const { control, setValue, watch } = method;
   const currentPage = Number(watch("currentPage"));
-  const goToPage = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    setValue("currentPage", page); // update form state
-    router.push(`?page=${page}`);
-  };
+
+  useEffect(() => {
+    setValue("currentPage", currentPageProp);
+  }, [currentPageProp, setValue]);
   const visiblePages = useMemo(
     () => getVisiblePages(totalPages, currentPage),
     [currentPage, totalPages]
@@ -48,8 +45,6 @@ export function PaginationDemo({
   useEffect(() => {
     watch("currentPage");
   }, [watch]);
-
-  const lastPage = 0;
 
   return (
     <Form {...method}>
@@ -61,10 +56,6 @@ export function PaginationDemo({
               className="data-[active=false]:opacity-50"
               isActive={currentPage > 1}
               href={`?page=${currentPage - 1}`}
-              onClick={(e) => {
-                e.preventDefault();
-                goToPage(currentPage - 1);
-              }}
             />
           </PaginationItem>
           {/* Desktop */}
@@ -83,22 +74,12 @@ export function PaginationDemo({
 
             return (
               <PaginationItem key={page} className="max-md:hidden">
-                <Controller
-                  name="currentPage"
-                  control={control}
-                  render={() => (
-                    <PaginationLink
-                      href={`?page=${page}`}
-                      isActive={page === currentPage}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        goToPage(page);
-                      }}
-                    >
-                      {page}
-                    </PaginationLink>
-                  )}
-                />
+                <PaginationLink
+                  href={`?page=${page}`}
+                  isActive={page === currentPage}
+                >
+                  {page}
+                </PaginationLink>
               </PaginationItem>
             );
           })}
@@ -137,10 +118,6 @@ export function PaginationDemo({
               className="data-[active=false]:opacity-50"
               isActive={currentPage < totalPages}
               href={`?page=${currentPage + 1}`}
-              onClick={(e) => {
-                e.preventDefault();
-                goToPage(currentPage + 1);
-              }}
             />
           </PaginationItem>
         </PaginationContent>
