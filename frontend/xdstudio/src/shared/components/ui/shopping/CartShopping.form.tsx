@@ -1,17 +1,14 @@
 import { execute } from "@/libs/graphql/execute";
-import {
-  CartItem,
-  DeleteCartItemDocument,
-  GetCartQuery,
-} from "@/libs/graphql/generates/graphql";
+import type { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
+import { DeleteCartItemDocument } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Link } from "@navigation";
-import {
+import type {
   InfiniteData,
   UseInfiniteQueryResult,
-  useMutation,
 } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo } from "react";
 import { useForm, useFormContext } from "react-hook-form";
@@ -23,6 +20,10 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
+<<<<<<< HEAD
+=======
+import { SummaryCartDisplay } from "./SummaryCartDisplay";
+>>>>>>> 6676def61857d3c83d726596f1aa43c56fd8c61e
 
 export const EmptyCart = () => {
   return (
@@ -41,18 +42,20 @@ export const EmptyCart = () => {
   );
 };
 
-export const CartSummery = ({ navigation }: { navigation: string }) => {
-  const { watch } = useFormContext<{
-    cartItems: CartItem[];
-  }>();
+export const CartSummary = ({
+  navigation,
+  userTotalPoint,
+  className,
+}: {
+  navigation?: string;
+  userTotalPoint?: number;
+} & WithClassName) => {
+  const { watch } = useFormContext<{ cartItems: CartItem[] }>();
   const cartItemsForm = watch("cartItems");
+
   const summary = useMemo(() => {
-    if (!cartItemsForm.length) {
-      return {
-        totalQuantity: 0,
-        totalPrice: 0,
-      };
-    }
+    if (!cartItemsForm?.length) return { totalQuantity: 0, totalPrice: 0 };
+
     return cartItemsForm.reduce(
       (acc, item) => {
         const quantity = item.quantity || 1;
@@ -64,18 +67,30 @@ export const CartSummery = ({ navigation }: { navigation: string }) => {
       { totalQuantity: 0, totalPrice: 0 }
     );
   }, [cartItemsForm]);
+
+  // ✅ คำนวณแต้มคงเหลือหลังจากใช้จ่าย
+  const remainingPoint = Math.max(
+    (userTotalPoint ?? 0) - summary.totalPrice,
+    0
+  );
+
   return (
-    <aside className="sticky bottom-0 space-y-3 rounded-b p-4 backdrop-blur">
-      <div className="flex justify-between text-sm font-semibold">
-        <span>รวม</span>
-        <span className="flex gap-1">
-          <PointDiamon className="size-1" /> {summary.totalPrice}
-        </span>
-      </div>
-      <Separator />
-      <Button className="w-full" size="sm" variant="secondary" asChild>
-        <Link href={navigation}> Go to cart. </Link>
-      </Button>
+    <aside
+      className={clsx(
+        "sticky bottom-0 space-y-3 rounded-b backdrop-blur",
+        className
+      )}
+    >
+      <SummaryCartDisplay
+        remainingPoint={remainingPoint}
+        totalPrice={summary.totalPrice}
+        userTotalPoint={userTotalPoint}
+      />
+      {navigation && (
+        <Button className="w-full" size="sm" variant="secondary" asChild>
+          <Link href={navigation}>Go to cart.</Link>
+        </Button>
+      )}
     </aside>
   );
 };
@@ -85,6 +100,7 @@ export const CartShoppingForm = ({
   invalidateCartAction,
   navigation,
   query,
+  children,
 }: {
   query: UseInfiniteQueryResult<
     InfiniteData<
@@ -98,7 +114,7 @@ export const CartShoppingForm = ({
   cartItems: CartItem[];
   invalidateCartAction: () => void;
   navigation: string;
-}) => {
+} & WithChildren) => {
   const method = useForm<{
     cartItems: CartItem[];
   }>({
@@ -214,7 +230,7 @@ export const CartShoppingForm = ({
           })}
         </ul>
       </section>
-      <CartSummery navigation={navigation} />
+      {children}
     </Form>
   );
 };

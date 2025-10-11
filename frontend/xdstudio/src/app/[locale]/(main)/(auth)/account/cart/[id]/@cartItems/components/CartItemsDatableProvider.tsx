@@ -3,14 +3,14 @@
 import { useForm, useFormContext } from "react-hook-form";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
 import React, { useEffect, useLayoutEffect } from "react";
-import {
+import type {
   CartFormProps,
   CartItemsDatableFormProps,
 } from "../../components/cartOrder.type";
-import { Cart, CartItem } from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import PointDiamon from "@/shared/components/PointDiamod";
-import { ColumnDef, Table } from "@tanstack/react-table";
+import type { ColumnDef, Table } from "@tanstack/react-table";
 import { ImageOff, Minus, Trash } from "lucide-react";
 
 import Image from "next/image";

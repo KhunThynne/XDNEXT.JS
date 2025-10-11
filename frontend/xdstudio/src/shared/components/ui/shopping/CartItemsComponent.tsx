@@ -1,4 +1,4 @@
-import { CartItem } from "@/libs/graphql/generates/graphql";
+import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";

@@ -1,4 +1,4 @@
-import {
+import type {
   CheckUserProductStatusQuery,
   Product,
 } from "@/libs/graphql/generates/graphql";
@@ -8,7 +8,7 @@ import { useCartDocument } from "@/shared/hooks/useCartDocument";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { Fragment, useLayoutEffect, useMemo } from "react";
 import { revalidateClient } from "../shared/revalidateClient";
@@ -85,7 +85,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
             <span>
               {!cartId
                 ? "Go to sign-in"
-                : !!addedItem
+                : addedItem
                   ? "In cart"
                   : "Add to cart"}
             </span>

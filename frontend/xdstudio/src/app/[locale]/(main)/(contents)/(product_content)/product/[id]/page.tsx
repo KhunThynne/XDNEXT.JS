@@ -1,8 +1,8 @@
 import { execute } from "@/libs/graphql/execute";
+import type { Product } from "@/libs/graphql/generates/graphql";
 import {
   CheckUserProductStatusDocument,
   GetProductDocument,
-  Product,
 } from "@/libs/graphql/generates/graphql";
 
 import { auth } from "@/auth";

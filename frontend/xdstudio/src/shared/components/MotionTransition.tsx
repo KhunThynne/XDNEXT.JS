@@ -1,7 +1,8 @@
 "use client";
-import { motion, AnimatePresence, TargetAndTransition } from "framer-motion";
+import type { TargetAndTransition } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type PresetType =
   | "fade"
@@ -18,6 +19,7 @@ export interface MotionTransitionWrapperProps {
   duration?: number;
   animationKey?: string;
   preset?: PresetType;
+  show?: boolean;
 }
 
 const presets: Record<
@@ -71,31 +73,33 @@ export function MotionTransition({
   duration = 0.3,
   animationKey,
   preset = "fade",
+  show = true,
 }: MotionTransitionWrapperProps) {
   const pathname = usePathname();
   const key = animationKey || pathname;
 
   const { initial, animate, exit } = presets[preset] || presets.fade;
-
+  if (preset === "none") return children;
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        key={key}
-        initial={initial as TargetAndTransition}
-        animate={animate as TargetAndTransition}
-        exit={exit as TargetAndTransition}
-        transition={{ duration }}
-        className={className}
-      >
-        {children}
-      </motion.div>
+      {show && (
+        <motion.div
+          key={key}
+          initial={initial as TargetAndTransition}
+          animate={animate as TargetAndTransition}
+          exit={exit as TargetAndTransition}
+          transition={{ duration }}
+          className={className}
+        >
+          {children}
+        </motion.div>
+      )}
     </AnimatePresence>
   );
 }
 
-
-
-{/* <AnimatePresence mode="wait">
+{
+  /* <AnimatePresence mode="wait">
   {show && (
     <motion.div
       initial={{ opacity: 0 }}
@@ -106,4 +110,5 @@ export function MotionTransition({
       ...
     </motion.div>
   )}
-</AnimatePresence> */}
+</AnimatePresence> */
+}

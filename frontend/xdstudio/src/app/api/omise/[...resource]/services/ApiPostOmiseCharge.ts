@@ -1,6 +1,6 @@
 import { env } from "@/env";
-import z from "zod";
-import { OmiseSourcesRespone } from "./ApiPostOmiseSources";
+import type z from "zod";
+import type { OmiseSourcesRespone } from "./ApiPostOmiseSources";
 import { ZChargeSchema } from "./shared/ZSchema";
 
 export type ApiPostOmiseChargeType = z.infer<typeof ZChargeSchema>;

@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import type { Button } from "@/libs/shadcn/ui/button";
 
 export type DialogFooterActionProps = {
   onConfirm?: React.MouseEventHandler<HTMLButtonElement>;

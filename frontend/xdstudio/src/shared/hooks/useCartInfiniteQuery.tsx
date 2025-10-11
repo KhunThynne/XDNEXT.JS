@@ -2,9 +2,8 @@
 
 import { revalidateClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/revalidateClient";
 import { execute } from "@/libs/graphql/execute";
+import type { Cart, Product } from "@/libs/graphql/generates/graphql";
 import {
-  Cart,
-  Product,
   GetCartDocument,
   CreateCartItemDocument,
   OrderDirection,
@@ -16,7 +15,7 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 
-import { User } from "next-auth";
+import type { User } from "next-auth";
 const take = 5;
 
 export const useCartInfinite = ({

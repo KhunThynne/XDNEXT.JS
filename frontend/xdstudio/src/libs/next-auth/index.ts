@@ -7,9 +7,9 @@ import {
   LoginDocument,
   type User as GqlUser,
 } from "@/libs/graphql/generates/graphql";
-import { JWT } from "next-auth/jwt";
+import type { JWT } from "next-auth/jwt";
 import { env } from "@/env";
-import { DiscordUser } from "@type/user.type";
+import type { DiscordUser } from "@type/user.type";
 import { executeAuth } from "../graphql/execute";
 import getBaseUrl from "@/utils/getBaseUrl";
 

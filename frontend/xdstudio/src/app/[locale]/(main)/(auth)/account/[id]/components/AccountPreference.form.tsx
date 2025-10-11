@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/libs/graphql/generates/graphql";
+import type { User } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Separator } from "@/libs/shadcn/ui/separator";
@@ -8,7 +8,7 @@ import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useForm } from "react-hook-form";
 
 import { FormInput, Lock } from "lucide-react";
-
+import React from "react";
 import { useAuthDocument } from "@/shared/hooks/useAuthDocument";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,6 +66,7 @@ const SendResetForm = ({ email }: { email?: User["email"] }) => {
     </Form>
   );
 };
+
 export default function AccountPreferenceForm(props: User) {
   const { openDialog } = useDialogGlobal();
   const method = useForm<User>({

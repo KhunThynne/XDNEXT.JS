@@ -1,21 +1,19 @@
 "use client";
 import React, { Fragment, useLayoutEffect } from "react";
 
+import type { OnChangeFn, SortingState, Table } from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
-  OnChangeFn,
   Row,
-  SortingState,
-  Table,
   useReactTable,
 } from "@tanstack/react-table";
 
 import { useVirtualizer } from "@tanstack/react-virtual";
 
-import { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
+import type { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
 import {
   TableBody,
   TableCell,
@@ -28,7 +26,8 @@ import { InputForm } from "@/shared/components/ui/form/InputForm";
 
 import { ChevronDown, ImageOff, Trash } from "lucide-react";
 
-import { useFormContext, UseFormSetValue } from "react-hook-form";
+import type { UseFormSetValue } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -36,8 +35,11 @@ import {
   DropdownMenuTrigger,
 } from "@/libs/shadcn/ui/dropdown-menu";
 
-import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
-import {
+import type {
+  InfiniteData,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import type {
   CartFormProps,
   CartItemsDatableFormProps,
 } from "../../components/cartOrder.type";
@@ -163,7 +165,7 @@ export function DataTableCartInfiniteScroll({
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     setSorting(updater);
-    if (!!table.getRowModel()?.rows?.length) {
+    if (table.getRowModel()?.rows?.length) {
       // rowVirtualizer.scrollToIndex?.(0);
     }
   };

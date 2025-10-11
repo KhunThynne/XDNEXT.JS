@@ -5,12 +5,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/libs/shadcn/ui/collapsible";
-import {
-  MotionTransition,
-  MotionTransitionWrapperProps,
-} from "@/shared/components/MotionTransition";
+import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
+import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ChevronDownIcon } from "lucide-react";
-import { CollapsibleProps } from "@radix-ui/react-collapsible";
+import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { Separator } from "@/libs/shadcn/ui/separator";
 

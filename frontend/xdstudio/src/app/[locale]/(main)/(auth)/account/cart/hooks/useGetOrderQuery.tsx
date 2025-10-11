@@ -1,9 +1,9 @@
 import { execute } from "@/libs/graphql/execute";
-import {
-  GetOrderDocument,
+import type {
   GetOrderQueryVariables,
   GetProductsQuery,
 } from "@/libs/graphql/generates/graphql";
+import { GetOrderDocument } from "@/libs/graphql/generates/graphql";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetOrderQuery = (variables: GetOrderQueryVariables) => {

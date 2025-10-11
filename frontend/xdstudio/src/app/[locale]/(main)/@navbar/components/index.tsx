@@ -9,7 +9,7 @@ import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
 
 import { NavbarActionSection } from "./NavbarActionSection";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 export default function Navbar({
   className,
@@ -22,7 +22,7 @@ export default function Navbar({
   return (
     <div
       className={clsx(
-        "bg-background min-h-16.5 sticky top-0 z-20 w-full place-content-center border-b",
+        "bg-background min-h-16.5 w-full place-content-center border-b",
         className
       )}
     >

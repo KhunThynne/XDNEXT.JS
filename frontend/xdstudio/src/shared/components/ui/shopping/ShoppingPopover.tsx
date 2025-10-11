@@ -6,24 +6,32 @@ import {
 } from "@/libs/shadcn/ui/popover";
 import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
-import { Cart, Maybe, User } from "@/libs/graphql/generates/graphql";
+import type {
+  Cart,
+  Maybe,
+  User,
+  UserPoint,
+} from "@/libs/graphql/generates/graphql";
 
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
 
 import _ from "lodash";
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
-import { CartShoppingForm } from "./CartShopping.form";
+import { CartShoppingForm, CartSummary } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
+import Point from "../Point";
 
 export const ShoppingPopover = ({
   cartId,
   userId,
+  pointId,
 }: {
   userId: User["id"];
   cartId: Cart["id"];
+  pointId: UserPoint["id"];
   carts?: Maybe<Cart[]> | undefined;
 }) => {
   const { query, invalidate } = useCartInfinite({
@@ -37,6 +45,7 @@ export const ShoppingPopover = ({
     () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
     [data?.pages]
   );
+  const [totalPoint, setTotalPoint] = useState(0);
   const cartItems = flatData;
   const navigation = `/account/cart/${cartId}`;
   const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
@@ -71,7 +80,15 @@ export const ShoppingPopover = ({
           query={query}
           invalidateCartAction={invalidate}
           navigation={navigation}
-        />
+        >
+          <Separator />
+          <CartSummary
+            className="p-4"
+            navigation={navigation}
+            userTotalPoint={totalPoint}
+          />
+        </CartShoppingForm>
+        <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
       </PopoverContent>
     </Popover>
   );

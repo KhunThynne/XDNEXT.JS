@@ -1,6 +1,7 @@
 import { execute } from "@/libs/graphql/execute";
 import AccountPreferenceForm from "../components/AccountPreference.form";
-import { GetUserDocument, User } from "@/libs/graphql/generates/graphql";
+import type { User } from "@/libs/graphql/generates/graphql";
+import { GetUserDocument } from "@/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
 import _ from "lodash";
 import { PreferencesTabs } from "./components/PreferencesTabs";

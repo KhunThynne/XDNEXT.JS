@@ -8,7 +8,7 @@ import {
 
 import _ from "lodash";
 import { LogOut, User } from "lucide-react";
-import { User as UserType } from "next-auth";
+import type { User as UserType } from "next-auth";
 import { signOut } from "next-auth/react";
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";
@@ -70,7 +70,7 @@ export function AccountPopover(user: Partial<UserType>) {
             >
               <PointDiamon />
               <span className="w-full truncate text-[0.65rem]">
-                <Point userPoint={user.point} />
+                <Point pointId={user.point?.id} />
               </span>
             </Badge>
           </section>

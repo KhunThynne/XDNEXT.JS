@@ -6,7 +6,7 @@ import clsx from "clsx";
 interface TeamMember {
   id: number;
   name: string;
-  role: string;
+  mainRole: string;
   avatar: string;
   contacts: {
     discord?: string;
@@ -29,11 +29,11 @@ export function TeamMemberCard({
   return (
     <Card
       className={clsx(
-        "transition-shadow duration-300 hover:shadow-lg max-sm:max-w-full",
+        "overflow-auto transition-shadow duration-300 hover:shadow-lg max-sm:max-w-full",
         className
       )}
     >
-      <CardContent className="flex justify-between max-sm:gap-5 text-center sm:flex-col">
+      <CardContent className="flex justify-between text-center max-sm:gap-5 sm:flex-col">
         <section className="space-y-3 lg:contents">
           <Avatar className="mx-auto size-20">
             <AvatarImage
@@ -48,7 +48,7 @@ export function TeamMemberCard({
             </AvatarFallback>
           </Avatar>
           <p className="text-muted-foreground order-2 leading-4 max-sm:text-sm md:pb-3">
-            {member.role}
+            {member.mainRole}
           </p>
         </section>
 

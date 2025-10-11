@@ -3,7 +3,7 @@ import { useDialogDispatcher } from "./DialogProvider";
 import React, { useId } from "react";
 
 import { DialogInstance } from "./DialogInstance";
-import { DialogInstanceProps, DialogOptions } from "./index.type";
+import type { DialogInstanceProps, DialogOptions } from "./index.type";
 const DialogState = {
   OPEN: "open",
   CLOSE: "close",

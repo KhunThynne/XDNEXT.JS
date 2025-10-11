@@ -1,18 +1,15 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import z from "zod";
 import { handleError } from "@/utils/handleError";
 
 import _ from "lodash";
 
 import { env } from "@/env";
-import {
-  ApiPostOmiseSources,
-  ApiPostOmiseSourcesType,
-} from "./services/ApiPostOmiseSources";
-import {
-  ApiPostOmiseCharge,
-  ApiPostOmiseChargeType,
-} from "./services/ApiPostOmiseCharge";
+import type { ApiPostOmiseSourcesType } from "./services/ApiPostOmiseSources";
+import { ApiPostOmiseSources } from "./services/ApiPostOmiseSources";
+import type { ApiPostOmiseChargeType } from "./services/ApiPostOmiseCharge";
+import { ApiPostOmiseCharge } from "./services/ApiPostOmiseCharge";
 
 const resourceSchema = z.enum(["charges", "sources"]);
 type typeResource = z.infer<typeof resourceSchema>;
@@ -52,13 +49,13 @@ export async function POST(request: NextRequest, { params }: ParamsType) {
     switch (resource as typeResource) {
       case "sources":
         response = await ApiPostOmiseSources(
-          env.XDCoreApi,
+          env.XD_CORE_API,
           body as ApiPostOmiseSourcesType
         );
         break;
       case "charges":
         response = await ApiPostOmiseCharge(
-          env.XDCoreApi,
+          env.XD_CORE_API,
           body as ApiPostOmiseChargeType
         );
         break;

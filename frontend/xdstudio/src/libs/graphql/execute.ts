@@ -1,5 +1,5 @@
 import { env } from "@/env";
-import { TypedDocumentString } from "./generates/graphql";
+import type { TypedDocumentString } from "./generates/graphql";
 import getBaseUrl from "@/utils/getBaseUrl";
 
 async function executeWithEndpoint<TResult, TVariables>(

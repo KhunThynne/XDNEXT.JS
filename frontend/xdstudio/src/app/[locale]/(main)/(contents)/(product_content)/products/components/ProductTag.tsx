@@ -1,5 +1,5 @@
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Maybe, Tag } from "@/libs/graphql/generates/graphql";
+import type { Maybe, Tag } from "@/libs/graphql/generates/graphql";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import clsx from "clsx";
 import _ from "lodash";

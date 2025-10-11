@@ -7,12 +7,13 @@ import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { notFound } from "next/navigation";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
-import { CartFormProps } from "../../components/cartOrder.type";
+import type { CartFormProps } from "../../components/cartOrder.type";
 
 import React, { useEffect, useMemo } from "react";
 import { CartItemsDatableProvider } from "./CartItemsDatableProvider";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
+import { LoadingDots } from "@/shared/components/ui/Loading";
 
 export const CartItemsClient = () => {
   const { watch, setValue } = useFormContext<CartFormProps>();
@@ -31,6 +32,12 @@ export const CartItemsClient = () => {
   const cartItems = flatData;
   const navigation = `/account/cart/${cartId}`;
   const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
+  if (status === "pending")
+    return (
+      <section className="size-full place-content-center place-items-center">
+        <LoadingDots />
+      </section>
+    );
   if (status === "success")
     return itemsCount > 0 ? (
       <CartItemsDatableProvider

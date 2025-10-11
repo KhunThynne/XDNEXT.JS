@@ -8,9 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/libs/shadcn/ui/dropdown-menu";
-import { ColumnDef } from "@tanstack/react-table";
+import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Payment } from "./DataTable";
+import type { Payment } from "./DataTable";
 import { Checkbox } from "@/libs/shadcn/custtom/checkbox";
 
 export const data: Payment[] = [

@@ -15,8 +15,8 @@ export function parseJsxString(raw: string): string {
   //    {"..."} → ...
   //    {'...'} → ...
   fixed = fixed
-    .replace(/\{\s*`([^`]*)`\s*\}/g, "$1")  // template literals
-    .replace(/\{\s*"([^"]*)"\s*\}/g, "$1")  // double quotes
+    .replace(/\{\s*`([^`]*)`\s*\}/g, "$1") // template literals
+    .replace(/\{\s*"([^"]*)"\s*\}/g, "$1") // double quotes
     .replace(/\{\s*'([^']*)'\s*\}/g, "$1"); // single quotes
 
   // 3. Sanitize HTML to remove unsafe tags/attributes
@@ -24,7 +24,7 @@ export function parseJsxString(raw: string): string {
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]), // allow default + <img>
     allowedAttributes: {
       "*": ["class", "style"], // allow class/style for all tags
-      a: ["href", "target"],   // allow href/target for <a>
+      a: ["href", "target"], // allow href/target for <a>
     },
   });
 
