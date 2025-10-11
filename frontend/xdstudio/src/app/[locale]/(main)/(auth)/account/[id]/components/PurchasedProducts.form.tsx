@@ -21,10 +21,6 @@ import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
 import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
-<<<<<<< HEAD
-
-=======
->>>>>>> 6676def61857d3c83d726596f1aa43c56fd8c61e
 
 const ListItems = ({
   items,

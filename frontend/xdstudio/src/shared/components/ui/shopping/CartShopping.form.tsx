@@ -20,10 +20,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
-<<<<<<< HEAD
-=======
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
->>>>>>> 6676def61857d3c83d726596f1aa43c56fd8c61e
 
 export const EmptyCart = () => {
   return (
