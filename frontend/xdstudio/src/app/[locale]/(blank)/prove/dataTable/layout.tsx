@@ -1,7 +1,6 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
-import { CartOrderForm } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/forms/CartOrder.form";
 
 export default async function LayoutCart({ children }: WithChildren) {
   const session = await auth();
@@ -25,22 +24,21 @@ export default async function LayoutCart({ children }: WithChildren) {
     );
   }
 
-  return (
-    <CartOrderForm
-      cartId={cartId}
-      userId={userId}
-      session={session}
-      point={point}
-    >
-      <div className="flex flex-wrap gap-6 lg:grow">
-        {/* Cart Items */}
-        <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full">
-          {children}
-        </section>
+  return;
+  // <CartOrderForm
+  //   cartId={cartId}
+  //   userId={userId}
+  //   session={session}
+  //   point={point}
+  // >
+  //   <div className="flex flex-wrap gap-6 lg:grow">
+  //     {/* Cart Items */}
+  //     <section className="min-w-lg aspect-video max-w-full grow max-sm:min-w-full">
+  //       {children}
+  //     </section>
 
-        {/* Summary */}
-        {/* <section className="sm:w-sm min-h-60 max-lg:grow">{children}</section> */}
-      </div>
-    </CartOrderForm>
-  );
+  //     {/* Summary */}
+  //     {/* <section className="sm:w-sm min-h-60 max-lg:grow">{children}</section> */}
+  //   </div>
+  // </CartOrderForm>;
 }
