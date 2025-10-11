@@ -22,7 +22,7 @@ export default function Loading({
   return (
     <div
       className={clsx(
-        "bg-accent absolute inset-0 z-30 flex size-full items-center justify-center",
+        "bg-accent/40 absolute inset-0 z-30 flex size-full items-center justify-center",
         className
       )}
     >

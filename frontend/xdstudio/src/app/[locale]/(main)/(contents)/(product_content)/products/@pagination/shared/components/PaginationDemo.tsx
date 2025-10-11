@@ -69,67 +69,68 @@ export function PaginationDemo({
           </PaginationItem>
           {/* Desktop */}
 
-          <section className="contents max-md:hidden">
-            {visiblePages.map((page, index) => {
-              if (page === 0) {
-                return (
-                  <PaginationItem key={`ellipsis-${index}`}>
-                    <PaginationEllipsis />
-                  </PaginationItem>
-                );
-              }
-
+          {visiblePages.map((page, index) => {
+            if (page === 0) {
               return (
-                <PaginationItem key={page}>
-                  <Controller
-                    name="currentPage"
-                    control={control}
-                    render={() => (
-                      <PaginationLink
-                        href={`?page=${page}`}
-                        isActive={page === currentPage}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          goToPage(page);
-                        }}
-                      >
-                        {page}
-                      </PaginationLink>
-                    )}
-                  />
+                <PaginationItem
+                  key={`ellipsis-${index}`}
+                  className="max-md:hidden"
+                >
+                  <PaginationEllipsis />
                 </PaginationItem>
               );
-            })}
-          </section>
-          <section className="content md:hidden">
-            <PaginationItem className="flex gap-1">
-              <InputForm
-                name="currentPage"
-                control={control}
-                type="number"
-                min={1}
-                max={totalPages}
-                onInput={(e) => {
-                  const target = e.currentTarget;
-                  const value = Number(target.value);
-                  if (value < 1) target.value = "";
-                  if (value > totalPages) target.value = String(totalPages);
-                }}
-                classNames={{
-                  input: "w-full max-w-[6ch] border text-center bg-background",
-                }}
-              />
+            }
 
-              <SlashIcon className="my-auto size-4" />
-              <InputForm
-                name="totalPages"
-                control={control}
-                disabled
-                type="number"
-                classNames={{ input: "w-full max-w-[6ch] border text-center" }}
-              />
-            </PaginationItem>
-          </section>
+            return (
+              <PaginationItem key={page} className="max-md:hidden">
+                <Controller
+                  name="currentPage"
+                  control={control}
+                  render={() => (
+                    <PaginationLink
+                      href={`?page=${page}`}
+                      isActive={page === currentPage}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToPage(page);
+                      }}
+                    >
+                      {page}
+                    </PaginationLink>
+                  )}
+                />
+              </PaginationItem>
+            );
+          })}
+
+          <PaginationItem className="flex gap-1 md:hidden">
+            <InputForm
+              name="currentPage"
+              control={control}
+              type="number"
+              min={1}
+              max={totalPages}
+              onInput={(e) => {
+                const target = e.currentTarget;
+                const value = Number(target.value);
+                if (value < 1) target.value = "";
+                if (value > totalPages) target.value = String(totalPages);
+              }}
+              classNames={{
+                input: "w-full max-w-[6ch] border text-center bg-background",
+              }}
+            />
+
+            <SlashIcon className="my-auto size-4" />
+            <InputForm
+              name="totalPages"
+              control={control}
+              disabled
+              type="number"
+              classNames={{ input: "w-full max-w-[6ch] border text-center" }}
+            />
+          </PaginationItem>
+
           {/* Next */}
           <PaginationItem>
             <PaginationNext

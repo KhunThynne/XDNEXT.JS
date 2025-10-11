@@ -11,7 +11,7 @@ export default async function AuthenticationLayout({ children }: WithChildren) {
   return (
     <Content
       classNames={{
-        outsite: "grow  relative   bg-accent-foreground/5 ",
+        outsite: "grow  relative   bg-accent/40 ",
         content: "container mx-auto my-5 flex flex-col gap-4  ",
       }}
     >
