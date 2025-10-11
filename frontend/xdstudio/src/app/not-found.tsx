@@ -25,7 +25,7 @@ export default async function NotFoundRoot() {
           enableSystem
           // disableTransitionOnChange
         >
-          <Content className="h-screen place-content-center place-items-center text-center">
+          <Content className="bg-accent/40 relative h-screen place-content-center place-items-center text-center">
             <div className="">
               <h1 className="text-foreground mb-4 text-6xl font-extrabold dark:text-white">
                 {404}
