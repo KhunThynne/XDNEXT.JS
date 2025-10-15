@@ -24,31 +24,30 @@ export default function LocaleError({
   reset: () => void;
 }) {
   return (
-    <section className="grow place-content-center">
-      <Content
-        classNames={{
-          content: "max-w-md mx-auto grow place-content-center px-4",
-        }}
-      >
-        <Card>
-          <CardHeader>
-            <h2>Server error {`can't`} connect to the server! </h2>
-          </CardHeader>
-          <CardContent>
-            {error?.message && (
-              <p className="text-destructive">{error.message}</p>
-            )}
-            {error?.digest && (
-              <small style={{ opacity: 0.6 }}>Error ID: {error.digest}</small>
-            )}
-          </CardContent>
-          <CardFooter className="justify-end">
-            <Button variant={"outline"} onClick={() => reset()}>
-              Try again
-            </Button>
-          </CardFooter>
-        </Card>
-      </Content>
-    </section>
+    <Content
+      className="min-h-screen place-content-center"
+      classNames={{
+        content: "max-w-md mx-auto   px-4",
+      }}
+    >
+      <Card>
+        <CardHeader>
+          <h2>Server error {`can't`} connect to the server! </h2>
+        </CardHeader>
+        <CardContent>
+          {error?.message && (
+            <p className="text-destructive">{error.message}</p>
+          )}
+          {error?.digest && (
+            <small style={{ opacity: 0.6 }}>Error ID: {error.digest}</small>
+          )}
+        </CardContent>
+        <CardFooter className="justify-end">
+          <Button variant={"outline"} onClick={() => reset()}>
+            Try again
+          </Button>
+        </CardFooter>
+      </Card>
+    </Content>
   );
 }

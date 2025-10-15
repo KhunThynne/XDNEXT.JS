@@ -84,6 +84,7 @@ export const ShoppingPopover = ({
           <Separator />
           <CartSummary
             className="p-4"
+            style="short"
             navigation={navigation}
             userTotalPoint={totalPoint}
           />

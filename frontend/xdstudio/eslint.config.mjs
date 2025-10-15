@@ -24,13 +24,14 @@ const eslintConfig = [
     extends: [
       "plugin:@next/next/core-web-vitals",
       "next/typescript",
-      "plugin:react-hooks/recommended-legacy",
+      "plugin:react-hooks/recommended",
       "plugin:prettier/recommended",
       "plugin:react/recommended",
       "prettier",
       "plugin:i18next/recommended",
       // "plugin:tailwindcss/recommended",
     ],
+
     rules: {
       "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
@@ -42,14 +43,18 @@ const eslintConfig = [
       "no-empty": "off",
       "no-case-declarations": "off",
       // "tailwindcss/classnames-order": "warn",
-      "i18next/no-literal-string": ["warn", { markupOnly: true }],
+      "i18next/no-literal-string": ["off", { markupOnly: true }],
       // React
       "react/react-in-jsx-scope": "off",
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/preserve-manual-memoization": "warn",
+      // "no-use-before-define": "warn",
     },
   }),
 
-  reactYouMightNotNeedAnEffect.configs.recommended,
+  // reactYouMightNotNeedAnEffect.configs.recommended,
   // JSON
+  // reactYouMightNotNeedAnEffect.configs.recommended,
   {
     files: ["**/*.json", "**/*.jsonc"],
     plugins: {

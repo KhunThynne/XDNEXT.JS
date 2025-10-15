@@ -108,14 +108,14 @@ export function DataTableCartInfiniteScroll({
   >(() =>
     cartItems.reduce(
       (acc, item) => {
-        acc[item.id] = true; // ทุกแถว selected ตั้งแต่เริ่ม
+        acc[item.id] = true;
         return acc;
       },
       {} as Record<string, boolean>
     )
   );
   const table = useReactTable({
-    data: cartItems,
+    data: cartItems ?? [],
     columns,
     state: {
       sorting,
@@ -177,9 +177,10 @@ export function DataTableCartInfiniteScroll({
 
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
+
     const selectedData = cartItems.filter((item) => selectedIds[item.id]);
-    setValue("cartItems", selectedData);
-  }, [table.getState().rowSelection]);
+    setValue("cartItems", selectedData ?? []);
+  }, [table.getState().rowSelection, setValue, cartItems]);
   // const rowVirtualizer = useVirtualizer({
   //   count: rows?.length,
   //   estimateSize: () => 150, //estimate row height for accurate scrollbar dragging

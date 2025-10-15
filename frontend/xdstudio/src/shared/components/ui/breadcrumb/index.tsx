@@ -37,9 +37,9 @@ const BreadcrumbItemComponent = ({
     </BreadcrumbItem>
   );
 };
-export function BreadcrumbComponent() {
+export function BreadcrumbComponent({ pathNames }: { pathNames?: string[] }) {
   const pathname = usePathname();
-  const pathNames = pathname.split("/").filter((path) => path);
+  pathNames = pathNames ?? pathname.split("/").filter((path) => path);
   const { breadcrumbeStore } = useBreadBrumbStore();
   if (breadcrumbeStore.disable) return false;
   return (

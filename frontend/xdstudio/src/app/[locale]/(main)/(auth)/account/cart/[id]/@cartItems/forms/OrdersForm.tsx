@@ -82,11 +82,11 @@ export const OrdersForm = ({
   });
 
   const handleDeleteMore = async (ids: CartItem["id"][]) => {
-    const current = method.getValues("cartItems");
-    const updated = current.filter((item) => !ids.includes(item.id));
-
     const confirmDelete = () => {
-      method.reset({ cartItems: updated });
+      const current = method.getValues("cartItems");
+      const updated = current.filter((item) => !ids.includes(item.id));
+      console.log(`cart mores delete`, updated);
+      method.setValue("cartItems", updated, { shouldDirty: true });
       setSelectedIds((prev) => prev.filter((id) => !ids.includes(id)));
       mutationDeleteItems.mutate(ids);
       closeDialog();

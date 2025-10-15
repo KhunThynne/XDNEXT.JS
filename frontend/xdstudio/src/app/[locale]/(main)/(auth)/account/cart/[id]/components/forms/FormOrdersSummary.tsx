@@ -16,8 +16,6 @@ import {
   useDialogGlobal,
 } from "@/shared/components/ui";
 import type { CartFormProps } from "../cartOrder.type";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
-import clsx from "clsx";
 
 export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
   const method = useFormContext<CartFormProps>();
@@ -53,7 +51,6 @@ export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
   return (
     <form onSubmit={method.handleSubmit(handleSubmit)} className="contents">
       {children}
- 
     </form>
   );
 }

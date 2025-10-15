@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
-import { Fragment, useLayoutEffect, useMemo } from "react";
+import { Fragment, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { revalidateClient } from "../shared/revalidateClient";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
@@ -53,6 +53,10 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     }
     return false;
   }, [status]);
+  const [preAdded, setPreAdded] = useState(addedItem);
+  useEffect(() => {
+    setPreAdded(false);
+  }, [status]);
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isPending) {
       return;
@@ -64,6 +68,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     onClick?.(event);
     mutate(undefined, {
       onSuccess: () => {
+        setPreAdded(true);
         revalidateClient(`${session?.user?.id}-${product?.id}-checkProduct`);
       },
     });
@@ -73,7 +78,9 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     <Button
       {...buttonProps}
       className={clsx(`flex cursor-pointer`, className)}
-      disabled={isPending || (addTo ? false : !!addedItem) || !productId}
+      disabled={
+        isPending || (addTo ? false : !!addedItem) || !productId || preAdded
+      }
       onClick={handleClick}
     >
       {isPending || !productId ? (
@@ -85,7 +92,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
             <span>
               {!cartId
                 ? "Go to sign-in"
-                : addedItem
+                : addedItem || preAdded
                   ? "In cart"
                   : "Add to cart"}
             </span>

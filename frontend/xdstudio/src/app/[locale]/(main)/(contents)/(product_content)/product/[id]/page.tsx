@@ -9,6 +9,7 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { unstable_cache } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
+import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
 const getCachedCheckUserProductStatus = (
   productId: string,
   userId: string,
@@ -39,8 +40,8 @@ export default async function PageProduct({
   const { id } = await params;
   const session = await auth();
   const req = await execute(GetProductDocument, { where: { id } });
-  const { product } = req.data;
-
+  const { product: ProductData } = req.data;
+  const product = ProductData as Product;
   const productStatus = await getCachedCheckUserProductStatus(
     id,
     session?.user?.id ?? "",
@@ -48,10 +49,15 @@ export default async function PageProduct({
   );
   if (!product) return notFound();
   return (
-    <ContentProduct
-      userProductStatus={productStatus?.data}
-      session={session}
-      {...(product as Product)}
-    />
+    <>
+      <BreadcrumbComponent
+        pathNames={["products", product.name ?? `unkhown`]}
+      />
+      <ContentProduct
+        userProductStatus={productStatus?.data}
+        session={session}
+        {...(product as Product)}
+      />
+    </>
   );
 }

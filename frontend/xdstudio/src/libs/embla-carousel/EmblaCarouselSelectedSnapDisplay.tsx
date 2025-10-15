@@ -20,6 +20,7 @@ export const useSelectedSnapDisplay = (
   useEffect(() => {
     if (!emblaApi) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     updateScrollSnapState(emblaApi);
     emblaApi.on("select", updateScrollSnapState);
     emblaApi.on("reInit", updateScrollSnapState);

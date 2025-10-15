@@ -1,3 +1,7 @@
 export default async function LayoutLogin({ children }: WithChildren) {
-  return <section className="min-h-screen">{children}</section>;
+  return (
+    <section className="flex min-h-screen place-content-center md:place-items-center">
+      {children}
+    </section>
+  );
 }

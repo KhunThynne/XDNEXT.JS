@@ -16,7 +16,7 @@ import {
 } from "@tanstack/react-query";
 
 import type { User } from "next-auth";
-const take = 5;
+const take = 40;
 
 export const useCartInfinite = ({
   cartId,

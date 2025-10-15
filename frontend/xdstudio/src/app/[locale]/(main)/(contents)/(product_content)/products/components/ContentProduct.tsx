@@ -1,15 +1,12 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { CardProduct } from "./ProductCard";
-import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
 import type {
   CheckUserProductStatusQuery,
   Faq,
   Maybe,
   Product,
 } from "@/libs/graphql/generates/graphql";
-import { OrderDirection } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -17,7 +14,6 @@ import {
   CardTitle,
 } from "@/libs/shadcn/ui/card";
 import { Button } from "@/libs/shadcn/ui/button";
-import { renderToStaticMarkup } from "react-dom/server";
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -30,16 +26,12 @@ import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
-import { object } from "zod";
 import PointDiamon from "@/shared/components/PointDiamod";
-import { Badge } from "@/libs/shadcn/ui/badge";
 import { ProductTag } from "./ProductTag";
 import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
-import { useSession } from "next-auth/react";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
-import { revalidateClient } from "../shared/revalidateClient";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -142,18 +134,8 @@ const ProductDetail = (
             />
           )}
         </div>
-
-        {/* <Button
-          onClick={async () =>
-            revalidateClient(`${session?.user?.id}-${product.id}-checkProduct`)
-          }
-        >
-          Test
-        </Button> */}
-
         <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
           <hr className="grow" />
-
           <AddItemButton
             product={product}
             session={session}
@@ -175,7 +157,12 @@ const ProductDetail = (
               )
             }
           >
-            ซื้อทันที
+            {userProductStatus.checkUserProductStatus?.__typename ===
+            "CheckProductSuccess"
+              ? userProductStatus.checkUserProductStatus.inCart
+                ? "go to cart"
+                : `ซื้อทันที`
+              : `ซื้อทันที`}
           </AddItemButton>
         </div>
 
