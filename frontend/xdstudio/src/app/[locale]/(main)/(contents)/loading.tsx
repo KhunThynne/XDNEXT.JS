@@ -1,5 +1,9 @@
 import Loading from "@/shared/components/ui/Loading";
 
 export default function ContentsLoading() {
-  return <Loading />;
+  return (
+    <div className="min-h-screen">
+      <Loading />
+    </div>
+  );
 }

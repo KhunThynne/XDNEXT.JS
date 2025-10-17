@@ -3,17 +3,22 @@ import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need
 import ts from "typescript-eslint";
 import js from "@eslint/js";
 import eslintPluginJsonc from "eslint-plugin-jsonc";
+import reactHooks from "eslint-plugin-react-hooks";
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
 const eslintConfig = [
   {
-    ignores: ["node_modules/**", ".next/**", "out/**"],
+    ignores: ["node_modules/**", ".next/**", "out/**", "next-env.d.ts"],
+  },
+  {
     files: ["**/*.{js,jsx,ts,tsx}"],
   },
   js.configs.recommended,
   ...ts.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  reactYouMightNotNeedAnEffect.configs.recommended,
   ...compat.config({
     settings: {
       react: {
@@ -23,7 +28,6 @@ const eslintConfig = [
     extends: [
       "plugin:@next/next/core-web-vitals",
       "next/typescript",
-      "plugin:react-hooks/recommended",
       "plugin:prettier/recommended",
       "plugin:react/recommended",
       "prettier",
@@ -41,18 +45,14 @@ const eslintConfig = [
       "no-empty": "off",
       "no-case-declarations": "off",
       // "tailwindcss/classnames-order": "warn",
-      "i18next/no-literal-string": ["off", { markupOnly: true }],
+      "i18next/no-literal-string": ["warn", { markupOnly: true }],
       // React
       "react/react-in-jsx-scope": "off",
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/preserve-manual-memoization": "warn",
     },
   }),
-  {
-    plugins: {
-      reactYouMightNotNeedAnEffect: reactYouMightNotNeedAnEffect,
-    },
-  },
+
   {
     files: ["**/*.json", "**/*.jsonc"],
     plugins: {

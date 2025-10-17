@@ -5,9 +5,6 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 const config: CodegenConfig = {
   overwrite: true,
   schema: [
-    // {
-    //   [`${env.API_BACKEND_URL}/auth/graphql`]: {},
-    // },
     {
       [`${env.API_BACKEND_URL}/api/graphql`]: {
         headers: {

@@ -10,7 +10,6 @@ import {
 import Content from "@/shared/components/ui/Content";
 import type { Metadata } from "next";
 
-
 // Error boundaries must be Client Components
 export const metadata: Metadata = {
   title: "XD Shop - Error",
