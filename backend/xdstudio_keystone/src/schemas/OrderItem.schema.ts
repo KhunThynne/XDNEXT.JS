@@ -6,9 +6,17 @@ export const OrderItem = list({
   ui: {
     isHidden: true,
   },
+
   fields: {
-    order: relationship({ ref: 'Order.items', many: false }),
-    product: relationship({ ref: 'Product' }),
+    order: relationship({
+      ref: 'Order.items',
+      many: false,
+      ui: {
+        itemView: { fieldMode: 'read' },
+        createView: { fieldMode: 'hidden' },
+      },
+    }),
+    product: relationship({ ref: 'Product', many: false }),
     userItem: relationship({ ref: 'UserItem.item', many: false }),
     unitPrice: integer(),
     updateAt: timestamp(),

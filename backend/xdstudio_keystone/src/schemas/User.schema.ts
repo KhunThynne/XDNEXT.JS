@@ -32,7 +32,7 @@ export const User = list({
       validation: { isRequired: true },
       isIndexed: 'unique',
     }),
-    password: password({ validation: { isRequired: true } ,}),
+    password: password({ validation: { isRequired: true } }),
     ...defaultGlobalField({ includeCreatedAt: true }),
     accounts: relationship({
       ref: 'Account.user',
@@ -57,12 +57,17 @@ export const User = list({
     items: relationship({
       ref: 'UserItem.user',
       many: true,
+      // ui: {
+      //   labelField: '',
+      //   linkToItem: true,
+      //   inlineEdit: { fields: ['config'] },
+      //   removeMode: 'disconnect',
+      // },
       ui: {
-        displayMode: 'cards',
-        cardFields: ['item'],
-        inlineCreate: { fields: ['item'] },
-        inlineEdit: { fields: ['item'] },
-        linkToItem: true,
+        displayMode: 'select',
+        listView: { fieldMode: 'read' },
+        itemView: { fieldMode: 'edit' },
+        // linkToItem: true,
       },
     }),
     point: relationship({
@@ -92,12 +97,16 @@ export const User = list({
       ref: 'Order.user',
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['status', 'createdAt'],
-        inlineCreate: { fields: ['status'] },
-        inlineEdit: { fields: ['status'] },
-        linkToItem: true,
+        itemView: { fieldMode: 'hidden' },
+        listView: { fieldMode: 'hidden' },
       },
+      // ui: {
+      //   displayMode: 'cards',
+      //   cardFields: ['status', 'createdAt'],
+      //   inlineCreate: { fields: ['status'] },
+      //   inlineEdit: { fields: ['status'] },
+      //   linkToItem: true,
+      // },
     }),
     preference: relationship({
       ref: 'UserPreference.user',

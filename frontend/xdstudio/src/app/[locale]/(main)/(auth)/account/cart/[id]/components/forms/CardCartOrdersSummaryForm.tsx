@@ -84,7 +84,7 @@ export const CartItemsVirtualScroll = ({
   return (
     <div
       ref={parentRef}
-      className="max-h-60 grow lg:h-0 lg:max-h-full"
+      className="max-h-60 grow overscroll-contain lg:h-0 lg:max-h-full"
       style={{
         width: `100%`,
         overflow: "auto",
@@ -173,7 +173,7 @@ export function CardCartOrdersSummaryForm({
           </CardContent>
         </>
       ) : (
-        <CardContent className="text-muted-foreground flex grow flex-col items-center justify-center">
+        <CardContent className="text-muted-foreground min-h-50 flex grow flex-col items-center justify-center">
           <ShoppingCart className="mb-2 size-8 opacity-70" />
           <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
         </CardContent>

@@ -19,9 +19,9 @@ export const Cart = list({
       ref: 'CartItem.cart',
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['product', 'quantity'],
-        inlineEdit: { fields: ['quantity'] },
+        // displayMode: 'cards',
+        // cardFields: ['product', 'quantity'],
+        // inlineEdit: { fields: ['quantity'] },
         // inlineCreate: { fields: ['product', 'quantity'] },
       },
     }),

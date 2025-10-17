@@ -137,7 +137,7 @@ export const CartItemsDatableProvider = ({
     () => [
       {
         id: "select",
-        size: 10,
+        size: 40,
         header: ({ table }) => (
           <>
             <Checkbox
@@ -152,13 +152,15 @@ export const CartItemsDatableProvider = ({
                 table.toggleAllPageRowsSelected(!!value)
               }
               aria-label="Select all"
+              className="mx-2 xl:mx-5"
             />
+
             {(table.getIsAllPageRowsSelected() ||
               table.getIsSomePageRowsSelected()) && (
               <Button
                 size="sm"
                 variant={"ghost"}
-                className="text-destructive mx-5"
+                className="text-destructive"
                 onClick={async () => {
                   const selectedData = table
                     .getSelectedRowModel()
@@ -173,11 +175,13 @@ export const CartItemsDatableProvider = ({
           </>
         ),
         cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Select row"
-          />
+          <div className="mx-auto flex justify-center">
+            <Checkbox
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+            />
+          </div>
         ),
         enableSorting: false,
         enableHiding: false,
@@ -186,12 +190,13 @@ export const CartItemsDatableProvider = ({
         accessorFn: (row) => row.product?.images?.[0],
         id: "product",
         header: "",
+        minSize: 400,
         cell: ({ row }) => {
           const cell = row.original;
           const image = cell.product?.images?.[0]?.src;
 
           return (
-            <section className="grid grid-cols-2 gap-4">
+            <section className="flex gap-4">
               <div className="bg-accent w-35 relative aspect-square overflow-hidden rounded-lg border">
                 {image ? (
                   <Image

@@ -3,6 +3,9 @@ import { allowAll } from '@keystone-6/core/access';
 import { relationship, select, timestamp } from '@keystone-6/core/fields';
 export const Order = list({
   access: allowAll,
+  ui: {
+    listView: { defaultFieldMode: 'read', initialColumns: ['id', 'user', 'createdAt', 'updateAt'] },
+  },
   fields: {
     user: relationship({ ref: 'User.orders', many: false }),
     items: relationship({ ref: 'OrderItem.order', many: true }),

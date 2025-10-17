@@ -181,7 +181,7 @@ export const CartShoppingForm = ({
   return (
     <Form {...method}>
       <section
-        className="inset-shadow-sm h-60 w-full overflow-auto"
+        className="inset-shadow-sm h-60 w-full overflow-auto overscroll-contain"
         ref={parentRef}
       >
         <ul

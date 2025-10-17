@@ -1,8 +1,8 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
-
+import ts from "typescript-eslint";
 import js from "@eslint/js";
-// import ts from "typescript";
+import eslintPluginJsonc from "eslint-plugin-jsonc";
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
@@ -12,9 +12,8 @@ const eslintConfig = [
     ignores: ["node_modules/**", ".next/**", "out/**"],
     files: ["**/*.{js,jsx,ts,tsx}"],
   },
-
   js.configs.recommended,
-
+  ...ts.configs.recommended,
   ...compat.config({
     settings: {
       react: {
@@ -29,7 +28,6 @@ const eslintConfig = [
       "plugin:react/recommended",
       "prettier",
       "plugin:i18next/recommended",
-      // "plugin:tailwindcss/recommended",
     ],
 
     rules: {
@@ -48,19 +46,18 @@ const eslintConfig = [
       "react/react-in-jsx-scope": "off",
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/preserve-manual-memoization": "warn",
-      // "no-use-before-define": "warn",
     },
   }),
-
-  // reactYouMightNotNeedAnEffect.configs.recommended,
-  // JSON
-  // reactYouMightNotNeedAnEffect.configs.recommended,
+  {
+    plugins: {
+      reactYouMightNotNeedAnEffect: reactYouMightNotNeedAnEffect,
+    },
+  },
   {
     files: ["**/*.json", "**/*.jsonc"],
     plugins: {
-      jsonc: await import("eslint-plugin-jsonc"),
+      jsonc: eslintPluginJsonc,
     },
-
     languageOptions: {
       parser: (await import("jsonc-eslint-parser")).default,
     },

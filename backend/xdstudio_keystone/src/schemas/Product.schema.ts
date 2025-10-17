@@ -10,6 +10,7 @@ export const Product = list({
       initialColumns: ['id', 'name', 'createdAt', 'details'],
       pageSize: 10,
     },
+    labelField: 'name',
   },
   fields: {
     status: select({

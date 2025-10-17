@@ -8,19 +8,18 @@ import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
 import type {
   Cart,
+  CartItem,
   Maybe,
   User,
   UserPoint,
 } from "@/libs/graphql/generates/graphql";
-
-import { useCartDocument } from "@/shared/hooks/useCartDocument";
 
 import _ from "lodash";
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm, CartSummary } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import Point from "../Point";
 
@@ -40,7 +39,6 @@ export const ShoppingPopover = ({
   });
   const { data } = query;
 
-  const CartData = data?.pages?.flatMap((page) => page?.data?.cart);
   const flatData = useMemo(
     () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
     [data?.pages]
@@ -76,7 +74,7 @@ export const ShoppingPopover = ({
       <PopoverContent align="end" className="w-sm p-0">
         <h4 className="px-4 pb-3 pt-4 font-semibold">Your items cart</h4>
         <CartShoppingForm
-          cartItems={cartItems}
+          cartItems={cartItems as CartItem[]}
           query={query}
           invalidateCartAction={invalidate}
           navigation={navigation}
