@@ -2,6 +2,7 @@
 import { User } from "next-auth";
 
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
+import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Cart } from "@/libs/graphql/generates/graphql";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { notFound } from "next/navigation";
@@ -39,17 +40,13 @@ export const CartItemsClient = () => {
       </section>
     );
   if (status === "success")
-    return itemsCount > 0 ? (
+    return (
       <CartItemsDatableProvider
-        cartItems={cartItems}
+        cartItems={cartItems as CartItem[]}
         itemsCount={itemsCount}
         invalidateCartAction={invalidate}
       >
         <DataTableCartInfiniteScroll setValue={setValue} cartQuery={query} />
       </CartItemsDatableProvider>
-    ) : (
-      <aside className="h-full place-content-center">
-        <EmptyCart />
-      </aside>
     );
 };

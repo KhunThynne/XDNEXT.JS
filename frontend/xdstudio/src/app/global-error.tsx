@@ -9,7 +9,6 @@ import {
 } from "@/libs/shadcn/ui/card";
 import Content from "@/shared/components/ui/Content";
 import type { Metadata } from "next";
-import { useTheme } from "next-themes";
 
 // Error boundaries must be Client Components
 export const metadata: Metadata = {
@@ -24,7 +23,6 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  const { theme } = useTheme();
   return (
     <html key="global-error">
       <body className="bg-secondary flex min-h-screen flex-col place-content-center">
@@ -35,7 +33,7 @@ export default function GlobalError({
         >
           <Card>
             <CardHeader>
-              <h2>Something went wrong!  </h2>
+              <h2>Something went wrong! </h2>
             </CardHeader>
             <CardContent>
               {error?.message && (

@@ -1,5 +1,5 @@
 "use client";
-import React, { Fragment, useLayoutEffect } from "react";
+import React, { Fragment, useEffect, useLayoutEffect } from "react";
 
 import type { OnChangeFn, SortingState, Table } from "@tanstack/react-table";
 import {
@@ -44,6 +44,7 @@ import type {
   CartItemsDatableFormProps,
 } from "../../components/cartOrder.type";
 import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 
 const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
   return (
@@ -108,14 +109,14 @@ export function DataTableCartInfiniteScroll({
   >(() =>
     cartItems.reduce(
       (acc, item) => {
-        acc[item.id] = true; // ทุกแถว selected ตั้งแต่เริ่ม
+        acc[item.id] = true;
         return acc;
       },
       {} as Record<string, boolean>
     )
   );
   const table = useReactTable({
-    data: cartItems,
+    data: cartItems ?? [],
     columns,
     state: {
       sorting,
@@ -178,8 +179,9 @@ export function DataTableCartInfiniteScroll({
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
     const selectedData = cartItems.filter((item) => selectedIds[item.id]);
-    setValue("cartItems", selectedData);
-  }, [table.getState().rowSelection]);
+    setValue("cartItems", selectedData ?? []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [table.getState().rowSelection, setValue, cartItems]);
   // const rowVirtualizer = useVirtualizer({
   //   count: rows?.length,
   //   estimateSize: () => 150, //estimate row height for accurate scrollbar dragging
@@ -195,81 +197,86 @@ export function DataTableCartInfiniteScroll({
   if (isLoading) {
     return <>Loading...</>;
   }
+  if (cartItems.length > 0)
+    return (
+      <>
+        <CardAction className="w-full px-3">
+          <DataTableMenu table={table} />
+        </CardAction>
 
-  return (
-    <>
-      <CardAction className="w-full px-3">
-        <DataTableMenu table={table} />
-      </CardAction>
-
-      <CardContent
-        className="container relative h-full overflow-auto p-0"
-        onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
-        ref={tableContainerRef}
-      >
-        <table className="w-full table-fixed border-collapse">
-          <TableHeader className="sticky top-0 z-10 backdrop-blur-lg">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    style={{ width: header.getSize() }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody className="">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      style={{ width: cell.column.getSize() }}
+        <CardContent
+          className="container relative h-full overflow-auto overscroll-contain p-0"
+          onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
+          ref={tableContainerRef}
+        >
+          <table className="w-full table-fixed border-collapse">
+            <TableHeader className="sticky top-0 z-10 backdrop-blur-lg">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: header.getSize() }}
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow className="">
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-[60vh] text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </table>
+              ))}
+            </TableHeader>
 
-        {isFetching && <div className="text-center">Fetching More...</div>}
-      </CardContent>
-      <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
-        <span className="text-gray-800">
-          Selected: <span className="text-xd font-semibold">{selected}</span>
-        </span>
+            <TableBody className="">
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        style={{ width: cell.column.getSize() }}
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow className="">
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-[60vh] text-center"
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </table>
 
-        <span className="text-gray-600">
-          Showing <span className="font-medium">{totalFetched}</span> of{" "}
-          <span className="font-medium">{total}</span>
-        </span>
-      </CardAction>
-    </>
+          {isFetching && <div className="text-center">Fetching More...</div>}
+        </CardContent>
+        <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
+          <span className="text-gray-800">
+            Selected: <span className="text-xd font-semibold">{selected}</span>
+          </span>
+
+          <span className="text-gray-600">
+            Showing <span className="font-medium">{totalFetched}</span> of
+            <span className="font-medium">{total}</span>
+          </span>
+        </CardAction>
+      </>
+    );
+  return (
+    <aside className="h-full place-content-center">
+      <EmptyCart />
+    </aside>
   );
 }

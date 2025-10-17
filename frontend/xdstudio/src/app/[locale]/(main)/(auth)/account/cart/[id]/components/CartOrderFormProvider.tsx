@@ -8,9 +8,10 @@ const CartOrderFormProvider = ({
   cartId,
   userId,
   session,
+  point,
 }: WithChildren & Omit<CartFormProps, "cartItems">) => {
   const method = useForm<CartFormProps>({
-    defaultValues: { cartId, userId, session },
+    defaultValues: { cartId, userId, point, session },
   });
   return <Form {...method}>{children}</Form>;
 };

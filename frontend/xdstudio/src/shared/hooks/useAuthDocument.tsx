@@ -4,7 +4,6 @@ import {
   RedeemUserPasswordResetTokenResultDocument,
   SendUserPasswordResetTokenDocument,
   ValidateUserPasswordResetTokenDocument,
-  ValidateUserPasswordResetTokenQueryVariables,
 } from "@/libs/graphql/generates/graphql";
 import { useMutation, useQuery } from "@tanstack/react-query";
 const useSendTokenResetMutation = () =>

@@ -3,17 +3,9 @@ Tanstrak
 Graphql
 Zod
 
-
 src/
-  cache/
-    index.ts        // รวม export
-    keys.ts         // รวม key generator เช่น getProductKey, getCartKey
-    options.ts      // global options เช่น { revalidate: 60 }
-    products.ts     // cache config ของ product
-    cart.ts         // cache config ของ cart
 
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 

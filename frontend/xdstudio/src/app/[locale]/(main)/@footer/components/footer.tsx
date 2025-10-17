@@ -26,7 +26,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </p>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Products</h4>
+          <p className="text-foreground mb-4 font-semibold">Products</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">
@@ -51,7 +51,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </ul>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Support</h4>
+          <p className="text-foreground mb-4 font-semibold">Support</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">
@@ -76,7 +76,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </ul>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Company</h4>
+          <p className="text-foreground mb-4 font-semibold">Company</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">

@@ -3796,6 +3796,14 @@ export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', aut
       ) }
    | null };
 
+export type UpdateCartMutationVariables = Exact<{
+  where: CartWhereUniqueInput;
+  data: CartUpdateInput;
+}>;
+
+
+export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', id: string, status?: string | null, itemsCount?: number | null, createdAt?: any | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null, items?: Array<{ __typename?: 'CartItem', id: string }> | null } | null };
+
 export type GetCartQueryVariables = Exact<{
   where: CartWhereUniqueInput;
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3805,7 +3813,10 @@ export type GetCartQueryVariables = Exact<{
 }>;
 
 
-export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, itemsCount?: number | null, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
+export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, itemsCount?: number | null, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: (
+        { __typename?: 'Product' }
+        & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
+      ) | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
 
 export type CreateCartItemMutationVariables = Exact<{
   data: CartItemCreateInput;
@@ -3877,6 +3888,13 @@ export type GetOrderQueryVariables = Exact<{
 
 
 export type GetOrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', createdAt?: any | null, id: string, itemsCount?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, suppiler?: Array<{ __typename?: 'Supplier', id: string, name?: string | null }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null } | null };
+
+export type CreateOrderAndUserItemsMutationVariables = Exact<{
+  data: OrderCreateInput;
+}>;
+
+
+export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
 export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
@@ -4228,6 +4246,23 @@ export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
   passwordResetIssuedAt
   passwordResetRedeemedAt
 }`) as unknown as TypedDocumentString<AuthenticateAndLinkProviderMutation, AuthenticateAndLinkProviderMutationVariables>;
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation UpdateCart($where: CartWhereUniqueInput!, $data: CartUpdateInput!) {
+  updateCart(where: $where, data: $data) {
+    id
+    user {
+      id
+    }
+    status
+    items {
+      id
+    }
+    itemsCount
+    createdAt
+    updateAt
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCartMutation, UpdateCartMutationVariables>;
 export const GetCartDocument = new TypedDocumentString(`
     query getCart($where: CartWhereUniqueInput!, $take: Int, $skip: Int!, $cursor: CartItemWhereUniqueInput, $orderBy: [CartItemOrderByInput!]) {
   cart(where: $where) {
@@ -4238,36 +4273,7 @@ export const GetCartDocument = new TypedDocumentString(`
       id
       quantity
       product {
-        images {
-          src {
-            extension
-            filesize
-            height
-            id
-            url
-            width
-          }
-          altText
-          id
-          name
-        }
-        id
-        description
-        details {
-          document
-        }
-        name
-        price {
-          price
-          id
-        }
-        publishedAt
-        status
-        suppilers {
-          id
-        }
-        updateAt
-        createdAt
+        ...ProductFields
       }
     }
     status
@@ -4278,7 +4284,69 @@ export const GetCartDocument = new TypedDocumentString(`
     }
   }
 }
-    `) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
+  id
+  suppilers {
+    ...SupplierFields
+  }
+  name
+  description
+  details {
+    document
+  }
+  price {
+    price
+    description
+    price_type
+    price_type
+    id
+  }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
+  status
+  publishedAt
+  updateAt
+  createdAt
+  images {
+    ...ImageField
+  }
+  imagesCount
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+  productsCount
+}`) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
 export const CreateCartItemDocument = new TypedDocumentString(`
     mutation CreateCartItem($data: CartItemCreateInput!) {
   createCartItem(data: $data) {
@@ -4404,6 +4472,29 @@ export const GetOrderDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
+export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
+    mutation CreateOrderAndUserItems($data: OrderCreateInput!) {
+  createOrder(data: $data) {
+    items {
+      id
+      unitPrice
+      product {
+        id
+      }
+    }
+    createdAt
+    id
+    updateAt
+    status
+    itemsCount
+    user {
+      email
+      id
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query getProducts($take: Int, $skip: Int!, $orderBy: [ProductOrderByInput!]!) {
   products(take: $take, skip: $skip, orderBy: $orderBy) {

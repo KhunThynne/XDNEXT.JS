@@ -1,6 +1,22 @@
 import { graphql } from "../generates";
 
 graphql(`
+  mutation UpdateCart($where: CartWhereUniqueInput!, $data: CartUpdateInput!) {
+    updateCart(where: $where, data: $data) {
+      id
+      user {
+        id
+      }
+      status
+      items {
+        id
+      }
+      itemsCount
+      createdAt
+      updateAt
+    }
+  }
+
   query getCart(
     $where: CartWhereUniqueInput!
     $take: Int
@@ -16,36 +32,7 @@ graphql(`
         id
         quantity
         product {
-          images {
-            src {
-              extension
-              filesize
-              height
-              id
-              url
-              width
-            }
-            altText
-            id
-            name
-          }
-          id
-          description
-          details {
-            document
-          }
-          name
-          price {
-            price
-            id
-          }
-          publishedAt
-          status
-          suppilers {
-            id
-          }
-          updateAt
-          createdAt
+          ...ProductFields
         }
       }
       status

@@ -1,8 +1,8 @@
 import Loading from "@/shared/components/ui/Loading";
 
-export default function ContentsLoading() {
+export default function ProductLoading() {
   return (
-    <div className="min-h-screen">
+    <div className="grow">
       <Loading />
     </div>
   );

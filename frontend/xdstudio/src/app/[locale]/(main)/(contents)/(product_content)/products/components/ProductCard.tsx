@@ -121,6 +121,7 @@ export const CardProduct = ({
 
             {loading
               ? Array.from({ length: 3 }).map((_, i) => {
+                  // eslint-disable-next-line react-hooks/purity
                   const width = Math.floor(Math.random() * (80 - 40 + 1)) + 180;
                   return (
                     <Skeleton

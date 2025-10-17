@@ -43,9 +43,11 @@ export const CartSummary = ({
   navigation,
   userTotalPoint,
   className,
+  style,
 }: {
   navigation?: string;
   userTotalPoint?: number;
+  style?: "short" | "full";
 } & WithClassName) => {
   const { watch } = useFormContext<{ cartItems: CartItem[] }>();
   const cartItemsForm = watch("cartItems");
@@ -65,7 +67,6 @@ export const CartSummary = ({
     );
   }, [cartItemsForm]);
 
-  // ✅ คำนวณแต้มคงเหลือหลังจากใช้จ่าย
   const remainingPoint = Math.max(
     (userTotalPoint ?? 0) - summary.totalPrice,
     0
@@ -79,6 +80,7 @@ export const CartSummary = ({
       )}
     >
       <SummaryCartDisplay
+        style={style}
         remainingPoint={remainingPoint}
         totalPrice={summary.totalPrice}
         userTotalPoint={userTotalPoint}
@@ -141,8 +143,8 @@ export const CartShoppingForm = ({
       // revalidateClient(`${item.cart?.id}-${item?.product?.id}-checkProductr`);
     });
   };
-  const { formState } = method;
-  const cartItemsForm = method.watch("cartItems");
+  const { formState, watch } = method;
+  const cartItemsForm = watch("cartItems");
   const parentRef = React.useRef<HTMLDivElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = query;
   const rowVirtualizer = useVirtualizer({
@@ -179,7 +181,7 @@ export const CartShoppingForm = ({
   return (
     <Form {...method}>
       <section
-        className="inset-shadow-sm h-60 w-full overflow-auto"
+        className="inset-shadow-sm h-60 w-full overflow-auto overscroll-contain"
         ref={parentRef}
       >
         <ul

@@ -2,6 +2,7 @@
 import { User } from "next-auth";
 import { OrdersForm } from "./OrdersForm";
 import { useCartDocument } from "@/shared/hooks/useCartDocument";
+import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Cart } from "@/libs/graphql/generates/graphql";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { notFound } from "next/navigation";
@@ -35,7 +36,7 @@ export const OrdersQueryClient = () => {
       <OrdersForm
         invalidateCartAction={invalidate}
         setValueCart={setValue}
-        cartItems={cartItems}
+        cartItems={cartItems as CartItem[]}
         filter={""}
       />
     ) : (

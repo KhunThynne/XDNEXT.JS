@@ -30,7 +30,7 @@ export const CartItemComponent = ({
         )}
       </div>
       <div className="flex-1">
-        <Link href={`/products/${product?.id}`} className="hover:underline">
+        <Link href={`/product/${product?.id}`} className="hover:underline">
           <p className="text-sm font-medium">{product?.name}</p>
         </Link>
 

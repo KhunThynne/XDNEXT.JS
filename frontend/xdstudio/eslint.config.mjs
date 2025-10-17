@@ -1,20 +1,24 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
-
+import ts from "typescript-eslint";
 import js from "@eslint/js";
-// import ts from "typescript";
+import eslintPluginJsonc from "eslint-plugin-jsonc";
+import reactHooks from "eslint-plugin-react-hooks";
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
 const eslintConfig = [
   {
-    ignores: ["node_modules/**", ".next/**", "out/**"],
+    ignores: ["node_modules/**", ".next/**", "out/**", "next-env.d.ts"],
+  },
+  {
     files: ["**/*.{js,jsx,ts,tsx}"],
   },
-
   js.configs.recommended,
-
+  ...ts.configs.recommended,
+  reactHooks.configs.flat.recommended,
+  reactYouMightNotNeedAnEffect.configs.recommended,
   ...compat.config({
     settings: {
       react: {
@@ -24,13 +28,12 @@ const eslintConfig = [
     extends: [
       "plugin:@next/next/core-web-vitals",
       "next/typescript",
-      "plugin:react-hooks/recommended-legacy",
       "plugin:prettier/recommended",
       "plugin:react/recommended",
       "prettier",
       "plugin:i18next/recommended",
-      // "plugin:tailwindcss/recommended",
     ],
+
     rules: {
       "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
@@ -45,17 +48,16 @@ const eslintConfig = [
       "i18next/no-literal-string": ["warn", { markupOnly: true }],
       // React
       "react/react-in-jsx-scope": "off",
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/preserve-manual-memoization": "warn",
     },
   }),
 
-  reactYouMightNotNeedAnEffect.configs.recommended,
-  // JSON
   {
     files: ["**/*.json", "**/*.jsonc"],
     plugins: {
-      jsonc: await import("eslint-plugin-jsonc"),
+      jsonc: eslintPluginJsonc,
     },
-
     languageOptions: {
       parser: (await import("jsonc-eslint-parser")).default,
     },

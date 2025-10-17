@@ -38,9 +38,9 @@ export default async function LayoutCart({
       session={session}
       point={point}
     >
-      <div className="grid grow grid-cols-1 gap-8 lg:grid-cols-6">
+      <div className="grid grow grid-cols-1 gap-8 xl:grid-cols-6">
         <ContainerSection
-          className="grow max-md:gap-4 lg:col-span-4"
+          className="grow max-md:gap-4 xl:col-span-4"
           title="Your Shopping Cart"
           classNames={{
             container: "",
@@ -50,7 +50,7 @@ export default async function LayoutCart({
         >
           {cartItems}
         </ContainerSection>
-        <section className="flex h-full flex-col gap-4 lg:col-span-2">
+        <section className="flex h-full flex-col gap-4 xl:col-span-2">
           {children}
         </section>
       </div>

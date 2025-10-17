@@ -20,7 +20,7 @@
       "frontend/xdstudio/messages",
       "frontend/xdstudio/src/libs/i18n"
     ], 
-  
+    "eslint.onIgnoredFiles": "off",
   // Format on save
   // "editor.formatOnSave": true,
   // "editor.codeActionsOnSave": {

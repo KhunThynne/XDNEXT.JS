@@ -15,7 +15,6 @@ import type { CartItemsFormProps } from "../../components/cartOrder.type";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 
-import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 
 export const OrdersForm = ({
@@ -43,16 +42,19 @@ export const OrdersForm = ({
   // keep selectedIds in sync when cartItems change:
   //  - remove any selected id that no longer exists in cartItems
   useLayoutEffect(() => {
+    console.log(cartItems);
     setSelectedIds((prev) => {
       const ids = new Set(cartItems.map((i) => i.id));
       return prev.filter((id) => ids.has(id));
     });
   }, [cartItems]);
   useLayoutEffect(() => {
+    console.log(cartItems);
     const selectedCartItems = cartItems.filter((item) =>
       selectedIds.includes(item.id)
     );
-    setValueCart("cartItems", selectedCartItems);
+
+    setValueCart("cartItems", selectedCartItems ?? []);
   }, [cartItems, selectedIds, setValueCart]);
 
   const allChecked = useMemo(
@@ -82,11 +84,11 @@ export const OrdersForm = ({
   });
 
   const handleDeleteMore = async (ids: CartItem["id"][]) => {
-    const current = method.getValues("cartItems");
-    const updated = current.filter((item) => !ids.includes(item.id));
-
     const confirmDelete = () => {
-      method.reset({ cartItems: updated });
+      const current = method.getValues("cartItems");
+      const updated = current.filter((item) => !ids.includes(item.id));
+      console.log(`cart mores delete`, updated);
+      method.setValue("cartItems", updated, { shouldDirty: true });
       setSelectedIds((prev) => prev.filter((id) => !ids.includes(id)));
       mutationDeleteItems.mutate(ids);
       closeDialog();

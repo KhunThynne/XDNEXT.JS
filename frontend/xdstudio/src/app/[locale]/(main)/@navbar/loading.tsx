@@ -1,3 +1,5 @@
+import PageNavBar from "./page";
+
 export default function NavbarLoading() {
-  return null;
+  return <PageNavBar />;
 }
