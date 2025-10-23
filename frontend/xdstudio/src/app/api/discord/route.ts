@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 // App Router จะไม่แคชผลลัพธ์ของ Route Handler โดยอัตโนมัติ
 // แต่เพื่อความมั่นใจว่าได้ข้อมูลล่าสุดเสมอ เราสามารถใส่บรรทัดนี้ได้
-export const dynamic = "force-dynamic";
 
 // สร้างฟังก์ชันสำหรับ HTTP GET method
 export async function GET() {
