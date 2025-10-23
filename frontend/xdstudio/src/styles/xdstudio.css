@@ -5,10 +5,10 @@
 
 :root {
    --xd:#C70302;
-   --success:var(--color-green-800);
+   --success:var(--color-green-700);
 }
 
 .dark {
   --xd:#ff0000; 
-   --success:var(--color-green-600);
+   --success:var(--color-green-500);
 }

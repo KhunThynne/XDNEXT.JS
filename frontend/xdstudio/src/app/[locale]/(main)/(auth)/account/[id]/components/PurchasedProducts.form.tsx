@@ -17,10 +17,10 @@ import { execute } from "@/libs/graphql/execute";
 import type { Session } from "next-auth";
 import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
 import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
+import UserProductLoading from "../@userItems/loading";
 
 const ListItems = ({
   items,
@@ -34,7 +34,7 @@ const ListItems = ({
           const product = props!.item?.product as Product;
           return (
             <li key={`list-${index}`} className="flex items-center gap-4">
-              <div className="size-15 relative aspect-square overflow-hidden rounded-lg border bg-gray-100">
+              <div className="relative aspect-square size-15 overflow-hidden rounded-lg border bg-gray-100">
                 {product?.images?.[0] && (
                   <Image
                     src={product?.images[0].src?.url ?? ""}
@@ -50,7 +50,7 @@ const ListItems = ({
                 <p className="text-xs font-light">Update: {props!.updateAt}</p>
               </div>
               <div className="flex-shrink-0 text-right">
-                <p className="text-accent mb-2 text-xl font-bold">
+                <p className="mb-2 text-xl font-bold text-accent">
                   {product.price?.price}
                 </p>
                 <Badge>test</Badge>
@@ -74,7 +74,7 @@ const GridItems = ({
       animationKey="grid"
       className={clsx(
         `grid`,
-        "@min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5 @min-xl:grid-col-5 gap-3"
+        "@min-xl:grid-col-5 gap-3 @min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5"
       )}
     >
       {_.isEmpty(items) ? (
@@ -155,25 +155,7 @@ export default function PurchasedProductsForm({
 
       {status === "success" ? (
         <form className="@container mt-3 space-y-4">
-          <TabsComponent
-            tabs={[
-              {
-                label: <Grid3X3 />,
-                value: "grid",
-              },
-              // {
-              //   label: <List />,
-              //   value: "list",
-              // },
-            ]}
-          >
-            <TabsComponent.Content value="grid">
-              <GridItems items={data?.data?.user?.items ?? []} />
-            </TabsComponent.Content>
-            <TabsComponent.Content value="list">
-              <ListItems items={data?.data?.user?.items ?? []} />
-            </TabsComponent.Content>
-          </TabsComponent>
+          <GridItems items={data?.data?.user?.items ?? []} />
         </form>
       ) : (
         <UserProductLoading />

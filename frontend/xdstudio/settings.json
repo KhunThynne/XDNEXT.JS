@@ -2,5 +2,12 @@
   "[css]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
-  }
+  },
+  "typescript.tsdk": "frontend/xdstudio/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "eslint.onIgnoredFiles": "off",
+  "i18n-ally.localesPaths": [
+    "frontend/xdstudio/messages",
+    "frontend/xdstudio/src/libs/i18n"
+  ]
 }

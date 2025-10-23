@@ -1,0 +1,17 @@
+{
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportUnusedImport": "warning",
+    "reportUnusedVariable": "warning",
+    "reportOptionalMemberAccess": "warning"
+  },
+  // Python formatter
+  "python.formatting.provider": "black",
+
+  // Linting
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": ["--max-line-length=120"],
+
+  // Type checking (mypy)
+  "python.analysis.typeCheckingMode": "basic"
+}

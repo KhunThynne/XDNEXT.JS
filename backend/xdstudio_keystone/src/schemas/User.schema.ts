@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, select, password } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-
+import { TypeInfo } from '.keystone/types';
 export const User = list({
   access: allowAll,
   ui: {
@@ -134,7 +134,6 @@ export const User = list({
   },
   hooks: {
     beforeOperation: async ({ operation, resolvedData, context }) => {
-      console.log(`tessssssssssssssssssssssssssssssssssssssssssssss`, operation);
       if (operation === 'create') {
         if (!resolvedData.username && resolvedData.name) {
           resolvedData.username = resolvedData.name;
@@ -143,7 +142,6 @@ export const User = list({
     },
 
     afterOperation: async ({ operation, item, context }) => {
-      console.log(`tessssssssssssssssssssssssssssssssssssssssssssss`, operation);
       if (operation === 'create') {
         await context.db.Supplier.createOne({
           data: {
@@ -172,4 +170,4 @@ export const User = list({
       }
     },
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['User']>;

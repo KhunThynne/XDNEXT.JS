@@ -23,10 +23,10 @@ export default async function LayoutCart({
     throw new Error(
       clsx(
         "Missing required:",
-        !cartId && " cartId",
-        !userId && " userId",
-        point === null && " point",
-        point === undefined && " point"
+        !cartId && "cartId",
+        !userId && "userId",
+        point === null && "point",
+        point === undefined && "point"
       )
     );
   }
@@ -37,6 +37,9 @@ export default async function LayoutCart({
       userId={userId}
       session={session}
       point={point}
+      grandTotal={0}
+      availablePoint={0}
+      remainingpointPayment={0}
     >
       <div className="grid grow grid-cols-1 gap-8 xl:grid-cols-6">
         <ContainerSection

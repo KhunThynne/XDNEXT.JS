@@ -6,6 +6,9 @@ import PointDiamon from "../../PointDiamod";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";
+import { useMemo } from "react";
+import clsx from "clsx";
+import _ from "lodash";
 
 export const CartItemComponent = ({
   product,
@@ -15,6 +18,10 @@ export const CartItemComponent = ({
   const { isDirty } = useFormState();
   const price = product?.price?.price;
   const { number } = useFormatter();
+  const summaryResult = useMemo(
+    () => number((quantity ?? 1) * Number(price)),
+    [number, price, quantity]
+  );
   return (
     <div className="flex grow items-center gap-3 p-3">
       <div className="relative size-12 overflow-hidden rounded">
@@ -40,8 +47,14 @@ export const CartItemComponent = ({
         </p>
       </div>
       <div className="flex items-center gap-1 text-sm font-semibold">
-        <PointDiamon className="size-2.5!" />{" "}
-        {number((quantity ?? 1) * Number(price))}
+        <PointDiamon className="size-2.5!" />
+        <p
+          className={clsx({
+            "text-destructive": _.lt(summaryResult, 0),
+          })}
+        >
+          {summaryResult}
+        </p>
       </div>
       <Button
         type="button"
@@ -49,7 +62,7 @@ export const CartItemComponent = ({
         variant={"ghost"}
         disabled={isDirty}
         onClick={onDelete}
-        className="cursor-pointer text-red-500"
+        className="text-destructive cursor-pointer"
       >
         <Trash className="size-3.5" />
       </Button>

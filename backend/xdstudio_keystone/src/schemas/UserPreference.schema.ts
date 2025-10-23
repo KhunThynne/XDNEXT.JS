@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship } from '@keystone-6/core/fields';
@@ -26,4 +27,4 @@ export const UserPreference = list({
       ],
     }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['UserPreference']>;

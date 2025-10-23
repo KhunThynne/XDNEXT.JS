@@ -21,15 +21,16 @@ import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
+import type { CartFormProps } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/cartOrder.type";
 
 export const EmptyCart = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4 py-8 text-center">
-      <div className="bg-muted rounded-4xl p-6">
-        <ShoppingCart className="text-muted-foreground h-12 w-12" />
+      <div className="rounded-4xl bg-muted p-6">
+        <ShoppingCart className="h-12 w-12 text-muted-foreground" />
       </div>
       <h2 className="text-lg font-semibold">ตะกร้าว่างเปล่า</h2>
-      <p className="text-muted-foreground mx-6">
+      <p className="mx-6 text-muted-foreground">
         ดูเหมือนคุณยังไม่ได้เลือกสินค้านะ ลองเลือกสินค้าที่คุณชอบดูสิ
       </p>
       <Button asChild className="">
@@ -49,13 +50,15 @@ export const CartSummary = ({
   userTotalPoint?: number;
   style?: "short" | "full";
 } & WithClassName) => {
-  const { watch } = useFormContext<{ cartItems: CartItem[] }>();
+  const { watch, setValue } = useFormContext<
+    { cartItems: CartItem[] } | CartFormProps
+  >();
   const cartItemsForm = watch("cartItems");
 
   const summary = useMemo(() => {
     if (!cartItemsForm?.length) return { totalQuantity: 0, totalPrice: 0 };
 
-    return cartItemsForm.reduce(
+    const result = cartItemsForm.reduce(
       (acc, item) => {
         const quantity = item.quantity || 1;
         const price = Number(item?.product?.price?.price) || 0;
@@ -65,13 +68,26 @@ export const CartSummary = ({
       },
       { totalQuantity: 0, totalPrice: 0 }
     );
+
+    return result;
   }, [cartItemsForm]);
 
-  const remainingPoint = Math.max(
-    (userTotalPoint ?? 0) - summary.totalPrice,
-    0
-  );
+  const remainingPoint = useMemo(() => {
+    const resultRemainingPoint =
+      (userTotalPoint ?? 0) - (summary.totalPrice ?? 0);
 
+    return resultRemainingPoint;
+  }, [summary, userTotalPoint]);
+
+  useLayoutEffect(() => {
+    setValue("availablePoint", userTotalPoint!);
+  }, [setValue, userTotalPoint]);
+  useLayoutEffect(() => {
+    setValue("remainingpointPayment", remainingPoint);
+  }, [remainingPoint, setValue]);
+  useLayoutEffect(() => {
+    setValue("grandTotal", summary.totalPrice);
+  }, [setValue, summary]);
   return (
     <aside
       className={clsx(
@@ -181,7 +197,7 @@ export const CartShoppingForm = ({
   return (
     <Form {...method}>
       <section
-        className="inset-shadow-sm h-60 w-full overflow-auto overscroll-contain"
+        className="h-60 w-full overflow-auto overscroll-contain inset-shadow-sm"
         ref={parentRef}
       >
         <ul
@@ -201,7 +217,7 @@ export const CartShoppingForm = ({
                 key={`${item?.id ?? `loader-row`}-${virtualRow.index}`}
                 className={clsx(
                   virtualRow.index % 2 ? "ListItemOdd" : "ListItemEven",
-                  "absolute left-0 top-0 flex w-full"
+                  "absolute top-0 left-0 flex w-full"
                 )}
                 style={{
                   height: clsx(`${virtualRow.size}px`),
@@ -209,7 +225,7 @@ export const CartShoppingForm = ({
                 }}
               >
                 {isLoaderRow ? (
-                  <aside className="bg-accent flex h-full grow items-center justify-center">
+                  <aside className="flex h-full grow items-center justify-center bg-accent">
                     {hasNextPage ? (
                       <Loader2 className="animate-spin" />
                     ) : (

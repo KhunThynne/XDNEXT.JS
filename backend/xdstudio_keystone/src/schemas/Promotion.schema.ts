@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, select, text, timestamp } from '@keystone-6/core/fields';
@@ -26,4 +27,4 @@ export const Promotion = list({
       },
     }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Promotion']>;

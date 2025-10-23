@@ -44,7 +44,6 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-expressions": "off",
       "no-empty": "off",
       "no-case-declarations": "off",
-      // "tailwindcss/classnames-order": "warn",
       "i18next/no-literal-string": ["warn", { markupOnly: true }],
       // React
       "react/react-in-jsx-scope": "off",

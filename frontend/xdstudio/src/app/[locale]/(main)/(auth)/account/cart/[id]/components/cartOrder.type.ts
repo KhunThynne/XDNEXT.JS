@@ -14,6 +14,9 @@ export interface CartItemsFormProps {
 export interface CartFormProps {
   cartItems: CartItem[];
   session: Session;
+  grandTotal: number;
+  availablePoint: number;
+  remainingpointPayment: number;
   point?: User["point"];
   cartId: Cart["id"];
   userId: User["id"];
