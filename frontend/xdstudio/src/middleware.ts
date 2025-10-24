@@ -1,10 +1,9 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./libs/i18n/routing";
-import { auth } from "./auth";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 const handleI18nRouting = createMiddleware(routing);
-export default async function proxy(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { nextUrl } = request;
   const response = handleI18nRouting(request) ?? NextResponse.next();
   response.headers.set("x-url", nextUrl.pathname + nextUrl.search);
