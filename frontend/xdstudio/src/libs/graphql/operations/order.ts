@@ -25,3 +25,27 @@ graphql(`
     }
   }
 `);
+
+graphql(`
+  mutation CreateOrderAndUserItems($data: OrderCreateInput!) {
+    createOrder(data: $data) {
+      items {
+        id
+        unitPrice
+        product {
+          id
+        }
+      }
+      createdAt
+      id
+      updateAt
+      status
+      itemsCount
+      user {
+        email
+        id
+        name
+      }
+    }
+  }
+`);

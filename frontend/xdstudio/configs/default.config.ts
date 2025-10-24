@@ -1,6 +1,6 @@
-import { TypeConfigDefault } from "@type/config.type";
+import type { TypeConfigDefault } from "@type/config.type";
 const config: TypeConfigDefault = {
-  branner: "XDStudio",
+  branner: "XDShop",
   navbar: [
     {
       title: "Home",

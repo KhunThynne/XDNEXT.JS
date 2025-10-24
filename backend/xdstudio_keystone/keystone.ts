@@ -51,7 +51,8 @@ export default withAuth(
     },
     session,
     server: {
-      // cors: { origin: false }, options: { host: '127.0.0.1' },
+      cors: { origin: false },
+      options: { host: '127.0.0.1' },
       port: env.PORT,
     },
     ui: {

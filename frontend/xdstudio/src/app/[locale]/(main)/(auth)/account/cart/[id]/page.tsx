@@ -1,5 +1,15 @@
-import { CartOrdersSummaryForm } from "./components/CartOrdersSummary.form";
+import { CardPromoCodeCartForm } from "./components/CardPromoCodeCartForm";
+import CartOrdersAction from "./components/CartOrdersAction";
+import { CardCartOrdersSummaryForm } from "./components/forms/CardCartOrdersSummaryForm";
+import { FormOrdersSummary } from "./components/forms/FormOrdersSummary";
 
-export default function CartPage() {
-  return <CartOrdersSummaryForm />;
+export default async function CartOrderPage() {
+  return (
+    <FormOrdersSummary>
+      <CardCartOrdersSummaryForm className="grow" />
+      <CardPromoCodeCartForm className="" />
+      {/* <CardCartSummary /> */}
+      <CartOrdersAction />
+    </FormOrdersSummary>
+  );
 }

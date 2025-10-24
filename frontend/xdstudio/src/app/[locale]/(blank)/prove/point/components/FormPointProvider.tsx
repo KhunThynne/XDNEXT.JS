@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Form, FormMessage } from "@/libs/shadcn/ui/form";
-import { ButtonGrupe } from "@/shared/components/ui";
+import { ButtonGroup } from "@/shared/components/ui";
 import { SelectForm } from "@/shared/components/ui/form/SelectForm";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,7 +12,7 @@ import {
   FormPointAndChooseMethod,
   TypePointMethodSchema,
 } from "./FormPointAndChooseMethod";
-import { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import type { OmiseChargeResponse } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
 import { FormPaymentQrCode } from "./FormPaymentQrCode";
 
 export type TypeFormPoint = OmiseChargeResponse;

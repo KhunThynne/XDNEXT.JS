@@ -2,11 +2,12 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, json } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { TypeInfo } from '.keystone/types';
 export const UserItem = list({
   access: allowAll,
   ui: {
     listView: {
-      initialColumns: ['userId', 'createdAt'],
+      initialColumns: ['user', 'item', 'createdAt', 'updateAt'],
       pageSize: 10,
     },
     isHidden: true,
@@ -26,6 +27,7 @@ export const UserItem = list({
     item: relationship({
       ref: 'OrderItem.userItem',
       many: false,
+      // ui: { labelField: 'product' },
     }),
     config: json({
       defaultValue: {},
@@ -33,4 +35,4 @@ export const UserItem = list({
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['UserItem']>;

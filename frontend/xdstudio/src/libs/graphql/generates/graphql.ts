@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -160,15 +160,19 @@ export type CartCreateInput = {
 export type CartItem = {
   __typename?: 'CartItem';
   cart?: Maybe<Cart>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
   product?: Maybe<Product>;
   quantity?: Maybe<Scalars['Int']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type CartItemCreateInput = {
   cart?: InputMaybe<CartRelateToOneForCreateInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   product?: InputMaybe<ProductRelateToOneForCreateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type CartItemManyRelationFilter = {
@@ -178,8 +182,10 @@ export type CartItemManyRelationFilter = {
 };
 
 export type CartItemOrderByInput = {
+  createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   quantity?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
 };
 
 export type CartItemRelateToManyForCreateInput = {
@@ -201,8 +207,10 @@ export type CartItemUpdateArgs = {
 
 export type CartItemUpdateInput = {
   cart?: InputMaybe<CartRelateToOneForUpdateInput>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   product?: InputMaybe<ProductRelateToOneForUpdateInput>;
   quantity?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type CartItemWhereInput = {
@@ -210,9 +218,11 @@ export type CartItemWhereInput = {
   NOT?: InputMaybe<Array<CartItemWhereInput>>;
   OR?: InputMaybe<Array<CartItemWhereInput>>;
   cart?: InputMaybe<CartWhereInput>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   product?: InputMaybe<ProductWhereInput>;
   quantity?: InputMaybe<IntFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
 };
 
 export type CartItemWhereUniqueInput = {
@@ -282,6 +292,20 @@ export type CartWhereInput = {
 
 export type CartWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type CheckProductFailure = {
+  __typename?: 'CheckProductFailure';
+  message: Scalars['String']['output'];
+};
+
+export type CheckProductResponse = CheckProductFailure | CheckProductSuccess;
+
+export type CheckProductSuccess = {
+  __typename?: 'CheckProductSuccess';
+  inCart: Scalars['Boolean']['output'];
+  inUserItem: Scalars['Boolean']['output'];
+  productId: Scalars['String']['output'];
 };
 
 export type CreateInitialUserInput = {
@@ -2368,6 +2392,7 @@ export type Query = {
   cartItemsCount?: Maybe<Scalars['Int']['output']>;
   carts?: Maybe<Array<Cart>>;
   cartsCount?: Maybe<Scalars['Int']['output']>;
+  checkUserProductStatus?: Maybe<CheckProductResponse>;
   fAQ?: Maybe<Faq>;
   fAQS?: Maybe<Array<Faq>>;
   fAQSCount?: Maybe<Scalars['Int']['output']>;
@@ -2484,6 +2509,12 @@ export type QueryCartsArgs = {
 
 export type QueryCartsCountArgs = {
   where?: CartWhereInput;
+};
+
+
+export type QueryCheckUserProductStatusArgs = {
+  productId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
@@ -3765,19 +3796,34 @@ export type AuthenticateAndLinkProviderMutation = { __typename?: 'Mutation', aut
       ) }
    | null };
 
+export type UpdateCartMutationVariables = Exact<{
+  where: CartWhereUniqueInput;
+  data: CartUpdateInput;
+}>;
+
+
+export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', id: string, status?: string | null, itemsCount?: number | null, createdAt?: any | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null, items?: Array<{ __typename?: 'CartItem', id: string }> | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where: CartWhereUniqueInput;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip: Scalars['Int']['input'];
+  cursor?: InputMaybe<CartItemWhereUniqueInput>;
+  orderBy?: InputMaybe<Array<CartItemOrderByInput> | CartItemOrderByInput>;
+}>;
+
+
+export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, itemsCount?: number | null, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: (
+        { __typename?: 'Product' }
+        & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
+      ) | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
+
 export type CreateCartItemMutationVariables = Exact<{
   data: CartItemCreateInput;
 }>;
 
 
 export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: string, quantity?: number | null, cart?: { __typename?: 'Cart', id: string } | null, product?: { __typename?: 'Product', id: string } | null } | null };
-
-export type GetCartQueryVariables = Exact<{
-  where: CartWhereUniqueInput;
-}>;
-
-
-export type GetCartQuery = { __typename?: 'Query', cart?: { __typename?: 'Cart', createdAt?: any | null, id: string, status?: string | null, updateAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity?: number | null, product?: { __typename?: 'Product', id: string, description?: string | null, name?: string | null, publishedAt?: any | null, status?: string | null, updateAt?: any | null, createdAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, id: string, url: string, width: number } | null }> | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, id: string } | null, suppilers?: { __typename?: 'Supplier', id: string } | null } | null }> | null, user?: { __typename?: 'User', id: string, username?: string | null } | null } | null };
 
 export type DeleteCartItemMutationVariables = Exact<{
   where: CartItemWhereUniqueInput;
@@ -3792,6 +3838,17 @@ export type DeleteCartItemsMutationVariables = Exact<{
 
 
 export type DeleteCartItemsMutation = { __typename?: 'Mutation', deleteCartItems?: Array<{ __typename?: 'CartItem', id: string } | null> | null };
+
+export type CheckUserProductStatusQueryVariables = Exact<{
+  productId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+}>;
+
+
+export type CheckUserProductStatusQuery = { __typename?: 'Query', checkUserProductStatus?:
+    | { __typename: 'CheckProductFailure', message: string }
+    | { __typename: 'CheckProductSuccess', inCart: boolean, inUserItem: boolean, productId: string }
+   | null };
 
 export type ImageFieldFragment = { __typename?: 'Image', id: string, name?: string | null, altText?: string | null, src?: { __typename?: 'ImageFieldOutput', filesize: number, width: number, height: number, extension: ImageExtension, url: string, id: string } | null } & { ' $fragmentName'?: 'ImageFieldFragment' };
 
@@ -3832,6 +3889,13 @@ export type GetOrderQueryVariables = Exact<{
 
 export type GetOrderQuery = { __typename?: 'Query', order?: { __typename?: 'Order', createdAt?: any | null, id: string, itemsCount?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, suppiler?: Array<{ __typename?: 'Supplier', id: string, name?: string | null }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null } | null };
 
+export type CreateOrderAndUserItemsMutationVariables = Exact<{
+  data: OrderCreateInput;
+}>;
+
+
+export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
+
 export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
@@ -3847,10 +3911,15 @@ export type GetProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', products?: Array<(
+export type GetProductsQuery = { __typename?: 'Query', productsCount?: number | null, products?: Array<(
     { __typename?: 'Product' }
     & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
   )> | null };
+
+export type GetProductsCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsCountQuery = { __typename?: 'Query', productsCount?: number | null };
 
 export type GetProductQueryVariables = Exact<{
   where: ProductWhereUniqueInput;
@@ -4177,6 +4246,107 @@ export const AuthenticateAndLinkProviderDocument = new TypedDocumentString(`
   passwordResetIssuedAt
   passwordResetRedeemedAt
 }`) as unknown as TypedDocumentString<AuthenticateAndLinkProviderMutation, AuthenticateAndLinkProviderMutationVariables>;
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation UpdateCart($where: CartWhereUniqueInput!, $data: CartUpdateInput!) {
+  updateCart(where: $where, data: $data) {
+    id
+    user {
+      id
+    }
+    status
+    items {
+      id
+    }
+    itemsCount
+    createdAt
+    updateAt
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCartMutation, UpdateCartMutationVariables>;
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: CartWhereUniqueInput!, $take: Int, $skip: Int!, $cursor: CartItemWhereUniqueInput, $orderBy: [CartItemOrderByInput!]) {
+  cart(where: $where) {
+    createdAt
+    id
+    itemsCount
+    items(take: $take, skip: $skip, cursor: $cursor, orderBy: $orderBy) {
+      id
+      quantity
+      product {
+        ...ProductFields
+      }
+    }
+    status
+    updateAt
+    user {
+      id
+      username
+    }
+  }
+}
+    fragment ImageField on Image {
+  id
+  name
+  altText
+  src {
+    filesize
+    width
+    height
+    extension
+    url
+    id
+  }
+}
+fragment ProductFields on Product {
+  id
+  suppilers {
+    ...SupplierFields
+  }
+  name
+  description
+  details {
+    document
+  }
+  price {
+    price
+    description
+    price_type
+    price_type
+    id
+  }
+  tag {
+    id
+    name
+    postsCount
+  }
+  faqs {
+    id
+    question
+    answer {
+      document
+    }
+  }
+  averageScore
+  status
+  publishedAt
+  updateAt
+  createdAt
+  images {
+    ...ImageField
+  }
+  imagesCount
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+  productsCount
+}`) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
 export const CreateCartItemDocument = new TypedDocumentString(`
     mutation CreateCartItem($data: CartItemCreateInput!) {
   createCartItem(data: $data) {
@@ -4191,56 +4361,6 @@ export const CreateCartItemDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
-export const GetCartDocument = new TypedDocumentString(`
-    query getCart($where: CartWhereUniqueInput!) {
-  cart(where: $where) {
-    createdAt
-    id
-    items {
-      id
-      quantity
-      product {
-        images {
-          src {
-            extension
-            filesize
-            height
-            id
-            url
-            width
-          }
-          altText
-          id
-          name
-        }
-        id
-        description
-        details {
-          document
-        }
-        name
-        price {
-          price
-          id
-        }
-        publishedAt
-        status
-        suppilers {
-          id
-        }
-        updateAt
-        createdAt
-      }
-    }
-    status
-    updateAt
-    user {
-      id
-      username
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
 export const DeleteCartItemDocument = new TypedDocumentString(`
     mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
   deleteCartItem(where: $where) {
@@ -4255,6 +4375,21 @@ export const DeleteCartItemsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<DeleteCartItemsMutation, DeleteCartItemsMutationVariables>;
+export const CheckUserProductStatusDocument = new TypedDocumentString(`
+    query CheckUserProductStatus($productId: String!, $userId: String!) {
+  checkUserProductStatus(productId: $productId, userId: $userId) {
+    ... on CheckProductSuccess {
+      inCart
+      inUserItem
+      productId
+    }
+    __typename
+    ... on CheckProductFailure {
+      message
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CheckUserProductStatusQuery, CheckUserProductStatusQueryVariables>;
 export const GetImageDocument = new TypedDocumentString(`
     query GetImage($where: ImageWhereUniqueInput!) {
   image(where: $where) {
@@ -4337,11 +4472,35 @@ export const GetOrderDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
+export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
+    mutation CreateOrderAndUserItems($data: OrderCreateInput!) {
+  createOrder(data: $data) {
+    items {
+      id
+      unitPrice
+      product {
+        id
+      }
+    }
+    createdAt
+    id
+    updateAt
+    status
+    itemsCount
+    user {
+      email
+      id
+      name
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query getProducts($take: Int, $skip: Int!, $orderBy: [ProductOrderByInput!]!) {
   products(take: $take, skip: $skip, orderBy: $orderBy) {
     ...ProductFields
   }
+  productsCount
 }
     fragment ImageField on Image {
   id
@@ -4406,6 +4565,11 @@ fragment SupplierFields on Supplier {
   }
   productsCount
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductsCountDocument = new TypedDocumentString(`
+    query getProductsCount {
+  productsCount
+}
+    `) as unknown as TypedDocumentString<GetProductsCountQuery, GetProductsCountQueryVariables>;
 export const GetProductDocument = new TypedDocumentString(`
     query getProduct($where: ProductWhereUniqueInput!) {
   product(where: $where) {

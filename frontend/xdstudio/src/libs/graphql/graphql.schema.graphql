@@ -123,15 +123,19 @@ input CartCreateInput {
 
 type CartItem {
   cart: Cart
+  createdAt: DateTime
   id: ID!
   product: Product
   quantity: Int
+  updateAt: DateTime
 }
 
 input CartItemCreateInput {
   cart: CartRelateToOneForCreateInput
+  createdAt: DateTime
   product: ProductRelateToOneForCreateInput
   quantity: Int
+  updateAt: DateTime
 }
 
 input CartItemManyRelationFilter {
@@ -141,8 +145,10 @@ input CartItemManyRelationFilter {
 }
 
 input CartItemOrderByInput {
+  createdAt: OrderDirection
   id: OrderDirection
   quantity: OrderDirection
+  updateAt: OrderDirection
 }
 
 input CartItemRelateToManyForCreateInput {
@@ -164,8 +170,10 @@ input CartItemUpdateArgs {
 
 input CartItemUpdateInput {
   cart: CartRelateToOneForUpdateInput
+  createdAt: DateTime
   product: ProductRelateToOneForUpdateInput
   quantity: Int
+  updateAt: DateTime
 }
 
 input CartItemWhereInput {
@@ -173,9 +181,11 @@ input CartItemWhereInput {
   NOT: [CartItemWhereInput!]
   OR: [CartItemWhereInput!]
   cart: CartWhereInput
+  createdAt: DateTimeNullableFilter
   id: IDFilter
   product: ProductWhereInput
   quantity: IntFilter
+  updateAt: DateTimeNullableFilter
 }
 
 input CartItemWhereUniqueInput {
@@ -245,6 +255,18 @@ input CartWhereInput {
 
 input CartWhereUniqueInput {
   id: ID
+}
+
+type CheckProductFailure {
+  message: String!
+}
+
+union CheckProductResponse = CheckProductFailure | CheckProductSuccess
+
+type CheckProductSuccess {
+  inCart: Boolean!
+  inUserItem: Boolean!
+  productId: String!
 }
 
 input CreateInitialUserInput {
@@ -1409,6 +1431,7 @@ type Query {
   cartItemsCount(where: CartItemWhereInput! = {}): Int
   carts(cursor: CartWhereUniqueInput, orderBy: [CartOrderByInput!]! = [], skip: Int! = 0, take: Int, where: CartWhereInput! = {}): [Cart!]
   cartsCount(where: CartWhereInput! = {}): Int
+  checkUserProductStatus(productId: String!, userId: String!): CheckProductResponse
   fAQ(where: FAQWhereUniqueInput!): FAQ
   fAQS(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
   fAQSCount(where: FAQWhereInput! = {}): Int

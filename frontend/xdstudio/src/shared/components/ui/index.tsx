@@ -1,3 +1,3 @@
-import ButtonGrupe from "./ButtonGrupe";
-
-export { ButtonGrupe };
+import ButtonGroup from "./ButtonGroup";
+export * from "./globalModal";
+export { ButtonGroup };

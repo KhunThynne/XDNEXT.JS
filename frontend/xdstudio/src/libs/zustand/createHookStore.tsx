@@ -1,6 +1,7 @@
 import _ from "lodash";
 import { create, StateCreator } from "zustand";
-import { devtools, persist, PersistOptions } from "zustand/middleware";
+import type { PersistOptions } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 type StoreWrapper<T, K extends string> = {
   [key in `${Lowercase<K>}Store`]: T;
 } & {

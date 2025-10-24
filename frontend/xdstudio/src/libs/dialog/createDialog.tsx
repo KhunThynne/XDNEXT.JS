@@ -1,7 +1,7 @@
 import React from "react";
 
 import { DialogInstance, DialogInstanceProvider } from "./DialogInstance";
-import { DialogInstanceProps } from "./index.type";
+import type { DialogInstanceProps } from "./index.type";
 /**
  * `createDialog` is a factory function that generates a custom `Dialog` component
  * with preset default properties (`initialProps`) and allows runtime overrides.

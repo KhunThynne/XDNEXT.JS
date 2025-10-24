@@ -4,8 +4,23 @@ import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 const backendUrl = new URL(env.API_BACKEND_URL);
 const nextConfig = {
+  /**
+   * @type {import('next').NextConfig}
+   */
+  turbopack: {
+    // options
+  },
+  cacheComponents: true,
+  experimental:{    turbopackFileSystemCacheForDev: true,},
   trailingSlash: true,
   typedRoutes: false,
+  basePath: "",
+  // assetPrefix: env.NEXT_PUBLIC_SITE_URL,
+  // experimental: {
+  //   serverActions: {
+  //     allowedOrigins: ["shop.xd-tect.com"],
+  //   },
+  // },
   images: {
     remotePatterns: [
       {
@@ -17,6 +32,14 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "3000",
+      },
+      {
+        protocol: "https",
+        hostname: "*.xd-tect.com",
+      },
+      {
+        protocol: "http",
+        hostname: "*.xd-tect.com",
       },
       {
         protocol: "https",

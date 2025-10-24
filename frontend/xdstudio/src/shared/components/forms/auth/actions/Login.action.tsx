@@ -1,7 +1,7 @@
 "use server";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { SignInOptions } from "next-auth/react";
+import type { SignInOptions } from "next-auth/react";
 
 import { getLocale } from "next-intl/server";
 

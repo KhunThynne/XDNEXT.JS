@@ -2,7 +2,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Xdstudio",
+  title: "XD Shop",
   description: "This is a static description for all locales",
 };
 export default async function GGLayout({

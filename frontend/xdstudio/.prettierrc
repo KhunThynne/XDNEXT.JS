@@ -2,5 +2,8 @@
   "plugins": ["prettier-plugin-tailwindcss"],
   "semi": true,
   "trailingComma": "es5",
-  "tailwindStylesheet": "./src/styles/*.css"
+  "tabWidth": 2,
+  "printWidth": 80,
+  "tailwindStylesheet": "./src/styles/globals.css" ,
+   "tailwindFunctions": ["clsx"]
 }

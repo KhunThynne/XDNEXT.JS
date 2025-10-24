@@ -9,7 +9,7 @@ import { RenderMenu } from "./RenderMenu.components";
 import { useSession } from "next-auth/react";
 
 import { NavbarActionSection } from "./NavbarActionSection";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 
 export default function Navbar({
   className,
@@ -22,7 +22,7 @@ export default function Navbar({
   return (
     <div
       className={clsx(
-        "bg-background sticky top-0 z-20 w-full border-b",
+        "bg-background min-h-16.5 w-full place-content-center border-b",
         className
       )}
     >
@@ -39,6 +39,7 @@ export default function Navbar({
           />
         </nav>
         <MenuButton
+          aria-label="menu-navbar"
           className="md:hidden"
           state={isOpen}
           onClick={() => setIsOpen((pre) => !pre)}

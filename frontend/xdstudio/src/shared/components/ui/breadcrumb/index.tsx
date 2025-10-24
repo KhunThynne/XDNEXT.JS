@@ -13,6 +13,7 @@ import {
 import { usePathname } from "@navigation";
 import _ from "lodash";
 import { useBreadBrumbStore } from "./useBreadBrumb.store";
+import { Fragment } from "react";
 
 const BreadcrumbItemComponent = ({
   href,
@@ -36,9 +37,9 @@ const BreadcrumbItemComponent = ({
     </BreadcrumbItem>
   );
 };
-export function BreadcrumbComponent() {
+export function BreadcrumbComponent({ pathNames }: { pathNames?: string[] }) {
   const pathname = usePathname();
-  const pathNames = pathname.split("/").filter((path) => path);
+  pathNames = pathNames ?? pathname.split("/").filter((path) => path);
   const { breadcrumbeStore } = useBreadBrumbStore();
   if (breadcrumbeStore.disable) return false;
   return (
@@ -50,12 +51,12 @@ export function BreadcrumbComponent() {
           disable={pathNames.length === 0}
         />
 
-        {pathNames.map((segment, index) => {
+        {pathNames.map((segment = "unkhown", index) => {
           const href = "/" + pathNames.slice(0, index + 1).join("/");
           const isLast = index === pathNames.length - 1;
 
           return (
-            <div key={href} className="flex items-center gap-1">
+            <Fragment key={`${segment}-${index}`}>
               <BreadcrumbSeparator>
                 <ChevronRight className="size-4" />
               </BreadcrumbSeparator>
@@ -69,7 +70,7 @@ export function BreadcrumbComponent() {
                 }
                 disable={isLast}
               />
-            </div>
+            </Fragment>
           );
         })}
       </BreadcrumbList>

@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, timestamp } from '@keystone-6/core/fields';
@@ -15,4 +16,4 @@ export const ProductPromotion = list({
     publishedAt: timestamp(),
     images: relationship({ ref: 'Image', many: true }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['ProductPromotion']>;

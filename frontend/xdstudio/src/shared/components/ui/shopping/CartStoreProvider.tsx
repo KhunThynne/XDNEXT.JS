@@ -1,6 +1,6 @@
 "use client";
 
-import { Cart, CartItem, Maybe } from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem, Maybe } from "@/libs/graphql/generates/graphql";
 import { createHookStore } from "@/libs/zustand/createHookStore";
 import { useLayoutEffect } from "react";
 
@@ -16,20 +16,6 @@ export const useCartItemStore = createHookStore<
   key: "cartItem",
   initial: [],
 });
-export default function CartStoreProvider({
-  cart,
-}: {
-  cart: Maybe<Cart> | undefined;
-}) {
-  const { setCart } = useCartStore();
-
-  const { setCartItem } = useCartItemStore();
-  useLayoutEffect(() => {
-    if (cart) {
-      setCart(cart);
-      console.log(cart.items);
-      setCartItem(cart?.items || []);
-    }
-  }, [cart, setCart, setCartItem]);
+export default function CartStoreProvider() {
   return null;
 }

@@ -7,9 +7,9 @@ import Image from "next/image";
 
 export default function Footer({ className }: WithlDefaultProps) {
   return (
-    <footer
+    <article
       className={clsx(
-        "border-t-1 bg-background @container w-full items-center",
+        "bg-background @container w-full items-center max-sm:pb-7",
         "text-xs",
         "space-y-3",
         className
@@ -26,7 +26,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </p>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Products</h4>
+          <p className="text-foreground mb-4 font-semibold">Products</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">
@@ -51,7 +51,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </ul>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Support</h4>
+          <p className="text-foreground mb-4 font-semibold">Support</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">
@@ -76,7 +76,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </ul>
         </div>
         <div className="grow">
-          <h4 className="text-foreground mb-4 font-semibold">Company</h4>
+          <p className="text-foreground mb-4 font-semibold">Company</p>
           <ul className="text-muted-foreground space-y-2 text-sm">
             <li>
               <a href="#" className="hover:text-foreground transition-colors">
@@ -128,14 +128,14 @@ export default function Footer({ className }: WithlDefaultProps) {
           </div>
         </div>
 
-        <div className="sm:self-end">
+        <div className="space-y-1 sm:self-end">
           <div>Copyright &copy; XD DEV 2024 - 2025 All Rights Reserved.</div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
-            <CheckCircle /> Website{" "}
-            <code className="font-extrabold text-green-400">Protected</code>
+            <CheckCircle className="size-4" /> Website
+            <span className="text-success font-medium">Protected</span>
           </div>
         </div>
       </div>
-    </footer>
+    </article>
   );
 }

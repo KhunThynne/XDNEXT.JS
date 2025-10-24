@@ -2,9 +2,10 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, integer } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { TypeInfo } from '.keystone/types';
 export const UserPoint = list({
   access: allowAll,
-  ui: { isHidden: true },
+  ui: { isHidden: true, labelField: 'total_point' },
   fields: {
     user: relationship({ ref: 'User.point', many: false }),
     total_point: integer({
@@ -13,4 +14,4 @@ export const UserPoint = list({
     }),
     ...defaultGlobalField({ includeUpdateAt: true }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['UserPoint']>;

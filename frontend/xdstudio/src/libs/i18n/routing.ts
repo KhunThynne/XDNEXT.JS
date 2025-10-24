@@ -8,4 +8,11 @@ export const routing = defineRouting({
   defaultLocale: "en",
   // localeDetection: false,
   localePrefix: "always",
+  domains: [
+    {
+      domain: "*.xd-tect.com",
+      defaultLocale: "th",
+      locales: ["en", "th"],
+    },
+  ],
 });

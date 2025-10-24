@@ -2,6 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, text, timestamp } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { TypeInfo } from '.keystone/types';
 
 export const Rating = list({
   access: allowAll,
@@ -25,21 +26,19 @@ export const Rating = list({
   hooks: {
     afterOperation: async ({ operation, item, context }) => {
       if (operation === 'create' || operation === 'update' || operation === 'delete') {
-        const productId = item.productId;
-        if (!productId) return;
-
-        const ratings = await context.query.Rating.findMany({
-          where: { product: { id: { equals: productId } } },
-          query: 'score',
-        });
-
-        const avg = ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length;
-
-        await context.db.Product.updateOne({
-          where: { id: productId },
-          data: { averageScore: avg },
-        });
+        //   const productId = item.productId;
+        //   if (!productId) return;
+        //   const ratings = await context.query.Rating.findMany({
+        //     where: { product: { id: { equals: productId } } },
+        //     query: 'score',
+        //   });
+        //   const avg = ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length;
+        //   await context.db.Product.updateOne({
+        //     where: { id: productId },
+        //     data: { averageScore: avg },
+        //   });
+        //
       }
     },
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Rating']>;

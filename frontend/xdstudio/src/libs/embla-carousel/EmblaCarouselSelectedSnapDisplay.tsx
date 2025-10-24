@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { EmblaCarouselType } from "embla-carousel";
+import type { EmblaCarouselType } from "embla-carousel";
 
 type UseSelectedSnapDisplayType = {
   selectedSnap: number;
@@ -20,6 +20,7 @@ export const useSelectedSnapDisplay = (
   useEffect(() => {
     if (!emblaApi) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     updateScrollSnapState(emblaApi);
     emblaApi.on("select", updateScrollSnapState);
     emblaApi.on("reInit", updateScrollSnapState);

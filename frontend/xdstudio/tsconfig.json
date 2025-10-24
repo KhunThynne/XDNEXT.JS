@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -11,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -23,12 +27,22 @@
       }
     ],
     "paths": {
-      "@navigation": ["./src/libs/i18n/navigation.ts"],
-      "@configs/*": ["./configs/*"],
-      "@type/*": ["./types/*"],
-      "@public/*": ["./public/*"],
+      "@navigation": [
+        "./src/libs/i18n/navigation.ts"
+      ],
+      "@configs/*": [
+        "./configs/*"
+      ],
+      "@type/*": [
+        "./types/*"
+      ],
+      "@public/*": [
+        "./public/*"
+      ],
       // "#/*": ["./*"],
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
@@ -37,9 +51,19 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/env.ts",
-    "src/types/**/*.d.ts"
+    "src/types/**/*.d.ts",
+    ".next\\dev/types/**/*.ts",
+    ".next\\dev/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"],
-  "typeRoots": ["./types", "./node_modules/@types"],
-  "types": ["next-auth"]
+  "exclude": [
+    "node_modules"
+  ],
+  "typeRoots": [
+    "./types",
+    "./node_modules/@types"
+  ],
+  "types": [
+    "next-auth"
+  ]
 }
