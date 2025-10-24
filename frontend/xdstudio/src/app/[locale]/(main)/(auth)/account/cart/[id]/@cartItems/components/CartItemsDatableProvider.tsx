@@ -111,7 +111,7 @@ export const CartItemsDatableProvider = ({
         content: (
           <div className="space-y-2">
             {itemNames.length > 0 && (
-              <ul className="text-muted-foreground list-inside list-disc text-sm">
+              <ul className="list-inside list-disc text-sm text-muted-foreground">
                 {itemNames.slice(0, 5).map((name, index) => (
                   <li key={name ?? "unkhown" + index}>{name}</li>
                 ))}
@@ -197,14 +197,14 @@ export const CartItemsDatableProvider = ({
 
           return (
             <section className="flex gap-4">
-              <div className="bg-accent w-35 relative aspect-square overflow-hidden rounded-lg border">
+              <div className="relative aspect-square w-35 overflow-hidden rounded-lg border bg-accent">
                 {image ? (
                   <Image
                     src={image.url}
                     alt={image.id}
                     fill
                     draggable={false}
-                    className="select-none object-contain"
+                    className="object-contain select-none"
                   />
                 ) : (
                   <ImageOff className="size-full self-center rounded border" />
@@ -212,7 +212,7 @@ export const CartItemsDatableProvider = ({
               </div>
               <aside className="place-content-center space-y-1">
                 <h3 className="font-bold">{cell.product?.name} </h3>
-                <h4 className="text-destructive font-medium">
+                <h4 className="font-medium text-destructive">
                   <PointDiamon /> {cell.product?.price?.price}
                 </h4>
               </aside>
@@ -287,6 +287,7 @@ export const CartItemsDatableProvider = ({
     }
   }, [cartItems, setDatatableValue]);
   useLayoutEffect(() => {
+    console.log(OrderCartItem);
     if (OrderCartItem) {
       setDatatableValue("selected", OrderCartItem.length);
     }

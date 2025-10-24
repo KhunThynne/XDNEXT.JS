@@ -25,11 +25,19 @@ const nextConfig = {
   //   },
   // },
   images: {
+    dangerouslyAllowSVG: true,
+    dangerouslyAllowLocalIP: true,
     remotePatterns: [
       {
         protocol: backendUrl.protocol.replace(":", "") as "http" | "https",
         hostname: backendUrl.hostname,
         pathname: "/images/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        port: "3001",
+        search: "",
       },
       {
         protocol: "http",

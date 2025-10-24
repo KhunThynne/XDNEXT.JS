@@ -118,10 +118,7 @@ export const CartItemsVirtualScroll = ({
   );
 };
 
-export function CardCartOrdersSummaryForm({
-  className,
-  children,
-}: WithlDefaultProps) {
+const CartOrdersSummaryForm = () => {
   const method = useFormContext<CartFormProps>();
   const formatter = useFormatter();
   const { watch } = method;
@@ -138,28 +135,38 @@ export function CardCartOrdersSummaryForm({
   const tax = subtotal * 0.07;
   const pointId = point?.id;
   const total = subtotal + tax;
+  const cartItemsData = useMemo(() => cartItems, [cartItems]);
   const [totalPoint, setTotalPoint] = useState(0);
+  return JSON.stringify(cartItems);
+  if (cartItemsData?.length ?? 0 > 0)
+    return (
+      <>
+        <CartItemsVirtualScroll cartItems={cartItemsData} />
+        <CardContent className="flex flex-col gap-4 pt-5">
+          <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
+          <CartSummary userTotalPoint={totalPoint} />
+        </CardContent>
+      </>
+    );
+
+  return (
+    <CardContent className="flex min-h-50 grow flex-col items-center justify-center text-muted-foreground">
+      <ShoppingCart className="mb-2 size-8 opacity-70" />
+      <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
+    </CardContent>
+  );
+};
+
+export function CardCartOrdersSummaryForm({
+  className,
+  children,
+}: WithlDefaultProps) {
   return (
     <Card className={clsx(className, `gap-0 divide-y`)}>
       <CardHeader className="pb-3">
         <CardTitle>Order Summary</CardTitle>
       </CardHeader>
-
-      {(cartItems?.length ?? 0 > 0) ? (
-        <>
-          <CartItemsVirtualScroll cartItems={cartItems} />
-          <CardContent className="flex flex-col gap-4 pt-5">
-            <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
-            <CartSummary userTotalPoint={totalPoint} />
-          </CardContent>
-        </>
-      ) : (
-        <CardContent className="flex min-h-50 grow flex-col items-center justify-center text-muted-foreground">
-          <ShoppingCart className="mb-2 size-8 opacity-70" />
-          <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
-        </CardContent>
-      )}
-
+      <CartOrdersSummaryForm />
       {children}
     </Card>
   );
