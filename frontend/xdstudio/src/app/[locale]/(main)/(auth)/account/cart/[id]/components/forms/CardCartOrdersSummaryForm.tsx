@@ -1,7 +1,7 @@
 "use client";
 
 import { Separator } from "@radix-ui/react-separator";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { useFormatter } from "next-intl";
 import PointDiamon from "@/shared/components/PointDiamod";
@@ -121,8 +121,9 @@ export const CartItemsVirtualScroll = ({
 const CartOrdersSummaryForm = () => {
   const method = useFormContext<CartFormProps>();
   const formatter = useFormatter();
-  const { watch } = method;
-  const { cartItems, point } = watch();
+  const { control } = method;
+  const cartItems = useWatch({ control, name: "cartItems" });
+  const point = useWatch({ control, name: "point" });
   const subtotal = useMemo(
     () =>
       cartItems?.reduce(
@@ -137,7 +138,7 @@ const CartOrdersSummaryForm = () => {
   const total = subtotal + tax;
   const cartItemsData = useMemo(() => cartItems, [cartItems]);
   const [totalPoint, setTotalPoint] = useState(0);
-  return JSON.stringify(cartItems);
+
   if (cartItemsData?.length ?? 0 > 0)
     return (
       <>

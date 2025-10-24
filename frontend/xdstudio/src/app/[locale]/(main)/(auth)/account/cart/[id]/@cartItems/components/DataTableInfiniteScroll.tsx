@@ -179,20 +179,9 @@ export function DataTableCartInfiniteScroll({
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
     const selectedData = cartItems.filter((item) => selectedIds[item.id]);
+    console.log(selectedData);
     setValue("cartItems", selectedData ?? []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table.getState().rowSelection, setValue, cartItems]);
-  // const rowVirtualizer = useVirtualizer({
-  //   count: rows?.length,
-  //   estimateSize: () => 150, //estimate row height for accurate scrollbar dragging
-  //   getScrollElement: () => tableContainerRef.current,
-  //   measureElement:
-  //     typeof window !== "undefined" &&
-  //     navigator.userAgent.indexOf("Firefox") === -1
-  //       ? (element) => element?.getBoundingClientRect().height
-  //       : undefined,
-  //   overscan: 5,
-  // });
 
   if (isLoading) {
     return <>Loading...</>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, useFormContext } from "react-hook-form";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
 import React, { useCallback, useLayoutEffect } from "react";
 import type {
   CartFormProps,
@@ -29,8 +29,9 @@ export const CartItemsDatableProvider = ({
   invalidateCartAction: () => void;
 }) => {
   const { openDialog, closeDialog } = useDialogGlobal();
-  const { watch, setValue, getValues, reset } = useFormContext<CartFormProps>();
-  const { cartItems: OrderCartItem } = watch();
+  const { setValue, control, getValues, reset } =
+    useFormContext<CartFormProps>();
+  const OrderCartItem = useWatch({ control, name: "cartItems" });
   const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
     handleSuccess() {
       invalidateCartAction();
@@ -287,10 +288,7 @@ export const CartItemsDatableProvider = ({
     }
   }, [cartItems, setDatatableValue]);
   useLayoutEffect(() => {
-    console.log(OrderCartItem);
-    if (OrderCartItem) {
-      setDatatableValue("selected", OrderCartItem.length);
-    }
+    setDatatableValue("selected", OrderCartItem?.length ?? 0);
   }, [OrderCartItem, setDatatableValue]);
   useLayoutEffect(() => {
     if (itemsCount) {

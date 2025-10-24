@@ -10,8 +10,7 @@ const nextConfig = {
   turbopack: {
     // options
   },
-  // skipProxyUrlNormalize: true,
-
+  skipProxyUrlNormalize: true,
   reactCompiler: true,
   cacheComponents: true,
   experimental: { turbopackFileSystemCacheForDev: true, mcpServer: true },
