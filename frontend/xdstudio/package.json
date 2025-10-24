@@ -6,7 +6,8 @@
     "dev": "next dev  -H localhost --turbo",
     "build": "next build --turbo",
     "start": "next start -H localhost",
-    "eslint": "npx eslint",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "install:prod": "npm install --production",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",
     "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache --watch"
@@ -32,6 +33,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.12",
     "@zxing/browser": "^0.1.5",
+    "babel-plugin-react-compiler": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "ctx": "^0.3.0",
