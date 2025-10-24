@@ -22,10 +22,16 @@
     "backTo_login": "Return to login",
     "go_to_login": "Go to login page",
     "sign_in_again": "Sign in again",
-    "back_to_signIn": "Back to sign in"
+    "back_to_signIn": "Back to sign in",
+    "price": "price"
   },
   "not_found": {
     "description": "Sorry,the page you are looking for does not exist",
     "navigation": "Go back home"
+  },
+  "cart": {
+    "text01": "available point",
+    "text02": "grand total",
+    "text03": "remaining points after payment"
   }
 }

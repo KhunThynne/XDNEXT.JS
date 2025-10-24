@@ -18,7 +18,7 @@ import { LoadingDots } from "@/shared/components/ui/Loading";
 
 export const CartItemsClient = () => {
   const { watch, setValue } = useFormContext<CartFormProps>();
-  const { cartId, userId } = watch();
+  const { cartId, userId, remainingpointPayment } = watch();
   const { query, invalidate } = useCartInfinite({
     cartId,
     userId,

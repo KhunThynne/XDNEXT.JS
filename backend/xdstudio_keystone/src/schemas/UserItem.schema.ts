@@ -2,6 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, json } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { TypeInfo } from '.keystone/types';
 export const UserItem = list({
   access: allowAll,
   ui: {
@@ -34,4 +35,4 @@ export const UserItem = list({
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['UserItem']>;

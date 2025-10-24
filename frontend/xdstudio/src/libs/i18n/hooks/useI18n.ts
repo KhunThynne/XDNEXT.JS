@@ -21,5 +21,5 @@ export function useI18n(namespace?: string) {
     return t(key, values);
   };
 
-  return translate;
+  return Object.assign(translate, t);
 }

@@ -1,3 +1,3 @@
 export default async function UserProduct({ children }: WithChildren) {
-  return <>{children}</>;
+  return <article className="relative h-full">{children}</article>;
 }

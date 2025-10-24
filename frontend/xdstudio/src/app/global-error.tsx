@@ -25,7 +25,7 @@ export default function GlobalError({
 }) {
   return (
     <html key="global-error">
-      <body className="bg-secondary flex min-h-screen flex-col place-content-center">
+      <body className="flex min-h-screen flex-col place-content-center bg-secondary">
         <Content
           classNames={{
             content: "max-w-md mx-auto grow place-content-center px-4",

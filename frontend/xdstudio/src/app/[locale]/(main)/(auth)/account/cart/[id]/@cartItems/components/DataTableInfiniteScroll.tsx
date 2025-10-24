@@ -259,15 +259,13 @@ export function DataTableCartInfiniteScroll({
               )}
             </TableBody>
           </table>
-
           {isFetching && <div className="text-center">Fetching More...</div>}
         </CardContent>
         <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
-          <span className="text-gray-800">
-            Selected: <span className="text-xd font-semibold">{selected}</span>
+          <span>
+            Selected: <span className="text-destructive font-semibold">{selected}</span>
           </span>
-
-          <span className="text-gray-600">
+          <span className="flex gap-1">
             Showing <span className="font-medium">{totalFetched}</span> of
             <span className="font-medium">{total}</span>
           </span>

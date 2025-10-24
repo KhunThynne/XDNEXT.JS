@@ -26,7 +26,7 @@ export default function CartOrdersAction() {
         size="lg"
         type="button"
       >
-        <Link href={"/products"}>Continue Shopping</Link>
+        <Link href={"/products"}>Continue Shopping </Link>
       </Button>
     </ButtonGroup>
   );

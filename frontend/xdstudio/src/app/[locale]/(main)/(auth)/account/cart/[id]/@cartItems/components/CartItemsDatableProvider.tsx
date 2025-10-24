@@ -212,7 +212,7 @@ export const CartItemsDatableProvider = ({
               </div>
               <aside className="place-content-center space-y-1">
                 <h3 className="font-bold">{cell.product?.name} </h3>
-                <h4 className="text-xd font-medium">
+                <h4 className="text-destructive font-medium">
                   <PointDiamon /> {cell.product?.price?.price}
                 </h4>
               </aside>

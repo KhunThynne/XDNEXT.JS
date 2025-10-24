@@ -31,6 +31,15 @@ const getCachedCheckUserProductStatus = (
       revalidate: 3600,
     }
   )();
+const getGetProductDocument = (id: string) =>
+  unstable_cache(
+    async () => await execute(GetProductDocument, { where: { id } }),
+    [`product-${id}`, id],
+    {
+      tags: [`product-${id}`, id],
+      revalidate: 10000,
+    }
+  )();
 
 export default async function PageProduct({
   params,
@@ -39,7 +48,7 @@ export default async function PageProduct({
 }) {
   const { id } = await params;
   const session = await auth();
-  const req = await execute(GetProductDocument, { where: { id } });
+  const req = await getGetProductDocument(id);
   const { product: ProductData } = req.data;
   const product = ProductData as Product;
   const productStatus = await getCachedCheckUserProductStatus(

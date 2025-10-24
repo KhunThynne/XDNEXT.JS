@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, text } from '@keystone-6/core/fields';
@@ -42,4 +43,4 @@ export const Post = list({
       },
     }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Post']>;

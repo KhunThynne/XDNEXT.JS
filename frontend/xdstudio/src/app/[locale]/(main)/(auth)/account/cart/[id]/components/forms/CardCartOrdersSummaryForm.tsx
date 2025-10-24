@@ -37,7 +37,7 @@ export const ImageProduct = ({
     <Image
       {...prop}
       src={src}
-      className={clsx(`bg-accent border object-contain`, prop.className)}
+      className={clsx(`border bg-accent object-contain`, prop.className)}
       alt={image.altText ?? `product-image-unkhown`}
       height={image.src?.height}
       width={image.src?.width}
@@ -54,11 +54,11 @@ const CartItemComponent = ({ item }: { item: CartItem }) => {
       />
 
       <aside>
-        <h3 className="text-foreground text-base font-semibold">
+        <h3 className="text-base font-semibold text-foreground">
           {item.product?.name}
         </h3>
 
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-muted-foreground">
           Price: {item.product?.price?.price} ฿
         </p>
       </aside>
@@ -103,7 +103,7 @@ export const CartItemsVirtualScroll = ({
           return (
             <li
               key={virtualItem.key}
-              className="absolute left-0 top-0 w-full"
+              className="absolute top-0 left-0 w-full"
               style={{
                 height: `${virtualItem.size}px`,
                 transform: `translateY(${virtualItem.start}px)`,
@@ -151,29 +151,10 @@ export function CardCartOrdersSummaryForm({
           <CardContent className="flex flex-col gap-4 pt-5">
             <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
             <CartSummary userTotalPoint={totalPoint} />
-            {/* <div className="flex justify-between text-sm">
-              <span>Subtotal</span>
-              <span className="flex gap-1">
-                <PointDiamon /> {formatter.number(subtotal)}
-              </span>
-            </div>
-            <div className="flex justify-between text-sm">
-              <span>Tax (7%)</span>
-              <span className="flex gap-1">
-                <PointDiamon /> {formatter.number(tax)}
-              </span>
-            </div>
-            <Separator />
-            <div className="flex justify-between font-semibold">
-              <span>Total</span>
-              <span className="flex gap-1">
-                <PointDiamon /> {formatter.number(total)}
-              </span>
-            </div> */}
           </CardContent>
         </>
       ) : (
-        <CardContent className="text-muted-foreground min-h-50 flex grow flex-col items-center justify-center">
+        <CardContent className="flex min-h-50 grow flex-col items-center justify-center text-muted-foreground">
           <ShoppingCart className="mb-2 size-8 opacity-70" />
           <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
         </CardContent>

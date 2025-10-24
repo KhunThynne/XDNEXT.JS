@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { image, text } from '@keystone-6/core/fields';
@@ -20,7 +21,7 @@ export const Image = list({
   hooks: {
     resolveInput: async ({ operation, inputData, resolvedData }) => {
       if (operation === 'create') {
-        const upload = await inputData.src.upload;
+        const upload = await inputData?.src?.upload;
         if (!resolvedData.name) {
           resolvedData.name = upload.filename;
         }
@@ -28,4 +29,4 @@ export const Image = list({
       return resolvedData;
     },
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Image']>;

@@ -1,17 +1,11 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/libs/shadcn/ui/card";
-import { Form } from "@/libs/shadcn/ui/form";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+
 import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { CartSummary } from "@/shared/components/ui/shopping/CartShopping.form";
+
 import clsx from "clsx";
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 export const CardPromoCodeCartForm = ({
   children,
@@ -44,7 +38,7 @@ export const CardPromoCodeCartForm = ({
         <div className="border border-dashed" />
         <section>
           <h2>1000</h2>
-          <p className="text-green-500">Point to be earned</p>
+          <p className="text-success">Point to be earned</p>
         </section>
       </CardContent>
       {children}

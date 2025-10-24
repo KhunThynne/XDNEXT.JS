@@ -1,8 +1,7 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { text, password } from '@keystone-6/core/fields';
-import { BaseListTypeInfo } from '@keystone-6/core/types';
-
+import { text } from '@keystone-6/core/fields';
+import { TypeInfo } from '.keystone/types';
 export const Setting = list({
   access: allowAll,
   isSingleton: true,
@@ -27,4 +26,4 @@ export const Setting = list({
     label: 'SMTP Settings',
     hideDelete: true,
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Setting']>;

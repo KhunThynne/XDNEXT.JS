@@ -5,10 +5,10 @@ import { PreferencesTabs } from "./@preferences/components/PreferencesTabs";
 
 export default async function AuthenticationLayout({
   children,
-  userProducts,
+  userItems,
   payment,
   preferences,
-}: NextJSReactNodes<"userProducts" | "payment" | "preferences">) {
+}: NextJSReactNodes<"userItems" | "payment" | "preferences">) {
   const session = await auth();
   if (!session?.user) return notFound();
   return (
@@ -19,7 +19,7 @@ export default async function AuthenticationLayout({
         description="These are the products you have successfully purchased and activated."
       >
         {children}
-        {userProducts}
+        {userItems}
       </ContainerSection>
       <ContainerSection
         className="lg:col-span-4"

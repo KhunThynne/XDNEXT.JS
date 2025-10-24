@@ -4,20 +4,23 @@ import ts from "typescript-eslint";
 import js from "@eslint/js";
 import eslintPluginJsonc from "eslint-plugin-jsonc";
 import reactHooks from "eslint-plugin-react-hooks";
+import nextPlugin from "@next/eslint-plugin-next";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+
+import { defineConfig, globalIgnores } from "eslint/config";
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
 });
 
-const eslintConfig = [
-  {
-    ignores: ["node_modules/**", ".next/**", "out/**", "next-env.d.ts"],
-  },
+const eslintConfig = defineConfig([
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
   },
   js.configs.recommended,
   ...ts.configs.recommended,
-  reactHooks.configs.flat.recommended,
+  nextPlugin.configs["core-web-vitals"],
+  reactHooks.configs.flat["recommended-latest"],
+  eslintPluginPrettierRecommended,
   reactYouMightNotNeedAnEffect.configs.recommended,
   ...compat.config({
     settings: {
@@ -25,15 +28,14 @@ const eslintConfig = [
         version: "detect",
       },
     },
-    extends: [
-      "plugin:@next/next/core-web-vitals",
-      "next/typescript",
-      "plugin:prettier/recommended",
-      "plugin:react/recommended",
-      "prettier",
-      "plugin:i18next/recommended",
-    ],
+    extends: ["plugin:i18next/recommended"],
 
+    rules: {
+      "i18next/no-literal-string": ["warn", { markupOnly: true }],
+      // React
+    },
+  }),
+  {
     rules: {
       "prettier/prettier": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
@@ -44,15 +46,11 @@ const eslintConfig = [
       "@typescript-eslint/no-unused-expressions": "off",
       "no-empty": "off",
       "no-case-declarations": "off",
-      // "tailwindcss/classnames-order": "warn",
-      "i18next/no-literal-string": ["warn", { markupOnly: true }],
-      // React
       "react/react-in-jsx-scope": "off",
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/preserve-manual-memoization": "warn",
     },
-  }),
-
+  },
   {
     files: ["**/*.json", "**/*.jsonc"],
     plugins: {
@@ -69,6 +67,15 @@ const eslintConfig = [
       "jsonc/key-spacing": ["error", { beforeColon: false, afterColon: true }],
     },
   },
-];
+  // eslintConfigPrettier,
+
+  globalIgnores([
+    "node_modules/**",
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
 
 export default eslintConfig;

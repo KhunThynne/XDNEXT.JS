@@ -7,6 +7,11 @@ const nextConfig = {
   /**
    * @type {import('next').NextConfig}
    */
+  turbopack: {
+    // options
+  },
+  cacheComponents: true,
+  experimental:{    turbopackFileSystemCacheForDev: true,},
   trailingSlash: true,
   typedRoutes: false,
   basePath: "",

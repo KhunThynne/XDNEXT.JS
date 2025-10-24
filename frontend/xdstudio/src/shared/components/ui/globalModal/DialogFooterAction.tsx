@@ -18,9 +18,9 @@ export const DialogFooterAction = ({
     >
       <Button
         onClick={onConfirm}
-        className="cursor-pointer"
+        className={clsx("cursor-pointer", buttonConfirm?.className)}
         {...buttonConfirm}
-        disabled={loading}
+        disabled={loading || buttonConfirm?.disabled}
       >
         {loading ? (
           <span className="flex items-center gap-2">
@@ -34,7 +34,7 @@ export const DialogFooterAction = ({
       <Button
         variant={"secondary"}
         {...buttonCancel}
-        className="cursor-pointer"
+        className={clsx("cursor-pointer", buttonCancel?.className)}
         onClick={onCancel}
       >
         Close

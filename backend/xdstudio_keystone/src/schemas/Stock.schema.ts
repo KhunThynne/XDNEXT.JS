@@ -2,7 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { integer, relationship, select } from '@keystone-6/core/fields';
 import { defaultGlobalField } from './shared/defaultGlobalField';
-
+import { TypeInfo } from '.keystone/types';
 export const Stock = list({
   access: {
     operation: {
@@ -63,4 +63,4 @@ export const Stock = list({
       return resolvedData;
     },
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Stock']>;
