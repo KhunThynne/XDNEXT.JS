@@ -6,11 +6,11 @@ import { cookies } from "next/headers";
 export default getRequestConfig(async ({ requestLocale }) => {
   // Typically corresponds to the `[locale]` segment
   const requested = await requestLocale;
-  // const locale = hasLocale(routing.locales, requested)
-  //   ? requested
-  //   : routing.defaultLocale;
-  const store = await cookies();
-  const locale = store.get("locale")?.value || "en";
+  const locale = hasLocale(routing.locales, requested)
+    ? requested
+    : routing.defaultLocale;
+  // const store = await cookies();
+  // const locale = store.get("locale")?.value || "en";
 
   return {
     locale,

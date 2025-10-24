@@ -179,20 +179,9 @@ export function DataTableCartInfiniteScroll({
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
     const selectedData = cartItems.filter((item) => selectedIds[item.id]);
+    console.log(selectedData);
     setValue("cartItems", selectedData ?? []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table.getState().rowSelection, setValue, cartItems]);
-  // const rowVirtualizer = useVirtualizer({
-  //   count: rows?.length,
-  //   estimateSize: () => 150, //estimate row height for accurate scrollbar dragging
-  //   getScrollElement: () => tableContainerRef.current,
-  //   measureElement:
-  //     typeof window !== "undefined" &&
-  //     navigator.userAgent.indexOf("Firefox") === -1
-  //       ? (element) => element?.getBoundingClientRect().height
-  //       : undefined,
-  //   overscan: 5,
-  // });
 
   if (isLoading) {
     return <>Loading...</>;
@@ -205,7 +194,7 @@ export function DataTableCartInfiniteScroll({
         </CardAction>
 
         <CardContent
-          className="container relative h-full overflow-auto overscroll-contain p-0"
+          className="relative container h-full overflow-auto overscroll-contain p-0"
           onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
           ref={tableContainerRef}
         >
@@ -263,7 +252,8 @@ export function DataTableCartInfiniteScroll({
         </CardContent>
         <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
           <span>
-            Selected: <span className="text-destructive font-semibold">{selected}</span>
+            Selected:{" "}
+            <span className="font-semibold text-destructive">{selected}</span>
           </span>
           <span className="flex gap-1">
             Showing <span className="font-medium">{totalFetched}</span> of

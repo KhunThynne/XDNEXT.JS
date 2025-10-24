@@ -17,6 +17,7 @@ export default async function LayoutCart({
   const cartIdSession = session.user.carts?.[0]?.id;
   const userId = session.user.id;
   const point = session?.user?.point;
+
   if (cartId !== cartIdSession) return notFound();
 
   if (!cartId || !userId || point === undefined || point === null) {

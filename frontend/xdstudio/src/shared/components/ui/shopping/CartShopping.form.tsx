@@ -11,7 +11,7 @@ import type {
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo } from "react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { CartItemComponent } from "./CartItemsComponent";
 import PointDiamon from "../../PointDiamod";
 import _ from "lodash";
@@ -50,10 +50,11 @@ export const CartSummary = ({
   userTotalPoint?: number;
   style?: "short" | "full";
 } & WithClassName) => {
-  const { watch, setValue } = useFormContext<
+  const { setValue, control } = useFormContext<
     { cartItems: CartItem[] } | CartFormProps
   >();
-  const cartItemsForm = watch("cartItems");
+
+  const cartItemsForm = useWatch({ control, name: "cartItems" });
 
   const summary = useMemo(() => {
     if (!cartItemsForm?.length) return { totalQuantity: 0, totalPrice: 0 };
