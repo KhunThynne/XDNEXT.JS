@@ -2,6 +2,7 @@ import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, select, timestamp } from '@keystone-6/core/fields';
 import { TypeInfo, type Context, type OrderCreateInput } from '.keystone/types';
+import _ from 'lodash';
 
 export const Order = list({
   access: allowAll,
@@ -46,8 +47,6 @@ export const Order = list({
     afterOperation: async (args) => {
       const { operation, item, inputData, context } = args;
 
-      console.log(item);
-      console.log(inputData);
       if (operation === 'create') {
         const userId = inputData?.user?.connect?.id;
         const createData = inputData.items?.create;
@@ -59,9 +58,9 @@ export const Order = list({
         const summaryItemPointTotal = itemsArray.reduce((total, item) => {
           return total + (item.unitPrice ?? 0);
         }, 0);
-        const args = { context, summaryItemPointTotal, userId };
-        // await UpdateUserPoint(args);
-        // await CreatePointTransaction(args);
+        const args = { context, summaryItemPointTotal, userId, item };
+        await UpdateUserPoint(args);
+        await CreatePointTransaction(args);
       }
     },
   },
@@ -71,6 +70,7 @@ interface ArgsOrder {
   userId: string | null | undefined;
   summaryItemPointTotal: number;
   context: Context;
+  item: { id: string };
 }
 
 const UpdateUserPoint = async ({ userId, context, summaryItemPointTotal }: ArgsOrder) => {
@@ -83,7 +83,7 @@ const UpdateUserPoint = async ({ userId, context, summaryItemPointTotal }: ArgsO
           },
           data: {
             total_point: {
-              decrement: summaryItemPointTotal,
+              decrement: _.max([summaryItemPointTotal, 0]),
             },
           },
         });
@@ -95,13 +95,26 @@ const UpdateUserPoint = async ({ userId, context, summaryItemPointTotal }: ArgsO
   }
 };
 
-const CreatePointTransaction = async ({ userId, context, summaryItemPointTotal }: ArgsOrder) => {
+const CreatePointTransaction = async ({
+  item,
+  userId,
+  context,
+  summaryItemPointTotal,
+}: ArgsOrder) => {
   if (userId) {
     try {
-      await context.db.PointTransaction.createOne({
+      await context.prisma.pointTransaction.create({
         data: {
           userId: { connect: { id: userId } },
           amount: summaryItemPointTotal,
+          orders: { connect: { id: item.id } },
+          type: 'earn',
+          description: [
+            {
+              type: 'paragraph',
+              children: [{ text: `create by ${userId}` }],
+            },
+          ],
         },
       });
     } catch (error) {

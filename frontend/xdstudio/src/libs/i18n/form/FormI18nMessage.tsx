@@ -17,7 +17,7 @@ export function FormI18nMessage({
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-sm text-destructive", className)}
       {...props}
     >
       {body}

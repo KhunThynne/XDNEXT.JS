@@ -12,10 +12,12 @@ export default async function LocaleLayout({
   navbar,
 }: WithlDefaultProps & NextJSReactNodes<"footer" | "navbar">) {
   return (
-    <div className={clsx("flex min-h-screen flex-col")}>
-      <header className="sticky top-0 z-20">{navbar}</header>
-      <main className="contents">{children}</main>
-      <footer className="flex-none">{footer}</footer>
-    </div>
+    <>
+      <div className={clsx("flex min-h-screen flex-col")}>
+        <header className="sticky top-0 z-20">{navbar}</header>
+        <main className="contents">{children}</main>
+      </div>
+      <footer>{footer}</footer>
+    </>
   );
 }

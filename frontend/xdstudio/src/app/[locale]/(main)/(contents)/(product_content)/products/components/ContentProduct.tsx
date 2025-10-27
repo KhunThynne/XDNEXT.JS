@@ -32,6 +32,7 @@ import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
+import { useMemo } from "react";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -71,11 +72,17 @@ const ProductDetail = (
     userProductStatus: CheckUserProductStatusQuery;
   }
 ) => {
+  const { session, userProductStatus, ...product } = props;
   const router = useRouter();
+  const label = useMemo(() => {
+    const status = userProductStatus.checkUserProductStatus;
+    if (status?.__typename !== "CheckProductSuccess") return null;
+    return status;
+  }, [userProductStatus]);
+
   if (!props.faqs) {
     return null;
   }
-  const { session, userProductStatus, ...product } = props;
   return (
     <Card className="h-fit duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
@@ -88,7 +95,6 @@ const ProductDetail = (
             <ProductTag tags={props.tag} classNames={{ view: "px-0!" }} />
           </div>
         </div>
-
         {/* Rating */}
         {_.isNumber(props.averageScore) && (
           <div className="flex items-center gap-3">
@@ -101,16 +107,16 @@ const ProductDetail = (
                     key={i}
                     className={`h-4 w-4 ${
                       filled
-                        ? "text-xd/80 fill-current"
+                        ? "fill-current text-xd/80"
                         : half
-                          ? "text-xd/20 fill-current"
+                          ? "fill-current text-xd/20"
                           : "text-gray-300"
                     }`}
                   />
                 );
               })}
             </div>
-            <span className="text-muted-foreground text-sm font-medium">
+            <span className="text-sm font-medium text-muted-foreground">
               {props.averageScore} / 5.0
             </span>
           </div>
@@ -119,18 +125,18 @@ const ProductDetail = (
 
       <CardContent className="space-y-4">
         {/* Price */}
+        {JSON.stringify(userProductStatus.checkUserProductStatus)}
         <div className="flex text-4xl font-bold text-blue-600 dark:text-blue-400">
           <PointDiamon className="size-7" />
           {props.price?.price?.toLocaleString()}
         </div>
-
         <div className="space-y-3">
           <h3 className="text-lg font-semibold">รายละเอียดสินค้า</h3>
           {props.description && (
             <SafeHtml
               as="p"
               html={props.description}
-              className="text-muted-foreground break-all text-sm leading-relaxed"
+              className="text-sm leading-relaxed break-all text-muted-foreground"
             />
           )}
         </div>
@@ -144,11 +150,12 @@ const ProductDetail = (
             <Plus className="size-5" />
           </AddItemButton>
           <AddItemButton
+            disabled={label?.inUserItem}
             status={userProductStatus}
             product={product}
             session={session}
             variant={"secondary"}
-            className="w-20"
+            className={clsx(label?.inUserItem ? `hidden` : "w-20")}
             disableText
             addTo
             onClick={() =>
@@ -157,12 +164,7 @@ const ProductDetail = (
               )
             }
           >
-            {userProductStatus.checkUserProductStatus?.__typename ===
-            "CheckProductSuccess"
-              ? userProductStatus.checkUserProductStatus.inCart
-                ? "go to cart"
-                : `ซื้อทันที`
-              : `ซื้อทันที`}
+            {label?.inCart ? `go to cart` : "quick buy"}
           </AddItemButton>
         </div>
 
@@ -241,9 +243,9 @@ export const ContentProduct = (
             <CardHeader className="text-lg font-semibold">
               Product Details
             </CardHeader>
-            <CardContent className="text-muted-foreground text-md space-y-2 leading-relaxed">
+            <CardContent className="text-md space-y-2 leading-relaxed text-muted-foreground">
               {product.details && (
-                <div className="text-muted-foreground text-md space-y-2 leading-relaxed">
+                <div className="text-md space-y-2 leading-relaxed text-muted-foreground">
                   <DocumentRenderer document={product.details.document} />
                 </div>
               )}

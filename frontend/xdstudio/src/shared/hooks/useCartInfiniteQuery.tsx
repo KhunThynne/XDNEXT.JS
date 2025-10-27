@@ -1,6 +1,6 @@
 "use client";
 
-import { revalidateClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/revalidateClient";
+import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 import { execute } from "@/libs/graphql/execute";
 import type { Cart, Product } from "@/libs/graphql/generates/graphql";
 import {
@@ -31,7 +31,7 @@ export const useCartInfinite = ({
   const cartQueryClient = useQueryClient();
   const invalidate = () => {
     cartQueryClient.invalidateQueries({ queryKey });
-    revalidateClient(`${cartId}-${userId}-checkProduct`);
+    updateTagClient(`${cartId}-${userId}-checkProduct`);
   };
   const query = useInfiniteQuery({
     queryKey,

@@ -11,8 +11,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { useVirtualizer } from "@tanstack/react-virtual";
-
 import type { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
 import {
   TableBody,
