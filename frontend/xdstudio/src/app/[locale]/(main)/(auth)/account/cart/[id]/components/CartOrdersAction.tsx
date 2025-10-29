@@ -2,14 +2,14 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/shared/components/ui";
 
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import type { CartFormProps } from "./cartOrder.type";
 
 import { Link } from "@navigation";
 
 export default function CartOrdersAction() {
-  const method = useFormContext<CartFormProps>();
-  const { cartItems } = method.watch();
+  const { control } = useFormContext<CartFormProps>();
+  const cartItems = useWatch({ control, name: "cartItems" });
   return (
     <ButtonGroup className="mt-auto w-full flex-col gap-4">
       <Button

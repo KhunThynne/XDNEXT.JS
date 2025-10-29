@@ -11,14 +11,15 @@ import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { Fragment, useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { revalidateClient } from "../shared/revalidateClient";
+import { updateTagClient } from "../shared/updateTagClient";
+import { useRouter } from "@navigation";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;
   session?: Session | null;
   disableText?: boolean;
   addTo?: boolean;
-  status?: CheckUserProductStatusQuery;
+  status: CheckUserProductStatusQuery;
 };
 
 export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
@@ -43,23 +44,25 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
   });
 
   const { mutate, isPending, status: StatusMutation } = mutation;
-
   const addedItem = useMemo(() => {
-    if (status?.checkUserProductStatus?.__typename === "CheckProductSuccess") {
-      return (
-        status?.checkUserProductStatus.inCart ||
-        status?.checkUserProductStatus.inUserItem
-      );
-    }
-    return false;
+    const statusLog = status.checkUserProductStatus;
+    if (statusLog?.__typename !== "CheckProductSuccess") return null;
+    return statusLog;
   }, [status]);
-  const [preAdded, setPreAdded] = useState(addedItem);
+
+  const [preAdded, setPreAdded] = useState(
+    addedItem?.inCart || addedItem?.inUserItem
+  );
+  const router = useRouter();
   useEffect(() => {
     setPreAdded(false);
   }, [status]);
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isPending) {
       return;
+    }
+    if (addedItem?.inUserItem) {
+      return router.replace({ pathname: `/account/${userId}` });
     }
     if (!cartId) {
       signIn();
@@ -69,7 +72,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     mutate(undefined, {
       onSuccess: () => {
         setPreAdded(true);
-        revalidateClient(`${session?.user?.id}-${product?.id}-checkProduct`);
+        updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
       },
     });
   };
@@ -79,7 +82,10 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
       {...buttonProps}
       className={clsx(`flex cursor-pointer`, className)}
       disabled={
-        isPending || (addTo ? false : !!addedItem) || !productId || preAdded
+        isPending ||
+        (addTo ? false : !!addedItem?.inCart) ||
+        !productId ||
+        preAdded
       }
       onClick={handleClick}
     >
@@ -92,9 +98,11 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
             <span>
               {!cartId
                 ? "Go to sign-in"
-                : addedItem || preAdded
+                : addedItem?.inCart || preAdded
                   ? "In cart"
-                  : "Add to cart"}
+                  : addedItem?.inUserItem
+                    ? `See you item`
+                    : "Add to cart"}
             </span>
           )}
         </Fragment>

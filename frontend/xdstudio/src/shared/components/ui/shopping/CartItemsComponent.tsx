@@ -4,7 +4,7 @@ import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
 import PointDiamon from "../../PointDiamod";
 import { Button } from "@/libs/shadcn/ui/button";
-import { useFormState } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";
 import { useMemo } from "react";
 import clsx from "clsx";
@@ -15,7 +15,10 @@ export const CartItemComponent = ({
   quantity,
   onDelete,
 }: CartItem & { onDelete: () => void }) => {
-  const { isDirty } = useFormState();
+  const { control } = useFormContext<{
+    cartItems: CartItem[];
+  }>();
+  const { isDirty } = useFormState({ control });
   const price = product?.price?.price;
   const { number } = useFormatter();
   const summaryResult = useMemo(
@@ -41,7 +44,7 @@ export const CartItemComponent = ({
           <p className="text-sm font-medium">{product?.name}</p>
         </Link>
 
-        <p className="text-muted-foreground flex place-items-center gap-1 text-xs">
+        <p className="flex place-items-center gap-1 text-xs text-muted-foreground">
           {quantity && number(quantity)} ×{price && number(price)}
           <PointDiamon className="size-2! translate-y-[1.5px]" />
         </p>
@@ -62,7 +65,7 @@ export const CartItemComponent = ({
         variant={"ghost"}
         disabled={isDirty}
         onClick={onDelete}
-        className="text-destructive cursor-pointer"
+        className="cursor-pointer text-destructive"
       >
         <Trash className="size-3.5" />
       </Button>

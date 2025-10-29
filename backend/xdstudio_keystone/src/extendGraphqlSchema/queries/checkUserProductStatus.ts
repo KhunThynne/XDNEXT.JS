@@ -54,7 +54,7 @@ export const checkUserProductStatusProvider = (base: graphql.BaseSchemaMeta) => 
         const inventoryItems = await context.db.UserItem.findMany({
           where: {
             user: { id: { equals: userId } },
-            item: { id: { equals: productId } },
+            item: { product: { id: { equals: productId } } },
           },
         });
 

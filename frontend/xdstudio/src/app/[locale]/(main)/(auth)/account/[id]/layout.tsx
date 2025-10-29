@@ -1,37 +1,28 @@
 import { auth } from "@/auth";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { notFound } from "next/navigation";
-import { PreferencesTabs } from "./@preferences/components/PreferencesTabs";
+import PurchasedProductsForm from "./components/PurchasedProducts.form";
 
 export default async function AuthenticationLayout({
   children,
-  userItems,
-  payment,
+
   preferences,
-}: NextJSReactNodes<"userItems" | "payment" | "preferences">) {
+}: NextJSReactNodes<"preferences">) {
   const session = await auth();
   if (!session?.user) return notFound();
   return (
-    <div className="grid grid-cols-1 gap-8 max-md:px-5 lg:grid-cols-9">
-      <ContainerSection
-        className="@container relative lg:col-span-5"
-        title="Purchased Products"
-        description="These are the products you have successfully purchased and activated."
-      >
-        {children}
-        {userItems}
-      </ContainerSection>
-      <ContainerSection
-        className="lg:col-span-4"
-        title="User"
-        classNames={{ description: "truncate", content: "space-y-5" }}
-        description="Customize settings and preferences for each product you are currently using."
-      >
-        <PreferencesTabs>
-          {preferences}
-          {payment}
-        </PreferencesTabs>
-      </ContainerSection>
-    </div>
+    <>
+      <div className="mx-5 flex h-full flex-wrap gap-6 max-lg:flex-col">
+        <ContainerSection
+          className="@container relative h-full flex-2 max-lg:max-h-[80vh]"
+          title="Purchased Products"
+          description="These are the products you have successfully purchased and activated."
+        >
+          {session?.user && <PurchasedProductsForm session={session} />}
+        </ContainerSection>
+        {preferences}
+      </div>
+      {children}
+    </>
   );
 }

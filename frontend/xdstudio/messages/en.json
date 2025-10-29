@@ -23,7 +23,9 @@
     "go_to_login": "Go to login page",
     "sign_in_again": "Sign in again",
     "back_to_signIn": "Back to sign in",
-    "price": "price"
+    "price": "price",
+    "reset": "reset",
+    "update": "update"
   },
   "not_found": {
     "description": "Sorry,the page you are looking for does not exist",

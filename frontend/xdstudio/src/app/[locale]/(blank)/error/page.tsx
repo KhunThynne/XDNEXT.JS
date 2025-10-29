@@ -1,15 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 import { useI18n } from "@/libs/i18n/hooks/useI18n";
-import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-} from "@/libs/shadcn/ui/card";
 import { ErrorComponent } from "@/shared/components/ui/ErrorComponent";
 
 export default function AuthErrorPage() {

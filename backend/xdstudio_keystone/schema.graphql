@@ -1585,7 +1585,10 @@ type PointTransaction {
   userIdCount(where: UserWhereInput! = {}): Int
   type: String
   amount: Int
+  orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   description: PointTransaction_description_Document
+  createdAt: DateTime
 }
 
 type PointTransaction_description_Document {
@@ -1604,6 +1607,8 @@ input PointTransactionWhereInput {
   userId: UserManyRelationFilter
   type: StringFilter
   amount: IntNullableFilter
+  orders: OrderManyRelationFilter
+  createdAt: DateTimeNullableFilter
 }
 
 input UserManyRelationFilter {
@@ -1616,13 +1621,16 @@ input PointTransactionOrderByInput {
   id: OrderDirection
   type: OrderDirection
   amount: OrderDirection
+  createdAt: OrderDirection
 }
 
 input PointTransactionUpdateInput {
   userId: UserRelateToManyForUpdateInput
   type: String
   amount: Int
+  orders: OrderRelateToManyForUpdateInput
   description: JSON
+  createdAt: DateTime
 }
 
 input UserRelateToManyForUpdateInput {
@@ -1641,7 +1649,9 @@ input PointTransactionCreateInput {
   userId: UserRelateToManyForCreateInput
   type: String
   amount: Int
+  orders: OrderRelateToManyForCreateInput
   description: JSON
+  createdAt: DateTime
 }
 
 input UserRelateToManyForCreateInput {

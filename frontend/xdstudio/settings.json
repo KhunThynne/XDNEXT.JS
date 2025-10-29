@@ -9,5 +9,6 @@
   "i18n-ally.localesPaths": [
     "frontend/xdstudio/messages",
     "frontend/xdstudio/src/libs/i18n"
-  ]
+  ],
+  "i18n-ally.functionNames": ["t", "translate", "useI18n"]
 }
