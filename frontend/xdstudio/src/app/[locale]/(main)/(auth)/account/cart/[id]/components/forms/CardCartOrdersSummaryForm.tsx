@@ -32,7 +32,7 @@ export const ImageProduct = ({
   image: ImageType | undefined;
 }) => {
   const src = image?.src?.url ?? "";
-  if (!image) return <ImageOff className={clsx(prop.className)} />;
+  if (!image) return <ImageOff className={clsx(``, prop.className)} />;
   return (
     <Image
       {...prop}

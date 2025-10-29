@@ -7,6 +7,7 @@ import {
   type UserItem,
 } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
+import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import {
   Empty,
   EmptyContent,
@@ -43,7 +44,10 @@ import clsx from "clsx";
 import _ from "lodash";
 import { FileCode, PackageOpen } from "lucide-react";
 import type { Session } from "next-auth";
+import { useFormatter } from "next-intl";
+import Image from "next/image";
 import React from "react";
+import { ImageProduct } from "../../cart/[id]/components/forms/CardCartOrdersSummaryForm";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,
@@ -56,30 +60,70 @@ export const DataTableGridItemsInfiniteScroll = ({
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [sorting, setSorting] = React.useState<SortingState>([]);
-
+  const format = useFormatter();
   const columns = React.useMemo<ColumnDef<UserItem>[]>(
     () => [
       {
         accessorKey: "id",
         header: "ID",
-        size: 200,
+        id: "id",
+        enableHiding: true,
       },
       {
-        accessorKey: "user",
-        cell: (info) => info.getValue(),
+        accessorKey: "item",
+        size: 20,
+        accessorFn: (row) => row.item?.id,
+        cell: ({ row }) => {
+          const cell = row.original;
+          const purchasedDate = new Date(cell.createdAt);
+          const formattedDate = format.dateTime(purchasedDate, {
+            dateStyle: "medium",
+          });
+
+          const formattedNumericDate = format.dateTime(purchasedDate, {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          });
+          const image = cell.item?.product?.images?.[0];
+          const relativeTime = format.relativeTime(purchasedDate);
+          return (
+            <Card className="max-w-sm flex-row p-5">
+              <CardHeader className="relative">
+                <div className="absolute inset-0 place-content-center place-items-center">
+                  <ImageProduct image={image} className="size-full" />
+                </div>
+              </CardHeader>
+              <CardContent className="border-s px-5">
+                <h3>{cell.item?.product?.name}</h3>
+                <section className="contents text-sm text-primary/40">
+                  <p className="space-x-0.5">
+                    <span className="capitalize"> purchased:</span>
+                    <span>{formattedNumericDate}</span>
+                  </p>
+                  <p>
+                    Version : <span className="text-xd">0.0</span>
+                  </p>
+                </section>
+              </CardContent>
+            </Card>
+          );
+        },
       },
       {
+        size: 0,
         enableColumnFilter: true,
         accessorFn: (row) => row.item?.product?.name,
         id: "name",
-        cell: (info) => info.getValue(),
+        enableHiding: true,
+        cell: (info) => null,
         header: () => <span>Name</span>,
       },
       {
         accessorKey: "createdAt",
         header: "Created At",
         cell: (info) => info.getValue<Date>()?.toLocaleString(),
-        size: 200,
+        enableHiding: true,
       },
     ],
     []
@@ -131,7 +175,6 @@ export const DataTableGridItemsInfiniteScroll = ({
   const router = useRouter();
   //a check on mount and after a fetch to see if the table is already scrolled to the bottom and immediately needs to fetch more data
   React.useEffect(() => {
-    console.log("HI");
     fetchMoreOnBottomReached(tableContainerRef.current);
   }, [fetchMoreOnBottomReached]);
 
@@ -152,6 +195,11 @@ export const DataTableGridItemsInfiniteScroll = ({
     getFilteredRowModel: getFilteredRowModel(),
     manualSorting: true,
     debugTable: true,
+    initialState: {
+      columnVisibility: {
+        id: false,
+      },
+    },
   });
 
   //scroll to top of table when sorting changes
@@ -190,7 +238,7 @@ export const DataTableGridItemsInfiniteScroll = ({
   return (
     <>
       <div
-        className="absolute inset-0 container max-h-full overscroll-contain"
+        className="absolute inset-0 container max-h-full overscroll-contain rounded-lg border border-dashed"
         onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
         ref={tableContainerRef}
         style={{
@@ -223,23 +271,27 @@ export const DataTableGridItemsInfiniteScroll = ({
           <TableBody className="">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      style={{ width: cell.column.getSize() }}
-                      onClick={() => {
-                        router.push(
-                          `/account/${session.user.id}/${row.original.id}`
-                        );
-                      }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                <TableRow key={row.id} className="">
+                  {row.getVisibleCells().map((cell) => {
+                    if (!cell.column.columnDef.enableHiding)
+                      return (
+                        <TableCell
+                          className="px-8 py-5"
+                          key={cell.id}
+                          style={{ width: cell.column.getSize() }}
+                          onClick={() => {
+                            router.push(
+                              `/account/${session.user.id}/${row.original.id}`
+                            );
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                  })}
                 </TableRow>
               ))
             ) : (
@@ -248,7 +300,7 @@ export const DataTableGridItemsInfiniteScroll = ({
                   colSpan={columns.length}
                   className="absolute inset-0 place-content-center text-center"
                 >
-                  <Empty className="border h-full">
+                  <Empty className="h-full">
                     <EmptyHeader>
                       <EmptyMedia variant="icon">
                         <FileCode />

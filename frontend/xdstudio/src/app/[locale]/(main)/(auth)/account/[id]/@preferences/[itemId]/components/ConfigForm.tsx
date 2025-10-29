@@ -14,6 +14,7 @@ import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
 import type { UserItem } from "@/libs/graphql/generates/graphql";
 import { toast } from "sonner";
+import { useStore } from "@tanstack/react-form";
 
 const MenuConfigForm = ({ children }: WithChildren) => {
   const router = useRouter();
@@ -27,6 +28,8 @@ export const ConfigForm = () => {
       toast(JSON.stringify(value));
     },
   });
+  const store = useStore(form.store, (store) => store);
+  const nonPersistentIsDirty = store.isDefaultValue;
   return (
     <form
       className="contents"
@@ -66,7 +69,7 @@ export const ConfigForm = () => {
       <CardAction className="mt-auto self-end px-5">
         <form.AppForm>
           <section className="place-self-end">
-            <Button>Update</Button>
+            <Button disabled={nonPersistentIsDirty}>Update</Button>
           </section>
         </form.AppForm>
       </CardAction>
