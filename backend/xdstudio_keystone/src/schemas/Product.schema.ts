@@ -131,6 +131,7 @@ export const Product = list({
         description: 'Average Score form Ratings',
       },
     }),
+    version: text({ ui: { description: 'Product version .' }, defaultValue: 'beta' }),
     ratings: relationship({
       ref: 'Rating',
       many: true,

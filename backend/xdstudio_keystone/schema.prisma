@@ -191,6 +191,7 @@ model Product {
   images                          Image[]            @relation("Product_images")
   faqs                            FAQ[]              @relation("Product_faqs")
   averageScore                    Float?             @default(0)
+  version                         String             @default("beta")
   ratings                         Rating[]           @relation("Product_ratings")
   publishedAt                     DateTime?
   createdAt                       DateTime?          @default(now())

@@ -86,7 +86,7 @@ export const DataTableGridItemsInfiniteScroll = ({
             day: "2-digit",
           });
           const image = cell.item?.product?.images?.[0];
-          const relativeTime = format.relativeTime(purchasedDate);
+          // const relativeTime = format.relativeTime(purchasedDate);
           return (
             <Card className="max-w-sm flex-row p-5">
               <CardHeader className="relative">

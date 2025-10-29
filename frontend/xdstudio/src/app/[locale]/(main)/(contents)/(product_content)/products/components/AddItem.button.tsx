@@ -61,6 +61,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     if (isPending) {
       return;
     }
+    setPreAdded(false);
     if (addedItem?.inUserItem) {
       return router.replace({ pathname: `/account/${userId}` });
     }
@@ -69,12 +70,15 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
       return;
     }
     onClick?.(event);
-    mutate(undefined, {
-      onSuccess: () => {
-        setPreAdded(true);
-        updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
-      },
-    });
+    if (!addedItem?.inCart) {
+      mutate(undefined, {
+        onSuccess: () => {
+          setPreAdded(true);
+          updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
+        },
+      });
+      return;
+    }
   };
 
   return (

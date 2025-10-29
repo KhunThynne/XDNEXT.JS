@@ -1173,6 +1173,7 @@ type Product {
   faqs(where: FAQWhereInput! = {}, orderBy: [FAQOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FAQWhereUniqueInput): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
   averageScore: Float
+  version: String
   ratings(where: RatingWhereInput! = {}, orderBy: [RatingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: RatingWhereUniqueInput): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
   publishedAt: DateTime
@@ -1205,6 +1206,7 @@ input ProductWhereInput {
   images: ImageManyRelationFilter
   faqs: FAQManyRelationFilter
   averageScore: FloatNullableFilter
+  version: StringFilter
   ratings: RatingManyRelationFilter
   publishedAt: DateTimeNullableFilter
   createdAt: DateTimeNullableFilter
@@ -1241,6 +1243,7 @@ input ProductOrderByInput {
   name: OrderDirection
   description: OrderDirection
   averageScore: OrderDirection
+  version: OrderDirection
   publishedAt: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection
@@ -1259,6 +1262,7 @@ input ProductUpdateInput {
   images: ImageRelateToManyForUpdateInput
   faqs: FAQRelateToManyForUpdateInput
   averageScore: Float
+  version: String
   ratings: RatingRelateToManyForUpdateInput
   publishedAt: DateTime
   createdAt: DateTime
@@ -1329,6 +1333,7 @@ input ProductCreateInput {
   images: ImageRelateToManyForCreateInput
   faqs: FAQRelateToManyForCreateInput
   averageScore: Float
+  version: String
   ratings: RatingRelateToManyForCreateInput
   publishedAt: DateTime
   createdAt: DateTime
