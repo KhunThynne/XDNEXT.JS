@@ -961,8 +961,11 @@ type PasswordState {
 
 type PointTransaction {
   amount: Int
+  createdAt: DateTime
   description: PointTransaction_description_Document
   id: ID!
+  orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   type: String
   userId(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserWhereInput! = {}): [User!]
   userIdCount(where: UserWhereInput! = {}): Int
@@ -970,13 +973,16 @@ type PointTransaction {
 
 input PointTransactionCreateInput {
   amount: Int
+  createdAt: DateTime
   description: JSON
+  orders: OrderRelateToManyForCreateInput
   type: String
   userId: UserRelateToManyForCreateInput
 }
 
 input PointTransactionOrderByInput {
   amount: OrderDirection
+  createdAt: OrderDirection
   id: OrderDirection
   type: OrderDirection
 }
@@ -988,7 +994,9 @@ input PointTransactionUpdateArgs {
 
 input PointTransactionUpdateInput {
   amount: Int
+  createdAt: DateTime
   description: JSON
+  orders: OrderRelateToManyForUpdateInput
   type: String
   userId: UserRelateToManyForUpdateInput
 }
@@ -998,7 +1006,9 @@ input PointTransactionWhereInput {
   NOT: [PointTransactionWhereInput!]
   OR: [PointTransactionWhereInput!]
   amount: IntNullableFilter
+  createdAt: DateTimeNullableFilter
   id: IDFilter
+  orders: OrderManyRelationFilter
   type: StringFilter
   userId: UserManyRelationFilter
 }
@@ -1189,6 +1199,7 @@ type Product {
   tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
+  version: String
   youtubeId: String
 }
 
@@ -1210,6 +1221,7 @@ input ProductCreateInput {
   tag: TagRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
+  version: String
   youtubeId: String
 }
 
@@ -1228,6 +1240,7 @@ input ProductOrderByInput {
   publishedAt: OrderDirection
   status: OrderDirection
   updateAt: OrderDirection
+  version: OrderDirection
   youtubeId: OrderDirection
 }
 
@@ -1326,6 +1339,7 @@ input ProductUpdateInput {
   tag: TagRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
+  version: String
   youtubeId: String
 }
 
@@ -1350,6 +1364,7 @@ input ProductWhereInput {
   tag: TagManyRelationFilter
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
+  version: StringFilter
   youtubeId: StringFilter
 }
 

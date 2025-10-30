@@ -1249,6 +1249,7 @@ input ProductOrderByInput {
   description: OrderDirection
   averageScore: OrderDirection
   version: OrderDirection
+  youtubeId: OrderDirection
   publishedAt: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection

@@ -1758,11 +1758,28 @@ export type PasswordState = {
 export type PointTransaction = {
   __typename?: 'PointTransaction';
   amount?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<PointTransaction_Description_Document>;
   id: Scalars['ID']['output'];
+  orders?: Maybe<Array<Order>>;
+  ordersCount?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Array<User>>;
   userIdCount?: Maybe<Scalars['Int']['output']>;
+};
+
+
+export type PointTransactionOrdersArgs = {
+  cursor?: InputMaybe<OrderWhereUniqueInput>;
+  orderBy?: Array<OrderOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: OrderWhereInput;
+};
+
+
+export type PointTransactionOrdersCountArgs = {
+  where?: OrderWhereInput;
 };
 
 
@@ -1781,13 +1798,16 @@ export type PointTransactionUserIdCountArgs = {
 
 export type PointTransactionCreateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
+  orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<UserRelateToManyForCreateInput>;
 };
 
 export type PointTransactionOrderByInput = {
   amount?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   type?: InputMaybe<OrderDirection>;
 };
@@ -1799,7 +1819,9 @@ export type PointTransactionUpdateArgs = {
 
 export type PointTransactionUpdateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
+  orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<UserRelateToManyForUpdateInput>;
 };
@@ -1809,7 +1831,9 @@ export type PointTransactionWhereInput = {
   NOT?: InputMaybe<Array<PointTransactionWhereInput>>;
   OR?: InputMaybe<Array<PointTransactionWhereInput>>;
   amount?: InputMaybe<IntNullableFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
+  orders?: InputMaybe<OrderManyRelationFilter>;
   type?: InputMaybe<StringFilter>;
   userId?: InputMaybe<UserManyRelationFilter>;
 };
@@ -2043,6 +2067,7 @@ export type Product = {
   tags?: Maybe<Array<Tag>>;
   tagsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
+  version?: Maybe<Scalars['String']['output']>;
   youtubeId?: Maybe<Scalars['String']['output']>;
 };
 
@@ -2148,6 +2173,7 @@ export type ProductCreateInput = {
   tag?: InputMaybe<TagRelateToManyForCreateInput>;
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
   youtubeId?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2166,6 +2192,7 @@ export type ProductOrderByInput = {
   publishedAt?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
+  version?: InputMaybe<OrderDirection>;
   youtubeId?: InputMaybe<OrderDirection>;
 };
 
@@ -2293,6 +2320,7 @@ export type ProductUpdateInput = {
   tag?: InputMaybe<TagRelateToManyForUpdateInput>;
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
   youtubeId?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2317,6 +2345,7 @@ export type ProductWhereInput = {
   tag?: InputMaybe<TagManyRelationFilter>;
   tags?: InputMaybe<TagManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
+  version?: InputMaybe<StringFilter>;
   youtubeId?: InputMaybe<StringFilter>;
 };
 
@@ -3920,7 +3949,7 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, youtubeId?: string | null, galleryCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
   ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
@@ -4367,6 +4396,11 @@ fragment ProductFields on Product {
     ...ImageField
   }
   imagesCount
+  youtubeId
+  gallery {
+    ...ImageField
+  }
+  galleryCount
 }
 fragment SupplierFields on Supplier {
   id
