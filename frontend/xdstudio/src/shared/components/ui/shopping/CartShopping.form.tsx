@@ -11,7 +11,7 @@ import type {
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
 import { useEffect, useLayoutEffect, useMemo } from "react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { CartItemComponent } from "./CartItemsComponent";
 import PointDiamon from "../../PointDiamod";
 import _ from "lodash";
@@ -22,6 +22,7 @@ import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
 import type { CartFormProps } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/cartOrder.type";
+import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 
 export const EmptyCart = () => {
   return (
@@ -50,10 +51,11 @@ export const CartSummary = ({
   userTotalPoint?: number;
   style?: "short" | "full";
 } & WithClassName) => {
-  const { watch, setValue } = useFormContext<
+  const { setValue, control } = useFormContext<
     { cartItems: CartItem[] } | CartFormProps
   >();
-  const cartItemsForm = watch("cartItems");
+
+  const cartItemsForm = useWatch({ control, name: "cartItems" });
 
   const summary = useMemo(() => {
     if (!cartItemsForm?.length) return { totalQuantity: 0, totalPrice: 0 };
@@ -141,7 +143,7 @@ export const CartShoppingForm = ({
     if (cartItems) {
       method.reset({ cartItems });
     }
-  }, [cartItems, method]);
+  }, [cartItems, method.reset]);
   const mutation = useMutation({
     mutationFn: async (id: string) => {
       await execute(DeleteCartItemDocument, { where: { id } });
@@ -154,13 +156,13 @@ export const CartShoppingForm = ({
     const updated = method
       .getValues("cartItems")
       .filter((item) => item.id !== id);
-    method.setValue("cartItems", updated, { shouldDirty: true });
+    // method.setValue("cartItems", updated, { shouldDirty: true });
     mutation.mutateAsync(id).then(() => {
-      // revalidateClient(`${item.cart?.id}-${item?.product?.id}-checkProductr`);
+      method.reset({ cartItems: updated });
     });
   };
-  const { formState, watch } = method;
-  const cartItemsForm = watch("cartItems");
+  const { formState, control } = method;
+  const cartItemsForm = useWatch({ control, name: "cartItems" });
   const parentRef = React.useRef<HTMLDivElement>(null);
   const { hasNextPage, isFetchingNextPage, fetchNextPage } = query;
   const rowVirtualizer = useVirtualizer({

@@ -14,12 +14,11 @@ import type {
   UserPoint,
 } from "@/libs/graphql/generates/graphql";
 
-import _ from "lodash";
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm, CartSummary } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import Point from "../Point";
 
@@ -72,7 +71,7 @@ export const ShoppingPopover = ({
         </Link>
       </Button>
       <PopoverContent align="end" className="w-sm p-0">
-        <h4 className="px-4 pb-3 pt-4 font-semibold">Your items cart</h4>
+        <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
         <CartShoppingForm
           cartItems={cartItems as CartItem[]}
           query={query}

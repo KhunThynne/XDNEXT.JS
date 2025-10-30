@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -27,22 +23,12 @@
       }
     ],
     "paths": {
-      "@navigation": [
-        "./src/libs/i18n/navigation.ts"
-      ],
-      "@configs/*": [
-        "./configs/*"
-      ],
-      "@type/*": [
-        "./types/*"
-      ],
-      "@public/*": [
-        "./public/*"
-      ],
+      "@navigation": ["./src/libs/i18n/navigation.ts"],
+      "@configs/*": ["./configs/*"],
+      "@type/*": ["./types/*"],
+      "@public/*": ["./public/*"],
       // "#/*": ["./*"],
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -56,14 +42,7 @@
     ".next\\dev/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
-  "typeRoots": [
-    "./types",
-    "./node_modules/@types"
-  ],
-  "types": [
-    "next-auth"
-  ]
+  "exclude": ["node_modules"],
+  "typeRoots": ["./types", "./node_modules/@types"],
+  "types": ["next-auth"]
 }

@@ -7,39 +7,56 @@ import {
 
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import { unstable_cache } from "next/cache";
+import { cacheLife, cacheTag, unstable_cache } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
-const getCachedCheckUserProductStatus = (
+import { Button } from "@/libs/shadcn/ui/button";
+// const getCachedCheckUserProductStatus = (
+//   productId: string,
+//   userId: string,
+//   cartId?: string
+// ) =>
+//   unstable_cache(
+//     async () =>
+//       await execute(CheckUserProductStatusDocument, {
+//         productId,
+//         userId,
+//       }),
+//     [`checkUserProductStatus-${productId}-${userId}`],
+//     {
+//       tags: [
+//         `${userId}-${productId}-checkProduct`,
+//         `${cartId}-${productId}-checkProduct`,
+//         `${cartId}-${userId}-checkProduct`,
+//       ],
+//       revalidate: 3600,
+//     }
+//   )();
+
+const getCachedCheckUserProductStatusCache = async (
   productId: string,
   userId: string,
   cartId?: string
-) =>
-  unstable_cache(
-    async () =>
-      await execute(CheckUserProductStatusDocument, {
-        productId,
-        userId,
-      }),
-    [`checkUserProductStatus-${productId}-${userId}`],
-    {
-      tags: [
-        `${userId}-${productId}-checkProduct`,
-        `${cartId}-${productId}-checkProduct`,
-        `${cartId}-${userId}-checkProduct`,
-      ],
-      revalidate: 3600,
-    }
-  )();
-const getGetProductDocument = (id: string) =>
-  unstable_cache(
-    async () => await execute(GetProductDocument, { where: { id } }),
-    [`product-${id}`, id],
-    {
-      tags: [`product-${id}`, id],
-      revalidate: 10000,
-    }
-  )();
+) => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag(
+    `${userId}-${productId}-checkProduct`,
+    `${cartId}-${productId}-checkProduct`,
+    `${cartId}-${userId}-checkProduct`
+  );
+  return await execute(CheckUserProductStatusDocument, {
+    productId,
+    userId,
+  });
+};
+
+const getGetProductDocument = async (id: string) => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag(`product-${id}`, id);
+  return await execute(GetProductDocument, { where: { id } });
+};
 
 export default async function PageProduct({
   params,
@@ -51,7 +68,7 @@ export default async function PageProduct({
   const req = await getGetProductDocument(id);
   const { product: ProductData } = req.data;
   const product = ProductData as Product;
-  const productStatus = await getCachedCheckUserProductStatus(
+  const productStatus = await getCachedCheckUserProductStatusCache(
     id,
     session?.user?.id ?? "",
     session?.user?.carts?.[0]?.id ?? ""

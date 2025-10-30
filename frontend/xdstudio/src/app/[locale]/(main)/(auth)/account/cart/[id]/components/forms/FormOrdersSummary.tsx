@@ -2,7 +2,7 @@
 
 import { Button } from "@/libs/shadcn/ui/button";
 import { Separator } from "@radix-ui/react-separator";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 import { useCallback, useMemo } from "react";
 import { Link } from "@navigation";
@@ -32,8 +32,15 @@ import type { DialogInstanceProps } from "@/libs/dialog/index.type";
 export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
   const method = useFormContext<CartFormProps>();
   const formatter = useFormatter();
-  const { watch } = method;
-  const { cartItems, cartId, userId, remainingpointPayment } = watch();
+  const { control } = method;
+  const cartItems = useWatch({ control, name: "cartItems" });
+  const cartId = useWatch({ control, name: "cartId" });
+  const userId = useWatch({ control, name: "userId" });
+  const remainingpointPayment = useWatch({
+    control,
+    name: "remainingpointPayment",
+  });
+
   const { invalidate } = useCartInfinite({
     cartId,
     userId,

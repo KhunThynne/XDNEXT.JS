@@ -28,6 +28,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body
+        suppressHydrationWarning
         className={clsx(
           // geistSans.variable, geistMono.variable,
           `antialiased`

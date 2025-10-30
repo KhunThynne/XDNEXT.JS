@@ -137,13 +137,14 @@ model CartItem {
 }
 
 model Order {
-  id        String      @id @default(uuid()) @postgresql.Uuid
-  user      User?       @relation("Order_user", fields: [userId], references: [id])
-  userId    String?     @map("user") @postgresql.Uuid
-  items     OrderItem[] @relation("OrderItem_order")
-  status    String      @default("PENDING")
-  createdAt DateTime?   @default(now())
-  updateAt  DateTime?   @default(now())
+  id                           String             @id @default(uuid()) @postgresql.Uuid
+  user                         User?              @relation("Order_user", fields: [userId], references: [id])
+  userId                       String?            @map("user") @postgresql.Uuid
+  items                        OrderItem[]        @relation("OrderItem_order")
+  status                       String             @default("PENDING")
+  createdAt                    DateTime?          @default(now())
+  updateAt                     DateTime?          @default(now())
+  from_PointTransaction_orders PointTransaction[] @relation("PointTransaction_orders")
 
   @@index([userId])
 }
@@ -190,6 +191,7 @@ model Product {
   images                          Image[]            @relation("Product_images")
   faqs                            FAQ[]              @relation("Product_faqs")
   averageScore                    Float?             @default(0)
+  version                         String             @default("beta")
   ratings                         Rating[]           @relation("Product_ratings")
   publishedAt                     DateTime?
   createdAt                       DateTime?          @default(now())
@@ -238,11 +240,13 @@ model Promotion {
 }
 
 model PointTransaction {
-  id          String @id @default(uuid()) @postgresql.Uuid
-  userId      User[] @relation("PointTransaction_userId")
-  type        String @default("Earn")
+  id          String    @id @default(uuid()) @postgresql.Uuid
+  userId      User[]    @relation("PointTransaction_userId")
+  type        String    @default("Earn")
   amount      Int?
-  description Json   @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  orders      Order[]   @relation("PointTransaction_orders")
+  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  createdAt   DateTime? @default(now())
 }
 
 model Image {

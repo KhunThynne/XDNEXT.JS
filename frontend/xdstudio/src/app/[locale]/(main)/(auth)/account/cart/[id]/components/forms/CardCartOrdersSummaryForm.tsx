@@ -1,7 +1,7 @@
 "use client";
 
 import { Separator } from "@radix-ui/react-separator";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { useFormatter } from "next-intl";
 import PointDiamon from "@/shared/components/PointDiamod";
@@ -32,7 +32,7 @@ export const ImageProduct = ({
   image: ImageType | undefined;
 }) => {
   const src = image?.src?.url ?? "";
-  if (!image) return <ImageOff className={clsx(prop.className)} />;
+  if (!image) return <ImageOff className={clsx(``, prop.className)} />;
   return (
     <Image
       {...prop}
@@ -118,14 +118,12 @@ export const CartItemsVirtualScroll = ({
   );
 };
 
-export function CardCartOrdersSummaryForm({
-  className,
-  children,
-}: WithlDefaultProps) {
+const CartOrdersSummaryForm = () => {
   const method = useFormContext<CartFormProps>();
   const formatter = useFormatter();
-  const { watch } = method;
-  const { cartItems, point } = watch();
+  const { control } = method;
+  const cartItems = useWatch({ control, name: "cartItems" });
+  const point = useWatch({ control, name: "point" });
   const subtotal = useMemo(
     () =>
       cartItems?.reduce(
@@ -138,28 +136,38 @@ export function CardCartOrdersSummaryForm({
   const tax = subtotal * 0.07;
   const pointId = point?.id;
   const total = subtotal + tax;
+  const cartItemsData = useMemo(() => cartItems, [cartItems]);
   const [totalPoint, setTotalPoint] = useState(0);
+
+  if (cartItemsData?.length ?? 0 > 0)
+    return (
+      <>
+        <CartItemsVirtualScroll cartItems={cartItemsData} />
+        <CardContent className="flex flex-col gap-4 pt-5">
+          <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
+          <CartSummary userTotalPoint={totalPoint} />
+        </CardContent>
+      </>
+    );
+
+  return (
+    <CardContent className="flex min-h-50 grow flex-col items-center justify-center text-muted-foreground">
+      <ShoppingCart className="mb-2 size-8 opacity-70" />
+      <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
+    </CardContent>
+  );
+};
+
+export function CardCartOrdersSummaryForm({
+  className,
+  children,
+}: WithlDefaultProps) {
   return (
     <Card className={clsx(className, `gap-0 divide-y`)}>
       <CardHeader className="pb-3">
         <CardTitle>Order Summary</CardTitle>
       </CardHeader>
-
-      {(cartItems?.length ?? 0 > 0) ? (
-        <>
-          <CartItemsVirtualScroll cartItems={cartItems} />
-          <CardContent className="flex flex-col gap-4 pt-5">
-            <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
-            <CartSummary userTotalPoint={totalPoint} />
-          </CardContent>
-        </>
-      ) : (
-        <CardContent className="flex min-h-50 grow flex-col items-center justify-center text-muted-foreground">
-          <ShoppingCart className="mb-2 size-8 opacity-70" />
-          <p className="text-sm font-medium">ไม่มีสินค้าใน order</p>
-        </CardContent>
-      )}
-
+      <CartOrdersSummaryForm />
       {children}
     </Card>
   );
