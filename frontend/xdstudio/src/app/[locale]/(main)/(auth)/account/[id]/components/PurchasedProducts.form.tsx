@@ -1,67 +1,42 @@
 "use client";
 
 import { Form } from "@/libs/shadcn/ui/form";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { Grid3X3, List, Package, PackageOpen } from "lucide-react";
-import { useForm } from "react-hook-form";
+
+import {
+  Grid3X3,
+  List,
+  MessageSquareX,
+  Package,
+  PackageOpen,
+  X,
+} from "lucide-react";
+
 import clsx from "clsx";
 import Image from "next/image";
-import { usePathname } from "@navigation";
-import {
-  GetUserItemDocument,
+import { Link, usePathname } from "@navigation";
+import type {
   GetUserItemQuery,
   Product,
 } from "@/libs/graphql/generates/graphql";
+import { GetUserItemDocument } from "@/libs/graphql/generates/graphql";
 import { useQuery } from "@tanstack/react-query";
 import { execute } from "@/libs/graphql/execute";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import UserProductLoading from "../@userProducts/loading";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
-import { CardProduct } from "@/app/[locale]/(main)/(contents)/products/components/ProductCard";
+import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
 
-const ListItems = ({
-  items,
-}: {
-  items: NonNullable<NonNullable<GetUserItemQuery["user"]>["items"]>;
-}) => {
-  return (
-    <MotionTransition animationKey="list">
-      <ul className="space-y-3 divide-y">
-        {items?.map((props, index) => {
-          const product = props.item?.product as Product;
-          return (
-            <li key={`list-${index}`} className="flex items-center gap-4">
-              <div className="size-15 relative aspect-square overflow-hidden rounded-lg border bg-gray-100">
-                {product?.images?.[0] && (
-                  <Image
-                    src={product?.images[0].src?.url ?? ""}
-                    alt={product.images[0]?.altText ?? ""}
-                    className="h-full w-full object-cover"
-                    fill
-                  />
-                )}
-              </div>
-              <div className="flex-grow">
-                <h3 className="mb-1 text-lg font-semibold">{product.name}</h3>
-                <p className="mb-2 text-sm">{product.description}</p>
-                <p className="text-xs font-light">Update: {props.updateAt}</p>
-              </div>
-              <div className="flex-shrink-0 text-right">
-                <p className="text-accent mb-2 text-xl font-bold">
-                  {product.price?.price}
-                </p>
-                <Badge>test</Badge>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    </MotionTransition>
-  );
-};
+import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
+import { InputForm } from "@/libs/shadcn/libs/tanstack-react-form/Input";
+import { useForm, formOptions, useField } from "@tanstack/react-form";
+import { DataTableGridItemsInfiniteScroll } from "./DataTableUserItemsInfiniteScroll";
+import {
+  InputGroupAddon,
+  InputGroupButton,
+} from "@/libs/shadcn/ui/input-group";
+import { Button } from "@/libs/shadcn/ui/button";
 
 const GridItems = ({
   items,
@@ -74,7 +49,7 @@ const GridItems = ({
       animationKey="grid"
       className={clsx(
         `grid`,
-        "@min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5 @min-xl:grid-col-5 gap-3"
+        "@min-xl:grid-col-5 gap-3 @min-3xs:grid-cols-2 @min-lg:grid-cols-4 xl:@min-lg:grid-cols-5"
       )}
     >
       {_.isEmpty(items) ? (
@@ -87,7 +62,7 @@ const GridItems = ({
         </section>
       ) : (
         items?.map((props, index) => {
-          const product = props.item?.product as Product;
+          const product = props!.item?.product as Product;
           return (
             <CardProduct
               footer={false}
@@ -117,67 +92,51 @@ const GridItems = ({
   );
 };
 
+export const purchasedProductsOptions = formOptions({
+  defaultValues: {
+    providers: "Credential",
+    product_id: [],
+    search: "",
+  },
+});
+
 export default function PurchasedProductsForm({
   session,
 }: {
   session: Session;
 }) {
-  const method = useForm({
-    defaultValues: {
-      providers: "Credential",
-      product_id: [],
-      search: "",
-    },
+  const form = useAppForm({
+    ...purchasedProductsOptions,
   });
-  const { data, status } = useQuery({
-    queryKey: ["user-items", session.user.id],
-    queryFn: async () => {
-      const res = await execute(GetUserItemDocument, {
-        where: { id: session.user.id },
-      });
-      return res;
-    },
-    enabled: !!session.user.id,
-  });
-
+  const search = useField({ name: "search", form });
   return (
-    <Form {...method}>
-      <InputForm
-        label="Search"
-        name="search"
-        placeholder="Search .."
-        classNames={{
-          input: " bg-primary-foreground dark:bg-secondary",
-          container: "max-w-md",
+    <section className="@container flex h-full grow flex-col space-y-6">
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          await form.handleSubmit();
         }}
-        type="search"
-      />
-
-      {status === "success" ? (
-        <form className="@container mt-3 space-y-4">
-          <TabsComponent
-            tabs={[
-              {
-                label: <Grid3X3 />,
-                value: "grid",
-              },
-              // {
-              //   label: <List />,
-              //   value: "list",
-              // },
-            ]}
-          >
-            <TabsComponent.Content value="grid">
-              <GridItems items={data?.data?.user?.items ?? []} />
-            </TabsComponent.Content>
-            <TabsComponent.Content value="list">
-              <ListItems items={data?.data?.user?.items ?? []} />
-            </TabsComponent.Content>
-          </TabsComponent>
-        </form>
-      ) : (
-        <UserProductLoading />
-      )}
-    </Form>
+      >
+        <form.AppField
+          name="search"
+          children={(field) => {
+            return (
+              <field.Input
+                label="Search"
+                className="max-w-md"
+                placeholder="Search .."
+                type="search"
+              />
+            );
+          }}
+        />
+      </form>
+      <section className="relative h-full">
+        <DataTableGridItemsInfiniteScroll
+          session={session}
+          filterText={search.state.value}
+        />
+      </section>
+    </section>
   );
 }

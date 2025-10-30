@@ -1,10 +1,9 @@
 import { execute } from "@/libs/graphql/execute";
+import type { User } from "@/libs/graphql/generates/graphql";
 import {
   RedeemUserPasswordResetTokenResultDocument,
   SendUserPasswordResetTokenDocument,
-  User,
   ValidateUserPasswordResetTokenDocument,
-  ValidateUserPasswordResetTokenQueryVariables,
 } from "@/libs/graphql/generates/graphql";
 import { useMutation, useQuery } from "@tanstack/react-query";
 const useSendTokenResetMutation = () =>

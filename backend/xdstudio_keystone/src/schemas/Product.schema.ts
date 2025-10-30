@@ -3,6 +3,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { float, relationship, select, text, timestamp } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { TypeInfo } from '.keystone/types';
 export const Product = list({
   access: allowAll,
   ui: {
@@ -10,6 +11,7 @@ export const Product = list({
       initialColumns: ['id', 'name', 'createdAt', 'details', 'youtubeId'],
       pageSize: 10,
     },
+    labelField: 'name',
   },
   fields: {
     status: select({
@@ -130,6 +132,7 @@ export const Product = list({
         description: 'Average Score form Ratings',
       },
     }),
+    version: text({ ui: { description: 'Product version .' }, defaultValue: 'beta' }),
     ratings: relationship({
       ref: 'Rating',
       many: true,
@@ -218,4 +221,4 @@ export const Product = list({
       }
     },
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Product']>;

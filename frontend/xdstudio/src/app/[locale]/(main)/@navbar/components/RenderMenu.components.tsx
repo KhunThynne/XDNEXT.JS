@@ -1,7 +1,7 @@
 "use client";
 
 import _ from "lodash";
-import { TypeNavbarItem } from "@type/config.type";
+import type { TypeNavbarItem } from "@type/config.type";
 import {
   Collapsible,
   CollapsibleContent,

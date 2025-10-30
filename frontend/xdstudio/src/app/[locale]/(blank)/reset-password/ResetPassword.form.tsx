@@ -1,6 +1,6 @@
 "use client";
 
-import { RedeemUserPasswordResetTokenResultMutation } from "@/libs/graphql/generates/graphql";
+import type { RedeemUserPasswordResetTokenResultMutation } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { Form } from "@/libs/shadcn/ui/form";

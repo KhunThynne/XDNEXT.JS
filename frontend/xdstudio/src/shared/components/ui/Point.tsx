@@ -1,12 +1,10 @@
 "use client";
 import { execute } from "@/libs/graphql/execute";
-import {
-  GetUserPointDocument,
-  Maybe,
-  UserPoint,
-} from "@/libs/graphql/generates/graphql";
+import type { Maybe, UserPoint } from "@/libs/graphql/generates/graphql";
+import { GetUserPointDocument } from "@/libs/graphql/generates/graphql";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";
+import React, { useLayoutEffect, useMemo } from "react";
 
 export const usePointDocument = ({
   id,
@@ -30,17 +28,32 @@ export const usePointDocument = ({
 };
 
 export default function Point({
-  userPoint,
+  pointId,
+  hidden,
+  setTotalPoint,
 }: {
-  userPoint: Maybe<UserPoint> | undefined;
+  pointId: UserPoint["id"] | undefined;
+  setTotalPoint?: React.Dispatch<React.SetStateAction<number>>;
+  hidden?: boolean;
 }) {
   const formatter = useFormatter();
   const { query } = usePointDocument({
-    id: userPoint?.id,
+    id: pointId,
   });
   const { data, status, refetch } = query;
-  const total_point = data?.data.userPoint?.total_point || 0;
-
+  const total_point = useMemo(
+    () => data?.data.userPoint?.total_point || 0,
+    [data?.data.userPoint?.total_point]
+  );
+  useLayoutEffect(() => {
+    if (!setTotalPoint) return;
+    if (total_point) {
+      setTotalPoint(total_point);
+    }
+  }, [setTotalPoint, total_point]);
+  if (hidden) {
+    return null;
+  }
   if (status === "success")
     return (
       <span

@@ -1,7 +1,9 @@
-import Translations from "@/libs/i18n/Translations";
+"use client";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
+import { ContainerLog } from "./fallback/ContainerLog";
 
 interface ContainerSectionProps
   extends GlobalPropsClassNames<
@@ -14,6 +16,7 @@ interface ContainerSectionProps
   > {
   title?: string;
   description?: string | React.JSX.Element;
+  log?: boolean;
 }
 
 export const ContainerSection = ({
@@ -22,33 +25,55 @@ export const ContainerSection = ({
   children,
   title,
   description,
+  log,
 }: ContainerSectionProps) => {
+  const ref = useRef<HTMLElement>(null);
   return (
     <section
       id="container-content-section"
-      className={clsx("flex flex-col gap-2", className, classNames?.container)}
-    >
-      <Label className={clsx(`text-2xl font-semibold`, classNames?.title)}>
-        <Translations text={title} />
-      </Label>
-      {description && (
-        <span
-          className={clsx(
-            "text-muted-foreground break-all",
-            classNames?.description
-          )}
-        >
-          {description}
-        </span>
+      className={clsx(
+        "flex max-w-full flex-col gap-8",
+        className,
+        classNames?.container
       )}
-      <Separator
-        className={clsx(
-          `bg-secondary-foreground/15 mb-5 mt-2`,
-          classNames?.separator
-        )}
-      />
-      <section className={clsx("@container", classNames?.contentContainer)}>
-        <div className={clsx(classNames?.content)}>{children}</div>
+    >
+      {(description || title) && (
+        <section className="flex flex-col">
+          {title && (
+            <Label
+              className={clsx(`text-2xl font-semibold`, classNames?.title)}
+            >
+              {title}
+            </Label>
+          )}
+          {description && (
+            <span
+              className={clsx(
+                "wrap-break-word break-all text-muted-foreground",
+                classNames?.description
+              )}
+            >
+              {description}
+            </span>
+          )}
+
+          <Separator
+            className={clsx(
+              `mt-4 bg-secondary-foreground/15`,
+              classNames?.separator
+            )}
+          />
+        </section>
+      )}
+
+      {log && <ContainerLog ref={ref} />}
+      <section
+        className={clsx("@container grow", classNames?.contentContainer)}
+        ref={ref}
+      >
+        <div className={clsx(`content h-full`, classNames?.content)}>
+          {children}
+        </div>
       </section>
     </section>
   );

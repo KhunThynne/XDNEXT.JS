@@ -54,6 +54,11 @@ graphql(`
     products(take: $take, skip: $skip, orderBy: $orderBy) {
       ...ProductFields
     }
+    productsCount
+  }
+
+  query getProductsCount {
+    productsCount
   }
 
   query getProduct($where: ProductWhereUniqueInput!) {

@@ -1,8 +1,14 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { relationship, select, timestamp } from '@keystone-6/core/fields';
+import { TypeInfo, type Context, type OrderCreateInput } from '.keystone/types';
+import _ from 'lodash';
+
 export const Order = list({
   access: allowAll,
+  ui: {
+    listView: { defaultFieldMode: 'read', initialColumns: ['id', 'user', 'createdAt', 'updateAt'] },
+  },
   fields: {
     user: relationship({ ref: 'User.orders', many: false }),
     items: relationship({ ref: 'OrderItem.order', many: true }),
@@ -37,4 +43,83 @@ export const Order = list({
       },
     }),
   },
-}) satisfies ListConfig<any>;
+  hooks: {
+    afterOperation: async (args) => {
+      const { operation, item, inputData, context } = args;
+
+      if (operation === 'create') {
+        const userId = inputData?.user?.connect?.id;
+        const createData = inputData.items?.create;
+        const itemsArray = createData
+          ? Array.isArray(createData)
+            ? createData
+            : [createData]
+          : [];
+        const summaryItemPointTotal = itemsArray.reduce((total, item) => {
+          return total + (item.unitPrice ?? 0);
+        }, 0);
+        const args = { context, summaryItemPointTotal, userId, item };
+        await UpdateUserPoint(args);
+        await CreatePointTransaction(args);
+      }
+    },
+  },
+}) satisfies ListConfig<TypeInfo['lists']['Order']>;
+
+interface ArgsOrder {
+  userId: string | null | undefined;
+  summaryItemPointTotal: number;
+  context: Context;
+  item: { id: string };
+}
+
+const UpdateUserPoint = async ({ userId, context, summaryItemPointTotal }: ArgsOrder) => {
+  if (userId) {
+    if (summaryItemPointTotal > 0) {
+      try {
+        await context.prisma.userPoint.updateMany({
+          where: {
+            user: { id: userId },
+          },
+          data: {
+            total_point: {
+              decrement: _.max([summaryItemPointTotal, 0]),
+            },
+          },
+        });
+      } catch (error) {
+        console.error(`Failed to update points for user: ${userId}`, error);
+        throw new Error('Failed to update user points.');
+      }
+    }
+  }
+};
+
+const CreatePointTransaction = async ({
+  item,
+  userId,
+  context,
+  summaryItemPointTotal,
+}: ArgsOrder) => {
+  if (userId) {
+    try {
+      await context.prisma.pointTransaction.create({
+        data: {
+          userId: { connect: { id: userId } },
+          amount: summaryItemPointTotal,
+          orders: { connect: { id: item.id } },
+          type: 'earn',
+          description: [
+            {
+              type: 'paragraph',
+              children: [{ text: `create by ${userId}` }],
+            },
+          ],
+        },
+      });
+    } catch (error) {
+      console.error(`Failed to update points for user: ${userId}`, error);
+      throw new Error('Failed to update user points.');
+    }
+  }
+};

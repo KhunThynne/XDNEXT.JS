@@ -2,11 +2,11 @@
 
 import { FormControl, FormField, FormItem } from "@/libs/shadcn/ui/form";
 import { Input } from "@/libs/shadcn/ui/input";
-import { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
-import { ReactNode } from "react";
+import type { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
+import type { ReactNode } from "react";
 import clsx from "clsx";
 import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
-import { FormXdProps } from "./shared/index.type";
+import type { FormXdProps } from "./shared/index.type";
 import _ from "lodash";
 import LabelAndDescriptionForm from "./shared/LabelAndDescriptionForm";
 
@@ -53,3 +53,4 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
     />
   );
 }
+

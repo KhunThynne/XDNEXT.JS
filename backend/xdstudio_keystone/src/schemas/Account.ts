@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text, relationship, timestamp, json } from '@keystone-6/core/fields';
@@ -43,4 +44,4 @@ export const Account = list({
     },
     isHidden: true,
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['Account']>;

@@ -1,4 +1,4 @@
-import { Cart } from "@/libs/graphql/generates/graphql";
+import type { Cart } from "@/libs/graphql/generates/graphql";
 import { createHookStore } from "@/libs/zustand/createHookStore";
 
 export const useCartsStore = createHookStore<Cart | object, "cart">({

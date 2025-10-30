@@ -1,28 +1,22 @@
 "use client";
-import React, { ReactNode, useLayoutEffect } from "react";
+import type { ReactNode } from "react";
+import React, { useLayoutEffect } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import { ThemeProvider } from "@/shared/components/providers";
 import { DialogProvider } from "@/libs/dialog/DialogProvider";
-import { useLocaleStore } from "@/shared/stores/useLocaleStore";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { useCartsStore } from "@/shared/stores/useCartsStore";
 import { Toaster } from "@/libs/shadcn/ui/sonner";
 const queryClient = new QueryClient();
 export const Providers = ({
   children,
-  locale,
   session,
 }: {
   children: ReactNode;
   locale: string;
   session: Session | null;
 }) => {
-  const { setData } = useLocaleStore();
   const { setCart } = useCartsStore();
-  useLayoutEffect(() => {
-    setData({ locale });
-  }, [locale, setData]);
   useLayoutEffect(() => {
     const cart = session?.user?.carts?.[0];
     if (!cart) {
@@ -33,12 +27,7 @@ export const Providers = ({
   return (
     <QueryClientProvider client={queryClient}>
       <DialogProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          // disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Toaster position="top-center" />
           {children}
         </ThemeProvider>

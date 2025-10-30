@@ -1,14 +1,14 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { CartOrderForm } from "./components/forms/CartOrder.form";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
+import CartOrderFormProvider from "./components/CartOrderFormProvider";
 
 export default async function LayoutCart({
   children,
-  orderList,
+  cartItems,
   params,
-}: NextJSReactNodes<"orderList"> & {
+}: NextJSReactNodes<"cartItems"> & {
   params: Promise<{ id: string }>;
 }) {
   const session = await auth();
@@ -16,39 +16,48 @@ export default async function LayoutCart({
   const { id: cartId } = await params;
   const cartIdSession = session.user.carts?.[0]?.id;
   const userId = session.user.id;
-  const point = session?.user?.point || 0;
+  const point = session?.user?.point;
+
   if (cartId !== cartIdSession) return notFound();
 
   if (!cartId || !userId || point === undefined || point === null) {
     throw new Error(
       clsx(
         "Missing required:",
-        !cartId && " cartId",
-        !userId && " userId",
-        point === null && " point",
-        point === undefined && " point"
+        !cartId && "cartId",
+        !userId && "userId",
+        point === null && "point",
+        point === undefined && "point"
       )
     );
   }
 
   return (
-    <CartOrderForm
+    <CartOrderFormProvider
       cartId={cartId}
       userId={userId}
       session={session}
       point={point}
+      grandTotal={0}
+      availablePoint={0}
+      remainingpointPayment={0}
     >
-      <ContainerSection title="Your Shopping Cart" className="px-3">
-        <div className="flex flex-wrap gap-6">
-          {/* Cart Items */}
-          <section className="min-w-lg max-w-full grow max-sm:min-w-full">
-            {orderList}
-          </section>
-
-          {/* Summary */}
-          <section className="grow xl:max-w-sm">{children}</section>
-        </div>
-      </ContainerSection>
-    </CartOrderForm>
+      <div className="grid grow grid-cols-1 gap-8 xl:grid-cols-6">
+        <ContainerSection
+          className="grow max-md:gap-4 xl:col-span-4"
+          title="Your Shopping Cart"
+          classNames={{
+            container: "",
+            contentContainer: "h-[81vh]",
+            separator: "max-sm:hidden",
+          }}
+        >
+          {cartItems}
+        </ContainerSection>
+        <section className="flex h-full flex-col gap-4 xl:col-span-2">
+          {children}
+        </section>
+      </div>
+    </CartOrderFormProvider>
   );
 }

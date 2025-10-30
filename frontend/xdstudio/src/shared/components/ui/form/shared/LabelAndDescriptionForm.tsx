@@ -4,7 +4,7 @@ import { Input } from "@/libs/shadcn/ui/input";
 import clsx from "clsx";
 import _ from "lodash";
 import { Fragment } from "react";
-import { LabelDescription } from "./index.type";
+import type { LabelDescription } from "./index.type";
 
 export default function LabelAndDescriptionForm({
   classNames,
@@ -17,7 +17,7 @@ export default function LabelAndDescriptionForm({
       {label && (
         <FormLabel
           className={clsx(
-            "inline-block max-w-full truncate break-all pb-0.5",
+            "inline-block max-w-full truncate pb-0.5 break-all",
             classNames?.label
           )}
         >

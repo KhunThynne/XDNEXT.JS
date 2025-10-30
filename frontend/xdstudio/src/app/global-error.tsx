@@ -8,11 +8,11 @@ import {
   CardHeader,
 } from "@/libs/shadcn/ui/card";
 import Content from "@/shared/components/ui/Content";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 // Error boundaries must be Client Components
 export const metadata: Metadata = {
-  title: "Xdstudio - Error",
+  title: "XD Shop - Error",
   description: "This is a static description for all locales",
 };
 
@@ -25,7 +25,7 @@ export default function GlobalError({
 }) {
   return (
     <html key="global-error">
-      <body className="bg-secondary flex min-h-screen flex-col place-content-center">
+      <body className="flex min-h-screen flex-col place-content-center bg-secondary">
         <Content
           classNames={{
             content: "max-w-md mx-auto grow place-content-center px-4",
@@ -33,7 +33,7 @@ export default function GlobalError({
         >
           <Card>
             <CardHeader>
-              <h2>Something went wrong!</h2>
+              <h2>Something went wrong! </h2>
             </CardHeader>
             <CardContent>
               {error?.message && (

@@ -13,6 +13,8 @@ class Env(BaseSettings):
     DATABASE_URL: str = Field(default=None)
     OMISE_PUBLIC_KEY: str = Field(default=None)
     OMISE_SECRET_KEY: str = Field(default=None)
+    DISCORD_BOT_TOKEN: str = Field(default=None)
+    DISCORD_GUILD_ID: int = Field(default=None)
 
     class Config:
         pass

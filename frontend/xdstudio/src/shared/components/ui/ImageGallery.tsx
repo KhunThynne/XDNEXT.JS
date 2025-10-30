@@ -5,7 +5,7 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { ChevronLeftIcon, ChevronRightIcon, EyeClosed } from "lucide-react";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Image } from "@/libs/graphql/generates/graphql";
+import type { Image } from "@/libs/graphql/generates/graphql";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { createHookDialog } from "@/libs/dialog/createHookDialog";
 import { Button } from "@/libs/shadcn/ui/button";
@@ -21,7 +21,9 @@ interface ImageGalleryProps {
   open: boolean;
   handleClose?: () => void;
 }
-
+const Navigation = memo(function Navigation(props: any) {
+  return <Button variant="ghost" {...props} />;
+});
 const NavigationGallerry = ({ children }: { children: React.ReactNode }) => {
   const { watch, setValue } = useFormContext<ImageGalleryProps>();
   const files = watch("files") || [];
@@ -37,10 +39,6 @@ const NavigationGallerry = ({ children }: { children: React.ReactNode }) => {
           : 0;
     setValue("selectedIndex", newIndex);
   };
-
-  const Navigation = memo(function Navigation(props: any) {
-    return <Button variant="ghost" {...props} />;
-  });
 
   return (
     <span className="flex grow justify-between">

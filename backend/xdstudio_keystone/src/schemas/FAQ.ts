@@ -1,3 +1,4 @@
+import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
 import { text } from '@keystone-6/core/fields';
@@ -17,4 +18,4 @@ export const FAQ = list({
       dividers: true,
     }),
   },
-}) satisfies ListConfig<any>;
+}) satisfies ListConfig<TypeInfo['lists']['FAQ']>;

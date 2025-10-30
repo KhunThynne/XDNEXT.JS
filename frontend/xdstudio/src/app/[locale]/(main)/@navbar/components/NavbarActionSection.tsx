@@ -7,7 +7,7 @@ import { Fragment, useMemo } from "react";
 import { AccountPopover } from "./AccountPopover";
 
 import { SignButton } from "./SignButton";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { ShoppingPopover } from "@/shared/components/ui/shopping/ShoppingPopover";
 import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
 
@@ -28,14 +28,23 @@ export const NavbarActionSection = ({
       <ThemeMenu />
       <span className="inline-flex">
         {status === "loading" ? (
-          <Button variant="ghost" size="icon" disabled>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled
+            aria-label="loader-button"
+          >
             <LoaderCircle className="animate-spin" />
           </Button>
         ) : !session ? (
           <SignButton />
         ) : (
           <Fragment>
-            <ShoppingPopover userId={session.user.id} cartId={cartId!} />
+            <ShoppingPopover
+              pointId={session.user.point?.id ?? ""}
+              userId={session.user.id}
+              cartId={cartId!}
+            />
             <AccountPopover {...session?.user} />
           </Fragment>
         )}

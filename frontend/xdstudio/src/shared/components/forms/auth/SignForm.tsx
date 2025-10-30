@@ -43,10 +43,10 @@ export const SignForm = () => {
       <form className="flex flex-col gap-4" onSubmit={onSubmit}>
         {/* <div className="bg-primary-foreground mx-auto aspect-square w-full max-w-60 rounded-full border" /> */}
         <header className="space-y-2 text-center">
-          <div className="bg-primary mx-auto mb-4 flex size-16 items-center justify-center rounded-2xl">
-            <Lock className="text-primary-foreground size-8" />
+          <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-2xl bg-primary">
+            <Lock className="size-8 text-primary-foreground" />
           </div>
-          <h1 className="text-foreground text-3xl font-bold">{ t('welcome-back')}</h1>
+          <h1 className="text-3xl font-bold text-foreground">Welcome Back</h1>
           <p className="text-muted-foreground">
             Sign in to your account to continue
           </p>
@@ -54,7 +54,7 @@ export const SignForm = () => {
         <InputForm
           label={
             <section className="flex items-center gap-2">
-              <Mail className="text-muted-foreground size-4 self-center" />
+              <Mail className="size-4 self-center text-muted-foreground" />
               Email
             </section>
           }
@@ -70,7 +70,7 @@ export const SignForm = () => {
         <InputForm
           label={
             <section className="flex items-center gap-2">
-              <Lock className="text-muted-foreground size-4 self-center" />
+              <Lock className="size-4 self-center text-muted-foreground" />
               Password
             </section>
           }

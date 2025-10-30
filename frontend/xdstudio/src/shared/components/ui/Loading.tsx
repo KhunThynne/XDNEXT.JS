@@ -1,13 +1,31 @@
+import clsx from "clsx";
+
+export const LoadingDots = () => {
+  return (
+    <div className="flex space-x-3">
+      <div className="bg-primary animate-duration-1000 h-3 w-3 animate-bounce rounded-full"></div>
+      <div className="bg-primary/80 animate-duration-1000 animate-delay-200 h-3 w-3 animate-bounce rounded-full"></div>
+      <div className="bg-primary/60 animate-duration-1000 animate-delay-400 h-3 w-3 animate-bounce rounded-full"></div>
+    </div>
+  );
+};
 export default function Loading({
   children,
   description = "Plaese watting",
   loading = "Loading...",
+  className,
 }: {
   loading?: string;
   description?: string;
-} & Partial<WithChildren>) {
+} & Partial<WithChildren> &
+  WithClassName) {
   return (
-    <div className="bg-accent absolute inset-0 z-30 flex size-full items-center justify-center">
+    <div
+      className={clsx(
+        "bg-accent/40 absolute inset-0 z-30 flex size-full items-center justify-center",
+        className
+      )}
+    >
       <div className="flex flex-col items-center space-y-8">
         {/* Enhanced Animated Spinner */}
         <div className="relative">
@@ -25,11 +43,7 @@ export default function Loading({
         </div>
         {children}
         {/* Enhanced Progress Dots */}
-        <div className="flex space-x-3">
-          <div className="bg-primary animate-duration-1000 h-3 w-3 animate-bounce rounded-full"></div>
-          <div className="bg-primary/80 animate-duration-1000 animate-delay-200 h-3 w-3 animate-bounce rounded-full"></div>
-          <div className="bg-primary/60 animate-duration-1000 animate-delay-400 h-3 w-3 animate-bounce rounded-full"></div>
-        </div>
+        <LoadingDots />
       </div>
     </div>
   );
