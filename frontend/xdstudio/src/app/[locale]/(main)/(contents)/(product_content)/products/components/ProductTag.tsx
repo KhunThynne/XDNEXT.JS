@@ -7,7 +7,7 @@ import _ from "lodash";
 export const ProductTag = ({
   tags,
   classNames,
-}: { tags: Maybe<Tag[]> | undefined } & GlobalPropsClassNames<"view">) => {
+}: { tags: Maybe<Tag[]> | undefined } & WithClassNames<"view">) => {
   if (_.isEmpty(tags)) return null;
   return (
     <EmblaCarousel

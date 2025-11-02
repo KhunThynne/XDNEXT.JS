@@ -23,8 +23,9 @@ import { statelessSessions } from '@keystone-6/core/session';
 
 import { Context } from '.keystone/types';
 import _ from 'lodash';
-import { sendEmail } from './utils/sendEmail';
+
 import env from '../env';
+import { sendEmail } from './shared/utils/sendEmail';
 // withAuth is a function we can use to wrap our base configuration
 const { withAuth } = createAuth({
   listKey: 'User',

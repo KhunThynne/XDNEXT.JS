@@ -50,7 +50,7 @@ export function SelectForm<TFieldValues extends FieldValues = FieldValues>({
 }: FormXdProps<TFieldValues> &
   SelectFormProps &
   React.ComponentProps<typeof Select> &
-  GlobalPropsClassNames<"label" | "description" | "container">) {
+  WithClassNames<"label" | "description" | "container">) {
   const isGrouped = Array.isArray(options) && "items" in options[0];
   const { isSubmitting } = useFormState();
   return (

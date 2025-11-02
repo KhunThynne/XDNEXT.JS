@@ -1168,6 +1168,8 @@ type Product {
   details: Product_details_Document
   tag(where: TagWhereInput! = {}, orderBy: [TagOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TagWhereUniqueInput): [Tag!]
   tagCount(where: TagWhereInput! = {}): Int
+  previewImage: Image
+  media: Product_media_Document
   images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
   faqs(where: FAQWhereInput! = {}, orderBy: [FAQOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FAQWhereUniqueInput): [FAQ!]
@@ -1176,15 +1178,16 @@ type Product {
   version: String
   ratings(where: RatingWhereInput! = {}, orderBy: [RatingOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: RatingWhereUniqueInput): [Rating!]
   ratingsCount(where: RatingWhereInput! = {}): Int
-  youtubeId: String
-  gallery(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
-  galleryCount(where: ImageWhereInput! = {}): Int
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
 }
 
 type Product_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Product_media_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 
@@ -1206,13 +1209,12 @@ input ProductWhereInput {
   price: PriceWhereInput
   description: StringFilter
   tag: TagManyRelationFilter
+  previewImage: ImageWhereInput
   images: ImageManyRelationFilter
   faqs: FAQManyRelationFilter
   averageScore: FloatNullableFilter
   version: StringFilter
   ratings: RatingManyRelationFilter
-  youtubeId: StringFilter
-  gallery: ImageManyRelationFilter
   publishedAt: DateTimeNullableFilter
   createdAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
@@ -1249,7 +1251,6 @@ input ProductOrderByInput {
   description: OrderDirection
   averageScore: OrderDirection
   version: OrderDirection
-  youtubeId: OrderDirection
   publishedAt: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection
@@ -1265,13 +1266,13 @@ input ProductUpdateInput {
   description: String
   details: JSON
   tag: TagRelateToManyForUpdateInput
+  previewImage: ImageRelateToOneForUpdateInput
+  media: JSON
   images: ImageRelateToManyForUpdateInput
   faqs: FAQRelateToManyForUpdateInput
   averageScore: Float
   version: String
   ratings: RatingRelateToManyForUpdateInput
-  youtubeId: String
-  gallery: ImageRelateToManyForUpdateInput
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
@@ -1338,13 +1339,13 @@ input ProductCreateInput {
   description: String
   details: JSON
   tag: TagRelateToManyForCreateInput
+  previewImage: ImageRelateToOneForCreateInput
+  media: JSON
   images: ImageRelateToManyForCreateInput
   faqs: FAQRelateToManyForCreateInput
   averageScore: Float
   version: String
   ratings: RatingRelateToManyForCreateInput
-  youtubeId: String
-  gallery: ImageRelateToManyForCreateInput
   publishedAt: DateTime
   createdAt: DateTime
   updateAt: DateTime

@@ -13,7 +13,6 @@ import clsx from "clsx";
 import _ from "lodash";
 import { ImageOff } from "lucide-react";
 import Image from "next/image";
-import { AddItemButton } from "./AddItem.button";
 import type { Session } from "next-auth";
 import PointDiamon from "@/shared/components/PointDiamod";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
@@ -38,7 +37,7 @@ export const CardProduct = ({
   loading?: boolean;
 
   motion?: Omit<MotionTransitionWrapperProps, "children">;
-} & GlobalPropsClassNames<
+} & WithClassNames<
   | "containerImage"
   | "image"
   | "title"
@@ -58,7 +57,7 @@ export const CardProduct = ({
       >
         <CardHeader
           className={clsx(
-            "bg-primary-foreground inset-shadow-sm inset-shadow-primary/20 dark:bg-accent relative aspect-video rounded-t-xl sm:aspect-auto",
+            "relative aspect-video rounded-t-xl bg-primary-foreground inset-shadow-sm inset-shadow-primary/20 sm:aspect-auto dark:bg-accent",
             classNames?.header
           )}
         >
@@ -140,7 +139,7 @@ export const CardProduct = ({
                   >
                     <SafeHtml
                       className={clsx(
-                        "text-md text-muted-foreground break-all text-sm",
+                        "text-md text-sm break-all text-muted-foreground",
                         _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
                       )}
                       html={product.description}
@@ -155,7 +154,7 @@ export const CardProduct = ({
               {loading ? (
                 <Skeleton className="h-5 w-12" />
               ) : (
-                <p className="text-primary text-md flex grow gap-1 truncate font-bold">
+                <p className="text-md flex grow gap-1 truncate font-bold text-primary">
                   <PointDiamon />
                   {`${product?.price?.price ?? `Free`}`}
                 </p>

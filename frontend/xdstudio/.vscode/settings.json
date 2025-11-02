@@ -1,7 +1,17 @@
 {
-    "i18n-ally.localesPaths": [
-        "messages",
-        "src/libs/i18n"
-    ],
-    "i18n-ally.keystyle": "nested"
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true
+  },
+
+  "eslint.onIgnoredFiles": "off",
+  "i18n-ally.localesPaths": [
+    "messages",
+    "src/libs/i18n",
+    "frontend/xdstudio/messages",
+    "frontend/xdstudio/src/libs/i18n"
+  ],
+
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.functionNames": ["t", "translate", "useI18n"]
 }

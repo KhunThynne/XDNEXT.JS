@@ -10,7 +10,7 @@ export default function LabelAndDescriptionFieldForm({
   children,
   label,
   description,
-}: GlobalPropsClassNames<"label" | "description"> & LabelDescription) {
+}: WithClassNames<"label" | "description"> & LabelDescription) {
   return (
     <Fragment>
       {label && (

@@ -6,9 +6,11 @@ import type {
   Faq,
   Maybe,
   Product,
+  Product_Media_Document,
 } from "@/libs/graphql/generates/graphql";
 import {
   Card,
+  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
@@ -20,7 +22,7 @@ import {
   CollapsibleContent,
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
-import { ChevronDownIcon, CircleDollarSign, Plus, Star } from "lucide-react";
+import { ChevronDownIcon, Plus, Star } from "lucide-react";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
@@ -31,7 +33,8 @@ import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
+import { MediaDocument } from "./document-render/MediaDocument";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
@@ -65,7 +68,7 @@ export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
     </ContainerSection>
   );
 };
-const ProductDetail = (
+const ContainerProductMenu = (
   props: Product & {
     session?: Session | null | undefined;
     userProductStatus: CheckUserProductStatusQuery;
@@ -83,7 +86,7 @@ const ProductDetail = (
     return null;
   }
   return (
-    <Card className="h-fit duration-300 hover:shadow-lg">
+    <Card className="h-full duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
         <div className="flex items-start justify-between">
           <div className="grow space-y-3">
@@ -123,8 +126,6 @@ const ProductDetail = (
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* Price */}
-        {JSON.stringify(userProductStatus.checkUserProductStatus)}
         <div className="flex text-4xl font-bold text-blue-600 dark:text-blue-400">
           <PointDiamon className="size-7" />
           {props.price?.price?.toLocaleString()}
@@ -139,49 +140,36 @@ const ProductDetail = (
             />
           )}
         </div>
-        <div className="flex items-center justify-end gap-3 overflow-hidden pt-4">
-          <hr className="grow" />
-          <AddItemButton
-            product={product}
-            session={session}
-            status={userProductStatus}
-          >
-            <Plus className="size-5" />
-          </AddItemButton>
-          <AddItemButton
-            disabled={label?.inUserItem}
-            status={userProductStatus}
-            product={product}
-            session={session}
-            variant={"secondary"}
-            className={clsx(label?.inUserItem ? `hidden` : "w-20")}
-            disableText
-            addTo
-            onClick={() =>
-              router.push(
-                `/account/cart/${session?.user?.carts?.[0]?.id ?? ""}`
-              )
-            }
-          >
-            {label?.inCart ? `go to cart` : "quick buy"}
-          </AddItemButton>
-        </div>
 
         <ProductFAQ faqs={props.faqs} />
       </CardContent>
-    </Card>
-  );
-};
 
-const Gallery = () => {
-  return (
-    <EmblaCarousel className="h-25">
-      {/* <div className="min-w-xs h-full border bg-amber-400" />
-      <div className="min-w-xs size-40 border" /> */}
-      <p className="mx-auto place-self-center text-3xl opacity-30">
-        Comming soon ..
-      </p>
-    </EmblaCarousel>
+      <CardAction className="mt-auto flex w-full items-center justify-end gap-3 overflow-hidden px-5">
+        <hr className="grow" />
+        <AddItemButton
+          product={product}
+          session={session}
+          status={userProductStatus}
+        >
+          <Plus className="size-5" />
+        </AddItemButton>
+        <AddItemButton
+          disabled={label?.inUserItem}
+          status={userProductStatus}
+          product={product}
+          session={session}
+          variant={"secondary"}
+          className={clsx(label?.inUserItem ? `hidden` : "w-20")}
+          disableText
+          addTo
+          onClick={() =>
+            router.push(`/account/cart/${session?.user?.carts?.[0]?.id ?? ""}`)
+          }
+        >
+          {label?.inCart ? `go to cart` : "quick buy"}
+        </AddItemButton>
+      </CardAction>
+    </Card>
   );
 };
 
@@ -199,68 +187,21 @@ export const ContentProduct = (
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
     >
-      <div className="flex h-full flex-col gap-5 xl:col-span-3" id="image">
-        <div className="flex gap-3 max-lg:flex-col">
-          <div className="flex grow flex-col gap-3">
-            <Card className="h-full p-0 duration-300 hover:shadow-lg">
-              <div className="relative aspect-video">
-                <iframe
-                  className="absolute left-0 top-0 h-full w-full rounded-2xl"
-                  src={`https://www.youtube.com/embed/${props.youtubeId}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </Card>
-            <Separator />
-            <div className="">
-              <Gallery />
-            </div>
-          </div>
-          {/* <Card className="lg:w-xs group duration-300 hover:shadow-lg">
-            <CardHeader className="text-lg font-semibold">
-              Product Info
-            </CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <p>
-                <strong>Name:</strong> {product.name}
-              </p>
-
-              <p className="flex gap-1">
-                <strong>Price:</strong> <PointDiamon className="size-3!" />{" "}
-                {product.price?.price}
-              </p>
-              <p>
-                <strong>Status:</strong> {product.status}
-              </p>
-            </CardContent>
-          </Card> */}
-        </div>
-
-        <div>
-          <Card className="h-full duration-300 hover:shadow-lg">
-            <CardHeader className="text-lg font-semibold">
-              Product Details
-            </CardHeader>
-            <CardContent className="text-md space-y-2 leading-relaxed text-muted-foreground">
-              {product.details && (
-                <div className="text-md space-y-2 leading-relaxed text-muted-foreground">
-                  <DocumentRenderer document={product.details.document} />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      <section className="xl:col-span-2">
-        <ProductDetail {...props} />
-      </section>
-
-      <ContainerSection className="col-span-full" title="image">
-        zxczxcxzczxcxzcxz
+      <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
+        <MediaDocument {...product.media!} />
+      </ContainerSection>
+      <ContainerSection className="top-20 max-xl:sticky xl:col-span-2">
+        <ContainerProductMenu {...props} />
+      </ContainerSection>
+      <ContainerSection
+        className="col-span-full h-full duration-300 hover:shadow-lg"
+        title="Product Details"
+      >
+        {product.details && (
+          <article className="text-md space-y-2 leading-relaxed text-muted-foreground">
+            <DocumentRenderer document={product.details.document} />
+          </article>
+        )}
       </ContainerSection>
     </ContainerSection>
   );

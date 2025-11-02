@@ -13,7 +13,7 @@ export const BackScreen = ({
   className,
   classNames,
   ...button
-}: { session: Session | null } & GlobalPropsClassNames<"icon"> &
+}: { session: Session | null } & WithClassNames<"icon"> &
   React.ComponentProps<typeof Button>) => {
   const router = useRouter();
   if (!session) return <LoadingDots />;

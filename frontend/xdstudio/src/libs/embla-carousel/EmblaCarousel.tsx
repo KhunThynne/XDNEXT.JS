@@ -9,7 +9,7 @@ type PropType = {
   options?: EmblaOptionsType & { mode?: "auto" | "manual" };
   selectedIndex?: number;
   edgeGlow?: boolean;
-} & GlobalPropsClassNames<"container" | "view"> &
+} & WithClassNames<"container" | "view"> &
   WithChildren;
 export function EdgeGlow({ className = "" }: WithClassName) {
   const shadowClassName = clsx(

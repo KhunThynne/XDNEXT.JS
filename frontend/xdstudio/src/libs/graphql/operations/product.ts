@@ -6,6 +6,10 @@ graphql(`
     suppilers {
       ...SupplierFields
     }
+    media {
+      document(hydrateRelationships: true)
+      __typename
+    }
     name
     description
     details {
@@ -38,12 +42,10 @@ graphql(`
     images {
       ...ImageField
     }
-    imagesCount
-    youtubeId
-    gallery {
+    previewImage {
       ...ImageField
     }
-    galleryCount
+    imagesCount
   }
 
   query getProducts(

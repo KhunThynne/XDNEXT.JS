@@ -28,7 +28,7 @@ export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({
   ...props
 }: FormXdProps<TFieldValues> &
   React.ComponentProps<typeof Checkbox> &
-  GlobalPropsClassNames<"container" | "label" | "description" | "outside">) {
+  WithClassNames<"container" | "label" | "description" | "outside">) {
   return (
     <FormField
       name={name}

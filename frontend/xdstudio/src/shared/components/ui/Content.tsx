@@ -4,7 +4,7 @@ export default function Content({
   classNames,
   children,
   className,
-}: GlobalPropsClassNames<"content" | "outsite">) {
+}: WithClassNames<"content" | "outsite">) {
   return (
     <div className={clsx(className, classNames?.outsite)}>
       <div

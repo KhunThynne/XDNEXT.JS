@@ -29,7 +29,7 @@ const TabsComponentBase = <T extends string>({
   card = true,
   ...props
 }: TabInterface<T> &
-  GlobalPropsClassNames<"card" | "cardContent" | "cardHeader" | "cardTitle"> &
+  WithClassNames<"card" | "cardContent" | "cardHeader" | "cardTitle"> &
   Omit<React.ComponentProps<typeof Tabs>, "defaultValue">) => {
   return (
     <Tabs

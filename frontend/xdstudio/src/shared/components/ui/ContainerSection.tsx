@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { ContainerLog } from "./fallback/ContainerLog";
 
 interface ContainerSectionProps
-  extends GlobalPropsClassNames<
+  extends WithClassNames<
     | "container"
     | "description"
     | "title"

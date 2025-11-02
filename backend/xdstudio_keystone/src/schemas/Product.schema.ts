@@ -4,6 +4,9 @@ import { float, relationship, select, text, timestamp } from '@keystone-6/core/f
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 import { TypeInfo } from '.keystone/types';
+import { NotEditable, component, fields } from '@keystone-6/fields-document/component-blocks';
+import { componentBlocks } from '../shared/components/CarouselComponentBlocks';
+
 export const Product = list({
   access: allowAll,
   ui: {
@@ -102,6 +105,27 @@ export const Product = list({
       },
       many: true,
     }),
+    previewImage: relationship({
+      ref: 'Image',
+      many: false,
+      ui: {
+        displayMode: 'cards',
+        cardFields: ['name', 'src'],
+        inlineCreate: { fields: ['name', 'src'] },
+        inlineEdit: { fields: ['name', 'src'] },
+        inlineConnect: true,
+      },
+    }),
+
+    media: document({
+      ui: {
+        views: './src/shared/components/CarouselComponentBlocks.tsx',
+        listView: { fieldMode: 'read' },
+        description: 'Can place url video or image url preview.It first item is preveiw main',
+        itemView: { fieldPosition: 'form' },
+      },
+      componentBlocks: { ...componentBlocks },
+    }),
     images: relationship({
       ref: 'Image',
       many: true,
@@ -113,6 +137,7 @@ export const Product = list({
         inlineConnect: true,
       },
     }),
+
     faqs: relationship({
       ref: 'FAQ',
       many: true,
@@ -143,29 +168,6 @@ export const Product = list({
       },
     }),
 
-    youtubeId: text({
-      validation: {
-        length: { max: 20 },
-      },
-      ui: {
-        description:
-          'YouTube video ID (เช่น dQw4w9WgXcQ). สามารถวางเป็น URL ก็ได้ ระบบจะตัดให้เอง',
-      },
-    }),
-
-    gallery: relationship({
-      ref: 'Image',
-      many: true,
-      ui: {
-        displayMode: 'cards',
-        cardFields: ['name', 'src'],
-        inlineCreate: { fields: ['name', 'src'] },
-        inlineEdit: { fields: ['name', 'src'] },
-        inlineConnect: true,
-        description: 'รูปภาพเพิ่มเติมสำหรับแสดงเป็นแกลเลอรีของสินค้า',
-      },
-    }),
-
     ...defaultGlobalField(),
   },
   hooks: {
@@ -178,18 +180,6 @@ export const Product = list({
         (operation === 'create' || item?.status !== 'published')
       ) {
         resolvedData.publishedAt = now;
-      }
-
-      if (typeof resolvedData.youtubeId === 'string' && resolvedData.youtubeId.trim()) {
-        const raw = resolvedData.youtubeId.trim();
-        const match =
-          raw.match(/(?:v=|\/embed\/|youtu\.be\/|\/shorts\/)([A-Za-z0-9_-]{6,20})/) ||
-          raw.match(/^([A-Za-z0-9_-]{6,20})$/);
-        if (match) {
-          resolvedData.youtubeId = match[1];
-        } else {
-          resolvedData.youtubeId = raw;
-        }
       }
 
       return resolvedData;

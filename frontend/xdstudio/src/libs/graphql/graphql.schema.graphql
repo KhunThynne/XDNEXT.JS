@@ -1181,12 +1181,12 @@ type Product {
   details: Product_details_Document
   faqs(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
-  gallery(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
-  galleryCount(where: ImageWhereInput! = {}): Int
   id: ID!
   images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
   imagesCount(where: ImageWhereInput! = {}): Int
+  media: Product_media_Document
   name: String
+  previewImage: Image
   price: Price
   publishedAt: DateTime
   ratings(cursor: RatingWhereUniqueInput, orderBy: [RatingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: RatingWhereInput! = {}): [Rating!]
@@ -1200,7 +1200,6 @@ type Product {
   tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
   version: String
-  youtubeId: String
 }
 
 input ProductCreateInput {
@@ -1209,9 +1208,10 @@ input ProductCreateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForCreateInput
-  gallery: ImageRelateToManyForCreateInput
   images: ImageRelateToManyForCreateInput
+  media: JSON
   name: String
+  previewImage: ImageRelateToOneForCreateInput
   price: PriceRelateToOneForCreateInput
   publishedAt: DateTime
   ratings: RatingRelateToManyForCreateInput
@@ -1222,7 +1222,6 @@ input ProductCreateInput {
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
   version: String
-  youtubeId: String
 }
 
 input ProductManyRelationFilter {
@@ -1241,7 +1240,6 @@ input ProductOrderByInput {
   status: OrderDirection
   updateAt: OrderDirection
   version: OrderDirection
-  youtubeId: OrderDirection
 }
 
 type ProductPromotion {
@@ -1327,9 +1325,10 @@ input ProductUpdateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForUpdateInput
-  gallery: ImageRelateToManyForUpdateInput
   images: ImageRelateToManyForUpdateInput
+  media: JSON
   name: String
+  previewImage: ImageRelateToOneForUpdateInput
   price: PriceRelateToOneForUpdateInput
   publishedAt: DateTime
   ratings: RatingRelateToManyForUpdateInput
@@ -1340,7 +1339,6 @@ input ProductUpdateInput {
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
   version: String
-  youtubeId: String
 }
 
 input ProductWhereInput {
@@ -1351,10 +1349,10 @@ input ProductWhereInput {
   createdAt: DateTimeNullableFilter
   description: StringFilter
   faqs: FAQManyRelationFilter
-  gallery: ImageManyRelationFilter
   id: IDFilter
   images: ImageManyRelationFilter
   name: StringFilter
+  previewImage: ImageWhereInput
   price: PriceWhereInput
   publishedAt: DateTimeNullableFilter
   ratings: RatingManyRelationFilter
@@ -1365,7 +1363,6 @@ input ProductWhereInput {
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
   version: StringFilter
-  youtubeId: StringFilter
 }
 
 input ProductWhereUniqueInput {
@@ -1374,6 +1371,10 @@ input ProductWhereUniqueInput {
 }
 
 type Product_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Product_media_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 

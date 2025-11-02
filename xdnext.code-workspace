@@ -15,9 +15,9 @@
   ],
   "settings": {
     "i18n-ally.keystyle": "nested",
-    "i18n-ally.defaultNamespace": ""
-   
-
+    "i18n-ally.defaultNamespace": "", 
+    "typescript.tsdk": "frontend/xdstudio/node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
   // Format on save
   // "editor.formatOnSave": true,
   // "editor.codeActionsOnSave": {

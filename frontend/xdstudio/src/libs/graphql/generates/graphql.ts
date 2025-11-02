@@ -2049,12 +2049,12 @@ export type Product = {
   details?: Maybe<Product_Details_Document>;
   faqs?: Maybe<Array<Faq>>;
   faqsCount?: Maybe<Scalars['Int']['output']>;
-  gallery?: Maybe<Array<Image>>;
-  galleryCount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
   images?: Maybe<Array<Image>>;
   imagesCount?: Maybe<Scalars['Int']['output']>;
+  media?: Maybe<Product_Media_Document>;
   name?: Maybe<Scalars['String']['output']>;
+  previewImage?: Maybe<Image>;
   price?: Maybe<Price>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   ratings?: Maybe<Array<Rating>>;
@@ -2068,7 +2068,6 @@ export type Product = {
   tagsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   version?: Maybe<Scalars['String']['output']>;
-  youtubeId?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -2083,20 +2082,6 @@ export type ProductFaqsArgs = {
 
 export type ProductFaqsCountArgs = {
   where?: FaqWhereInput;
-};
-
-
-export type ProductGalleryArgs = {
-  cursor?: InputMaybe<ImageWhereUniqueInput>;
-  orderBy?: Array<ImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: ImageWhereInput;
-};
-
-
-export type ProductGalleryCountArgs = {
-  where?: ImageWhereInput;
 };
 
 
@@ -2161,9 +2146,10 @@ export type ProductCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForCreateInput>;
-  gallery?: InputMaybe<ImageRelateToManyForCreateInput>;
   images?: InputMaybe<ImageRelateToManyForCreateInput>;
+  media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  previewImage?: InputMaybe<ImageRelateToOneForCreateInput>;
   price?: InputMaybe<PriceRelateToOneForCreateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   ratings?: InputMaybe<RatingRelateToManyForCreateInput>;
@@ -2174,7 +2160,6 @@ export type ProductCreateInput = {
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   version?: InputMaybe<Scalars['String']['input']>;
-  youtubeId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductManyRelationFilter = {
@@ -2193,7 +2178,6 @@ export type ProductOrderByInput = {
   status?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
   version?: InputMaybe<OrderDirection>;
-  youtubeId?: InputMaybe<OrderDirection>;
 };
 
 export type ProductPromotion = {
@@ -2308,9 +2292,10 @@ export type ProductUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForUpdateInput>;
-  gallery?: InputMaybe<ImageRelateToManyForUpdateInput>;
   images?: InputMaybe<ImageRelateToManyForUpdateInput>;
+  media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  previewImage?: InputMaybe<ImageRelateToOneForUpdateInput>;
   price?: InputMaybe<PriceRelateToOneForUpdateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   ratings?: InputMaybe<RatingRelateToManyForUpdateInput>;
@@ -2321,7 +2306,6 @@ export type ProductUpdateInput = {
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
   version?: InputMaybe<Scalars['String']['input']>;
-  youtubeId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductWhereInput = {
@@ -2332,10 +2316,10 @@ export type ProductWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   description?: InputMaybe<StringFilter>;
   faqs?: InputMaybe<FaqManyRelationFilter>;
-  gallery?: InputMaybe<ImageManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
   images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  previewImage?: InputMaybe<ImageWhereInput>;
   price?: InputMaybe<PriceWhereInput>;
   publishedAt?: InputMaybe<DateTimeNullableFilter>;
   ratings?: InputMaybe<RatingManyRelationFilter>;
@@ -2346,7 +2330,6 @@ export type ProductWhereInput = {
   tags?: InputMaybe<TagManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
   version?: InputMaybe<StringFilter>;
-  youtubeId?: InputMaybe<StringFilter>;
 };
 
 export type ProductWhereUniqueInput = {
@@ -2361,6 +2344,16 @@ export type Product_Details_Document = {
 
 
 export type Product_Details_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean']['input'];
+};
+
+export type Product_Media_Document = {
+  __typename?: 'Product_media_Document';
+  document: Scalars['JSON']['output'];
+};
+
+
+export type Product_Media_DocumentDocumentArgs = {
   hydrateRelationships?: Scalars['Boolean']['input'];
 };
 
@@ -3949,16 +3942,16 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, youtubeId?: string | null, galleryCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
-  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
+  ) | null, media?: { __typename: 'Product_media_Document', document: any } | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
     { __typename?: 'Image' }
     & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
-  )> | null, gallery?: Array<(
+  )> | null, previewImage?: (
     { __typename?: 'Image' }
     & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
-  )> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
+  ) | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
 
 export type GetProductsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -4120,6 +4113,10 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   suppilers {
     ...SupplierFields
   }
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
   name
   description
   details {
@@ -4152,12 +4149,10 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   images {
     ...ImageField
   }
-  imagesCount
-  youtubeId
-  gallery {
+  previewImage {
     ...ImageField
   }
-  galleryCount
+  imagesCount
 }
     fragment ImageField on Image {
   id
@@ -4363,6 +4358,10 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
   name
   description
   details {
@@ -4395,12 +4394,10 @@ fragment ProductFields on Product {
   images {
     ...ImageField
   }
-  imagesCount
-  youtubeId
-  gallery {
+  previewImage {
     ...ImageField
   }
-  galleryCount
+  imagesCount
 }
 fragment SupplierFields on Supplier {
   id
@@ -4586,6 +4583,10 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
   name
   description
   details {
@@ -4618,12 +4619,10 @@ fragment ProductFields on Product {
   images {
     ...ImageField
   }
-  imagesCount
-  youtubeId
-  gallery {
+  previewImage {
     ...ImageField
   }
-  galleryCount
+  imagesCount
 }
 fragment SupplierFields on Supplier {
   id
@@ -4665,6 +4664,10 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
   name
   description
   details {
@@ -4697,12 +4700,10 @@ fragment ProductFields on Product {
   images {
     ...ImageField
   }
-  imagesCount
-  youtubeId
-  gallery {
+  previewImage {
     ...ImageField
   }
-  galleryCount
+  imagesCount
 }
 fragment SupplierFields on Supplier {
   id

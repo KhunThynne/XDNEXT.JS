@@ -1,31 +1,18 @@
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import { defineConfig, globalIgnores } from 'eslint/config';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import ts from 'typescript-eslint';
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.extends('prettier', 'plugin:prettier/recommended'),
-  ...compat.config({
-    rules: {
-      // "prettier/prettier": "warn",
-      '@typescript-eslint/no-unused-vars': 'warn',
-    },
-  }),
+const eslintConfig = defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    plugins: { js },
-    ...js.configs.recommended,
   },
-
+  eslintPluginPrettierRecommended,
+  js.configs.recommended,
+  ...ts.configs.recommended,
   {
     files: ['**/*.js'],
     languageOptions: { sourceType: 'commonjs' },
@@ -56,9 +43,6 @@ const eslintConfig = [
   },
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist/', 'node_modules/', 'src/types/graphql.ts', 'package*.json', '.keystone'],
-  },
-  {
     rules: {
       'prettier/prettier': 'warn',
       '@typescript-eslint/no-require-imports': 'off',
@@ -67,6 +51,7 @@ const eslintConfig = [
       'no-async-promise-executor': 'off',
     },
   },
-];
+  globalIgnores(['dist/', 'node_modules/', 'src/types/graphql.ts', 'package*.json', '.keystone']),
+]);
 
 export default eslintConfig;

@@ -7,31 +7,9 @@ import {
 
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import { cacheLife, cacheTag, unstable_cache } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
-import { Button } from "@/libs/shadcn/ui/button";
-// const getCachedCheckUserProductStatus = (
-//   productId: string,
-//   userId: string,
-//   cartId?: string
-// ) =>
-//   unstable_cache(
-//     async () =>
-//       await execute(CheckUserProductStatusDocument, {
-//         productId,
-//         userId,
-//       }),
-//     [`checkUserProductStatus-${productId}-${userId}`],
-//     {
-//       tags: [
-//         `${userId}-${productId}-checkProduct`,
-//         `${cartId}-${productId}-checkProduct`,
-//         `${cartId}-${userId}-checkProduct`,
-//       ],
-//       revalidate: 3600,
-//     }
-//   )();
 
 const getCachedCheckUserProductStatusCache = async (
   productId: string,
