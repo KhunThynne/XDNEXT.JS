@@ -7,7 +7,7 @@ import { ContainerLog } from "./fallback/ContainerLog";
 
 interface ContainerSectionProps
   extends WithClassNames<
-    | "container"
+    | "section"
     | "description"
     | "title"
     | "content"
@@ -31,11 +31,7 @@ export const ContainerSection = ({
   return (
     <section
       id="container-content-section"
-      className={clsx(
-        "flex max-w-full flex-col gap-8",
-        className,
-        classNames?.container
-      )}
+      className={clsx("flex flex-col gap-8", className, classNames?.section)}
     >
       {(description || title) && (
         <section className="flex flex-col">

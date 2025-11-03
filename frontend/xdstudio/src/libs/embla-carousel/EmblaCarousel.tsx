@@ -65,9 +65,7 @@ const EmblaCarousel = (props: PropType) => {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [emblaApi, mode, options]);
   return (
-    <section
-      className={clsx(`@container relative overflow-x-hidden`, className)}
-    >
+    <section className={clsx(`@container relative overflow-hidden`, className)}>
       {edgeGlow && <EdgeGlow />}
       <span
         className={clsx("embla__viewport", classNames?.view)}
@@ -75,7 +73,7 @@ const EmblaCarousel = (props: PropType) => {
       >
         <div
           className={clsx(
-            "embla__container flex max-w-fit",
+            "embla__container flex h-full max-w-fit",
             classNames?.container
           )}
         >

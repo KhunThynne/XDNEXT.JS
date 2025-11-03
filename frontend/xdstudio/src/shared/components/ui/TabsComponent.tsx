@@ -39,7 +39,7 @@ const TabsComponentBase = <T extends string>({
     >
       <TabsList
         {...tabsList}
-        className={clsx("bg-transparent! w-full p-0", tabsList?.className)}
+        className={clsx("w-full bg-transparent! p-0", tabsList?.className)}
       >
         <EmblaCarousel
           className="w-full"
@@ -61,7 +61,7 @@ const TabsComponentBase = <T extends string>({
                 className={clsx(
                   `data-[state=active]:-z-0`,
                   "z-0 min-h-[29px] cursor-pointer transition-all",
-                  `data-[state=inactive]:text-primary/50 hover:text-primary!`,
+                  `hover:text-primary! data-[state=inactive]:text-primary/50`,
                   classNameTab
                 )}
               >
