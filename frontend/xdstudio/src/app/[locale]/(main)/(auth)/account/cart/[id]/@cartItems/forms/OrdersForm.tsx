@@ -189,9 +189,9 @@ export const OrdersForm = ({
                 onCheckedChange={() => toggleOne(item.id)}
               />
               <div className="relative size-12 overflow-hidden rounded">
-                {item?.product?.images?.[0]?.src?.url ? (
+                {item?.product?.previewImage?.src?.url ? (
                   <Image
-                    src={item?.product?.images?.[0]?.src?.url ?? ""}
+                    src={item?.product?.previewImage?.src?.url ?? ""}
                     alt={
                       item?.product?.description || item?.product?.name || ""
                     }

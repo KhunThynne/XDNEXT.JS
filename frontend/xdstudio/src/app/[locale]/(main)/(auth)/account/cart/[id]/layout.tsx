@@ -47,7 +47,6 @@ export default async function LayoutCart({
           className="grow max-md:gap-4 xl:col-span-4"
           title="Your Shopping Cart"
           classNames={{
-            container: "",
             contentContainer: "h-[81vh]",
             separator: "max-sm:hidden",
           }}

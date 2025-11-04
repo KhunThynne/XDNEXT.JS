@@ -28,9 +28,9 @@ export const CartItemComponent = ({
   return (
     <div className="flex grow items-center gap-3 p-3">
       <div className="relative size-12 overflow-hidden rounded">
-        {product?.images?.[0]?.src?.url ? (
+        {product?.previewImage?.src?.url ? (
           <Image
-            src={product?.images?.[0]?.src?.url ?? ""}
+            src={product?.previewImage?.src?.url ?? ""}
             alt={product?.description || product?.name || ""}
             fill
             className="object-cover"

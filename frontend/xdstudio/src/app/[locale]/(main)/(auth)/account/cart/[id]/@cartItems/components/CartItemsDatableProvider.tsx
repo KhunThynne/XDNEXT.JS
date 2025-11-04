@@ -188,13 +188,13 @@ export const CartItemsDatableProvider = ({
         enableHiding: false,
       },
       {
-        accessorFn: (row) => row.product?.images?.[0],
+        accessorFn: (row) => row.product?.previewImage,
         id: "product",
         header: "",
         minSize: 400,
         cell: ({ row }) => {
           const cell = row.original;
-          const image = cell.product?.images?.[0]?.src;
+          const image = cell.product?.previewImage?.src;
 
           return (
             <section className="flex gap-4">
