@@ -3,15 +3,14 @@ import type {
   Image as ImageType,
   Maybe,
   Product,
-  Product_Media_Document,
 } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
 import _ from "lodash";
-import { ImageOff } from "lucide-react";
+import { ImageOff, SquarePlay } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface MediaRelationship {
   media: {
@@ -33,17 +32,6 @@ interface MediaUrlType {
 
 type MediaItem = MediaRelationship | MediaUrlType;
 
-const Gallery = () => {
-  return (
-    <EmblaCarousel className="h-25">
-      {/* <div className="min-w-xs h-full border bg-amber-400" />
-      <div className="min-w-xs size-40 border" /> */}
-      <p className="mx-auto place-self-center text-3xl opacity-30">
-        Comming soon ..
-      </p>
-    </EmblaCarousel>
-  );
-};
 function getUrlMediaType(url: string): "image" | "video" | "unknown" {
   if (/youtube\.com|youtu\.be/.test(url)) return "video";
 
@@ -57,7 +45,33 @@ function getUrlMediaType(url: string): "image" | "video" | "unknown" {
   return "unknown";
 }
 
-const ImageUrlHandle = () => {};
+const getEmbedUrlHandle = (url: string) => {
+  if (url.includes("youtube.com/watch?v=")) {
+    const videoId = new URL(url).searchParams.get("v");
+    return {
+      url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      video: `https://www.youtube.com/embed/${videoId}`,
+      type: "video",
+    };
+  }
+  if (url.includes("youtu.be/")) {
+    const videoId = url.split("youtu.be/")[1];
+    return {
+      url,
+      video: `https://www.youtube.com/embed/${videoId}`,
+      type: "video",
+    };
+  }
+  if (url.includes("vimeo.com/")) {
+    const videoId = url.split("vimeo.com/")[1];
+    return {
+      url,
+      video: `https://player.vimeo.com/video/${videoId}`,
+      type: "video",
+    };
+  }
+  return { url, video: "", type: "image" };
+};
 
 const UrlMediaTypeComponent = ({
   media,
@@ -67,24 +81,9 @@ const UrlMediaTypeComponent = ({
   const url = media.value;
   const mediaType = getUrlMediaType(url);
   const [valid, setValid] = useState(true);
-
+  const embedUrl = useMemo(() => getEmbedUrlHandle(url), [url]);
   if (!url || !valid) return "error url please delete or fix this item";
   // helper แปลง YouTube URL เป็น embed URL
-  const getEmbedUrl = (url: string) => {
-    if (url.includes("youtube.com/watch?v=")) {
-      const videoId = new URL(url).searchParams.get("v");
-      return `https://www.youtube.com/embed/${videoId}`;
-    }
-    if (url.includes("youtu.be/")) {
-      const videoId = url.split("youtu.be/")[1];
-      return `https://www.youtube.com/embed/${videoId}`;
-    }
-    if (url.includes("vimeo.com/")) {
-      const videoId = url.split("vimeo.com/")[1];
-      return `https://player.vimeo.com/video/${videoId}`;
-    }
-    return url;
-  };
 
   const isExternalVideo =
     url.includes("youtube.com") ||
@@ -93,10 +92,9 @@ const UrlMediaTypeComponent = ({
 
   if (preview) {
     if (isExternalVideo) {
-      const embedUrl = getEmbedUrl(url);
       return (
         <iframe
-          src={embedUrl}
+          src={embedUrl.video}
           className={clsx(`size-full`, className)}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -117,8 +115,11 @@ const UrlMediaTypeComponent = ({
 
   return (
     <>
+      {embedUrl.type === "video" && (
+        <SquarePlay className="absolute right-4 bottom-4 size-8 text-xd/80" />
+      )}
       <img
-        src={url}
+        src={embedUrl.url}
         alt={`image`}
         className={className}
         style={{ objectFit: "cover", borderRadius: 8 }}
@@ -160,98 +161,64 @@ const MediaComponent = (
 };
 
 export const MediaDocument = (props: Maybe<Product["media"]>) => {
+  const [mediaIndex, setMediaIndex] = useState(0);
   if (!props) {
     return;
   }
   const { document } = props;
   const [block] = document.filter((b: any) => b.type === "component-block");
   const items = block?.props?.items as MediaItem[];
+
   return (
     <div className="flex grow flex-col gap-3">
       <div className="relative aspect-video overflow-hidden rounded-lg border">
         {_.isArray(items) && (
           <MediaComponent
             preview
-            {...(items[0] as MediaItem)}
+            {...(items[mediaIndex] as MediaItem)}
             classNames={{ relation: "object-contain" }}
           />
         )}
-
-        {/* <iframe
-                  className="absolute top-0 left-0 h-full w-full rounded-2xl"
-                  src={`https://www.youtube.com/embed/${props.youtubeId}`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                /> */}
       </div>
-      {/* {JSON.stringify(block)} */}
       <Separator />
-      {/* <EmblaCarousel
-        options={{}}
-        selectedIndex={4}
-        className="h-60"
-        classNames={{ container: "gap-4 mx-5 py-2", view: "" }}
-      >
-        {medias.map(({ type, item, altText }) => {
-          return (
-            <Button
-              variant={"ghost"}
-              // className={`group relative flex-shrink-0 overflow-hidden rounded-lg transition-all duration-300 ${
-              //   index === currentIndex
-              //     ? "h-24 w-32 ring-2 ring-primary"
-              //     : "h-20 w-28 opacity-60 hover:opacity-100"
-              // }`}
-              className={clsx(
-                "h-full w-80 p-0",
-                `opacity-60 hover:opacity-100`,
-                `overflow-hidden transition-all duration-300`
-              )}
-            >
-              {type === "image" ? (
-                <img
-                  src={item.url}
-                  className="aspect-video size-full object-cover"
+      {_.isArray(items) && (
+        <EmblaCarousel
+          options={{
+            loop: true,
+            duration: 30,
+            dragFree: true,
+            containScroll: "trimSnaps",
+          }}
+          selectedIndex={mediaIndex}
+          className="h-40"
+          classNames={{ container: "gap-4 mx-5 py-2", view: "" }}
+        >
+          {items?.map((item, index) => {
+            return (
+              <Button
+                key={`item-image-${index}`}
+                variant={"ghost"}
+                onClick={() => {
+                  setMediaIndex(index);
+                }}
+                className={clsx(
+                  "aspect-video h-full p-0",
+                  `cursor-pointer select-none`,
+                  `relative overflow-hidden transition-all duration-300`,
+                  index === mediaIndex
+                    ? `scale-105 opacity-100 ring-2 ring-primary`
+                    : `opacity-60 hover:opacity-100`
+                )}
+              >
+                <MediaComponent
+                  {...item}
+                  classNames={{ relation: "object-cover size-full " }}
                 />
-              ) : (
-                <iframe />
-              )}
-            </Button>
-          );
-        })}
-      </EmblaCarousel> */}
-      <EmblaCarousel
-        options={{}}
-        selectedIndex={4}
-        className="h-40"
-        classNames={{ container: "gap-4 mx-5 py-2", view: "" }}
-      >
-        {items.map((item, key) => {
-          return (
-            <Button
-              key={`item-image-${key}`}
-              variant={"ghost"}
-              // className={`group relative flex-shrink-0 overflow-hidden rounded-lg transition-all duration-300 ${
-              //   index === currentIndex
-              //     ? "h-24 w-32 ring-2 ring-primary"
-              //     : "h-20 w-28 opacity-60 hover:opacity-100"
-              // }`}
-              className={clsx(
-                "aspect-video h-full p-0",
-                `opacity-60 hover:opacity-100`,
-                `relative overflow-hidden transition-all duration-300`
-              )}
-            >
-              {/* <div className="size-full bg-amber-300" /> */}
-              <MediaComponent
-                {...item}
-                classNames={{ relation: "object-cover size-full " }}
-              />
-            </Button>
-          );
-        })}
-      </EmblaCarousel>
+              </Button>
+            );
+          })}
+        </EmblaCarousel>
+      )}
     </div>
   );
 };

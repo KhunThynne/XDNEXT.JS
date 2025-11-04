@@ -40,7 +40,7 @@ const EmblaCarousel = (props: PropType) => {
   } = props;
 
   const { mode = "auto", ...emblaOptions } = options ?? {};
-  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ ...emblaOptions });
   useEffect(() => {
     if (emblaApi && selectedIndex !== undefined) {
       emblaApi.scrollTo(selectedIndex);

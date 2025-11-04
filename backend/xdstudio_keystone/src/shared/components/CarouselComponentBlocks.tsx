@@ -1,5 +1,31 @@
 import { component, fields, NotEditable } from '@keystone-6/fields-document/component-blocks';
-
+const getEmbedUrlHandle = (url: string) => {
+  if (url.includes('youtube.com/watch?v=')) {
+    const videoId = new URL(url).searchParams.get('v');
+    return {
+      url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      video: `https://www.youtube.com/embed/${videoId}`,
+      type: 'video',
+    };
+  }
+  if (url.includes('youtu.be/')) {
+    const videoId = url.split('youtu.be/')[1];
+    return {
+      url,
+      video: `https://www.youtube.com/embed/${videoId}`,
+      type: 'video',
+    };
+  }
+  if (url.includes('vimeo.com/')) {
+    const videoId = url.split('vimeo.com/')[1];
+    return {
+      url,
+      video: `https://player.vimeo.com/video/${videoId}`,
+      type: 'video',
+    };
+  }
+  return { url, video: '', type: 'image' };
+};
 export const componentBlocks = {
   carousel: component({
     label: 'Carousel',
@@ -19,6 +45,7 @@ export const componentBlocks = {
                   imageUrl = media.value.value?.data.src.url;
                 }
               }
+              const embedUrl = getEmbedUrlHandle(imageUrl);
               return (
                 <div
                   key={item.key}
@@ -35,7 +62,7 @@ export const componentBlocks = {
                 >
                   <img
                     role="presentation"
-                    src={imageUrl || 'https://via.placeholder.com/400x240?text=No+Image'}
+                    src={embedUrl.url}
                     style={{
                       objectFit: 'cover',
                       objectPosition: 'center center',

@@ -2050,8 +2050,6 @@ export type Product = {
   faqs?: Maybe<Array<Faq>>;
   faqsCount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
-  images?: Maybe<Array<Image>>;
-  imagesCount?: Maybe<Scalars['Int']['output']>;
   media?: Maybe<Product_Media_Document>;
   name?: Maybe<Scalars['String']['output']>;
   previewImage?: Maybe<Image>;
@@ -2082,20 +2080,6 @@ export type ProductFaqsArgs = {
 
 export type ProductFaqsCountArgs = {
   where?: FaqWhereInput;
-};
-
-
-export type ProductImagesArgs = {
-  cursor?: InputMaybe<ImageWhereUniqueInput>;
-  orderBy?: Array<ImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: ImageWhereInput;
-};
-
-
-export type ProductImagesCountArgs = {
-  where?: ImageWhereInput;
 };
 
 
@@ -2146,7 +2130,6 @@ export type ProductCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForCreateInput>;
-  images?: InputMaybe<ImageRelateToManyForCreateInput>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   previewImage?: InputMaybe<ImageRelateToOneForCreateInput>;
@@ -2292,7 +2275,6 @@ export type ProductUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForUpdateInput>;
-  images?: InputMaybe<ImageRelateToManyForUpdateInput>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   previewImage?: InputMaybe<ImageRelateToOneForUpdateInput>;
@@ -2317,7 +2299,6 @@ export type ProductWhereInput = {
   description?: InputMaybe<StringFilter>;
   faqs?: InputMaybe<FaqManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
-  images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
   previewImage?: InputMaybe<ImageWhereInput>;
   price?: InputMaybe<PriceWhereInput>;
@@ -3942,16 +3923,13 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
-  ) | null, media?: { __typename: 'Product_media_Document', document: any } | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
+  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, previewImage?: (
     { __typename?: 'Image' }
     & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
-  )> | null, previewImage?: (
-    { __typename?: 'Image' }
-    & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
-  ) | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
+  ) | null, media?: { __typename: 'Product_media_Document', document: any } | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
 
 export type GetProductsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3999,7 +3977,7 @@ export type GetUserItemQueryVariables = Exact<{
 }>;
 
 
-export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null }> | null } | null } | null }> | null } | null };
+export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, previewImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null } | null } | null } | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4113,10 +4091,6 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   suppilers {
     ...SupplierFields
   }
-  media {
-    document(hydrateRelationships: true)
-    __typename
-  }
   name
   description
   details {
@@ -4146,13 +4120,13 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   publishedAt
   updateAt
   createdAt
-  images {
-    ...ImageField
-  }
   previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
     fragment ImageField on Image {
   id
@@ -4358,10 +4332,6 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
-  media {
-    document(hydrateRelationships: true)
-    __typename
-  }
   name
   description
   details {
@@ -4391,13 +4361,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
-    ...ImageField
-  }
   previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4583,10 +4553,6 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
-  media {
-    document(hydrateRelationships: true)
-    __typename
-  }
   name
   description
   details {
@@ -4616,13 +4582,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
-    ...ImageField
-  }
   previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4664,10 +4630,6 @@ fragment ProductFields on Product {
   suppilers {
     ...SupplierFields
   }
-  media {
-    document(hydrateRelationships: true)
-    __typename
-  }
   name
   description
   details {
@@ -4697,13 +4659,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
-    ...ImageField
-  }
   previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4784,7 +4746,7 @@ export const GetUserItemDocument = new TypedDocumentString(`
         id
         product {
           name
-          images {
+          previewImage {
             altText
             id
             name

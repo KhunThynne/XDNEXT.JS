@@ -1182,8 +1182,6 @@ type Product {
   faqs(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
   id: ID!
-  images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
   media: Product_media_Document
   name: String
   previewImage: Image
@@ -1208,7 +1206,6 @@ input ProductCreateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForCreateInput
-  images: ImageRelateToManyForCreateInput
   media: JSON
   name: String
   previewImage: ImageRelateToOneForCreateInput
@@ -1325,7 +1322,6 @@ input ProductUpdateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForUpdateInput
-  images: ImageRelateToManyForUpdateInput
   media: JSON
   name: String
   previewImage: ImageRelateToOneForUpdateInput
@@ -1350,7 +1346,6 @@ input ProductWhereInput {
   description: StringFilter
   faqs: FAQManyRelationFilter
   id: IDFilter
-  images: ImageManyRelationFilter
   name: StringFilter
   previewImage: ImageWhereInput
   price: PriceWhereInput

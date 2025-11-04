@@ -129,7 +129,7 @@ export default function Footer({ className }: WithlDefaultProps) {
         </div>
 
         <div className="space-y-1 sm:self-end">
-          <div>Copyright &copy; XD DEV 2024 - 2025 All Rights Reserved.</div>
+          <div>Copyright &copy; XD DEV 2025 - 2026 All Rights Reserved.</div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
             <CheckCircle className="size-4" /> Website
             <span className="text-success font-medium">Protected</span>

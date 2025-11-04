@@ -70,7 +70,7 @@ graphql(`
           id
           product {
             name
-            images {
+            previewImage {
               altText
               id
               name

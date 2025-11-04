@@ -126,17 +126,6 @@ export const Product = list({
       },
       componentBlocks: { ...componentBlocks },
     }),
-    images: relationship({
-      ref: 'Image',
-      many: true,
-      ui: {
-        displayMode: 'cards',
-        cardFields: ['name', 'src'],
-        inlineCreate: { fields: ['name', 'src'] },
-        inlineEdit: { fields: ['name', 'src'] },
-        inlineConnect: true,
-      },
-    }),
 
     faqs: relationship({
       ref: 'FAQ',

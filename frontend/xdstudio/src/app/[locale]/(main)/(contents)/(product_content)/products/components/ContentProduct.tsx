@@ -33,7 +33,7 @@ import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
-import { Fragment, useMemo } from "react";
+import { useMemo } from "react";
 import { MediaDocument } from "./document-render/MediaDocument";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
@@ -194,7 +194,7 @@ export const ContentProduct = (
         <ContainerProductMenu {...props} />
       </ContainerSection>
       <ContainerSection
-        className="col-span-full h-full duration-300 hover:shadow-lg"
+        className="col-span-full h-full duration-300"
         title="Product Details"
       >
         {product.details && (

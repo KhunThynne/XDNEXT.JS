@@ -67,10 +67,10 @@ export const CardProduct = ({
               classNames?.containerImage
             )}
           >
-            {product?.images?.[0]?.src?.url ? (
+            {product?.previewImage?.src?.url ? (
               <Image
-                src={product.images[0].src.url}
-                alt={product.images[0].altText ?? "unknown"}
+                src={product.previewImage.src.url}
+                alt={product.previewImage.altText ?? "unknown"}
                 fill
                 className={clsx("rounded object-contain", classNames?.image)}
               />

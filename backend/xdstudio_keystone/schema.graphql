@@ -1170,8 +1170,6 @@ type Product {
   tagCount(where: TagWhereInput! = {}): Int
   previewImage: Image
   media: Product_media_Document
-  images(where: ImageWhereInput! = {}, orderBy: [ImageOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: ImageWhereUniqueInput): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
   faqs(where: FAQWhereInput! = {}, orderBy: [FAQOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: FAQWhereUniqueInput): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
   averageScore: Float
@@ -1210,7 +1208,6 @@ input ProductWhereInput {
   description: StringFilter
   tag: TagManyRelationFilter
   previewImage: ImageWhereInput
-  images: ImageManyRelationFilter
   faqs: FAQManyRelationFilter
   averageScore: FloatNullableFilter
   version: StringFilter
@@ -1224,12 +1221,6 @@ input TagManyRelationFilter {
   every: TagWhereInput
   some: TagWhereInput
   none: TagWhereInput
-}
-
-input ImageManyRelationFilter {
-  every: ImageWhereInput
-  some: ImageWhereInput
-  none: ImageWhereInput
 }
 
 input FAQManyRelationFilter {
@@ -1268,7 +1259,6 @@ input ProductUpdateInput {
   tag: TagRelateToManyForUpdateInput
   previewImage: ImageRelateToOneForUpdateInput
   media: JSON
-  images: ImageRelateToManyForUpdateInput
   faqs: FAQRelateToManyForUpdateInput
   averageScore: Float
   version: String
@@ -1303,13 +1293,6 @@ input PriceRelateToOneForUpdateInput {
   disconnect: Boolean
 }
 
-input ImageRelateToManyForUpdateInput {
-  disconnect: [ImageWhereUniqueInput!]
-  set: [ImageWhereUniqueInput!]
-  create: [ImageCreateInput!]
-  connect: [ImageWhereUniqueInput!]
-}
-
 input FAQRelateToManyForUpdateInput {
   disconnect: [FAQWhereUniqueInput!]
   set: [FAQWhereUniqueInput!]
@@ -1341,7 +1324,6 @@ input ProductCreateInput {
   tag: TagRelateToManyForCreateInput
   previewImage: ImageRelateToOneForCreateInput
   media: JSON
-  images: ImageRelateToManyForCreateInput
   faqs: FAQRelateToManyForCreateInput
   averageScore: Float
   version: String
@@ -1369,11 +1351,6 @@ input TagRelateToManyForCreateInput {
 input PriceRelateToOneForCreateInput {
   create: PriceCreateInput
   connect: PriceWhereUniqueInput
-}
-
-input ImageRelateToManyForCreateInput {
-  create: [ImageCreateInput!]
-  connect: [ImageWhereUniqueInput!]
 }
 
 input FAQRelateToManyForCreateInput {
@@ -1467,6 +1444,12 @@ input PromotionManyRelationFilter {
   none: PromotionWhereInput
 }
 
+input ImageManyRelationFilter {
+  every: ImageWhereInput
+  some: ImageWhereInput
+  none: ImageWhereInput
+}
+
 input ProductPromotionOrderByInput {
   id: OrderDirection
   publishedAt: OrderDirection
@@ -1486,6 +1469,13 @@ input PromotionRelateToManyForUpdateInput {
   connect: [PromotionWhereUniqueInput!]
 }
 
+input ImageRelateToManyForUpdateInput {
+  disconnect: [ImageWhereUniqueInput!]
+  set: [ImageWhereUniqueInput!]
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
+}
+
 input ProductPromotionUpdateArgs {
   where: ProductPromotionWhereUniqueInput!
   data: ProductPromotionUpdateInput!
@@ -1501,6 +1491,11 @@ input ProductPromotionCreateInput {
 input PromotionRelateToManyForCreateInput {
   create: [PromotionCreateInput!]
   connect: [PromotionWhereUniqueInput!]
+}
+
+input ImageRelateToManyForCreateInput {
+  create: [ImageCreateInput!]
+  connect: [ImageWhereUniqueInput!]
 }
 
 type FAQ {

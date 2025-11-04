@@ -191,7 +191,6 @@ model Product {
   previewImage                    Image?             @relation("Product_previewImage", fields: [previewImageId], references: [id])
   previewImageId                  String?            @map("previewImage") @postgresql.Uuid
   media                           Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  images                          Image[]            @relation("Product_images")
   faqs                            FAQ[]              @relation("Product_faqs")
   averageScore                    Float?             @default(0)
   version                         String             @default("beta")
@@ -264,7 +263,6 @@ model Image {
   src_extension                String?
   from_User_avartar            User[]             @relation("User_avartar")
   from_Product_previewImage    Product[]          @relation("Product_previewImage")
-  from_Product_images          Product[]          @relation("Product_images")
   from_ProductPromotion_images ProductPromotion[] @relation("ProductPromotion_images")
 }
 
