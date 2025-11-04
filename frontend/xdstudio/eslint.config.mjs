@@ -6,7 +6,7 @@ import eslintPluginJsonc from "eslint-plugin-jsonc";
 import reactHooks from "eslint-plugin-react-hooks";
 import nextPlugin from "@next/eslint-plugin-next";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-
+import react from "eslint-plugin-react";
 import { defineConfig, globalIgnores } from "eslint/config";
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -19,6 +19,7 @@ const eslintConfig = defineConfig([
   js.configs.recommended,
   ...ts.configs.recommended,
   nextPlugin.configs["core-web-vitals"],
+  react.configs.flat.recommended,
   reactHooks.configs.flat["recommended-latest"],
   eslintPluginPrettierRecommended,
   reactYouMightNotNeedAnEffect.configs.recommended,
@@ -46,6 +47,7 @@ const eslintConfig = defineConfig([
       "@typescript-eslint/no-unused-expressions": "off",
       "no-empty": "off",
       "no-case-declarations": "off",
+      "react/jsx-key": "error",
       "react/react-in-jsx-scope": "off",
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/preserve-manual-memoization": "warn",

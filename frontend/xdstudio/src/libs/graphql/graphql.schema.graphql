@@ -961,8 +961,11 @@ type PasswordState {
 
 type PointTransaction {
   amount: Int
+  createdAt: DateTime
   description: PointTransaction_description_Document
   id: ID!
+  orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
+  ordersCount(where: OrderWhereInput! = {}): Int
   type: String
   userId(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserWhereInput! = {}): [User!]
   userIdCount(where: UserWhereInput! = {}): Int
@@ -970,13 +973,16 @@ type PointTransaction {
 
 input PointTransactionCreateInput {
   amount: Int
+  createdAt: DateTime
   description: JSON
+  orders: OrderRelateToManyForCreateInput
   type: String
   userId: UserRelateToManyForCreateInput
 }
 
 input PointTransactionOrderByInput {
   amount: OrderDirection
+  createdAt: OrderDirection
   id: OrderDirection
   type: OrderDirection
 }
@@ -988,7 +994,9 @@ input PointTransactionUpdateArgs {
 
 input PointTransactionUpdateInput {
   amount: Int
+  createdAt: DateTime
   description: JSON
+  orders: OrderRelateToManyForUpdateInput
   type: String
   userId: UserRelateToManyForUpdateInput
 }
@@ -998,7 +1006,9 @@ input PointTransactionWhereInput {
   NOT: [PointTransactionWhereInput!]
   OR: [PointTransactionWhereInput!]
   amount: IntNullableFilter
+  createdAt: DateTimeNullableFilter
   id: IDFilter
+  orders: OrderManyRelationFilter
   type: StringFilter
   userId: UserManyRelationFilter
 }
@@ -1172,9 +1182,9 @@ type Product {
   faqs(cursor: FAQWhereUniqueInput, orderBy: [FAQOrderByInput!]! = [], skip: Int! = 0, take: Int, where: FAQWhereInput! = {}): [FAQ!]
   faqsCount(where: FAQWhereInput! = {}): Int
   id: ID!
-  images(cursor: ImageWhereUniqueInput, orderBy: [ImageOrderByInput!]! = [], skip: Int! = 0, take: Int, where: ImageWhereInput! = {}): [Image!]
-  imagesCount(where: ImageWhereInput! = {}): Int
+  media: Product_media_Document
   name: String
+  previewImage: Image
   price: Price
   publishedAt: DateTime
   ratings(cursor: RatingWhereUniqueInput, orderBy: [RatingOrderByInput!]! = [], skip: Int! = 0, take: Int, where: RatingWhereInput! = {}): [Rating!]
@@ -1187,6 +1197,7 @@ type Product {
   tags(cursor: TagWhereUniqueInput, orderBy: [TagOrderByInput!]! = [], skip: Int! = 0, take: Int, where: TagWhereInput! = {}): [Tag!]
   tagsCount(where: TagWhereInput! = {}): Int
   updateAt: DateTime
+  version: String
 }
 
 input ProductCreateInput {
@@ -1195,8 +1206,9 @@ input ProductCreateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForCreateInput
-  images: ImageRelateToManyForCreateInput
+  media: JSON
   name: String
+  previewImage: ImageRelateToOneForCreateInput
   price: PriceRelateToOneForCreateInput
   publishedAt: DateTime
   ratings: RatingRelateToManyForCreateInput
@@ -1206,6 +1218,7 @@ input ProductCreateInput {
   tag: TagRelateToManyForCreateInput
   tags: TagRelateToManyForCreateInput
   updateAt: DateTime
+  version: String
 }
 
 input ProductManyRelationFilter {
@@ -1223,6 +1236,7 @@ input ProductOrderByInput {
   publishedAt: OrderDirection
   status: OrderDirection
   updateAt: OrderDirection
+  version: OrderDirection
 }
 
 type ProductPromotion {
@@ -1308,8 +1322,9 @@ input ProductUpdateInput {
   description: String
   details: JSON
   faqs: FAQRelateToManyForUpdateInput
-  images: ImageRelateToManyForUpdateInput
+  media: JSON
   name: String
+  previewImage: ImageRelateToOneForUpdateInput
   price: PriceRelateToOneForUpdateInput
   publishedAt: DateTime
   ratings: RatingRelateToManyForUpdateInput
@@ -1319,6 +1334,7 @@ input ProductUpdateInput {
   tag: TagRelateToManyForUpdateInput
   tags: TagRelateToManyForUpdateInput
   updateAt: DateTime
+  version: String
 }
 
 input ProductWhereInput {
@@ -1330,8 +1346,8 @@ input ProductWhereInput {
   description: StringFilter
   faqs: FAQManyRelationFilter
   id: IDFilter
-  images: ImageManyRelationFilter
   name: StringFilter
+  previewImage: ImageWhereInput
   price: PriceWhereInput
   publishedAt: DateTimeNullableFilter
   ratings: RatingManyRelationFilter
@@ -1341,6 +1357,7 @@ input ProductWhereInput {
   tag: TagManyRelationFilter
   tags: TagManyRelationFilter
   updateAt: DateTimeNullableFilter
+  version: StringFilter
 }
 
 input ProductWhereUniqueInput {
@@ -1349,6 +1366,10 @@ input ProductWhereUniqueInput {
 }
 
 type Product_details_Document {
+  document(hydrateRelationships: Boolean! = false): JSON!
+}
+
+type Product_media_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
 }
 

@@ -21,7 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
 import { Label } from "@/libs/shadcn/ui/label";
 import LabelAndDescriptionForm from "./shared/LabelAndDescriptionForm";
 
-type CommonClassNames = GlobalPropsClassNames<
+type CommonClassNames = WithClassNames<
   "container" | "label" | "description" | "section"
 >;
 
@@ -46,7 +46,7 @@ export function RadioForm<TFieldValues extends FieldValues = FieldValues>({
 }: FormXdProps<TFieldValues> &
   RadioFormItemsType &
   React.ComponentProps<typeof RadioGroup> &
-  GlobalPropsClassNames<"container" | "label" | "description" | "group">) {
+  WithClassNames<"container" | "label" | "description" | "group">) {
   const { isSubmitting } = useFormState();
   return (
     <FormField

@@ -18,7 +18,7 @@ declare global {
     className?: string;
   };
 
-  type GlobalPropsClassNames<T extends string = string, Base = object> = Base &
+  type WithClassNames<T extends string = string, Base = object> = Base &
     WithlDefaultProps & {
       classNames?: Partial<Record<T, string>>;
     };

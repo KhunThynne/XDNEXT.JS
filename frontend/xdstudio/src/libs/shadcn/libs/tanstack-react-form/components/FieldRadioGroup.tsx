@@ -16,7 +16,7 @@ import { RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
 import { RadioGroup } from "@/libs/shadcn/ui/radio-group";
 import { Label } from "@/libs/shadcn/ui/label";
 
-type CommonClassNames = GlobalPropsClassNames<
+type CommonClassNames = WithClassNames<
   "container" | "title" | "description" | "section"
 >;
 export type RadioFieldItemProps = LabelDescription &
@@ -28,7 +28,7 @@ export type RadioFieldItemsType = {
 };
 type FieldRadioGroupProps = LabelDescription &
   React.ComponentProps<typeof RadioGroup> &
-  GlobalPropsClassNames<
+  WithClassNames<
     "label" | "description" | "group" | "validate" | "field"
   > &
   RadioFieldItemsType;

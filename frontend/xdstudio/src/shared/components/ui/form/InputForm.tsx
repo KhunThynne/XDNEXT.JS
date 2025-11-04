@@ -23,7 +23,7 @@ export function InputForm<TFieldValues extends FieldValues = FieldValues>({
 }: FormXdProps<TFieldValues> & {
   renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
 } & React.ComponentProps<typeof Input> &
-  GlobalPropsClassNames<"container" | "label" | "description" | "input">) {
+  WithClassNames<"container" | "label" | "description" | "input">) {
   return (
     <FormField
       {...(control ? { control } : {})}

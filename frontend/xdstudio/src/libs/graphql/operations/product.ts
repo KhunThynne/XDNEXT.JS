@@ -6,6 +6,7 @@ graphql(`
     suppilers {
       ...SupplierFields
     }
+
     name
     description
     details {
@@ -35,10 +36,13 @@ graphql(`
     publishedAt
     updateAt
     createdAt
-    images {
+    previewImage {
       ...ImageField
     }
-    imagesCount
+    media {
+      document(hydrateRelationships: true)
+      __typename
+    }
   }
 
   query getProducts(

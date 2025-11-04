@@ -9,7 +9,7 @@ type PropType = {
   options?: EmblaOptionsType & { mode?: "auto" | "manual" };
   selectedIndex?: number;
   edgeGlow?: boolean;
-} & GlobalPropsClassNames<"container" | "view"> &
+} & WithClassNames<"container" | "view"> &
   WithChildren;
 export function EdgeGlow({ className = "" }: WithClassName) {
   const shadowClassName = clsx(
@@ -40,7 +40,7 @@ const EmblaCarousel = (props: PropType) => {
   } = props;
 
   const { mode = "auto", ...emblaOptions } = options ?? {};
-  const [emblaRef, emblaApi] = useEmblaCarousel(emblaOptions);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ ...emblaOptions });
   useEffect(() => {
     if (emblaApi && selectedIndex !== undefined) {
       emblaApi.scrollTo(selectedIndex);
@@ -65,9 +65,7 @@ const EmblaCarousel = (props: PropType) => {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [emblaApi, mode, options]);
   return (
-    <section
-      className={clsx(`@container relative overflow-x-hidden`, className)}
-    >
+    <section className={clsx(`@container relative overflow-hidden`, className)}>
       {edgeGlow && <EdgeGlow />}
       <span
         className={clsx("embla__viewport", classNames?.view)}
@@ -75,7 +73,7 @@ const EmblaCarousel = (props: PropType) => {
       >
         <div
           className={clsx(
-            "embla__container flex max-w-fit",
+            "embla__container flex h-full max-w-fit",
             classNames?.container
           )}
         >

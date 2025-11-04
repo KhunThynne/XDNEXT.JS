@@ -82,12 +82,11 @@ export default async function PageCotent() {
       </section> */}
 
       <ContainerSection
-        title="Our Featured Products"
+        title="Product Lastest"
         description={
           <div className="flex items-center justify-between max-lg:flex-col max-lg:items-end lg:gap-2">
             <p className="max-w-3xl">
-              Explore our curated selection of top-selling and high-quality
-              items. Click on any product to learn more or make a purchase.
+              New Product & Featured. Check out our latest
             </p>
             <Button asChild size="sm" variant={"link"}>
               <Link href={"products"}>Product all</Link>

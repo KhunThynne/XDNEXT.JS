@@ -1,7 +1,7 @@
 import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { image, text } from '@keystone-6/core/fields';
+import { image, text , } from '@keystone-6/core/fields';
 export const Image = list({
   access: allowAll,
   fields: {

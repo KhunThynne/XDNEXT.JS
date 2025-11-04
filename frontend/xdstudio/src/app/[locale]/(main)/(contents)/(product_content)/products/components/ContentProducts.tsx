@@ -23,7 +23,7 @@ export const ContentProducts = ({
 
   if (status === "error") {
     return (
-      <div className="min-h-100 col-span-full flex max-h-full w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
+      <div className="col-span-full flex max-h-full min-h-100 w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
         <AlertTriangle className="size-40 stroke-1 opacity-20" />
         <h3 className="">Error data</h3>
         <Button
@@ -50,7 +50,7 @@ export const ContentProducts = ({
   } else {
     if (_.isEmpty(data?.products)) {
       return (
-        <div className="min-h-100 col-span-full flex max-h-full w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
+        <div className="col-span-full flex max-h-full min-h-100 w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
           <Box className="size-40 stroke-1 opacity-20" />
           <h3 className="">No products available.</h3>
           <Button

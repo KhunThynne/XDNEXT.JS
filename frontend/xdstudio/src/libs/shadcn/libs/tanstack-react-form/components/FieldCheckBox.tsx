@@ -11,7 +11,7 @@ import { Checkbox } from "@/libs/shadcn/custom/checkbox";
 
 type FieldSelectProps = LabelDescription &
   React.ComponentProps<typeof Checkbox> &
-  GlobalPropsClassNames<
+  WithClassNames<
     "label" | "description" | "selectTriger" | "field" | "validate"
   >;
 

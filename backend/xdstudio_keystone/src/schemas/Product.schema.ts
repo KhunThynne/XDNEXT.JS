@@ -4,11 +4,14 @@ import { float, relationship, select, text, timestamp } from '@keystone-6/core/f
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 import { TypeInfo } from '.keystone/types';
+import { NotEditable, component, fields } from '@keystone-6/fields-document/component-blocks';
+import { componentBlocks } from '../shared/components/CarouselComponentBlocks';
+
 export const Product = list({
   access: allowAll,
   ui: {
     listView: {
-      initialColumns: ['id', 'name', 'createdAt', 'details'],
+      initialColumns: ['id', 'name', 'createdAt', 'details', 'youtubeId'],
       pageSize: 10,
     },
     labelField: 'name',
@@ -88,6 +91,7 @@ export const Product = list({
       ],
       links: true,
       dividers: true,
+      componentBlocks: {},
     }),
     tag: relationship({
       ref: 'Tag',
@@ -101,9 +105,9 @@ export const Product = list({
       },
       many: true,
     }),
-    images: relationship({
+    previewImage: relationship({
       ref: 'Image',
-      many: true,
+      many: false,
       ui: {
         displayMode: 'cards',
         cardFields: ['name', 'src'],
@@ -112,6 +116,17 @@ export const Product = list({
         inlineConnect: true,
       },
     }),
+
+    media: document({
+      ui: {
+        views: './src/shared/components/CarouselComponentBlocks.tsx',
+        listView: { fieldMode: 'read' },
+        description: 'Can place url video or image url preview.It first item is preveiw main',
+        itemView: { fieldPosition: 'form' },
+      },
+      componentBlocks: { ...componentBlocks },
+    }),
+
     faqs: relationship({
       ref: 'FAQ',
       many: true,
@@ -131,6 +146,7 @@ export const Product = list({
         description: 'Average Score form Ratings',
       },
     }),
+    version: text({ ui: { description: 'Product version .' }, defaultValue: 'beta' }),
     ratings: relationship({
       ref: 'Rating',
       many: true,
@@ -140,6 +156,7 @@ export const Product = list({
         listView: { fieldMode: 'hidden' },
       },
     }),
+
     ...defaultGlobalField(),
   },
   hooks: {

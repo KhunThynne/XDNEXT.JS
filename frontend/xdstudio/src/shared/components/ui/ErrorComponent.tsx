@@ -12,7 +12,7 @@ export const ErrorComponent = ({
   status?: string;
   description?: string;
   buttonText?: string;
-} & GlobalPropsClassNames) => {
+} & WithClassNames) => {
   return (
     <div className="h-full place-content-center place-items-center text-center">
       <h1 className="text-foreground mb-4 text-6xl font-extrabold">

@@ -30,7 +30,7 @@ export function TextareaForm<TFieldValues extends FieldValues = FieldValues>({
 }: FormXdProps<TFieldValues> & {
   renderInput?: (field: ControllerRenderProps<any, any>) => ReactNode;
 } & React.ComponentProps<typeof Textarea> &
-  GlobalPropsClassNames<"container" | "label" | "description" | "item">) {
+  WithClassNames<"container" | "label" | "description" | "item">) {
   return (
     <FormField
       {...(control ? { control } : {})}

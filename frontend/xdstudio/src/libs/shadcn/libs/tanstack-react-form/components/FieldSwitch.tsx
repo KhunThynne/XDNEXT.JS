@@ -18,7 +18,7 @@ import { Switch } from "@/libs/shadcn/ui/switch";
 
 type FieldSwitchProps = LabelDescription &
   React.ComponentProps<typeof Switch> &
-  GlobalPropsClassNames<
+  WithClassNames<
     "label" | "description" | "switch" | "field" | "validate" | "content"
   >;
 

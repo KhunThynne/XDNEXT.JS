@@ -37,7 +37,7 @@ export interface SelectFieldProps {
 
 type FieldSelectProps = LabelDescription &
   React.ComponentProps<typeof Select> &
-  GlobalPropsClassNames<
+  WithClassNames<
     "label" | "description" | "selectTriger" | "field" | "validate"
   > &
   SelectFieldProps;

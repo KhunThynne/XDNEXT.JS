@@ -10,7 +10,7 @@ import type { LabelDescription } from "../typed";
 
 type FieldTextAreaProps = LabelDescription &
   React.ComponentProps<typeof Textarea> &
-  GlobalPropsClassNames<
+  WithClassNames<
     "label" | "description" | "textarea" | "field" | "validate"
   >;
 

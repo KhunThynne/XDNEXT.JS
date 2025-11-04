@@ -1758,11 +1758,28 @@ export type PasswordState = {
 export type PointTransaction = {
   __typename?: 'PointTransaction';
   amount?: Maybe<Scalars['Int']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<PointTransaction_Description_Document>;
   id: Scalars['ID']['output'];
+  orders?: Maybe<Array<Order>>;
+  ordersCount?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
   userId?: Maybe<Array<User>>;
   userIdCount?: Maybe<Scalars['Int']['output']>;
+};
+
+
+export type PointTransactionOrdersArgs = {
+  cursor?: InputMaybe<OrderWhereUniqueInput>;
+  orderBy?: Array<OrderOrderByInput>;
+  skip?: Scalars['Int']['input'];
+  take?: InputMaybe<Scalars['Int']['input']>;
+  where?: OrderWhereInput;
+};
+
+
+export type PointTransactionOrdersCountArgs = {
+  where?: OrderWhereInput;
 };
 
 
@@ -1781,13 +1798,16 @@ export type PointTransactionUserIdCountArgs = {
 
 export type PointTransactionCreateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
+  orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<UserRelateToManyForCreateInput>;
 };
 
 export type PointTransactionOrderByInput = {
   amount?: InputMaybe<OrderDirection>;
+  createdAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
   type?: InputMaybe<OrderDirection>;
 };
@@ -1799,7 +1819,9 @@ export type PointTransactionUpdateArgs = {
 
 export type PointTransactionUpdateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description?: InputMaybe<Scalars['JSON']['input']>;
+  orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   type?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<UserRelateToManyForUpdateInput>;
 };
@@ -1809,7 +1831,9 @@ export type PointTransactionWhereInput = {
   NOT?: InputMaybe<Array<PointTransactionWhereInput>>;
   OR?: InputMaybe<Array<PointTransactionWhereInput>>;
   amount?: InputMaybe<IntNullableFilter>;
+  createdAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
+  orders?: InputMaybe<OrderManyRelationFilter>;
   type?: InputMaybe<StringFilter>;
   userId?: InputMaybe<UserManyRelationFilter>;
 };
@@ -2026,9 +2050,9 @@ export type Product = {
   faqs?: Maybe<Array<Faq>>;
   faqsCount?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
-  images?: Maybe<Array<Image>>;
-  imagesCount?: Maybe<Scalars['Int']['output']>;
+  media?: Maybe<Product_Media_Document>;
   name?: Maybe<Scalars['String']['output']>;
+  previewImage?: Maybe<Image>;
   price?: Maybe<Price>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   ratings?: Maybe<Array<Rating>>;
@@ -2041,6 +2065,7 @@ export type Product = {
   tags?: Maybe<Array<Tag>>;
   tagsCount?: Maybe<Scalars['Int']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
+  version?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -2055,20 +2080,6 @@ export type ProductFaqsArgs = {
 
 export type ProductFaqsCountArgs = {
   where?: FaqWhereInput;
-};
-
-
-export type ProductImagesArgs = {
-  cursor?: InputMaybe<ImageWhereUniqueInput>;
-  orderBy?: Array<ImageOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: ImageWhereInput;
-};
-
-
-export type ProductImagesCountArgs = {
-  where?: ImageWhereInput;
 };
 
 
@@ -2119,8 +2130,9 @@ export type ProductCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForCreateInput>;
-  images?: InputMaybe<ImageRelateToManyForCreateInput>;
+  media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  previewImage?: InputMaybe<ImageRelateToOneForCreateInput>;
   price?: InputMaybe<PriceRelateToOneForCreateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   ratings?: InputMaybe<RatingRelateToManyForCreateInput>;
@@ -2130,6 +2142,7 @@ export type ProductCreateInput = {
   tag?: InputMaybe<TagRelateToManyForCreateInput>;
   tags?: InputMaybe<TagRelateToManyForCreateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductManyRelationFilter = {
@@ -2147,6 +2160,7 @@ export type ProductOrderByInput = {
   publishedAt?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
+  version?: InputMaybe<OrderDirection>;
 };
 
 export type ProductPromotion = {
@@ -2261,8 +2275,9 @@ export type ProductUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
   faqs?: InputMaybe<FaqRelateToManyForUpdateInput>;
-  images?: InputMaybe<ImageRelateToManyForUpdateInput>;
+  media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
+  previewImage?: InputMaybe<ImageRelateToOneForUpdateInput>;
   price?: InputMaybe<PriceRelateToOneForUpdateInput>;
   publishedAt?: InputMaybe<Scalars['DateTime']['input']>;
   ratings?: InputMaybe<RatingRelateToManyForUpdateInput>;
@@ -2272,6 +2287,7 @@ export type ProductUpdateInput = {
   tag?: InputMaybe<TagRelateToManyForUpdateInput>;
   tags?: InputMaybe<TagRelateToManyForUpdateInput>;
   updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  version?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ProductWhereInput = {
@@ -2283,8 +2299,8 @@ export type ProductWhereInput = {
   description?: InputMaybe<StringFilter>;
   faqs?: InputMaybe<FaqManyRelationFilter>;
   id?: InputMaybe<IdFilter>;
-  images?: InputMaybe<ImageManyRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  previewImage?: InputMaybe<ImageWhereInput>;
   price?: InputMaybe<PriceWhereInput>;
   publishedAt?: InputMaybe<DateTimeNullableFilter>;
   ratings?: InputMaybe<RatingManyRelationFilter>;
@@ -2294,6 +2310,7 @@ export type ProductWhereInput = {
   tag?: InputMaybe<TagManyRelationFilter>;
   tags?: InputMaybe<TagManyRelationFilter>;
   updateAt?: InputMaybe<DateTimeNullableFilter>;
+  version?: InputMaybe<StringFilter>;
 };
 
 export type ProductWhereUniqueInput = {
@@ -2308,6 +2325,16 @@ export type Product_Details_Document = {
 
 
 export type Product_Details_DocumentDocumentArgs = {
+  hydrateRelationships?: Scalars['Boolean']['input'];
+};
+
+export type Product_Media_Document = {
+  __typename?: 'Product_media_Document';
+  document: Scalars['JSON']['output'];
+};
+
+
+export type Product_Media_DocumentDocumentArgs = {
   hydrateRelationships?: Scalars['Boolean']['input'];
 };
 
@@ -3896,13 +3923,13 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, imagesCount?: number | null, suppilers?: (
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
-  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, images?: Array<(
+  ) | null, details?: { __typename?: 'Product_details_Document', document: any } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: PricePriceTypeType | null, id: string } | null, tag?: Array<{ __typename?: 'Tag', id: string, name?: string | null, postsCount?: number | null }> | null, faqs?: Array<{ __typename?: 'FAQ', id: string, question?: string | null, answer?: { __typename?: 'FAQ_answer_Document', document: any } | null }> | null, previewImage?: (
     { __typename?: 'Image' }
     & { ' $fragmentRefs'?: { 'ImageFieldFragment': ImageFieldFragment } }
-  )> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
+  ) | null, media?: { __typename: 'Product_media_Document', document: any } | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
 
 export type GetProductsQueryVariables = Exact<{
   take?: InputMaybe<Scalars['Int']['input']>;
@@ -3950,7 +3977,7 @@ export type GetUserItemQueryVariables = Exact<{
 }>;
 
 
-export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, images?: Array<{ __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null }> | null } | null } | null }> | null } | null };
+export type GetUserItemQuery = { __typename?: 'Query', user?: { __typename?: 'User', itemsCount?: number | null, items?: Array<{ __typename?: 'UserItem', id: string, config?: any | null, createdAt?: any | null, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, previewImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null } | null } | null } | null }> | null } | null };
 
 export type CreateUserMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']['input']>;
@@ -4093,10 +4120,13 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   publishedAt
   updateAt
   createdAt
-  images {
+  previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
     fragment ImageField on Image {
   id
@@ -4331,10 +4361,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
+  previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4549,10 +4582,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
+  previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4623,10 +4659,13 @@ fragment ProductFields on Product {
   publishedAt
   updateAt
   createdAt
-  images {
+  previewImage {
     ...ImageField
   }
-  imagesCount
+  media {
+    document(hydrateRelationships: true)
+    __typename
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -4707,7 +4746,7 @@ export const GetUserItemDocument = new TypedDocumentString(`
         id
         product {
           name
-          images {
+          previewImage {
             altText
             id
             name

@@ -18,7 +18,7 @@ type FieldInputProps = LabelDescription &
   React.ComponentProps<typeof Input> & {
     clear?: boolean;
     groupe?: React.ComponentProps<typeof InputGroup> | true;
-  } & GlobalPropsClassNames<
+  } & WithClassNames<
     "label" | "description" | "input" | "field" | "validate"
   >;
 

@@ -188,9 +188,12 @@ model Product {
   description                     String             @default("")
   details                         Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   tag                             Tag[]              @relation("Product_tag")
-  images                          Image[]            @relation("Product_images")
+  previewImage                    Image?             @relation("Product_previewImage", fields: [previewImageId], references: [id])
+  previewImageId                  String?            @map("previewImage") @postgresql.Uuid
+  media                           Json               @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
   faqs                            FAQ[]              @relation("Product_faqs")
   averageScore                    Float?             @default(0)
+  version                         String             @default("beta")
   ratings                         Rating[]           @relation("Product_ratings")
   publishedAt                     DateTime?
   createdAt                       DateTime?          @default(now())
@@ -201,6 +204,7 @@ model Product {
 
   @@index([suppilersId])
   @@index([priceId])
+  @@index([previewImageId])
 }
 
 model Stock {
@@ -258,7 +262,7 @@ model Image {
   src_height                   Int?
   src_extension                String?
   from_User_avartar            User[]             @relation("User_avartar")
-  from_Product_images          Product[]          @relation("Product_images")
+  from_Product_previewImage    Product[]          @relation("Product_previewImage")
   from_ProductPromotion_images ProductPromotion[] @relation("ProductPromotion_images")
 }
 
