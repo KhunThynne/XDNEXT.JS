@@ -4,7 +4,7 @@ import { GalleryComponent } from "./Gallery";
 export default async function Page() {
   return (
     <ContainerSection className="mx-auto size-full">
-      <GalleryComponent></GalleryComponent>
+      {/* <GalleryComponent></GalleryComponent> */}
     </ContainerSection>
   );
 }
