@@ -9,92 +9,92 @@ export default function Footer({ className }: WithlDefaultProps) {
   return (
     <article
       className={clsx(
-        "bg-background @container w-full items-center max-sm:pb-7",
+        "@container w-full items-center bg-background max-sm:pb-7",
         "text-xs",
         "space-y-3",
         className
       )}
     >
       <div className="mx-auto flex max-w-screen-lg flex-wrap gap-8 py-3">
-        <div className="lg:flex-2 max-lg:w-full">
+        <div className="max-lg:w-full lg:flex-2">
           <div className="mb-4 flex items-center gap-2">
-            <span className="text-foreground text-lg font-bold">XDShope</span>
+            <span className="text-lg font-bold text-foreground">XDShope</span>
           </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-muted-foreground">
             Your trusted marketplace for premium game scripts and automation
             tools.
           </p>
         </div>
         <div className="grow">
-          <p className="text-foreground mb-4 font-semibold">Products</p>
-          <ul className="text-muted-foreground space-y-2 text-sm">
+          <p className="mb-4 font-semibold text-foreground">Products</p>
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Scripts
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Mods
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Tools
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Bundles
               </a>
             </li>
           </ul>
         </div>
         <div className="grow">
-          <p className="text-foreground mb-4 font-semibold">Support</p>
-          <ul className="text-muted-foreground space-y-2 text-sm">
+          <p className="mb-4 font-semibold text-foreground">Support</p>
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Help Center
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Contact Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 FAQ
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Community
               </a>
             </li>
           </ul>
         </div>
         <div className="grow">
-          <p className="text-foreground mb-4 font-semibold">Company</p>
-          <ul className="text-muted-foreground space-y-2 text-sm">
+          <p className="mb-4 font-semibold text-foreground">Company</p>
+          <ul className="space-y-2 text-sm text-muted-foreground">
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Privacy Policy
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Terms of Service
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-foreground transition-colors">
+              <a href="#" className="transition-colors hover:text-foreground">
                 Developers
               </a>
             </li>
@@ -106,14 +106,14 @@ export default function Footer({ className }: WithlDefaultProps) {
         <Separator className="opacity-50" />
         <div className="flex items-center">
           <Image
-            className="border-1 mx-auto rounded-full"
+            className="mx-auto rounded-full border-1"
             width={44}
             height={44}
             alt=""
             src="/img/XD_STUDIO.png"
           />
 
-          <div className="border-l-1 ml-2">
+          <div className="ml-2 border-l-1">
             <div className="ml-2 space-x-1">
               <span>This</span>
               <code className="space-x-1 font-extralight">
@@ -132,7 +132,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           <div>Copyright &copy; XD DEV 2025 - 2026 All Rights Reserved.</div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
             <CheckCircle className="size-4" /> Website
-            <span className="text-success font-medium">Protected</span>
+            <span className="font-medium text-success">Protected</span>
           </div>
         </div>
       </div>
