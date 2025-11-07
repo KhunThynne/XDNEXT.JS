@@ -7,7 +7,7 @@ import {
 } from "@/libs/shadcn/ui/popover";
 
 import _ from "lodash";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Plus, PlusCircle, PlusSquareIcon, User } from "lucide-react";
 import type { User as UserType } from "next-auth";
 import { signOut } from "next-auth/react";
 import { getInitials } from "../utils/getInitials";
@@ -56,14 +56,24 @@ export function AccountPopover(user: Partial<UserType>) {
                 {user.username}
               </Link>
             </h4>
-            <Separator className="group-hover/user:border-primary/30 mb-2 mt-1" />
+            <Separator className="mt-1 mb-2 group-hover/user:border-primary/30" />
 
-            <p className="text-muted-foreground truncate">{user.email}</p>
+            <p className="truncate text-muted-foreground">{user.email}</p>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
-          <section className="text-xs font-bold capitalize">
+          <section className="flex items-center text-xs font-bold capitalize">
+            <Button
+              variant={"ghost"}
+              size={"icon"}
+              className="cursor-pointer opacity-50 hover:opacity-100"
+              asChild
+            >
+              <Link href={"/plus-payment"}>
+                <PlusCircle className="size-4!" />
+              </Link>
+            </Button>
             <Badge
               variant="secondary"
               className="mx-1 max-w-20 rounded-full px-2 font-mono tabular-nums"

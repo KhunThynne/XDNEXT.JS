@@ -3,9 +3,13 @@ import { Separator } from "@/libs/shadcn/ui/separator";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { CheckCircle } from "lucide-react";
+import { useNow } from "next-intl";
 import Image from "next/image";
 
 export default function Footer({ className }: WithlDefaultProps) {
+  const intl = useNow();
+  const currentYear = new Date(intl).getFullYear();
+  const createdYear = 2025;
   return (
     <article
       className={clsx(
@@ -129,7 +133,11 @@ export default function Footer({ className }: WithlDefaultProps) {
         </div>
 
         <div className="space-y-1 sm:self-end">
-          <div>Copyright &copy; XD DEV 2025 - 2026 All Rights Reserved.</div>
+          <div>
+            Copyright &copy; XD DEV {`${createdYear}`}{" "}
+            {createdYear < currentYear && `- ${currentYear}`} All
+            Rights Reserved.
+          </div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
             <CheckCircle className="size-4" /> Website
             <span className="font-medium text-success">Protected</span>

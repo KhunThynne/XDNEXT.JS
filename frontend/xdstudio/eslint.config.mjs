@@ -48,6 +48,7 @@ const eslintConfig = defineConfig([
       "no-empty": "off",
       "no-case-declarations": "off",
       "react/jsx-key": "error",
+      "react/no-children-prop": "off",
       "react/react-in-jsx-scope": "off",
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/preserve-manual-memoization": "warn",

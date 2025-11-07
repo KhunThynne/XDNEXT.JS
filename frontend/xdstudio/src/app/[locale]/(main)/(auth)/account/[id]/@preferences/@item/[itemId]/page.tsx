@@ -12,7 +12,9 @@ export default async function ItemPage({
   params: Promise<{ locale: string; itemId: string }>;
 }) {
   const { itemId } = await params;
+
   const session = await auth();
+
   return (
     <>
       <MotionTransition
@@ -39,6 +41,7 @@ export default async function ItemPage({
           )}
         >
           <CardHeader>
+            {itemId}
             <span>
               <BackScreen
                 session={session}

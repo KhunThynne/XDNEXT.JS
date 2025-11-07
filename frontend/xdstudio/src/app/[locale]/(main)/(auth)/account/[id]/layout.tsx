@@ -5,9 +5,8 @@ import PurchasedProductsForm from "./components/PurchasedProducts.form";
 
 export default async function AuthenticationLayout({
   children,
-
   preferences,
-}: NextJSReactNodes<"preferences">) {
+}: NextJSReactNodes<"preferences" | "productPreferences">) {
   const session = await auth();
   if (!session?.user) return notFound();
   return (

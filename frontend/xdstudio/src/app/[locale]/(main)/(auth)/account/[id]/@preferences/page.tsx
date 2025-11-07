@@ -30,19 +30,10 @@ export default async function PreferencesPage({
   const res = await getUserCache({ id });
 
   return (
-    <ContainerSection
-      className="max-w-full lg:w-xl lg:max-w-md xl:static xl:max-w-xl"
-      title="User"
-      classNames={{ content: "space-y-5" }}
-      description="Customize settings and preferences for each product you are currently using."
-    >
-      {res.data.user && (
-        <PreferencesTabs>
-          <TabsContent value="general">
-            <AccountPreferenceForm {...(res.data.user as User)} />
-          </TabsContent>
-        </PreferencesTabs>
-      )}
-    </ContainerSection>
+    res.data.user && (
+      <TabsContent value="general">
+        <AccountPreferenceForm {...(res.data.user as User)} />
+      </TabsContent>
+    )
   );
 }

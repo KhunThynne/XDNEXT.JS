@@ -20,13 +20,17 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "production"]),
 
     AUTH_SECRET: z.string().optional(),
+    STRIPE_SECRET_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
     NEXT_PUBLIC_SITE_URL: z.url(),
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   },
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
+    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
     AUTH_SECRET: process.env.AUTH_SECRET,
     API_BACKEND_URL: process.env.API_BACKEND_URL,
     NODE_ENV: process.env.NODE_ENV,
@@ -41,11 +45,13 @@ export const env = createEnv({
     SECRET_KEY: process.env.SECRET_KEY,
     PORT: process.env.PORT,
     CODEGEN_TOKEN: process.env.CODEGEN_TOKEN,
-
+    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     OMISE_PUBLIC_KEY: process.env.OMISE_PUBLIC_KEY,
     OMISE_SECRET_KEY: process.env.OMISE_SECRET_KEY,
     // ClientSide
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
 });

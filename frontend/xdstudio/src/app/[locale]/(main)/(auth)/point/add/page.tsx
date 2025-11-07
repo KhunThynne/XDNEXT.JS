@@ -6,7 +6,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 export default function AddPointPage() {
   return (
     <ContainerSection title="Buy point">
-      <Card className="max-w-5xl">
+      <Card className="max-w-xl">
         <CardContent>
           <PaymentForm />
         </CardContent>
