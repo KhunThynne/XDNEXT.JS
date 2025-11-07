@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.7](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.6...v1.1.7) (2025-11-07)
+
+
+### Bug Fixes
+
+* husky error ([c601433](https://github.com/KhunThynne/XDNEXT.JS/commit/c601433b199935887330036cad4e2bd080dc0771))
+* version update ([c12099d](https://github.com/KhunThynne/XDNEXT.JS/commit/c12099dfbaa4c3ca5ab55a4589a8c51be57f55b7))
+
+### [1.1.5](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.4...v1.1.5) (2025-11-07)
+
 ### [1.1.10](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.11...v1.1.10) (2025-11-07)
 
 
