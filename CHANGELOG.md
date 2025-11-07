@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.1.8](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.7...v1.1.8) (2025-11-07)
 
+### [1.1.8](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.7...v1.1.8) (2025-11-07)
+
 ### [1.1.7](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.6...v1.1.7) (2025-11-07)
 
 

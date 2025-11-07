@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "NextJS develop-thynne",
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
@@ -30,17 +30,41 @@
     "@commitlint/config-conventional": "^20.0.0",
     "husky": "^9.1.7",
     "standard-version": "^9.5.0"
-  }, 
+  },
   "standard-version": {
     "releaseRules": [
-      { "type": "chore", "release": false },
-      { "type": "docs", "release": false },
-      { "type": "style", "release": false },
-      { "type": "test", "release": false },
-      { "type": "refactor", "release": "patch" },
-      { "type": "perf", "release": "patch" },
-      { "type": "fix", "release": "patch" },
-      { "type": "feat", "release": "minor" }
+      {
+        "type": "chore",
+        "release": false
+      },
+      {
+        "type": "docs",
+        "release": false
+      },
+      {
+        "type": "style",
+        "release": false
+      },
+      {
+        "type": "test",
+        "release": false
+      },
+      {
+        "type": "refactor",
+        "release": "patch"
+      },
+      {
+        "type": "perf",
+        "release": "patch"
+      },
+      {
+        "type": "fix",
+        "release": "patch"
+      },
+      {
+        "type": "feat",
+        "release": "minor"
+      }
     ]
   }
 }
