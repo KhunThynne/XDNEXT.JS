@@ -11,7 +11,8 @@
     "build:backend": "npm --prefix backend/xdstudio  run build",
     "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
     "prepare": "husky",
-    "release": "standard-version"
+    "release": "standard-version",
+    "release:push": "npm run release && git push --follow-tags origin develop-thynne"
   },
   "repository": {
     "type": "git",
