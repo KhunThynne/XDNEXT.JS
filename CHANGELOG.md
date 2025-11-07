@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.8...v1.2.0) (2025-11-07)
+
+
+### Features
+
+* new feature ([ec01616](https://github.com/KhunThynne/XDNEXT.JS/commit/ec016165eb2fabb41b53911d49c29fe5744c5a18))
+
 ### [1.1.9](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.8...v1.1.9) (2025-11-07)
 
 ### [1.1.12](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.8...v1.1.12) (2025-11-07)
