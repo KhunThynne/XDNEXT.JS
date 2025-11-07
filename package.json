@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "description": "🚀 Full Stack Web Application\r 🧩 Tech Stack\r 🖥️ Frontend\r Next.js – React Framework with App Router support",
   "main": "index.js",
- "scripts": {
+  "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
     "dev:backend": "npm --prefix backend/xdstudio  run dev",
     "prisma:studio": "npm --prefix backend/xdstudio run prisma:studio",
     "dev": "concurrently \"npm run dev:frontend/xdstudio\" \"npm run dev:backend\"",
     "build:frontend": "npm --prefix frontend/xdstudio  run build",
     "build:backend": "npm --prefix backend/xdstudio  run build",
-    "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio "
+    "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -23,5 +24,10 @@
   "bugs": {
     "url": "https://github.com/KhunThynne/XDNEXT.JS/issues"
   },
-  "homepage": "https://github.com/KhunThynne/XDNEXT.JS#readme"
+  "homepage": "https://github.com/KhunThynne/XDNEXT.JS#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7"
+  }
 }
