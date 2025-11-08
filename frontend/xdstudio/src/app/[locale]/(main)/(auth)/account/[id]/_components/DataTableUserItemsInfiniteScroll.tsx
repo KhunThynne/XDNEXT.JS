@@ -43,11 +43,12 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 import _ from "lodash";
 import { FileCode, PackageOpen } from "lucide-react";
-import type { Session } from "next-auth";
+import type { Session, User } from "next-auth";
 import { useFormatter } from "next-intl";
 import Image from "next/image";
 import React from "react";
-import { ImageProduct } from "../../cart/[id]/components/forms/CardCartOrdersSummaryForm";
+import { useParams } from "next/navigation";
+import { ImageProduct } from "../../cart/[cartId]/components/forms/CardCartOrdersSummaryForm";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,
@@ -61,6 +62,11 @@ export const DataTableGridItemsInfiniteScroll = ({
   const pathname = usePathname();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const format = useFormatter();
+  const params = useParams() as {
+    local: string;
+    id: User["id"];
+    itemId: UserItem["id"];
+  };
   const columns = React.useMemo<ColumnDef<UserItem>[]>(
     () => [
       {
@@ -85,13 +91,13 @@ export const DataTableGridItemsInfiniteScroll = ({
             month: "2-digit",
             day: "2-digit",
           });
-          const image = cell.item?.product?.previewImage!;
+          const image = cell?.item?.product?.previewImage;
           // const relativeTime = format.relativeTime(purchasedDate);
           return (
             <Card className="max-w-sm flex-row p-5">
               <CardHeader className="relative">
                 <div className="absolute inset-0 place-content-center place-items-center">
-                  <ImageProduct image={image} className="size-full" />
+                  <ImageProduct image={image!} className="size-full" />
                 </div>
               </CardHeader>
               <CardContent className="border-s px-5">
@@ -271,17 +277,22 @@ export const DataTableGridItemsInfiniteScroll = ({
           <TableBody className="">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} className="">
+                <TableRow
+                  key={row.id}
+                  className={clsx(
+                    params.itemId === row.original.id && "bg-muted/70"
+                  )}
+                >
                   {row.getVisibleCells().map((cell) => {
                     if (!cell.column.columnDef.enableHiding)
                       return (
                         <TableCell
-                          className="px-8 py-5"
+                          className={clsx("px-8 py-5")}
                           key={cell.id}
                           style={{ width: cell.column.getSize() }}
                           onClick={() => {
                             router.push(
-                              `/account/${session.user.id}/${row.original.id}`
+                              `/account/${session.user.id}/item/${row.original.id}`
                             );
                           }}
                         >

@@ -13,7 +13,11 @@ const nextConfig = {
   skipProxyUrlNormalize: true,
   reactCompiler: true,
   cacheComponents: true,
-  experimental: { turbopackFileSystemCacheForDev: true, mcpServer: true },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+    mcpServer: true,
+    authInterrupts: true,
+  },
   trailingSlash: true,
   typedRoutes: false,
   basePath: "",
@@ -56,6 +60,9 @@ const nextConfig = {
         hostname: "api.omise.co",
       },
     ],
+  },
+  env: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 } satisfies NextConfig;
 const withNextIntl = createNextIntlPlugin("./src/libs/i18n/request.ts");

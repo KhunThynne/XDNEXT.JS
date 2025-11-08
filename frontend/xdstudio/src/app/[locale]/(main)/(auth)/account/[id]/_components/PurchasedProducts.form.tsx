@@ -17,6 +17,8 @@ import { Link, usePathname } from "@navigation";
 import type {
   GetUserItemQuery,
   Product,
+  User,
+  UserItem,
 } from "@/libs/graphql/generates/graphql";
 import { GetUserItemDocument } from "@/libs/graphql/generates/graphql";
 import { useQuery } from "@tanstack/react-query";
@@ -37,6 +39,7 @@ import {
   InputGroupButton,
 } from "@/libs/shadcn/ui/input-group";
 import { Button } from "@/libs/shadcn/ui/button";
+import { useParams } from "next/navigation";
 
 const GridItems = ({
   items,
@@ -108,6 +111,7 @@ export default function PurchasedProductsForm({
   const form = useAppForm({
     ...purchasedProductsOptions,
   });
+
   const search = useField({ name: "search", form });
   return (
     <section className="@container flex h-full grow flex-col space-y-6">

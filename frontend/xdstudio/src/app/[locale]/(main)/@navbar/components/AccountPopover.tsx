@@ -70,7 +70,7 @@ export function AccountPopover(user: Partial<UserType>) {
               className="cursor-pointer opacity-50 hover:opacity-100"
               asChild
             >
-              <Link href={"/plus-payment"}>
+              <Link href={`/account/${user?.id}/payment`}>
                 <PlusCircle className="size-4!" />
               </Link>
             </Button>

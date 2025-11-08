@@ -48,11 +48,12 @@ export const ImageProduct = ({
 const CartItemComponent = ({ item }: { item: CartItem }) => {
   return (
     <div className="flex h-full place-items-center gap-5 p-4">
- {item?.product?.previewImage &&     <ImageProduct
-        image={item?.product?.previewImage}
-        className="aspect-square size-14 flex-shrink-0 rounded-md"
-      />}
-
+      {item?.product?.previewImage && (
+        <ImageProduct
+          image={item?.product?.previewImage}
+          className="aspect-square size-14 flex-shrink-0 rounded-md"
+        />
+      )}
       <aside>
         <h3 className="text-base font-semibold text-foreground">
           {item.product?.name}

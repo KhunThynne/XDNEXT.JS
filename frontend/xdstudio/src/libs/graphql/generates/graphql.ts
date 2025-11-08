@@ -3998,6 +3998,13 @@ export type GetUserByEmailQueryVariables = Exact<{
 
 export type GetUserByEmailQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, name?: string | null, username?: string | null, provider?: string | null, image?: string | null, role?: string | null, email?: string | null, postsCount?: number | null, createdAt?: any | null, passwordResetIssuedAt?: any | null, passwordResetRedeemedAt?: any | null, avartar?: { __typename?: 'Image', id: string } | null } | null };
 
+export type GetUserAItemConfigQueryVariables = Exact<{
+  where: UserItemWhereUniqueInput;
+}>;
+
+
+export type GetUserAItemConfigQuery = { __typename?: 'Query', userItem?: { __typename: 'UserItem', config?: any | null, createdAt?: any | null, id: string, updateAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name?: string | null, status?: string | null, createdAt?: any | null, updateAt?: any | null, previewImage?: { __typename?: 'Image', altText?: string | null, id: string, name?: string | null, src?: { __typename?: 'ImageFieldOutput', extension: ImageExtension, filesize: number, height: number, url: string, width: number } | null } | null } | null } | null, user?: { __typename?: 'User', id: string, email?: string | null, username?: string | null, name?: string | null } | null } | null };
+
 export type GetUserPointQueryVariables = Exact<{
   where: UserPointWhereUniqueInput;
 }>;
@@ -4806,6 +4813,44 @@ export const GetUserByEmailDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<GetUserByEmailQuery, GetUserByEmailQueryVariables>;
+export const GetUserAItemConfigDocument = new TypedDocumentString(`
+    query GetUserAItemConfig($where: UserItemWhereUniqueInput!) {
+  userItem(where: $where) {
+    config
+    createdAt
+    id
+    item {
+      id
+      product {
+        name
+        previewImage {
+          altText
+          id
+          name
+          src {
+            extension
+            filesize
+            height
+            url
+            width
+          }
+        }
+        status
+        createdAt
+        updateAt
+      }
+    }
+    updateAt
+    user {
+      id
+      email
+      username
+      name
+    }
+    __typename
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>;
 export const GetUserPointDocument = new TypedDocumentString(`
     query GetUserPoint($where: UserPointWhereUniqueInput!) {
   userPoint(where: $where) {

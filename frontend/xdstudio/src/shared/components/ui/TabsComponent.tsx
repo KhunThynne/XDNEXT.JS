@@ -9,13 +9,15 @@ import { Card, CardContent } from "@/libs/shadcn/ui/card";
 import clsx from "clsx";
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 
+export type TabsArray<T = string> = ({
+  value: T;
+  label: string | React.ReactNode;
+} & React.ComponentProps<typeof TabsTrigger>)[];
+
 interface TabInterface<T extends string> {
   tabsList?: React.ComponentProps<typeof TabsList>;
   card?: boolean;
-  tabs: ({
-    value: T;
-    label: string | React.ReactNode;
-  } & React.ComponentProps<typeof TabsTrigger>)[];
+  tabs: TabsArray<T>;
   defaultValue?: T;
 }
 

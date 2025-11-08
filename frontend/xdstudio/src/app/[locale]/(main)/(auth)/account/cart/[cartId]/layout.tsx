@@ -9,11 +9,11 @@ export default async function LayoutCart({
   cartItems,
   params,
 }: NextJSReactNodes<"cartItems"> & {
-  params: Promise<{ id: string }>;
+  params: Promise<{ cartId: string }>;
 }) {
   const session = await auth();
   if (!session?.user) return notFound();
-  const { id: cartId } = await params;
+  const { cartId } = await params;
   const cartIdSession = session.user.carts?.[0]?.id;
   const userId = session.user.id;
   const point = session?.user?.point;
