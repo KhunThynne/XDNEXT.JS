@@ -66,13 +66,11 @@ export const ConfigForm = () => {
           }}
         </form.AppField>
       </MenuConfigForm>
-      <CardAction className="mt-auto self-end px-5">
-        <form.AppForm>
-          <section className="place-self-end">
-            <Button disabled={nonPersistentIsDirty}>Update</Button>
-          </section>
-        </form.AppForm>
-      </CardAction>
+      <form.AppForm>
+        <section className="place-self-end">
+          <Button disabled={nonPersistentIsDirty}>Update</Button>
+        </section>
+      </form.AppForm>
     </form>
   );
 };

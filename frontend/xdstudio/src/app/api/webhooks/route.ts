@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       (await headers()).get("stripe-signature") ?? "",
       env.STRIPE_WEBHOOK_SECRET
     );
-  } catch (err) {
+  } catch (err: any) {
     const errorMessage = err?.message ?? "";
     // On error, log and return the error message.
     if (err) console.log(err);

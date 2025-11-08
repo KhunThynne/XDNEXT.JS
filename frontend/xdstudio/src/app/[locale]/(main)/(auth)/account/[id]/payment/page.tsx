@@ -1,5 +1,5 @@
 import { stripe } from "@/libs/stripe/stripe";
-import CheckoutForm from "./components/CheckoutForm";
+import CheckoutForm from "./_components/CheckoutForm";
 import { auth } from "@/auth";
 
 export default async function PlusPaymentPage() {

@@ -1,6 +1,6 @@
 "use client";
 import _ from "lodash";
-import { useAccountUserMenuStore } from "../stores/useAccountUserMenuStore";
+import { useAccountUserMenuStore } from "../_stores/useAccountUserMenuStore";
 import { CardCollapsible } from "./CardCollapsible";
 
 export default function PaymentCollapsible({ children }: WithChildren) {

@@ -4,11 +4,13 @@ export default function Content({
   classNames,
   children,
   className,
-}: WithClassNames<"content" | "outsite">) {
+  disableBlackground,
+}: WithClassNames<"content" | "outsite"> & { disableBlackground?: true }) {
   return (
     <div className={clsx(className, classNames?.outsite)}>
       <div
         className={clsx(
+          disableBlackground && `hidden`,
           "absolute inset-0 -z-20",
           "[mask-image:linear-gradient(to_bottom,white,transparent)]",
           `bg-gradient-to-br`,
