@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Button } from "@/libs/shadcn/ui/button";
 import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
@@ -30,9 +30,7 @@ export const OrdersForm = ({
   useEffect(() => {
     method.setValue("cartItems", defaultCartItems);
   }, [defaultCartItems, method]);
-  const { watch } = method;
-
-  const cartItems = watch("cartItems");
+  const cartItems = useWatch({ control: method.control, name: "cartItems" });
   const { openDialog, closeDialog } = useDialogGlobal();
   // init from defaultCartItems (so initial mount selects all)
   const [selectedIds, setSelectedIds] = useState<string[]>(() =>
@@ -42,14 +40,12 @@ export const OrdersForm = ({
   // keep selectedIds in sync when cartItems change:
   //  - remove any selected id that no longer exists in cartItems
   useLayoutEffect(() => {
-    console.log(cartItems);
     setSelectedIds((prev) => {
       const ids = new Set(cartItems.map((i) => i.id));
       return prev.filter((id) => ids.has(id));
     });
   }, [cartItems]);
   useLayoutEffect(() => {
-    console.log(cartItems);
     const selectedCartItems = cartItems.filter((item) =>
       selectedIds.includes(item.id)
     );
@@ -197,7 +193,7 @@ export const OrdersForm = ({
                     }
                     fill
                     draggable={false}
-                    className="select-none object-cover"
+                    className="object-cover select-none"
                   />
                 ) : (
                   <ImageOff className="size-full self-center rounded border" />
@@ -225,7 +221,7 @@ export const OrdersForm = ({
                         item?.product?.price?.price * (item?.quantity ?? 0)
                       ).toLocaleString()}
                     </p>
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-sm text-muted-foreground">
                       (฿{item?.product?.price?.price.toLocaleString()} each)
                     </p>
                   </>

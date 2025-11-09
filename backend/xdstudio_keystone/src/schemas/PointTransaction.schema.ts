@@ -1,7 +1,7 @@
 import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { integer, relationship, select } from '@keystone-6/core/fields';
+import { integer, relationship, select, text, timestamp } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 export const PointTransaction = list({
@@ -12,7 +12,12 @@ export const PointTransaction = list({
     },
   },
   fields: {
-    userId: relationship({ ref: 'User', many: true, label: 'User' }),
+    userId: relationship({
+      ref: 'User',
+      many: true,
+      label: 'User',
+      ui: { description: 'Owner of transection' },
+    }),
     type: select({
       options: [
         { label: 'Earn', value: 'earn' },
@@ -25,8 +30,10 @@ export const PointTransaction = list({
       validation: { isRequired: true },
     }),
     amount: integer(),
+    status: text(),
+
     orders: relationship({ ref: 'Order', many: true }),
-    description: document({
+    metaData: document({
       formatting: true,
       layouts: [
         [1, 1],
@@ -38,6 +45,7 @@ export const PointTransaction = list({
       links: true,
       dividers: true,
     }),
-    ...defaultGlobalField({ includeCreatedAt: true }),
+    expriedAt: timestamp(),
+    ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
 }) satisfies ListConfig<TypeInfo['lists']['PointTransaction']>;

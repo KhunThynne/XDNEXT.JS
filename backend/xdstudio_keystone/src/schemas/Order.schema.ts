@@ -60,7 +60,7 @@ export const Order = list({
         }, 0);
         const args = { context, summaryItemPointTotal, userId, item };
         await UpdateUserPoint(args);
-        await CreatePointTransaction(args);
+        // await CreatePointTransaction(args);
       }
     },
   },
@@ -95,31 +95,31 @@ const UpdateUserPoint = async ({ userId, context, summaryItemPointTotal }: ArgsO
   }
 };
 
-const CreatePointTransaction = async ({
-  item,
-  userId,
-  context,
-  summaryItemPointTotal,
-}: ArgsOrder) => {
-  if (userId) {
-    try {
-      await context.prisma.pointTransaction.create({
-        data: {
-          userId: { connect: { id: userId } },
-          amount: summaryItemPointTotal,
-          orders: { connect: { id: item.id } },
-          type: 'earn',
-          description: [
-            {
-              type: 'paragraph',
-              children: [{ text: `create by ${userId}` }],
-            },
-          ],
-        },
-      });
-    } catch (error) {
-      console.error(`Failed to update points for user: ${userId}`, error);
-      throw new Error('Failed to update user points.');
-    }
-  }
-};
+// const CreatePointTransaction = async ({
+//   item,
+//   userId,
+//   context,
+//   summaryItemPointTotal,
+// }: ArgsOrder) => {
+//   if (userId) {
+//     try {
+//       await context.prisma.pointTransaction.create({
+//         data: {
+//           userId: { connect: { id: userId } },
+//           amount: summaryItemPointTotal,
+//           orders: { connect: { id: item.id } },
+//           type: 'earn',
+//           description: [
+//             {
+//               type: 'paragraph',
+//               children: [{ text: `create by ${userId}` }],
+//             },
+//           ],
+//         },
+//       });
+//     } catch (error) {
+//       console.error(`Failed to update points for user: ${userId}`, error);
+//       throw new Error('Failed to update user points.');
+//     }
+//   }
+// };

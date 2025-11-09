@@ -243,13 +243,16 @@ model Promotion {
 }
 
 model PointTransaction {
-  id          String    @id @default(uuid()) @postgresql.Uuid
-  userId      User[]    @relation("PointTransaction_userId")
-  type        String    @default("Earn")
-  amount      Int?
-  orders      Order[]   @relation("PointTransaction_orders")
-  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  createdAt   DateTime? @default(now())
+  id        String    @id @default(uuid()) @postgresql.Uuid
+  userId    User[]    @relation("PointTransaction_userId")
+  type      String    @default("Earn")
+  amount    Int?
+  status    String    @default("")
+  orders    Order[]   @relation("PointTransaction_orders")
+  metaData  Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
+  expriedAt DateTime?
+  createdAt DateTime? @default(now())
+  updateAt  DateTime? @default(now())
 }
 
 model Image {

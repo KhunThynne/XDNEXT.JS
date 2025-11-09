@@ -11,8 +11,6 @@ export const CardPromoCodeCartForm = ({
   children,
   className,
 }: WithlDefaultProps) => {
-  const methodMain = useFormContext();
-
   return (
     <Card className={clsx(className)}>
       <CardHeader>
