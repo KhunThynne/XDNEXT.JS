@@ -1,6 +1,7 @@
 import { stripe } from "@/libs/stripe/stripe";
 import CheckoutForm from "./_components/CheckoutForm";
 import { auth } from "@/auth";
+import PaymentForm from "./_components/CheckoutForm";
 
 export default async function PlusPaymentPage() {
   const session = await auth();
@@ -21,10 +22,10 @@ export default async function PlusPaymentPage() {
     // },
     payment_method_types: ["promptpay"],
   });
-  if (clientSecret)
+  if (clientSecret && session)
     return (
       <div id="checkout" className="">
-        <CheckoutForm clientSecret={clientSecret} />
+        <PaymentForm clientSecret={clientSecret} session={session} />
       </div>
     );
 }

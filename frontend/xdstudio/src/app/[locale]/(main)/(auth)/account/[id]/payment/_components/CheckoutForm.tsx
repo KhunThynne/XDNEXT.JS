@@ -15,13 +15,25 @@ import { loadStripe } from "@stripe/stripe-js";
 import { env } from "@/env";
 import { useTheme } from "next-themes";
 import { Button } from "@/libs/shadcn/ui/button";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/libs/shadcn/ui/card";
+import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
+import { useStore } from "@tanstack/react-form";
+import type { Session } from "next-auth";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 const stripePromise = loadStripe(env?.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-function PaymentForm() {
+function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -63,35 +75,125 @@ function PaymentForm() {
 
   const paymentElementOptions: StripePaymentElementOptions = {
     layout: "accordion",
+    fields: { billingDetails: { email: "auto" } },
   };
 
   return (
     <form id="payment-form" onSubmit={handleSubmit} className="space-y-3">
-      <PaymentElement id="payment-element" options={paymentElementOptions} />
+      <PaymentElement
+        id="payment-element"
+        options={paymentElementOptions}
+        className=""
+      />
       <Button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
       </Button>
-      {env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
       {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
   );
 }
 
-export default function CheckoutForm({
+export const CardFormSelectMoneyRate = ({
+  children,
+  session,
+}: Partial<WithChildren> & { session: Session }) => {
+  const form = useAppForm({
+    defaultValues: {
+      point: "",
+      email: session.user.email ?? "",
+      username: session.user.username ?? "",
+    },
+  });
+
+  const store = useStore(form.store, (state) => state);
+  const nonPersistentIsDirty = store.isDefaultValue;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle> Add Points to Your Account </CardTitle>
+        <CardDescription>
+          Choose a package and complete your payment
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        <form.AppForm>
+          <form.AppField
+            name="point"
+            children={(field) => {
+              return (
+                <field.Select
+                  placeholder="Choose a package"
+                  label="Select Point Package"
+                  classNames={{ selectTriger: "max-w-50" }}
+                  options={[{ value: 500, label: "500 bath" }]}
+                />
+              );
+            }}
+          />
+          <Separator />
+          <section className="flex gap-3">
+            <form.AppField
+              name="username"
+              children={(field) => {
+                return (
+                  <field.Input className="flex-1" disabled label="Username" />
+                );
+              }}
+            />
+            <form.AppField
+              name="email"
+              children={(field) => {
+                return (
+                  <field.Input className="flex-2" disabled label="Email" />
+                );
+              }}
+            />
+          </section>
+        </form.AppForm>
+        <CardAction>
+          <form.AppForm>
+            <Button disabled={nonPersistentIsDirty}>ตกลง</Button>
+          </form.AppForm>
+        </CardAction>
+      </CardContent>
+
+      {children}
+    </Card>
+  );
+};
+
+const MainForm = ({ session }: { session: Session }) => {
+  return (
+    <>
+      <CardFormSelectMoneyRate session={session} />
+    </>
+  );
+};
+export default function PaymentForm({
   clientSecret,
+  session,
 }: {
   clientSecret: string;
+  session: Session;
 }) {
   const { theme } = useTheme();
   const appearance: Appearance = {
+    variables: {
+      colorBackground: theme === "dark" ? "#171717 " : ``,
+      borderRadius: "0.6rem",
+    },
+
     theme: theme === "dark" ? "night" : "stripe",
   };
   return (
-    <Elements stripe={stripePromise} options={{ appearance, clientSecret }}>
-      <PaymentForm />
-    </Elements>
+    <section className="max-w-lg space-y-4">
+      <MainForm session={session} />
+      <Elements stripe={stripePromise} options={{ appearance, clientSecret }}>
+        <CheckoutForm />
+      </Elements>
+    </section>
   );
 }

@@ -10,9 +10,7 @@ import type { LabelDescription } from "../typed";
 
 type FieldTextAreaProps = LabelDescription &
   React.ComponentProps<typeof Textarea> &
-  WithClassNames<
-    "label" | "description" | "textarea" | "field" | "validate"
-  >;
+  WithClassNames<"label" | "description" | "textarea" | "field" | "validate">;
 
 export default function FieldTextArea({
   label,
@@ -27,9 +25,10 @@ export default function FieldTextArea({
   return (
     <Field
       data-invalid={isInvalid}
-      className={cn(`flex flex-col`, className, classNames?.field)}
+      className={cn(`flex flex-col gap-1.5`, className, classNames?.field)}
     >
       <LabelAndDescriptionFieldForm
+        required={textarea.required}
         label={label}
         description={description}
         classNames={{

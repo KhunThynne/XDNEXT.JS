@@ -28,9 +28,7 @@ export type RadioFieldItemsType = {
 };
 type FieldRadioGroupProps = LabelDescription &
   React.ComponentProps<typeof RadioGroup> &
-  WithClassNames<
-    "label" | "description" | "group" | "validate" | "field"
-  > &
+  WithClassNames<"label" | "description" | "group" | "validate" | "field"> &
   RadioFieldItemsType;
 
 export default function FieldRadioGroup({

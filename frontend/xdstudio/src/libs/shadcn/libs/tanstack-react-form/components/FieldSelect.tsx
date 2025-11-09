@@ -19,7 +19,7 @@ import type { LabelDescription } from "../typed";
 
 type Option = {
   label: string;
-  value: string;
+  value: any;
 };
 
 type OptionGroup = {
@@ -58,9 +58,10 @@ export default function FieldSelect({
   return (
     <Field
       data-invalid={isInvalid}
-      className={cn(`flex flex-col`, className, classNames?.field)}
+      className={cn(`flex flex-col gap-1.5`, className, classNames?.field)}
     >
       <LabelAndDescriptionFieldForm
+        required={select.required}
         label={label}
         description={description}
         classNames={{
