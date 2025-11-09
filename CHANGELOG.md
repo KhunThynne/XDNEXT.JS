@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.2.1...v1.3.0) (2025-11-09)
+
+
+### Features
+
+* stripe payments ui and gateway system ([1cc6bb8](https://github.com/KhunThynne/XDNEXT.JS/commit/1cc6bb8c88bca237375715f2f789e1eeb67dcd4f))
+
+
+### Bug Fixes
+
+* system error ([f855034](https://github.com/KhunThynne/XDNEXT.JS/commit/f855034e55bb2b28ffcf9f5f8f8daa36860fecf7))
+
 ### [1.2.1](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.2.0...v1.2.1) (2025-11-08)
 
 ## [1.2.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.1.8...v1.2.0) (2025-11-07)
