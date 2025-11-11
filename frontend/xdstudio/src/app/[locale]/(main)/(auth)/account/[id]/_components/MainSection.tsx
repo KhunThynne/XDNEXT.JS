@@ -3,6 +3,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import PurchasedProductsForm from "./PurchasedProducts.form";
 import type { Session } from "next-auth";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export const MainSection = ({
   preferences,
@@ -10,9 +11,10 @@ export const MainSection = ({
   children,
 }: NextJSReactNodes<"preferences"> & { session: Session }) => {
   const segment = useSelectedLayoutSegment();
-  if (segment === "payment") return children;
+  if (segment === "payment" || segment === "cart") return children;
   return (
     <>
+      {children}
       <div className="mx-5 flex h-full flex-wrap gap-6 max-lg:flex-col">
         <ContainerSection
           className="@container relative h-full flex-2 max-lg:max-h-[80vh]"
@@ -21,9 +23,9 @@ export const MainSection = ({
         >
           {session?.user && <PurchasedProductsForm session={session} />}
         </ContainerSection>
+        <Separator orientation="vertical" className="max-xl:hidden" />
         {preferences}
       </div>
-      {children}
     </>
   );
 };

@@ -43,6 +43,10 @@ const nextConfig = {
         search: "",
       },
       {
+        protocol: "https",
+        hostname: "qr.stripe.com",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
         port: "3000",

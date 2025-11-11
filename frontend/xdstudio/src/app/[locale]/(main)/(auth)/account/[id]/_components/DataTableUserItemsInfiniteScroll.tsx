@@ -48,7 +48,7 @@ import { useFormatter } from "next-intl";
 import Image from "next/image";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ImageProduct } from "../../cart/[cartId]/components/forms/CardCartOrdersSummaryForm";
+import { ImageProduct } from "../cart/[cartId]/_components/forms/CardCartOrdersSummaryForm";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,

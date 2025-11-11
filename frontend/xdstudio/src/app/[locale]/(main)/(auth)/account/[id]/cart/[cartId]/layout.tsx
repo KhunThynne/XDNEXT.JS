@@ -2,7 +2,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
-import CartOrderFormProvider from "./components/CartOrderFormProvider";
+import CartOrderFormProvider from "./_components/CartOrderFormProvider";
 
 export default async function LayoutCart({
   children,
@@ -42,12 +42,13 @@ export default async function LayoutCart({
       availablePoint={0}
       remainingpointPayment={0}
     >
-      <div className="grid grow grid-cols-1 gap-8 xl:grid-cols-6">
+      <div className="mx-4 grid grow grid-cols-1 gap-8 xl:grid-cols-6">
         <ContainerSection
-          className="grow max-md:gap-4 xl:col-span-4"
+          className="h-screen grow max-md:gap-4 xl:col-span-4 xl:h-full"
           title="Your Shopping Cart"
           classNames={{
-            contentContainer: "h-[81vh]",
+            contentContainer: "h-full relative",
+            content: "absolute inset-0",
             separator: "max-sm:hidden",
           }}
         >

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { CartItemsClient } from "./components/CartItemsClient";
+import { CartItemsClient } from "./_components/CartItemsClient";
 
 export default async function PageOrderList() {
   return (

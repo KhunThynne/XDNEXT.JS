@@ -1,5 +1,11 @@
 import { Button } from "@/libs/shadcn/ui/button";
-import { CardHeader, CardContent, Card } from "@/libs/shadcn/ui/card";
+import {
+  CardHeader,
+  CardContent,
+  Card,
+  CardDescription,
+  CardTitle,
+} from "@/libs/shadcn/ui/card";
 import {
   Collapsible,
   CollapsibleContent,
@@ -17,9 +23,13 @@ export const CardCollapsible = ({
   className,
   title,
   motion,
+  description,
+  cardContent,
   ...collapsible
 }: WithChildren & {
   title?: string;
+  cardContent?: React.ComponentPropsWithoutRef<typeof CardContent>;
+  description?: string;
   motion?: MotionTransitionWrapperProps;
 } & CollapsibleProps) => {
   return (
@@ -28,25 +38,29 @@ export const CardCollapsible = ({
       {...collapsible}
     >
       <Card className="group-data-[state=closed]:py-0">
-        <CollapsibleTrigger className="group" asChild>
-          <CardHeader className="flex w-full cursor-pointer select-none items-center justify-between group-data-[state=closed]:py-3">
-            <h4 className="font-semibold">{title}</h4>
-            <Button
-              variant={"ghost"}
-              size={"icon"}
-              className="group-hover:bg-accent size-6 rounded-full transition-colors duration-300"
-            >
-              <ChevronDownIcon
-                data-state
-                className="transition-transform group-hover:rotate-45 group-data-[state=open]:rotate-180"
-              />
-            </Button>
-          </CardHeader>
-        </CollapsibleTrigger>
+        <CardHeader className="group-data-[state=closed]:py-3">
+          <CollapsibleTrigger className="group" asChild>
+            <CardTitle className="flex w-full cursor-pointer items-center justify-between select-none">
+              <h4 className="font-semibold">{title}</h4>
+              <Button
+                variant={"ghost"}
+                size={"icon"}
+                className="size-6 cursor-pointer rounded-full transition-colors duration-300 group-hover:bg-accent"
+              >
+                <ChevronDownIcon
+                  data-state
+                  className="transition-transform group-hover:rotate-45 group-data-[state=open]:rotate-180"
+                />
+              </Button>
+            </CardTitle>
+          </CollapsibleTrigger>
+          {description && <CardDescription>{description}</CardDescription>}
+        </CardHeader>
+
         <CollapsibleContent className="group space-y-5">
           <Separator />
           <MotionTransition animationKey={title ?? `unkown`} {...motion}>
-            <CardContent>{children}</CardContent>
+            <CardContent {...cardContent}>{children}</CardContent>
           </MotionTransition>
         </CollapsibleContent>
       </Card>

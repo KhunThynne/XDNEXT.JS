@@ -3,7 +3,7 @@
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
-import type { CartFormProps } from "../../components/cartOrder.type";
+import type { CartFormProps } from "../../_components/cartOrder.type";
 import { useEffect, useMemo } from "react";
 import { CartItemsDatableProvider } from "./CartItemsDatableProvider";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";

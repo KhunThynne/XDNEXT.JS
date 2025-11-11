@@ -11,7 +11,7 @@ import PointDiamon from "@/shared/components/PointDiamod";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import Image from "next/image";
-import type { CartItemsFormProps } from "../../components/cartOrder.type";
+import type { CartItemsFormProps } from "../../_components/cartOrder.type";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 

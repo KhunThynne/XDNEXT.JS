@@ -1,20 +1,13 @@
 "use client";
 
 import { Button } from "@/libs/shadcn/ui/button";
-import { Separator } from "@radix-ui/react-separator";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import { useCallback, useMemo } from "react";
-import { Link } from "@navigation";
-import { Form } from "@/libs/shadcn/ui/form";
 
 import { useFormatter } from "next-intl";
-import PointDiamon from "@/shared/components/PointDiamod";
-import {
-  ButtonGroup,
-  DialogFooterAction,
-  useDialogGlobal,
-} from "@/shared/components/ui";
+
+import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import type { CartFormProps } from "../cartOrder.type";
 import { useMutationCreateOrdersAndUserItems } from "@/shared/services/tanstack/mutations/oredersAndUserItems";
 import {
@@ -22,7 +15,6 @@ import {
   type CreateOrderAndUserItemsMutationVariables,
 } from "@/libs/graphql/generates/graphql";
 import { toast } from "sonner";
-import { useMutationUpdateCart } from "@/shared/services/tanstack/mutations/cart";
 import { execute } from "@/libs/graphql/execute";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";

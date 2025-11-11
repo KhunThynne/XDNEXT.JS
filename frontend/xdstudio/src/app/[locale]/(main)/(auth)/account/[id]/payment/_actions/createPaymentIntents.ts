@@ -1,17 +1,33 @@
 "use server";
 import { stripe } from "@/libs/stripe/stripe";
+import type Stripe from "stripe";
 
-export const createPaymentIntents = async ({ amount }: { amount: number }) => {
-  const res = await stripe.paymentIntents.create({
-    amount,
+export const createPaymentIntents = async (
+  params: Partial<Stripe.PaymentIntentCreateParams>,
+  options?: Stripe.RequestOptions
+) => {
+  // 🧩 Default configuration
+  const defaultConfig: Stripe.PaymentIntentCreateParams = {
+    amount: 500,
     currency: "thb",
-    // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    // automatic_payment_methods: {
-    //   enabled: true,
-    // },
+    confirm: true,
+    payment_method_data: {
+      type: "promptpay",
+      billing_details: {
+        email: "example@email.com",
+      },
+    },
     payment_method_types: ["promptpay"],
-  });
-  return { ...res };
+  };
+
+  const mergedConfig: Stripe.PaymentIntentCreateParams = {
+    ...defaultConfig,
+    ...params,
+  };
+
+  const paymentIntent = await stripe.paymentIntents.create(
+    mergedConfig,
+    options
+  );
+  return { ...paymentIntent };
 };
-
-
