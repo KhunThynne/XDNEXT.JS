@@ -16,6 +16,7 @@ import env from './env';
 import { lists } from './src/schemas';
 import { extendGraphqlSchema } from './src/extendGraphqlSchema';
 import { SeedData } from './seed-data';
+import { Server } from 'socket.io';
 export default withAuth(
   config({
     db: {
@@ -54,6 +55,35 @@ export default withAuth(
       cors: { origin: false },
       options: { host: '127.0.0.1' },
       port: env.PORT,
+      extendHttpServer(server, context) {
+        console.log('Attaching Socket.IO Server...');
+
+        // 1. สร้าง Socket.IO Server และแนบเข้ากับ HTTP Server ของ Keystone
+        const io = new Server(server, {
+          // 'server' คือ Node.js httpServer Object
+          cors: {
+            origin: '*', // อนุญาต Next.js Client
+            credentials: true,
+          },
+        });
+
+        // // 2. Logic Redis Pub/Sub Subscriber
+        // redisSubscriber.subscribe(REALTIME_CHANNEL, (err) => {
+        //   if (err) console.error('Redis subscription failed:', err);
+        // });
+
+        // redisSubscriber.on('message', (channel, message) => {
+        //   if (channel === REALTIME_CHANNEL) {
+        //     const data = JSON.parse(message);
+        //     // 3. Emitter: ส่งต่อสัญญาณ Real-Time ไปยัง Clients
+        //     io.emit('server-update', data);
+        //   }
+        // });
+
+        io.on('connection', (socket) => {
+          console.log(`[Socket.IO] New client connected: ${socket.id}`);
+        });
+      },
     },
     ui: {
       isAccessAllowed: () => true,
