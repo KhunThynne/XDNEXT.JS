@@ -1,6 +1,6 @@
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { TransactionCilent } from "./_components/TransactionCilent";
+import { TransactionPaymentSection } from "./_components/TransactionPaymentSection";
 
 export default async function PlusPaymentLayout({
   children,
@@ -17,7 +17,7 @@ export default async function PlusPaymentLayout({
         </section>
         <Separator orientation="vertical" className="max-xl:hidden" />
 
-        <TransactionCilent />
+        <TransactionPaymentSection />
       </ContainerSection>
       {children}
     </>

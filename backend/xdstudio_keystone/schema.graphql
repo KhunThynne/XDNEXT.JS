@@ -1592,21 +1592,16 @@ input PromotionCreateInput {
 
 type PointTransaction {
   id: ID!
-  userId(where: UserWhereInput! = {}, orderBy: [UserOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: UserWhereUniqueInput): [User!]
-  userIdCount(where: UserWhereInput! = {}): Int
+  user: User
   type: String
   amount: Int
   status: String
   orders(where: OrderWhereInput! = {}, orderBy: [OrderOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: OrderWhereUniqueInput): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int
-  metaData: PointTransaction_metaData_Document
-  expriedAt: DateTime
+  metaData: JSON
+  expiredAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
-}
-
-type PointTransaction_metaData_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 input PointTransactionWhereUniqueInput {
@@ -1618,20 +1613,14 @@ input PointTransactionWhereInput {
   OR: [PointTransactionWhereInput!]
   NOT: [PointTransactionWhereInput!]
   id: IDFilter
-  userId: UserManyRelationFilter
+  user: UserWhereInput
   type: StringFilter
   amount: IntNullableFilter
-  status: StringFilter
+  status: StringNullableFilter
   orders: OrderManyRelationFilter
-  expriedAt: DateTimeNullableFilter
+  expiredAt: DateTimeNullableFilter
   createdAt: DateTimeNullableFilter
   updateAt: DateTimeNullableFilter
-}
-
-input UserManyRelationFilter {
-  every: UserWhereInput
-  some: UserWhereInput
-  none: UserWhereInput
 }
 
 input PointTransactionOrderByInput {
@@ -1639,28 +1628,21 @@ input PointTransactionOrderByInput {
   type: OrderDirection
   amount: OrderDirection
   status: OrderDirection
-  expriedAt: OrderDirection
+  expiredAt: OrderDirection
   createdAt: OrderDirection
   updateAt: OrderDirection
 }
 
 input PointTransactionUpdateInput {
-  userId: UserRelateToManyForUpdateInput
+  user: UserRelateToOneForUpdateInput
   type: String
   amount: Int
   status: String
   orders: OrderRelateToManyForUpdateInput
   metaData: JSON
-  expriedAt: DateTime
+  expiredAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
-}
-
-input UserRelateToManyForUpdateInput {
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
 }
 
 input PointTransactionUpdateArgs {
@@ -1669,20 +1651,15 @@ input PointTransactionUpdateArgs {
 }
 
 input PointTransactionCreateInput {
-  userId: UserRelateToManyForCreateInput
+  user: UserRelateToOneForCreateInput
   type: String
   amount: Int
   status: String
   orders: OrderRelateToManyForCreateInput
   metaData: JSON
-  expriedAt: DateTime
+  expiredAt: DateTime
   createdAt: DateTime
   updateAt: DateTime
-}
-
-input UserRelateToManyForCreateInput {
-  create: [UserCreateInput!]
-  connect: [UserWhereUniqueInput!]
 }
 
 type Image {

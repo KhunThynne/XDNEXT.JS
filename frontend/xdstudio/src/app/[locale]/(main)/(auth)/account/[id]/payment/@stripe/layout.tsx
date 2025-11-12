@@ -8,11 +8,10 @@ import { Card } from "@/libs/shadcn/ui/card";
 export default async function StripeLayout({
   children,
 }: NextJSReactNodes<"stripe">) {
-  const session = await auth();
 
   return (
     <>
-      {session && <PaymentForm session={session} />}
+ 
       {children}
     </>
   );

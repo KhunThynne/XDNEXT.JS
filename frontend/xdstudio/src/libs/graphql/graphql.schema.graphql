@@ -962,29 +962,37 @@ type PasswordState {
 type PointTransaction {
   amount: Int
   createdAt: DateTime
-  description: PointTransaction_description_Document
+  expiredAt: DateTime
   id: ID!
+  metaData: JSON
   orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int
+  status: String
   type: String
-  userId(cursor: UserWhereUniqueInput, orderBy: [UserOrderByInput!]! = [], skip: Int! = 0, take: Int, where: UserWhereInput! = {}): [User!]
-  userIdCount(where: UserWhereInput! = {}): Int
+  updateAt: DateTime
+  user: User
 }
 
 input PointTransactionCreateInput {
   amount: Int
   createdAt: DateTime
-  description: JSON
+  expiredAt: DateTime
+  metaData: JSON
   orders: OrderRelateToManyForCreateInput
+  status: String
   type: String
-  userId: UserRelateToManyForCreateInput
+  updateAt: DateTime
+  user: UserRelateToOneForCreateInput
 }
 
 input PointTransactionOrderByInput {
   amount: OrderDirection
   createdAt: OrderDirection
+  expiredAt: OrderDirection
   id: OrderDirection
+  status: OrderDirection
   type: OrderDirection
+  updateAt: OrderDirection
 }
 
 input PointTransactionUpdateArgs {
@@ -995,10 +1003,13 @@ input PointTransactionUpdateArgs {
 input PointTransactionUpdateInput {
   amount: Int
   createdAt: DateTime
-  description: JSON
+  expiredAt: DateTime
+  metaData: JSON
   orders: OrderRelateToManyForUpdateInput
+  status: String
   type: String
-  userId: UserRelateToManyForUpdateInput
+  updateAt: DateTime
+  user: UserRelateToOneForUpdateInput
 }
 
 input PointTransactionWhereInput {
@@ -1007,18 +1018,17 @@ input PointTransactionWhereInput {
   OR: [PointTransactionWhereInput!]
   amount: IntNullableFilter
   createdAt: DateTimeNullableFilter
+  expiredAt: DateTimeNullableFilter
   id: IDFilter
   orders: OrderManyRelationFilter
+  status: StringNullableFilter
   type: StringFilter
-  userId: UserManyRelationFilter
+  updateAt: DateTimeNullableFilter
+  user: UserWhereInput
 }
 
 input PointTransactionWhereUniqueInput {
   id: ID
-}
-
-type PointTransaction_description_Document {
-  document(hydrateRelationships: Boolean! = false): JSON!
 }
 
 type Post {
@@ -2022,12 +2032,6 @@ input UserItemWhereUniqueInput {
   item: OrderItemWhereUniqueInput
 }
 
-input UserManyRelationFilter {
-  every: UserWhereInput
-  none: UserWhereInput
-  some: UserWhereInput
-}
-
 input UserOrderByInput {
   createdAt: OrderDirection
   email: OrderDirection
@@ -2148,18 +2152,6 @@ input UserPreferenceWhereUniqueInput {
 
 type UserPreference_setting_Document {
   document(hydrateRelationships: Boolean! = false): JSON!
-}
-
-input UserRelateToManyForCreateInput {
-  connect: [UserWhereUniqueInput!]
-  create: [UserCreateInput!]
-}
-
-input UserRelateToManyForUpdateInput {
-  connect: [UserWhereUniqueInput!]
-  create: [UserCreateInput!]
-  disconnect: [UserWhereUniqueInput!]
-  set: [UserWhereUniqueInput!]
 }
 
 input UserRelateToOneForCreateInput {

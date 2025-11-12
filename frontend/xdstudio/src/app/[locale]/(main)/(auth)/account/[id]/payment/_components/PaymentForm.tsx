@@ -28,7 +28,7 @@ import { useStore } from "@tanstack/react-form";
 import type { Session } from "next-auth";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { createHookStore } from "@/libs/zustand/createHookStore";
-import { createPaymentIntents } from "../_actions/createPaymentIntents";
+import { createPaymentIntents } from "../_actions/paymentIntents";
 import { createDialog } from "@/libs/dialog/createDialog";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import { useRouter } from "@navigation";
@@ -41,6 +41,8 @@ import Translations from "@/libs/i18n/Translations";
 import Loading, { LoadingDots } from "@/shared/components/ui/Loading";
 import { Spinner } from "@/libs/shadcn/ui/spinner";
 import { stripe } from "@/libs/stripe/stripe";
+import { useQueryClient } from "@tanstack/react-query";
+import { QrCodePreview } from "./QrCodePreview";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -53,6 +55,8 @@ export const FormSelectMoneyRate = ({
   const { setData } = usePaymentStore();
   const router = useRouter();
   const { stripeId } = useParams() as { locale: string; stripeId: string };
+  const queryClient = useQueryClient();
+
   const form = useAppForm({
     defaultValues: {
       point: "",
@@ -62,12 +66,13 @@ export const FormSelectMoneyRate = ({
     onSubmit: async ({ value }) => {
       const res = await createPaymentIntents({
         amount: Number(value.point) * 100,
+        metadata: { userId: session.user.id },
       });
-      if (res.client_secret) {
-        console.log(res);
-        // stripe.checkout.sessions.expire("");
+
+      if (res && res.client_secret) {
+        const queryKey = [`point-transaction-${session.user.id}`];
+        await queryClient.invalidateQueries({ queryKey });
         setData({ ...res });
-        // router.push(`${res.id}`);
       }
     },
   });
@@ -190,11 +195,12 @@ const ContentQRCodePreview = () => {
     >
       {next_action?.promptpay_display_qr_code?.image_url_svg && (
         <div className="relative mx-auto aspect-square size-40 rounded-xl shadow-lg">
-          <Image
-            src={next_action?.promptpay_display_qr_code?.image_url_svg}
-            alt={client_secret!}
-            fill
-            className="object-contain select-none"
+          <QrCodePreview
+            image={{
+              src: next_action?.promptpay_display_qr_code?.image_url_svg,
+              alt: client_secret!,
+              fill: true,
+            }}
           />
         </div>
       )}

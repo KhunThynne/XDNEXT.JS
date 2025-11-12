@@ -1759,13 +1759,15 @@ export type PointTransaction = {
   __typename?: 'PointTransaction';
   amount?: Maybe<Scalars['Int']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  description?: Maybe<PointTransaction_Description_Document>;
+  expiredAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
+  metaData?: Maybe<Scalars['JSON']['output']>;
   orders?: Maybe<Array<Order>>;
   ordersCount?: Maybe<Scalars['Int']['output']>;
+  status?: Maybe<Scalars['String']['output']>;
   type?: Maybe<Scalars['String']['output']>;
-  userId?: Maybe<Array<User>>;
-  userIdCount?: Maybe<Scalars['Int']['output']>;
+  updateAt?: Maybe<Scalars['DateTime']['output']>;
+  user?: Maybe<User>;
 };
 
 
@@ -1782,34 +1784,26 @@ export type PointTransactionOrdersCountArgs = {
   where?: OrderWhereInput;
 };
 
-
-export type PointTransactionUserIdArgs = {
-  cursor?: InputMaybe<UserWhereUniqueInput>;
-  orderBy?: Array<UserOrderByInput>;
-  skip?: Scalars['Int']['input'];
-  take?: InputMaybe<Scalars['Int']['input']>;
-  where?: UserWhereInput;
-};
-
-
-export type PointTransactionUserIdCountArgs = {
-  where?: UserWhereInput;
-};
-
 export type PointTransactionCreateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  description?: InputMaybe<Scalars['JSON']['input']>;
+  expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
+  metaData?: InputMaybe<Scalars['JSON']['input']>;
   orders?: InputMaybe<OrderRelateToManyForCreateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<UserRelateToManyForCreateInput>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<UserRelateToOneForCreateInput>;
 };
 
 export type PointTransactionOrderByInput = {
   amount?: InputMaybe<OrderDirection>;
   createdAt?: InputMaybe<OrderDirection>;
+  expiredAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  status?: InputMaybe<OrderDirection>;
   type?: InputMaybe<OrderDirection>;
+  updateAt?: InputMaybe<OrderDirection>;
 };
 
 export type PointTransactionUpdateArgs = {
@@ -1820,10 +1814,13 @@ export type PointTransactionUpdateArgs = {
 export type PointTransactionUpdateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
-  description?: InputMaybe<Scalars['JSON']['input']>;
+  expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
+  metaData?: InputMaybe<Scalars['JSON']['input']>;
   orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
+  status?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<UserRelateToManyForUpdateInput>;
+  updateAt?: InputMaybe<Scalars['DateTime']['input']>;
+  user?: InputMaybe<UserRelateToOneForUpdateInput>;
 };
 
 export type PointTransactionWhereInput = {
@@ -1832,24 +1829,17 @@ export type PointTransactionWhereInput = {
   OR?: InputMaybe<Array<PointTransactionWhereInput>>;
   amount?: InputMaybe<IntNullableFilter>;
   createdAt?: InputMaybe<DateTimeNullableFilter>;
+  expiredAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
   orders?: InputMaybe<OrderManyRelationFilter>;
+  status?: InputMaybe<StringNullableFilter>;
   type?: InputMaybe<StringFilter>;
-  userId?: InputMaybe<UserManyRelationFilter>;
+  updateAt?: InputMaybe<DateTimeNullableFilter>;
+  user?: InputMaybe<UserWhereInput>;
 };
 
 export type PointTransactionWhereUniqueInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
-};
-
-export type PointTransaction_Description_Document = {
-  __typename?: 'PointTransaction_description_Document';
-  document: Scalars['JSON']['output'];
-};
-
-
-export type PointTransaction_Description_DocumentDocumentArgs = {
-  hydrateRelationships?: Scalars['Boolean']['input'];
 };
 
 export type Post = {
@@ -3538,12 +3528,6 @@ export type UserItemWhereUniqueInput = {
   item?: InputMaybe<OrderItemWhereUniqueInput>;
 };
 
-export type UserManyRelationFilter = {
-  every?: InputMaybe<UserWhereInput>;
-  none?: InputMaybe<UserWhereInput>;
-  some?: InputMaybe<UserWhereInput>;
-};
-
 export type UserOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   email?: InputMaybe<OrderDirection>;
@@ -3672,18 +3656,6 @@ export type UserPreference_Setting_Document = {
 
 export type UserPreference_Setting_DocumentDocumentArgs = {
   hydrateRelationships?: Scalars['Boolean']['input'];
-};
-
-export type UserRelateToManyForCreateInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  create?: InputMaybe<Array<UserCreateInput>>;
-};
-
-export type UserRelateToManyForUpdateInput = {
-  connect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  create?: InputMaybe<Array<UserCreateInput>>;
-  disconnect?: InputMaybe<Array<UserWhereUniqueInput>>;
-  set?: InputMaybe<Array<UserWhereUniqueInput>>;
 };
 
 export type UserRelateToOneForCreateInput = {
@@ -3923,6 +3895,53 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
+export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: string, type?: string | null, amount?: number | null, status?: string | null, ordersCount?: number | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } & { ' $fragmentName'?: 'PointTransactionFieldFragment' };
+
+export type GetPointTransactionQueryVariables = Exact<{
+  where: PointTransactionWhereUniqueInput;
+}>;
+
+
+export type GetPointTransactionQuery = { __typename?: 'Query', pointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
+export type GetPointTransactionsQueryVariables = Exact<{
+  where: PointTransactionWhereInput;
+  orderBy: Array<PointTransactionOrderByInput> | PointTransactionOrderByInput;
+  take?: InputMaybe<Scalars['Int']['input']>;
+  skip: Scalars['Int']['input'];
+  cursor?: InputMaybe<PointTransactionWhereUniqueInput>;
+}>;
+
+
+export type GetPointTransactionsQuery = { __typename?: 'Query', pointTransactions?: Array<(
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  )> | null };
+
+export type CreatePointTransactionMutationVariables = Exact<{
+  data: PointTransactionCreateInput;
+}>;
+
+
+export type CreatePointTransactionMutation = { __typename?: 'Mutation', createPointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
+export type UpdatePointTransactionMutationVariables = Exact<{
+  where: PointTransactionWhereUniqueInput;
+  data: PointTransactionUpdateInput;
+}>;
+
+
+export type UpdatePointTransactionMutation = { __typename?: 'Mutation', updatePointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
 export type ProductFieldsFragment = { __typename?: 'Product', id: string, name?: string | null, description?: string | null, averageScore?: number | null, status?: string | null, publishedAt?: any | null, updateAt?: any | null, createdAt?: any | null, suppilers?: (
     { __typename?: 'Supplier' }
     & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
@@ -4064,6 +4083,25 @@ export const AuthUserItemFragmentDoc = new TypedDocumentString(`
   passwordResetRedeemedAt
 }
     `, {"fragmentName":"AuthUserItem"}) as unknown as TypedDocumentString<AuthUserItemFragment, unknown>;
+export const PointTransactionFieldFragmentDoc = new TypedDocumentString(`
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+}
+    `, {"fragmentName":"PointTransactionField"}) as unknown as TypedDocumentString<PointTransactionFieldFragment, unknown>;
 export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
     fragment SupplierFields on Supplier {
   id
@@ -4535,6 +4573,104 @@ export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
+export const GetPointTransactionDocument = new TypedDocumentString(`
+    query getPointTransaction($where: PointTransactionWhereUniqueInput!) {
+  pointTransaction(where: $where) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+}`) as unknown as TypedDocumentString<GetPointTransactionQuery, GetPointTransactionQueryVariables>;
+export const GetPointTransactionsDocument = new TypedDocumentString(`
+    query getPointTransactions($where: PointTransactionWhereInput!, $orderBy: [PointTransactionOrderByInput!]!, $take: Int, $skip: Int!, $cursor: PointTransactionWhereUniqueInput) {
+  pointTransactions(
+    where: $where
+    orderBy: $orderBy
+    take: $take
+    skip: $skip
+    cursor: $cursor
+  ) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+}`) as unknown as TypedDocumentString<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>;
+export const CreatePointTransactionDocument = new TypedDocumentString(`
+    mutation CreatePointTransaction($data: PointTransactionCreateInput!) {
+  createPointTransaction(data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+}`) as unknown as TypedDocumentString<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>;
+export const UpdatePointTransactionDocument = new TypedDocumentString(`
+    mutation updatePointTransaction($where: PointTransactionWhereUniqueInput!, $data: PointTransactionUpdateInput!) {
+  updatePointTransaction(where: $where, data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+}`) as unknown as TypedDocumentString<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query getProducts($take: Int, $skip: Int!, $orderBy: [ProductOrderByInput!]!) {
   products(take: $take, skip: $skip, orderBy: $orderBy) {
