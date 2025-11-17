@@ -40,7 +40,7 @@ export default function FieldSwitch({
       <Field
         data-invalid={isInvalid}
         orientation="horizontal"
-        className={cn(`flex`, className, classNames?.field)}
+        className={cn(`flex gap-1.5`, className, classNames?.field)}
       >
         {(label || description) && (
           <FieldContent className={cn(classNames?.content)}>

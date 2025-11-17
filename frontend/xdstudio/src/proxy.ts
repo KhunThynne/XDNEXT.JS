@@ -2,6 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { routing } from "./libs/i18n/routing";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+
 const handleI18nRouting = createMiddleware(routing);
 export default async function proxy(request: NextRequest) {
   const { nextUrl } = request;

@@ -1,5 +1,5 @@
 "use client";
-import type { CartFormProps } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/cartOrder.type";
+
 import { Button } from "@/libs/shadcn/ui/button";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
 

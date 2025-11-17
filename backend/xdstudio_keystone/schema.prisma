@@ -21,31 +21,31 @@ model Setting {
 }
 
 model User {
-  id                           String             @id @default(uuid()) @postgresql.Uuid
-  name                         String             @default("")
-  username                     String             @default("")
-  provider                     String             @default("credentials")
-  image                        String             @default("")
-  avartar                      Image?             @relation("User_avartar", fields: [avartarId], references: [id])
-  avartarId                    String?            @map("avartar") @postgresql.Uuid
-  role                         String?            @default("USER")
-  email                        String             @unique @default("")
-  password                     String
-  createdAt                    DateTime?          @default(now())
-  accounts                     Account[]          @relation("Account_user")
-  carts                        Cart[]             @relation("Cart_user")
-  items                        UserItem[]         @relation("UserItem_user")
-  point                        UserPoint?         @relation("User_point", fields: [pointId], references: [id])
-  pointId                      String?            @unique @map("point") @postgresql.Uuid
-  suppiler                     Supplier[]         @relation("Supplier_user")
-  orders                       Order[]            @relation("Order_user")
-  preference                   UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
-  preferenceId                 String?            @unique @map("preference") @postgresql.Uuid
-  posts                        Post[]             @relation("Post_author")
-  passwordResetToken           String?
-  passwordResetIssuedAt        DateTime?
-  passwordResetRedeemedAt      DateTime?
-  from_PointTransaction_userId PointTransaction[] @relation("PointTransaction_userId")
+  id                         String             @id @default(uuid()) @postgresql.Uuid
+  name                       String             @default("")
+  username                   String             @default("")
+  provider                   String             @default("credentials")
+  image                      String             @default("")
+  avartar                    Image?             @relation("User_avartar", fields: [avartarId], references: [id])
+  avartarId                  String?            @map("avartar") @postgresql.Uuid
+  role                       String?            @default("USER")
+  email                      String             @unique @default("")
+  password                   String
+  createdAt                  DateTime?          @default(now())
+  accounts                   Account[]          @relation("Account_user")
+  carts                      Cart[]             @relation("Cart_user")
+  items                      UserItem[]         @relation("UserItem_user")
+  point                      UserPoint?         @relation("User_point", fields: [pointId], references: [id])
+  pointId                    String?            @unique @map("point") @postgresql.Uuid
+  suppiler                   Supplier[]         @relation("Supplier_user")
+  orders                     Order[]            @relation("Order_user")
+  preference                 UserPreference?    @relation("User_preference", fields: [preferenceId], references: [id])
+  preferenceId               String?            @unique @map("preference") @postgresql.Uuid
+  posts                      Post[]             @relation("Post_author")
+  passwordResetToken         String?
+  passwordResetIssuedAt      DateTime?
+  passwordResetRedeemedAt    DateTime?
+  from_PointTransaction_user PointTransaction[] @relation("PointTransaction_user")
 
   @@index([avartarId])
 }
@@ -243,13 +243,19 @@ model Promotion {
 }
 
 model PointTransaction {
-  id          String    @id @default(uuid()) @postgresql.Uuid
-  userId      User[]    @relation("PointTransaction_userId")
-  type        String    @default("Earn")
-  amount      Int?
-  orders      Order[]   @relation("PointTransaction_orders")
-  description Json      @default("[{\"type\":\"paragraph\",\"children\":[{\"text\":\"\"}]}]")
-  createdAt   DateTime? @default(now())
+  id        String    @id @default(uuid()) @postgresql.Uuid
+  user      User?     @relation("PointTransaction_user", fields: [userId], references: [id])
+  userId    String?   @map("user") @postgresql.Uuid
+  type      String    @default("Earn")
+  amount    Int?
+  status    String?   @default("requires_payment_method")
+  orders    Order[]   @relation("PointTransaction_orders")
+  metaData  Json?
+  expiredAt DateTime?
+  createdAt DateTime? @default(now())
+  updateAt  DateTime? @default(now())
+
+  @@index([userId])
 }
 
 model Image {

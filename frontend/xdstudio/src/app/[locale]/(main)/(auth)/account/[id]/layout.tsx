@@ -1,27 +1,27 @@
 import { auth } from "@/auth";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { notFound } from "next/navigation";
-import PurchasedProductsForm from "./components/PurchasedProducts.form";
+import { MainSection } from "./_components/MainSection";
+import { SegmentAccount } from "./segments";
+import { SocketProvider } from "@/libs/socket-io/socket";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function AuthenticationLayout({
   children,
   preferences,
-}: NextJSReactNodes<"preferences" | "productPreferences">) {
+}: NextJSReactNodes<"preferences">) {
   const session = await auth();
-  if (!session?.user) return notFound();
-  return (
-    <>
-      <div className="mx-5 flex h-full flex-wrap gap-6 max-lg:flex-col">
-        <ContainerSection
-          className="@container relative h-full flex-2 max-lg:max-h-[80vh]"
-          title="Purchased Products"
-          description="These are the products you have successfully purchased and activated."
-        >
-          {session?.user && <PurchasedProductsForm session={session} />}
-        </ContainerSection>
-        {preferences}
-      </div>
-      {children}
-    </>
-  );
+  if (!session?.user && !session?.user?.carts?.[0]?.id) return notFound();
+  const segmentText = `/account/${session.user.id}`;
+  if (session?.user?.carts?.[0]?.id)
+    return (
+      <MainSection session={session} preferences={preferences}>
+        <SegmentAccount
+          segmentText={segmentText}
+          key={session.user.id}
+          cartId={session?.user?.carts?.[0]?.id}
+        />
+
+        {children}
+      </MainSection>
+    );
 }

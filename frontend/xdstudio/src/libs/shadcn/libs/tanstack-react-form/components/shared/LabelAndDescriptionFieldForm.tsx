@@ -4,23 +4,32 @@ import { Fragment } from "react";
 import type { LabelDescription } from "../../typed";
 import { FieldDescription, FieldLabel } from "@/libs/shadcn/ui/field";
 import { cn } from "@/libs/shadcn/utils";
+import { Asterisk } from "lucide-react";
 
 export default function LabelAndDescriptionFieldForm({
   classNames,
   children,
   label,
   description,
-}: WithClassNames<"label" | "description"> & LabelDescription) {
+  required,
+}: WithClassNames<"label" | "description"> &
+  LabelDescription & { required?: boolean }) {
   return (
     <Fragment>
       {label && (
         <FieldLabel
           className={cn(
-            "inline-block max-w-full truncate pb-0.5 break-all",
+            "flex max-w-full gap-x-1.5 truncate break-all",
             classNames?.label
           )}
         >
-          {_.isString(label) ? <Translations text={label} /> : label}
+          <span>
+            {_.isString(label) ? <Translations text={label} /> : label}
+          </span>
+
+          {required && (
+            <Asterisk className="size-3 self-start text-destructive" />
+          )}
         </FieldLabel>
       )}
       {children}

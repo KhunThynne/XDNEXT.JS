@@ -44,7 +44,7 @@ export const ShoppingPopover = ({
   );
   const [totalPoint, setTotalPoint] = useState(0);
   const cartItems = flatData;
-  const navigation = `/account/cart/${cartId}`;
+  const navigation = `/account/${userId}/cart/${cartId}`;
   const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
 
   return (

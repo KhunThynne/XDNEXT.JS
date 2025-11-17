@@ -18,11 +18,5 @@
     "i18n-ally.defaultNamespace": "", 
     "typescript.tsdk": "frontend/xdstudio/node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
-  // Format on save
-  // "editor.formatOnSave": true,
-  // "editor.codeActionsOnSave": {
-  //   "source.organizeImports": "explicit"
-  // },
   }
-
 }

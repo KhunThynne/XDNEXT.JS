@@ -21,8 +21,9 @@ import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
-import type { CartFormProps } from "@/app/[locale]/(main)/(auth)/account/cart/[id]/components/cartOrder.type";
+
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import type { CartFormProps } from "@/app/[locale]/(main)/(auth)/account/[id]/cart/[cartId]/_components/cartOrder.type";
 
 export const EmptyCart = () => {
   return (

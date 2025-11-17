@@ -13,7 +13,11 @@ const nextConfig = {
   skipProxyUrlNormalize: true,
   reactCompiler: true,
   cacheComponents: true,
-  experimental: { turbopackFileSystemCacheForDev: true, mcpServer: true },
+  experimental: {
+    turbopackFileSystemCacheForDev: true,
+    mcpServer: true,
+    authInterrupts: true,
+  },
   trailingSlash: true,
   typedRoutes: false,
   basePath: "",
@@ -23,6 +27,14 @@ const nextConfig = {
   //     allowedOrigins: ["shop.xd-tect.com"],
   //   },
   // },
+  async rewrites() {
+    return [
+      {
+        source: "/socket.io",
+        destination: `${env.API_BACKEND_URL}/socket.io/`,
+      },
+    ];
+  },
   images: {
     dangerouslyAllowSVG: true,
     dangerouslyAllowLocalIP: true,
@@ -37,6 +49,10 @@ const nextConfig = {
         hostname: "127.0.0.1",
         port: "3001",
         search: "",
+      },
+      {
+        protocol: "https",
+        hostname: "qr.stripe.com",
       },
       {
         protocol: "http",
@@ -56,6 +72,9 @@ const nextConfig = {
         hostname: "api.omise.co",
       },
     ],
+  },
+  env: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 } satisfies NextConfig;
 const withNextIntl = createNextIntlPlugin("./src/libs/i18n/request.ts");

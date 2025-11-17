@@ -25,7 +25,8 @@
     "back_to_signIn": "Back to sign in",
     "price": "price",
     "reset": "reset",
-    "update": "update"
+    "update": "update",
+    "confirm": "confirm"
   },
   "not_found": {
     "description": "Sorry,the page you are looking for does not exist",

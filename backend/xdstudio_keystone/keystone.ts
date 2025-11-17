@@ -5,7 +5,7 @@
 // Keystone imports the default export of this file, expecting a Keystone configuration object
 //   you can find out more at https://keystonejs.com/docs/apis/config
 import './configs/dotenv.config';
-import { config, graphql } from '@keystone-6/core';
+import { config } from '@keystone-6/core';
 
 // to keep this file tidy, we define our schema in a different file
 
@@ -16,6 +16,8 @@ import env from './env';
 import { lists } from './src/schemas';
 import { extendGraphqlSchema } from './src/extendGraphqlSchema';
 import { SeedData } from './seed-data';
+
+import IntigrationSocketIo from './src/shared/libs/socket-io';
 export default withAuth(
   config({
     db: {
@@ -54,6 +56,10 @@ export default withAuth(
       cors: { origin: false },
       options: { host: '127.0.0.1' },
       port: env.PORT,
+      extendHttpServer(server, context) {
+        console.log('Attaching Socket.IO Server...');
+        IntigrationSocketIo(server, context);
+      },
     },
     ui: {
       isAccessAllowed: () => true,

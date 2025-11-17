@@ -1,8 +1,7 @@
 {
   "name": "xd_nextjs",
-  "version": "1.0.0",
-  "description": "🚀 Full Stack Web Application\r 🧩 Tech Stack\r 🖥️ Frontend\r Next.js – React Framework with App Router support",
-  "main": "index.js",
+  "version": "1.3.3",
+  "description": "NextJS develop-thynne",
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
     "dev:backend": "npm --prefix backend/xdstudio  run dev",
@@ -11,7 +10,8 @@
     "build:frontend": "npm --prefix frontend/xdstudio  run build",
     "build:backend": "npm --prefix backend/xdstudio  run build",
     "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "npx standard-version && git push --follow-tags origin develop-thynne"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "standard-version": "^9.5.0"
   }
 }

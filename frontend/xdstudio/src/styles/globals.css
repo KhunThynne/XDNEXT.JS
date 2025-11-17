@@ -1,9 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @custom-variant dark (&:is(.dark *));
-@import './base.css';
-@import './xdstudio.css';
-@import './discord.css';
+@import "./base.css";
+@import "./xdstudio.css";
+@import "./discord.css";
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -16,7 +16,7 @@
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
   --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-thynne: oklch(42.674% 0.26112 265.594); 
+  --color-thynne: oklch(42.674% 0.26112 265.594);
   --color-sidebar: var(--sidebar);
   --color-chart-5: var(--chart-5);
   --color-chart-4: var(--chart-4);
@@ -122,4 +122,3 @@
     @apply bg-background text-foreground;
   }
 }
-

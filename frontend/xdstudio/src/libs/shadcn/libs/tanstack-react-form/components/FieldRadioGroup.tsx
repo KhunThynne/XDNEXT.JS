@@ -14,7 +14,6 @@ import { cn } from "@/libs/shadcn/utils";
 import type { LabelDescription } from "../typed";
 import { RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
 import { RadioGroup } from "@/libs/shadcn/ui/radio-group";
-import { Label } from "@/libs/shadcn/ui/label";
 
 type CommonClassNames = WithClassNames<
   "container" | "title" | "description" | "section"
@@ -28,9 +27,7 @@ export type RadioFieldItemsType = {
 };
 type FieldRadioGroupProps = LabelDescription &
   React.ComponentProps<typeof RadioGroup> &
-  WithClassNames<
-    "label" | "description" | "group" | "validate" | "field"
-  > &
+  WithClassNames<"label" | "description" | "group" | "validate" | "field"> &
   RadioFieldItemsType;
 
 export default function FieldRadioGroup({
@@ -78,11 +75,7 @@ export default function FieldRadioGroup({
               >
                 <Field
                   orientation="horizontal"
-                  className={cn(
-                    // "flex flex-col",
-                    // items.classNames?.section,
-                    classNames?.section
-                  )}
+                  className={cn(classNames?.section)}
                 >
                   <FieldContent>
                     {title &&
@@ -118,7 +111,7 @@ export default function FieldRadioGroup({
                   <RadioGroupItem
                     {...propItem}
                     id={id}
-                    value={item.id ?? id}
+                    value={item.value ?? id}
                     aria-invalid={isInvalid}
                   />
                 </Field>

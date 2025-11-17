@@ -32,7 +32,7 @@ export default function FieldCheckBox({
     <FieldGroup data-slot="checkbox-group">
       <Field
         data-invalid={isInvalid}
-        className={cn(`flex flex-col`, className, classNames?.field)}
+        className={cn(`flex flex-col gap-1.5`, className, classNames?.field)}
       >
         <span className="flex gap-2">
           <Checkbox {...checkbox} className={cn(`peer cursor-pointer`)} />

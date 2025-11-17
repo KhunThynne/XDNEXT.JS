@@ -11,16 +11,14 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/libs/shadcn/ui/input-group";
-import { boolean } from "zod";
-import { CircleX, MessageSquareX, X } from "lucide-react";
+
+import { X } from "lucide-react";
 
 type FieldInputProps = LabelDescription &
   React.ComponentProps<typeof Input> & {
     clear?: boolean;
     groupe?: React.ComponentProps<typeof InputGroup> | true;
-  } & WithClassNames<
-    "label" | "description" | "input" | "field" | "validate"
-  >;
+  } & WithClassNames<"label" | "description" | "input" | "field" | "validate">;
 
 export default function FieldInput({
   label,
@@ -40,10 +38,11 @@ export default function FieldInput({
   return (
     <Field
       data-invalid={isInvalid}
-      className={cn(`flex flex-col`, className, classNames?.field)}
+      className={cn(`flex flex-col gap-1.5`, className, classNames?.field)}
     >
       <LabelAndDescriptionFieldForm
         label={label}
+        required={input.required}
         description={description}
         classNames={{
           label: cn(`order-1`, classNames?.label),
