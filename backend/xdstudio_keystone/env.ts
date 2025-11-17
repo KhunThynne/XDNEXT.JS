@@ -38,16 +38,18 @@ const envSchema = z.object({
   IMAGE_PATH: z.string().default('/images'),
   STORAGE_IMAGE_PATH: z.string(),
   NEXT_PUBLIC_SITE_URL: z.string(),
+  REDIS_HOST: z.string(),
+  REDIS_PORT: z.string(),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error('❌ Invalid environment variables:', parsedEnv.error.format());
+  console.error('❌ Invalid environment variables:', parsedEnv.error.format);
   process.exit(1);
 }
-
-const env = {
+type Env = z.infer<typeof envSchema>;
+const env: Env = {
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
   API_BACKEND_URL: parsedEnv.data.API_BACKEND_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,
@@ -66,7 +68,9 @@ const env = {
   STORAGE_IMAGE_PATH: parsedEnv.data.STORAGE_IMAGE_PATH,
   IMAGE_PATH: parsedEnv.data.IMAGE_PATH,
   NODE_ENV: parsedEnv.data.NODE_ENV,
-  NEXT_PUBLIC_SITE_URL:parsedEnv.data.NEXT_PUBLIC_SITE_URL
+  NEXT_PUBLIC_SITE_URL: parsedEnv.data.NEXT_PUBLIC_SITE_URL,
+  REDIS_HOST: parsedEnv.data.REDIS_HOST,
+  REDIS_PORT: parsedEnv.data.REDIS_PORT,
 };
 
 export default env;

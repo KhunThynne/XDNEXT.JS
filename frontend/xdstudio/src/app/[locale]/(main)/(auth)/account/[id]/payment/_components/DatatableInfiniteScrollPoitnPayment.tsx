@@ -14,7 +14,6 @@ import type {
   OnChangeFn,
   Row,
   SortingState,
-  Updater,
 } from "@tanstack/react-table";
 import {
   createColumnHelper,
@@ -30,18 +29,10 @@ import {
   TableRow,
 } from "@/libs/shadcn/ui/table";
 import { usePointTransactionsInfiniteQuery } from "../_hooks/usePointTransactionsInfiniteQuery";
-import { useSession } from "next-auth/react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
 import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import {
-  Empty,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from "@/libs/shadcn/ui/empty";
 import clsx from "clsx";
 
 import { useFormatter } from "next-intl";
@@ -53,6 +44,7 @@ import { usePathname, useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
+import socket from "@/libs/socket-io";
 
 // type Person = {
 //   firstName: string;
@@ -116,6 +108,55 @@ export function DatatableInfiniteScrollPoitnPayment({
   const formatter = useFormatter();
   const router = useRouter();
   const params = useParams() as { transactionId: string };
+  const [isConnected, setIsConnected] = useState(false);
+  const [transport, setTransport] = useState("N/A");
+  const Test = () => {
+    socket.emit("server-update", { test: "test" });
+  };
+  useEffect(() => {
+    // 💥 2. เช็กให้ชัวร์ว่า socket พร้อมใช้งาน
+    // (ถ้า socket มาจาก Context มันอาจจะ null ในตอนแรก)
+    if (!socket) return;
+
+    // --- โค้ดเดิมของคุณ (ถูกต้องแล้ว) ---
+    if (socket.connected) {
+      onConnect();
+    }
+
+    function onConnect() {
+      setIsConnected(true);
+      setTransport(socket.io.engine.transport.name);
+
+      socket.io.engine.on("upgrade", (transport) => {
+        setTransport(transport.name);
+      });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      setTransport("N/A");
+    }
+
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+
+    function onServerUpdate(data: any) {
+      console.log("🔔 ได้รับอัปเดตจาก Server:", data);
+
+      alert(`คะแนนของคุณอัปเดตเป็น ${data} แล้ว!`);
+    }
+
+    socket.on("keystone-socket", onServerUpdate);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("server-update", onServerUpdate); // 👈 อย่าลืม .off event ที่เพิ่มเข้าไป
+    };
+
+    // 💥 5. Dependency Array ต้องเป็น [socket]
+    // เพื่อให้ useEffect ทำงานใหม่เมื่อ socket (จาก Context) พร้อมใช้งาน
+  }, [socket]);
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -303,6 +344,8 @@ export function DatatableInfiniteScrollPoitnPayment({
           }
         }
       >
+        <Button onClick={Test}>TEst</Button>
+        {transport}
         {/* Even though we're still using sematic table tags, we must use CSS grid and flexbox for dynamic row heights */}
         <table className="grid table-fixed border-collapse">
           <TableHeader className="sticky top-0 z-10 grid backdrop-blur-md">

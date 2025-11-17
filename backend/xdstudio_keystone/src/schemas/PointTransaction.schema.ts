@@ -4,6 +4,7 @@ import { allowAll } from '@keystone-6/core/access';
 import { integer, json, relationship, select, text, timestamp } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
+import { publishRealtimeEvent } from '../shared/libs/redis/publisher';
 export const PointTransaction = list({
   access: allowAll,
   ui: {
@@ -49,5 +50,21 @@ export const PointTransaction = list({
     metaData: json(),
     expiredAt: timestamp(),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
+  },
+  hooks: {
+    afterOperation: async (args) => {
+      // 4. เช็กว่าเป็นการ 'update' และ 'point' เปลี่ยนแปลงจริง
+      if (args.operation === 'update' && args.item && args.originalItem) {
+        console.log(`[Keystone Hook] Point changed for ${args.item.id}, publishing to Redis...`);
+        try {
+          await publishRealtimeEvent({
+            type: 'payment.success',
+            data: { amount: args.item.amount ?? 0, userId: args.item.userId ?? '' },
+          });
+        } catch {
+          console.log(`[Keystone Hook] Point changed for ${args.item.id}, Error`);
+        }
+      }
+    },
   },
 }) satisfies ListConfig<TypeInfo['lists']['PointTransaction']>;

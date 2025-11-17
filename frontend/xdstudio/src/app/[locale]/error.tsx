@@ -32,7 +32,10 @@ export default function LocaleError({
     >
       <Card>
         <CardHeader>
-          <h2>Server error {`can't`} connect to the server! </h2>
+          <h2>
+            Server error
+            {`can't`} connect to the server!{" "}
+          </h2>
         </CardHeader>
         <CardContent>
           {error?.message && (

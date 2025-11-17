@@ -5,6 +5,7 @@ import { env } from "@/env";
 import type Stripe from "stripe";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { updatePointPaymentTransaction } from "@/app/[locale]/(main)/(auth)/account/[id]/payment/_actions/pointPaymentTransaction";
+import { publishRealtimeEvent } from "@/libs/redis/publisher";
 
 export async function POST(req: Request) {
   let event;
@@ -46,10 +47,13 @@ export async function POST(req: Request) {
             where: { id: data.metadata.pointTransactionId },
             data: { status: data.status, updateAt: new Date().toISOString() },
           });
-          console.log(
-            test,
-            `point-transaction-${data.metadata.pointTransactionId}`
-          );
+          // await publishRealtimeEvent({
+          //   type: "payment.success",
+          //   data: {
+          //     amount: data.amount,
+          //     orderId: data.metadata.pointTransactionId,
+          //   },
+          // });
           revalidateTag(
             `point-transaction-${data.metadata.pointTransactionId}`,
             { expire: 0 }

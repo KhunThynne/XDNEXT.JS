@@ -22,6 +22,9 @@ export const env = createEnv({
     AUTH_SECRET: z.string().optional(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
+
+    REDIS_HOST: z.string(),
+    REDIS_PORT: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
@@ -31,6 +34,8 @@ export const env = createEnv({
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
 
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: process.env.REDIS_PORT,
     AUTH_SECRET: process.env.AUTH_SECRET,
     API_BACKEND_URL: process.env.API_BACKEND_URL,
     NODE_ENV: process.env.NODE_ENV,
