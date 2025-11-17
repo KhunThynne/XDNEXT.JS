@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { MainSection } from "./_components/MainSection";
 import { SegmentAccount } from "./segments";
+import { SocketProvider } from "@/libs/socket-io/socket";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function AuthenticationLayout({
   children,
@@ -18,6 +20,7 @@ export default async function AuthenticationLayout({
           key={session.user.id}
           cartId={session?.user?.carts?.[0]?.id}
         />
+
         {children}
       </MainSection>
     );

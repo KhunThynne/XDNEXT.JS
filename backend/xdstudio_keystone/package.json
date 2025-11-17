@@ -20,6 +20,7 @@
     "@socket.io/redis-emitter": "^5.1.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/lodash": "^4.17.20",
+    "@xd/shared": "file:../../shared",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.3",
     "ioredis": "^5.8.2",

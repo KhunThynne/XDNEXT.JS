@@ -1,8 +1,11 @@
 // src/libs/redis/publisher.ts
 import { Emitter } from '@socket.io/redis-emitter';
 import { createClient } from 'redis';
-import { RealtimeEvent, REALTIME_CHANNEL } from '@xd/shared';
+// import { REALTIME_CHANNEL } from '@xd/shared';
 import env from '../../../../env';
+import { REALTIME_CHANNEL, RealtimeEvent } from '@xd/shared';
+
+// export const REALTIME_CHANNEL = 'keystone-socket';
 
 const REDIS_HOST = env.REDIS_HOST || 'localhost';
 const REDIS_PORT = env.REDIS_PORT || '6379';

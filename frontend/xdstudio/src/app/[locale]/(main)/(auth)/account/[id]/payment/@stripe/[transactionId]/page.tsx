@@ -44,7 +44,6 @@ export default async function StripePage({
     where: { id: transactionId },
   });
   if (res) {
-    console.log("page", res);
     const metaData = res.metaData as Stripe.PaymentIntent;
     return (
       <>

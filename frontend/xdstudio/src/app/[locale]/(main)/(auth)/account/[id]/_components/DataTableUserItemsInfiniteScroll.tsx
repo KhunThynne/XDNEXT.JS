@@ -6,11 +6,10 @@ import {
   type Product,
   type UserItem,
 } from "@/libs/graphql/generates/graphql";
-import { Button } from "@/libs/shadcn/ui/button";
+
 import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
@@ -23,7 +22,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/libs/shadcn/ui/table";
-import { MotionTransition } from "@/shared/components/MotionTransition";
 import { usePathname, useRouter } from "@navigation";
 import { useInfiniteQuery, keepPreviousData } from "@tanstack/react-query";
 import type {
@@ -42,10 +40,9 @@ import {
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 import _ from "lodash";
-import { FileCode, PackageOpen } from "lucide-react";
+import { FileCode } from "lucide-react";
 import type { Session, User } from "next-auth";
 import { useFormatter } from "next-intl";
-import Image from "next/image";
 import React from "react";
 import { useParams } from "next/navigation";
 import { ImageProduct } from "../cart/[cartId]/_components/forms/CardCartOrdersSummaryForm";

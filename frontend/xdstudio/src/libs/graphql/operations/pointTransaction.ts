@@ -22,6 +22,7 @@ graphql(`
 
 graphql(`
   query getPointTransaction($where: PointTransactionWhereUniqueInput!) {
+    pointTransactionsCount
     pointTransaction(where: $where) {
       ...PointTransactionField
     }
@@ -33,6 +34,7 @@ graphql(`
     $skip: Int!
     $cursor: PointTransactionWhereUniqueInput
   ) {
+    pointTransactionsCount
     pointTransactions(
       where: $where
       orderBy: $orderBy

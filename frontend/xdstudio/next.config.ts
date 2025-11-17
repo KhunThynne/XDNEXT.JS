@@ -27,6 +27,14 @@ const nextConfig = {
   //     allowedOrigins: ["shop.xd-tect.com"],
   //   },
   // },
+  async rewrites() {
+    return [
+      {
+        source: "/socket.io",
+        destination: `${env.API_BACKEND_URL}/socket.io/`,
+      },
+    ];
+  },
   images: {
     dangerouslyAllowSVG: true,
     dangerouslyAllowLocalIP: true,

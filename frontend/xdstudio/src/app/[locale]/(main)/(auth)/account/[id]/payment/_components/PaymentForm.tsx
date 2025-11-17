@@ -210,7 +210,7 @@ const ContentQRCodePreview = () => {
 
 const MainForm = ({ session }: { session: Session }) => {
   return (
-    <section>
+    <section className="">
       <ContentQRCodePreview />
       <FormSelectMoneyRate session={session} />
     </section>

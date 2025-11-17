@@ -11,6 +11,7 @@ import {
 } from "@tanstack/react-query";
 
 import type { User } from "next-auth";
+import { useCallback, useMemo } from "react";
 
 export const usePointTransactionsInfiniteQuery = ({
   take = 10,
@@ -19,11 +20,11 @@ export const usePointTransactionsInfiniteQuery = ({
   userId: User["id"];
   take?: number;
 }) => {
-  const queryKey = [`point-transaction-${userId}`];
+  const queryKey = useMemo(() => [`point-transaction-${userId}`], [userId]);
   const queryClient = useQueryClient();
-  const invalidate = () => {
+  const invalidate = useCallback(() => {
     queryClient.invalidateQueries({ queryKey });
-  };
+  }, [queryClient, queryKey]);
   const query = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam = 0 }) => {
@@ -37,16 +38,11 @@ export const usePointTransactionsInfiniteQuery = ({
     },
     enabled: !!userId,
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data?.pointTransactions?.length === take) {
-        return allPages.length * take;
-      }
-      return undefined;
-    },
+    getNextPageParam: (_lastGroup, groups) => groups.length,
     staleTime: 1000 * 60 * 5,
     refetchOnWindowFocus: true,
     placeholderData: keepPreviousData,
   });
 
-  return { query, invalidate };
+  return { query, invalidate, queryKey };
 };

@@ -6,7 +6,7 @@ import {
 import { Button } from "@/libs/shadcn/ui/button";
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
 
-export const CardTransactionPointForm = async ({ children }: WithChildren) => {
+export const CardTransactionPointForm = ({ children }: WithChildren) => {
   return (
     <Card>
       <Button

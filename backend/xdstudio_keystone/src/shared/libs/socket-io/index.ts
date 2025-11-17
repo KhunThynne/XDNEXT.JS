@@ -3,7 +3,7 @@ import { KeystoneContext } from '@keystone-6/core/types';
 import { Server as SocketIoServer } from 'socket.io';
 import { createAdapter } from '@socket.io/redis-adapter';
 import env from '../../../../env';
-import { REALTIME_CHANNEL } from '@xd/shared';
+
 import { publisher, REDIS_URL } from '../redis/publisher';
 
 const IntigrationSocketIo = async (server: HttpServer, context: KeystoneContext) => {

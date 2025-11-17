@@ -59,7 +59,7 @@ export const PointTransaction = list({
         try {
           await publishRealtimeEvent({
             type: 'payment.success',
-            data: { amount: args.item.amount ?? 0, userId: args.item.userId ?? '' },
+            data: { ...args.item },
           });
         } catch {
           console.log(`[Keystone Hook] Point changed for ${args.item.id}, Error`);

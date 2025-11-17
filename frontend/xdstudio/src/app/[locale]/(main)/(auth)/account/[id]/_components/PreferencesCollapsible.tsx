@@ -1,7 +1,7 @@
 "use client";
 import _ from "lodash";
 import { useAccountUserMenuStore } from "../_stores/useAccountUserMenuStore";
-import { CardCollapsible } from "./CardCollapsible";
+import { CardCollapsible } from "@/shared/components/ui/CardCollapsible";
 
 export default function PaymentCollapsible({ children }: WithChildren) {
   const { accountusermenuStore: store, setAccountUserMenu: setStore } =

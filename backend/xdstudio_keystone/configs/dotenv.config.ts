@@ -1,6 +1,6 @@
 import path from 'path';
 import * as dotenv from 'dotenv';
-
+// export * from '@xd/shared/types/realtime';
 const isProd = process.env.NODE_ENV === 'product';
 
 const envFiles = isProd

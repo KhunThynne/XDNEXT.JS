@@ -3902,7 +3902,7 @@ export type GetPointTransactionQueryVariables = Exact<{
 }>;
 
 
-export type GetPointTransactionQuery = { __typename?: 'Query', pointTransaction?: (
+export type GetPointTransactionQuery = { __typename?: 'Query', pointTransactionsCount?: number | null, pointTransaction?: (
     { __typename?: 'PointTransaction' }
     & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
   ) | null };
@@ -3916,7 +3916,7 @@ export type GetPointTransactionsQueryVariables = Exact<{
 }>;
 
 
-export type GetPointTransactionsQuery = { __typename?: 'Query', pointTransactions?: Array<(
+export type GetPointTransactionsQuery = { __typename?: 'Query', pointTransactionsCount?: number | null, pointTransactions?: Array<(
     { __typename?: 'PointTransaction' }
     & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
   )> | null };
@@ -4575,6 +4575,7 @@ export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
     `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
 export const GetPointTransactionDocument = new TypedDocumentString(`
     query getPointTransaction($where: PointTransactionWhereUniqueInput!) {
+  pointTransactionsCount
   pointTransaction(where: $where) {
     ...PointTransactionField
   }
@@ -4598,6 +4599,7 @@ export const GetPointTransactionDocument = new TypedDocumentString(`
 }`) as unknown as TypedDocumentString<GetPointTransactionQuery, GetPointTransactionQueryVariables>;
 export const GetPointTransactionsDocument = new TypedDocumentString(`
     query getPointTransactions($where: PointTransactionWhereInput!, $orderBy: [PointTransactionOrderByInput!]!, $take: Int, $skip: Int!, $cursor: PointTransactionWhereUniqueInput) {
+  pointTransactionsCount
   pointTransactions(
     where: $where
     orderBy: $orderBy

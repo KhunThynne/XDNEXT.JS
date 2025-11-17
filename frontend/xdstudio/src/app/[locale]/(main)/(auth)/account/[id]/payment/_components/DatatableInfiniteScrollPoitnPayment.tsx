@@ -31,7 +31,11 @@ import {
 import { usePointTransactionsInfiniteQuery } from "../_hooks/usePointTransactionsInfiniteQuery";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import type {
+  GetPointTransactionQuery,
+  PointTransaction,
+  PointTransactionFieldFragment,
+} from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 
@@ -44,43 +48,12 @@ import { usePathname, useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
-import socket from "@/libs/socket-io";
+import { useSocket } from "@/libs/socket-io/socket";
 
-// type Person = {
-//   firstName: string;
-//   lastName: string;
-//   age: number;
-//   visits: number;
-//   status: string;
-//   progress: number;
-// };
-
-// const defaultData: Person[] = [
-//   {
-//     firstName: "tanner",
-//     lastName: "linsley",
-//     age: 24,
-//     visits: 100,
-//     status: "In Relationship",
-//     progress: 50,
-//   },
-//   {
-//     firstName: "tandy",
-//     lastName: "miller",
-//     age: 40,
-//     visits: 40,
-//     status: "Single",
-//     progress: 80,
-//   },
-//   {
-//     firstName: "joe",
-//     lastName: "dirte",
-//     age: 45,
-//     visits: 20,
-//     status: "Complicated",
-//     progress: 10,
-//   },
-// ];
+import type { RealtimeEvent } from "@xd/shared";
+import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import type { InfiniteData } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const columnHelper = createColumnHelper<PointTransactionFieldFragment>();
 
@@ -108,55 +81,9 @@ export function DatatableInfiniteScrollPoitnPayment({
   const formatter = useFormatter();
   const router = useRouter();
   const params = useParams() as { transactionId: string };
-  const [isConnected, setIsConnected] = useState(false);
-  const [transport, setTransport] = useState("N/A");
-  const Test = () => {
-    socket.emit("server-update", { test: "test" });
-  };
-  useEffect(() => {
-    // 💥 2. เช็กให้ชัวร์ว่า socket พร้อมใช้งาน
-    // (ถ้า socket มาจาก Context มันอาจจะ null ในตอนแรก)
-    if (!socket) return;
 
-    // --- โค้ดเดิมของคุณ (ถูกต้องแล้ว) ---
-    if (socket.connected) {
-      onConnect();
-    }
+  const { socket, isConnected } = useSocket();
 
-    function onConnect() {
-      setIsConnected(true);
-      setTransport(socket.io.engine.transport.name);
-
-      socket.io.engine.on("upgrade", (transport) => {
-        setTransport(transport.name);
-      });
-    }
-
-    function onDisconnect() {
-      setIsConnected(false);
-      setTransport("N/A");
-    }
-
-    socket.on("connect", onConnect);
-    socket.on("disconnect", onDisconnect);
-
-    function onServerUpdate(data: any) {
-      console.log("🔔 ได้รับอัปเดตจาก Server:", data);
-
-      alert(`คะแนนของคุณอัปเดตเป็น ${data} แล้ว!`);
-    }
-
-    socket.on("keystone-socket", onServerUpdate);
-
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("disconnect", onDisconnect);
-      socket.off("server-update", onServerUpdate); // 👈 อย่าลืม .off event ที่เพิ่มเข้าไป
-    };
-
-    // 💥 5. Dependency Array ต้องเป็น [socket]
-    // เพื่อให้ useEffect ทำงานใหม่เมื่อ socket (จาก Context) พร้อมใช้งาน
-  }, [socket]);
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -253,31 +180,38 @@ export function DatatableInfiniteScrollPoitnPayment({
     ],
     [formatter, params.transactionId, router, session.user.id]
   );
-  const { query } = usePointTransactionsInfiniteQuery({
+  const { query, queryKey } = usePointTransactionsInfiniteQuery({
     userId: session?.user.id,
   });
   const { data, fetchNextPage, isFetching, isLoading } = query;
   const flatData = useMemo(() => {
+    console.log(data);
     return (
       data?.pages.flatMap((page) => page?.data?.pointTransactions ?? []) ?? []
     );
-  }, [data?.pages]);
-  console.log(flatData);
-  const totalDBRowCount = data?.pages?.[0].data.pointTransactions?.length ?? 0;
+  }, [data]);
+
+  const totalDBRowCount = data?.pages?.[0].data.pointTransactionsCount ?? 0;
   const totalFetched = flatData.length;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-
+  const queryClient = useQueryClient();
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
         //once the user has scrolled within 500px of the bottom of the table, fetch more data if we can
+        console.log(
+          totalFetched,
+          totalDBRowCount,
+          totalFetched < totalDBRowCount
+        );
         if (
-          scrollHeight - scrollTop - clientHeight < 500 &&
+          scrollHeight - scrollTop - clientHeight <= 0 &&
           !isFetching &&
           totalFetched < totalDBRowCount
         ) {
+          console.log("test");
           fetchNextPage();
         }
       }
@@ -298,6 +232,71 @@ export function DatatableInfiniteScrollPoitnPayment({
     manualSorting: true,
     debugTable: true,
   });
+  useEffect(() => {
+    if (!socket || !queryClient || !queryKey) return;
+    function onServerUpdate(arg: string) {
+      const data = (JSON.parse(arg) as RealtimeEvent)
+        .data as PointTransactionFieldFragment;
+      queryClient.setQueryData<
+        InfiniteData<{
+          data: { pointTransactions: PointTransactionFieldFragment[] };
+        }>
+      >(queryKey, (oldData) => {
+        if (!oldData) {
+          return {
+            pages: [{ data: { pointTransactions: [data] } }],
+            pageParams: [0],
+          };
+        }
+        const itemExists = oldData.pages.some((p) =>
+          p.data?.pointTransactions?.some((row) => row.id === data.id)
+        );
+        if (itemExists) {
+          console.log(`[Socket] Updating item in cache: ${data.id}`);
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page) => ({
+              ...page,
+
+              data: {
+                ...page.data,
+
+                pointTransactions: page.data?.pointTransactions?.map((row) =>
+                  row.id === data.id ? data : row
+                ),
+              },
+            })),
+          };
+        } else {
+          const firstPage = oldData.pages[0];
+          firstPage;
+          return {
+            ...oldData,
+            pages: [
+              {
+                ...firstPage,
+                data: {
+                  ...firstPage.data,
+                  pointTransactions: [
+                    data, // (Item ใหม่)
+                    ...(firstPage?.data?.pointTransactions ?? []),
+                  ],
+                },
+              },
+              ...oldData.pages.slice(1), // (หน้าที่เหลือ)
+            ],
+          };
+        }
+      });
+      updateTagClient(`point-transaction-${data.id}`);
+    }
+
+    socket.on("keystone-socket", onServerUpdate);
+
+    return () => {
+      socket.off("keystone-socket", onServerUpdate);
+    };
+  }, [queryClient, queryKey, socket]);
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     setSorting(updater);
@@ -316,7 +315,7 @@ export function DatatableInfiniteScrollPoitnPayment({
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
-    estimateSize: () => 33, //estimate row height for accurate scrollbar dragging
+    estimateSize: () => 50, //estimate row height for accurate scrollbar dragging
     getScrollElement: () => tableContainerRef.current,
     //measure dynamic row height, except in firefox because it measures table border height incorrectly
     measureElement:
@@ -324,7 +323,7 @@ export function DatatableInfiniteScrollPoitnPayment({
       navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
-    overscan: 5,
+    overscan: 6,
   });
 
   if (isLoading) {
@@ -344,16 +343,13 @@ export function DatatableInfiniteScrollPoitnPayment({
           }
         }
       >
-        <Button onClick={Test}>TEst</Button>
-        {transport}
-        {/* Even though we're still using sematic table tags, we must use CSS grid and flexbox for dynamic row heights */}
         <table className="grid table-fixed border-collapse">
           <TableHeader className="sticky top-0 z-10 grid backdrop-blur-md">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="flex">
                 {headerGroup.headers.map((header) => (
                   <TableHead
-                    className="place-content-center"
+                    className="mx-auto place-content-center"
                     key={header.id}
                     style={{ width: header.getSize() }}
                   >
@@ -370,9 +366,8 @@ export function DatatableInfiniteScrollPoitnPayment({
           </TableHeader>
 
           <TableBody
-            className="relative"
+            className="relative grid"
             style={{
-              display: "grid",
               height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
             }}
           >
@@ -385,9 +380,8 @@ export function DatatableInfiniteScrollPoitnPayment({
                   data-index={virtualRow.index} //needed for dynamic row height measurement
                   ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
                   key={row.id}
+                  className="absolute flex"
                   style={{
-                    display: "flex",
-                    position: "absolute",
                     transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
                     width: "100%",
                   }}
@@ -396,7 +390,7 @@ export function DatatableInfiniteScrollPoitnPayment({
                     return (
                       <TableCell
                         key={cell.id}
-                        className="flex items-center"
+                        className="mx-auto flex items-center"
                         style={{
                           width: cell.column.getSize(),
                         }}
@@ -414,6 +408,7 @@ export function DatatableInfiniteScrollPoitnPayment({
           </TableBody>
         </table>
       </div>
+
       {isFetching && <div>Fetching More...</div>}
     </>
   );

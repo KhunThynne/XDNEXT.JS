@@ -6,6 +6,11 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+   
+      // "@xd/shared/*": ["../../shared/*"] 
+     
+    }
   }
 }

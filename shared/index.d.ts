@@ -1,9 +1,8 @@
+// export * from './types/realtime'
+
 export interface PaymentSuccessEvent {
   type: 'payment.success';
-  data: {
-    orderId: string;
-    amount: number;
-  };
+  data:unknown;
 }
 
 

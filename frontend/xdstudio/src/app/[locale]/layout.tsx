@@ -26,7 +26,7 @@ export default async function LocaleLayout({
   }
 
   return (
-    <html lang={locale}>
+    <html lang={locale ?? "en"}>
       <body
         suppressHydrationWarning
         className={clsx(

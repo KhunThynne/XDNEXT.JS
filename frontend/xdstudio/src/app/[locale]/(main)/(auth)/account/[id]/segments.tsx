@@ -9,7 +9,6 @@ import clsx from "clsx";
 import { useSelectedLayoutSegment, useRouter } from "next/navigation";
 import { Fragment, useMemo } from "react";
 import { User, CreditCard, ShoppingBag } from "lucide-react"; // ✨ import icon ที่ต้องใช้
-import type { Session } from "next-auth";
 import type { Cart } from "@/libs/graphql/generates/graphql";
 
 type SegmentItem = {
@@ -60,7 +59,7 @@ export const SegmentAccount = ({
                   router.push(`${segmentText}/${item.href}`);
                 }
               }}
-              variant={active ? "default" : "secondary"}
+              variant={active ? "default" : "outline"}
               size="sm"
               className={clsx(
                 "gap-2",
