@@ -8,6 +8,9 @@ Run
 npm install
 npm dedupe
 npm run dev
+
+
+DOCKER_BUILDKIT=1 docker buildx build --no-cache --secret id=appenv,src=/d/WorkStation/XDStudio/backend/xdstudio_keystone/.env --secret id=appenv_production,src=/d/WorkStation/XDStudio/.env.production -t xdstudio/backend .
 ```
 
 To view the config for your new app, look at [./keystone.ts](./keystone.ts)

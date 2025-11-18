@@ -3,11 +3,11 @@
   "version": "1.0.3",
   "private": true,
   "scripts": {
-    "dev": "keystone dev --host 127.0.0.1",
+    "dev": "keystone dev",
     "postinstall": "keystone postinstall",
     "generate": "keystone prisma migrate dev",
     "build": "keystone build",
-    "start": "keystone start --host 127.0.0.1",
+    "start": "keystone start",
     "eslint": "eslint . --fix",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",
     "deploy": "keystone build && keystone prisma migrate deploy"

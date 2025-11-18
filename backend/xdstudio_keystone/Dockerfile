@@ -5,7 +5,7 @@ ARG DUMB_INIT_VERSION=1.2.2
 FROM node:${NODE_VERSION} AS build
 ARG DUMB_INIT_VERSION
 
-WORKDIR /backend/xdstudio_keystone
+WORKDIR /app
 
 RUN apk update && apk add --no-cache \
     build-base \
@@ -18,22 +18,30 @@ RUN wget -O dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUM
     chmod +x dumb-init && \
     mv dumb-init /usr/local/bin/
 
-COPY . /backend/xdstudio_keystone
+COPY . /app
 
 RUN npm install --ignore-scripts
-
+RUN npm dedupe
+COPY . . 
+RUN --mount=type=secret,id=appenv \
+    --mount=type=secret,id=appenv_production \
+    set -a && \
+    . /run/secrets/appenv && \
+    . /run/secrets/appenv_production && \
+    set +a && \
+    npx prisma generate  && npm run build
+    
 
 # Stage 2: Runtime
-FROM node:${NODE_VERSION}
+FROM node:${NODE_VERSION} AS production
 
-WORKDIR /backend/xdstudio_keystone
+WORKDIR /app
 RUN apk add --no-cache openssl
 
 COPY --from=build /usr/local/bin/dumb-init /usr/local/bin/dumb-init
-COPY --from=build /backend/xdstudio_keystone /backend/xdstudio_keystone
-# RUN npm run dev & sleep 5 && pkill -f "node" || true
-RUN npx prisma generate
-RUN npm run build
+COPY --from=build /app /app
+RUN npm run dev & sleep 5 && pkill -f "node" || true
+
 RUN npm cache clean --force
 EXPOSE 3001
 

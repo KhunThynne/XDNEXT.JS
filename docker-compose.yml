@@ -1,16 +1,5 @@
 services:
-  # mariadb:
-  #   image: mariadb:11 
-  #   container_name: mariadb
-  #   restart: always
-  #   environment:
-  #     MARIADB_ROOT_PASSWORD: ${SQL_PASSWORD}
-  #     MARIADB_DATABASE: ${SQL_DATABASE_NAME}
-  #   volumes:
-  #     - mariadb-data:/var/lib/mysql
-  #   ports:
-  #     - "33061:3306"
-      
+
   postgresql:
     image: postgres:15
     container_name: postgres
@@ -32,43 +21,60 @@ services:
         - "6379:6379"
       volumes:
         - redis-data:/data
-
+  nginx:
+    image: nginx:latest
+    container_name: my_nginx
+    ports:
+      # ⭐️ เราจะเปิด port 80 (HTTP) ที่นี่ที่เดียว
+      - "80:80"
+    volumes:
+      # ⭐️ เชื่อมไฟล์ config ที่เราสร้างไว้ เข้าไปใน Nginx
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      # ⭐️ บอก Nginx ให้รอจนกว่า 2 ตัวนี้จะพร้อม (Healthy)
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
 
   backend:
+    image: xdstudio/backend
     build:
       context: ./backend/xdstudio_keystone
-      args:
-        DATABASE_URL: ${DATABASE_URL}
-        SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
-        JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
-        JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
-        SECRET_KEY: ${SECRET_KEY}
     container_name: backend
-    volumes:
-      - .env.local:/backend/xdstudio_keystone/.env.local
-      # - ../../.env:/backend/xdstudio_keystone/.env
-    working_dir: /backend/xdstudio_keystone
+    # working_dir: /backend/xdstudio_keystone
     env_file:
       - ./.env
-      - ./backend/xdstudio_keystone/.env.production
+      - ./backend/xdstudio_keystone/.env
     ports:
       - "3001:3001"
     depends_on:
       - postgresql
-    
+     
     command: sh -c "npm run start"
 
   frontend:
+    # build:
+    #   context: ./frontend/xdstudio
+    #   target: 'production'
+    image: xdstudio/frontend
     build:
       context: ./frontend/xdstudio
     container_name: frontend
     env_file:
-      - .env
+      # - ./.env 
+      - ./.env.production 
+      - ./frontend/xdstudio/.env.
+      - ./frontend/xdstudio/.env.production
+
+    # volumes:
+    #   - ./frontend:/app
+    #   - /app/node_modules
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    command: sh -c "npm run start"
+    # depends_on:
+    #   - backend
+    command: ["npm", "start"]
 
 volumes:
    postgresql-data:

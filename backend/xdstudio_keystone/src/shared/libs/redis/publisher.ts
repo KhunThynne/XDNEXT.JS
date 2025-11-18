@@ -3,7 +3,18 @@ import { Emitter } from '@socket.io/redis-emitter';
 import { createClient } from 'redis';
 // import { REALTIME_CHANNEL } from '@xd/shared';
 import env from '../../../../env';
-import { REALTIME_CHANNEL, RealtimeEvent } from '@xd/shared';
+export interface PaymentSuccessEvent {
+  type: 'payment.success';
+  data:unknown;
+}
+
+
+export type RealtimeEvent = PaymentSuccessEvent;
+
+export const SOCKET_EVENT_NAME = 'keystone-update';
+
+export const REALTIME_CHANNEL = 'keystone-socket';
+
 
 // export const REALTIME_CHANNEL = 'keystone-socket';
 
