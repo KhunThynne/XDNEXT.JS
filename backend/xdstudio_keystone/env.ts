@@ -5,6 +5,7 @@ const envSchema = z.object({
   SHADOW_DATABASE_URL: z.string().url(),
   API_BACKEND_URL: z.string(),
   SESSION_SECRET: z.string(),
+  KEYSTONE_HOST: z.string(),
   PORT: z
     .string()
     .optional()
@@ -56,6 +57,7 @@ if (!parsedEnv.success) {
 }
 type Env = z.infer<typeof envSchema>;
 const env: Env = {
+  KEYSTONE_HOST: parsedEnv.data.KEYSTONE_HOST,
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
   API_BACKEND_URL: parsedEnv.data.API_BACKEND_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,

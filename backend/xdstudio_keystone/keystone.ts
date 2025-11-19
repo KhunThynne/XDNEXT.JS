@@ -59,7 +59,7 @@ export default withAuth(
     session,
     server: {
       cors: { origin: false },
-      options: { host: '127.0.0.1' },
+      options: { host: env.KEYSTONE_HOST },
       port: env.PORT,
       extendHttpServer(server, context) {
         console.log('Attaching Socket.IO Server...');

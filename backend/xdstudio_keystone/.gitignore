@@ -3,6 +3,7 @@ node_modules
 # keystone.db
 *.log
 .env*
+!.env.example 
 
 public/images/*
 !public/images/.gitkeep

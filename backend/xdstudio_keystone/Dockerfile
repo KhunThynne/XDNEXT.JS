@@ -1,4 +1,4 @@
-ARG NODE_VERSION=20-alpine
+ARG NODE_VERSION=20-slim
 ARG DUMB_INIT_VERSION=1.2.2
 
 # Stage 1: Build
@@ -7,12 +7,14 @@ ARG DUMB_INIT_VERSION
 
 WORKDIR /app
 
-RUN apk update && apk add --no-cache \
-    build-base \
+RUN apt-get update && apt-get install -y \
+    build-essential \
     python3 \
-    openssl-dev \
+    openssl \
     wget \
-    curl
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
 
 RUN wget -O dumb-init https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 && \
     chmod +x dumb-init && \
@@ -33,10 +35,10 @@ RUN --mount=type=secret,id=appenv \
     
 
 # Stage 2: Runtime
-FROM node:${NODE_VERSION} AS production
+FROM build AS production
 
 WORKDIR /app
-RUN apk add --no-cache openssl
+# RUN apk add --no-cache openssl
 
 COPY --from=build /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=build /app /app
