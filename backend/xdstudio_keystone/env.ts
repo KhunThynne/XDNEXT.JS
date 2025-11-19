@@ -5,6 +5,7 @@ const envSchema = z.object({
   SHADOW_DATABASE_URL: z.string().url(),
   API_BACKEND_URL: z.string(),
   SESSION_SECRET: z.string(),
+  KEYSTONE_HOST: z.string(),
   PORT: z
     .string()
     .optional()
@@ -45,11 +46,18 @@ const envSchema = z.object({
 const parsedEnv = envSchema.safeParse(process.env);
 
 if (!parsedEnv.success) {
-  console.error('❌ Invalid environment variables:', parsedEnv.error.format);
+  const errors = parsedEnv.error.format as Record<string, any>;
+  for (const key in errors) {
+    if (errors[key]?._errors?.length) {
+      console.error(`- ${key}: ${errors[key]._errors.join(', ')}`);
+    }
+  }
+  console.error('❌ Invalid environment variables: ', parsedEnv.error);
   process.exit(1);
 }
 type Env = z.infer<typeof envSchema>;
 const env: Env = {
+  KEYSTONE_HOST: parsedEnv.data.KEYSTONE_HOST,
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
   API_BACKEND_URL: parsedEnv.data.API_BACKEND_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,

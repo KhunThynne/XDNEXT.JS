@@ -50,10 +50,20 @@ import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
 import { useSocket } from "@/libs/socket-io/socket";
 
-import type { RealtimeEvent } from "@xd/shared";
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 import type { InfiniteData } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+
+export interface PaymentSuccessEvent {
+  type: "payment.success";
+  data: unknown;
+}
+
+export type RealtimeEvent = PaymentSuccessEvent;
+
+export const SOCKET_EVENT_NAME = "keystone-update";
+
+export const REALTIME_CHANNEL = "keystone-socket";
 
 const columnHelper = createColumnHelper<PointTransactionFieldFragment>();
 

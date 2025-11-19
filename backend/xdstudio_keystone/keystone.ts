@@ -6,7 +6,7 @@
 //   you can find out more at https://keystonejs.com/docs/apis/config
 import './configs/dotenv.config';
 import { config } from '@keystone-6/core';
-
+import fs from 'fs';
 // to keep this file tidy, we define our schema in a different file
 
 // authentication is configured separately here too, but you might move this elsewhere
@@ -26,6 +26,11 @@ export default withAuth(
       //   see https://keystonejs.com/docs/guides/choosing-a-database#title
       provider: 'postgresql',
       url: env.DATABASE_URL,
+      extendPrismaSchema: (schema) => {
+        // const extra = fs.readFileSync('./configs/additional.prisma', 'utf8');
+        // return schema + '\n' + extra;
+        return schema;
+      },
       // Optional advanced configuration
       onConnect: async (context) => {
         console.log(env.NODE_ENV);
@@ -54,7 +59,7 @@ export default withAuth(
     session,
     server: {
       cors: { origin: false },
-      options: { host: '127.0.0.1' },
+      options: { host: env.KEYSTONE_HOST },
       port: env.PORT,
       extendHttpServer(server, context) {
         console.log('Attaching Socket.IO Server...');

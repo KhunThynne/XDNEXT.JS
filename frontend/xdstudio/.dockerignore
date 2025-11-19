@@ -6,3 +6,6 @@ node_modules
 !.yarn/releases
 !.yarn/versions
 package-lock.json
+npm-debug.log
+.dockerignore
+Dockerfile
