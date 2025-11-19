@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "NextJS develop-thynne",
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
@@ -11,7 +11,7 @@
     "build:backend": "npm --prefix backend/xdstudio  run build",
     "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
     "prepare": "husky",
-    "release": "npx standard-version && git push --follow-tags origin develop-thynne"
+    "release": "npx standard-version && git push --follow-tags origin main"
   },
   "repository": {
     "type": "git",
