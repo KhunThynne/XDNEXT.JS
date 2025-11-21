@@ -4,10 +4,17 @@ import Content from "@/shared/components/ui/Content";
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-export default async function AuthenticationLayout({ children }: WithChildren) {
+async function getHeadersList() {
   const headersList = await headers();
   const fullUrl = headersList.get("x-url") || "";
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(fullUrl);
+    }, 1000)
+  );
+}
+export default async function AuthenticationLayout({ children }: WithChildren) {
+  const fullUrl = await getHeadersList();
   const session = await auth();
   if (!session) redirect(`/login/?callbackUrl=${fullUrl}`);
 
