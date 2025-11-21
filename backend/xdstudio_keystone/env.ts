@@ -1,9 +1,10 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().url(),
+  DATABASE_URL: z.url(),
   SHADOW_DATABASE_URL: z.string().url(),
-  API_BACKEND_URL: z.string(),
+  INTERNAL_API_URL: z.string(),
+  NEXT_PUBLIC_API_URL: z.string(),
   SESSION_SECRET: z.string(),
   KEYSTONE_HOST: z.string(),
   PORT: z
@@ -59,7 +60,7 @@ type Env = z.infer<typeof envSchema>;
 const env: Env = {
   KEYSTONE_HOST: parsedEnv.data.KEYSTONE_HOST,
   DATABASE_URL: parsedEnv.data.DATABASE_URL,
-  API_BACKEND_URL: parsedEnv.data.API_BACKEND_URL,
+  INTERNAL_API_URL: parsedEnv.data.INTERNAL_API_URL,
   SHADOW_DATABASE_URL: parsedEnv.data.SHADOW_DATABASE_URL,
   PORT: parsedEnv.data.PORT,
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
@@ -77,6 +78,7 @@ const env: Env = {
   IMAGE_PATH: parsedEnv.data.IMAGE_PATH,
   NODE_ENV: parsedEnv.data.NODE_ENV,
   NEXT_PUBLIC_SITE_URL: parsedEnv.data.NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_API_URL: parsedEnv.data.NEXT_PUBLIC_API_URL,
   REDIS_HOST: parsedEnv.data.REDIS_HOST,
   REDIS_PORT: parsedEnv.data.REDIS_PORT,
 };

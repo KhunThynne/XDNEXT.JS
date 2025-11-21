@@ -38,7 +38,7 @@ services:
         condition: service_healthy
 
   backend:
-    image: xdstudio/backend
+    image: keytone-xd/backend
     build:
       context: ./backend/xdstudio_keystone
     container_name: backend
@@ -51,30 +51,25 @@ services:
     depends_on:
       - postgresql
       - redis
-     
-    command: sh -c "npm run start"
+    command: sh -c "npx prisma generate && npm run build && npm start"
 
   frontend:
     # build:
     #   context: ./frontend/xdstudio
-    #   target: 'production'
-    image: xdstudio/frontend
+    image: xdshop/frontend
     build:
       context: ./frontend/xdstudio
     container_name: frontend
     env_file:
       # - ./.env 
-      - ./.env.production 
+      - ./.env.docker 
       - ./frontend/xdstudio/.env.production
-
-    # volumes:
-    #   - ./frontend:/app
-    #   - /app/node_modules
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    command: ["npm", "start"]
+    # depends_on:
+    #   - backend
+    # command: sh -c "npm run build && npm start"
+    command: ["npm","start"]
 
 volumes:
    postgresql-data:

@@ -4,7 +4,7 @@ import { getToken } from "next-auth/jwt";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const res = await fetch(`${env.API_BACKEND_URL}/api/graphql`, {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/graphql`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -4,8 +4,8 @@ keystone.db
 *.log
 .env*
 
-public/images/*
-!public/images/.gitkeep
+# public/images/*
+# !public/images/.gitkeep
 
 /.pnp
 .pnp.*

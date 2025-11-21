@@ -24,16 +24,14 @@ COPY . /app
 
 RUN npm install --ignore-scripts
 RUN npm dedupe
-COPY . . 
-RUN --mount=type=secret,id=appenv \
-    --mount=type=secret,id=appenv_production \
-    set -a && \
-    . /run/secrets/appenv && \
-    . /run/secrets/appenv_production && \
-    set +a && \
-    npx prisma generate  && npm run build
-    
 
+# RUN --mount=type=secret,id=appenv_keystone_example \
+#     set -a && \
+#     . /run/secrets/appenv_keystone_example 
+    
+# && \
+#     set +a && \
+#     npx prisma generate  && npm run build
 # Stage 2: Runtime
 FROM build AS production
 
@@ -42,9 +40,9 @@ WORKDIR /app
 
 COPY --from=build /usr/local/bin/dumb-init /usr/local/bin/dumb-init
 COPY --from=build /app /app
-RUN npm run dev & sleep 5 && pkill -f "node" || true
-
+# RUN npm run dev & sleep 5 && pkill -f "node" || true
 RUN npm cache clean --force
 EXPOSE 3001
-
-CMD ["dumb-init", "--", "npm", "start"]
+ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+# CMD ["dumb-init", "--", "npm", "start"]
+# $  DOCKER_BUILDKIT=1 docker buildx build --no-cache --secret id=appenv_keystone_example,src=/d/WorkStation/XDStudio/backend/xdstudio_keystone/.env.example -t xdshop/keystone .

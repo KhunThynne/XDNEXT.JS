@@ -9,3 +9,5 @@ package-lock.json
 npm-debug.log
 .dockerignore
 Dockerfile
+.env*
+.next

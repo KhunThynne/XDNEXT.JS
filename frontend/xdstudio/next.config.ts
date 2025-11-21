@@ -2,7 +2,7 @@ import "@configs/dotenv.config";
 import { env } from "@/env";
 import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-const backendUrl = new URL(env.API_BACKEND_URL);
+const backendUrl = new URL(env.NEXT_PUBLIC_API_URL);
 const nextConfig = {
   /**
    * @type {import('next').NextConfig}
@@ -31,7 +31,7 @@ const nextConfig = {
     return [
       {
         source: "/socket.io",
-        destination: `${env.API_BACKEND_URL}/socket.io/`,
+        destination: `${env.NEXT_PUBLIC_API_URL}/socket.io/`,
       },
     ];
   },

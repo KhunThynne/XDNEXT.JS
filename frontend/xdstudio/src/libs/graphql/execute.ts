@@ -29,7 +29,7 @@ export async function execute<TResult, TVariables>(
   const baseUrl = getBaseUrl();
 
   return executeWithEndpoint(
-    `${baseUrl ?? env.NEXT_PUBLIC_SITE_URL}/api/graphql`,
+    `${baseUrl ?? env.INTERNAL_SITE_URL}/api/graphql`,
     query,
     ...variables
   );
@@ -42,7 +42,7 @@ export async function executeAuth<TResult, TVariables>(
   const baseUrl = getBaseUrl();
 
   return executeWithEndpoint(
-    `${baseUrl ?? env.NEXT_PUBLIC_SITE_URL}/api/auth/graphql`,
+    `${baseUrl ?? env.INTERNAL_SITE_URL}/api/auth/graphql`,
     query,
     ...variables
   );

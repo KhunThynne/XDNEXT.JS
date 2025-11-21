@@ -11,7 +11,6 @@ export const env = createEnv({
     SECRET_KEY: z.string().min(8),
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
-    API_BACKEND_URL: z.url(),
     AUTH_DISCORD_CLIENT_SECRET: z.string().optional(),
     AUTH_DISCORD_CLIENT_ID: z.string().optional(),
     XD_CORE_API: z.string(),
@@ -25,19 +24,22 @@ export const env = createEnv({
 
     REDIS_HOST: z.string(),
     REDIS_PORT: z.string(),
+    INTERNAL_SITE_URL: z.url(),
+    INTERNAL_API_URL: z.url(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
     NEXT_PUBLIC_SITE_URL: z.url(),
+    NEXT_PUBLIC_API_URL: z.url(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   },
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
-
+    INTERNAL_SITE_URL: process.env.INTERNAL_SITE_URL,
+    INTERNAL_API_URL: process.env.INTERNAL_API_URL,
     REDIS_HOST: process.env.REDIS_HOST,
     REDIS_PORT: process.env.REDIS_PORT,
     AUTH_SECRET: process.env.AUTH_SECRET,
-    API_BACKEND_URL: process.env.API_BACKEND_URL,
     NODE_ENV: process.env.NODE_ENV,
     XD_CORE_API: process.env.XD_CORE_API,
     AUTH_DISCORD_CLIENT_SECRET: process.env.AUTH_DISCORD_CLIENT_SECRET,
@@ -55,6 +57,7 @@ export const env = createEnv({
     OMISE_PUBLIC_KEY: process.env.OMISE_PUBLIC_KEY,
     OMISE_SECRET_KEY: process.env.OMISE_SECRET_KEY,
     // ClientSide
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
