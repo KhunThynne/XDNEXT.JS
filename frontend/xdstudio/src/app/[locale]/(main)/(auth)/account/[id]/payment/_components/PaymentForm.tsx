@@ -43,6 +43,7 @@ import { Spinner } from "@/libs/shadcn/ui/spinner";
 import { stripe } from "@/libs/stripe/stripe";
 import { useQueryClient } from "@tanstack/react-query";
 import { QrCodePreview } from "./QrCodePreview";
+import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -71,7 +72,9 @@ export const FormSelectMoneyRate = ({
 
       if (res && res.client_secret) {
         const queryKey = [`point-transaction-${session.user.id}`];
+        await updateTagClient(`last-transaction-${session.user.id}`);
         await queryClient.invalidateQueries({ queryKey });
+
         setData({ ...res });
       }
     },
@@ -208,7 +211,7 @@ const ContentQRCodePreview = () => {
   );
 };
 
-const MainForm = ({ session }: { session: Session }) => {
+export const PaymentForm = ({ session }: { session: Session }) => {
   return (
     <section className="">
       <ContentQRCodePreview />
@@ -216,7 +219,3 @@ const MainForm = ({ session }: { session: Session }) => {
     </section>
   );
 };
-
-export default function PaymentForm({ session }: { session: Session }) {
-  return <MainForm session={session} />;
-}

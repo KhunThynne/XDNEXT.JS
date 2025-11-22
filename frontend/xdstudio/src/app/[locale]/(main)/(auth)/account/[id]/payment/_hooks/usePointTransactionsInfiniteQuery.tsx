@@ -1,13 +1,20 @@
 import { execute } from "@/libs/graphql/execute";
 
+import type {
+  PointTransaction,
+  UpdatePointTransactionMutationVariables,
+} from "@/libs/graphql/generates/graphql";
 import {
   OrderDirection,
   GetPointTransactionsDocument,
+  UpdatePointTransactionDocument,
 } from "@/libs/graphql/generates/graphql";
 import {
   useQueryClient,
   useInfiniteQuery,
   keepPreviousData,
+  useMutation,
+  MutateOptions,
 } from "@tanstack/react-query";
 
 import type { User } from "next-auth";
@@ -30,9 +37,12 @@ export const usePointTransactionsInfiniteQuery = ({
     queryFn: async ({ pageParam = 0 }) => {
       const result = await execute(GetPointTransactionsDocument, {
         where: { user: { id: { equals: userId } } },
-        skip: pageParam,
+        skip: pageParam * take,
         take,
-        orderBy: { createdAt: OrderDirection.Desc },
+        orderBy: [
+          { isFavorite: OrderDirection.Desc },
+          { createdAt: OrderDirection.Desc },
+        ],
       });
       return result;
     },
@@ -45,4 +55,35 @@ export const usePointTransactionsInfiniteQuery = ({
   });
 
   return { query, invalidate, queryKey };
+};
+
+type switchFavoriteData = Pick<
+  UpdatePointTransactionMutationVariables["data"],
+  "isFavorite"
+>;
+export const useUpdatePointTransactionMutations = () => {
+  const mutations = useMutation({
+    mutationFn: async (variables: UpdatePointTransactionMutationVariables) => {
+      await execute(UpdatePointTransactionDocument, {
+        ...variables,
+      });
+    },
+  });
+
+  const switchFavorite = useCallback(
+    (
+      variables: { id: PointTransaction["id"]; data: switchFavoriteData },
+      options?: Parameters<typeof mutations.mutate>[1]
+    ) => {
+      return mutations.mutateAsync(
+        {
+          where: { id: variables.id },
+          data: variables.data,
+        },
+        options
+      );
+    },
+    [mutations]
+  );
+  return { switchFavorite, mutations };
 };

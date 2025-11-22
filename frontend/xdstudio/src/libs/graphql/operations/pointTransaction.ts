@@ -17,6 +17,7 @@ graphql(`
     expiredAt
     createdAt
     updateAt
+    isFavorite
   }
 `);
 

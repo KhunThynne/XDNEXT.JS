@@ -11,17 +11,22 @@ import { SocketProvider } from "@/libs/socket-io/socket";
 export default async function PlusPaymentLayout({
   children,
   stripe,
-  params,
-}: NextJSReactNodes<"stripe"> & {
-  params: Promise<{ id: string }>;
-}) {
+  notification,
+}: LayoutProps<`/[locale]/account/[id]/payment`>) {
   const session = await auth();
 
   return (
     <SocketProvider>
       <ButtonGrupPayment
         payment={stripe}
-        dataTable={session && <TransactionPaymentSection session={session} />}
+        dataTable={
+          session && (
+            <TransactionPaymentSection
+              session={session}
+              lastTransactionChildren={notification}
+            />
+          )
+        }
       >
         {children}
       </ButtonGrupPayment>

@@ -19,49 +19,46 @@ import { Separator } from "@/libs/shadcn/ui/separator";
 import PointDiamon from "@/shared/components/PointDiamod";
 import Point from "@/shared/components/ui/Point";
 import { env } from "@/env";
+import clsx from "clsx";
 
-export function AccountPopover(user: Partial<UserType>) {
+export const UserDetails = ({
+  user,
+  className,
+  disable,
+}: { user: UserType; disable?: { action: true } } & WithClassName) => {
   const avatarUsername = useMemo(
     () => getInitials(user.username as string),
     [user.username]
   );
   const format = useFormatter();
   const pathname = usePathname();
-  if (_.isEmpty(user)) return null;
-
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="open-user-popover">
-          <User />
-        </Button>
-      </PopoverTrigger>
+    <>
+      <div className={clsx("relative flex items-center gap-3", className)}>
+        <div>
+          <Avatar className="mx-auto size-10">
+            <AvatarImage src={user?.image ?? ""} />
+            <AvatarFallback>{avatarUsername}</AvatarFallback>
+          </Avatar>
 
-      <PopoverContent align="end" className="w-xs space-y-2">
-        <div className="relative flex items-center gap-3">
-          <div>
-            <Avatar className="mx-auto size-10">
-              <AvatarImage src={user?.image ?? ""} />
-              <AvatarFallback>{avatarUsername}</AvatarFallback>
-            </Avatar>
-
-            <Badge variant="outline" className="mx-auto w-full text-[8px]">
-              {user.role}
-            </Badge>
-          </div>
-
-          <div className="group/user grow overflow-hidden">
-            <h4 className="truncate text-lg font-semibold capitalize">
-              <Link href={`/account/${user.id}`} className="hover:underline">
-                {user.username}
-              </Link>
-            </h4>
-            <Separator className="mt-1 mb-2 group-hover/user:border-primary/30" />
-
-            <p className="truncate text-muted-foreground">{user.email}</p>
-          </div>
+          <Badge variant="outline" className="mx-auto w-full text-[8px]">
+            {user.role}
+          </Badge>
         </div>
 
+        <div className="group/user grow overflow-hidden">
+          <h4 className="truncate text-lg font-semibold capitalize">
+            <Link href={`/account/${user.id}`} className="hover:underline">
+              {user.username}
+            </Link>
+          </h4>
+          <Separator className="mt-1 mb-2 group-hover/user:border-primary/30" />
+
+          <p className="truncate text-muted-foreground">{user.email}</p>
+        </div>
+      </div>
+
+      {!disable?.action && (
         <div className="flex items-center justify-between">
           <section className="flex items-center text-xs font-bold capitalize">
             <Button
@@ -96,6 +93,23 @@ export function AccountPopover(user: Partial<UserType>) {
             </Button>
           </div>
         </div>
+      )}
+    </>
+  );
+};
+export function AccountPopover(user: Partial<UserType>) {
+  if (_.isEmpty(user)) return null;
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="icon" aria-label="open-user-popover">
+          <User />
+        </Button>
+      </PopoverTrigger>
+
+      <PopoverContent align="end" className="w-xs space-y-2">
+        <UserDetails user={user} />
       </PopoverContent>
     </Popover>
   );

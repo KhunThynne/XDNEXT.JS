@@ -75,7 +75,7 @@ export const User = list({
       many: false,
       ui: {
         displayMode: 'cards',
-        cardFields: ['total_point'],
+        cardFields: ['total_point', 'total_spent'],
         inlineCreate: { fields: ['total_point'] },
         inlineEdit: { fields: ['total_point'] },
         linkToItem: true,

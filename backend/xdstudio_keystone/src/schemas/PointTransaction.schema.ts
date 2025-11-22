@@ -1,7 +1,15 @@
 import { TypeInfo } from '.keystone/types';
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { integer, json, relationship, select, text, timestamp } from '@keystone-6/core/fields';
+import {
+  checkbox,
+  integer,
+  json,
+  relationship,
+  select,
+  text,
+  timestamp,
+} from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 import { publishRealtimeEvent } from '../shared/libs/redis/publisher';
@@ -18,6 +26,10 @@ export const PointTransaction = list({
       many: false,
       label: 'User',
       ui: { description: 'Owner of transection' },
+    }),
+    isFavorite: checkbox({
+      defaultValue: false,
+      label: 'Is this a favorite post?',
     }),
     type: select({
       options: [
@@ -52,15 +64,23 @@ export const PointTransaction = list({
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
   hooks: {
+    resolveInput: async ({ resolvedData }) => {
+      const now = new Date().toISOString();
+      resolvedData.updateAt = now;
+      return resolvedData;
+    },
     afterOperation: async (args) => {
-      // 4. เช็กว่าเป็นการ 'update' และ 'point' เปลี่ยนแปลงจริง
       if (args.operation === 'update' && args.item && args.originalItem) {
-        console.log(`[Keystone Hook] Point changed for ${args.item.id}, publishing to Redis...`);
         try {
-          await publishRealtimeEvent({
-            type: 'payment.success',
-            data: { ...args.item },
-          });
+          if (
+            args.item.status !== args.originalItem.status ||
+            args.item.isFavorite !== args.originalItem.isFavorite
+          ) {
+            await publishRealtimeEvent('keystone-socket-payment', {
+              type: `payment.${args.item.status}`,
+              data: { ...args.item },
+            });
+          }
         } catch {
           console.log(`[Keystone Hook] Point changed for ${args.item.id}, Error`);
         }

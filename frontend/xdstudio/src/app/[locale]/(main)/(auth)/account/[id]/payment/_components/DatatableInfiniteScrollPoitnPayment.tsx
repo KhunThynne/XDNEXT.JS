@@ -28,7 +28,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/libs/shadcn/ui/table";
-import { usePointTransactionsInfiniteQuery } from "../_hooks/usePointTransactionsInfiniteQuery";
+import {
+  usePointTransactionsInfiniteQuery,
+  useUpdatePointTransactionMutations,
+} from "../_hooks/usePointTransactionsInfiniteQuery";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
 import type {
@@ -53,6 +56,7 @@ import { useSocket } from "@/libs/socket-io/socket";
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 import type { InfiniteData } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { BadgePaymentStatus } from "./BadgePaymentStatus";
 
 export interface PaymentSuccessEvent {
   type: "payment.success";
@@ -67,21 +71,6 @@ export const REALTIME_CHANNEL = "keystone-socket";
 
 const columnHelper = createColumnHelper<PointTransactionFieldFragment>();
 
-const statusMap: Record<string, { label: string; color: string }> = {
-  requires_payment_method: {
-    label: "Requires Payment Method",
-    color: "text-yellow-600",
-  },
-  requires_confirmation: {
-    label: "Requires Confirmation",
-    color: "text-yellow-600",
-  },
-  requires_action: { label: "Requires Action", color: "text-orange-500" },
-  processing: { label: "Processing", color: "text-blue-500" },
-  requires_capture: { label: "Requires Capture", color: "text-purple-500" },
-  canceled: { label: "Canceled", color: "text-destructive" },
-  succeeded: { label: "Succeeded", color: "text-success" },
-};
 export function DatatableInfiniteScrollPoitnPayment({
   session,
 }: {
@@ -93,7 +82,7 @@ export function DatatableInfiniteScrollPoitnPayment({
   const params = useParams() as { transactionId: string };
 
   const { socket, isConnected } = useSocket();
-
+  const { switchFavorite } = useUpdatePointTransactionMutations();
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -125,18 +114,7 @@ export function DatatableInfiniteScrollPoitnPayment({
         header: "Status",
         cell: (info) => {
           const status = info.getValue();
-          const { label, color } = _.get(statusMap, status, {
-            label: status,
-            color: "text-muted-foreground",
-          });
-          return (
-            <Badge
-              variant="outline"
-              className={clsx("max-w-full font-medium", color)}
-            >
-              <span className="truncate">{label}</span>
-            </Badge>
-          );
+          return <BadgePaymentStatus status={status} />;
         },
       }),
 
@@ -180,8 +158,21 @@ export function DatatableInfiniteScrollPoitnPayment({
                 size={"icon-sm"}
                 variant={"ghost"}
                 className="cursor-pointer"
+                onClick={async () => {
+                  await switchFavorite(
+                    {
+                      id: row.id,
+                      data: { isFavorite: !row.isFavorite },
+                    },
+                    { onSuccess(data, variables, onMutateResult, context) {} }
+                  );
+                }}
               >
-                <Star className="" />
+                <Star
+                  className={clsx(
+                    row.isFavorite && "fill-yellow-500 text-yellow-500"
+                  )}
+                />
               </Button>
             </ButtonGroup>
           );
@@ -195,12 +186,10 @@ export function DatatableInfiniteScrollPoitnPayment({
   });
   const { data, fetchNextPage, isFetching, isLoading } = query;
   const flatData = useMemo(() => {
-    console.log(data);
     return (
       data?.pages.flatMap((page) => page?.data?.pointTransactions ?? []) ?? []
     );
   }, [data]);
-
   const totalDBRowCount = data?.pages?.[0].data.pointTransactionsCount ?? 0;
   const totalFetched = flatData.length;
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -211,17 +200,11 @@ export function DatatableInfiniteScrollPoitnPayment({
       if (containerRefElement) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
         //once the user has scrolled within 500px of the bottom of the table, fetch more data if we can
-        console.log(
-          totalFetched,
-          totalDBRowCount,
-          totalFetched < totalDBRowCount
-        );
         if (
           scrollHeight - scrollTop - clientHeight <= 0 &&
           !isFetching &&
           totalFetched < totalDBRowCount
         ) {
-          console.log("test");
           fetchNextPage();
         }
       }
@@ -288,12 +271,12 @@ export function DatatableInfiniteScrollPoitnPayment({
                 data: {
                   ...firstPage.data,
                   pointTransactions: [
-                    data, // (Item ใหม่)
+                    data,
                     ...(firstPage?.data?.pointTransactions ?? []),
                   ],
                 },
               },
-              ...oldData.pages.slice(1), // (หน้าที่เหลือ)
+              ...oldData.pages.slice(1),
             ],
           };
         }
@@ -301,10 +284,10 @@ export function DatatableInfiniteScrollPoitnPayment({
       updateTagClient(`point-transaction-${data.id}`);
     }
 
-    socket.on("keystone-socket", onServerUpdate);
+    socket.on("keystone-socket-payment", onServerUpdate);
 
     return () => {
-      socket.off("keystone-socket", onServerUpdate);
+      socket.off("keystone-socket-payment", onServerUpdate);
     };
   }, [queryClient, queryKey, socket]);
 
@@ -325,7 +308,7 @@ export function DatatableInfiniteScrollPoitnPayment({
 
   const rowVirtualizer = useVirtualizer({
     count: rows.length,
-    estimateSize: () => 50, //estimate row height for accurate scrollbar dragging
+    estimateSize: () => 20, //estimate row height for accurate scrollbar dragging
     getScrollElement: () => tableContainerRef.current,
     //measure dynamic row height, except in firefox because it measures table border height incorrectly
     measureElement:
@@ -342,84 +325,100 @@ export function DatatableInfiniteScrollPoitnPayment({
 
   return (
     <>
-      <div
-        className="absolute inset-0 container max-h-full overflow-auto overscroll-contain"
-        onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
-        ref={tableContainerRef}
-        style={
-          {
-            //our scrollable table container
-            // position: "relative", //needed for sticky header
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <div className="space-y-1">
+          <CardTitle className="text-base">Transaction Pointer</CardTitle>
+          <CardDescription>ประวัติรายการทั้งหมด</CardDescription>
+        </div>
+        <div className="text-right">
+          <div className="text-ทก font-bold tracking-tight tabular-nums">
+            {totalFetched.toLocaleString()}
+            <span className="ml-1 text-sm font-normal text-muted-foreground">
+              / {totalDBRowCount.toLocaleString()}
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground">รายการที่แสดงผล</p>
+        </div>
+      </CardHeader>
+      <CardContent className="relative h-full">
+        <div
+          className="absolute inset-0 container max-h-full overflow-auto overscroll-contain"
+          onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
+          ref={tableContainerRef}
+          style={
+            {
+              //our scrollable table container
+              // position: "relative", //needed for sticky header
+            }
           }
-        }
-      >
-        <table className="grid table-fixed border-collapse">
-          <TableHeader className="sticky top-0 z-10 grid backdrop-blur-md">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="flex">
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    className="mx-auto place-content-center"
-                    key={header.id}
-                    style={{ width: header.getSize() }}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-
-          <TableBody
-            className="relative grid"
-            style={{
-              height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
-            }}
-          >
-            {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-              const row = rows[
-                virtualRow.index
-              ] as Row<PointTransactionFieldFragment>;
-              return (
-                <TableRow
-                  data-index={virtualRow.index} //needed for dynamic row height measurement
-                  ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
-                  key={row.id}
-                  className="absolute flex"
-                  style={{
-                    transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
-                    width: "100%",
-                  }}
-                >
-                  {row.getVisibleCells().map((cell) => {
-                    return (
-                      <TableCell
-                        key={cell.id}
-                        className="mx-auto flex items-center"
-                        style={{
-                          width: cell.column.getSize(),
-                        }}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    );
-                  })}
+        >
+          <table className="grid table-fixed border-collapse">
+            <TableHeader className="sticky top-0 z-10 grid backdrop-blur-md">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id} className="flex">
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      className="mx-auto place-content-center"
+                      key={header.id}
+                      style={{ width: header.getSize() }}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))}
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </table>
-      </div>
+              ))}
+            </TableHeader>
 
-      {isFetching && <div>Fetching More...</div>}
+            <TableBody
+              className="relative grid"
+              style={{
+                height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+              }}
+            >
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const row = rows[
+                  virtualRow.index
+                ] as Row<PointTransactionFieldFragment>;
+                return (
+                  <TableRow
+                    data-index={virtualRow.index} //needed for dynamic row height measurement
+                    ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
+                    key={row.original.id}
+                    className="absolute flex w-full"
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className="mx-auto flex items-center"
+                          style={{
+                            width: cell.column.getSize(),
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </table>
+        </div>
+
+        {isFetching && <div>Fetching More...</div>}
+      </CardContent>
     </>
   );
 }

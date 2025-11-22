@@ -103,6 +103,11 @@ type AuthProvidersSuccess {
 
 union AuthenticatedItem = User
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 type Cart {
   createdAt: DateTime
   id: ID!
@@ -964,6 +969,7 @@ type PointTransaction {
   createdAt: DateTime
   expiredAt: DateTime
   id: ID!
+  isFavorite: Boolean
   metaData: JSON
   orders(cursor: OrderWhereUniqueInput, orderBy: [OrderOrderByInput!]! = [], skip: Int! = 0, take: Int, where: OrderWhereInput! = {}): [Order!]
   ordersCount(where: OrderWhereInput! = {}): Int
@@ -977,6 +983,7 @@ input PointTransactionCreateInput {
   amount: Int
   createdAt: DateTime
   expiredAt: DateTime
+  isFavorite: Boolean
   metaData: JSON
   orders: OrderRelateToManyForCreateInput
   status: String
@@ -990,6 +997,7 @@ input PointTransactionOrderByInput {
   createdAt: OrderDirection
   expiredAt: OrderDirection
   id: OrderDirection
+  isFavorite: OrderDirection
   status: OrderDirection
   type: OrderDirection
   updateAt: OrderDirection
@@ -1004,6 +1012,7 @@ input PointTransactionUpdateInput {
   amount: Int
   createdAt: DateTime
   expiredAt: DateTime
+  isFavorite: Boolean
   metaData: JSON
   orders: OrderRelateToManyForUpdateInput
   status: String
@@ -1020,6 +1029,7 @@ input PointTransactionWhereInput {
   createdAt: DateTimeNullableFilter
   expiredAt: DateTimeNullableFilter
   id: IDFilter
+  isFavorite: BooleanFilter
   orders: OrderManyRelationFilter
   status: StringNullableFilter
   type: StringFilter
@@ -2048,6 +2058,7 @@ input UserOrderByInput {
 type UserPoint {
   id: ID!
   total_point: Int
+  total_spent: Float
   updateAt: DateTime
   user: User
 }

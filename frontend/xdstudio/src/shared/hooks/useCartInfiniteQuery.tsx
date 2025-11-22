@@ -38,7 +38,7 @@ export const useCartInfinite = ({
     queryFn: async ({ pageParam = 0 }) => {
       const result = await execute(GetCartDocument, {
         where: { id: cartId },
-        skip: pageParam,
+        skip: pageParam * take,
         take,
         orderBy: { createdAt: OrderDirection.Desc },
       });

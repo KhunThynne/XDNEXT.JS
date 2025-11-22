@@ -1,10 +1,9 @@
 import { list, ListConfig } from '@keystone-6/core';
 import { allowAll } from '@keystone-6/core/access';
-import { float, relationship, select, text, timestamp } from '@keystone-6/core/fields';
+import { float, relationship, select, text } from '@keystone-6/core/fields';
 import { document } from '@keystone-6/fields-document';
 import { defaultGlobalField } from './shared/defaultGlobalField';
 import { TypeInfo } from '.keystone/types';
-import { NotEditable, component, fields } from '@keystone-6/fields-document/component-blocks';
 import { componentBlocks } from '../shared/components/CarouselComponentBlocks';
 
 export const Product = list({

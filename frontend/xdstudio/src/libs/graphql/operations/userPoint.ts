@@ -6,6 +6,8 @@ graphql(`
       id
       total_point
       updateAt
+      total_spent
+      __typename
       user {
         id
       }

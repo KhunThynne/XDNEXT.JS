@@ -243,17 +243,18 @@ model Promotion {
 }
 
 model PointTransaction {
-  id        String    @id @default(uuid()) @postgresql.Uuid
-  user      User?     @relation("PointTransaction_user", fields: [userId], references: [id])
-  userId    String?   @map("user") @postgresql.Uuid
-  type      String    @default("Earn")
-  amount    Int?
-  status    String?   @default("requires_payment_method")
-  orders    Order[]   @relation("PointTransaction_orders")
-  metaData  Json?
-  expiredAt DateTime?
-  createdAt DateTime? @default(now())
-  updateAt  DateTime? @default(now())
+  id         String    @id @default(uuid()) @postgresql.Uuid
+  user       User?     @relation("PointTransaction_user", fields: [userId], references: [id])
+  userId     String?   @map("user") @postgresql.Uuid
+  isFavorite Boolean   @default(false)
+  type       String    @default("Earn")
+  amount     Int?
+  status     String?   @default("requires_payment_method")
+  orders     Order[]   @relation("PointTransaction_orders")
+  metaData   Json?
+  expiredAt  DateTime?
+  createdAt  DateTime? @default(now())
+  updateAt   DateTime? @default(now())
 
   @@index([userId])
 }

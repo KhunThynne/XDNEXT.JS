@@ -9,11 +9,8 @@ const REDIS_URL = `redis://${REDIS_HOST}:${REDIS_PORT}`;
 
 const publisher = createClient({ url: REDIS_URL });
 export interface PaymentSuccessEvent {
-  type: "payment.success";
-  data: {
-    orderId: string;
-    amount: number;
-  };
+  type: string;
+  data: any;
 }
 
 export type RealtimeEvent = PaymentSuccessEvent;

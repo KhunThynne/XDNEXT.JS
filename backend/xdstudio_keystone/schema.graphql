@@ -658,6 +658,7 @@ type UserPoint {
   id: ID!
   user: User
   total_point: Int
+  total_spent: Float
   updateAt: DateTime
 }
 
@@ -1593,6 +1594,7 @@ input PromotionCreateInput {
 type PointTransaction {
   id: ID!
   user: User
+  isFavorite: Boolean
   type: String
   amount: Int
   status: String
@@ -1614,6 +1616,7 @@ input PointTransactionWhereInput {
   NOT: [PointTransactionWhereInput!]
   id: IDFilter
   user: UserWhereInput
+  isFavorite: BooleanFilter
   type: StringFilter
   amount: IntNullableFilter
   status: StringNullableFilter
@@ -1623,8 +1626,14 @@ input PointTransactionWhereInput {
   updateAt: DateTimeNullableFilter
 }
 
+input BooleanFilter {
+  equals: Boolean
+  not: BooleanFilter
+}
+
 input PointTransactionOrderByInput {
   id: OrderDirection
+  isFavorite: OrderDirection
   type: OrderDirection
   amount: OrderDirection
   status: OrderDirection
@@ -1635,6 +1644,7 @@ input PointTransactionOrderByInput {
 
 input PointTransactionUpdateInput {
   user: UserRelateToOneForUpdateInput
+  isFavorite: Boolean
   type: String
   amount: Int
   status: String
@@ -1652,6 +1662,7 @@ input PointTransactionUpdateArgs {
 
 input PointTransactionCreateInput {
   user: UserRelateToOneForCreateInput
+  isFavorite: Boolean
   type: String
   amount: Int
   status: String

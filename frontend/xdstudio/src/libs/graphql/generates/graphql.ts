@@ -124,6 +124,11 @@ export type AuthProvidersSuccess = {
 
 export type AuthenticatedItem = User;
 
+export type BooleanFilter = {
+  equals?: InputMaybe<Scalars['Boolean']['input']>;
+  not?: InputMaybe<BooleanFilter>;
+};
+
 export type Cart = {
   __typename?: 'Cart';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -1761,6 +1766,7 @@ export type PointTransaction = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   expiredAt?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
+  isFavorite?: Maybe<Scalars['Boolean']['output']>;
   metaData?: Maybe<Scalars['JSON']['output']>;
   orders?: Maybe<Array<Order>>;
   ordersCount?: Maybe<Scalars['Int']['output']>;
@@ -1788,6 +1794,7 @@ export type PointTransactionCreateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
+  isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
   metaData?: InputMaybe<Scalars['JSON']['input']>;
   orders?: InputMaybe<OrderRelateToManyForCreateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1801,6 +1808,7 @@ export type PointTransactionOrderByInput = {
   createdAt?: InputMaybe<OrderDirection>;
   expiredAt?: InputMaybe<OrderDirection>;
   id?: InputMaybe<OrderDirection>;
+  isFavorite?: InputMaybe<OrderDirection>;
   status?: InputMaybe<OrderDirection>;
   type?: InputMaybe<OrderDirection>;
   updateAt?: InputMaybe<OrderDirection>;
@@ -1815,6 +1823,7 @@ export type PointTransactionUpdateInput = {
   amount?: InputMaybe<Scalars['Int']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   expiredAt?: InputMaybe<Scalars['DateTime']['input']>;
+  isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
   metaData?: InputMaybe<Scalars['JSON']['input']>;
   orders?: InputMaybe<OrderRelateToManyForUpdateInput>;
   status?: InputMaybe<Scalars['String']['input']>;
@@ -1831,6 +1840,7 @@ export type PointTransactionWhereInput = {
   createdAt?: InputMaybe<DateTimeNullableFilter>;
   expiredAt?: InputMaybe<DateTimeNullableFilter>;
   id?: InputMaybe<IdFilter>;
+  isFavorite?: InputMaybe<BooleanFilter>;
   orders?: InputMaybe<OrderManyRelationFilter>;
   status?: InputMaybe<StringNullableFilter>;
   type?: InputMaybe<StringFilter>;
@@ -3545,6 +3555,7 @@ export type UserPoint = {
   __typename?: 'UserPoint';
   id: Scalars['ID']['output'];
   total_point?: Maybe<Scalars['Int']['output']>;
+  total_spent?: Maybe<Scalars['Float']['output']>;
   updateAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
 };
@@ -3895,7 +3906,7 @@ export type CreateOrderAndUserItemsMutationVariables = Exact<{
 
 export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updateAt?: any | null, status?: string | null, itemsCount?: number | null, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email?: string | null, id: string, name?: string | null } | null } | null };
 
-export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: string, type?: string | null, amount?: number | null, status?: string | null, ordersCount?: number | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } & { ' $fragmentName'?: 'PointTransactionFieldFragment' };
+export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: string, type?: string | null, amount?: number | null, status?: string | null, ordersCount?: number | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updateAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } & { ' $fragmentName'?: 'PointTransactionFieldFragment' };
 
 export type GetPointTransactionQueryVariables = Exact<{
   where: PointTransactionWhereUniqueInput;
@@ -4029,7 +4040,7 @@ export type GetUserPointQueryVariables = Exact<{
 }>;
 
 
-export type GetUserPointQuery = { __typename?: 'Query', userPoint?: { __typename?: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null, user?: { __typename?: 'User', id: string } | null } | null };
+export type GetUserPointQuery = { __typename?: 'Query', userPoint?: { __typename: 'UserPoint', id: string, total_point?: number | null, updateAt?: any | null, total_spent?: number | null, user?: { __typename?: 'User', id: string } | null } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -4100,6 +4111,7 @@ export const PointTransactionFieldFragmentDoc = new TypedDocumentString(`
   expiredAt
   createdAt
   updateAt
+  isFavorite
 }
     `, {"fragmentName":"PointTransactionField"}) as unknown as TypedDocumentString<PointTransactionFieldFragment, unknown>;
 export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
@@ -4596,6 +4608,7 @@ export const GetPointTransactionDocument = new TypedDocumentString(`
   expiredAt
   createdAt
   updateAt
+  isFavorite
 }`) as unknown as TypedDocumentString<GetPointTransactionQuery, GetPointTransactionQueryVariables>;
 export const GetPointTransactionsDocument = new TypedDocumentString(`
     query getPointTransactions($where: PointTransactionWhereInput!, $orderBy: [PointTransactionOrderByInput!]!, $take: Int, $skip: Int!, $cursor: PointTransactionWhereUniqueInput) {
@@ -4626,6 +4639,7 @@ export const GetPointTransactionsDocument = new TypedDocumentString(`
   expiredAt
   createdAt
   updateAt
+  isFavorite
 }`) as unknown as TypedDocumentString<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>;
 export const CreatePointTransactionDocument = new TypedDocumentString(`
     mutation CreatePointTransaction($data: PointTransactionCreateInput!) {
@@ -4649,6 +4663,7 @@ export const CreatePointTransactionDocument = new TypedDocumentString(`
   expiredAt
   createdAt
   updateAt
+  isFavorite
 }`) as unknown as TypedDocumentString<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>;
 export const UpdatePointTransactionDocument = new TypedDocumentString(`
     mutation updatePointTransaction($where: PointTransactionWhereUniqueInput!, $data: PointTransactionUpdateInput!) {
@@ -4672,6 +4687,7 @@ export const UpdatePointTransactionDocument = new TypedDocumentString(`
   expiredAt
   createdAt
   updateAt
+  isFavorite
 }`) as unknown as TypedDocumentString<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>;
 export const GetProductsDocument = new TypedDocumentString(`
     query getProducts($take: Int, $skip: Int!, $orderBy: [ProductOrderByInput!]!) {
@@ -4995,6 +5011,8 @@ export const GetUserPointDocument = new TypedDocumentString(`
     id
     total_point
     updateAt
+    total_spent
+    __typename
     user {
       id
     }

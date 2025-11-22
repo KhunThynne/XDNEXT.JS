@@ -47,17 +47,19 @@ export const ButtonGrupPayment = ({
       >
         <section
           className={clsx(
-            "relative flex-2 overflow-auto",
-            segments !== "data-table" ? `visible min-h-full` : `max-xl:hidden`
+            "relative flex-2 xl:overflow-auto",
+            segments !== "data-table" ? `visible` : `max-xl:hidden`
           )}
         >
-          <div className="absolute inset-0 flex flex-col">{payment}</div>
+          <div className="inset-0 flex flex-col xl:absolute">{payment}</div>
         </section>
 
         <section
           className={clsx(
             `contents`,
-            segments === "data-table" ? `visible` : `max-xl:invisible`
+            segments === "data-table"
+              ? `visible`
+              : `max-xl:invisible max-xl:hidden`
           )}
         >
           <Separator orientation="vertical" className="max-xl:hidden" />

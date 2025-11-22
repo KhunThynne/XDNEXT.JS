@@ -1,30 +1,17 @@
-import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/libs/shadcn/ui/card";
-import { updatePointPaymentTransaction } from "../_actions/pointPaymentTransaction";
+import { Card } from "@/libs/shadcn/ui/card";
 import type { Session } from "next-auth";
 import { DatatableInfiniteScrollPoitnPayment } from "./DatatableInfiniteScrollPoitnPayment";
+import clsx from "clsx";
 
 export const CardPointTransactionPayment = ({
   session,
+  className,
 }: {
   session: Session;
-}) => {
+} & WithClassName) => {
   return (
-    <Card className="grow max-xl:min-h-[80vh]">
-      <CardHeader>
-        {/* <Button onClick={updatePointPaymentTransaction}>test</Button> */}
-        <CardTitle>Transaction Pointer</CardTitle>
-        <CardDescription>test</CardDescription>
-      </CardHeader>
-      <CardContent className="relative h-full">
-        {session && <DatatableInfiniteScrollPoitnPayment session={session} />}
-      </CardContent>
+    <Card className={clsx("grow gap-1 max-xl:min-h-[80vh]", className)}>
+      {session && <DatatableInfiniteScrollPoitnPayment session={session} />}
     </Card>
   );
 };

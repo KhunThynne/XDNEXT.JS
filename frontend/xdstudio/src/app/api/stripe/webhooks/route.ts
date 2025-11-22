@@ -43,7 +43,7 @@ export async function POST(req: Request) {
           data = event.data.object as Stripe.PaymentIntent;
           console.log(`Payment status: ${JSON.stringify(data.metadata)}`);
           console.log(`Payment status: ${data.status}`);
-          const test = await updatePointPaymentTransaction({
+          await updatePointPaymentTransaction({
             where: { id: data.metadata.pointTransactionId },
             data: { status: data.status, updateAt: new Date().toISOString() },
           });
@@ -58,6 +58,9 @@ export async function POST(req: Request) {
             `point-transaction-${data.metadata.pointTransactionId}`,
             { expire: 0 }
           );
+          revalidateTag(`last-transaction-${data.metadata.userId}`, {
+            expire: 0,
+          });
 
           break;
         default:
