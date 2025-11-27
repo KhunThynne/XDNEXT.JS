@@ -28,7 +28,7 @@ export const DialogFooterAction = ({
             Loading...
           </span>
         ) : (
-          "Confirm"
+          (buttonConfirm?.children ?? "Confirm")
         )}
       </Button>
       <Button

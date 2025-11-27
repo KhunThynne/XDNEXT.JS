@@ -72,14 +72,19 @@ export const PointTransaction = list({
     afterOperation: async (args) => {
       if (args.operation === 'update' && args.item && args.originalItem) {
         try {
-          if (
-            args.item.status !== args.originalItem.status ||
-            args.item.isFavorite !== args.originalItem.isFavorite
-          ) {
+          if (args.item.isFavorite !== args.originalItem.isFavorite) {
+            await publishRealtimeEvent('keystone-socket-payment', {
+              type: `payment.favorite`,
+              data: { ...args.item },
+            });
+            return;
+          }
+          if (args.item.status !== args.originalItem.status) {
             await publishRealtimeEvent('keystone-socket-payment', {
               type: `payment.${args.item.status}`,
               data: { ...args.item },
             });
+            return;
           }
         } catch {
           console.log(`[Keystone Hook] Point changed for ${args.item.id}, Error`);

@@ -34,22 +34,16 @@ import {
 } from "../_hooks/usePointTransactionsInfiniteQuery";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
-import type {
-  GetPointTransactionQuery,
-  PointTransaction,
-  PointTransactionFieldFragment,
-} from "@/libs/graphql/generates/graphql";
+import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 
 import { useFormatter } from "next-intl";
 import { Button } from "@/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
-import { SquareChartGantt, Star, View } from "lucide-react";
-import { updatePointPaymentTransaction } from "../_actions/pointPaymentTransaction";
-import { usePathname, useRouter } from "@navigation";
+import { OctagonXIcon, SquareChartGantt, Star } from "lucide-react";
+import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
-import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
 import { useSocket } from "@/libs/socket-io/socket";
 
@@ -57,9 +51,13 @@ import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_conte
 import type { InfiniteData } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { BadgePaymentStatus } from "./BadgePaymentStatus";
+import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
+import type { StatusValueStripePayment } from "../@stripe/_shared/types/statusValue";
+import type Stripe from "stripe";
+import { toast } from "sonner";
 
 export interface PaymentSuccessEvent {
-  type: "payment.success";
+  type: "payment.succeeded";
   data: unknown;
 }
 
@@ -80,9 +78,10 @@ export function DatatableInfiniteScrollPoitnPayment({
   const formatter = useFormatter();
   const router = useRouter();
   const params = useParams() as { transactionId: string };
-
+  const dialog = useDialogGlobal();
   const { socket, isConnected } = useSocket();
-  const { switchFavorite } = useUpdatePointTransactionMutations();
+  const { switchFavorite, rejectPayment } =
+    useUpdatePointTransactionMutations();
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -139,33 +138,42 @@ export function DatatableInfiniteScrollPoitnPayment({
         cell: (info) => {
           const row = info.row.original;
           const active = params.transactionId === row.id;
+          const status = row.status as StatusValueStripePayment;
+
           return (
-            <ButtonGroup className="w-full place-content-end">
-              <Button
-                size={"icon-sm"}
-                variant={"ghost"}
-                className="cursor-pointer transition-all"
-                disabled={active}
-                onClick={() => {
-                  router.push(`/account/${session.user.id}/payment/${row.id}`);
-                }}
-              >
-                <SquareChartGantt
-                  className={clsx("transition-opacity", active && `opacity-70`)}
-                />
-              </Button>
+            <ButtonGroup className="flex w-full place-content-end">
+              {status !== "canceled" && (
+                <Button
+                  size={"icon-sm"}
+                  variant={"ghost"}
+                  className={clsx(
+                    "cursor-pointer transition-all",
+                    !(status !== "succeeded") && `order-last`
+                  )}
+                  disabled={active}
+                  onClick={() => {
+                    router.push(
+                      `/account/${session.user.id}/payment/${row.id}`
+                    );
+                  }}
+                >
+                  <SquareChartGantt
+                    className={clsx(
+                      "transition-opacity",
+                      active && `opacity-70`
+                    )}
+                  />
+                </Button>
+              )}
               <Button
                 size={"icon-sm"}
                 variant={"ghost"}
                 className="cursor-pointer"
                 onClick={async () => {
-                  await switchFavorite(
-                    {
-                      id: row.id,
-                      data: { isFavorite: !row.isFavorite },
-                    },
-                    { onSuccess(data, variables, onMutateResult, context) {} }
-                  );
+                  await switchFavorite({
+                    id: row.id,
+                    data: { isFavorite: !row.isFavorite },
+                  });
                 }}
               >
                 <Star
@@ -174,6 +182,49 @@ export function DatatableInfiniteScrollPoitnPayment({
                   )}
                 />
               </Button>
+              {status !== "succeeded" && status !== "canceled" && (
+                <Button
+                  // disabled={!(status !== "succeeded")}
+                  size={"icon-sm"}
+                  variant={"ghost"}
+                  className="cursor-pointer transition-all"
+                  onClick={() => {
+                    dialog.openDialog({
+                      title: "Confirm Payment Rejection",
+                      description:
+                        "This action will permanently cancel the Payment Intent and change its status to 'Canceled'. Are you sure you want to proceed?",
+                      content: (
+                        <p>
+                          This payment intent will be moved to the **Canceled**
+                          status.
+                        </p>
+                      ),
+                      footer: (
+                        <DialogFooterAction
+                          onCancel={() => dialog.closeDialog()}
+                          onConfirm={async () => {
+                            await rejectPayment({
+                              id: row.id,
+                              paymentIntentId: (
+                                row.metaData as Stripe.PaymentIntent
+                              ).id,
+                            });
+                            dialog.closeDialog();
+                          }}
+                          buttonConfirm={{
+                            children: "Reject Payment",
+                            variant: "destructive",
+                          }}
+                        />
+                      ),
+                    });
+                  }}
+                >
+                  <OctagonXIcon
+                    className={clsx("text-destructive transition-opacity")}
+                  />
+                </Button>
+              )}
             </ButtonGroup>
           );
         },
@@ -225,64 +276,69 @@ export function DatatableInfiniteScrollPoitnPayment({
     manualSorting: true,
     debugTable: true,
   });
+  const onServerUpdate = React.useEffectEvent(function onServerUpdate(
+    arg: string
+  ) {
+    const action = JSON.parse(arg) as RealtimeEvent;
+    const data = action.data as PointTransactionFieldFragment;
+    queryClient.setQueryData<
+      InfiniteData<{
+        data: { pointTransactions: PointTransactionFieldFragment[] };
+      }>
+    >(queryKey, (oldData) => {
+      if (!oldData) {
+        return {
+          pages: [{ data: { pointTransactions: [data] } }],
+          pageParams: [0],
+        };
+      }
+      const itemExists = oldData.pages.some((p) =>
+        p.data?.pointTransactions?.some((row) => row.id === data.id)
+      );
+      if (action.type === "payment.succeeded") {
+        toast.success(`${action.type}-${data?.id}`);
+      }
+
+      if (itemExists) {
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page) => ({
+            ...page,
+
+            data: {
+              ...page.data,
+
+              pointTransactions: page.data?.pointTransactions?.map((row) =>
+                row.id === data.id ? data : row
+              ),
+            },
+          })),
+        };
+      } else {
+        const firstPage = oldData.pages[0];
+        firstPage;
+        return {
+          ...oldData,
+          pages: [
+            {
+              ...firstPage,
+              data: {
+                ...firstPage.data,
+                pointTransactions: [
+                  data,
+                  ...(firstPage?.data?.pointTransactions ?? []),
+                ],
+              },
+            },
+            ...oldData.pages.slice(1),
+          ],
+        };
+      }
+    });
+    updateTagClient(`point-transaction-${data.id}`);
+  });
   useEffect(() => {
     if (!socket || !queryClient || !queryKey) return;
-    function onServerUpdate(arg: string) {
-      const data = (JSON.parse(arg) as RealtimeEvent)
-        .data as PointTransactionFieldFragment;
-      queryClient.setQueryData<
-        InfiniteData<{
-          data: { pointTransactions: PointTransactionFieldFragment[] };
-        }>
-      >(queryKey, (oldData) => {
-        if (!oldData) {
-          return {
-            pages: [{ data: { pointTransactions: [data] } }],
-            pageParams: [0],
-          };
-        }
-        const itemExists = oldData.pages.some((p) =>
-          p.data?.pointTransactions?.some((row) => row.id === data.id)
-        );
-        if (itemExists) {
-          console.log(`[Socket] Updating item in cache: ${data.id}`);
-          return {
-            ...oldData,
-            pages: oldData.pages.map((page) => ({
-              ...page,
-
-              data: {
-                ...page.data,
-
-                pointTransactions: page.data?.pointTransactions?.map((row) =>
-                  row.id === data.id ? data : row
-                ),
-              },
-            })),
-          };
-        } else {
-          const firstPage = oldData.pages[0];
-          firstPage;
-          return {
-            ...oldData,
-            pages: [
-              {
-                ...firstPage,
-                data: {
-                  ...firstPage.data,
-                  pointTransactions: [
-                    data,
-                    ...(firstPage?.data?.pointTransactions ?? []),
-                  ],
-                },
-              },
-              ...oldData.pages.slice(1),
-            ],
-          };
-        }
-      });
-      updateTagClient(`point-transaction-${data.id}`);
-    }
 
     socket.on("keystone-socket-payment", onServerUpdate);
 

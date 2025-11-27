@@ -19,6 +19,9 @@ import {
 
 import type { User } from "next-auth";
 import { useCallback, useMemo } from "react";
+import { cancelPaymentIntent } from "../_actions/paymentIntents";
+import type Stripe from "stripe";
+import { toast } from "sonner";
 
 export const usePointTransactionsInfiniteQuery = ({
   take = 10,
@@ -70,20 +73,46 @@ export const useUpdatePointTransactionMutations = () => {
     },
   });
 
-  const switchFavorite = useCallback(
-    (
-      variables: { id: PointTransaction["id"]; data: switchFavoriteData },
-      options?: Parameters<typeof mutations.mutate>[1]
-    ) => {
-      return mutations.mutateAsync(
-        {
-          where: { id: variables.id },
-          data: variables.data,
-        },
-        options
-      );
+  const switchFavorite = (
+    variables: { id: PointTransaction["id"]; data: switchFavoriteData },
+    options?: Parameters<typeof mutations.mutate>[1]
+  ) => {
+    return mutations.mutateAsync(
+      {
+        where: { id: variables.id },
+        data: variables.data,
+      },
+      options
+    );
+  };
+
+  const rejectPayment = async (
+    variables: {
+      id: PointTransaction["id"];
+      paymentIntentId: Stripe.PaymentIntent["id"];
     },
-    [mutations]
-  );
-  return { switchFavorite, mutations };
+    options?: Parameters<typeof mutations.mutate>[1]
+  ) => {
+    const stripeResult = await cancelPaymentIntent(variables.paymentIntentId);
+    if (!stripeResult.success) {
+      throw new Error(`Stripe Cancel Failed: ${stripeResult.error}`);
+    }
+    return mutations.mutate(
+      {
+        where: { id: variables.id },
+        data: {
+          metaData: stripeResult.intent,
+          status: stripeResult.intent?.status,
+        },
+      },
+      {
+        ...options,
+        onSuccess: () => {
+          toast.success(`${variables.paymentIntentId} reject success`);
+        },
+      }
+    );
+  };
+
+  return { switchFavorite, mutations, rejectPayment };
 };

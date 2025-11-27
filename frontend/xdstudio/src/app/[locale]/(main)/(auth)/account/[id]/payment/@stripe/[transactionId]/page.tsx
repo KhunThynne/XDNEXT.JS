@@ -12,6 +12,7 @@ import { DetailPointTransactionForm } from "./_components/DetailPointTransaction
 import { Button } from "@/libs/shadcn/ui/button";
 import { Download, HelpCircle } from "lucide-react";
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";
+import { getPaymentIntentsRetrieve } from "../../_actions/paymentIntents";
 
 const getPointPaymentTransactionCache = async (
   query: GetPointTransactionQueryVariables
@@ -44,6 +45,9 @@ export default async function StripePage({
   });
   if (res) {
     const form = res as FromTypePointTransactionStripe;
+
+    const reciver = await getPaymentIntentsRetrieve(form.metaData.id);
+    console.log(`test`, reciver);
     return (
       <ContainerSection
         // title="Payment Details"

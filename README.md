@@ -1,5 +1,5 @@
 🚀 Full Stack Web Application
-
+<!-- stripe listen --forward-to localhost:3000/api/stripe/webhooks/ -->
 🧩 Tech Stack
 🖥️ Frontend
 Next.js – React Framework with App Router support

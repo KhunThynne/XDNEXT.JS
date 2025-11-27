@@ -22,6 +22,7 @@ export const createPaymentIntents = async (
           email: "example@email.com",
         },
       },
+
       payment_method_types: ["promptpay"],
     };
 
@@ -46,11 +47,9 @@ export const createPaymentIntents = async (
         metaData: { ...params.metadata, ...paymentIntent },
       },
     });
-    console.log(transaction);
     const updatedIntent = await stripe.paymentIntents.update(paymentIntent.id, {
       metadata: {
         ...paymentIntent.metadata,
-        test: 5,
         pointTransactionId: (
           transaction?.data
             .createPointTransaction as PointTransactionFieldFragment
@@ -66,3 +65,41 @@ export const createPaymentIntents = async (
     return false;
   }
 };
+
+export async function getPaymentIntentsRetrieve(paymentIntentId: string) {
+  try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(
+      paymentIntentId,
+      { expand: ["latest_charge"] }
+    );
+
+    const charge = paymentIntent.latest_charge as Stripe.Charge;
+
+    return {
+      success: true,
+      data: charge,
+    };
+  } catch (error) {
+    console.error("Error fetching detail:", error);
+    return { success: false, data: null };
+  }
+}
+
+export async function cancelPaymentIntent(paymentIntentId: string) {
+  try {
+    const canceledIntent = await stripe.paymentIntents.cancel(paymentIntentId);
+    const plainPaymentIntent = JSON.parse(JSON.stringify(canceledIntent));
+
+    return {
+      success: true,
+      intent: plainPaymentIntent,
+    };
+  } catch (error) {
+    console.error("Error canceling PaymentIntent:", error);
+    return {
+      success: false,
+      error:
+        error instanceof Error ? error.message : "An unknown error occurred",
+    };
+  }
+}
