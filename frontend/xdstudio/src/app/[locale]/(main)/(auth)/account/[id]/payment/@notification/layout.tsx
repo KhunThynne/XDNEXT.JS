@@ -1,5 +1,9 @@
-import { Card, CardHeader, CardTitle } from "@/libs/shadcn/ui/card";
-import { Item, ItemHeader, ItemTitle } from "@/libs/shadcn/ui/item";
+import {
+  Item,
+  ItemContent,
+  ItemHeader,
+  ItemTitle,
+} from "@/libs/shadcn/ui/item";
 import clsx from "clsx";
 import { Bell } from "lucide-react";
 
@@ -13,7 +17,9 @@ export default async function NotificationPaymentLayout(
           <Bell className="size-5" /> Last transaction
         </ItemTitle>
       </ItemHeader>
-      {props.children}
+      <ItemContent className="mt-auto flex h-full grow flex-col gap-1">
+        {props.children}
+      </ItemContent>
     </Item>
   );
 }

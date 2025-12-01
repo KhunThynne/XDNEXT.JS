@@ -1,10 +1,6 @@
-import { Separator } from "@/libs/shadcn/ui/separator";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { TransactionPaymentSection } from "./_components/TransactionPaymentSection";
 import { auth } from "@/auth";
-import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
-import { Button } from "@/libs/shadcn/ui/button";
-import { List, Wallet } from "lucide-react";
+
 import { ButtonGrupPayment } from "./_components/ButtonGrupPayment";
 import { SocketProvider } from "@/libs/socket-io/socket";
 

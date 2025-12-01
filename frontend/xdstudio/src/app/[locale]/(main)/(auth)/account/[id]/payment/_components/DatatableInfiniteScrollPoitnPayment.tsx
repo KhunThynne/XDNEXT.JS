@@ -55,6 +55,9 @@ import type { StatusValueStripePayment } from "../@stripe/_shared/types/statusVa
 import type Stripe from "stripe";
 import { toast } from "sonner";
 import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
+import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { LoadingDots } from "@/shared/components/ui/Loading";
+import { Spinner } from "@/libs/shadcn/ui/spinner";
 
 export interface PaymentSuccessEvent {
   type: "payment.succeeded";
@@ -377,7 +380,11 @@ export function DatatableInfiniteScrollPoitnPayment({
   });
 
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <CardContent className="relative h-full place-content-center place-items-center">
+        <Spinner className="size-30 opacity-80" />
+      </CardContent>
+    );
   }
 
   return (
@@ -444,41 +451,41 @@ export function DatatableInfiniteScrollPoitnPayment({
                   : ``, //tells scrollbar how big the table is
               }}
             >
-              {!isEmptyData ? (
-                rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                  const row = rows[
-                    virtualRow.index
-                  ] as Row<PointTransactionFieldFragment>;
-                  return (
-                    <TableRow
-                      data-index={virtualRow.index} //needed for dynamic row height measurement
-                      ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
-                      key={row.original.id}
-                      className="absolute flex w-full"
-                      style={{
-                        transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
-                      }}
-                    >
-                      {row.getVisibleCells().map((cell) => {
-                        return (
-                          <TableCell
-                            key={cell.id}
-                            className="mx-auto flex items-center"
-                            style={{
-                              width: cell.column.getSize(),
-                            }}
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })
-              ) : (
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const row = rows[
+                  virtualRow.index
+                ] as Row<PointTransactionFieldFragment>;
+                return (
+                  <TableRow
+                    data-index={virtualRow.index} //needed for dynamic row height measurement
+                    ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
+                    key={row.original.id}
+                    className="absolute flex w-full"
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
+                    }}
+                  >
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell
+                          key={cell.id}
+                          className="mx-auto flex items-center"
+                          style={{
+                            width: cell.column.getSize(),
+                          }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                );
+              })}
+
+              {isEmptyData && (
                 <TableRow className="place-content-center place-items-center">
                   <TableCell className="text-center">
                     <Empty>
@@ -497,10 +504,26 @@ export function DatatableInfiniteScrollPoitnPayment({
                   </TableCell>
                 </TableRow>
               )}
-
-              {!isFetching && (
-                <TableRow className="h-fit">
-                  <TableCell>Fetching More...</TableCell>
+              {isFetching && (
+                <TableRow className="flex h-fit items-center">
+                  <TableCell>
+                    <Skeleton className="h-6 w-30" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-6 w-40" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-6 w-20" />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton className="h-6 w-60" />
+                  </TableCell>
+                  <TableCell className="ms-auto">
+                    <div className="flex gap-3">
+                      <Skeleton className="size-8" />
+                      <Skeleton className="size-8" />
+                    </div>
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>

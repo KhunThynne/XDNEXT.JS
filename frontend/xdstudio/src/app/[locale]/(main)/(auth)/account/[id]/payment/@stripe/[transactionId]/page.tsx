@@ -9,10 +9,9 @@ import type Stripe from "stripe";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { cacheLife, cacheTag } from "next/cache";
 import { DetailPointTransactionForm } from "./_components/DetailPointTransactionForm";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Download, HelpCircle } from "lucide-react";
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";
 import { getPaymentIntentsRetrieve } from "../../_actions/paymentIntents";
+import { notFound } from "next/navigation";
 
 const getPointPaymentTransactionCache = async (
   query: GetPointTransactionQueryVariables
@@ -24,7 +23,10 @@ const getPointPaymentTransactionCache = async (
   });
   const pointTransaction = res.data
     .pointTransaction as PointTransactionFieldFragment;
-  const metaData = pointTransaction.metaData as Stripe.PaymentIntent;
+  if (!pointTransaction) {
+    return null;
+  }
+  const metaData = pointTransaction?.metaData as Stripe.PaymentIntent;
   cacheTag(
     `point-transaction-${pointTransaction.id}`,
     `point-transaction-${metaData.id}`
@@ -47,7 +49,6 @@ export default async function StripePage({
     const formRes = res as FromTypePointTransactionStripe;
 
     const reciver = await getPaymentIntentsRetrieve(formRes.metaData.id);
-    console.log(reciver);
 
     const form: FromTypePointTransactionStripe = {
       ...formRes,
@@ -92,4 +93,5 @@ export default async function StripePage({
       </ContainerSection>
     );
   }
+  return notFound();
 }

@@ -60,15 +60,30 @@ export const PointTransaction = list({
     }),
     orders: relationship({ ref: 'Order', many: true }),
     metaData: json(),
-    expiredAt: timestamp(),
+    expiredAt: timestamp({
+      label: 'Expired At (System Calculated)',
+
+      ui: {
+        createView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: 'read' },
+      },
+    }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
   },
   hooks: {
-    resolveInput: async ({ resolvedData }) => {
+    resolveInput: async ({ resolvedData, operation, item }) => {
       const now = new Date().toISOString();
       resolvedData.updateAt = now;
+      if (operation === 'update') {
+        const newStatus = resolvedData.status || item.status;
+        const existingExpiredAt = item.expiredAt;
+        if (newStatus === 'canceled' && !existingExpiredAt) {
+          resolvedData.expiredAt = new Date();
+        }
+      }
       return resolvedData;
     },
+
     afterOperation: async (args) => {
       if (args.operation === 'update' && args.item && args.originalItem) {
         try {

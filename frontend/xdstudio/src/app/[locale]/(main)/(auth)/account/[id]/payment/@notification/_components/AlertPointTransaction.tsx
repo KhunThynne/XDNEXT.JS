@@ -7,12 +7,12 @@ import { useFormatter, useNow } from "next-intl";
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
-import { useEffect, useEffectEvent, useLayoutEffect, useState } from "react";
+import { memo, useEffect, useEffectEvent, useState } from "react";
 import { useSocket } from "@/libs/socket-io/socket";
 import type { RealtimeEvent } from "@/libs/redis/publisher";
 import { revalidateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
 
-export const AlertPointTransaction = ({
+const AlertPointTransaction = ({
   pointTransaction: defaultPointTransaction,
 }: {
   pointTransaction: FromTypePointTransactionStripe;
@@ -99,3 +99,5 @@ export const AlertPointTransaction = ({
     </Alert>
   );
 };
+
+export default memo(AlertPointTransaction);
