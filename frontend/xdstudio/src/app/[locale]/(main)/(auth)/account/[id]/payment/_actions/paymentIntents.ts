@@ -72,12 +72,10 @@ export async function getPaymentIntentsRetrieve(paymentIntentId: string) {
       paymentIntentId,
       { expand: ["latest_charge"] }
     );
-
-    const charge = paymentIntent.latest_charge as Stripe.Charge;
-
+    console.log("paymentIntent", paymentIntent);
     return {
       success: true,
-      data: charge,
+      data: paymentIntent,
     };
   } catch (error) {
     console.error("Error fetching detail:", error);

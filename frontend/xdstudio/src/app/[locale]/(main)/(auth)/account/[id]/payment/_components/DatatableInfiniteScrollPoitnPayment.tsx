@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Card,
   CardContent,
   CardDescription,
   CardHeader,
@@ -32,7 +31,7 @@ import {
   usePointTransactionsInfiniteQuery,
   useUpdatePointTransactionMutations,
 } from "../_hooks/usePointTransactionsInfiniteQuery";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import type { Session } from "next-auth";
 import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -41,10 +40,10 @@ import clsx from "clsx";
 import { useFormatter } from "next-intl";
 import { Button } from "@/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
-import { OctagonXIcon, SquareChartGantt, Star } from "lucide-react";
+import { FileText, OctagonXIcon, SquareChartGantt, Star } from "lucide-react";
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
-import _ from "lodash";
+import _, { isEmpty } from "lodash";
 import { useSocket } from "@/libs/socket-io/socket";
 
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
@@ -55,6 +54,7 @@ import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import type { StatusValueStripePayment } from "../@stripe/_shared/types/statusValue";
 import type Stripe from "stripe";
 import { toast } from "sonner";
+import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
 
 export interface PaymentSuccessEvent {
   type: "payment.succeeded";
@@ -79,7 +79,7 @@ export function DatatableInfiniteScrollPoitnPayment({
   const router = useRouter();
   const params = useParams() as { transactionId: string };
   const dialog = useDialogGlobal();
-  const { socket, isConnected } = useSocket();
+  const { socket } = useSocket();
   const { switchFavorite, rejectPayment } =
     useUpdatePointTransactionMutations();
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
@@ -242,6 +242,7 @@ export function DatatableInfiniteScrollPoitnPayment({
     );
   }, [data]);
   const totalDBRowCount = data?.pages?.[0].data.pointTransactionsCount ?? 0;
+
   const totalFetched = flatData.length;
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
@@ -353,7 +354,7 @@ export function DatatableInfiniteScrollPoitnPayment({
       rowVirtualizer.scrollToIndex?.(0);
     }
   };
-
+  const isEmptyData = totalDBRowCount < 1;
   //since this table option is derived from table row model state, we're using the table.setOptions utility
   table.setOptions((prev) => ({
     ...prev,
@@ -408,8 +409,13 @@ export function DatatableInfiniteScrollPoitnPayment({
             }
           }
         >
-          <table className="grid table-fixed border-collapse">
-            <TableHeader className="sticky top-0 z-10 grid backdrop-blur-md">
+          <table
+            className={clsx(
+              "flex table-fixed border-collapse flex-col",
+              isEmptyData && `h-full`
+            )}
+          >
+            <TableHeader className="sticky top-0 z-10 row-span-1 grid backdrop-blur-md">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} className="flex">
                   {headerGroup.headers.map((header) => (
@@ -431,49 +437,75 @@ export function DatatableInfiniteScrollPoitnPayment({
             </TableHeader>
 
             <TableBody
-              className="relative grid"
+              className={clsx("relative grid grow")}
               style={{
-                height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+                height: !isEmptyData
+                  ? `${rowVirtualizer.getTotalSize()}px`
+                  : ``, //tells scrollbar how big the table is
               }}
             >
-              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                const row = rows[
-                  virtualRow.index
-                ] as Row<PointTransactionFieldFragment>;
-                return (
-                  <TableRow
-                    data-index={virtualRow.index} //needed for dynamic row height measurement
-                    ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
-                    key={row.original.id}
-                    className="absolute flex w-full"
-                    style={{
-                      transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
-                    }}
-                  >
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell
-                          key={cell.id}
-                          className="mx-auto flex items-center"
-                          style={{
-                            width: cell.column.getSize(),
-                          }}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              {!isEmptyData ? (
+                rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                  const row = rows[
+                    virtualRow.index
+                  ] as Row<PointTransactionFieldFragment>;
+                  return (
+                    <TableRow
+                      data-index={virtualRow.index} //needed for dynamic row height measurement
+                      ref={(node) => rowVirtualizer.measureElement(node)} //measure dynamic row height
+                      key={row.original.id}
+                      className="absolute flex w-full"
+                      style={{
+                        transform: `translateY(${virtualRow.start}px)`, //this should always be a `style` as it changes on scroll
+                      }}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell
+                            key={cell.id}
+                            className="mx-auto flex items-center"
+                            style={{
+                              width: cell.column.getSize(),
+                            }}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })
+              ) : (
+                <TableRow className="place-content-center place-items-center">
+                  <TableCell className="text-center">
+                    <Empty>
+                      <EmptyHeader className="text-xl font-semibold">
+                        <FileText className="mx-auto mb-2 size-15 text-foreground/60" />
+
+                        <span className="text-foreground/80">
+                          No Transactions Found
+                        </span>
+                      </EmptyHeader>
+
+                      <p className="text-sm text-foreground/50">
+                        There are no payment activities recorded yet.
+                      </p>
+                    </Empty>
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {!isFetching && (
+                <TableRow className="h-fit">
+                  <TableCell>Fetching More...</TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </table>
         </div>
-
-        {isFetching && <div>Fetching More...</div>}
       </CardContent>
     </>
   );

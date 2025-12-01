@@ -1,49 +1,26 @@
 "use client";
-
-import { Fragment, useCallback, useEffect, useState } from "react";
-import {
-  PaymentElement,
-  useStripe,
-  useElements,
-  Elements,
-} from "@stripe/react-stripe-js";
-import type {
-  Appearance,
-  StripePaymentElementOptions,
-} from "@stripe/stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import { env } from "@/env";
-import { useTheme } from "next-themes";
 import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/libs/shadcn/ui/card";
+import { CardAction } from "@/libs/shadcn/ui/card";
 import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
 import { useStore } from "@tanstack/react-form";
 import type { Session } from "next-auth";
-import { Separator } from "@/libs/shadcn/ui/separator";
-import { createHookStore } from "@/libs/zustand/createHookStore";
+
 import { createPaymentIntents } from "../_actions/paymentIntents";
-import { createDialog } from "@/libs/dialog/createDialog";
-import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
+
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import { usePaymentStore } from "../_stores/usePaymentStore";
 import _ from "lodash";
-import Image from "next/image";
+
 import { CardCollapsible } from "@/shared/components/ui/CardCollapsible";
 import Translations from "@/libs/i18n/Translations";
-import Loading, { LoadingDots } from "@/shared/components/ui/Loading";
+
 import { Spinner } from "@/libs/shadcn/ui/spinner";
-import { stripe } from "@/libs/stripe/stripe";
+
 import { useQueryClient } from "@tanstack/react-query";
-import { QrCodePreview } from "./QrCodePreview";
+
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import { CardQrcodeTransaction } from "../@stripe/[transactionId]/_components/CardQrcodeTransaction";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
@@ -186,27 +163,21 @@ const ContentQRCodePreview = () => {
   const { dataStore } = usePaymentStore();
   if (_.isEmpty(dataStore)) return null;
 
-  const { next_action, client_secret } = dataStore;
+  const { next_action, client_secret, created } = dataStore;
   return (
     <CardCollapsible
       title="Premium Blend"
       defaultOpen={!!client_secret}
       description="Our signature premium coffee blend"
       cardContent={{
-        className: "mx-3 place-content-center rounded-lg bg-secondary p-3",
+        className: "mx-3 place-content-center ",
       }}
     >
-      {next_action?.promptpay_display_qr_code?.image_url_svg && (
-        <div className="relative mx-auto aspect-square size-40 rounded-xl shadow-lg">
-          <QrCodePreview
-            image={{
-              src: next_action?.promptpay_display_qr_code?.image_url_svg,
-              alt: client_secret!,
-              fill: true,
-            }}
-          />
-        </div>
-      )}
+      <CardQrcodeTransaction
+        createdAt={new Date(created! * 1000).toISOString()}
+        qrCodeUrl={next_action?.promptpay_display_qr_code?.image_url_svg}
+        client_secret={client_secret}
+      />
     </CardCollapsible>
   );
 };

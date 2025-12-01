@@ -14,7 +14,6 @@ import {
   useInfiniteQuery,
   keepPreviousData,
   useMutation,
-  MutateOptions,
 } from "@tanstack/react-query";
 
 import type { User } from "next-auth";
@@ -103,6 +102,7 @@ export const useUpdatePointTransactionMutations = () => {
         data: {
           metaData: stripeResult.intent,
           status: stripeResult.intent?.status,
+          expiredAt: new Date(),
         },
       },
       {

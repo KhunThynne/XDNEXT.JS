@@ -44,10 +44,16 @@ export default async function StripePage({
     where: { id: transactionId },
   });
   if (res) {
-    const form = res as FromTypePointTransactionStripe;
+    const formRes = res as FromTypePointTransactionStripe;
 
-    const reciver = await getPaymentIntentsRetrieve(form.metaData.id);
-    console.log(`test`, reciver);
+    const reciver = await getPaymentIntentsRetrieve(formRes.metaData.id);
+    console.log(reciver);
+
+    const form: FromTypePointTransactionStripe = {
+      ...formRes,
+      metaData: { ...formRes.metaData, ...reciver.data },
+    };
+
     return (
       <ContainerSection
         // title="Payment Details"
@@ -65,20 +71,20 @@ export default async function StripePage({
                 Payment Details
               </h3>
               <p className="text-muted-foreground">
-                Transaction ID: #TRX-987654321
+                Stripe ID: {form?.metaData?.id}
               </p>
             </section>
 
-            <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm">
-                <HelpCircle className="mr-2 h-4 w-4" />
-                Support
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="mr-2 h-4 w-4" />
-                Invoice
-              </Button>
-            </div>
+            {/* <div className="flex items-center gap-2">
+                <Button variant="outline" size="sm">
+                  <HelpCircle className="mr-2 h-4 w-4" />
+                  Support
+                </Button>
+                <Button variant="outline" size="sm">
+                  <Download className="mr-2 h-4 w-4" />
+                  Invoice
+                </Button>
+              </div> */}
           </div>
         }
       >
