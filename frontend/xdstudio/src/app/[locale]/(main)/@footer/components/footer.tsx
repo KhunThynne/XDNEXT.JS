@@ -19,6 +19,7 @@ export default function Footer({ className }: WithlDefaultProps) {
         className
       )}
     >
+ 
       <div className="mx-auto flex max-w-screen-lg flex-wrap gap-8 py-3">
         <div className="max-lg:w-full lg:flex-2">
           <div className="mb-4 flex items-center gap-2">
@@ -135,8 +136,8 @@ export default function Footer({ className }: WithlDefaultProps) {
         <div className="space-y-1 sm:self-end">
           <div>
             Copyright &copy; XD DEV {`${createdYear}`}{" "}
-            {createdYear < currentYear && `- ${currentYear}`} All
-            Rights Reserved.
+            {createdYear < currentYear && `- ${currentYear}`} All Rights
+            Reserved.
           </div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
             <CheckCircle className="size-4" /> Website

@@ -65,11 +65,10 @@ const AvilableAndRewardDetails = ({ user }: { user: User }) => {
 
 export const TransactionPaymentSection = ({
   session,
-  lastTransactionChildren,
+  children,
 }: {
   session: Session;
-  lastTransactionChildren: React.ReactNode;
-}) => {
+} & WithChildren) => {
   // const params = useParams() as { transactionId: string };
   const { user } = session;
   return (
@@ -81,7 +80,7 @@ export const TransactionPaymentSection = ({
         <Card className="order-first flex-6">
           <AvilableAndRewardDetails user={user} />
         </Card>
-        {lastTransactionChildren}
+        {children}
       </section>
       <CardPointTransactionPayment session={session!} className="order-2" />
     </ContainerSection>

@@ -22,10 +22,11 @@ export default function Navbar({
   return (
     <div
       className={clsx(
-        "bg-background min-h-16.5 w-full place-content-center border-b",
+        "min-h-16.5 w-full place-content-center border-b bg-background",
         className
       )}
     >
+  
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
         <Link href="/" className="text-xl font-bold">
           {conf.branner}
@@ -45,21 +46,20 @@ export default function Navbar({
           onClick={() => setIsOpen((pre) => !pre)}
         />
       </div>
-
       <div className={clsx("relative md:hidden")}>
         <nav
           aria-label="Mobile navigation"
           className={clsx(
             "absolute right-0 size-fit shadow-md transition-all ease-linear",
-            "inset-shadow-sm rounded-b-lg",
+            "rounded-b-lg inset-shadow-sm",
             "bg-background",
             "w-full max-w-lg",
             isOpen ? "max-h-[80vh] overflow-y-auto" : "max-h-0 overflow-hidden"
           )}
         >
-          <ul className="divide-accent flex flex-col divide-y">
+          <ul className="flex flex-col divide-y divide-accent">
             <RenderMenu render={conf.navbar} />
-            <li className="bg-secondary sticky bottom-0 flex justify-end p-2">
+            <li className="sticky bottom-0 flex justify-end bg-secondary p-2">
               <NavbarActionSection
                 className="spcae-x-2"
                 status={statusDefer}

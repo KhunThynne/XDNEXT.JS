@@ -7,7 +7,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 export const GetLastTransactionCache = async (userId: string) => {
   "use cache";
-  cacheLife("max");
+  cacheLife("seconds");
   cacheTag(`last-transaction-${userId}`);
   return await execute(GetPointTransactionsDocument, {
     where: { user: { id: { equals: userId } } },

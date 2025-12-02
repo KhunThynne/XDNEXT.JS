@@ -7,7 +7,7 @@ import { useFormatter, useNow } from "next-intl";
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
-import { memo, useEffect, useEffectEvent, useState } from "react";
+import { useEffect, useEffectEvent, useState } from "react";
 import { useSocket } from "@/libs/socket-io/socket";
 import type { RealtimeEvent } from "@/libs/redis/publisher";
 import { revalidateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
@@ -46,7 +46,6 @@ const AlertPointTransaction = ({
   useEffect(() => {
     if (!socket) return;
     socket.on("keystone-socket-payment", onServerUpdate);
-
     return () => {
       socket.off("keystone-socket-payment", onServerUpdate);
     };
@@ -65,6 +64,7 @@ const AlertPointTransaction = ({
         router.push(`/account/${id}/payment/${pointTransaction.id}`);
       }}
     >
+      
       <AlertTitle className="flex justify-between">
         <h2> {number(pointTransaction.amount ?? 0)}</h2>
       </AlertTitle>
@@ -79,7 +79,6 @@ const AlertPointTransaction = ({
           className={clsx("size-10 self-center group-hover:animate-bounce")}
         />
       </div>
-      {/* {defaultPointTransaction.id} */}
       <AlertDescription className="flex justify-between">
         <article className="grid">
           <span>
@@ -100,4 +99,4 @@ const AlertPointTransaction = ({
   );
 };
 
-export default memo(AlertPointTransaction);
+export default AlertPointTransaction;
