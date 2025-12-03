@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "NextJS develop-thynne",
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
