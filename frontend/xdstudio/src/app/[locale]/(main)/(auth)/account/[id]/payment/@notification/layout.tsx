@@ -14,7 +14,6 @@ export default async function NotificationPaymentLayout(
   const { id } = await props.params;
   return (
     <Item className={clsx("flex-5 gap-3", `max-w-sm border-none p-0`)} key={id}>
-      <input />
       <ItemHeader>
         <ItemTitle className="flex items-center gap-3">
           <Bell className="size-5" /> Last transaction

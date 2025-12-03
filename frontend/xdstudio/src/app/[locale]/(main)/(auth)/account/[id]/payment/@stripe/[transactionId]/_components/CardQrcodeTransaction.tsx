@@ -20,12 +20,12 @@ export const CardQrcodeTransaction = (
     client_secret?: string | null | undefined;
   }
 ) => {
-  const { metaData, createdAt, qrCodeUrl, client_secret } = props;
+  const { metaData, createdAt, qrCodeUrl, client_secret, status } = props;
   const [isTimeOut, setIsTimeOut] = useState(false);
   const qrCodeSvgUrl =
     qrCodeUrl ??
     metaData?.next_action?.promptpay_display_qr_code?.image_url_svg;
-  if (isTimeOut) {
+  if (isTimeOut || status !== "requires_action") {
     return null;
   }
   return (

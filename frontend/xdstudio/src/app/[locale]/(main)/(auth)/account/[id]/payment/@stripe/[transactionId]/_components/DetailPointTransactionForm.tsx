@@ -4,7 +4,6 @@ import type { FromTypePointTransactionStripe } from "../../../_shared/types/From
 import { CardQrcodeTransaction } from "./CardQrcodeTransaction";
 import { CardTransactionSummary } from "./CardTransactionSummary";
 import { CardCustomerInformation } from "./CardCustomerInformation";
-import { CardTransactionHistory } from "./CardTransactionHistory";
 import { ShieldCheck } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/libs/shadcn/ui/alert";
 export const DetailPointTransactionForm = ({

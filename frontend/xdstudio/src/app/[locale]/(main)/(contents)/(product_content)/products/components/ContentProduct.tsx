@@ -23,8 +23,6 @@ import {
 } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
 import { ChevronDownIcon, Plus, Star } from "lucide-react";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Separator } from "@/libs/shadcn/ui/separator";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
 import PointDiamon from "@/shared/components/PointDiamod";

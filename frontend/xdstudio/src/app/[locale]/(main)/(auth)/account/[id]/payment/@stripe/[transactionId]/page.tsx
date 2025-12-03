@@ -75,7 +75,6 @@ export default async function StripePage({
                 Stripe ID: {form?.metaData?.id}
               </p>
             </section>
-
             {/* <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm">
                   <HelpCircle className="mr-2 h-4 w-4" />

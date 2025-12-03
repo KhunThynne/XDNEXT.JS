@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -10,6 +11,7 @@ import * as React from "react";
 
 import type {
   ColumnDef,
+  ColumnFiltersState,
   OnChangeFn,
   Row,
   SortingState,
@@ -18,6 +20,8 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -31,7 +35,7 @@ import {
   usePointTransactionsInfiniteQuery,
   useUpdatePointTransactionMutations,
 } from "../_hooks/usePointTransactionsInfiniteQuery";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
 import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -43,7 +47,7 @@ import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
 import { FileText, OctagonXIcon, SquareChartGantt, Star } from "lucide-react";
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
-import _, { isEmpty } from "lodash";
+import _, { isEmpty, iteratee } from "lodash";
 import { useSocket } from "@/libs/socket-io/socket";
 
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
@@ -58,6 +62,7 @@ import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 import { LoadingDots } from "@/shared/components/ui/Loading";
 import { Spinner } from "@/libs/shadcn/ui/spinner";
+import StatusFilterForm from "./StatusFilterForm";
 
 export interface PaymentSuccessEvent {
   type: "payment.succeeded";
@@ -82,6 +87,7 @@ export function DatatableInfiniteScrollPoitnPayment({
   const router = useRouter();
   const params = useParams() as { transactionId: string };
   const dialog = useDialogGlobal();
+
   const { socket } = useSocket();
   const { switchFavorite, rejectPayment } =
     useUpdatePointTransactionMutations();
@@ -113,7 +119,27 @@ export function DatatableInfiniteScrollPoitnPayment({
 
       // STATUS
       columnHelper.accessor("status", {
-        header: "Status",
+        header: () => {
+          return (
+            <div className="flex items-center gap-2">
+              Status
+              <StatusFilterForm
+                table={table}
+                columnId="status"
+                allStatuses={[
+                  "canceled",
+                  "processing",
+                  "requires_action",
+                  "requires_capture",
+                  "requires_confirmation",
+                  "requires_payment_method",
+                  "succeeded",
+                ]}
+              />
+            </div>
+          );
+        },
+        filterFn: "statusFilter" as "auto",
         cell: (info) => {
           const status = info.getValue();
           return <BadgePaymentStatus status={status} />;
@@ -248,6 +274,7 @@ export function DatatableInfiniteScrollPoitnPayment({
 
   const totalFetched = flatData.length;
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const fetchMoreOnBottomReached = React.useCallback(
@@ -275,8 +302,26 @@ export function DatatableInfiniteScrollPoitnPayment({
     columns,
     state: {
       sorting,
+      columnFilters,
     },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getCoreRowModel: getCoreRowModel(),
+    filterFns: {
+      statusFilter: (row, columnId, filterValue) => {
+        const rowValue = row.getValue(columnId) as string;
+        const lowerCaseRowValue = rowValue.toLowerCase();
+        const lowerCaseFilterValues = (filterValue as string[]).map((v) =>
+          v.toLowerCase()
+        );
+        return lowerCaseFilterValues.includes(lowerCaseRowValue);
+      },
+    },
+    initialState: {
+      columnFilters: [{ id: "status", value: ["success"] }],
+    },
     manualSorting: true,
     debugTable: true,
   });
@@ -357,7 +402,7 @@ export function DatatableInfiniteScrollPoitnPayment({
       rowVirtualizer.scrollToIndex?.(0);
     }
   };
-  const isEmptyData = totalDBRowCount < 1;
+  const isEmptyData = totalDBRowCount < 1 || table.getRowCount() < 1;
   //since this table option is derived from table row model state, we're using the table.setOptions utility
   table.setOptions((prev) => ({
     ...prev,
@@ -404,6 +449,7 @@ export function DatatableInfiniteScrollPoitnPayment({
           <p className="text-xs text-muted-foreground">รายการที่แสดงผล</p>
         </div>
       </CardHeader>
+      <CardAction className="w-full px-5"></CardAction>
       <CardContent className="relative h-full">
         <div
           className="absolute inset-0 container max-h-full overflow-auto overscroll-contain"
@@ -484,7 +530,6 @@ export function DatatableInfiniteScrollPoitnPayment({
                   </TableRow>
                 );
               })}
-
               {isEmptyData && (
                 <TableRow className="place-content-center place-items-center">
                   <TableCell className="text-center">

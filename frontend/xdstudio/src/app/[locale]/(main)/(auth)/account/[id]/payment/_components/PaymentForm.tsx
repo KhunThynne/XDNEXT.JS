@@ -163,7 +163,7 @@ const ContentQRCodePreview = () => {
   const { dataStore } = usePaymentStore();
   if (_.isEmpty(dataStore)) return null;
 
-  const { next_action, client_secret, created } = dataStore;
+  const { next_action, client_secret, created, status } = dataStore;
   return (
     <CardCollapsible
       title="Premium Blend"
@@ -177,6 +177,7 @@ const ContentQRCodePreview = () => {
         createdAt={new Date(created! * 1000).toISOString()}
         qrCodeUrl={next_action?.promptpay_display_qr_code?.image_url_svg}
         client_secret={client_secret}
+        status={status}
       />
     </CardCollapsible>
   );

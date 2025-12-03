@@ -8,7 +8,6 @@ import type { FromTypePointTransactionStripe } from "../../../_shared/types/From
 
 export const CardTransactionHistory = ({
   metaData,
-  charge,
 }: FromTypePointTransactionStripe) => {
   return (
     <Card className="flex-4">
@@ -27,17 +26,17 @@ export const CardTransactionHistory = ({
             <div className="flex flex-col gap-1">
               <span className="text-sm font-medium">
                 {/* 🎯 Inline: เช็คสถานะการชำระเงิน */}
-                {charge?.status === "succeeded"
+                {/* {charge?.status === "succeeded"
                   ? "Payment Completed"
-                  : "Payment Initiated"}
+                  : "Payment Initiated"} */}
               </span>
 
               <span className="text-xs text-muted-foreground">
                 {/* 🎯 Inline: แปลงเวลาจาก Stripe (สมมติว่าคุณมีฟังก์ชัน formatTimestamp) */}
 
-                {charge?.created
+                {/* {charge?.created
                   ? new Date(charge.created * 1000).toLocaleString()
-                  : "N/A"}
+                  : "N/A"} */}
               </span>
             </div>
           </div>
