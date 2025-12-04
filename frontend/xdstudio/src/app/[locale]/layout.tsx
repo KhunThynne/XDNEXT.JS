@@ -1,4 +1,3 @@
-
 import { routing } from "@/libs/i18n/routing";
 import clsx from "clsx";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -20,14 +19,14 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   // Ensure that the incoming `locale` is valid
-  const { locale } = await params;
+  const { locale = "en" } = await params;
   const session = await auth();
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
   return (
-    <html lang={locale ?? "en"}>
+    <html lang={locale} key={locale}>
       <body
         suppressHydrationWarning
         className={clsx(

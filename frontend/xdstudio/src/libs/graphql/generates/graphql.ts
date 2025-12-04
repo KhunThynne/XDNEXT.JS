@@ -3942,6 +3942,16 @@ export type CreatePointTransactionMutation = { __typename?: 'Mutation', createPo
     & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
   ) | null };
 
+export type DeletePointTransactionsMutationVariables = Exact<{
+  where: Array<PointTransactionWhereUniqueInput> | PointTransactionWhereUniqueInput;
+}>;
+
+
+export type DeletePointTransactionsMutation = { __typename?: 'Mutation', deletePointTransactions?: Array<(
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null> | null };
+
 export type UpdatePointTransactionMutationVariables = Exact<{
   where: PointTransactionWhereUniqueInput;
   data: PointTransactionUpdateInput;
@@ -4642,7 +4652,7 @@ export const GetPointTransactionsDocument = new TypedDocumentString(`
   isFavorite
 }`) as unknown as TypedDocumentString<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>;
 export const CreatePointTransactionDocument = new TypedDocumentString(`
-    mutation CreatePointTransaction($data: PointTransactionCreateInput!) {
+    mutation createPointTransaction($data: PointTransactionCreateInput!) {
   createPointTransaction(data: $data) {
     ...PointTransactionField
   }
@@ -4665,6 +4675,30 @@ export const CreatePointTransactionDocument = new TypedDocumentString(`
   updateAt
   isFavorite
 }`) as unknown as TypedDocumentString<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>;
+export const DeletePointTransactionsDocument = new TypedDocumentString(`
+    mutation deletePointTransactions($where: [PointTransactionWhereUniqueInput!]!) {
+  deletePointTransactions(where: $where) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  ordersCount
+  metaData
+  expiredAt
+  createdAt
+  updateAt
+  isFavorite
+}`) as unknown as TypedDocumentString<DeletePointTransactionsMutation, DeletePointTransactionsMutationVariables>;
 export const UpdatePointTransactionDocument = new TypedDocumentString(`
     mutation updatePointTransaction($where: PointTransactionWhereUniqueInput!, $data: PointTransactionUpdateInput!) {
   updatePointTransaction(where: $where, data: $data) {

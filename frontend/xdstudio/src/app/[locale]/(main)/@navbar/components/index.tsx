@@ -1,7 +1,7 @@
 "use client";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { useDeferredValue, useState } from "react";
+import { memo, useDeferredValue, useMemo, useState } from "react";
 import { RenderLink } from "./RenderLink.components";
 import conf from "@/utils/loadConfig";
 import { MenuButton } from "./Menu.button";
@@ -11,13 +11,14 @@ import { useSession } from "next-auth/react";
 import { NavbarActionSection } from "./NavbarActionSection";
 import type { Session } from "next-auth";
 
-export default function Navbar({
+function Navbar({
   className,
   session,
 }: WithlDefaultProps & { session: Session | null }) {
   const [isOpen, setIsOpen] = useState(false);
   const { status } = useSession();
-
+  const BranderMemo = useMemo(() => conf.branner, []);
+  const NavbarMemo = useMemo(() => conf.navbar, []);
   const statusDefer = useDeferredValue(status);
   return (
     <div
@@ -26,10 +27,9 @@ export default function Navbar({
         className
       )}
     >
-  
       <div className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link href="/" className="text-xl font-bold">
-          {conf.branner}
+        <Link href="/" key={BranderMemo} className="text-xl font-bold">
+          {BranderMemo}
         </Link>
         <nav className="hidden items-center gap-6 md:flex">
           <RenderLink render={conf.navbar} />
@@ -58,7 +58,7 @@ export default function Navbar({
           )}
         >
           <ul className="flex flex-col divide-y divide-accent">
-            <RenderMenu render={conf.navbar} />
+            <RenderMenu render={NavbarMemo} />
             <li className="sticky bottom-0 flex justify-end bg-secondary p-2">
               <NavbarActionSection
                 className="spcae-x-2"
@@ -72,3 +72,5 @@ export default function Navbar({
     </div>
   );
 }
+
+export default memo(Navbar);

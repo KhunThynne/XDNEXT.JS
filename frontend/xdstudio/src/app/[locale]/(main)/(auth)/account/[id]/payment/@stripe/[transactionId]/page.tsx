@@ -74,6 +74,7 @@ export default async function StripePage({
               <p className="text-muted-foreground">
                 Stripe ID: {form?.metaData?.id}
               </p>
+              {reciver.data?.status}
             </section>
             {/* <div className="flex items-center gap-2">
                 <Button variant="outline" size="sm">

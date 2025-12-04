@@ -10,7 +10,8 @@ export const DialogFooterAction = ({
   buttonCancel,
   className,
   loading,
-}: DialogFooterActionProps & WithClassName) => {
+  children,
+}: DialogFooterActionProps & WithClassName & Partial<WithChildren>) => {
   return (
     <section
       key={"dialog-footer-action"}
@@ -39,6 +40,7 @@ export const DialogFooterAction = ({
       >
         Close
       </Button>
+      {children}
     </section>
   );
 };

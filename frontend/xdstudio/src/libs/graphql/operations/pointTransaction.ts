@@ -49,12 +49,18 @@ graphql(`
 `);
 
 graphql(`
-  mutation CreatePointTransaction($data: PointTransactionCreateInput!) {
+  mutation createPointTransaction($data: PointTransactionCreateInput!) {
     createPointTransaction(data: $data) {
       ...PointTransactionField
     }
   }
-
+  mutation deletePointTransactions(
+    $where: [PointTransactionWhereUniqueInput!]!
+  ) {
+    deletePointTransactions(where: $where) {
+      ...PointTransactionField
+    }
+  }
   mutation updatePointTransaction(
     $where: PointTransactionWhereUniqueInput!
     $data: PointTransactionUpdateInput!

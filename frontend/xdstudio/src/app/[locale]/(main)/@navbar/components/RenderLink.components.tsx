@@ -32,10 +32,10 @@ const ListItem = ({
     <li {...props}>
       <NavigationMenuLink asChild data-active={pathname.includes(href)}>
         <Link href={href} aria-disabled={pathname.includes(href)}>
-          <div className="text-sm font-medium leading-none">
+          <div className="text-sm leading-none font-medium">
             <Translations text={title} namespace="navbar" />
           </div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
             {children}
           </p>
         </Link>
@@ -43,7 +43,7 @@ const ListItem = ({
 
       {/* 👇 Nested children */}
       {nested && nested.length > 0 && (
-        <div className="ml-4 mt-2">
+        <div className="mt-2 ml-4">
           <RenderChildren nested={nested} />
         </div>
       )}
@@ -101,7 +101,7 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                     data-motion={clsx(translateCondition && "from-start")}
                   >
                     <RenderChildren
-                      className="min-w-xs flex max-w-xs flex-wrap"
+                      className="flex max-w-xs min-w-xs flex-wrap"
                       nested={item.children}
                     />
                   </NavigationMenuContent>

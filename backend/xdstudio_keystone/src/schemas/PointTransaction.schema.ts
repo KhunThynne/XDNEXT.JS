@@ -85,6 +85,17 @@ export const PointTransaction = list({
     },
 
     afterOperation: async (args) => {
+      if (args.operation === 'delete') {
+        try {
+          await publishRealtimeEvent('keystone-socket-payment', {
+            type: `payment.delete`,
+            data: { ...args.originalItem },
+          });
+          return;
+        } catch {
+          console.log(`[Keystone Hook] Point delete for, Error`);
+        }
+      }
       if (args.operation === 'update' && args.item && args.originalItem) {
         try {
           if (args.item.isFavorite !== args.originalItem.isFavorite) {

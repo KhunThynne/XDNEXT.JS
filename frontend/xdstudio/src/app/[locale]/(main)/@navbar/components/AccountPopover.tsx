@@ -30,8 +30,7 @@ export const UserDetails = ({
     () => getInitials(user.username as string),
     [user.username]
   );
-  const format = useFormatter();
-  const pathname = usePathname();
+
   return (
     <>
       <div className={clsx("relative flex items-center gap-3", className)}>

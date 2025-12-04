@@ -31,10 +31,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/libs/shadcn/ui/table";
-import {
-  usePointTransactionsInfiniteQuery,
-  useUpdatePointTransactionMutations,
-} from "../_hooks/usePointTransactionsInfiniteQuery";
+import { usePointTransactionsInfiniteQuery } from "../_hooks/usePointTransactionsInfiniteQuery";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
 import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
@@ -44,7 +41,13 @@ import clsx from "clsx";
 import { useFormatter } from "next-intl";
 import { Button } from "@/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
-import { FileText, OctagonXIcon, SquareChartGantt, Star } from "lucide-react";
+import {
+  FileText,
+  OctagonXIcon,
+  SquareChartGantt,
+  Star,
+  Trash2,
+} from "lucide-react";
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import _, { isEmpty, iteratee } from "lodash";
@@ -63,9 +66,10 @@ import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 import { LoadingDots } from "@/shared/components/ui/Loading";
 import { Spinner } from "@/libs/shadcn/ui/spinner";
 import StatusFilterForm from "./StatusFilterForm";
+import { usePointTransactionMutations } from "../_hooks/usePointTransactionMutations";
 
 export interface PaymentSuccessEvent {
-  type: "payment.succeeded";
+  type: any;
   data: unknown;
 }
 
@@ -89,8 +93,12 @@ export function DatatableInfiniteScrollPoitnPayment({
   const dialog = useDialogGlobal();
 
   const { socket } = useSocket();
-  const { switchFavorite, rejectPayment } =
-    useUpdatePointTransactionMutations();
+  const {
+    switchFavorite,
+    rejectPayment,
+    rejectAndDeletePayment,
+    deletePayment,
+  } = usePointTransactionMutations();
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -146,7 +154,6 @@ export function DatatableInfiniteScrollPoitnPayment({
         },
       }),
 
-      // CREATED AT
       columnHelper.accessor("createdAt", {
         header: () => "Created At",
         cell: (info) => {
@@ -168,7 +175,10 @@ export function DatatableInfiniteScrollPoitnPayment({
           const row = info.row.original;
           const active = params.transactionId === row.id;
           const status = row.status as StatusValueStripePayment;
-
+          const actionParams = {
+            id: row.id,
+            paymentIntentId: (row.metaData as Stripe.PaymentIntent).id,
+          };
           return (
             <ButtonGroup className="flex w-full place-content-end">
               {status !== "canceled" && (
@@ -176,7 +186,7 @@ export function DatatableInfiniteScrollPoitnPayment({
                   size={"icon-sm"}
                   variant={"ghost"}
                   className={clsx(
-                    "cursor-pointer transition-all",
+                    "cursor-pointer",
                     !(status !== "succeeded") && `order-last`
                   )}
                   disabled={active}
@@ -211,12 +221,12 @@ export function DatatableInfiniteScrollPoitnPayment({
                   )}
                 />
               </Button>
-              {status !== "succeeded" && status !== "canceled" && (
+              {status !== "succeeded" && status !== "canceled" ? (
                 <Button
                   // disabled={!(status !== "succeeded")}
                   size={"icon-sm"}
                   variant={"ghost"}
-                  className="cursor-pointer transition-all"
+                  className="cursor-pointer"
                   onClick={() => {
                     dialog.openDialog({
                       title: "Confirm Payment Rejection",
@@ -232,26 +242,70 @@ export function DatatableInfiniteScrollPoitnPayment({
                         <DialogFooterAction
                           onCancel={() => dialog.closeDialog()}
                           onConfirm={async () => {
-                            await rejectPayment({
-                              id: row.id,
-                              paymentIntentId: (
-                                row.metaData as Stripe.PaymentIntent
-                              ).id,
-                            });
+                            await rejectPayment(actionParams);
                             dialog.closeDialog();
                           }}
                           buttonConfirm={{
                             children: "Reject Payment",
-                            variant: "destructive",
+                            variant: "outline",
+                            className: "border-destructive cursor-pointer",
                           }}
-                        />
+                        >
+                          <Button
+                            className="order-first cursor-pointer capitalize"
+                            variant={"destructive"}
+                            onClick={async () => {
+                              await rejectAndDeletePayment(
+                                {
+                                  id: row.id,
+                                  paymentIntentId: (
+                                    row.metaData as Stripe.PaymentIntent
+                                  ).id,
+                                },
+                                {
+                                  onSuccess: async () => {},
+                                }
+                              ).then(() => {
+                                dialog.closeDialog();
+                              });
+                            }}
+                          >
+                            reject and delete
+                          </Button>
+                        </DialogFooterAction>
                       ),
                     });
                   }}
                 >
                   <OctagonXIcon
-                    className={clsx("text-destructive transition-opacity")}
+                    className={clsx("text-chart-1 transition-opacity")}
                   />
+                </Button>
+              ) : (
+                <Button
+                  size={"icon-sm"}
+                  variant={"ghost"}
+                  className="cursor-pointer text-destructive"
+                  onClick={() => {
+                    dialog.openDialog({
+                      title: "Delete dialog",
+                      description: `Are you sure you want to delete this **Point
+                          Transaction**? This action cannot be undone.`,
+                      content: `Transaction ID: **${row.id}**`,
+                      footer: (
+                        <DialogFooterAction
+                          onConfirm={async () => {
+                            await deletePayment(actionParams).then(() => {
+                              dialog.closeDialog();
+                            });
+                          }}
+                          onCancel={() => dialog.closeDialog()}
+                        />
+                      ),
+                    });
+                  }}
+                >
+                  <Trash2 />
                 </Button>
               )}
             </ButtonGroup>
@@ -259,6 +313,7 @@ export function DatatableInfiniteScrollPoitnPayment({
         },
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [formatter, params.transactionId, router, session.user.id]
   );
   const { query, queryKey } = usePointTransactionsInfiniteQuery({
@@ -294,6 +349,7 @@ export function DatatableInfiniteScrollPoitnPayment({
     [fetchNextPage, isFetching, totalFetched, totalDBRowCount]
   );
   React.useEffect(() => {
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-pass-data-to-parent
     fetchMoreOnBottomReached(tableContainerRef.current);
   }, [fetchMoreOnBottomReached]);
 
@@ -325,74 +381,125 @@ export function DatatableInfiniteScrollPoitnPayment({
     manualSorting: true,
     debugTable: true,
   });
-  const onServerUpdate = React.useEffectEvent(function onServerUpdate(
-    arg: string
-  ) {
+  const onServerConnect = React.useEffectEvent((arg: string) => {
     const action = JSON.parse(arg) as RealtimeEvent;
     const data = action.data as PointTransactionFieldFragment;
-    queryClient.setQueryData<
-      InfiniteData<{
-        data: { pointTransactions: PointTransactionFieldFragment[] };
-      }>
-    >(queryKey, (oldData) => {
-      if (!oldData) {
-        return {
-          pages: [{ data: { pointTransactions: [data] } }],
-          pageParams: [0],
-        };
-      }
-      const itemExists = oldData.pages.some((p) =>
-        p.data?.pointTransactions?.some((row) => row.id === data.id)
-      );
-      if (action.type === "payment.succeeded") {
-        toast.success(`${action.type}-${data?.id}`);
-      }
+    type InfinitePointTransactions = InfiniteData<{
+      data: {
+        pointTransactions: PointTransactionFieldFragment[];
+        pointTransactionsCount?: number;
+      };
+    }>;
+    switch (action.type) {
+      case "payment.delete": {
+        queryClient.setQueryData<InfinitePointTransactions>(
+          queryKey,
+          (oldData) => {
+            if (!oldData) return oldData;
+            const wasItemInCache = oldData.pages.some((page) =>
+              page.data?.pointTransactions?.some((row) => row.id === data.id)
+            );
+            const newPages = oldData.pages.map((page, index) => {
+              const filteredTransactions = page.data?.pointTransactions?.filter(
+                (row) => row.id !== data.id
+              );
+              let newPointTransactionsCount =
+                page?.data?.pointTransactionsCount ?? 0;
+              if (index === 0 && wasItemInCache) {
+                newPointTransactionsCount = Math.max(
+                  0,
+                  newPointTransactionsCount - 1
+                );
+              }
+              return {
+                ...page,
+                data: {
+                  ...page.data,
+                  pointTransactions: filteredTransactions,
 
-      if (itemExists) {
-        return {
-          ...oldData,
-          pages: oldData.pages.map((page) => ({
-            ...page,
+                  pointTransactionsCount: newPointTransactionsCount,
+                },
+              };
+            });
 
-            data: {
-              ...page.data,
+            return {
+              ...oldData,
+              pages: newPages,
+            };
+          }
+        );
+        toast.info(`Point Transaction ID: ${data.id} has been deleted.`);
+        updateTagClient(`point-transaction-${data.id}`);
 
-              pointTransactions: page.data?.pointTransactions?.map((row) =>
-                row.id === data.id ? data : row
-              ),
-            },
-          })),
-        };
-      } else {
-        const firstPage = oldData.pages[0];
-        firstPage;
-        return {
-          ...oldData,
-          pages: [
-            {
-              ...firstPage,
-              data: {
-                ...firstPage.data,
-                pointTransactions: [
-                  data,
-                  ...(firstPage?.data?.pointTransactions ?? []),
-                ],
-              },
-            },
-            ...oldData.pages.slice(1),
-          ],
-        };
+        return;
       }
-    });
-    updateTagClient(`point-transaction-${data.id}`);
+      default: {
+        if (action.type.startsWith("payment.")) {
+          queryClient.setQueryData<InfinitePointTransactions>(
+            queryKey,
+            (oldData) => {
+              if (!oldData) {
+                return {
+                  pages: [{ data: { pointTransactions: [data] } }],
+                  pageParams: [0],
+                };
+              }
+
+              const itemExists = oldData.pages.some((p) =>
+                p.data?.pointTransactions?.some((row) => row.id === data.id)
+              );
+
+              if (action.type.startsWith("payment.succeeded")) {
+                toast.success(`${action.type}-${data?.id}`);
+              }
+              if (itemExists) {
+                return {
+                  ...oldData,
+                  pages: oldData.pages.map((page) => ({
+                    ...page,
+                    data: {
+                      ...page.data,
+                      pointTransactions: page.data?.pointTransactions?.map(
+                        (row) => (row.id === data.id ? data : row)
+                      ),
+                    },
+                  })),
+                };
+              } else {
+                const firstPage = oldData.pages[0];
+                return {
+                  ...oldData,
+                  pages: [
+                    {
+                      ...firstPage,
+                      data: {
+                        ...firstPage.data,
+                        pointTransactions: [
+                          data,
+                          ...(firstPage?.data?.pointTransactions ?? []),
+                        ],
+                      },
+                    },
+                    ...oldData.pages.slice(1),
+                  ],
+                };
+              }
+            }
+          );
+          updateTagClient(`point-transaction-${data.id}`);
+          return;
+        }
+        return;
+      }
+    }
   });
   useEffect(() => {
     if (!socket || !queryClient || !queryKey) return;
 
-    socket.on("keystone-socket-payment", onServerUpdate);
+    socket.on("keystone-socket-payment", onServerConnect);
 
     return () => {
-      socket.off("keystone-socket-payment", onServerUpdate);
+      socket.off("keystone-socket-payment", onServerConnect);
     };
   }, [queryClient, queryKey, socket]);
 

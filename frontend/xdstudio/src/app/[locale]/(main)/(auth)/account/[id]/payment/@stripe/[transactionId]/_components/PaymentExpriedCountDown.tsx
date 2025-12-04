@@ -5,7 +5,7 @@ import useCountdown from "@/shared/hooks/useCountDown";
 import type { Dispatch, SetStateAction } from "react";
 import { memo, useLayoutEffect } from "react";
 import type { FromTypePointTransactionStripe } from "../../../_shared/types/FromTypePointTransactionStripe";
-import { useUpdatePointTransactionMutations } from "../../../_hooks/usePointTransactionsInfiniteQuery";
+import { usePointTransactionMutations } from "../../../_hooks/usePointTransactionMutations";
 type BasePropsWithoutDuration = Omit<CountdownProps, "duration">;
 interface PatmentExpriedProps extends BasePropsWithoutDuration {
   duration?: number;
@@ -22,7 +22,7 @@ const PaymentExpriedCountDown = ({
     ...props,
     duration: THIRTY_MINUTES_MS,
   });
-  const { rejectPayment } = useUpdatePointTransactionMutations();
+  const { rejectPayment } = usePointTransactionMutations();
   useLayoutEffect(() => {
     if (!onTimeOut || typeof window === "undefined") return;
     if (timeout) {
