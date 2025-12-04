@@ -12,6 +12,8 @@ import { DetailPointTransactionForm } from "./_components/DetailPointTransaction
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";
 import { getPaymentIntentsRetrieve } from "../../_actions/paymentIntents";
 import { notFound } from "next/navigation";
+import MenuActionStripe from "./_components/MenuActionStripe";
+import _ from "lodash";
 
 const getPointPaymentTransactionCache = async (
   query: GetPointTransactionQueryVariables
@@ -45,7 +47,7 @@ export default async function StripePage({
   const res = await getPointPaymentTransactionCache({
     where: { id: transactionId },
   });
-  if (res) {
+  if (res && session) {
     const formRes = res as FromTypePointTransactionStripe;
 
     const reciver = await getPaymentIntentsRetrieve(formRes.metaData.id);
@@ -66,26 +68,39 @@ export default async function StripePage({
           content: "xl:absolute inset-0",
         }}
         description={
-          <div className="flex justify-between">
-            <section>
+          <div className="flex flex-wrap justify-between gap-2">
+            <section className="grow">
               <h3 className="text-2xl font-semibold tracking-tight text-primary">
                 Payment Details
               </h3>
               <p className="text-muted-foreground">
                 Stripe ID: {form?.metaData?.id}
               </p>
-              {reciver.data?.status}
             </section>
-            {/* <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm">
-                  <HelpCircle className="mr-2 h-4 w-4" />
-                  Support
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="mr-2 h-4 w-4" />
-                  Invoice
-                </Button>
-              </div> */}
+            <MenuActionStripe
+              className="self-end"
+              data={form}
+              id={form.id}
+              paymentIntentId={form.metaData.id}
+              articleBt={false}
+              status={
+                (form.status as Stripe.PaymentIntent.Status) ??
+                form.metaData.status ??
+                "canceled"
+              }
+              favoriteBt={!(form.status === "canceled")}
+              rejectBt={
+                !!(
+                  reciver.success &&
+                  !reciver.data?.latest_charge &&
+                  form.status !== "canceled"
+                )
+              }
+              deleteBt={
+                !(form.status !== "succeeded" && form.status !== "canceled")
+              }
+              session={session}
+            />
           </div>
         }
       >

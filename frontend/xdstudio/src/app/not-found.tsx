@@ -25,12 +25,12 @@ export default async function NotFoundRoot() {
           enableSystem
           // disableTransitionOnChange
         >
-          <Content className="bg-accent/40 relative h-screen place-content-center place-items-center text-center">
+          <Content className="relative h-screen place-content-center place-items-center bg-accent/40 text-center">
             <div className="">
-              <h1 className="text-foreground mb-4 text-6xl font-extrabold dark:text-white">
+              <h1 className="mb-4 text-6xl font-extrabold text-foreground dark:text-white">
                 {404}
               </h1>
-              <p className="text-muted-foreground mb-6 max-w-md text-lg">
+              <p className="mb-6 max-w-md text-lg text-muted-foreground">
                 {t("not_found.description")}
               </p>
               <Link href="/">

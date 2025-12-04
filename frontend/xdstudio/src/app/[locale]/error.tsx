@@ -25,7 +25,8 @@ export default function LocaleError({
 }) {
   return (
     <Content
-      className="min-h-screen place-content-center"
+      className="locale-error min-h-screen place-content-center"
+      key={`locale-error`}
       classNames={{
         content: "max-w-md mx-auto   px-4",
       }}

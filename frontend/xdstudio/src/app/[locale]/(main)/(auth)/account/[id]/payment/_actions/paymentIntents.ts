@@ -49,7 +49,10 @@ export const createPaymentIntents = async (
     });
     const updatedIntent = await stripe.paymentIntents.update(paymentIntent.id, {
       metadata: {
-        ...paymentIntent.metadata,
+        ...(paymentIntent.metadata as {
+          userId: string;
+          pointTransactionId: string;
+        }),
         pointTransactionId: (
           transaction?.data
             .createPointTransaction as PointTransactionFieldFragment
@@ -72,7 +75,6 @@ export async function getPaymentIntentsRetrieve(paymentIntentId: string) {
       paymentIntentId,
       { expand: ["latest_charge"] }
     );
-    console.log("paymentIntent", paymentIntent);
     return {
       success: true,
       data: paymentIntent,

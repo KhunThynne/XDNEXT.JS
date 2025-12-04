@@ -67,6 +67,7 @@ import { LoadingDots } from "@/shared/components/ui/Loading";
 import { Spinner } from "@/libs/shadcn/ui/spinner";
 import StatusFilterForm from "./StatusFilterForm";
 import { usePointTransactionMutations } from "../_hooks/usePointTransactionMutations";
+import MenuActionStripe from "../@stripe/[transactionId]/_components/MenuActionStripe";
 
 export interface PaymentSuccessEvent {
   type: any;
@@ -90,15 +91,9 @@ export function DatatableInfiniteScrollPoitnPayment({
   const formatter = useFormatter();
   const router = useRouter();
   const params = useParams() as { transactionId: string };
-  const dialog = useDialogGlobal();
 
   const { socket } = useSocket();
-  const {
-    switchFavorite,
-    rejectPayment,
-    rejectAndDeletePayment,
-    deletePayment,
-  } = usePointTransactionMutations();
+
   const columns = useMemo<ColumnDef<PointTransactionFieldFragment, any>[]>(
     () => [
       // ID
@@ -173,142 +168,21 @@ export function DatatableInfiniteScrollPoitnPayment({
         id: "action",
         cell: (info) => {
           const row = info.row.original;
-          const active = params.transactionId === row.id;
           const status = row.status as StatusValueStripePayment;
-          const actionParams = {
-            id: row.id,
-            paymentIntentId: (row.metaData as Stripe.PaymentIntent).id,
-          };
+          const paymentIntent = row.metaData as Stripe.PaymentIntent;
           return (
-            <ButtonGroup className="flex w-full place-content-end">
-              {status !== "canceled" && (
-                <Button
-                  size={"icon-sm"}
-                  variant={"ghost"}
-                  className={clsx(
-                    "cursor-pointer",
-                    !(status !== "succeeded") && `order-last`
-                  )}
-                  disabled={active}
-                  onClick={() => {
-                    router.push(
-                      `/account/${session.user.id}/payment/${row.id}`
-                    );
-                  }}
-                >
-                  <SquareChartGantt
-                    className={clsx(
-                      "transition-opacity",
-                      active && `opacity-70`
-                    )}
-                  />
-                </Button>
-              )}
-              <Button
-                size={"icon-sm"}
-                variant={"ghost"}
-                className="cursor-pointer"
-                onClick={async () => {
-                  await switchFavorite({
-                    id: row.id,
-                    data: { isFavorite: !row.isFavorite },
-                  });
-                }}
-              >
-                <Star
-                  className={clsx(
-                    row.isFavorite && "fill-yellow-500 text-yellow-500"
-                  )}
-                />
-              </Button>
-              {status !== "succeeded" && status !== "canceled" ? (
-                <Button
-                  // disabled={!(status !== "succeeded")}
-                  size={"icon-sm"}
-                  variant={"ghost"}
-                  className="cursor-pointer"
-                  onClick={() => {
-                    dialog.openDialog({
-                      title: "Confirm Payment Rejection",
-                      description:
-                        "This action will permanently cancel the Payment Intent and change its status to 'Canceled'. Are you sure you want to proceed?",
-                      content: (
-                        <p>
-                          This payment intent will be moved to the **Canceled**
-                          status.
-                        </p>
-                      ),
-                      footer: (
-                        <DialogFooterAction
-                          onCancel={() => dialog.closeDialog()}
-                          onConfirm={async () => {
-                            await rejectPayment(actionParams);
-                            dialog.closeDialog();
-                          }}
-                          buttonConfirm={{
-                            children: "Reject Payment",
-                            variant: "outline",
-                            className: "border-destructive cursor-pointer",
-                          }}
-                        >
-                          <Button
-                            className="order-first cursor-pointer capitalize"
-                            variant={"destructive"}
-                            onClick={async () => {
-                              await rejectAndDeletePayment(
-                                {
-                                  id: row.id,
-                                  paymentIntentId: (
-                                    row.metaData as Stripe.PaymentIntent
-                                  ).id,
-                                },
-                                {
-                                  onSuccess: async () => {},
-                                }
-                              ).then(() => {
-                                dialog.closeDialog();
-                              });
-                            }}
-                          >
-                            reject and delete
-                          </Button>
-                        </DialogFooterAction>
-                      ),
-                    });
-                  }}
-                >
-                  <OctagonXIcon
-                    className={clsx("text-chart-1 transition-opacity")}
-                  />
-                </Button>
-              ) : (
-                <Button
-                  size={"icon-sm"}
-                  variant={"ghost"}
-                  className="cursor-pointer text-destructive"
-                  onClick={() => {
-                    dialog.openDialog({
-                      title: "Delete dialog",
-                      description: `Are you sure you want to delete this **Point
-                          Transaction**? This action cannot be undone.`,
-                      content: `Transaction ID: **${row.id}**`,
-                      footer: (
-                        <DialogFooterAction
-                          onConfirm={async () => {
-                            await deletePayment(actionParams).then(() => {
-                              dialog.closeDialog();
-                            });
-                          }}
-                          onCancel={() => dialog.closeDialog()}
-                        />
-                      ),
-                    });
-                  }}
-                >
-                  <Trash2 />
-                </Button>
-              )}
-            </ButtonGroup>
+            <MenuActionStripe
+              className="w-full gap-2!"
+              session={session}
+              status={status}
+              data={row}
+              id={row.id}
+              articleBt={status !== "canceled"}
+              favoriteBt={status !== "canceled"}
+              rejectBt={status !== "succeeded" && status !== "canceled"}
+              deleteBt={!(status !== "succeeded" && status !== "canceled")}
+              paymentIntentId={paymentIntent.id}
+            />
           );
         },
       },

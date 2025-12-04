@@ -6,6 +6,8 @@ type StoreWrapper<T, K extends string> = {
   [key in `${Lowercase<K>}Store`]: T;
 } & {
   [key in `set${Capitalize<K>}`]: (data: Partial<T>) => void;
+} & {
+  clearData: () => void;
 };
 
 /**
@@ -47,19 +49,21 @@ export function createHookStore<T, K extends string = "data">({
   } & Omit<PersistOptions<any>, "name">;
 }) {
   const finalKey = (key ?? "data") as K;
-
   type StoreType = StoreWrapper<T, K>;
-
   const lowerKey = finalKey.toLowerCase() as Lowercase<K>;
   const camelKey = _.camelCase(finalKey);
   const setKey =
     `set${camelKey.charAt(0).toUpperCase() + camelKey.slice(1)}` as `set${Capitalize<K>}`;
-
   if (persistant) {
     return create<StoreType>()(
       persist(
         devtools((set, get) => ({
           [`${lowerKey}Store`]: initial,
+          clearData: () => {
+            set({
+              [`${lowerKey}Store`]: initial,
+            } as any);
+          },
           [setKey]: (data: T | Partial<T>) => {
             const current = get()[`${lowerKey}Store`];
             const next =
@@ -80,6 +84,11 @@ export function createHookStore<T, K extends string = "data">({
   return create<StoreType>()(
     devtools((set, get) => ({
       [`${lowerKey}Store`]: initial,
+      clearData: () => {
+        set({
+          [`${lowerKey}Store`]: initial,
+        } as any);
+      },
       [setKey]: (data: T | Partial<T>) => {
         const current = get()[`${lowerKey}Store`];
         const next =

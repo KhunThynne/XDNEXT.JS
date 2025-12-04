@@ -9,7 +9,7 @@ import { createPaymentIntents } from "../_actions/paymentIntents";
 
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
-import { usePaymentStore } from "../_stores/usePaymentStore";
+
 import _ from "lodash";
 
 import { CardCollapsible } from "@/shared/components/ui/CardCollapsible";
@@ -20,21 +20,18 @@ import { Spinner } from "@/libs/shadcn/ui/spinner";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
-import { CardQrcodeTransaction } from "../@stripe/[transactionId]/_components/CardQrcodeTransaction";
+import { useLayoutEffect } from "react";
 
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
 
 export const FormSelectMoneyRate = ({
-  children,
   session,
 }: Partial<WithChildren> & { session: Session }) => {
-  const { setData } = usePaymentStore();
-  const router = useRouter();
   const { stripeId } = useParams() as { locale: string; stripeId: string };
   const queryClient = useQueryClient();
-
+  const router = useRouter();
   const form = useAppForm({
     defaultValues: {
       point: "",
@@ -52,11 +49,16 @@ export const FormSelectMoneyRate = ({
         await updateTagClient(`last-transaction-${session.user.id}`);
         await queryClient.invalidateQueries({ queryKey });
 
-        setData({ ...res });
+        router.replace(`${res.metadata.pointTransactionId}`);
       }
     },
   });
 
+  useLayoutEffect(() => {
+    return () => {
+      form.reset();
+    };
+  }, [form]);
   const store = useStore(form.store, (state) => state);
   const nonPersistentIsDirty = store.isDefaultValue;
   return (
@@ -141,7 +143,10 @@ export const FormSelectMoneyRate = ({
             <Button
               className="cursor-pointer capitalize"
               disabled={
-                nonPersistentIsDirty || !!stripeId || store.isSubmitting
+                nonPersistentIsDirty ||
+                !!stripeId ||
+                store.isSubmitting ||
+                store.isSubmitSuccessful
               }
             >
               {store.isSubmitting ? (
@@ -159,34 +164,10 @@ export const FormSelectMoneyRate = ({
   );
 };
 
-const ContentQRCodePreview = () => {
-  const { dataStore } = usePaymentStore();
-  if (_.isEmpty(dataStore)) return null;
-
-  const { next_action, client_secret, created, status } = dataStore;
-  return (
-    <CardCollapsible
-      title="Premium Blend"
-      defaultOpen={!!client_secret}
-      description="Our signature premium coffee blend"
-      cardContent={{
-        className: "mx-3 place-content-center ",
-      }}
-    >
-      <CardQrcodeTransaction
-        createdAt={new Date(created! * 1000).toISOString()}
-        qrCodeUrl={next_action?.promptpay_display_qr_code?.image_url_svg}
-        client_secret={client_secret}
-        status={status}
-      />
-    </CardCollapsible>
-  );
-};
-
 export const PaymentForm = ({ session }: { session: Session }) => {
   return (
     <section className="">
-      <ContentQRCodePreview />
+      {/* <ContentQRCodePreview /> */}
       <FormSelectMoneyRate session={session} />
     </section>
   );
