@@ -114,7 +114,7 @@ export function RadioForm<TFieldValues extends FieldValues = FieldValues>({
                                 className={clsx(
                                   classNames?.description,
                                   //   items.classNames?.description,
-                                  "text-muted-foreground mt-1 text-sm"
+                                  "mt-1 text-sm text-muted-foreground"
                                 )}
                               >
                                 {item.description}

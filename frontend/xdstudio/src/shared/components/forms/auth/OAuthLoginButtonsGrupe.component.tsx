@@ -22,7 +22,7 @@ export function OAuthLoginButtonsGrupe({
         className
       )}
     >
-      <p className="text-secondary-foreground text-xs">or signin with</p>
+      <p className="text-xs text-secondary-foreground">or signin with</p>
       <div className={clsx("flex flex-wrap justify-center gap-10 gap-y-4")}>
         {providers.map(({ id, label, disable }) => (
           <Button

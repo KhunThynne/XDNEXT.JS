@@ -29,7 +29,7 @@ export default async function PageCotent() {
           title={
             <>
               Level Up Your Game with
-              <span className="text-primary block">Custom Scripts & Tools</span>
+              <span className="block text-primary">Custom Scripts & Tools</span>
             </>
           }
           description={`Discover premium game scripts, automation tools, and mods
@@ -49,19 +49,19 @@ export default async function PageCotent() {
 
           <section className="py-6">
             <div className="@container container mx-auto">
-              <h3 className="text-foreground mb-8 text-center text-3xl font-bold">
+              <h3 className="mb-8 text-center text-3xl font-bold text-foreground">
                 Browse Categories
               </h3>
               {/* <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl grid-cols-1 place-content-center gap-3"> */}
-              <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl place-content-center gap-3">
+              <div className="mx-auto grid max-w-screen-xl place-content-center gap-3 @min-xs:grid-cols-2 @min-2xl:grid-cols-4">
                 {categories.map((category, index) => (
                   <Card
                     key={index}
                     className="cursor-pointer justify-center gap-2 border transition-all duration-300 hover:scale-105 hover:shadow-lg max-md:aspect-video"
                   >
                     <CardHeader className="flex flex-col items-center justify-center">
-                      <category.icon className="text-primary size-8" />
-                      <h4 className="text-foreground text-md shrink truncate font-semibold">
+                      <category.icon className="size-8 text-primary" />
+                      <h4 className="text-md shrink truncate font-semibold text-foreground">
                         {category.name}
                       </h4>
                     </CardHeader>

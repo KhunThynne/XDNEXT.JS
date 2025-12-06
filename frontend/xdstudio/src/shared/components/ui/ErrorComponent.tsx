@@ -15,10 +15,10 @@ export const ErrorComponent = ({
 } & WithClassNames) => {
   return (
     <div className="h-full place-content-center place-items-center text-center">
-      <h1 className="text-foreground mb-4 text-6xl font-extrabold">
+      <h1 className="mb-4 text-6xl font-extrabold text-foreground">
         <Translations text={status ?? "unknown"} ignore />
       </h1>
-      <p className="text-muted-foreground mb-6 max-w-md text-lg">
+      <p className="mb-6 max-w-md text-lg text-muted-foreground">
         <Translations text={description ?? "unknown"} />
       </p>
       <Link href="/">

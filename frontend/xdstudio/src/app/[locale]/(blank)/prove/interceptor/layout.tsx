@@ -8,7 +8,7 @@ export default async function GGLayout({
 }: NextJSReactNodes<"menu">) {
   return (
     <>
-      <Link href={"test"}>test </Link> 
+      <Link href={"test"}>test </Link>
       <section>{menu}</section>
       <section>{children}</section>
     </>

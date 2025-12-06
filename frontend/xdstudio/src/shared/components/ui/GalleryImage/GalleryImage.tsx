@@ -1,9 +1,1 @@
-
-
-
-export const GalleryImage = () => {
-
-
-
-
-};
+export const GalleryImage = () => {};

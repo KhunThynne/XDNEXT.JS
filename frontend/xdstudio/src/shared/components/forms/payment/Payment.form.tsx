@@ -178,7 +178,7 @@ export const PaymentForm = () => {
               </div>
               <div className="mt-2 text-center">
                 <div className="text-sm font-medium">{step.title}</div>
-                <div className="text-muted-foreground text-xs">
+                <div className="text-xs text-muted-foreground">
                   {step.description}
                 </div>
               </div>
@@ -219,34 +219,34 @@ export const PaymentForm = () => {
                       defaultValue={field.value}
                       className="grid grid-cols-1 gap-4"
                     >
-                      <div className="hover:bg-accent flex items-center space-x-2 rounded-lg border p-4">
+                      <div className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-accent">
                         <RadioGroupItem value="promptpay" id="promptpay" />
                         <Label
                           htmlFor="promptpay"
                           className="flex flex-1 cursor-pointer items-center gap-3"
                         >
-                          <CreditCard className="text-primary h-6 w-6" />
+                          <CreditCard className="h-6 w-6 text-primary" />
                           <div>
                             <div className="font-medium">
                               promptpay (Credit/Debit Card)
                             </div>
-                            <div className="text-muted-foreground text-sm">
+                            <div className="text-sm text-muted-foreground">
                               Pay securely with your credit or debit card
                             </div>
                           </div>
                           <Badge variant="secondary">Instant</Badge>
                         </Label>
                       </div>
-                      <div className="hover:bg-accent flex items-center space-x-2 rounded-lg border p-4">
+                      <div className="flex items-center space-x-2 rounded-lg border p-4 hover:bg-accent">
                         <RadioGroupItem value="banking" id="banking" />
                         <Label
                           htmlFor="banking"
                           className="flex flex-1 cursor-pointer items-center gap-3"
                         >
-                          <Building2 className="text-primary h-6 w-6" />
+                          <Building2 className="h-6 w-6 text-primary" />
                           <div>
                             <div className="font-medium">Bank Transfer</div>
-                            <div className="text-muted-foreground text-sm">
+                            <div className="text-sm text-muted-foreground">
                               Direct transfer from your bank account
                             </div>
                           </div>
@@ -275,7 +275,7 @@ export const PaymentForm = () => {
             className="space-y-4"
           >
             <div className="mb-4 flex items-center gap-2">
-              <CreditCard className="text-primary h-5 w-5" />
+              <CreditCard className="h-5 w-5 text-primary" />
               <span className="font-medium">promptpay Card Details</span>
             </div>
 
@@ -343,7 +343,7 @@ export const PaymentForm = () => {
             className="space-y-4"
           >
             <div className="mb-4 flex items-center gap-2">
-              <Building2 className="text-primary h-5 w-5" />
+              <Building2 className="h-5 w-5 text-primary" />
               <span className="font-medium">Bank Account Details</span>
             </div>
 
@@ -423,7 +423,7 @@ export const PaymentForm = () => {
           >
             <div className="mb-4">
               <h3 className="font-medium">Billing Information</h3>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-sm text-muted-foreground">
                 Enter your billing details
               </p>
             </div>
@@ -532,7 +532,7 @@ export const PaymentForm = () => {
         <div className="space-y-6">
           <div className="mb-4">
             <h3 className="font-medium">Review Your Payment</h3>
-            <p className="text-muted-foreground text-sm">
+            <p className="text-sm text-muted-foreground">
               Please review your information before submitting
             </p>
           </div>

@@ -33,7 +33,7 @@ export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {
           {...props}
           variant="ghost"
           className={clsx(
-            "fixed bottom-5 right-5 aspect-square size-10 cursor-pointer rounded-2xl hover:animate-bounce lg:size-12",
+            "fixed right-5 bottom-5 aspect-square size-10 cursor-pointer rounded-2xl hover:animate-bounce lg:size-12",
             `max-md:bottom-0 max-md:left-1/2 max-md:-translate-x-1/2`,
             `md:border`
           )}
@@ -42,7 +42,7 @@ export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {
         >
           <div className="size-full">
             <ArrowBigUpDash className="size-full max-md:hidden" />
-            <span className="text-primary/70 hidden text-xs/loose max-md:block">
+            <span className="hidden text-xs/loose text-primary/70 max-md:block">
               Go to top
             </span>
           </div>

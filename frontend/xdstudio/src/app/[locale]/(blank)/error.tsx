@@ -30,7 +30,7 @@ export default function ErrorResetPassword({
         </CardHeader>
 
         <CardContent className="flex flex-col gap-4">
-          <p className="text-destructive font-medium">{error.message}</p>
+          <p className="font-medium text-destructive">{error.message}</p>
           <Button variant="default" className="cursor-pointer" onClick={reset}>
             Try again
           </Button>

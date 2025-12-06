@@ -29,10 +29,10 @@ export const DiscordServerCard = ({
 }: DiscordServerCardProps) => {
   const formater = useFormatter();
   return (
-    <Card className="min-h-62 bg-discord-bg relative w-full max-w-md place-content-end gap-3 overflow-hidden">
+    <Card className="relative min-h-62 w-full max-w-md place-content-end gap-3 overflow-hidden bg-discord-bg">
       <CardHeader
         className={clsx(
-          "h-18 border-discord-secondary absolute left-0 top-0 flex w-full flex-row items-center gap-4 border-b bg-gradient-to-b from-transparent to-[#a7a6a6]"
+          "absolute top-0 left-0 flex h-18 w-full flex-row items-center gap-4 border-b border-discord-secondary bg-gradient-to-b from-transparent to-[#a7a6a6]"
         )}
       >
         <div></div>
@@ -42,14 +42,14 @@ export const DiscordServerCard = ({
           <img
             src={iconUrl}
             alt={`${serverName} Icon`}
-            className="size-17 border-discord-secondary rounded-2xl border-2 object-cover shadow"
+            className="size-17 rounded-2xl border-2 border-discord-secondary object-cover shadow"
           />
         ) : (
           <Image className="size-15" />
         )}
         <div className="min-w-0 flex-1 text-zinc-400">
           <CardTitle
-            className="text-md text-primary truncate font-semibold"
+            className="text-md truncate font-semibold text-primary"
             title={serverName}
           >
             {serverName}

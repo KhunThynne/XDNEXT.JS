@@ -42,7 +42,7 @@ export function ContactForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-card-foreground text-2xl font-black">
+        <CardTitle className="text-2xl font-black text-card-foreground">
           Send Us a Message
         </CardTitle>
       </CardHeader>

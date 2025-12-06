@@ -21,7 +21,7 @@ type CartItemsGroupProps = {
 
 export const FieldCartItems = withForm({
   // props: { test: "", userId: "" } as CartItemsGroupProps,
-  render: ({ form, }) => {
+  render: ({ form }) => {
     return <></>;
   },
 });

@@ -47,13 +47,13 @@ export function TeamMemberCard({
                 .join("")}
             </AvatarFallback>
           </Avatar>
-          <p className="text-muted-foreground order-2 leading-4 max-sm:text-sm md:pb-3">
+          <p className="order-2 leading-4 text-muted-foreground max-sm:text-sm md:pb-3">
             {member.mainRole}
           </p>
         </section>
 
         <section className="max-md:space-y-3 lg:contents">
-          <h3 className={clsx("text-card-foreground order-0 font-black")}>
+          <h3 className={clsx("order-0 font-black text-card-foreground")}>
             {member.name}
           </h3>
 

@@ -81,7 +81,7 @@ export function MotionTransition({
   const { initial, animate, exit } = presets[preset] || presets.fade;
   if (preset === "none") return children;
   return (
-    <AnimatePresence mode="wait" >
+    <AnimatePresence mode="wait">
       {show && (
         <motion.div
           key={key}
