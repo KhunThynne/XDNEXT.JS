@@ -40,7 +40,7 @@ export const ShoppingPopover = ({
 
   const flatData = useMemo(
     () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
-    [data?.pages]
+    [data]
   );
   const [totalPoint, setTotalPoint] = useState(0);
   const cartItems = flatData;

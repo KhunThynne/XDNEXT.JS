@@ -13,28 +13,23 @@ import {
   GetProductsDocument,
   OrderDirection,
 } from "@/libs/graphql/generates/graphql";
-import { unstable_cache } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import _ from "lodash";
 import { redirect } from "@navigation";
 import type { Locale } from "next-intl";
 import { Fragment } from "react";
 
-const getProductsCache = (
+const getProductsCache = async (
   variables: GetProductsQueryVariables,
   currentPage: number
-) =>
-  unstable_cache(
-    async () => {
-      return execute(GetProductsDocument, {
-        ...variables,
-      });
-    },
-    [`products-${currentPage}`],
-    {
-      tags: [`products-${currentPage}`],
-      revalidate: 60,
-    }
-  )();
+) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(`products-${currentPage}`);
+  return execute(GetProductsDocument, {
+    ...variables,
+  });
+};
 
 export default async function PageProducts({
   searchParams,
@@ -73,7 +68,6 @@ export default async function PageProducts({
             session={session}
             products={products as Product[]}
           />
-          {/* <ContentProducts session={session} /> */}
         </ContainerSection>
       </Fragment>
     );

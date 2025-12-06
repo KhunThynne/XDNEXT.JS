@@ -21,12 +21,12 @@ import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 import { Button } from "@/libs/shadcn/ui/button";
 import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
 import { MotionTransition } from "@/shared/components/MotionTransition";
+import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 
 export const CardProduct = ({
   product,
   className,
   classNames,
-
   session,
   footer = true,
   loading = false,
@@ -63,26 +63,22 @@ export const CardProduct = ({
         >
           <div
             className={clsx(
-              "aspect-square max-w-32",
+              "absolute inset-0 size-full place-content-center",
               classNames?.containerImage
             )}
           >
-            {product?.previewImage?.src?.url ? (
-              <Image
-                src={product.previewImage.src.url}
-                alt={product.previewImage.altText ?? "unknown"}
-                fill
-                className={clsx("rounded object-contain", classNames?.image)}
-              />
-            ) : (
-              <div className="absolute inset-0 place-content-center place-items-center">
-                {loading ? (
-                  <Skeleton className="size-full" />
-                ) : (
-                  <ImageOff className="size-15 opacity-20" />
-                )}
-              </div>
-            )}
+            <ImageProduct
+              fill
+              image={product?.previewImage}
+              className="mx-auto"
+              classNames={{
+                error: clsx(
+                  "size-30 rounded-none! border-0 opacity-20",
+                  classNames?.image
+                ),
+                image: clsx("rounded", classNames?.image),
+              }}
+            />
           </div>
         </CardHeader>
         <CardContent

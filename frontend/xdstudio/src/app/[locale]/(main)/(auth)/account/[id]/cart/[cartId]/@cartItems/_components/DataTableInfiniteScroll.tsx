@@ -22,7 +22,7 @@ import {
 import { Button } from "@/libs/shadcn/ui/button";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 
-import { ChevronDown, ImageOff, Trash } from "lucide-react";
+import { ChevronDown, FileText, ImageOff, Trash } from "lucide-react";
 
 import type { UseFormSetValue } from "react-hook-form";
 import { useFormContext } from "react-hook-form";
@@ -43,6 +43,8 @@ import type {
 } from "../../_components/cartOrder.type";
 import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
+import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
+import clsx from "clsx";
 
 const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
   return (
@@ -52,7 +54,7 @@ const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
         placeholder="Filter emails..."
         className="max-w-lg grow"
       />
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
             Columns <ChevronDown />
@@ -75,7 +77,7 @@ const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
               );
             })}
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </div>
   );
 };
@@ -180,11 +182,12 @@ export function DataTableCartInfiniteScroll({
     console.log(selectedData);
     setValue("cartItems", selectedData ?? []);
   }, [table.getState().rowSelection, setValue, cartItems]);
-
+  const rowLength = table.getRowModel().rows?.length;
+  const noData = rowLength < 1;
   if (isLoading) {
     return <>Loading...</>;
   }
-  if (cartItems.length > 0)
+  if (totalFetched > 0)
     return (
       <>
         <CardAction className="w-full px-3">
@@ -196,7 +199,12 @@ export function DataTableCartInfiniteScroll({
           onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
           ref={tableContainerRef}
         >
-          <table className="w-full table-fixed border-collapse">
+          <table
+            className={clsx(
+              "w-full table-fixed border-collapse",
+              noData && "h-full"
+            )}
+          >
             <TableHeader className="sticky top-0 z-10 backdrop-blur-lg">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -217,8 +225,8 @@ export function DataTableCartInfiniteScroll({
               ))}
             </TableHeader>
 
-            <TableBody className="">
-              {table.getRowModel().rows?.length ? (
+            <TableBody className={clsx("relative")}>
+              {rowLength ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
@@ -235,12 +243,22 @@ export function DataTableCartInfiniteScroll({
                   </TableRow>
                 ))
               ) : (
-                <TableRow className="">
+                <TableRow className="place-content-center place-items-center">
                   <TableCell
+                    className="h-full text-center"
                     colSpan={columns.length}
-                    className="h-[60vh] text-center"
                   >
-                    No results.
+                    <Empty>
+                      <EmptyHeader className="text-xl font-semibold">
+                        <FileText className="mx-auto mb-2 size-15 text-foreground/60" />
+
+                        <span className="text-foreground/80">Not Found</span>
+                      </EmptyHeader>
+
+                      <p className="text-sm text-foreground/50">
+                        There are no payment activities recorded yet.
+                      </p>
+                    </Empty>
                   </TableCell>
                 </TableRow>
               )}

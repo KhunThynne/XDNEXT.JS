@@ -19,8 +19,7 @@ export default function Footer({ className }: WithlDefaultProps) {
         className
       )}
     >
- 
-      <div className="mx-auto flex max-w-screen-lg flex-wrap gap-8 py-3">
+      {/* <div className="mx-auto flex max-w-screen-lg flex-wrap gap-8 py-3">
         <div className="max-lg:w-full lg:flex-2">
           <div className="mb-4 flex items-center gap-2">
             <span className="text-lg font-bold text-foreground">XDShope</span>
@@ -105,10 +104,10 @@ export default function Footer({ className }: WithlDefaultProps) {
             </li>
           </ul>
         </div>
-      </div>
+          <Separator className="opacity-50" />
+      </div> */}
 
       <div className="container mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 max-sm:flex-col">
-        <Separator className="opacity-50" />
         <div className="flex items-center">
           <Image
             className="mx-auto rounded-full border-1"

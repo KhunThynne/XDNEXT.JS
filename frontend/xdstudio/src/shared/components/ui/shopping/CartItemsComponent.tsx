@@ -1,4 +1,8 @@
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+import type {
+  CartItem,
+  Maybe,
+  Product,
+} from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
@@ -6,10 +10,32 @@ import PointDiamon from "../../PointDiamod";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useFormContext, useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import clsx from "clsx";
 import _ from "lodash";
-
+export function CartImageDisplay({
+  product,
+}: {
+  product: Maybe<Product> | undefined;
+}) {
+  const [hasImageError, setHasImageError] = useState(false);
+  const imageUrl = product?.previewImage?.src?.url ?? "";
+  if (!imageUrl || hasImageError) {
+    return <ImageOff className="size-full self-center rounded border" />;
+  }
+  return (
+    <Image
+      src={imageUrl}
+      alt={product?.description || product?.name || ""}
+      fill
+      className="object-cover"
+      onError={() => {
+        setHasImageError(true);
+      }}
+      key={product?.id}
+    />
+  );
+}
 export const CartItemComponent = ({
   product,
   quantity,
@@ -28,16 +54,7 @@ export const CartItemComponent = ({
   return (
     <div className="flex grow items-center gap-3 p-3">
       <div className="relative size-12 overflow-hidden rounded">
-        {product?.previewImage?.src?.url ? (
-          <Image
-            src={product?.previewImage?.src?.url ?? ""}
-            alt={product?.description || product?.name || ""}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <ImageOff className="size-full self-center rounded border" />
-        )}
+        <CartImageDisplay product={product} />
       </div>
       <div className="flex-1">
         <Link href={`/product/${product?.id}`} className="hover:underline">

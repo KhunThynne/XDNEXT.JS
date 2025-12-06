@@ -17,6 +17,7 @@ import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Checkbox } from "@/libs/shadcn/custom/checkbox";
+import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 
 export const CartItemsDatableProvider = ({
   children,
@@ -194,22 +195,11 @@ export const CartItemsDatableProvider = ({
         minSize: 400,
         cell: ({ row }) => {
           const cell = row.original;
-          const image = cell.product?.previewImage?.src;
-
+          const image = cell.product?.previewImage;
           return (
             <section className="flex gap-4">
-              <div className="relative aspect-square w-35 overflow-hidden rounded-lg border bg-accent">
-                {image ? (
-                  <Image
-                    src={image.url}
-                    alt={image.id}
-                    fill
-                    draggable={false}
-                    className="object-contain select-none"
-                  />
-                ) : (
-                  <ImageOff className="size-full self-center rounded border" />
-                )}
+              <div className="relative aspect-square w-25 overflow-hidden rounded-lg border">
+                <ImageProduct image={image} className="size-full" />
               </div>
               <aside className="place-content-center space-y-1">
                 <h3 className="font-bold">{cell.product?.name} </h3>

@@ -1,59 +1,32 @@
 "use client";
 
-import { Separator } from "@radix-ui/react-separator";
 import { useFormContext, useWatch } from "react-hook-form";
 import { useMemo, useState } from "react";
 import { useFormatter } from "next-intl";
-import PointDiamon from "@/shared/components/PointDiamod";
 import type { CartFormProps } from "../cartOrder.type";
 import {
   Card,
-  CardAction,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/libs/shadcn/ui/card";
 import clsx from "clsx";
-import type {
-  CartItem,
-  Image as ImageType,
-} from "@/libs/graphql/generates/graphql";
+import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
-import Image from "next/image";
-import { Car, ImageOff, ShoppingCart } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { CartSummary } from "@/shared/components/ui/shopping/CartShopping.form";
 import Point from "@/shared/components/ui/Point";
+import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 
-export const ImageProduct = ({
-  image,
-  ...prop
-}: Partial<React.ComponentProps<typeof Image>> & {
-  image: ImageType | undefined;
-}) => {
-  const src = image?.src?.url ?? "";
-  if (!image) return <ImageOff className={clsx(``, prop.className)} />;
-  return (
-    <Image
-      {...prop}
-      src={src}
-      className={clsx(`border bg-accent object-contain`, prop.className)}
-      alt={image.altText ?? `product-image-unkhown`}
-      height={image.src?.height}
-      width={image.src?.width}
-    />
-  );
-};
-// item.product?.images?.[0].src
 const CartItemComponent = ({ item }: { item: CartItem }) => {
   return (
     <div className="flex h-full place-items-center gap-5 p-4">
-      {item?.product?.previewImage && (
-        <ImageProduct
-          image={item?.product?.previewImage}
-          className="aspect-square size-14 flex-shrink-0 rounded-md"
-        />
-      )}
+      <ImageProduct
+        image={item?.product?.previewImage}
+        className="aspect-square size-14 rounded-md"
+      />
+
       <aside>
         <h3 className="text-base font-semibold text-foreground">
           {item.product?.name}

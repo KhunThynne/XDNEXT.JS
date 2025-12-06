@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
 import CartOrderFormProvider from "./_components/CartOrderFormProvider";
+import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function LayoutCart({
   children,
@@ -42,9 +43,9 @@ export default async function LayoutCart({
       availablePoint={0}
       remainingpointPayment={0}
     >
-      <div className="mx-4 grid grow grid-cols-1 gap-8 xl:grid-cols-6">
+      <div className="mx-4 grid grow grid-cols-1 gap-8 xl:grid-cols-6 xl:divide-x">
         <ContainerSection
-          className="h-screen grow max-md:gap-4 xl:col-span-4 xl:h-full"
+          className="h-screen grow max-md:gap-4 xl:col-span-4 xl:h-full xl:pe-8"
           title="Your Shopping Cart"
           classNames={{
             contentContainer: "h-full relative",
@@ -54,6 +55,7 @@ export default async function LayoutCart({
         >
           {cartItems}
         </ContainerSection>
+
         <section className="flex h-full flex-col gap-4 xl:col-span-2">
           {children}
         </section>
