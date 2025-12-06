@@ -20,7 +20,7 @@ export const ShoppingBagMotion = ({ triggerKey }: { triggerKey: string }) => {
 export const ShoppingCount = ({ count = 0 }: { count?: number }) => {
   if (!count) return null;
   return (
-    <div className="bg-primary text-secondary absolute flex size-3 -translate-y-2 translate-x-2 items-center justify-center rounded-full">
+    <div className="absolute flex size-3 translate-x-2 -translate-y-2 items-center justify-center rounded-full bg-primary text-secondary">
       <AnimatePresence mode="wait">
         <motion.small
           key={count}

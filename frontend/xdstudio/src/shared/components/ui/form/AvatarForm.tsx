@@ -192,7 +192,7 @@ export default function AvatarForm({
                   className={cn(
                     "flex flex-col gap-4 sm:flex-row sm:items-start",
                     dragActive &&
-                      "ring-primary rounded-2xl ring-2 ring-offset-2"
+                      "rounded-2xl ring-2 ring-primary ring-offset-2"
                   )}
                   onDragOver={(e) => {
                     e.preventDefault();
@@ -212,7 +212,7 @@ export default function AvatarForm({
                       {!hasNew ? (
                         <div className="flex flex-col items-center justify-center gap-2 px-3 text-center">
                           <ImagePlus className="size-6" />
-                          <div className="text-muted-foreground text-xs leading-tight">
+                          <div className="text-xs leading-tight text-muted-foreground">
                             Click to upload, drag & drop, or paste
                           </div>
                         </div>
@@ -229,7 +229,7 @@ export default function AvatarForm({
                               type="button"
                               variant="secondary"
                               onClick={pickFile}
-                              className="supports-[backdrop-filter]:bg-background/70 backdrop-blur"
+                              className="backdrop-blur supports-[backdrop-filter]:bg-background/70"
                             >
                               <Upload className="size-4" />
                             </Button>

@@ -62,14 +62,14 @@ const NavigationItem = ({
           />
           <span className="sr-only">Toggle</span>
 
-          <p className="text-muted-foreground w-full">{description}</p>
+          <p className="w-full text-muted-foreground">{description}</p>
         </div>
       </CollapsibleTrigger>
 
       <CollapsibleContent
         forceMount
         className={clsx(
-          "transition-all! flex h-full flex-col overflow-hidden",
+          "flex h-full flex-col overflow-hidden transition-all!",
           isOpen ? "max-h-full opacity-100" : "h-0! opacity-0"
         )}
       >

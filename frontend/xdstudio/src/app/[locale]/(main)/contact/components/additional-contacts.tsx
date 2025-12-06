@@ -38,7 +38,7 @@ export function AdditionalContacts() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-card-foreground text-2xl font-black">
+        <CardTitle className="text-2xl font-black text-card-foreground">
           Other Ways to Reach Us
         </CardTitle>
       </CardHeader>
@@ -49,16 +49,16 @@ export function AdditionalContacts() {
           return (
             <div key={index} className="flex items-center gap-3">
               <div className="flex-shrink-0">
-                <Icon className="text-primary h-5 w-5" />
+                <Icon className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1">
-                <p className="text-card-foreground font-medium">
+                <p className="font-medium text-card-foreground">
                   {method.label}
                 </p>
                 {method.href ? (
                   <Button
                     variant="link"
-                    className="text-muted-foreground hover:text-primary h-auto p-0"
+                    className="h-auto p-0 text-muted-foreground hover:text-primary"
                     asChild
                   >
                     <a

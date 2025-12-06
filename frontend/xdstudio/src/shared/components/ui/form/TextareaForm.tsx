@@ -40,7 +40,7 @@ export function TextareaForm<TFieldValues extends FieldValues = FieldValues>({
           {label && (
             <FormLabel
               className={clsx(
-                "inline-block max-w-full truncate break-all pb-0.5",
+                "inline-block max-w-full truncate pb-0.5 break-all",
                 classNames?.label
               )}
             >

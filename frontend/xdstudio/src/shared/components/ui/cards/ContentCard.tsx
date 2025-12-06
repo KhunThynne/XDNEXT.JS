@@ -17,18 +17,18 @@ export default function ContentCard({
   return (
     <Card
       className={clsx(
-        "from-primary/10 min-h-125 to-accent/10 shadow-xs place-content-center overflow-auto bg-gradient-to-br px-4 max-sm:-mx-5 max-sm:rounded-b-none max-sm:rounded-t-none sm:my-5",
+        "min-h-125 place-content-center overflow-auto bg-gradient-to-br from-primary/10 to-accent/10 px-4 shadow-xs max-sm:-mx-5 max-sm:rounded-t-none max-sm:rounded-b-none sm:my-5",
         className
       )}
     >
       <CardContent className="px-0">
         <div className="mx-auto text-center">
           <div className="mx-auto max-w-4xl">
-            <h2 className="text-foreground mb-6 text-5xl font-bold leading-tight md:text-6xl">
+            <h2 className="mb-6 text-5xl leading-tight font-bold text-foreground md:text-6xl">
               {title}
             </h2>
 
-            <p className="text-muted-foreground mb-8 text-xl leading-relaxed">
+            <p className="mb-8 text-xl leading-relaxed text-muted-foreground">
               {description}
             </p>
           </div>

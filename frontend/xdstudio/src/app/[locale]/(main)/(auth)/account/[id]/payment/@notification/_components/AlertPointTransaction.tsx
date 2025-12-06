@@ -64,7 +64,6 @@ const AlertPointTransaction = ({
         router.push(`/account/${id}/payment/${pointTransaction.id}`);
       }}
     >
-      
       <AlertTitle className="flex justify-between">
         <h2> {number(pointTransaction.amount ?? 0)}</h2>
       </AlertTitle>

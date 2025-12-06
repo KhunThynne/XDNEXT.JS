@@ -74,7 +74,7 @@ export const ImageGallery = ({ files, selectedIndex }: ImageGalleryProps) => {
   return (
     <FormProvider {...method}>
       <Button
-        className="absolute right-0 top-4 z-30 p-0 lg:right-20"
+        className="absolute top-4 right-0 z-30 p-0 lg:right-20"
         variant="ghost"
         // onClick={}
       >

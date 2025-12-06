@@ -24,10 +24,6 @@ export function useI18n(namespace?: string) {
   return Object.assign(translate, t);
 }
 
-
-
-
-
 // "use client";
 
 // import { useTranslations } from "next-intl";

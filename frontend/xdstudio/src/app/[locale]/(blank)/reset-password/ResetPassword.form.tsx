@@ -122,7 +122,7 @@ export const ResetPasswordForm = (props: RestFormProps) => {
           <h2 className="text-xl font-semibold">รีเซ็ตรหัสผ่าน</h2>
 
           {/* Description */}
-          <p className="text-muted-foreground flex items-center gap-1 text-sm">
+          <p className="flex items-center gap-1 text-sm text-muted-foreground">
             <Lock className="h-4 w-4" />
             กรุณากรอกข้อมูลเพื่อรีเซ็ตรหัสผ่านของคุณ
           </p>

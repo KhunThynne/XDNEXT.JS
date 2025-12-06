@@ -5,15 +5,14 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 import { ContainerLog } from "./fallback/ContainerLog";
 
-interface ContainerSectionProps
-  extends WithClassNames<
-    | "section"
-    | "description"
-    | "title"
-    | "content"
-    | "contentContainer"
-    | "separator"
-  > {
+interface ContainerSectionProps extends WithClassNames<
+  | "section"
+  | "description"
+  | "title"
+  | "content"
+  | "contentContainer"
+  | "separator"
+> {
   title?: string;
   description?: string | React.JSX.Element;
   log?: boolean;

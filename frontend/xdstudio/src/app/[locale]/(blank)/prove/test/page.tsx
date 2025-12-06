@@ -6,7 +6,7 @@ export default function Page() {
 
       {/* Main Content */}
       <div
-        className="absolute right-0 left-0 border bg-slate-100 "
+        className="absolute right-0 left-0 border bg-slate-100"
         style={{
           top: "2.5rem",
           bottom: 0,
@@ -19,7 +19,7 @@ export default function Page() {
       </div>
 
       {/* Footer */}
-      <div className="relative border bg-amber-700 p-4 flex-none">
+      <div className="relative flex-none border bg-amber-700 p-4">
         Footer ที่สูงเท่าไรก็ได้
       </div>
     </div>

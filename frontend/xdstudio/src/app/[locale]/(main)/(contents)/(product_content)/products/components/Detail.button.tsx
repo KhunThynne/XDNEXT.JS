@@ -1,7 +1,7 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 import clsx from "clsx";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { signIn } from "next-auth/react";
 import { Fragment } from "react";
 
