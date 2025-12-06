@@ -1,43 +1,65 @@
-Zustan
-Tanstrak
-Graphql
-Zod
+# 🎨 XD Studio - Frontend
 
-src/
+<div align="center">
 
+[![Next.js](https://img.shields.io/badge/Next.js-16.0-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
+**The client-side application for XD Studio, built with the latest web technologies.**
 
-## Getting Started
+</div>
 
-First, run the development server:
+---
+
+## 🛠️ Tech Stack
+
+This project is built on the **Bleeding Edge** of the React ecosystem.
+
+-   **Framework**: [Next.js 16](https://nextjs.org/) (App Router & Server Actions)
+-   **Language**: TypeScript
+-   **Styling**: Tailwind CSS v4 + [Radix UI](https://www.radix-ui.com/) (Headless Components)
+-   **State Management**:
+    -   Global UI State: [Zustand](https://github.com/pmndrs/zustand)
+    -   Server State: [TanStack Query v5](https://tanstack.com/query/latest)
+-   **Forms**: React Hook Form + Zod
+-   **Real-time**: Socket.IO Client
+-   **Internationalization**: `next-intl`
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have the backend services running (Postgres, Redis, KeystoneJS) or use Docker.
+
+### Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🏗️ Build & Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Build for production
+npm run build
 
-## Learn More
+# Start production server
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 📜 Key Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Script | Description |
+| :--- | :--- |
+| `npm run dev` | Starts the Next.js development server with TurboPack. |
+| `npm run build` | Builds the application for production usage. |
+| `npm run lint:fix` | Runs ESLint and automatically fixes fixable issues. |
+| `npm run codegen` | Generates TypeScript types from GraphQL schema (KeystoneJS). |
