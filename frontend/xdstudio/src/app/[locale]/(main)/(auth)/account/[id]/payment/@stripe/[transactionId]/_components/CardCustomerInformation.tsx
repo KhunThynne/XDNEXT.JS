@@ -50,7 +50,7 @@ export const CardCustomerInformation = ({
           </Avatar>
 
           <div>
-            <div className="font-edium">{customerName}</div>
+            <div className="font-medium">{customerName}</div>
             <div className="text-xs text-muted-foreground">{customerEmail}</div>
           </div>
         </div>
@@ -60,7 +60,7 @@ export const CardCustomerInformation = ({
             Billing Address
           </div>
 
-          <div className="tmext-sm">{formattedAddress}</div>
+          <div className="text-sm">{formattedAddress}</div>
         </div>
       </CardContent>
     </Card>
