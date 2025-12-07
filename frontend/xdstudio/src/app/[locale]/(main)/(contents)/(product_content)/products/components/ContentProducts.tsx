@@ -42,6 +42,7 @@ export const ContentProducts = ({
       <CardProduct
         key={index}
         motion={{ preset: "none" }}
+        classNames={{ header: "h-35" }}
         loading
         session={session}
         className="mx-auto animate-pulse duration-300 hover:scale-105 hover:shadow-xl"
@@ -72,6 +73,7 @@ export const ContentProducts = ({
             <CardProduct
               session={session}
               key={index}
+              classNames={{ header: "h-35" }}
               product={product as Product}
               className="mx-auto duration-300 hover:scale-105 hover:shadow-xl"
             />
