@@ -1,7 +1,7 @@
 "use server";
-import { signIn } from "@/auth";
+import { signIn, signOut as authSignOut } from "@/auth";
 import { AuthError } from "next-auth";
-import type { SignInOptions } from "next-auth/react";
+import type { SignInOptions, SignOutParams } from "next-auth/react";
 
 import { getLocale } from "next-intl/server";
 
@@ -12,7 +12,23 @@ export async function authenticate(
   const locale = await getLocale();
 
   try {
-    await signIn("credentials", { ...formData });
+    await signIn(prevState, { ...formData });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return "Invalid credentials.";
+        default:
+          return "Something went wrong.";
+      }
+    }
+    throw error;
+  }
+}
+
+export async function signOut(params?: SignOutParams) {
+  try {
+    await authSignOut(params);
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

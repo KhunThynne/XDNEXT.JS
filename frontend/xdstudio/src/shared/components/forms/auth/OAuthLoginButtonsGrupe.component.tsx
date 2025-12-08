@@ -1,7 +1,7 @@
-import { signIn } from "next-auth/react";
 import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
+import { authenticate } from "./actions/Login.action";
 
 const providers = [
   { id: "discord", label: "Discord", disable: false },
@@ -32,7 +32,7 @@ export function OAuthLoginButtonsGrupe({
             type="button"
             disabled={disable}
             onClick={() =>
-              signIn(id, {
+              authenticate(id, {
                 redirectTo: callbackUrl,
                 callbackUrl,
               })

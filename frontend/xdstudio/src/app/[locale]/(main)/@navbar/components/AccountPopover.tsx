@@ -5,21 +5,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/libs/shadcn/ui/popover";
-
 import _ from "lodash";
-import { LogOut, Plus, PlusCircle, PlusSquareIcon, User } from "lucide-react";
+import { LogOut, PlusCircle, User } from "lucide-react";
 import type { User as UserType } from "next-auth";
-import { signOut } from "next-auth/react";
+
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";
 import { Badge } from "@/libs/shadcn/ui/badge";
-import { useFormatter } from "next-intl";
-import { Link, usePathname } from "@navigation";
+import { Link } from "@navigation";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import PointDiamon from "@/shared/components/PointDiamod";
 import Point from "@/shared/components/ui/Point";
 import { env } from "@/env";
 import clsx from "clsx";
+import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
 
 export const UserDetails = ({
   user,
