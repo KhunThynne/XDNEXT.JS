@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/libs/shadcn/ui/card";
-import { SignForm } from "@/shared/components/forms/auth/SignForm";
 import { SignFormNew } from "@/shared/components/forms/auth/SignFormNew";
 import clsx from "clsx";
 import { notFound } from "next/navigation";

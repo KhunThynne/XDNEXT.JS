@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.5.3...v1.6.0) (2025-12-10)
+
+
+### Features
+
+* **stripe payment:** xd-studio stripe system ([0c3a918](https://github.com/KhunThynne/XDNEXT.JS/commit/0c3a918aca59f2a7c979936b8caaeb0f6e89a0bd))
+
 ### [1.5.3](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.5.2...v1.5.3) (2025-12-06)
 
 ### [1.5.2](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.5.1...v1.5.2) (2025-12-06)

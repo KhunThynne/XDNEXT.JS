@@ -1,7 +1,7 @@
-import { signIn } from "next-auth/react";
 import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
+import { signIn } from "./actions/Login.action";
 
 const providers = [
   { id: "discord", label: "Discord", disable: false },

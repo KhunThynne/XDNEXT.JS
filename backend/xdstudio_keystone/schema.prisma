@@ -96,6 +96,7 @@ model UserPoint {
   id          String    @id @default(uuid()) @postgresql.Uuid
   user        User?     @relation("User_point")
   total_point Int       @default(0)
+  total_spent Float     @default(0)
   updateAt    DateTime? @default(now())
 }
 
@@ -248,7 +249,7 @@ model PointTransaction {
   userId     String?   @map("user") @postgresql.Uuid
   isFavorite Boolean   @default(false)
   type       String    @default("Earn")
-  amount     Int?
+  amount     Int?      @default(0)
   status     String?   @default("requires_payment_method")
   orders     Order[]   @relation("PointTransaction_orders")
   metaData   Json?

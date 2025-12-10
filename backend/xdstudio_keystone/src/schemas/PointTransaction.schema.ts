@@ -1,71 +1,71 @@
-import { TypeInfo } from '.keystone/types';
-import { list, ListConfig } from '@keystone-6/core';
-import { allowAll } from '@keystone-6/core/access';
+import { TypeInfo } from ".keystone/types";
+import { list, ListConfig } from "@keystone-6/core";
+import { allowAll } from "@keystone-6/core/access";
 import {
   checkbox,
   integer,
   json,
   relationship,
   select,
-  text,
   timestamp,
-} from '@keystone-6/core/fields';
-import { document } from '@keystone-6/fields-document';
-import { defaultGlobalField } from './shared/defaultGlobalField';
-import { publishRealtimeEvent } from '../shared/libs/redis/publisher';
+} from "@keystone-6/core/fields";
+import { defaultGlobalField } from "./shared/defaultGlobalField";
+import { publishRealtimeEvent } from "../shared/libs/redis/publisher";
 export const PointTransaction = list({
   access: allowAll,
   ui: {
     listView: {
-      initialColumns: ['id', 'userId', 'amount', 'type', 'createdAt'],
+      initialColumns: ["id", "userId", "amount", "type", "createdAt"],
     },
   },
   fields: {
     user: relationship({
-      ref: 'User',
+      ref: "User",
       many: false,
-      label: 'User',
-      ui: { description: 'Owner of transection' },
+      label: "User",
+      ui: { description: "Owner of transection" },
     }),
     isFavorite: checkbox({
       defaultValue: false,
-      label: 'Is this a favorite post?',
+      label: "Is this a favorite post?",
     }),
     type: select({
       options: [
-        { label: 'Earn', value: 'earn' },
-        { label: 'Redeem', value: 'redeem' },
+        { label: "Earn", value: "earn" },
+        { label: "Redeem", value: "redeem" },
       ],
-      defaultValue: 'Earn',
+      defaultValue: "Earn",
       ui: {
-        displayMode: 'select',
+        displayMode: "select",
       },
       validation: { isRequired: true },
     }),
-    amount: integer(),
+    amount: integer({
+      defaultValue: 0,
+      ui: { description: "Minor Unit" },
+    }),
     status: select({
       options: [
-        { label: 'Requires Payment Method', value: 'requires_payment_method' },
-        { label: 'Requires Confirmation', value: 'requires_confirmation' },
-        { label: 'Requires Action', value: 'requires_action' },
-        { label: 'Processing', value: 'processing' },
-        { label: 'Requires Capture', value: 'requires_capture' },
-        { label: 'Canceled', value: 'canceled' },
-        { label: 'Succeeded', value: 'succeeded' },
+        { label: "Requires Payment Method", value: "requires_payment_method" },
+        { label: "Requires Confirmation", value: "requires_confirmation" },
+        { label: "Requires Action", value: "requires_action" },
+        { label: "Processing", value: "processing" },
+        { label: "Requires Capture", value: "requires_capture" },
+        { label: "Canceled", value: "canceled" },
+        { label: "Succeeded", value: "succeeded" },
       ],
-      defaultValue: 'requires_payment_method',
+      defaultValue: "requires_payment_method",
       ui: {
-        displayMode: 'select', // dropdown
+        displayMode: "select", // dropdown
       },
     }),
-    orders: relationship({ ref: 'Order', many: true }),
+    orders: relationship({ ref: "Order", many: true }),
     metaData: json(),
     expiredAt: timestamp({
-      label: 'Expired At (System Calculated)',
-
+      label: "Expired At (System Calculated)",
       ui: {
-        createView: { fieldMode: 'hidden' },
-        itemView: { fieldMode: 'read' },
+        createView: { fieldMode: "hidden" },
+        itemView: { fieldMode: "read" },
       },
     }),
     ...defaultGlobalField({ includeCreatedAt: true, includeUpdateAt: true }),
@@ -74,10 +74,10 @@ export const PointTransaction = list({
     resolveInput: async ({ resolvedData, operation, item }) => {
       const now = new Date().toISOString();
       resolvedData.updateAt = now;
-      if (operation === 'update') {
+      if (operation === "update") {
         const newStatus = resolvedData.status || item.status;
         const existingExpiredAt = item.expiredAt;
-        if (newStatus === 'canceled' && !existingExpiredAt) {
+        if (newStatus === "canceled" && !existingExpiredAt) {
           resolvedData.expiredAt = new Date();
         }
       }
@@ -85,9 +85,9 @@ export const PointTransaction = list({
     },
 
     afterOperation: async (args) => {
-      if (args.operation === 'delete') {
+      if (args.operation === "delete") {
         try {
-          await publishRealtimeEvent('keystone-socket-payment', {
+          await publishRealtimeEvent("keystone-socket-payment", {
             type: `payment.delete`,
             data: { ...args.originalItem },
           });
@@ -96,26 +96,80 @@ export const PointTransaction = list({
           console.log(`[Keystone Hook] Point delete for, Error`);
         }
       }
-      if (args.operation === 'update' && args.item && args.originalItem) {
+      if (args.operation === "create" && args.item.status === "succeeded") {
         try {
+          // Increment total_spent
+          const userPoint = await args.context.query.UserPoint.findOne({
+            where: { user: { id: args.item.userId } },
+            query: "id total_spent",
+          });
+
+          if (userPoint) {
+            await args.context.db.UserPoint.updateOne({
+              where: { id: userPoint.id },
+              data: {
+                total_point:
+                  ((userPoint.total_spent || 0) + (args.item.amount || 0)) /
+                  100,
+                total_spent:
+                  (userPoint.total_spent || 0) + (args.item.amount || 0),
+              },
+            });
+          }
+        } catch (error) {
+          console.log(
+            `[Keystone Hook] Error updating total_spent for create:`,
+            error
+          );
+        }
+      }
+
+      if (args.operation === "update" && args.item && args.originalItem) {
+        try {
+          // Handle status change to succeeded
+          if (
+            args.item.status === "succeeded" &&
+            args.originalItem.status !== "succeeded"
+          ) {
+            const userPoint = await args.context.query.UserPoint.findOne({
+              where: { user: { id: args.item.userId } },
+              query: "id total_spent",
+            });
+
+            if (userPoint) {
+              await args.context.db.UserPoint.updateOne({
+                where: { id: userPoint.id },
+                data: {
+                  total_point:
+                    ((userPoint.total_spent || 0) + (args.item.amount || 0)) /
+                    100,
+                  total_spent:
+                    (userPoint.total_spent || 0) + (args.item.amount || 0),
+                },
+              });
+            }
+          }
+
           if (args.item.isFavorite !== args.originalItem.isFavorite) {
-            await publishRealtimeEvent('keystone-socket-payment', {
+            await publishRealtimeEvent("keystone-socket-payment", {
               type: `payment.favorite`,
               data: { ...args.item },
             });
             return;
           }
           if (args.item.status !== args.originalItem.status) {
-            await publishRealtimeEvent('keystone-socket-payment', {
+            await publishRealtimeEvent("keystone-socket-payment", {
               type: `payment.${args.item.status}`,
               data: { ...args.item },
             });
             return;
           }
         } catch {
-          console.log(`[Keystone Hook] Point changed for ${args.item.id}, Error`);
+          console.log(
+            `[Keystone Hook] Point changed for ${args.item.id}, Error`
+          );
         }
       }
     },
   },
-}) satisfies ListConfig<TypeInfo['lists']['PointTransaction']>;
+}) satisfies ListConfig<TypeInfo["lists"]["PointTransaction"]>;

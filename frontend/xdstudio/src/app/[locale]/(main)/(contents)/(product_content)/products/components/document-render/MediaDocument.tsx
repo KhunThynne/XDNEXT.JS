@@ -5,6 +5,7 @@ import type {
   Product,
 } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
+import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
 import _ from "lodash";
@@ -133,11 +134,15 @@ const RalationMediaTypeComponent = ({
   media,
   ...imageProps
 }: MediaRelationship & Partial<React.ComponentProps<typeof Image>>) => {
-  const { altText, name, src } = media.value.data;
-  if (src?.url)
-    return <Image fill src={src?.url} alt={altText ?? ``} {...imageProps} />;
-  return <ImageOff className={imageProps.className} />;
+  return (
+    <ImageProduct
+      image={media.value.data}
+      className={clsx(imageProps.className, "border-none")}
+      classNames={{ error: `size-full max-w-xs` }}
+    />
+  );
 };
+
 const MediaComponent = (
   props: MediaItem & WithClassNames<"relation" | "url"> & { preview?: true }
 ) => {
@@ -171,7 +176,7 @@ export const MediaDocument = (props: Maybe<Product["media"]>) => {
 
   return (
     <div className="flex grow flex-col gap-3">
-      <div className="relative aspect-video overflow-hidden rounded-lg border">
+      <div className="relative aspect-video place-content-center place-items-center overflow-hidden rounded-lg border">
         {_.isArray(items) && (
           <MediaComponent
             preview

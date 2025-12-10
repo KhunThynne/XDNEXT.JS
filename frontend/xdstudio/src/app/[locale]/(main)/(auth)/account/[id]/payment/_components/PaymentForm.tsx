@@ -42,6 +42,13 @@ export const FormSelectMoneyRate = ({
       const res = await createPaymentIntents({
         amount: Number(value.point) * 100,
         metadata: { userId: session.user.id },
+        payment_method_data: {
+          type: "promptpay",
+          billing_details: {
+            email: value.email,
+            name: value.username,
+          },
+        },
       });
 
       if (res && res.client_secret) {
@@ -49,7 +56,7 @@ export const FormSelectMoneyRate = ({
         await updateTagClient(`last-transaction-${session.user.id}`);
         await queryClient.invalidateQueries({ queryKey });
 
-        router.replace(`${res.metadata.pointTransactionId}`);
+        router.replace(`payment/${res.metadata.pointTransactionId}`);
       }
     },
   });

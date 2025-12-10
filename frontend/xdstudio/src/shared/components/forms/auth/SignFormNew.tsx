@@ -8,7 +8,7 @@ import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
 import { Button } from "@/libs/shadcn/ui/button";
 
 import { useSearchParams } from "next/navigation";
-import { authenticate } from "./actions/Login.action";
+import { signIn } from "./actions/Login.action";
 import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
 import { revalidateLogic, useStore } from "@tanstack/react-form";
 import { InputGroupAddon } from "@/libs/shadcn/ui/input-group";
@@ -24,7 +24,7 @@ export const SignFormNew = () => {
       onDynamic: ZSignInSchema,
     },
     onSubmit: async ({ value }) => {
-      await authenticate("", {
+      await signIn("credentials", {
         redirectTo: callbackUrl,
         ...value,
       }).then((res) => {

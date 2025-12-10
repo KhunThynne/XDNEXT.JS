@@ -1,4 +1,5 @@
 node_modules
 # backend/xdtechnology_fastapi/
 .env*
+!.env.example
 nginx/logs/

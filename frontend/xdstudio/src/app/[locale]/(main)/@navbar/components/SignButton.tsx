@@ -4,6 +4,7 @@ import { Users } from "lucide-react";
 import { signIn } from "next-auth/react";
 
 import { useSearchParams } from "next/navigation";
+import login from "../utils/signIn";
 
 export const SignButton = () => {
   const searchParams = useSearchParams();
@@ -20,7 +21,7 @@ export const SignButton = () => {
       disabled={!!callbackUrl}
       aria-label="sign-button"
       onClick={async () => {
-        await signIn("", { redirectTo: pathname, callbackUrl: pathname });
+        await login("", { redirectTo: pathname, callbackUrl: pathname });
       }}
     >
       <Users />

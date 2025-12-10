@@ -13,6 +13,7 @@ const statusMap: Record<string, { label: string; color: string }> = {
     label: "Requires Confirmation",
     color: "text-yellow-600",
   },
+
   requires_action: { label: "Requires Action", color: "text-orange-500" },
   processing: { label: "Processing", color: "text-blue-500" },
   requires_capture: { label: "Requires Capture", color: "text-purple-500" },

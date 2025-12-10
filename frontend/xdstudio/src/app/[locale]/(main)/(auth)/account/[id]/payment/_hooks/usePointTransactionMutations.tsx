@@ -101,24 +101,29 @@ export const usePointTransactionMutations = () => {
     },
     options?: Parameters<typeof deleteMutation.mutate>[1]
   ) => {
-    const stripeResult = await cancelPaymentIntent(variables.paymentIntentId);
-    if (!stripeResult.success) {
-      throw new Error(`Stripe Cancel Failed: ${stripeResult.error}`);
-    }
-    await deletePayment(
-      {
-        id: variables.id,
-        paymentIntentId: variables.paymentIntentId,
-      },
-      {
-        onSuccess: () => {
-          toast.success(
-            `${variables.paymentIntentId} reject and delete success`
-          );
-        },
-        ...options,
+    try {
+      const stripeResult = await cancelPaymentIntent(variables.paymentIntentId);
+      if (!stripeResult.success) {
+        throw new Error(`Stripe Cancel Failed: ${stripeResult.error}`);
       }
-    );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      await deletePayment(
+        {
+          id: variables.id,
+          paymentIntentId: variables.paymentIntentId,
+        },
+        {
+          onSuccess: () => {
+            toast.success(
+              `${variables.paymentIntentId} reject and delete success`
+            );
+          },
+          ...options,
+        }
+      );
+    }
   };
 
   return {

@@ -9,10 +9,11 @@ import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
-import { signIn } from "next-auth/react";
+
 import { Fragment, useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { updateTagClient } from "../shared/updateTagClient";
 import { useRouter } from "@navigation";
+import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;

@@ -674,18 +674,32 @@ input UserPointWhereInput {
   id: IDFilter
   user: UserWhereInput
   total_point: IntFilter
+  total_spent: FloatFilter
   updateAt: DateTimeNullableFilter
+}
+
+input FloatFilter {
+  equals: Float
+  in: [Float!]
+  notIn: [Float!]
+  lt: Float
+  lte: Float
+  gt: Float
+  gte: Float
+  not: FloatFilter
 }
 
 input UserPointOrderByInput {
   id: OrderDirection
   total_point: OrderDirection
+  total_spent: OrderDirection
   updateAt: OrderDirection
 }
 
 input UserPointUpdateInput {
   user: UserRelateToOneForUpdateInput
   total_point: Int
+  total_spent: Float
   updateAt: DateTime
 }
 
@@ -697,6 +711,7 @@ input UserPointUpdateArgs {
 input UserPointCreateInput {
   user: UserRelateToOneForCreateInput
   total_point: Int
+  total_spent: Float
   updateAt: DateTime
 }
 
