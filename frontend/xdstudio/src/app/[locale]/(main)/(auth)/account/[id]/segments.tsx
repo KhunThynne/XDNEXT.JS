@@ -8,7 +8,7 @@ import {
 import clsx from "clsx";
 import { useSelectedLayoutSegment, useRouter } from "next/navigation";
 import { Fragment, useMemo } from "react";
-import { User, CreditCard, ShoppingBag } from "lucide-react"; // ✨ import icon ที่ต้องใช้
+import { User, CreditCard, ShoppingBag } from "lucide-react";
 import type { Cart } from "@/libs/graphql/generates/graphql";
 
 type SegmentItem = {

@@ -10,28 +10,45 @@ import { CardPointTransactionPayment } from "./CardPointTransactionPayment";
 import type { Session } from "next-auth";
 import clsx from "clsx";
 import { Button } from "@/libs/shadcn/ui/button";
-import { Coins, Plus, Wallet } from "lucide-react";
+import { Coins, Plus, RefreshCcw, Wallet } from "lucide-react";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { useFormatter } from "next-intl";
 import { usePointDocument } from "@/shared/components/ui/Point";
 import type { User } from "@/libs/graphql/generates/graphql";
-import { Link } from "@navigation";
+import { Link, usePathname, useRouter } from "@navigation";
+import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
 
 const AvilableAndRewardDetails = ({ user }: { user: User }) => {
   const formater = useFormatter();
-  const { query } = usePointDocument({ id: user.point?.id });
+  const { query, invalidate } = usePointDocument({ id: user?.point?.id });
   const data = query.data?.data;
+  const router = useRouter();
+  const pathname = usePathname();
   const total_point = data?.userPoint?.total_point ?? 0;
   const total_spent = data?.userPoint?.total_spent ?? 0;
   return (
     <div className="flex h-full flex-col justify-between">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="font-medium">Your Point</CardTitle>
-        <Button variant="outline" size="icon-sm" asChild>
-          <Link href={`/account/${user.id}/payment`} className="size-8">
+        <ButtonGroup>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={() => invalidate()}
+            className="cursor-pointer"
+          >
+            <RefreshCcw className="size-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon-sm"
+            onClick={() => router.push(`/account/${user.id}/payment`)}
+            disabled={pathname === `/account/${user.id}/payment`}
+            className="cursor-pointer"
+          >
             <Plus className="size-4" />
-          </Link>
-        </Button>
+          </Button>
+        </ButtonGroup>
       </CardHeader>
       <CardContent>
         <div className="flex h-full items-end justify-between gap-4">
@@ -47,14 +64,13 @@ const AvilableAndRewardDetails = ({ user }: { user: User }) => {
 
           <Separator orientation="vertical" className="h-1/2!" />
 
-          {/* ส่วนแต้มสะสม */}
           <div className="space-y-1 text-right">
             <div className="flex items-center justify-end gap-2 text-sm text-muted-foreground">
               <span>Total spent </span>
               <Coins className="size-4 text-yellow-500" />
             </div>
             <div className="text-xl font-semibold text-yellow-500">
-              {formater.number(total_spent)}
+              {formater.number(Number(total_spent / 100))}
             </div>
           </div>
         </div>
@@ -78,7 +94,7 @@ export const TransactionPaymentSection = ({
     >
       <section className="flex gap-6 @max-xl:contents">
         <Card className="order-first flex-6">
-          <AvilableAndRewardDetails user={user} />
+          {user.point?.id && <AvilableAndRewardDetails user={user} />}
         </Card>
         {children}
       </section>

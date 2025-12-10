@@ -1,7 +1,7 @@
 import { Button } from "@/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
-import { authenticate } from "./actions/Login.action";
+import { signIn } from "./actions/Login.action";
 
 const providers = [
   { id: "discord", label: "Discord", disable: false },
@@ -32,7 +32,7 @@ export function OAuthLoginButtonsGrupe({
             type="button"
             disabled={disable}
             onClick={() =>
-              authenticate(id, {
+              signIn(id, {
                 redirectTo: callbackUrl,
                 callbackUrl,
               })

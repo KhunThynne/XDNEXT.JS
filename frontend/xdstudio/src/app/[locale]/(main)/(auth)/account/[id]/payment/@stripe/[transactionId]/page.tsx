@@ -14,6 +14,7 @@ import { getPaymentIntentsRetrieve } from "../../_actions/paymentIntents";
 import { notFound } from "next/navigation";
 import MenuActionStripe from "./_components/MenuActionStripe";
 import _ from "lodash";
+import { Link } from "@navigation";
 
 const getPointPaymentTransactionCache = async (
   query: GetPointTransactionQueryVariables
@@ -104,6 +105,14 @@ export default async function StripePage({
           </div>
         }
       >
+        {/* {form?.metaData?.next_action?.promptpay_display_qr_code?.data && (
+          <Link
+            href={form?.metaData?.next_action?.promptpay_display_qr_code?.data}
+            target="_blank"
+          >
+            test
+          </Link>
+        )} */}
         <DetailPointTransactionForm form={form} />
       </ContainerSection>
     );

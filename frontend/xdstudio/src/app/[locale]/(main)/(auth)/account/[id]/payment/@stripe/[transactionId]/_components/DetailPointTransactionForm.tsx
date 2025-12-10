@@ -21,7 +21,7 @@ export const DetailPointTransactionForm = ({
           <CardQrcodeTransaction {...form} />
           <CardTransactionSummary {...form} />
         </div>
-        <section className="flex flex-col gap-6 @md:flex-row">
+        {/* <section className="flex flex-col gap-6 @md:flex-row">
           <CardCustomerInformation {...form} />
           <Alert className="h-fit flex-4">
             <ShieldCheck />
@@ -30,7 +30,7 @@ export const DetailPointTransactionForm = ({
               This payment was processed securely with 256-bit encryption.
             </AlertDescription>
           </Alert>
-        </section>
+        </section> */}
       </ContainerSection>
     </form>
   );

@@ -11,6 +11,7 @@ export const createPaymentIntents = async (
   options?: Stripe.RequestOptions
 ) => {
   // 🧩 Default configuration
+
   try {
     const defaultConfig: Stripe.PaymentIntentCreateParams = {
       amount: 500,
@@ -30,7 +31,7 @@ export const createPaymentIntents = async (
       ...defaultConfig,
       ...params,
     };
-
+    console.log("mergedConfig", mergedConfig);
     const paymentIntent = await stripe.paymentIntents.create(
       mergedConfig,
       options

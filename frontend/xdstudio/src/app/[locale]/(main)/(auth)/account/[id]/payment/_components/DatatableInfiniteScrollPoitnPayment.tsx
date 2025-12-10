@@ -44,6 +44,7 @@ import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
 import {
   FileText,
   OctagonXIcon,
+  RefreshCcw,
   SquareChartGantt,
   Star,
   Trash2,
@@ -110,7 +111,7 @@ export function DatatableInfiniteScrollPoitnPayment({
       columnHelper.accessor("amount", {
         header: () => <span>Amount</span>,
         cell: (info) => {
-          const value = info.getValue();
+          const value = Number(info.getValue() / 100);
           if (value == null) return "-";
           return formatter.number(value, {
             style: "currency",
@@ -255,7 +256,7 @@ export function DatatableInfiniteScrollPoitnPayment({
     manualSorting: true,
     debugTable: true,
   });
-  const onServerConnect = React.useEffectEvent((arg: string) => {
+  const onServerConnect = React.useEffectEvent(async (arg: string) => {
     const action = JSON.parse(arg) as RealtimeEvent;
     const data = action.data as PointTransactionFieldFragment;
     type InfinitePointTransactions = InfiniteData<{
@@ -323,9 +324,6 @@ export function DatatableInfiniteScrollPoitnPayment({
                 p.data?.pointTransactions?.some((row) => row.id === data.id)
               );
 
-              if (action.type.startsWith("payment.succeeded")) {
-                toast.success(`${action.type}-${data?.id}`);
-              }
               if (itemExists) {
                 return {
                   ...oldData,
@@ -360,6 +358,12 @@ export function DatatableInfiniteScrollPoitnPayment({
               }
             }
           );
+          if (action.type.startsWith("payment.succeeded")) {
+            await queryClient.invalidateQueries({
+              queryKey: [`point`, session?.user?.point?.id],
+            });
+            toast.success(`${action.type}-${data?.id}`);
+          }
           updateTagClient(`point-transaction-${data.id}`);
           return;
         }

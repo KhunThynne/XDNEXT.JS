@@ -65,7 +65,7 @@ const AlertPointTransaction = ({
       }}
     >
       <AlertTitle className="flex justify-between">
-        <h2> {number(pointTransaction.amount ?? 0)}</h2>
+        <h2> {number((pointTransaction.amount ?? 0) / 100)}</h2>
       </AlertTitle>
       <div
         className={clsx(

@@ -58,7 +58,7 @@ export const CardTransactionSummary = ({
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2 text-lg font-semibold">
-            <Receipt className="h-5 w-5 text-primary" />
+            <Receipt className="size-5" />
             Transaction Summary
           </CardTitle>
           <Badge
@@ -112,8 +112,9 @@ export const CardTransactionSummary = ({
               <CreditCard className="h-4 w-4" />
               <span>Payment Method</span>
             </div>
-            <div className="flex items-center gap-2 font-medium">
-              {paymentMethodDetails ? (
+            <div className="flex items-center gap-2 font-medium capitalize">
+              {metaData.payment_method_types}
+              {/* {paymentMethodDetails ? (
                 <>
                   <span className="capitalize">
                     {paymentMethodDetails.brand}
@@ -124,7 +125,7 @@ export const CardTransactionSummary = ({
                 </>
               ) : (
                 <span>-</span>
-              )}
+              )} */}
             </div>
           </div>
           <Separator className="bg-border/60" />

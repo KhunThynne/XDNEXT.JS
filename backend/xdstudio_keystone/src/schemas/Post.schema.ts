@@ -1,8 +1,8 @@
-import { TypeInfo } from '.keystone/types';
-import { list, ListConfig } from '@keystone-6/core';
-import { allowAll } from '@keystone-6/core/access';
-import { relationship, text } from '@keystone-6/core/fields';
-import { document } from '@keystone-6/fields-document';
+import { TypeInfo } from ".keystone/types";
+import { list, ListConfig } from "@keystone-6/core";
+import { allowAll } from "@keystone-6/core/access";
+import { relationship, text } from "@keystone-6/core/fields";
+import { document } from "@keystone-6/fields-document";
 export const Post = list({
   access: allowAll,
   fields: {
@@ -20,27 +20,27 @@ export const Post = list({
       dividers: true,
     }),
     author: relationship({
-      ref: 'User.posts',
+      ref: "User.posts",
       ui: {
-        displayMode: 'cards',
-        cardFields: ['name', 'email'],
-        inlineEdit: { fields: ['name', 'email'] },
+        displayMode: "cards",
+        cardFields: ["name", "email"],
+        inlineEdit: { fields: ["name", "email"] },
         linkToItem: true,
         inlineConnect: true,
       },
       many: false,
     }),
     tags: relationship({
-      ref: 'Tag.posts',
+      ref: "Tag.posts",
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['name'],
-        inlineEdit: { fields: ['name'] },
+        displayMode: "cards",
+        cardFields: ["name"],
+        inlineEdit: { fields: ["name"] },
         linkToItem: true,
         inlineConnect: true,
-        inlineCreate: { fields: ['name'] },
+        inlineCreate: { fields: ["name"] },
       },
     }),
   },
-}) satisfies ListConfig<TypeInfo['lists']['Post']>;
+}) satisfies ListConfig<TypeInfo["lists"]["Post"]>;

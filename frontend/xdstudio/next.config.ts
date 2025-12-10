@@ -18,6 +18,7 @@ const nextConfig = {
     mcpServer: true,
     authInterrupts: true,
   },
+  // trailingSlash:true,
   typedRoutes: false,
   basePath: "",
   // assetPrefix: env.NEXT_PUBLIC_SITE_URL,
