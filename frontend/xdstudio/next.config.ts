@@ -13,10 +13,11 @@ const nextConfig = {
   skipProxyUrlNormalize: true,
   reactCompiler: true,
   cacheComponents: true,
-  experimental: {
+experimental: {
     turbopackFileSystemCacheForDev: true,
     mcpServer: true,
     authInterrupts: true,
+    globalNotFound: true,
   },
   // trailingSlash:true,
   typedRoutes: false,

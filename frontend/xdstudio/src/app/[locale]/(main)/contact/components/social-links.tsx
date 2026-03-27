@@ -1,13 +1,5 @@
 import { Button } from "@/libs/shadcn/ui/button";
-import {
-  MessageCircle,
-  Facebook,
-  Music,
-  Linkedin,
-  User,
-  Instagram,
-  ExternalLink,
-} from "lucide-react";
+import { MessageCircle, Music, User, ExternalLink } from "lucide-react";
 
 interface SocialLinksProps {
   contacts: {
@@ -31,7 +23,7 @@ export function SocialLinks({ contacts }: SocialLinksProps) {
     },
     {
       key: "facebook",
-      icon: Facebook,
+      icon: MessageCircle,
       label: "Facebook Page",
       value: contacts.facebook,
       color: "hover:text-[#1877F2]",
@@ -45,7 +37,7 @@ export function SocialLinks({ contacts }: SocialLinksProps) {
     },
     {
       key: "linkedin",
-      icon: Linkedin,
+      icon: MessageCircle,
       label: "LinkedIn",
       value: contacts.linkedin,
       color: "hover:text-[#0A66C2]",
@@ -59,7 +51,7 @@ export function SocialLinks({ contacts }: SocialLinksProps) {
     },
     {
       key: "instagram",
-      icon: Instagram,
+      icon: MessageCircle,
       label: "Instagram",
       value: contacts.instagram,
       color: "hover:text-[#E4405F]",
