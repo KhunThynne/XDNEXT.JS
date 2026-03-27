@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.6.0...v1.7.0) (2026-03-27)
+
+
+### Features
+
+* Initialize new Next.js frontend and backend projects with their respective configurations and dependencies. ([b90ff96](https://github.com/KhunThynne/XDNEXT.JS/commit/b90ff96874b6536488c144dcf639b4b51a3fe0e3))
+
+
+### Bug Fixes
+
+* **react2shell:** fixed bug react2shell ([23dce8c](https://github.com/KhunThynne/XDNEXT.JS/commit/23dce8c5909fe19387d453ef78f3b0aca24d53ae))
+
 ## [1.6.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.5.3...v1.6.0) (2025-12-10)
 
 

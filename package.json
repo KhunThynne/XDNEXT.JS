@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "XD-Shop",
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
