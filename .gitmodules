@@ -1,3 +1,7 @@
 [submodule "backend/xdtechnology_fastap"]
 	path = backend/xdtechnology_fastap
 	url = https://github.com/KhunThynne/FastApi-Xdtechnology.git
+[submodule "frontend/xdstudio/src/libs/tanstack-form"]
+	path = frontend/xdstudio/src/libs/tanstack-form
+	url = https://github.com/KhunThynne/tanstack-app-form-shadcn.git
+	branch = lite

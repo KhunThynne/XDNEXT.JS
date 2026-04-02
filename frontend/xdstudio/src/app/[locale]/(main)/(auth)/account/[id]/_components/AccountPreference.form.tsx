@@ -11,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import z, { email } from "zod";
 import { useDialogContext } from "@/libs/dialog/DialogInstance";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
-import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
+import { useAppForm } from "@/libs/tanstack-react-form";
 import {
   formOptions,
   revalidateLogic,

@@ -9,7 +9,7 @@ import { Button } from "@/libs/shadcn/ui/button";
 
 import { useSearchParams } from "next/navigation";
 import { signIn } from "./actions/Login.action";
-import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
+import { useAppForm } from "@/libs/tanstack-react-form";
 import { revalidateLogic, useStore } from "@tanstack/react-form";
 import { InputGroupAddon } from "@/libs/shadcn/ui/input-group";
 

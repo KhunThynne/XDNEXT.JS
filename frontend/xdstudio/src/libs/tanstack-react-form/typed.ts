@@ -1,4 +1,4 @@
-import type { FieldLabel } from "../../ui/field";
+import type { FieldLabel } from "../shadcn/ui/field";
 
 export interface FormXdPropsField {
   name: string;

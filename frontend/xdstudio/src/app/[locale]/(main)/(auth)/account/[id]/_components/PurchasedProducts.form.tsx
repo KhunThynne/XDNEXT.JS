@@ -30,8 +30,8 @@ import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
 import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
 
-import { useAppForm } from "@/libs/shadcn/libs/tanstack-react-form";
-import { InputForm } from "@/libs/shadcn/libs/tanstack-react-form/Input";
+import { useAppForm } from "@/libs/tanstack-react-form";
+import { InputForm } from "@/libs/tanstack-react-form/Input";
 import { useForm, formOptions, useField } from "@tanstack/react-form";
 import { DataTableGridItemsInfiniteScroll } from "./DataTableUserItemsInfiniteScroll";
 import {

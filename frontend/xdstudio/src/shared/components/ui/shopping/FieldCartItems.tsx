@@ -12,7 +12,7 @@ import _ from "lodash";
 import {
   withFieldGroup,
   withForm,
-} from "@/libs/shadcn/libs/tanstack-react-form";
+} from "@/libs/tanstack-react-form";
 
 type CartItemsGroupProps = {
   test: string;
