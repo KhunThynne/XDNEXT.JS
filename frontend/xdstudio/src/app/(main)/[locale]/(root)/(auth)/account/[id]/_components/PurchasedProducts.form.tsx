@@ -28,7 +28,6 @@ import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import _ from "lodash";
-import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
 
 import { useAppForm } from "@/libs/tanstack-react-form";
 import { InputForm } from "@/libs/tanstack-react-form/Input";
@@ -40,6 +39,7 @@ import {
 } from "@/libs/shadcn/ui/input-group";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useParams } from "next/navigation";
+import { CardProduct } from "../../../../(contents)/(product_content)/products/components/ProductCard";
 
 const GridItems = ({
   items,

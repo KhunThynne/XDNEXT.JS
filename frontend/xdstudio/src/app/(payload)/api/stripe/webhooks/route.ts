@@ -4,9 +4,7 @@ import { stripe } from "@/libs/stripe/stripe";
 import { env } from "@/env";
 import type Stripe from "stripe";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { updatePointPaymentTransaction } from "@/app/[locale]/(main)/(auth)/account/[id]/payment/_actions/pointPaymentTransaction";
-import { publishRealtimeEvent } from "@/libs/redis/publisher";
-
+import { updatePointPaymentTransaction } from "@/app/(main)/[locale]/(root)/(auth)/account/[id]/payment/_actions/pointPaymentTransaction";
 export async function POST(req: Request) {
   let event;
 

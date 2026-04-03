@@ -54,7 +54,7 @@ import { useParams } from "next/navigation";
 import _, { isEmpty, iteratee } from "lodash";
 import { useSocket } from "@/libs/socket-io/socket";
 
-import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import { updateTagClient } from "@/shared/utils/m";
 import type { InfiniteData } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { BadgePaymentStatus } from "./BadgePaymentStatus";

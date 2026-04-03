@@ -1,9 +1,8 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Input } from "@/libs/shadcn/ui/input";
-import { updateTag } from "next/cache";
+import { updateTagClient } from "@/shared/utils/m";
 import { Fragment, Suspense, use, useDeferredValue, useState } from "react";
-import { updateTagClient } from "../../(main)/(contents)/(product_content)/products/shared/updateTagClient";
 
 const Inserch = ({
   query,

@@ -19,7 +19,7 @@ import { Spinner } from "@/libs/shadcn/ui/spinner";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import { updateTagClient } from "@/shared/utils/m";
 import { useLayoutEffect } from "react";
 
 // Make sure to call loadStripe outside of a component’s render to avoid

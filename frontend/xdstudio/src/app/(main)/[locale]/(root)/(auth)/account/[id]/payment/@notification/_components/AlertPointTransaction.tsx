@@ -10,7 +10,7 @@ import clsx from "clsx";
 import { useEffect, useEffectEvent, useState } from "react";
 import { useSocket } from "@/libs/socket-io/socket";
 import type { RealtimeEvent } from "@/libs/redis/publisher";
-import { revalidateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import { revalidateTagClient } from "@/shared/utils/m";
 
 const AlertPointTransaction = ({
   pointTransaction: defaultPointTransaction,

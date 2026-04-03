@@ -1,6 +1,6 @@
 "use client";
 
-import { updateTagClient } from "@/app/[locale]/(main)/(contents)/(product_content)/products/shared/updateTagClient";
+import { updateTagClient } from "@/shared/utils/m";
 import { execute } from "@/libs/graphql/execute";
 import type { Cart, Product } from "@/libs/graphql/generates/graphql";
 import {

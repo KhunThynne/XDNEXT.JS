@@ -1,4 +1,4 @@
-import { CardProduct } from "@/app/[locale]/(main)/(contents)/(product_content)/products/components/ProductCard";
+
 import { execute } from "@/libs/graphql/execute";
 import {
   GetUserItemDocument,

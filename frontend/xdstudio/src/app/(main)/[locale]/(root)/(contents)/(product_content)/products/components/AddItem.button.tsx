@@ -11,7 +11,7 @@ import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 
 import { Fragment, useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { updateTagClient } from "../shared/updateTagClient";
+import { updateTagClient } from "@/shared/utils/m";
 import { useRouter } from "@navigation";
 import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 
