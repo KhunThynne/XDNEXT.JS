@@ -1,7 +1,7 @@
 "use server";
-import { ApiPostOmiseCharge } from "@/app/api/omise/[...resource]/services/ApiPostOmiseCharge";
-import type { ApiPostOmiseSourcesType } from "@/app/api/omise/[...resource]/services/ApiPostOmiseSources";
-import { ApiPostOmiseSources } from "@/app/api/omise/[...resource]/services/ApiPostOmiseSources";
+import { ApiPostOmiseCharge } from "@/app/(payload)/api/omise/[...resource]/services/ApiPostOmiseCharge";
+import type { ApiPostOmiseSourcesType } from "@/app/(payload)/api/omise/[...resource]/services/ApiPostOmiseSources";
+import { ApiPostOmiseSources } from "@/app/(payload)/api/omise/[...resource]/services/ApiPostOmiseSources";
 
 export async function createPaymentQrCode(arg: ApiPostOmiseSourcesType) {
   try {

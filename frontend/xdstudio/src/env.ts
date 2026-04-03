@@ -18,6 +18,7 @@ export const env = createEnv({
     OMISE_SECRET_KEY: z.string(),
     NODE_ENV: z.enum(["development", "production"]),
 
+    PAYLOAD_SECRET: z.string(),
     AUTH_SECRET: z.string().optional(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
@@ -35,6 +36,7 @@ export const env = createEnv({
   },
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
+    PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
     INTERNAL_SITE_URL: process.env.INTERNAL_SITE_URL,
     INTERNAL_API_URL: process.env.INTERNAL_API_URL,
     REDIS_HOST: process.env.REDIS_HOST,
