@@ -35,12 +35,12 @@ export default async function LocaleLayout({
         )}
       >
         <SessionProvider>
-          <NextIntlClientProvider>
-            <Providers locale={locale} session={session}>
+          <Providers locale={locale} session={session}>
+            <NextIntlClientProvider>
               {children}
               <GoToTopButton />
-            </Providers>
-          </NextIntlClientProvider>
+            </NextIntlClientProvider>
+          </Providers>
         </SessionProvider>
       </body>
     </html>

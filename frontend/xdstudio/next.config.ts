@@ -2,7 +2,7 @@ import "@configs/dotenv.config";
 import { env } from "@/env";
 import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import { withPayload } from '@payloadcms/next/withPayload'
+import { withPayload } from "@payloadcms/next/withPayload";
 
 const backendUrl = new URL(env.NEXT_PUBLIC_API_URL);
 const nextConfig = {
@@ -15,7 +15,7 @@ const nextConfig = {
   skipProxyUrlNormalize: true,
   reactCompiler: true,
   cacheComponents: true,
-experimental: {
+  experimental: {
     turbopackFileSystemCacheForDev: true,
     mcpServer: true,
     authInterrupts: true,
@@ -81,4 +81,4 @@ experimental: {
   },
 } satisfies NextConfig;
 const withNextIntl = createNextIntlPlugin("./src/libs/i18n/request.ts");
-export default withNextIntl(withPayload(nextConfig));
+export default withPayload(withNextIntl(nextConfig));
