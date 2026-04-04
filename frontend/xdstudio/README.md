@@ -63,3 +63,6 @@ npm start
 | `npm run build` | Builds the application for production usage. |
 | `npm run lint:fix` | Runs ESLint and automatically fixes fixable issues. |
 | `npm run codegen` | Generates TypeScript types from GraphQL schema (KeystoneJS). |
+
+
+ export SKIP_ENV_VALIDATION=true && npx payload generate:types

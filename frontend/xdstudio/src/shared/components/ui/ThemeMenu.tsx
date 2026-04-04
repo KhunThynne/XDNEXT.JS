@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { DefaultTheme, useTheme } from "@wrksz/themes/client";
 import { Button } from "@/libs/shadcn/ui/button";
 import {
   DropdownMenu,
@@ -35,7 +35,10 @@ export const ThemeMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {themes.map((t) => (
-          <DropdownMenuItem key={t.name} onClick={() => setTheme(t.name)}>
+          <DropdownMenuItem
+            key={t.name}
+            onClick={() => setTheme(t.name as DefaultTheme)}
+          >
             {t.icon}
             {t.name.charAt(0).toUpperCase() + t.name.slice(1)}
           </DropdownMenuItem>

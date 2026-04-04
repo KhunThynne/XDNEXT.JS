@@ -1,8 +1,8 @@
 "use client";
-import type { ThemeProviderProps } from "next-themes";
+import type { ThemeProviderProps } from "@wrksz/themes/next";
 import dynamic from "next/dynamic";
 const NextThemesProvider = dynamic(
-  () => import("next-themes").then((e) => e.ThemeProvider),
+  () => import("@wrksz/themes/next").then((e) => e.ThemeProvider),
   {
     ssr: false,
   }

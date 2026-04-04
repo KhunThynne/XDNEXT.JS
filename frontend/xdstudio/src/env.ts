@@ -34,6 +34,7 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: z.url(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   },
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,

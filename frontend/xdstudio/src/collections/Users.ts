@@ -68,10 +68,16 @@ export const Users: CollectionConfig = {
       name: "provider",
       type: "text",
       defaultValue: "credentials",
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "image",
       type: "text",
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "avatar",
@@ -96,6 +102,7 @@ export const Users: CollectionConfig = {
       hasMany: true,
       admin: {
         description: "All provider accounts linked to this user",
+        condition: (data) => !!data?.id,
       },
     },
     {
@@ -103,24 +110,36 @@ export const Users: CollectionConfig = {
       type: "relationship",
       relationTo: "carts",
       hasMany: true,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "items",
       type: "relationship",
       relationTo: "user-items",
       hasMany: true,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "point",
       type: "relationship",
       relationTo: "user-points",
       hasMany: false,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "supplier",
       type: "relationship",
       relationTo: "suppliers",
       hasMany: true,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "orders",
@@ -136,12 +155,18 @@ export const Users: CollectionConfig = {
       type: "relationship",
       relationTo: "user-preferences",
       hasMany: false,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "posts",
       type: "relationship",
       relationTo: "posts",
       hasMany: true,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
   ],
 };

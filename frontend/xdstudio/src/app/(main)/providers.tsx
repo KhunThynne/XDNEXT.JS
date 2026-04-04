@@ -1,8 +1,7 @@
 "use client";
 import type { ReactNode } from "react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "@/shared/components/providers";
 import { DialogProvider } from "@/libs/dialog/DialogProvider";
 import type { Session } from "next-auth";
 import { useCartsStore } from "@/shared/stores/useCartsStore";
@@ -29,10 +28,8 @@ export const Providers = ({
   return (
     <QueryClientProvider client={queryClient}>
       <DialogProvider>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Toaster position="top-center" />
-          {children}
-        </ThemeProvider>
+        <Toaster position="top-center" />
+        {children}
       </DialogProvider>
     </QueryClientProvider>
   );

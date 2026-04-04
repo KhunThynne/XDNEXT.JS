@@ -24,7 +24,7 @@ export default async function PageCotent() {
 
   return (
     <>
-      <MotionTransition>
+      <MotionTransition preset="none"> 
         <ContentCard
           title={
             <>
@@ -53,7 +53,7 @@ export default async function PageCotent() {
                 Browse Categories
               </h3>
               {/* <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl grid-cols-1 place-content-center gap-3"> */}
-              <div className="mx-auto grid max-w-screen-xl place-content-center gap-3 @min-xs:grid-cols-2 @min-2xl:grid-cols-4">
+              <div className="mx-auto grid max-w-7xl place-content-center gap-3 @min-xs:grid-cols-2 @min-2xl:grid-cols-4">
                 {categories.map((category, index) => (
                   <Card
                     key={index}

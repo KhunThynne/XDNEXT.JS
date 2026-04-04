@@ -8,6 +8,7 @@ import { RenderMenu } from "./RenderMenu.components";
 import { NavbarActionSection } from "./NavbarActionSection";
 import type { Session } from "next-auth";
 import type { TypeNavbarItem } from "@type/config.type";
+import { useIsMounted } from "@/shared/hooks/useIsMounted";
 
 export default function MenuNavbar({
   session,
@@ -17,6 +18,8 @@ export default function MenuNavbar({
   navbar: TypeNavbarItem[];
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const isMounted = useIsMounted();
+  if (!isMounted) return null;
   const target = document.getElementById("nav-menu");
   return (
     <Fragment>
