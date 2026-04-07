@@ -1,20 +1,17 @@
 "use client";
 
+import { AlertCircle, RotateCcw } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/libs/shadcn/ui/card";
-import Content from "@/shared/components/ui/Content";
-import type { Metadata } from "next";
-
-// Error boundaries must be Client Components
-export const metadata: Metadata = {
-  title: "XD Shop - Error",
-  description: "This is a static description for all locales",
-};
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/libs/shadcn/ui/empty";
+import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
+import { useEffect } from "react";
 
 export default function ProductError({
   error,
@@ -23,32 +20,33 @@ export default function ProductError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    console.error("Product layout error:", error);
+  }, [error]);
+
   return (
-    <section className="grow place-content-center">
-      <Content
-        classNames={{
-          content: "max-w-md mx-auto grow place-content-center px-4",
-        }}
-      >
-        <Card>
-          <CardHeader>
-            <h2>Server error {`can't`} connect to the server! </h2>
-          </CardHeader>
-          <CardContent>
-            {error?.message && (
-              <p className="text-destructive">{error.message}</p>
-            )}
-            {error?.digest && (
-              <small style={{ opacity: 0.6 }}>Error ID: {error.digest}</small>
-            )}
-          </CardContent>
-          <CardFooter className="justify-end">
-            <Button variant={"outline"} onClick={() => reset()}>
+    <>
+      <BreadcrumbComponent pathNames={["products", "Error"]} />
+      <div className="flex h-full min-h-[50vh] flex-col items-center justify-center p-4">
+        <Empty className="max-w-md border-none p-0">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <AlertCircle className="size-6 text-destructive" />
+            </EmptyMedia>
+            <EmptyTitle>Product Not Found</EmptyTitle>
+            <EmptyDescription>
+              {error.message ||
+                "We couldn't load the product you are looking for. Please try again."}
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent className="mt-4 flex justify-center">
+            <Button onClick={() => reset()} variant="default">
+              <RotateCcw className="mr-2 size-4" />
               Try again
             </Button>
-          </CardFooter>
-        </Card>
-      </Content>
-    </section>
+          </EmptyContent>
+        </Empty>
+      </div>
+    </>
   );
 }

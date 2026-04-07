@@ -1,22 +1,17 @@
 {
   "folders": [
     {
-      "path": "."
+      "path": ".",
     },
+
     {
-      "path": "backend/xdstudio_keystone"
+      "path": "frontend/xdstudio",
     },
-      {
-      "path": "backend/xdtechnology_fastapi"
-    },
-    {
-      "path": "frontend/xdstudio"
-    }
   ],
   "settings": {
     "i18n-ally.keystyle": "nested",
-    "i18n-ally.defaultNamespace": "", 
+    "i18n-ally.defaultNamespace": "",
     "typescript.tsdk": "frontend/xdstudio/node_modules/typescript/lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
-  }
+  },
 }

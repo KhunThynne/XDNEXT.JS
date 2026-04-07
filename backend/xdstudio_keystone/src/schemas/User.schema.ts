@@ -1,13 +1,13 @@
-import { list, ListConfig } from '@keystone-6/core';
-import { allowAll } from '@keystone-6/core/access';
-import { text, relationship, select, password } from '@keystone-6/core/fields';
-import { defaultGlobalField } from './shared/defaultGlobalField';
-import { TypeInfo } from '.keystone/types';
+import { list, ListConfig } from "@keystone-6/core";
+import { allowAll } from "@keystone-6/core/access";
+import { text, relationship, select, password } from "@keystone-6/core/fields";
+import { defaultGlobalField } from "./shared/defaultGlobalField";
+import { TypeInfo } from ".keystone/types";
 export const User = list({
   access: allowAll,
   ui: {
     listView: {
-      initialColumns: ['name', 'username', 'email', 'role'],
+      initialColumns: ["name", "username", "email", "role"],
       pageSize: 10,
     },
   },
@@ -15,47 +15,47 @@ export const User = list({
     name: text({ validation: { isRequired: true } }),
     username: text(),
 
-    provider: text({ defaultValue: 'credentials' }),
+    provider: text({ defaultValue: "credentials" }),
     image: text(),
-    avartar: relationship({ ref: 'Image', many: false }),
+    avartar: relationship({ ref: "Image", many: false }),
     role: select({
       options: [
-        { label: 'Admin', value: 'ADMIN' },
-        { label: 'User', value: 'USER' },
-        { label: 'Moderator', value: 'MODERATOR' },
-        { label: 'Guest', value: 'GUEST' },
+        { label: "Admin", value: "ADMIN" },
+        { label: "User", value: "USER" },
+        { label: "Moderator", value: "MODERATOR" },
+        { label: "Guest", value: "GUEST" },
       ],
-      defaultValue: 'USER',
-      ui: { displayMode: 'select' },
+      defaultValue: "USER",
+      ui: { displayMode: "select" },
     }),
     email: text({
       validation: { isRequired: true },
-      isIndexed: 'unique',
+      isIndexed: "unique",
     }),
     password: password({ validation: { isRequired: true } }),
     ...defaultGlobalField({ includeCreatedAt: true }),
     accounts: relationship({
-      ref: 'Account.user',
+      ref: "Account.user",
       many: true,
       ui: {
-        description: 'All provider accounts linked to this user',
+        description: "All provider accounts linked to this user",
         hideCreate: true,
-        displayMode: 'count',
+        displayMode: "count",
       },
     }),
     carts: relationship({
-      ref: 'Cart.user',
+      ref: "Cart.user",
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['status', 'createdAt', 'updateAt'],
-        inlineCreate: { fields: ['status'] },
-        inlineEdit: { fields: ['status'] },
+        displayMode: "cards",
+        cardFields: ["status", "createdAt", "updateAt"],
+        inlineCreate: { fields: ["status"] },
+        inlineEdit: { fields: ["status"] },
         linkToItem: true,
       },
     }),
     items: relationship({
-      ref: 'UserItem.user',
+      ref: "UserItem.user",
       many: true,
       // ui: {
       //   labelField: '',
@@ -64,41 +64,41 @@ export const User = list({
       //   removeMode: 'disconnect',
       // },
       ui: {
-        displayMode: 'select',
-        listView: { fieldMode: 'read' },
-        itemView: { fieldMode: 'edit' },
+        displayMode: "select",
+        listView: { fieldMode: "read" },
+        itemView: { fieldMode: "edit" },
         // linkToItem: true,
       },
     }),
     point: relationship({
-      ref: 'UserPoint.user',
+      ref: "UserPoint.user",
       many: false,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['total_point', 'total_spent'],
-        inlineCreate: { fields: ['total_point', 'total_spent'] },
-        inlineEdit: { fields: ['total_point', 'total_spent'] },
+        displayMode: "cards",
+        cardFields: ["total_point", "total_spent"],
+        inlineCreate: { fields: ["total_point", "total_spent"] },
+        inlineEdit: { fields: ["total_point", "total_spent"] },
         linkToItem: true,
-        removeMode: 'none',
+        removeMode: "none",
       },
     }),
     suppiler: relationship({
-      ref: 'Supplier.user',
+      ref: "Supplier.user",
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['name', 'description'],
-        inlineCreate: { fields: ['name', 'description'] },
-        inlineEdit: { fields: ['name', 'description'] },
+        displayMode: "cards",
+        cardFields: ["name", "description"],
+        inlineCreate: { fields: ["name", "description"] },
+        inlineEdit: { fields: ["name", "description"] },
         linkToItem: true,
       },
     }),
     orders: relationship({
-      ref: 'Order.user',
+      ref: "Order.user",
       many: true,
       ui: {
-        itemView: { fieldMode: 'hidden' },
-        listView: { fieldMode: 'hidden' },
+        itemView: { fieldMode: "hidden" },
+        listView: { fieldMode: "hidden" },
       },
       // ui: {
       //   displayMode: 'cards',
@@ -109,32 +109,32 @@ export const User = list({
       // },
     }),
     preference: relationship({
-      ref: 'UserPreference.user',
+      ref: "UserPreference.user",
       many: false,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['setting'],
-        inlineCreate: { fields: ['setting'] },
-        inlineEdit: { fields: ['setting'] },
+        displayMode: "cards",
+        cardFields: ["setting"],
+        inlineCreate: { fields: ["setting"] },
+        inlineEdit: { fields: ["setting"] },
         linkToItem: true,
-        removeMode: 'none',
+        removeMode: "none",
       },
     }),
     posts: relationship({
-      ref: 'Post.author',
+      ref: "Post.author",
       many: true,
       ui: {
-        displayMode: 'cards',
-        cardFields: ['title'],
-        inlineCreate: { fields: ['title'] },
-        inlineEdit: { fields: ['title'] },
+        displayMode: "cards",
+        cardFields: ["title"],
+        inlineCreate: { fields: ["title"] },
+        inlineEdit: { fields: ["title"] },
         linkToItem: true,
       },
     }),
   },
   hooks: {
     beforeOperation: async ({ operation, resolvedData, context }) => {
-      if (operation === 'create') {
+      if (operation === "create") {
         if (!resolvedData.username && resolvedData.name) {
           resolvedData.username = resolvedData.name;
         }
@@ -142,7 +142,7 @@ export const User = list({
     },
 
     afterOperation: async ({ operation, item, context }) => {
-      if (operation === 'create') {
+      if (operation === "create") {
         await context.db.Supplier.createOne({
           data: {
             name: `Supplier for ${item.name}`,
@@ -170,4 +170,4 @@ export const User = list({
       }
     },
   },
-}) satisfies ListConfig<TypeInfo['lists']['User']>;
+}) satisfies ListConfig<TypeInfo["lists"]["User"]>;

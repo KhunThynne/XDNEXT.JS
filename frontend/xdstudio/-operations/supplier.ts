@@ -10,6 +10,5 @@ graphql(`
       email
       username
     }
-    productsCount
   }
 `);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { DialogInstance, DialogInstanceProvider } from "./DialogInstance";
+import { DialogInstance, DialogInstanceProvider } from "./contexts/DialogInstance";
 import type { DialogInstanceProps } from "./index.type";
 /**
  * `createDialog` is a factory function that generates a custom `Dialog` component
@@ -34,7 +34,7 @@ export function createDialog(initialProps: DialogInstanceProps) {
   function Dialog(
     runtimeProps: Partial<DialogInstanceProps> & {
       ref?: React.Ref<HTMLDivElement>;
-    }
+    },
   ) {
     const setting: Partial<DialogInstanceProps> = {
       ...initialProps,

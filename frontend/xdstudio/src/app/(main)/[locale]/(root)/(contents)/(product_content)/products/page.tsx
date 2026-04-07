@@ -15,9 +15,10 @@ import {
 } from "@/libs/graphql/generates/graphql";
 import { cacheLife, cacheTag } from "next/cache";
 import _ from "lodash";
-import { redirect } from "@navigation";
-import type { Locale } from "next-intl";
+
 import { Fragment } from "react";
+import { notFound } from "next/navigation";
+import NotFound from "./components/EmptyProducts";
 
 const getProductsCache = async (
   variables: GetProductsQueryVariables,
@@ -25,7 +26,7 @@ const getProductsCache = async (
 ) => {
   "use cache";
   cacheLife("max");
-  cacheTag(`products-${currentPage}`);
+  cacheTag(`products-${currentPage}`, "products");
   return execute(GetProductsDocument, {
     ...variables,
   });
@@ -33,14 +34,11 @@ const getProductsCache = async (
 
 export default async function PageProducts({
   searchParams,
-  params,
 }: {
-  params: Promise<{ locale: Locale }>;
   searchParams: Promise<{ page: string }>;
 }) {
   const session = await auth();
   const { page: pageParam } = await searchParams;
-  const { locale } = await params;
   const page = Number(pageParam) || 1;
   const take = 10;
   const skip = getSkipFromPage(page, take);
@@ -72,5 +70,6 @@ export default async function PageProducts({
       </Fragment>
     );
   }
-  return redirect({ href: `/products`, locale });
+
+  return <NotFound />;
 }

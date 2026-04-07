@@ -1,3 +1,3 @@
 export default function LayoutProducts({ children }: WithChildren) {
-  return <section>{children}</section>;
+  return <section className="grow">{children}</section>;
 }

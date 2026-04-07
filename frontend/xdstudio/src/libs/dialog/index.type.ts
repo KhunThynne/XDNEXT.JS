@@ -1,12 +1,13 @@
 import type {
-  DialogContentProps,
-  DialogDescriptionProps,
-  DialogOverlayProps,
   DialogPortalProps,
+  DialogOverlayProps,
+  DialogContentProps,
+  DialogTriggerProps,
   DialogProps,
   DialogTitleProps,
-  DialogTriggerProps,
+  DialogDescriptionProps,
 } from "@radix-ui/react-dialog";
+import type { ReactNode, RefObject } from "react";
 
 export type DialogOptions = {
   disableBackdropClose?: boolean;
@@ -17,16 +18,33 @@ export type DialogOptions = {
   dialog?: DialogProps;
   title?: DialogTitleProps;
   description?: DialogDescriptionProps;
-  footer?: WithClassName;
-  header?: WithClassName;
+  footer?: {
+    className?: string;
+  };
+  header?: {
+    className?: string;
+  };
 };
 export type DialogInstanceProps = {
   options?: DialogOptions;
-  title?: string;
-  description?: string;
+  title?: string | React.ReactNode | React.JSX.Element;
+  description?: string | React.ReactNode | React.JSX.Element;
+  portal?: RefObject<HTMLElement>;
   content?: React.ReactNode | React.JSX.Element;
-  footer?: React.ReactNode | React.JSX.Element;
+  footer?: string | React.ReactNode | React.JSX.Element;
   trigger?: React.ReactNode | string;
   variant?: "fullscreen" | "modal";
   mode?: "static" | "dismissable";
+};
+export type DialogEntry = { id: string; node: React.ReactNode };
+
+export type DialogContextType = {
+  add: (id: string, dialog: ReactNode) => string;
+  remove: (id: string) => void;
+  dialogs: DialogEntry[];
+};
+export type DialogContextInstanceType = {
+  dailogState: boolean;
+  setDialogState: React.Dispatch<React.SetStateAction<boolean>>;
+  closeDialog: () => void;
 };

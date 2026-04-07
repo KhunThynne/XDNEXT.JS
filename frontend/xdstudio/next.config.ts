@@ -19,7 +19,7 @@ const nextConfig = {
     turbopackFileSystemCacheForDev: true,
     mcpServer: true,
     authInterrupts: true,
-    globalNotFound: true,
+    // globalNotFound: true,
   },
   // trailingSlash:true,
   typedRoutes: false,

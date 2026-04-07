@@ -11,50 +11,51 @@ export const Users: CollectionConfig = {
   hooks: {
     afterOperation: [
       async ({ operation, result, req }) => {
-        if (operation === "create" && result?.id) {
-          const id = result.id;
-          // Auto-create Supplier
-          await req.payload.create({
-            collection: "suppliers",
-            data: {
-              name: `Supplier for ${result.name ?? result.email}`,
-              description: "Supplier initials",
-              user: id,
-            },
-          });
-          // Auto-create UserPoint
-          await req.payload.create({
-            collection: "user-points",
-            data: {
-              user: id,
-              total_point: 0,
-              total_spent: 0,
-            },
-          });
-          // Auto-create Cart
-          await req.payload.create({
-            collection: "carts",
-            data: { user: id, status: "ACTIVE" },
-          });
-          // Auto-create UserPreference
-          await req.payload.create({
-            collection: "user-preferences",
-            data: { user: id },
-          });
+        try {
+          if (operation === "create" && result?.id) {
+            const id = result.id;
+            // Auto-create Supplier
+            await req.payload.create({
+              collection: "suppliers",
+              data: {
+                name: `Supplier for ${result.name ?? result.email}`,
+                description: "Supplier initials",
+                user: id,
+              },
+            });
+            // Auto-create UserPoint
+            await req.payload.create({
+              collection: "user-points",
+              data: {
+                user: id,
+                total_point: 0,
+                total_spent: 0,
+              },
+            });
+            // Auto-create Cart
+            await req.payload.create({
+              collection: "carts",
+              data: { user: id, status: "ACTIVE" },
+            });
+            // Auto-create UserPreference
+            await req.payload.create({
+              collection: "user-preferences",
+              data: { user: id },
+            });
+          }
+          return result;
+        } catch (error) {
+          console.error("Error in afterOperation hook:", error);
+          return result;
         }
-        return result;
       },
     ],
   },
   fields: [
     {
-      name: "name",
-      type: "text",
-      required: true,
-    },
-    {
       name: "username",
       type: "text",
+      required: true,
       hooks: {
         beforeValidate: [
           ({ value, data }) => {
@@ -83,6 +84,9 @@ export const Users: CollectionConfig = {
       name: "avatar",
       type: "upload",
       relationTo: "media",
+      admin: {
+        condition: (data) => !!data?.id,
+      },
     },
     {
       name: "role",

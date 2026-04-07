@@ -9,20 +9,24 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/libs/shadcn/ui/dialog";
-import type { DialogInstanceProps } from "./index.type";
+import type {
+  DialogContextInstanceType,
+  DialogInstanceProps,
+} from "../index.type";
 import {
   createContext,
   useCallback,
-  useContext,
+  useId,
   useImperativeHandle,
   useLayoutEffect,
   useState,
 } from "react";
 import clsx from "clsx";
 import type { DialogOverlayProps } from "@radix-ui/react-dialog";
+import { useDialogContext } from "../hooks/useDialogContext";
 // import { DialogInstanceProps } from "./dialog.type";
 
-const DialogContentInstance = ({
+export const DialogContentInstance = ({
   title,
   description,
   ref,
@@ -34,14 +38,17 @@ const DialogContentInstance = ({
 }: Partial<DialogInstanceProps> & {
   ref?: React.RefObject<HTMLDivElement | null>;
 }) => {
+  const id = useId();
   return (
     <DialogContent
       ref={ref}
+      aria-describedby={description ? id : undefined}
       {...options?.content}
       {...(mode === "static" && {
         onInteractOutside: (e: Event) => e.preventDefault(),
       })}
       className={clsx(
+        "flex flex-col",
         {
           "max-h-screen overflow-y-auto max-sm:h-screen max-sm:max-w-none max-sm:rounded-none":
             variant === "fullscreen",
@@ -50,16 +57,20 @@ const DialogContentInstance = ({
       )}
     >
       <DialogHeader {...options?.header}>
-        {
+        {title && (
           <DialogTitle className="text-left" {...options?.title}>
             {title}
           </DialogTitle>
-        }
-        {
-          <DialogDescription className="text-left" {...options?.description}>
+        )}
+        {description && (
+          <DialogDescription
+            id={id}
+            className="text-left"
+            {...options?.description}
+          >
             {description}
           </DialogDescription>
-        }
+        )}
       </DialogHeader>
       {content}
       {footer && <DialogFooter {...options?.footer}>{footer}</DialogFooter>}
@@ -67,16 +78,15 @@ const DialogContentInstance = ({
   );
 };
 
-type DialogContextInstanceType = {
-  dailogState: boolean;
-  setDialogState: React.Dispatch<React.SetStateAction<boolean>>;
-  closeDialog: () => void;
-};
-const DialogContextInstance = createContext<
+export const DialogContextInstance = createContext<
   DialogContextInstanceType | undefined
 >(undefined);
 
-export const DialogInstanceProvider = ({ children }: WithlDefaultProps) => {
+export const DialogInstanceProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   const [dailogState, setDialogState] = useState(true);
   const closeDialog = useCallback(() => {
     setDialogState(false);
@@ -86,15 +96,6 @@ export const DialogInstanceProvider = ({ children }: WithlDefaultProps) => {
       {children}
     </DialogContextInstance>
   );
-};
-export const useDialogContext = () => {
-  const context = useContext(DialogContextInstance);
-  if (!context) {
-    throw new Error(
-      "useDialogInstance must be used within a DialogInstanceProvider"
-    );
-  }
-  return context;
 };
 
 export function DialogInstance(
@@ -114,7 +115,9 @@ export function DialogInstance(
   // const [open, setOpen] = useState(props.options?.dialog?.open);
 
   useLayoutEffect(() => {
-    props.options?.dialog?.open && setDialogState(props.options?.dialog?.open);
+    if (props.options?.dialog?.open) {
+      setDialogState(props.options?.dialog?.open);
+    }
   }, [props.options?.dialog?.open, setDialogState]);
   useImperativeHandle(refDialog, () => {
     return {

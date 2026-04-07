@@ -38,6 +38,7 @@ const dirname = path.dirname(filename);
 
 export default buildConfig({
   admin: {
+    components: {},
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
@@ -74,7 +75,7 @@ export default buildConfig({
   },
   db: postgresAdapter({
     pool: {
-      connectionString: env.DATABASE_URL,
+      connectionString: env.POSTGRES_URL,
     },
   }),
   upload: {

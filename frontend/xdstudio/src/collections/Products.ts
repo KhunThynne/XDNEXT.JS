@@ -7,6 +7,9 @@ export const Products: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "status", "createdAt"],
   },
+  access: {
+    read: () => true,
+  },
   timestamps: true,
   hooks: {
     beforeChange: [
@@ -23,24 +26,29 @@ export const Products: CollectionConfig = {
     ],
     afterOperation: [
       async ({ operation, result, req }) => {
-        if (operation === "create" && result?.id) {
-          // Auto-create Stock for new product
-          const stocks = await req.payload.find({
-            collection: "stocks",
-            where: { product: { equals: result.id } },
-            limit: 1,
-          });
-          if (stocks.totalDocs === 0) {
-            await req.payload.create({
+        try {
+          if (operation === "create" && result?.id) {
+            // Auto-create Stock for new product
+            const stocks = await req.payload.find({
               collection: "stocks",
-              data: {
-                product: result.id,
-                quantity: 0,
-                type: "by_stock",
-              },
+              where: { product: { equals: result.id } },
+              limit: 1,
             });
+            if (stocks.totalDocs === 0) {
+              await req.payload.create({
+                collection: "stocks",
+                data: {
+                  product: result.id,
+                  quantity: 0,
+                  type: "by_stock",
+                },
+              });
+            }
           }
+        } catch (err) {
+          console.error(err);
         }
+
         return result;
       },
     ],
@@ -132,7 +140,8 @@ export const Products: CollectionConfig = {
       type: "richText",
       editor: lexicalEditor(),
       admin: {
-        description: "Can place url video or image url preview. First item is preview main.",
+        description:
+          "Can place url video or image url preview. First item is preview main.",
       },
     },
     {

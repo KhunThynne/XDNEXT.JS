@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag, updateTag } from "next/cache";
+import { revalidatePath, revalidateTag, updateTag } from "next/cache";
 
 export const updateTagClient = async (tag: string) => {
   return updateTag(tag);
@@ -8,4 +8,10 @@ export const updateTagClient = async (tag: string) => {
 
 export const revalidateTagClient = async (tag: string) => {
   return revalidateTag(tag, { expire: 0 });
+};
+
+export const revalidatePathClient = async (
+  ...args: Parameters<typeof revalidatePath>
+) => {
+  return revalidatePath(...args);
 };

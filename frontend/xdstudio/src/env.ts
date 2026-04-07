@@ -7,7 +7,8 @@ export const env = createEnv({
     SQL_USER: z.string().min(1),
     SQL_PASSWORD: z.string().min(1),
     SQL_DATABASE_NAME: z.string().min(1),
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.url(),
+    POSTGRES_URL: z.url(),
     SECRET_KEY: z.string().min(8),
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
@@ -37,6 +38,7 @@ export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
+    POSTGRES_URL: process.env.POSTGRES_URL,
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
     INTERNAL_SITE_URL: process.env.INTERNAL_SITE_URL,
     INTERNAL_API_URL: process.env.INTERNAL_API_URL,

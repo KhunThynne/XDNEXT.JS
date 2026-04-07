@@ -161,7 +161,9 @@ const ContainerProductMenu = (
           disableText
           addTo
           onClick={() =>
-            router.push(`/account/cart/${session?.user?.carts?.[0]?.id ?? ""}`)
+            router.push(
+              `/account/${session?.user.id}/cart/${session?.user?.carts?.[0]?.id ?? ""}`
+            )
           }
         >
           {label?.inCart ? `go to cart` : "quick buy"}

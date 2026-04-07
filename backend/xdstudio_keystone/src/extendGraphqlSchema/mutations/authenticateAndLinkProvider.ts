@@ -1,9 +1,9 @@
 // keystone/mutations/oauthLogin.ts
-import { graphql } from '@keystone-6/core';
-import { Context } from '.keystone/types';
+import { graphql } from "@keystone-6/core";
+import { Context } from ".keystone/types";
 
-import _ from 'lodash';
-import { session } from '../../auth';
+import _ from "lodash";
+import { session } from "../../auth";
 
 interface AuthProvidersFailure {
   message: string;
@@ -17,29 +17,29 @@ interface AuthProvidersSuccess {
 
 const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
   const AuthProvidersFailure = graphql.object<AuthProvidersFailure>()({
-    name: 'AuthProvidersFailure',
+    name: "AuthProvidersFailure",
     fields: {
       message: graphql.field({ type: graphql.String }),
     },
   });
 
   const AuthProvidersSuccess = graphql.object<AuthProvidersSuccess>()({
-    name: 'AuthProvidersSuccess',
+    name: "AuthProvidersSuccess",
     fields: {
-      item: graphql.field({ type: graphql.nonNull(base.object('User')) }),
+      item: graphql.field({ type: graphql.nonNull(base.object("User")) }),
       accessToken: graphql.field({ type: graphql.nonNull(graphql.String) }),
       refetchToken: graphql.field({ type: graphql.String }),
       sessionToken: graphql.field({ type: graphql.nonNull(graphql.String) }),
     },
   });
   const AuthPayload = graphql.union({
-    name: 'AuthProvidersResponse',
+    name: "AuthProvidersResponse",
     types: [AuthProvidersSuccess, AuthProvidersFailure],
     resolveType: (value) => {
-      if ('sessionToken' in value) {
-        return 'AuthProvidersSuccess';
+      if ("sessionToken" in value) {
+        return "AuthProvidersSuccess";
       }
-      return 'AuthProvidersFailure';
+      return "AuthProvidersFailure";
     },
   });
 
@@ -56,8 +56,16 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
     },
     async resolve(
       __,
-      { provider, providerAccountId, email, accessToken, refreshToken, name, image },
-      context: Context,
+      {
+        provider,
+        providerAccountId,
+        email,
+        accessToken,
+        refreshToken,
+        name,
+        image,
+      },
+      context: Context
     ) {
       let account;
       let user;
@@ -76,7 +84,7 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
               email,
               password: `${provider}-${providerAccountId}`,
               image,
-              role: 'USER',
+              role: "USER",
             },
           });
           user = await context.db.User.findOne({
@@ -105,7 +113,7 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
           });
         }
         if (!account.accessToken) {
-          throw new Error('Not found access token');
+          throw new Error("Not found access token");
         }
         if (user) {
           const sessionToken = await session.start({
@@ -113,19 +121,19 @@ const authenticateAndLinkProvider = (base: graphql.BaseSchemaMeta) => {
             data: { id: user.id },
           });
           return {
-            __typename: 'AuthProvidersSuccess' as const,
+            __typename: "AuthProvidersSuccess" as const,
             item: user,
             accessToken: account.accessToken as string,
             refetchToken: account.refreshToken as string,
             sessionToken: sessionToken as string,
           };
         }
-        throw new Error('User not found');
+        throw new Error("User not found");
       } catch (error) {
         console.log(error);
         return {
-          __typename: 'AuthProvidersFailure',
-          message: (error as Error).message || 'Unknown error',
+          __typename: "AuthProvidersFailure",
+          message: (error as Error).message || "Unknown error",
         };
       }
     },

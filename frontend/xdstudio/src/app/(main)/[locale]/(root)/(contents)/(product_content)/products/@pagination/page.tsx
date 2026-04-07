@@ -1,7 +1,7 @@
 import { unstable_cache } from "next/cache";
 import { execute } from "@/libs/graphql/execute";
 import { GetProductsCountDocument } from "@/libs/graphql/generates/graphql";
-import { PaginationDemo } from "./shared/components/PaginationDemo";
+import { PaginationForm } from "./shared/components/Pagination.form";
 
 const getProductsCountCache = (currentPage: number) =>
   unstable_cache(
@@ -23,10 +23,15 @@ export default async function PaginationPage({
 }) {
   const { page = 1 } = await searchParams;
   const { data } = await getProductsCountCache(page);
-  const totalPages = Math.ceil((data?.productsCount ?? 0) / take);
+  const count = data.productsCount ?? 0;
+  const totalPages = Math.ceil(count / take);
+
+  if (count < 1) {
+    return null;
+  }
   return (
     <>
-      <PaginationDemo totalPages={totalPages} currentPage={page} />
+      <PaginationForm totalPages={totalPages} currentPage={page} />
     </>
   );
 }

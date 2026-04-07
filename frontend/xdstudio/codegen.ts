@@ -6,9 +6,9 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      [`${env.INTERNAL_API_URL}/api/graphql`]: {
+      [`${env.INTERNAL_SITE_URL}/api/graphql`]: {
         headers: {
-          Authorization: `Bearer ${env.CODEGEN_TOKEN}`,
+          Authorization: `Bearer ${env.PAYLOAD_SECRET}`,
         },
       },
     },

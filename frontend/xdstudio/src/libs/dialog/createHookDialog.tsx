@@ -1,14 +1,15 @@
 "use client";
-import { useDialogDispatcher } from "./DialogProvider";
+
 import React, { useId } from "react";
 
-import { DialogInstance } from "./DialogInstance";
+import { DialogInstance } from "./contexts/DialogInstance";
 import type { DialogInstanceProps, DialogOptions } from "./index.type";
+import useDialogDispatcher from "./hooks/useDialogDispatcher";
 const DialogState = {
   OPEN: "open",
   CLOSE: "close",
 } as const;
-type DialogStateType = (typeof DialogState)[keyof typeof DialogState];
+// type DialogStateType = (typeof DialogState)[keyof typeof DialogState]
 
 /**
  * Creates a custom React hook for managing a dynamic Dialog instance.
@@ -52,7 +53,7 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
     const { add, remove } = useDialogDispatcher();
     const props: Partial<DialogInstanceProps> = React.useMemo(
       () => ({ ...{ variant: "modal", ...initialProps }, ...hookProps }),
-      [hookProps]
+      [hookProps],
     );
     const closeDialog = React.useCallback(() => {
       const node = contentRef.current;
@@ -79,32 +80,22 @@ export const createHookDialog = (initialProps: DialogInstanceProps) => {
           },
         };
 
-        return (
-          <DialogInstance
-            options={finalOptions}
-            refDialog={refDialog}
-            refContent={contentRef}
-            {...props}
-          />
-        );
+        return <DialogInstance options={finalOptions} refDialog={refDialog} refContent={contentRef} {...props} />;
       },
-      [closeDialog]
+      [closeDialog],
     );
     const openDialog = React.useCallback(
-      (
-        arg?: React.MouseEvent<HTMLButtonElement> | Partial<DialogInstanceProps>
-      ) => {
+      (arg?: React.MouseEvent<HTMLButtonElement> | Partial<DialogInstanceProps>) => {
         arg && "currentTarget" in arg
           ? add(id, Dialog({ ...props }))
           : add(id, Dialog({ ...props, ...(arg as DialogInstanceProps) }));
       },
-      [Dialog, add, id, props]
+      [Dialog, add, id, props],
     );
 
     React.useLayoutEffect(() => {
       if (strictModeHandledRef.current) return;
-      const shouldOpen =
-        props?.options?.dialog?.open || props?.options?.dialog?.defaultOpen;
+      const shouldOpen = props?.options?.dialog?.open || props?.options?.dialog?.defaultOpen;
       if (shouldOpen) {
         strictModeHandledRef.current = true;
         add(id, Dialog({ ...props }));

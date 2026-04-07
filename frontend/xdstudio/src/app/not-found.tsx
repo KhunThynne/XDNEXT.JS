@@ -4,9 +4,10 @@ import { createTranslator } from "next-intl";
 import Link from "next/link";
 import { Button } from "@/libs/shadcn/ui/button";
 import _ from "lodash";
-import { ThemeProvider } from "@/shared/components/providers";
+
 import Content from "@/shared/components/ui/Content";
 import clsx from "clsx";
+import { ThemeProvider } from "@wrksz/themes/next";
 export default async function NotFoundRoot() {
   const locale = await getLocale();
   const { messages } = await getRequestConfig({
@@ -17,8 +18,8 @@ export default async function NotFoundRoot() {
   }
   const t = createTranslator({ locale, messages });
   return (
-    <html key="global-not-found">
-      <body className={clsx(`antialiased`)}>
+    <html key="global-not-found" suppressHydrationWarning>
+      <body className={clsx(`antialiased`)} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
