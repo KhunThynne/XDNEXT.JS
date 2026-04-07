@@ -2,6 +2,9 @@
   "name": "xd_nextjs",
   "version": "1.7.1",
   "description": "XD-Shop",
+  "workspaces": [
+    "frontend/xdstudio"
+  ],
   "scripts": {
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
     "dev:backend": "npm --prefix backend/xdstudio  run dev",
@@ -11,6 +14,7 @@
     "build:backend": "npm --prefix backend/xdstudio  run build",
     "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
     "prepare": "husky",
+    "codegen": "graphql-codegen --config codegen.ts --no-cache --watch",
     "release": "npx standard-version && git push --follow-tags origin main"
   },
   "repository": {
@@ -29,6 +33,15 @@
     "@0no-co/graphqlsp": "^1.15.2",
     "@commitlint/cli": "^20.3.0",
     "@commitlint/config-conventional": "^20.3.0",
+    "@graphql-codegen/cli": "^6.2.1",
+    "@graphql-codegen/introspection": "5.0.1",
+    "@graphql-codegen/schema-ast": "^5.0.1",
+    "@graphql-codegen/typescript": "^5.0.9",
+    "@graphql-codegen/typescript-operations": "^5.0.9",
+    "@graphql-codegen/typescript-react-query": "^7.0.0",
+    "@parcel/watcher": "^2.5.6",
+    "@types/node": "^25.5.2",
+    "dotenv-flow": "^4.1.0",
     "husky": "^9.1.7",
     "standard-version": "^9.5.0"
   }
