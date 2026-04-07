@@ -41,7 +41,17 @@ npm install
 
 # Run development server
 npm run dev
+
+# before create codegen please create payload graphql schema 
+npm run generate:schema
+
+npm run generate:types
+
+npm run codegen
 ```
+
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser.
 

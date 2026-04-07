@@ -67,6 +67,10 @@ export default buildConfig({
     UserPreferences,
     PointTransactions,
   ],
+  graphQL: {
+    schemaOutputFile: path.resolve(dirname, "./libs/graphql/generates/graphql.schema.graphql"),
+    disable: false,
+  },
   globals: [Settings],
   editor: lexicalEditor(),
   secret: env.PAYLOAD_SECRET,

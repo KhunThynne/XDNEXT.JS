@@ -15,7 +15,11 @@
     "lint:fix": "eslint --fix",
     "install:prod": "npm install --production",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",
-    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache --watch"
+    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache --watch",
+    "gen": "npm run generate:types && npm run generate:schema ",
+    "codegen:once": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache",
+    "generate:types": "set SKIP_ENV_VALIDATION=true&&npx payload generate:types",
+    "generate:schema": "set SKIP_ENV_VALIDATION=true&&npx payload-graphql generate:schema"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -18007,6 +18007,14 @@ export type UsersResetPassword = {
   user?: Maybe<User>;
 };
 
+export type LoginUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: number, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: number, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
+
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -18031,6 +18039,58 @@ export class TypedDocumentString<TResult, TVariables>
   }
 }
 
+export const LoginUserDocument = new TypedDocumentString(`
+    mutation LoginUser($email: String!, $password: String!) {
+  loginUser(email: $email, password: $password) {
+    exp
+    token
+    user {
+      id
+      username
+      provider
+      image
+      role
+      updatedAt
+      createdAt
+      email
+      resetPasswordToken
+      resetPasswordExpiration
+      salt
+      hash
+      loginAttempts
+      lockUntil
+      avatar {
+        id
+        name
+        altText
+        updatedAt
+        createdAt
+        url
+        thumbnailURL
+        filename
+        mimeType
+        filesize
+        width
+        height
+        focalX
+        focalY
+      }
+      accounts {
+        id
+        provider
+        providerAccountId
+        accessToken
+        refreshToken
+        expiresAt
+        scope
+        meta
+        updatedAt
+        createdAt
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<LoginUserMutation, LoginUserMutationVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {
   Users {
