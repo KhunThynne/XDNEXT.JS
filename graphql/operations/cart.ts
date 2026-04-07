@@ -1,8 +1,8 @@
 import { graphql } from "../generates";
 
-graphql(`
-  mutation UpdateCart($where: CartWhereUniqueInput!, $data: CartUpdateInput!) {
-    updateCart(where: $where, data: $data) {
+export const UpdateCart = graphql(`
+  mutation UpdateCart($id: Int!, $data: mutationCartUpdateInput!) {
+    updateCart(id: $id, data: $data) {
       id
       user {
         id
@@ -11,35 +11,36 @@ graphql(`
       items {
         id
       }
-      itemsCount
       createdAt
-      updateAt
+      updatedAt
     }
   }
+`);
 
+export const GetCart = graphql(`
   query getCart(
-    $where: CartWhereUniqueInput!
-    $take: Int
-    $skip: Int!
-    $cursor: CartItemWhereUniqueInput
-    $orderBy: [CartItemOrderByInput!]
+    $where: Cart_where
+    $limit: Int
+    $page: Int
+    $sort: String
   ) {
-    cart(where: $where) {
-      createdAt
-      id
-      itemsCount
-      items(take: $take, skip: $skip, cursor: $cursor, orderBy: $orderBy) {
+    Carts(where: $where, limit: $limit, page: $page, sort: $sort) {
+      docs {
+        createdAt
         id
-        quantity
-        product {
-          ...ProductFields
+        items {
+          id
+          quantity
+          product {
+            ...ProductFields
+          }
         }
-      }
-      status
-      updateAt
-      user {
-        id
-        username
+        status
+        updatedAt
+        user {
+          id
+          username
+        }
       }
     }
   }

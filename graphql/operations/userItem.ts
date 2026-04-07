@@ -1,41 +1,38 @@
 import { graphql } from "../generates";
 
-graphql(`
-  query GetUserAItemConfig($where: UserItemWhereUniqueInput!) {
-    userItem(where: $where) {
-      config
-      createdAt
-      id
-      item {
+export const GetUserAItemConfig = graphql(`
+  query GetUserAItemConfig($where: UserItem_where) {
+    UserItems(where: $where) {
+      docs {
+        config
+        createdAt
         id
-        product {
-          name
-          previewImage {
-            altText
-            id
+        item {
+          id
+          product {
             name
-            src {
-              extension
+            previewImage {
+              altText
+              id
+              name
+              url
               filesize
               height
-              url
               width
             }
+            status
+            createdAt
+            updatedAt
           }
-          status
-          createdAt
-          updateAt
         }
+        updatedAt
+        user {
+          id
+          email
+          username
+        }
+        __typename
       }
-      updateAt
-      user {
-        id
-        email
-        username
-        name
-        # ...AuthUserItem
-      }
-      __typename
     }
   }
 `);

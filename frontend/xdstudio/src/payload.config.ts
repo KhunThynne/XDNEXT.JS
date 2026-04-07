@@ -80,7 +80,9 @@ export default buildConfig({
   db: postgresAdapter({
     pool: {
       connectionString: env.POSTGRES_URL,
+  
     },
+    idType:'uuid',
   }),
   upload: {
     limits: {

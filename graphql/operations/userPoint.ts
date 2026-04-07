@@ -1,15 +1,17 @@
 import { graphql } from "../generates";
 
-graphql(`
-  query GetUserPoint($where: UserPointWhereUniqueInput!) {
-    userPoint(where: $where) {
-      id
-      total_point
-      updateAt
-      total_spent
-      __typename
-      user {
+export const GetUserPoint = graphql(`
+  query GetUserPoint($where: UserPoint_where) {
+    UserPoints(where: $where) {
+      docs {
         id
+        total_point
+        updatedAt
+        total_spent
+        __typename
+        user {
+          id
+        }
       }
     }
   }

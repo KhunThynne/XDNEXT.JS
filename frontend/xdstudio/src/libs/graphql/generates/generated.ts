@@ -17982,12 +17982,172 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: number, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: number, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: number, name: string, description?: string | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null, posts?: Array<{ __typename?: 'Post', id: number }> | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string }> | null };
+export type UpdateCartMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationCartUpdateInput;
+}>;
 
-export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', id: number, status?: Cart_Status | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: number } | null, items?: Array<{ __typename?: 'CartItem', id: number }> | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where?: InputMaybe<Cart_Where>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: number, name: string, description?: string | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null, posts?: Array<{ __typename?: 'Post', id: number }> | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string }> | null }> } | null };
+export type GetCartQuery = { __typename?: 'Query', Carts?: { __typename?: 'Carts', docs: Array<{ __typename?: 'Cart', createdAt?: any | null, id: number, status?: Cart_Status | null, updatedAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: number, quantity: number, product?: { __typename?: 'Product', id: number, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null } | null }> | null, user?: { __typename?: 'User', id: number, username: string } | null }> } | null };
+
+export type CreateCartItemMutationVariables = Exact<{
+  data: MutationCartItemInput;
+}>;
+
+
+export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: number, quantity: number, cart?: { __typename?: 'Cart', id: number } | null, product?: { __typename?: 'Product', id: number } | null } | null };
+
+export type DeleteCartItemMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteCartItemMutation = { __typename?: 'Mutation', deleteCartItem?: { __typename?: 'CartItem', id: number } | null };
+
+export type MediaFieldFragment = { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null };
+
+export type GetMediaQueryVariables = Exact<{
+  where?: InputMaybe<Media_Where>;
+}>;
+
+
+export type GetMediaQuery = { __typename?: 'Query', allMedia?: { __typename?: 'allMedia', docs: Array<{ __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null }> } | null };
+
+export type CreateMediaMutationVariables = Exact<{
+  data: MutationMediaInput;
+}>;
+
+
+export type CreateMediaMutation = { __typename?: 'Mutation', createMedia?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
+
+export type GetOrderQueryVariables = Exact<{
+  where?: InputMaybe<Order_Where>;
+}>;
+
+
+export type GetOrderQuery = { __typename?: 'Query', Orders?: { __typename?: 'Orders', docs: Array<{ __typename?: 'Order', createdAt?: any | null, id: number, status: Order_Status, updatedAt?: any | null, user?: { __typename?: 'User', id: number, email: any, username: string, supplier?: Array<{ __typename?: 'Supplier', id: number, name: string }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: number, product?: { __typename?: 'Product', id: number } | null }> | null }> } | null };
+
+export type CreateOrderAndUserItemsMutationVariables = Exact<{
+  data: MutationOrderInput;
+}>;
+
+
+export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: number, updatedAt?: any | null, status: Order_Status, items?: Array<{ __typename?: 'OrderItem', id: number, unitPrice?: number | null, product?: { __typename?: 'Product', id: number } | null }> | null, user?: { __typename?: 'User', email: any, id: number } | null } | null };
+
+export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null };
+
+export type GetPointTransactionsQueryVariables = Exact<{
+  where?: InputMaybe<PointTransaction_Where>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetPointTransactionsQuery = { __typename?: 'Query', PointTransactions?: { __typename?: 'PointTransactions', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null }> } | null };
+
+export type CreatePointTransactionMutationVariables = Exact<{
+  data: MutationPointTransactionInput;
+}>;
+
+
+export type CreatePointTransactionMutation = { __typename?: 'Mutation', createPointTransaction?: { __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null } | null };
+
+export type UpdatePointTransactionMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationPointTransactionUpdateInput;
+}>;
+
+
+export type UpdatePointTransactionMutation = { __typename?: 'Mutation', updatePointTransaction?: { __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null } | null };
+
+export type DeletePointTransactionMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeletePointTransactionMutation = { __typename?: 'Mutation', deletePointTransaction?: { __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null } | null };
+
+export type ProductFieldsFragment = { __typename?: 'Product', id: number, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
+
+export type GetProductsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'Product', id: number, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+
+export type GetProductsCountQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsCountQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number } | null };
+
+export type GetProductQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: number, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+
+export type SupplierFieldsFragment = { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null };
+
+export type GetUserAItemConfigQueryVariables = Exact<{
+  where?: InputMaybe<UserItem_Where>;
+}>;
+
+
+export type GetUserAItemConfigQuery = { __typename?: 'Query', UserItems?: { __typename?: 'UserItems', docs: Array<{ __typename: 'UserItem', config?: any | null, createdAt?: any | null, id: number, updatedAt?: any | null, item?: { __typename?: 'OrderItem', id: number, product?: { __typename?: 'Product', name: string, status: Product_Status, createdAt?: any | null, updatedAt?: any | null, previewImage?: { __typename?: 'Media', altText?: string | null, id: number, name?: string | null, url?: string | null, filesize?: number | null, height?: number | null, width?: number | null } | null } | null } | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null }> } | null };
+
+export type GetUserPointQueryVariables = Exact<{
+  where?: InputMaybe<UserPoint_Where>;
+}>;
+
+
+export type GetUserPointQuery = { __typename?: 'Query', UserPoints?: { __typename?: 'UserPoints', docs: Array<{ __typename: 'UserPoint', id: number, total_point: number, updatedAt?: any | null, total_spent: number, user?: { __typename?: 'User', id: number } | null }> } | null };
+
+export type GetUserPreferenceQueryVariables = Exact<{
+  where?: InputMaybe<UserPreference_Where>;
+}>;
+
+
+export type GetUserPreferenceQuery = { __typename?: 'Query', UserPreferences?: { __typename?: 'UserPreferences', docs: Array<{ __typename?: 'UserPreference', id: number, setting?: any | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: number } | null }> } | null };
+
+export type CreateUserPreferenceMutationVariables = Exact<{
+  data: MutationUserPreferenceInput;
+}>;
+
+
+export type CreateUserPreferenceMutation = { __typename?: 'Mutation', createUserPreference?: { __typename?: 'UserPreference', id: number, setting?: any | null, user?: { __typename?: 'User', id: number } | null } | null };
+
+export type UpdateUserPreferenceMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationUserPreferenceUpdateInput;
+}>;
+
+
+export type UpdateUserPreferenceMutation = { __typename?: 'Mutation', updateUserPreference?: { __typename?: 'UserPreference', id: number, setting?: any | null } | null };
+
+export type DeleteUserPreferenceMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteUserPreferenceMutation = { __typename?: 'Mutation', deleteUserPreference?: { __typename?: 'UserPreference', id: number } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -17995,36 +18155,101 @@ export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetUsersQuery = { __typename?: 'Query', Users?: { __typename?: 'Users', docs: Array<{ __typename?: 'User', username: string, email: any, role?: User_Role | null }> } | null };
 
 
-export const ProductFieldsFragmentDoc = new TypedDocumentString(`
-    fragment ProductFields on Product {
+export const PointTransactionFieldFragmentDoc = new TypedDocumentString(`
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}
+    `, {"fragmentName":"PointTransactionField"});
+export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
+    fragment SupplierFields on Supplier {
   id
   name
   description
+  user {
+    id
+    email
+    username
+  }
+}
+    `, {"fragmentName":"SupplierFields"});
+export const MediaFieldFragmentDoc = new TypedDocumentString(`
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+    `, {"fragmentName":"MediaField"});
+export const ProductFieldsFragmentDoc = new TypedDocumentString(`
+    fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
   price {
     price
     description
-    price_type
     price_type
     id
   }
   tags {
     id
     name
-    posts {
-      id
-    }
   }
   faqs {
     id
     question
+    answer
   }
   averageScore
   status
   publishedAt
   updatedAt
   createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
 }
-    `, {"fragmentName":"ProductFields"});
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`, {"fragmentName":"ProductFields"});
 export const LoginUserDocument = new TypedDocumentString(`
     mutation LoginUser($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {
@@ -18097,41 +18322,706 @@ export const useLoginUserMutation = <
 
 useLoginUserMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, LoginUserDocument, variables);
 
-export const GetProductsDocument = new TypedDocumentString(`
-    query GetProducts {
-  Products {
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation UpdateCart($id: Int!, $data: mutationCartUpdateInput!) {
+  updateCart(id: $id, data: $data) {
+    id
+    user {
+      id
+    }
+    status
+    items {
+      id
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `);
+
+export const useUpdateCartMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<UpdateCartMutation, TError, UpdateCartMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<UpdateCartMutation, TError, UpdateCartMutationVariables, TContext>(
+      {
+    mutationKey: ['UpdateCart'],
+    mutationFn: (variables?: UpdateCartMutationVariables) => fetcher<UpdateCartMutation, UpdateCartMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateCartDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUpdateCartMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: UpdateCartMutationVariables) => fetcher<UpdateCartMutation, UpdateCartMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateCartDocument, variables);
+
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: Cart_where, $limit: Int, $page: Int, $sort: String) {
+  Carts(where: $where, limit: $limit, page: $page, sort: $sort) {
     docs {
-      ...ProductFields
+      createdAt
+      id
+      items {
+        id
+        quantity
+        product {
+          ...ProductFields
+        }
+      }
+      status
+      updatedAt
+      user {
+        id
+        username
+      }
     }
   }
 }
-    fragment ProductFields on Product {
+    fragment MediaField on Media {
   id
   name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
   description
+  details
   price {
     price
     description
-    price_type
     price_type
     id
   }
   tags {
     id
     name
-    posts {
-      id
-    }
   }
   faqs {
     id
     question
+    answer
   }
   averageScore
   status
   publishedAt
   updatedAt
   createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`);
+
+export const useGetCartQuery = <
+      TData = GetCartQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetCartQueryVariables,
+      options?: Omit<UseQueryOptions<GetCartQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetCartQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetCartQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['getCart'] : ['getCart', variables],
+    queryFn: fetcher<GetCartQuery, GetCartQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetCartDocument, variables),
+    ...options
+  }
+    )};
+
+useGetCartQuery.getKey = (variables?: GetCartQueryVariables) => variables === undefined ? ['getCart'] : ['getCart', variables];
+
+export const useInfiniteGetCartQuery = <
+      TData = InfiniteData<GetCartQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetCartQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetCartQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetCartQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetCartQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['getCart.infinite'] : ['getCart.infinite', variables],
+      queryFn: (metaData) => fetcher<GetCartQuery, GetCartQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetCartDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetCartQuery.getKey = (variables?: GetCartQueryVariables) => variables === undefined ? ['getCart.infinite'] : ['getCart.infinite', variables];
+
+
+useGetCartQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetCartQueryVariables) => fetcher<GetCartQuery, GetCartQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetCartDocument, variables);
+
+export const CreateCartItemDocument = new TypedDocumentString(`
+    mutation CreateCartItem($data: mutationCartItemInput!) {
+  createCartItem(data: $data) {
+    cart {
+      id
+    }
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}
+    `);
+
+export const useCreateCartItemMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateCartItemMutation, TError, CreateCartItemMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<CreateCartItemMutation, TError, CreateCartItemMutationVariables, TContext>(
+      {
+    mutationKey: ['CreateCartItem'],
+    mutationFn: (variables?: CreateCartItemMutationVariables) => fetcher<CreateCartItemMutation, CreateCartItemMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateCartItemDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateCartItemMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: CreateCartItemMutationVariables) => fetcher<CreateCartItemMutation, CreateCartItemMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateCartItemDocument, variables);
+
+export const DeleteCartItemDocument = new TypedDocumentString(`
+    mutation DeleteCartItem($id: Int!) {
+  deleteCartItem(id: $id) {
+    id
+  }
+}
+    `);
+
+export const useDeleteCartItemMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<DeleteCartItemMutation, TError, DeleteCartItemMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<DeleteCartItemMutation, TError, DeleteCartItemMutationVariables, TContext>(
+      {
+    mutationKey: ['DeleteCartItem'],
+    mutationFn: (variables?: DeleteCartItemMutationVariables) => fetcher<DeleteCartItemMutation, DeleteCartItemMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeleteCartItemDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useDeleteCartItemMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: DeleteCartItemMutationVariables) => fetcher<DeleteCartItemMutation, DeleteCartItemMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeleteCartItemDocument, variables);
+
+export const GetMediaDocument = new TypedDocumentString(`
+    query GetMedia($where: Media_where) {
+  allMedia(where: $where) {
+    docs {
+      ...MediaField
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`);
+
+export const useGetMediaQuery = <
+      TData = GetMediaQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetMediaQueryVariables,
+      options?: Omit<UseQueryOptions<GetMediaQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetMediaQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetMediaQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetMedia'] : ['GetMedia', variables],
+    queryFn: fetcher<GetMediaQuery, GetMediaQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetMediaDocument, variables),
+    ...options
+  }
+    )};
+
+useGetMediaQuery.getKey = (variables?: GetMediaQueryVariables) => variables === undefined ? ['GetMedia'] : ['GetMedia', variables];
+
+export const useInfiniteGetMediaQuery = <
+      TData = InfiniteData<GetMediaQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetMediaQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetMediaQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetMediaQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetMediaQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetMedia.infinite'] : ['GetMedia.infinite', variables],
+      queryFn: (metaData) => fetcher<GetMediaQuery, GetMediaQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetMediaDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetMediaQuery.getKey = (variables?: GetMediaQueryVariables) => variables === undefined ? ['GetMedia.infinite'] : ['GetMedia.infinite', variables];
+
+
+useGetMediaQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetMediaQueryVariables) => fetcher<GetMediaQuery, GetMediaQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetMediaDocument, variables);
+
+export const CreateMediaDocument = new TypedDocumentString(`
+    mutation CreateMedia($data: mutationMediaInput!) {
+  createMedia(data: $data) {
+    ...MediaField
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`);
+
+export const useCreateMediaMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateMediaMutation, TError, CreateMediaMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<CreateMediaMutation, TError, CreateMediaMutationVariables, TContext>(
+      {
+    mutationKey: ['CreateMedia'],
+    mutationFn: (variables?: CreateMediaMutationVariables) => fetcher<CreateMediaMutation, CreateMediaMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateMediaDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateMediaMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: CreateMediaMutationVariables) => fetcher<CreateMediaMutation, CreateMediaMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateMediaDocument, variables);
+
+export const GetOrderDocument = new TypedDocumentString(`
+    query getOrder($where: Order_where) {
+  Orders(where: $where) {
+    docs {
+      createdAt
+      id
+      status
+      updatedAt
+      user {
+        id
+        email
+        username
+        supplier {
+          id
+          name
+        }
+      }
+      items {
+        id
+        product {
+          id
+        }
+      }
+    }
+  }
+}
+    `);
+
+export const useGetOrderQuery = <
+      TData = GetOrderQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetOrderQueryVariables,
+      options?: Omit<UseQueryOptions<GetOrderQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetOrderQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetOrderQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['getOrder'] : ['getOrder', variables],
+    queryFn: fetcher<GetOrderQuery, GetOrderQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetOrderDocument, variables),
+    ...options
+  }
+    )};
+
+useGetOrderQuery.getKey = (variables?: GetOrderQueryVariables) => variables === undefined ? ['getOrder'] : ['getOrder', variables];
+
+export const useInfiniteGetOrderQuery = <
+      TData = InfiniteData<GetOrderQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetOrderQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetOrderQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetOrderQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetOrderQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['getOrder.infinite'] : ['getOrder.infinite', variables],
+      queryFn: (metaData) => fetcher<GetOrderQuery, GetOrderQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetOrderDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetOrderQuery.getKey = (variables?: GetOrderQueryVariables) => variables === undefined ? ['getOrder.infinite'] : ['getOrder.infinite', variables];
+
+
+useGetOrderQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetOrderQueryVariables) => fetcher<GetOrderQuery, GetOrderQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetOrderDocument, variables);
+
+export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
+    mutation CreateOrderAndUserItems($data: mutationOrderInput!) {
+  createOrder(data: $data) {
+    items {
+      id
+      unitPrice
+      product {
+        id
+      }
+    }
+    createdAt
+    id
+    updatedAt
+    status
+    user {
+      email
+      id
+    }
+  }
+}
+    `);
+
+export const useCreateOrderAndUserItemsMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateOrderAndUserItemsMutation, TError, CreateOrderAndUserItemsMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<CreateOrderAndUserItemsMutation, TError, CreateOrderAndUserItemsMutationVariables, TContext>(
+      {
+    mutationKey: ['CreateOrderAndUserItems'],
+    mutationFn: (variables?: CreateOrderAndUserItemsMutationVariables) => fetcher<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateOrderAndUserItemsDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateOrderAndUserItemsMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: CreateOrderAndUserItemsMutationVariables) => fetcher<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateOrderAndUserItemsDocument, variables);
+
+export const GetPointTransactionsDocument = new TypedDocumentString(`
+    query getPointTransactions($where: PointTransaction_where, $sort: String, $limit: Int, $page: Int) {
+  PointTransactions(where: $where, sort: $sort, limit: $limit, page: $page) {
+    docs {
+      ...PointTransactionField
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`);
+
+export const useGetPointTransactionsQuery = <
+      TData = GetPointTransactionsQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetPointTransactionsQueryVariables,
+      options?: Omit<UseQueryOptions<GetPointTransactionsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetPointTransactionsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetPointTransactionsQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['getPointTransactions'] : ['getPointTransactions', variables],
+    queryFn: fetcher<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetPointTransactionsDocument, variables),
+    ...options
+  }
+    )};
+
+useGetPointTransactionsQuery.getKey = (variables?: GetPointTransactionsQueryVariables) => variables === undefined ? ['getPointTransactions'] : ['getPointTransactions', variables];
+
+export const useInfiniteGetPointTransactionsQuery = <
+      TData = InfiniteData<GetPointTransactionsQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetPointTransactionsQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetPointTransactionsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetPointTransactionsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetPointTransactionsQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['getPointTransactions.infinite'] : ['getPointTransactions.infinite', variables],
+      queryFn: (metaData) => fetcher<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetPointTransactionsDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetPointTransactionsQuery.getKey = (variables?: GetPointTransactionsQueryVariables) => variables === undefined ? ['getPointTransactions.infinite'] : ['getPointTransactions.infinite', variables];
+
+
+useGetPointTransactionsQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetPointTransactionsQueryVariables) => fetcher<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetPointTransactionsDocument, variables);
+
+export const CreatePointTransactionDocument = new TypedDocumentString(`
+    mutation createPointTransaction($data: mutationPointTransactionInput!) {
+  createPointTransaction(data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`);
+
+export const useCreatePointTransactionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreatePointTransactionMutation, TError, CreatePointTransactionMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<CreatePointTransactionMutation, TError, CreatePointTransactionMutationVariables, TContext>(
+      {
+    mutationKey: ['createPointTransaction'],
+    mutationFn: (variables?: CreatePointTransactionMutationVariables) => fetcher<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreatePointTransactionDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreatePointTransactionMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: CreatePointTransactionMutationVariables) => fetcher<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreatePointTransactionDocument, variables);
+
+export const UpdatePointTransactionDocument = new TypedDocumentString(`
+    mutation updatePointTransaction($id: Int!, $data: mutationPointTransactionUpdateInput!) {
+  updatePointTransaction(id: $id, data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`);
+
+export const useUpdatePointTransactionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<UpdatePointTransactionMutation, TError, UpdatePointTransactionMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<UpdatePointTransactionMutation, TError, UpdatePointTransactionMutationVariables, TContext>(
+      {
+    mutationKey: ['updatePointTransaction'],
+    mutationFn: (variables?: UpdatePointTransactionMutationVariables) => fetcher<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdatePointTransactionDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUpdatePointTransactionMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: UpdatePointTransactionMutationVariables) => fetcher<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdatePointTransactionDocument, variables);
+
+export const DeletePointTransactionDocument = new TypedDocumentString(`
+    mutation deletePointTransaction($id: Int!) {
+  deletePointTransaction(id: $id) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`);
+
+export const useDeletePointTransactionMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<DeletePointTransactionMutation, TError, DeletePointTransactionMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<DeletePointTransactionMutation, TError, DeletePointTransactionMutationVariables, TContext>(
+      {
+    mutationKey: ['deletePointTransaction'],
+    mutationFn: (variables?: DeletePointTransactionMutationVariables) => fetcher<DeletePointTransactionMutation, DeletePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeletePointTransactionDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useDeletePointTransactionMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: DeletePointTransactionMutationVariables) => fetcher<DeletePointTransactionMutation, DeletePointTransactionMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeletePointTransactionDocument, variables);
+
+export const GetProductsDocument = new TypedDocumentString(`
+    query GetProducts($limit: Int, $page: Int, $sort: String, $where: Product_where) {
+  Products(limit: $limit, page: $page, sort: $sort, where: $where) {
+    docs {
+      ...ProductFields
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
 }`);
 
 export const useGetProductsQuery = <
@@ -18177,6 +19067,451 @@ useInfiniteGetProductsQuery.getKey = (variables?: GetProductsQueryVariables) => 
 
 
 useGetProductsQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetProductsQueryVariables) => fetcher<GetProductsQuery, GetProductsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsDocument, variables);
+
+export const GetProductsCountDocument = new TypedDocumentString(`
+    query GetProductsCount($where: Product_where) {
+  Products(limit: 1, where: $where) {
+    totalDocs
+  }
+}
+    `);
+
+export const useGetProductsCountQuery = <
+      TData = GetProductsCountQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetProductsCountQueryVariables,
+      options?: Omit<UseQueryOptions<GetProductsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetProductsCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetProductsCountQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetProductsCount'] : ['GetProductsCount', variables],
+    queryFn: fetcher<GetProductsCountQuery, GetProductsCountQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsCountDocument, variables),
+    ...options
+  }
+    )};
+
+useGetProductsCountQuery.getKey = (variables?: GetProductsCountQueryVariables) => variables === undefined ? ['GetProductsCount'] : ['GetProductsCount', variables];
+
+export const useInfiniteGetProductsCountQuery = <
+      TData = InfiniteData<GetProductsCountQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetProductsCountQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetProductsCountQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetProductsCountQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetProductsCountQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetProductsCount.infinite'] : ['GetProductsCount.infinite', variables],
+      queryFn: (metaData) => fetcher<GetProductsCountQuery, GetProductsCountQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsCountDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetProductsCountQuery.getKey = (variables?: GetProductsCountQueryVariables) => variables === undefined ? ['GetProductsCount.infinite'] : ['GetProductsCount.infinite', variables];
+
+
+useGetProductsCountQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetProductsCountQueryVariables) => fetcher<GetProductsCountQuery, GetProductsCountQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsCountDocument, variables);
+
+export const GetProductDocument = new TypedDocumentString(`
+    query GetProduct($where: Product_where) {
+  Products(where: $where) {
+    docs {
+      ...ProductFields
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`);
+
+export const useGetProductQuery = <
+      TData = GetProductQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetProductQueryVariables,
+      options?: Omit<UseQueryOptions<GetProductQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetProductQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetProductQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetProduct'] : ['GetProduct', variables],
+    queryFn: fetcher<GetProductQuery, GetProductQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductDocument, variables),
+    ...options
+  }
+    )};
+
+useGetProductQuery.getKey = (variables?: GetProductQueryVariables) => variables === undefined ? ['GetProduct'] : ['GetProduct', variables];
+
+export const useInfiniteGetProductQuery = <
+      TData = InfiniteData<GetProductQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetProductQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetProductQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetProductQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetProductQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetProduct.infinite'] : ['GetProduct.infinite', variables],
+      queryFn: (metaData) => fetcher<GetProductQuery, GetProductQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetProductQuery.getKey = (variables?: GetProductQueryVariables) => variables === undefined ? ['GetProduct.infinite'] : ['GetProduct.infinite', variables];
+
+
+useGetProductQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetProductQueryVariables) => fetcher<GetProductQuery, GetProductQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductDocument, variables);
+
+export const GetUserAItemConfigDocument = new TypedDocumentString(`
+    query GetUserAItemConfig($where: UserItem_where) {
+  UserItems(where: $where) {
+    docs {
+      config
+      createdAt
+      id
+      item {
+        id
+        product {
+          name
+          previewImage {
+            altText
+            id
+            name
+            url
+            filesize
+            height
+            width
+          }
+          status
+          createdAt
+          updatedAt
+        }
+      }
+      updatedAt
+      user {
+        id
+        email
+        username
+      }
+      __typename
+    }
+  }
+}
+    `);
+
+export const useGetUserAItemConfigQuery = <
+      TData = GetUserAItemConfigQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetUserAItemConfigQueryVariables,
+      options?: Omit<UseQueryOptions<GetUserAItemConfigQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetUserAItemConfigQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetUserAItemConfigQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetUserAItemConfig'] : ['GetUserAItemConfig', variables],
+    queryFn: fetcher<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserAItemConfigDocument, variables),
+    ...options
+  }
+    )};
+
+useGetUserAItemConfigQuery.getKey = (variables?: GetUserAItemConfigQueryVariables) => variables === undefined ? ['GetUserAItemConfig'] : ['GetUserAItemConfig', variables];
+
+export const useInfiniteGetUserAItemConfigQuery = <
+      TData = InfiniteData<GetUserAItemConfigQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetUserAItemConfigQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetUserAItemConfigQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetUserAItemConfigQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetUserAItemConfigQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetUserAItemConfig.infinite'] : ['GetUserAItemConfig.infinite', variables],
+      queryFn: (metaData) => fetcher<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserAItemConfigDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetUserAItemConfigQuery.getKey = (variables?: GetUserAItemConfigQueryVariables) => variables === undefined ? ['GetUserAItemConfig.infinite'] : ['GetUserAItemConfig.infinite', variables];
+
+
+useGetUserAItemConfigQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetUserAItemConfigQueryVariables) => fetcher<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserAItemConfigDocument, variables);
+
+export const GetUserPointDocument = new TypedDocumentString(`
+    query GetUserPoint($where: UserPoint_where) {
+  UserPoints(where: $where) {
+    docs {
+      id
+      total_point
+      updatedAt
+      total_spent
+      __typename
+      user {
+        id
+      }
+    }
+  }
+}
+    `);
+
+export const useGetUserPointQuery = <
+      TData = GetUserPointQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetUserPointQueryVariables,
+      options?: Omit<UseQueryOptions<GetUserPointQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetUserPointQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetUserPointQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetUserPoint'] : ['GetUserPoint', variables],
+    queryFn: fetcher<GetUserPointQuery, GetUserPointQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPointDocument, variables),
+    ...options
+  }
+    )};
+
+useGetUserPointQuery.getKey = (variables?: GetUserPointQueryVariables) => variables === undefined ? ['GetUserPoint'] : ['GetUserPoint', variables];
+
+export const useInfiniteGetUserPointQuery = <
+      TData = InfiniteData<GetUserPointQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetUserPointQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetUserPointQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetUserPointQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetUserPointQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetUserPoint.infinite'] : ['GetUserPoint.infinite', variables],
+      queryFn: (metaData) => fetcher<GetUserPointQuery, GetUserPointQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPointDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetUserPointQuery.getKey = (variables?: GetUserPointQueryVariables) => variables === undefined ? ['GetUserPoint.infinite'] : ['GetUserPoint.infinite', variables];
+
+
+useGetUserPointQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetUserPointQueryVariables) => fetcher<GetUserPointQuery, GetUserPointQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPointDocument, variables);
+
+export const GetUserPreferenceDocument = new TypedDocumentString(`
+    query GetUserPreference($where: UserPreference_where) {
+  UserPreferences(where: $where) {
+    docs {
+      id
+      setting
+      createdAt
+      updatedAt
+      user {
+        id
+      }
+    }
+  }
+}
+    `);
+
+export const useGetUserPreferenceQuery = <
+      TData = GetUserPreferenceQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetUserPreferenceQueryVariables,
+      options?: Omit<UseQueryOptions<GetUserPreferenceQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetUserPreferenceQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetUserPreferenceQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetUserPreference'] : ['GetUserPreference', variables],
+    queryFn: fetcher<GetUserPreferenceQuery, GetUserPreferenceQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPreferenceDocument, variables),
+    ...options
+  }
+    )};
+
+useGetUserPreferenceQuery.getKey = (variables?: GetUserPreferenceQueryVariables) => variables === undefined ? ['GetUserPreference'] : ['GetUserPreference', variables];
+
+export const useInfiniteGetUserPreferenceQuery = <
+      TData = InfiniteData<GetUserPreferenceQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetUserPreferenceQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetUserPreferenceQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetUserPreferenceQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetUserPreferenceQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetUserPreference.infinite'] : ['GetUserPreference.infinite', variables],
+      queryFn: (metaData) => fetcher<GetUserPreferenceQuery, GetUserPreferenceQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPreferenceDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetUserPreferenceQuery.getKey = (variables?: GetUserPreferenceQueryVariables) => variables === undefined ? ['GetUserPreference.infinite'] : ['GetUserPreference.infinite', variables];
+
+
+useGetUserPreferenceQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetUserPreferenceQueryVariables) => fetcher<GetUserPreferenceQuery, GetUserPreferenceQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUserPreferenceDocument, variables);
+
+export const CreateUserPreferenceDocument = new TypedDocumentString(`
+    mutation CreateUserPreference($data: mutationUserPreferenceInput!) {
+  createUserPreference(data: $data) {
+    id
+    setting
+    user {
+      id
+    }
+  }
+}
+    `);
+
+export const useCreateUserPreferenceMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<CreateUserPreferenceMutation, TError, CreateUserPreferenceMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<CreateUserPreferenceMutation, TError, CreateUserPreferenceMutationVariables, TContext>(
+      {
+    mutationKey: ['CreateUserPreference'],
+    mutationFn: (variables?: CreateUserPreferenceMutationVariables) => fetcher<CreateUserPreferenceMutation, CreateUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateUserPreferenceDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useCreateUserPreferenceMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: CreateUserPreferenceMutationVariables) => fetcher<CreateUserPreferenceMutation, CreateUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, CreateUserPreferenceDocument, variables);
+
+export const UpdateUserPreferenceDocument = new TypedDocumentString(`
+    mutation UpdateUserPreference($id: Int!, $data: mutationUserPreferenceUpdateInput!) {
+  updateUserPreference(id: $id, data: $data) {
+    id
+    setting
+  }
+}
+    `);
+
+export const useUpdateUserPreferenceMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<UpdateUserPreferenceMutation, TError, UpdateUserPreferenceMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<UpdateUserPreferenceMutation, TError, UpdateUserPreferenceMutationVariables, TContext>(
+      {
+    mutationKey: ['UpdateUserPreference'],
+    mutationFn: (variables?: UpdateUserPreferenceMutationVariables) => fetcher<UpdateUserPreferenceMutation, UpdateUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserPreferenceDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useUpdateUserPreferenceMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: UpdateUserPreferenceMutationVariables) => fetcher<UpdateUserPreferenceMutation, UpdateUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, UpdateUserPreferenceDocument, variables);
+
+export const DeleteUserPreferenceDocument = new TypedDocumentString(`
+    mutation DeleteUserPreference($id: Int!) {
+  deleteUserPreference(id: $id) {
+    id
+  }
+}
+    `);
+
+export const useDeleteUserPreferenceMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<DeleteUserPreferenceMutation, TError, DeleteUserPreferenceMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<DeleteUserPreferenceMutation, TError, DeleteUserPreferenceMutationVariables, TContext>(
+      {
+    mutationKey: ['DeleteUserPreference'],
+    mutationFn: (variables?: DeleteUserPreferenceMutationVariables) => fetcher<DeleteUserPreferenceMutation, DeleteUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeleteUserPreferenceDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useDeleteUserPreferenceMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: DeleteUserPreferenceMutationVariables) => fetcher<DeleteUserPreferenceMutation, DeleteUserPreferenceMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, DeleteUserPreferenceDocument, variables);
 
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {

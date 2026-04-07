@@ -122,7 +122,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   fallbackLocale: null;
   globals: {
@@ -164,23 +164,23 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   username: string;
   provider?: string | null;
   image?: string | null;
-  avatar?: (number | null) | Media;
+  avatar?: (string | null) | Media;
   role?: ('ADMIN' | 'USER' | 'MODERATOR' | 'GUEST') | null;
   /**
    * All provider accounts linked to this user
    */
-  accounts?: (number | Account)[] | null;
-  carts?: (number | Cart)[] | null;
-  items?: (number | UserItem)[] | null;
-  point?: (number | null) | UserPoint;
-  supplier?: (number | Supplier)[] | null;
-  orders?: (number | Order)[] | null;
-  preference?: (number | null) | UserPreference;
-  posts?: (number | Post)[] | null;
+  accounts?: (string | Account)[] | null;
+  carts?: (string | Cart)[] | null;
+  items?: (string | UserItem)[] | null;
+  point?: (string | null) | UserPoint;
+  supplier?: (string | Supplier)[] | null;
+  orders?: (string | Order)[] | null;
+  preference?: (string | null) | UserPreference;
+  posts?: (string | Post)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -205,7 +205,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   name?: string | null;
   altText?: string | null;
   updatedAt: string;
@@ -225,7 +225,7 @@ export interface Media {
  * via the `definition` "accounts".
  */
 export interface Account {
-  id: number;
+  id: string;
   /**
    * The name of the provider, e.g., google, github, facebook, line
    */
@@ -237,7 +237,7 @@ export interface Account {
   /**
    * The user associated with this provider account
    */
-  user?: (number | null) | User;
+  user?: (string | null) | User;
   /**
    * Access token used to call the provider API (short-lived)
    */
@@ -274,10 +274,10 @@ export interface Account {
  * via the `definition` "carts".
  */
 export interface Cart {
-  id: number;
-  user?: (number | null) | User;
+  id: string;
+  user?: (string | null) | User;
   status?: ('ACTIVE' | 'SAVED' | 'ABANDONED') | null;
-  items?: (number | CartItem)[] | null;
+  items?: (string | CartItem)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -286,9 +286,9 @@ export interface Cart {
  * via the `definition` "cart-items".
  */
 export interface CartItem {
-  id: number;
-  cart?: (number | null) | Cart;
-  product?: (number | null) | Product;
+  id: string;
+  cart?: (string | null) | Cart;
+  product?: (string | null) | Product;
   quantity: number;
   updatedAt: string;
   createdAt: string;
@@ -298,7 +298,7 @@ export interface CartItem {
  * via the `definition` "products".
  */
 export interface Product {
-  id: number;
+  id: string;
   status: 'published' | 'draft';
   /**
    * Product name.
@@ -314,11 +314,11 @@ export interface Product {
    */
   averageScore?: number | null;
   publishedAt?: string | null;
-  supplier?: (number | null) | Supplier;
-  stock?: (number | null) | Stock;
-  tags?: (number | Tag)[] | null;
-  price?: (number | null) | Price;
-  previewImage?: (number | null) | Media;
+  supplier?: (string | null) | Supplier;
+  stock?: (string | null) | Stock;
+  tags?: (string | Tag)[] | null;
+  price?: (string | null) | Price;
+  previewImage?: (string | null) | Media;
   details?: {
     root: {
       type: string;
@@ -355,8 +355,8 @@ export interface Product {
   /**
    * A list of FAQs related to this product. Each FAQ has a question and an answer.
    */
-  faqs?: (number | Faq)[] | null;
-  ratings?: (number | Rating)[] | null;
+  faqs?: (string | Faq)[] | null;
+  ratings?: (string | Rating)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -365,12 +365,12 @@ export interface Product {
  * via the `definition` "suppliers".
  */
 export interface Supplier {
-  id: number;
-  user?: (number | null) | User;
+  id: string;
+  user?: (string | null) | User;
   /**
    * Related products from this supplier.
    */
-  products?: (number | Product)[] | null;
+  products?: (string | Product)[] | null;
   name: string;
   description?: string | null;
   updatedAt: string;
@@ -381,8 +381,8 @@ export interface Supplier {
  * via the `definition` "stocks".
  */
 export interface Stock {
-  id: number;
-  product?: (number | null) | Product;
+  id: string;
+  product?: (string | null) | Product;
   /**
    * Defines how this product's stock is managed: limit by stock quantity or allow only one purchase per user.
    */
@@ -399,9 +399,9 @@ export interface Stock {
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: number;
+  id: string;
   name?: string | null;
-  posts?: (number | Post)[] | null;
+  posts?: (string | Post)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -410,7 +410,7 @@ export interface Tag {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: number;
+  id: string;
   title: string;
   content?: {
     root: {
@@ -427,8 +427,8 @@ export interface Post {
     };
     [k: string]: unknown;
   } | null;
-  author?: (number | null) | User;
-  tags?: (number | Tag)[] | null;
+  author?: (string | null) | User;
+  tags?: (string | Tag)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -437,7 +437,7 @@ export interface Post {
  * via the `definition` "prices".
  */
 export interface Price {
-  id: number;
+  id: string;
   price?: number | null;
   /**
    * Retail: standard customer price
@@ -445,7 +445,7 @@ export interface Price {
    * Base: cost before markup
    */
   price_type?: ('retail' | 'wholesale' | 'base') | null;
-  product?: (number | Product)[] | null;
+  product?: (string | Product)[] | null;
   description?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -455,7 +455,7 @@ export interface Price {
  * via the `definition` "faqs".
  */
 export interface Faq {
-  id: number;
+  id: string;
   question: string;
   answer?: {
     root: {
@@ -480,7 +480,7 @@ export interface Faq {
  * via the `definition` "ratings".
  */
 export interface Rating {
-  id: number;
+  id: string;
   /**
    * Score 1 to 5
    */
@@ -494,9 +494,9 @@ export interface Rating {
  * via the `definition` "user-items".
  */
 export interface UserItem {
-  id: number;
-  user?: (number | null) | User;
-  item?: (number | null) | OrderItem;
+  id: string;
+  user?: (string | null) | User;
+  item?: (string | null) | OrderItem;
   config?:
     | {
         [k: string]: unknown;
@@ -514,10 +514,10 @@ export interface UserItem {
  * via the `definition` "order-items".
  */
 export interface OrderItem {
-  id: number;
-  order?: (number | null) | Order;
-  product?: (number | null) | Product;
-  userItem?: (number | null) | UserItem;
+  id: string;
+  order?: (string | null) | Order;
+  product?: (string | null) | Product;
+  userItem?: (string | null) | UserItem;
   unitPrice?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -527,9 +527,9 @@ export interface OrderItem {
  * via the `definition` "orders".
  */
 export interface Order {
-  id: number;
-  user?: (number | null) | User;
-  items?: (number | OrderItem)[] | null;
+  id: string;
+  user?: (string | null) | User;
+  items?: (string | OrderItem)[] | null;
   status: 'PENDING' | 'PAID' | 'CANCELLED' | 'SHIPPED' | 'DELIVERED';
   updatedAt: string;
   createdAt: string;
@@ -539,8 +539,8 @@ export interface Order {
  * via the `definition` "user-points".
  */
 export interface UserPoint {
-  id: number;
-  user?: (number | null) | User;
+  id: string;
+  user?: (string | null) | User;
   total_point: number;
   /**
    * This current is thai bath (THB)
@@ -554,8 +554,8 @@ export interface UserPoint {
  * via the `definition` "user-preferences".
  */
 export interface UserPreference {
-  id: number;
-  user?: (number | null) | User;
+  id: string;
+  user?: (string | null) | User;
   setting?: {
     root: {
       type: string;
@@ -579,7 +579,7 @@ export interface UserPreference {
  * via the `definition` "promotions".
  */
 export interface Promotion {
-  id: number;
+  id: string;
   name?: string | null;
   discountType?: ('percent' | 'fixed' | 'bogo') | null;
   discountValue?: number | null;
@@ -592,11 +592,11 @@ export interface Promotion {
  * via the `definition` "product-promotions".
  */
 export interface ProductPromotion {
-  id: number;
-  productId?: (number | null) | Product;
-  promotionId?: (number | Promotion)[] | null;
+  id: string;
+  productId?: (string | null) | Product;
+  promotionId?: (string | Promotion)[] | null;
   publishedAt?: string | null;
-  images?: (number | Media)[] | null;
+  images?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -605,11 +605,11 @@ export interface ProductPromotion {
  * via the `definition` "point-transactions".
  */
 export interface PointTransaction {
-  id: number;
+  id: string;
   /**
    * Owner of transaction
    */
-  user?: (number | null) | User;
+  user?: (string | null) | User;
   isFavorite?: boolean | null;
   type: 'earn' | 'redeem';
   /**
@@ -627,7 +627,7 @@ export interface PointTransaction {
         | 'succeeded'
       )
     | null;
-  orders?: (number | Order)[] | null;
+  orders?: (string | Order)[] | null;
   metaData?:
     | {
         [k: string]: unknown;
@@ -646,7 +646,7 @@ export interface PointTransaction {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: number;
+  id: string;
   key: string;
   data:
     | {
@@ -663,96 +663,96 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'accounts';
-        value: number | Account;
+        value: string | Account;
       } | null)
     | ({
         relationTo: 'tags';
-        value: number | Tag;
+        value: string | Tag;
       } | null)
     | ({
         relationTo: 'posts';
-        value: number | Post;
+        value: string | Post;
       } | null)
     | ({
         relationTo: 'faqs';
-        value: number | Faq;
+        value: string | Faq;
       } | null)
     | ({
         relationTo: 'suppliers';
-        value: number | Supplier;
+        value: string | Supplier;
       } | null)
     | ({
         relationTo: 'products';
-        value: number | Product;
+        value: string | Product;
       } | null)
     | ({
         relationTo: 'prices';
-        value: number | Price;
+        value: string | Price;
       } | null)
     | ({
         relationTo: 'stocks';
-        value: number | Stock;
+        value: string | Stock;
       } | null)
     | ({
         relationTo: 'promotions';
-        value: number | Promotion;
+        value: string | Promotion;
       } | null)
     | ({
         relationTo: 'product-promotions';
-        value: number | ProductPromotion;
+        value: string | ProductPromotion;
       } | null)
     | ({
         relationTo: 'ratings';
-        value: number | Rating;
+        value: string | Rating;
       } | null)
     | ({
         relationTo: 'carts';
-        value: number | Cart;
+        value: string | Cart;
       } | null)
     | ({
         relationTo: 'cart-items';
-        value: number | CartItem;
+        value: string | CartItem;
       } | null)
     | ({
         relationTo: 'orders';
-        value: number | Order;
+        value: string | Order;
       } | null)
     | ({
         relationTo: 'order-items';
-        value: number | OrderItem;
+        value: string | OrderItem;
       } | null)
     | ({
         relationTo: 'user-items';
-        value: number | UserItem;
+        value: string | UserItem;
       } | null)
     | ({
         relationTo: 'user-points';
-        value: number | UserPoint;
+        value: string | UserPoint;
       } | null)
     | ({
         relationTo: 'user-preferences';
-        value: number | UserPreference;
+        value: string | UserPreference;
       } | null)
     | ({
         relationTo: 'point-transactions';
-        value: number | PointTransaction;
+        value: string | PointTransaction;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -762,10 +762,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -785,7 +785,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -1123,7 +1123,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "settings".
  */
 export interface Setting {
-  id: number;
+  id: string;
   smtpHost: string;
   smtpPort: string;
   smtpUser: string;

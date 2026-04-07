@@ -18015,15 +18015,205 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: number, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: number, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: number, name: string, description?: string | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null, posts?: Array<{ __typename?: 'Post', id: number }> | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string }> | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
+export type UpdateCartMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationCartUpdateInput;
+}>;
 
-export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', id: number, status?: Cart_Status | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: number } | null, items?: Array<{ __typename?: 'CartItem', id: number }> | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where?: InputMaybe<Cart_Where>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<(
+export type GetCartQuery = { __typename?: 'Query', Carts?: { __typename?: 'Carts', docs: Array<{ __typename?: 'Cart', createdAt?: any | null, id: number, status?: Cart_Status | null, updatedAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: number, quantity: number, product?: (
+          { __typename?: 'Product' }
+          & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
+        ) | null }> | null, user?: { __typename?: 'User', id: number, username: string } | null }> } | null };
+
+export type CreateCartItemMutationVariables = Exact<{
+  data: MutationCartItemInput;
+}>;
+
+
+export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: number, quantity: number, cart?: { __typename?: 'Cart', id: number } | null, product?: { __typename?: 'Product', id: number } | null } | null };
+
+export type DeleteCartItemMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteCartItemMutation = { __typename?: 'Mutation', deleteCartItem?: { __typename?: 'CartItem', id: number } | null };
+
+export type MediaFieldFragment = { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } & { ' $fragmentName'?: 'MediaFieldFragment' };
+
+export type GetMediaQueryVariables = Exact<{
+  where?: InputMaybe<Media_Where>;
+}>;
+
+
+export type GetMediaQuery = { __typename?: 'Query', allMedia?: { __typename?: 'allMedia', docs: Array<(
+      { __typename?: 'Media' }
+      & { ' $fragmentRefs'?: { 'MediaFieldFragment': MediaFieldFragment } }
+    )> } | null };
+
+export type CreateMediaMutationVariables = Exact<{
+  data: MutationMediaInput;
+}>;
+
+
+export type CreateMediaMutation = { __typename?: 'Mutation', createMedia?: (
+    { __typename?: 'Media' }
+    & { ' $fragmentRefs'?: { 'MediaFieldFragment': MediaFieldFragment } }
+  ) | null };
+
+export type GetOrderQueryVariables = Exact<{
+  where?: InputMaybe<Order_Where>;
+}>;
+
+
+export type GetOrderQuery = { __typename?: 'Query', Orders?: { __typename?: 'Orders', docs: Array<{ __typename?: 'Order', createdAt?: any | null, id: number, status: Order_Status, updatedAt?: any | null, user?: { __typename?: 'User', id: number, email: any, username: string, supplier?: Array<{ __typename?: 'Supplier', id: number, name: string }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: number, product?: { __typename?: 'Product', id: number } | null }> | null }> } | null };
+
+export type CreateOrderAndUserItemsMutationVariables = Exact<{
+  data: MutationOrderInput;
+}>;
+
+
+export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: number, updatedAt?: any | null, status: Order_Status, items?: Array<{ __typename?: 'OrderItem', id: number, unitPrice?: number | null, product?: { __typename?: 'Product', id: number } | null }> | null, user?: { __typename?: 'User', email: any, id: number } | null } | null };
+
+export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: number, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: number } | null, orders?: Array<{ __typename?: 'Order', id: number }> | null } & { ' $fragmentName'?: 'PointTransactionFieldFragment' };
+
+export type GetPointTransactionsQueryVariables = Exact<{
+  where?: InputMaybe<PointTransaction_Where>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetPointTransactionsQuery = { __typename?: 'Query', PointTransactions?: { __typename?: 'PointTransactions', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<(
+      { __typename?: 'PointTransaction' }
+      & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+    )> } | null };
+
+export type CreatePointTransactionMutationVariables = Exact<{
+  data: MutationPointTransactionInput;
+}>;
+
+
+export type CreatePointTransactionMutation = { __typename?: 'Mutation', createPointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
+export type UpdatePointTransactionMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationPointTransactionUpdateInput;
+}>;
+
+
+export type UpdatePointTransactionMutation = { __typename?: 'Mutation', updatePointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
+export type DeletePointTransactionMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeletePointTransactionMutation = { __typename?: 'Mutation', deletePointTransaction?: (
+    { __typename?: 'PointTransaction' }
+    & { ' $fragmentRefs'?: { 'PointTransactionFieldFragment': PointTransactionFieldFragment } }
+  ) | null };
+
+export type ProductFieldsFragment = { __typename?: 'Product', id: number, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: (
+    { __typename?: 'Supplier' }
+    & { ' $fragmentRefs'?: { 'SupplierFieldsFragment': SupplierFieldsFragment } }
+  ) | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string, answer?: any | null }> | null, previewImage?: (
+    { __typename?: 'Media' }
+    & { ' $fragmentRefs'?: { 'MediaFieldFragment': MediaFieldFragment } }
+  ) | null } & { ' $fragmentName'?: 'ProductFieldsFragment' };
+
+export type GetProductsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<(
       { __typename?: 'Product' }
       & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
     )> } | null };
+
+export type GetProductsCountQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsCountQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number } | null };
+
+export type GetProductQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<(
+      { __typename?: 'Product' }
+      & { ' $fragmentRefs'?: { 'ProductFieldsFragment': ProductFieldsFragment } }
+    )> } | null };
+
+export type SupplierFieldsFragment = { __typename?: 'Supplier', id: number, name: string, description?: string | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null } & { ' $fragmentName'?: 'SupplierFieldsFragment' };
+
+export type GetUserAItemConfigQueryVariables = Exact<{
+  where?: InputMaybe<UserItem_Where>;
+}>;
+
+
+export type GetUserAItemConfigQuery = { __typename?: 'Query', UserItems?: { __typename?: 'UserItems', docs: Array<{ __typename: 'UserItem', config?: any | null, createdAt?: any | null, id: number, updatedAt?: any | null, item?: { __typename?: 'OrderItem', id: number, product?: { __typename?: 'Product', name: string, status: Product_Status, createdAt?: any | null, updatedAt?: any | null, previewImage?: { __typename?: 'Media', altText?: string | null, id: number, name?: string | null, url?: string | null, filesize?: number | null, height?: number | null, width?: number | null } | null } | null } | null, user?: { __typename?: 'User', id: number, email: any, username: string } | null }> } | null };
+
+export type GetUserPointQueryVariables = Exact<{
+  where?: InputMaybe<UserPoint_Where>;
+}>;
+
+
+export type GetUserPointQuery = { __typename?: 'Query', UserPoints?: { __typename?: 'UserPoints', docs: Array<{ __typename: 'UserPoint', id: number, total_point: number, updatedAt?: any | null, total_spent: number, user?: { __typename?: 'User', id: number } | null }> } | null };
+
+export type GetUserPreferenceQueryVariables = Exact<{
+  where?: InputMaybe<UserPreference_Where>;
+}>;
+
+
+export type GetUserPreferenceQuery = { __typename?: 'Query', UserPreferences?: { __typename?: 'UserPreferences', docs: Array<{ __typename?: 'UserPreference', id: number, setting?: any | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: number } | null }> } | null };
+
+export type CreateUserPreferenceMutationVariables = Exact<{
+  data: MutationUserPreferenceInput;
+}>;
+
+
+export type CreateUserPreferenceMutation = { __typename?: 'Mutation', createUserPreference?: { __typename?: 'UserPreference', id: number, setting?: any | null, user?: { __typename?: 'User', id: number } | null } | null };
+
+export type UpdateUserPreferenceMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+  data: MutationUserPreferenceUpdateInput;
+}>;
+
+
+export type UpdateUserPreferenceMutation = { __typename?: 'Mutation', updateUserPreference?: { __typename?: 'UserPreference', id: number, setting?: any | null } | null };
+
+export type DeleteUserPreferenceMutationVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+
+export type DeleteUserPreferenceMutation = { __typename?: 'Mutation', deleteUserPreference?: { __typename?: 'UserPreference', id: number } | null };
 
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -18048,36 +18238,101 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
-export const ProductFieldsFragmentDoc = new TypedDocumentString(`
-    fragment ProductFields on Product {
+export const PointTransactionFieldFragmentDoc = new TypedDocumentString(`
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}
+    `, {"fragmentName":"PointTransactionField"}) as unknown as TypedDocumentString<PointTransactionFieldFragment, unknown>;
+export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
+    fragment SupplierFields on Supplier {
   id
   name
   description
+  user {
+    id
+    email
+    username
+  }
+}
+    `, {"fragmentName":"SupplierFields"}) as unknown as TypedDocumentString<SupplierFieldsFragment, unknown>;
+export const MediaFieldFragmentDoc = new TypedDocumentString(`
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+    `, {"fragmentName":"MediaField"}) as unknown as TypedDocumentString<MediaFieldFragment, unknown>;
+export const ProductFieldsFragmentDoc = new TypedDocumentString(`
+    fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
   price {
     price
     description
-    price_type
     price_type
     id
   }
   tags {
     id
     name
-    posts {
-      id
-    }
   }
   faqs {
     id
     question
+    answer
   }
   averageScore
   status
   publishedAt
   updatedAt
   createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
 }
-    `, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
 export const LoginUserDocument = new TypedDocumentString(`
     mutation LoginUser($email: String!, $password: String!) {
   loginUser(email: $email, password: $password) {
@@ -18130,42 +18385,527 @@ export const LoginUserDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<LoginUserMutation, LoginUserMutationVariables>;
-export const GetProductsDocument = new TypedDocumentString(`
-    query GetProducts {
-  Products {
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation UpdateCart($id: Int!, $data: mutationCartUpdateInput!) {
+  updateCart(id: $id, data: $data) {
+    id
+    user {
+      id
+    }
+    status
+    items {
+      id
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCartMutation, UpdateCartMutationVariables>;
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: Cart_where, $limit: Int, $page: Int, $sort: String) {
+  Carts(where: $where, limit: $limit, page: $page, sort: $sort) {
     docs {
-      ...ProductFields
+      createdAt
+      id
+      items {
+        id
+        quantity
+        product {
+          ...ProductFields
+        }
+      }
+      status
+      updatedAt
+      user {
+        id
+        username
+      }
     }
   }
 }
-    fragment ProductFields on Product {
+    fragment MediaField on Media {
   id
   name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
   description
+  details
   price {
     price
     description
-    price_type
     price_type
     id
   }
   tags {
     id
     name
-    posts {
-      id
-    }
   }
   faqs {
     id
     question
+    answer
   }
   averageScore
   status
   publishedAt
   updatedAt
   createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
+export const CreateCartItemDocument = new TypedDocumentString(`
+    mutation CreateCartItem($data: mutationCartItemInput!) {
+  createCartItem(data: $data) {
+    cart {
+      id
+    }
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
+export const DeleteCartItemDocument = new TypedDocumentString(`
+    mutation DeleteCartItem($id: Int!) {
+  deleteCartItem(id: $id) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export const GetMediaDocument = new TypedDocumentString(`
+    query GetMedia($where: Media_where) {
+  allMedia(where: $where) {
+    docs {
+      ...MediaField
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`) as unknown as TypedDocumentString<GetMediaQuery, GetMediaQueryVariables>;
+export const CreateMediaDocument = new TypedDocumentString(`
+    mutation CreateMedia($data: mutationMediaInput!) {
+  createMedia(data: $data) {
+    ...MediaField
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`) as unknown as TypedDocumentString<CreateMediaMutation, CreateMediaMutationVariables>;
+export const GetOrderDocument = new TypedDocumentString(`
+    query getOrder($where: Order_where) {
+  Orders(where: $where) {
+    docs {
+      createdAt
+      id
+      status
+      updatedAt
+      user {
+        id
+        email
+        username
+        supplier {
+          id
+          name
+        }
+      }
+      items {
+        id
+        product {
+          id
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
+export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
+    mutation CreateOrderAndUserItems($data: mutationOrderInput!) {
+  createOrder(data: $data) {
+    items {
+      id
+      unitPrice
+      product {
+        id
+      }
+    }
+    createdAt
+    id
+    updatedAt
+    status
+    user {
+      email
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
+export const GetPointTransactionsDocument = new TypedDocumentString(`
+    query getPointTransactions($where: PointTransaction_where, $sort: String, $limit: Int, $page: Int) {
+  PointTransactions(where: $where, sort: $sort, limit: $limit, page: $page) {
+    docs {
+      ...PointTransactionField
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>;
+export const CreatePointTransactionDocument = new TypedDocumentString(`
+    mutation createPointTransaction($data: mutationPointTransactionInput!) {
+  createPointTransaction(data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>;
+export const UpdatePointTransactionDocument = new TypedDocumentString(`
+    mutation updatePointTransaction($id: Int!, $data: mutationPointTransactionUpdateInput!) {
+  updatePointTransaction(id: $id, data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>;
+export const DeletePointTransactionDocument = new TypedDocumentString(`
+    mutation deletePointTransaction($id: Int!) {
+  deletePointTransaction(id: $id) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<DeletePointTransactionMutation, DeletePointTransactionMutationVariables>;
+export const GetProductsDocument = new TypedDocumentString(`
+    query GetProducts($limit: Int, $page: Int, $sort: String, $where: Product_where) {
+  Products(limit: $limit, page: $page, sort: $sort, where: $where) {
+    docs {
+      ...ProductFields
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
 }`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductsCountDocument = new TypedDocumentString(`
+    query GetProductsCount($where: Product_where) {
+  Products(limit: 1, where: $where) {
+    totalDocs
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductsCountQuery, GetProductsCountQueryVariables>;
+export const GetProductDocument = new TypedDocumentString(`
+    query GetProduct($where: Product_where) {
+  Products(where: $where) {
+    docs {
+      ...ProductFields
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`) as unknown as TypedDocumentString<GetProductQuery, GetProductQueryVariables>;
+export const GetUserAItemConfigDocument = new TypedDocumentString(`
+    query GetUserAItemConfig($where: UserItem_where) {
+  UserItems(where: $where) {
+    docs {
+      config
+      createdAt
+      id
+      item {
+        id
+        product {
+          name
+          previewImage {
+            altText
+            id
+            name
+            url
+            filesize
+            height
+            width
+          }
+          status
+          createdAt
+          updatedAt
+        }
+      }
+      updatedAt
+      user {
+        id
+        email
+        username
+      }
+      __typename
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>;
+export const GetUserPointDocument = new TypedDocumentString(`
+    query GetUserPoint($where: UserPoint_where) {
+  UserPoints(where: $where) {
+    docs {
+      id
+      total_point
+      updatedAt
+      total_spent
+      __typename
+      user {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPointQuery, GetUserPointQueryVariables>;
+export const GetUserPreferenceDocument = new TypedDocumentString(`
+    query GetUserPreference($where: UserPreference_where) {
+  UserPreferences(where: $where) {
+    docs {
+      id
+      setting
+      createdAt
+      updatedAt
+      user {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPreferenceQuery, GetUserPreferenceQueryVariables>;
+export const CreateUserPreferenceDocument = new TypedDocumentString(`
+    mutation CreateUserPreference($data: mutationUserPreferenceInput!) {
+  createUserPreference(data: $data) {
+    id
+    setting
+    user {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateUserPreferenceMutation, CreateUserPreferenceMutationVariables>;
+export const UpdateUserPreferenceDocument = new TypedDocumentString(`
+    mutation UpdateUserPreference($id: Int!, $data: mutationUserPreferenceUpdateInput!) {
+  updateUserPreference(id: $id, data: $data) {
+    id
+    setting
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateUserPreferenceMutation, UpdateUserPreferenceMutationVariables>;
+export const DeleteUserPreferenceDocument = new TypedDocumentString(`
+    mutation DeleteUserPreference($id: Int!) {
+  deleteUserPreference(id: $id) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteUserPreferenceMutation, DeleteUserPreferenceMutationVariables>;
 export const GetUsersDocument = new TypedDocumentString(`
     query GetUsers {
   Users {

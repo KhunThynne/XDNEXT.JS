@@ -1,7 +1,7 @@
 import { graphql } from "../generates";
 
-graphql(`
-  mutation CreateCartItem($data: CartItemCreateInput!) {
+export const CreateCartItem = graphql(`
+  mutation CreateCartItem($data: mutationCartItemInput!) {
     createCartItem(data: $data) {
       cart {
         id
@@ -13,15 +13,14 @@ graphql(`
       }
     }
   }
-  mutation DeleteCartItem($where: CartItemWhereUniqueInput!) {
-    deleteCartItem(where: $where) {
-      id
-    }
-  }
+`);
 
-  mutation DeleteCartItems($where: [CartItemWhereUniqueInput!]!) {
-    deleteCartItems(where: $where) {
+export const DeleteCartItem = graphql(`
+  mutation DeleteCartItem($id: Int!) {
+    deleteCartItem(id: $id) {
       id
     }
   }
 `);
+
+

@@ -1,0 +1,68 @@
+[33m❯[39m Parse Configuration
+[32m✔[39m Parse Configuration
+[33m❯[39m Generate outputs
+[33m❯[39m Generate to frontend/xdstudio/src/libs/graphql/generates/generated.ts
+[33m❯[39m Generate to graphql/generates/
+[33m❯[39m Generate to graphql/generates/graphql.schema.graphql
+[33m❯[39m Load GraphQL schemas
+[33m❯[39m Load GraphQL schemas
+[33m❯[39m Load GraphQL schemas
+[32m✔[39m Load GraphQL schemas
+[32m✔[39m Load GraphQL schemas
+[32m✔[39m Load GraphQL schemas
+[33m❯[39m Load GraphQL documents
+[33m❯[39m Load GraphQL documents
+[33m❯[39m Load GraphQL documents
+[32m✔[39m Load GraphQL documents
+[33m❯[39m Generate
+[31m✖[39m Generate [31m[FAILED: GraphQL Document Validation failed with 5 errors;
+  Error 0: Unknown argument "where" on field "Query.Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:11
+
+Error 1: Cannot query field "docs" on type "Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:4:7
+
+Error 2: Field "Media" argument "id" of type "Int!" is required, but it was not provided.
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:5
+
+Error 3: Cannot query field "suppiler" on type "User". Did you mean "supplier"?
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:13:11
+
+Error 4: Cannot query field "name" on type "User".
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:18:9][39m
+[32m✔[39m Load GraphQL documents
+[32m✔[39m Load GraphQL documents
+[33m❯[39m Generate
+[33m❯[39m Generate
+[31m✖[39m Generate [31m[FAILED: GraphQL Document Validation failed with 5 errors;
+  Error 0: Unknown argument "where" on field "Query.Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:11
+
+Error 1: Cannot query field "docs" on type "Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:4:7
+
+Error 2: Field "Media" argument "id" of type "Int!" is required, but it was not provided.
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:5
+
+Error 3: Cannot query field "suppiler" on type "User". Did you mean "supplier"?
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:13:11
+
+Error 4: Cannot query field "name" on type "User".
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:18:9][39m
+[31m✖[39m Generate [31m[FAILED: GraphQL Document Validation failed with 5 errors;
+  Error 0: Unknown argument "where" on field "Query.Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:11
+
+Error 1: Cannot query field "docs" on type "Media".
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:4:7
+
+Error 2: Field "Media" argument "id" of type "Int!" is required, but it was not provided.
+    at D:/WorkStation/XDStudio/graphql/operations/media.ts:3:5
+
+Error 3: Cannot query field "suppiler" on type "User". Did you mean "supplier"?
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:13:11
+
+Error 4: Cannot query field "name" on type "User".
+    at D:/WorkStation/XDStudio/graphql/operations/order.ts:18:9][39m
+[32m✔[39m Generate outputs
+  ✖ One or more errors occurred, no files were generated. To allow output on errors, set config.allowPartialOutputs=true
