@@ -25,18 +25,12 @@
       "@type/*": ["./types/*"],
       "@public/*": ["./public/*"],
       "@payload-config": ["./src/payload.config.ts"],
-      "@/*": ["./src/*"],
-    
+      "@/*": ["./src/*"]
+
       // "#/*": ["./*"],
     }
   },
-  "plugins": [
-    {
-      "name": "@0no-co/graphqlsp",
-      "schema": "./src/libs/graphql/graphql.schema.graphql",
-      "debug":true
-    }
-  ],
+  
   "include": [
     "next-env.d.ts",
     "**/*.ts",

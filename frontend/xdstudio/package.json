@@ -15,9 +15,7 @@
     "lint:fix": "eslint --fix",
     "install:prod": "npm install --production",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",
-    "codegen": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache --watch",
     "gen": "npm run generate:types && npm run generate:schema ",
-    "codegen:once": "set NODE_ENV=development&&graphql-codegen --config codegen.ts --no-cache",
     "generate:types": "set SKIP_ENV_VALIDATION=true&&npx payload generate:types",
     "generate:schema": "set SKIP_ENV_VALIDATION=true&&npx payload-graphql generate:schema"
   },
@@ -84,15 +82,8 @@
     "zustand": "^5.0.12"
   },
   "devDependencies": {
-    "@0no-co/graphqlsp": "^1.15.3",
-    "@eslint/eslintrc": "^3.3.5",
     "@eslint/migrate-config": "^2.0.4",
-    "@graphql-codegen/cli": "^6.2.1",
-    "@graphql-codegen/introspection": "5.0.1",
-    "@graphql-codegen/schema-ast": "^5.0.1",
-    "@graphql-codegen/typescript": "^5.0.9",
-    "@graphql-codegen/typescript-operations": "^5.0.9",
-    "@graphql-codegen/typescript-react-query": "^7.0.0",
+    "@eslint/eslintrc": "^3.3.5",
     "@next/eslint-plugin-next": "^16.2.2",
     "@parcel/watcher": "^2.5.6",
     "@tailwindcss/postcss": "^4.2.2",

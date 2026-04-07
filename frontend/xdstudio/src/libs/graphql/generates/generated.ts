@@ -1,11 +1,31 @@
-/* eslint-disable */
+import { useMutation, useQuery, useInfiniteQuery, type UseMutationOptions, type UseQueryOptions, type UseInfiniteQueryOptions, type InfiniteData } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
-export type InputMaybe<T> = T | null | undefined;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+
+function fetcher<TData, TVariables>(endpoint: string, requestInit: RequestInit, query: string, variables?: TVariables) {
+  return async (): Promise<TData> => {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      ...requestInit,
+      body: JSON.stringify({ query, variables }),
+    });
+
+    const json = await res.json();
+
+    if (json.errors) {
+      const { message } = json.errors[0];
+
+      throw new Error(message);
+    }
+
+    return json.data;
+  }
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -13,13 +33,9 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: { input: any; output: any; }
-  /** A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address. */
   EmailAddress: { input: any; output: any; }
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { input: any; output: any; }
-  /** The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSONObject: { input: any; output: any; }
 };
 
@@ -1355,11 +1371,10 @@ export type CartItemsUpdateDocAccess = {
   where?: Maybe<Scalars['JSONObject']['output']>;
 };
 
-export enum CartUpdate_Status_MutationInput {
-  Abandoned = 'ABANDONED',
-  Active = 'ACTIVE',
-  Saved = 'SAVED'
-}
+export type CartUpdate_Status_MutationInput =
+  | 'ABANDONED'
+  | 'ACTIVE'
+  | 'SAVED';
 
 export type Cart_CreatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1391,23 +1406,20 @@ export type Cart_Items_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
-export enum Cart_Status {
-  Abandoned = 'ABANDONED',
-  Active = 'ACTIVE',
-  Saved = 'SAVED'
-}
+export type Cart_Status =
+  | 'ABANDONED'
+  | 'ACTIVE'
+  | 'SAVED';
 
-export enum Cart_Status_Input {
-  Abandoned = 'ABANDONED',
-  Active = 'ACTIVE',
-  Saved = 'SAVED'
-}
+export type Cart_Status_Input =
+  | 'ABANDONED'
+  | 'ACTIVE'
+  | 'SAVED';
 
-export enum Cart_Status_MutationInput {
-  Abandoned = 'ABANDONED',
-  Active = 'ACTIVE',
-  Saved = 'SAVED'
-}
+export type Cart_Status_MutationInput =
+  | 'ABANDONED'
+  | 'ACTIVE'
+  | 'SAVED';
 
 export type Cart_Status_Operator = {
   all?: InputMaybe<Array<InputMaybe<Cart_Status_Input>>>;
@@ -4594,13 +4606,12 @@ export type OrderItemsUpdateDocAccess = {
   where?: Maybe<Scalars['JSONObject']['output']>;
 };
 
-export enum OrderUpdate_Status_MutationInput {
-  Cancelled = 'CANCELLED',
-  Delivered = 'DELIVERED',
-  Paid = 'PAID',
-  Pending = 'PENDING',
-  Shipped = 'SHIPPED'
-}
+export type OrderUpdate_Status_MutationInput =
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'PAID'
+  | 'PENDING'
+  | 'SHIPPED';
 
 export type Order_CreatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
@@ -4632,29 +4643,26 @@ export type Order_Items_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
-export enum Order_Status {
-  Cancelled = 'CANCELLED',
-  Delivered = 'DELIVERED',
-  Paid = 'PAID',
-  Pending = 'PENDING',
-  Shipped = 'SHIPPED'
-}
+export type Order_Status =
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'PAID'
+  | 'PENDING'
+  | 'SHIPPED';
 
-export enum Order_Status_Input {
-  Cancelled = 'CANCELLED',
-  Delivered = 'DELIVERED',
-  Paid = 'PAID',
-  Pending = 'PENDING',
-  Shipped = 'SHIPPED'
-}
+export type Order_Status_Input =
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'PAID'
+  | 'PENDING'
+  | 'SHIPPED';
 
-export enum Order_Status_MutationInput {
-  Cancelled = 'CANCELLED',
-  Delivered = 'DELIVERED',
-  Paid = 'PAID',
-  Pending = 'PENDING',
-  Shipped = 'SHIPPED'
-}
+export type Order_Status_MutationInput =
+  | 'CANCELLED'
+  | 'DELIVERED'
+  | 'PAID'
+  | 'PENDING'
+  | 'SHIPPED';
 
 export type Order_Status_Operator = {
   all?: InputMaybe<Array<InputMaybe<Order_Status_Input>>>;
@@ -5340,38 +5348,36 @@ export type PayloadLockedDocumentUpdate_DocumentRelationshipInput = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocumentUpdate_DocumentRelationshipInputRelationTo {
-  Accounts = 'accounts',
-  CartItems = 'cart_items',
-  Carts = 'carts',
-  Faqs = 'faqs',
-  Media = 'media',
-  OrderItems = 'order_items',
-  Orders = 'orders',
-  PointTransactions = 'point_transactions',
-  Posts = 'posts',
-  Prices = 'prices',
-  ProductPromotions = 'product_promotions',
-  Products = 'products',
-  Promotions = 'promotions',
-  Ratings = 'ratings',
-  Stocks = 'stocks',
-  Suppliers = 'suppliers',
-  Tags = 'tags',
-  UserItems = 'user_items',
-  UserPoints = 'user_points',
-  UserPreferences = 'user_preferences',
-  Users = 'users'
-}
+export type PayloadLockedDocumentUpdate_DocumentRelationshipInputRelationTo =
+  | 'accounts'
+  | 'cart_items'
+  | 'carts'
+  | 'faqs'
+  | 'media'
+  | 'order_items'
+  | 'orders'
+  | 'point_transactions'
+  | 'posts'
+  | 'prices'
+  | 'product_promotions'
+  | 'products'
+  | 'promotions'
+  | 'ratings'
+  | 'stocks'
+  | 'suppliers'
+  | 'tags'
+  | 'user_items'
+  | 'user_points'
+  | 'user_preferences'
+  | 'users';
 
 export type PayloadLockedDocumentUpdate_UserRelationshipInput = {
   relationTo?: InputMaybe<PayloadLockedDocumentUpdate_UserRelationshipInputRelationTo>;
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocumentUpdate_UserRelationshipInputRelationTo {
-  Users = 'users'
-}
+export type PayloadLockedDocumentUpdate_UserRelationshipInputRelationTo =
+  | 'users';
 
 export type PayloadLockedDocument_Document = Account | Cart | CartItem | Faq | Media | Order | OrderItem | PointTransaction | Post | Price | Product | ProductPromotion | Promotion | Rating | Stock | Supplier | Tag | User | UserItem | UserPoint | UserPreference;
 
@@ -5380,53 +5386,51 @@ export type PayloadLockedDocument_DocumentRelationshipInput = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocument_DocumentRelationshipInputRelationTo {
-  Accounts = 'accounts',
-  CartItems = 'cart_items',
-  Carts = 'carts',
-  Faqs = 'faqs',
-  Media = 'media',
-  OrderItems = 'order_items',
-  Orders = 'orders',
-  PointTransactions = 'point_transactions',
-  Posts = 'posts',
-  Prices = 'prices',
-  ProductPromotions = 'product_promotions',
-  Products = 'products',
-  Promotions = 'promotions',
-  Ratings = 'ratings',
-  Stocks = 'stocks',
-  Suppliers = 'suppliers',
-  Tags = 'tags',
-  UserItems = 'user_items',
-  UserPoints = 'user_points',
-  UserPreferences = 'user_preferences',
-  Users = 'users'
-}
+export type PayloadLockedDocument_DocumentRelationshipInputRelationTo =
+  | 'accounts'
+  | 'cart_items'
+  | 'carts'
+  | 'faqs'
+  | 'media'
+  | 'order_items'
+  | 'orders'
+  | 'point_transactions'
+  | 'posts'
+  | 'prices'
+  | 'product_promotions'
+  | 'products'
+  | 'promotions'
+  | 'ratings'
+  | 'stocks'
+  | 'suppliers'
+  | 'tags'
+  | 'user_items'
+  | 'user_points'
+  | 'user_preferences'
+  | 'users';
 
-export enum PayloadLockedDocument_Document_RelationTo {
-  Accounts = 'accounts',
-  CartItems = 'cart_items',
-  Carts = 'carts',
-  Faqs = 'faqs',
-  Media = 'media',
-  OrderItems = 'order_items',
-  Orders = 'orders',
-  PointTransactions = 'point_transactions',
-  Posts = 'posts',
-  Prices = 'prices',
-  ProductPromotions = 'product_promotions',
-  Products = 'products',
-  Promotions = 'promotions',
-  Ratings = 'ratings',
-  Stocks = 'stocks',
-  Suppliers = 'suppliers',
-  Tags = 'tags',
-  UserItems = 'user_items',
-  UserPoints = 'user_points',
-  UserPreferences = 'user_preferences',
-  Users = 'users'
-}
+export type PayloadLockedDocument_Document_RelationTo =
+  | 'accounts'
+  | 'cart_items'
+  | 'carts'
+  | 'faqs'
+  | 'media'
+  | 'order_items'
+  | 'orders'
+  | 'point_transactions'
+  | 'posts'
+  | 'prices'
+  | 'product_promotions'
+  | 'products'
+  | 'promotions'
+  | 'ratings'
+  | 'stocks'
+  | 'suppliers'
+  | 'tags'
+  | 'user_items'
+  | 'user_points'
+  | 'user_preferences'
+  | 'users';
 
 export type PayloadLockedDocument_Document_Relationship = {
   __typename?: 'PayloadLockedDocument_Document_Relationship';
@@ -5441,13 +5445,11 @@ export type PayloadLockedDocument_UserRelationshipInput = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocument_UserRelationshipInputRelationTo {
-  Users = 'users'
-}
+export type PayloadLockedDocument_UserRelationshipInputRelationTo =
+  | 'users';
 
-export enum PayloadLockedDocument_User_RelationTo {
-  Users = 'users'
-}
+export type PayloadLockedDocument_User_RelationTo =
+  | 'users';
 
 export type PayloadLockedDocument_User_Relationship = {
   __typename?: 'PayloadLockedDocument_User_Relationship';
@@ -5471,29 +5473,28 @@ export type PayloadLockedDocument_Document_Relation = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocument_Document_Relation_RelationTo {
-  Accounts = 'accounts',
-  CartItems = 'cart_items',
-  Carts = 'carts',
-  Faqs = 'faqs',
-  Media = 'media',
-  OrderItems = 'order_items',
-  Orders = 'orders',
-  PointTransactions = 'point_transactions',
-  Posts = 'posts',
-  Prices = 'prices',
-  ProductPromotions = 'product_promotions',
-  Products = 'products',
-  Promotions = 'promotions',
-  Ratings = 'ratings',
-  Stocks = 'stocks',
-  Suppliers = 'suppliers',
-  Tags = 'tags',
-  UserItems = 'user_items',
-  UserPoints = 'user_points',
-  UserPreferences = 'user_preferences',
-  Users = 'users'
-}
+export type PayloadLockedDocument_Document_Relation_RelationTo =
+  | 'accounts'
+  | 'cart_items'
+  | 'carts'
+  | 'faqs'
+  | 'media'
+  | 'order_items'
+  | 'orders'
+  | 'point_transactions'
+  | 'posts'
+  | 'prices'
+  | 'product_promotions'
+  | 'products'
+  | 'promotions'
+  | 'ratings'
+  | 'stocks'
+  | 'suppliers'
+  | 'tags'
+  | 'user_items'
+  | 'user_points'
+  | 'user_preferences'
+  | 'users';
 
 export type PayloadLockedDocument_GlobalSlug_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
@@ -5532,9 +5533,8 @@ export type PayloadLockedDocument_User_Relation = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadLockedDocument_User_Relation_RelationTo {
-  Users = 'users'
-}
+export type PayloadLockedDocument_User_Relation_RelationTo =
+  | 'users';
 
 export type PayloadLockedDocument_Where = {
   AND?: InputMaybe<Array<InputMaybe<PayloadLockedDocument_Where_And>>>;
@@ -5945,9 +5945,8 @@ export type PayloadPreferenceUpdate_UserRelationshipInput = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadPreferenceUpdate_UserRelationshipInputRelationTo {
-  Users = 'users'
-}
+export type PayloadPreferenceUpdate_UserRelationshipInputRelationTo =
+  | 'users';
 
 export type PayloadPreference_User = User;
 
@@ -5956,13 +5955,11 @@ export type PayloadPreference_UserRelationshipInput = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadPreference_UserRelationshipInputRelationTo {
-  Users = 'users'
-}
+export type PayloadPreference_UserRelationshipInputRelationTo =
+  | 'users';
 
-export enum PayloadPreference_User_RelationTo {
-  Users = 'users'
-}
+export type PayloadPreference_User_RelationTo =
+  | 'users';
 
 export type PayloadPreference_User_Relationship = {
   __typename?: 'PayloadPreference_User_Relationship';
@@ -6018,9 +6015,8 @@ export type PayloadPreference_User_Relation = {
   value?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export enum PayloadPreference_User_Relation_RelationTo {
-  Users = 'users'
-}
+export type PayloadPreference_User_Relation_RelationTo =
+  | 'users';
 
 export type PayloadPreference_Value_Operator = {
   contains?: InputMaybe<Scalars['JSON']['input']>;
@@ -6441,20 +6437,18 @@ export type PointTransaction = {
   user?: Maybe<User>;
 };
 
-export enum PointTransactionUpdate_Status_MutationInput {
-  Canceled = 'canceled',
-  Processing = 'processing',
-  RequiresAction = 'requires_action',
-  RequiresCapture = 'requires_capture',
-  RequiresConfirmation = 'requires_confirmation',
-  RequiresPaymentMethod = 'requires_payment_method',
-  Succeeded = 'succeeded'
-}
+export type PointTransactionUpdate_Status_MutationInput =
+  | 'canceled'
+  | 'processing'
+  | 'requires_action'
+  | 'requires_capture'
+  | 'requires_confirmation'
+  | 'requires_payment_method'
+  | 'succeeded';
 
-export enum PointTransactionUpdate_Type_MutationInput {
-  Earn = 'earn',
-  Redeem = 'redeem'
-}
+export type PointTransactionUpdate_Type_MutationInput =
+  | 'earn'
+  | 'redeem';
 
 export type PointTransaction_Amount_Operator = {
   equals?: InputMaybe<Scalars['Float']['input']>;
@@ -6523,35 +6517,32 @@ export type PointTransaction_Orders_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
-export enum PointTransaction_Status {
-  Canceled = 'canceled',
-  Processing = 'processing',
-  RequiresAction = 'requires_action',
-  RequiresCapture = 'requires_capture',
-  RequiresConfirmation = 'requires_confirmation',
-  RequiresPaymentMethod = 'requires_payment_method',
-  Succeeded = 'succeeded'
-}
+export type PointTransaction_Status =
+  | 'canceled'
+  | 'processing'
+  | 'requires_action'
+  | 'requires_capture'
+  | 'requires_confirmation'
+  | 'requires_payment_method'
+  | 'succeeded';
 
-export enum PointTransaction_Status_Input {
-  Canceled = 'canceled',
-  Processing = 'processing',
-  RequiresAction = 'requires_action',
-  RequiresCapture = 'requires_capture',
-  RequiresConfirmation = 'requires_confirmation',
-  RequiresPaymentMethod = 'requires_payment_method',
-  Succeeded = 'succeeded'
-}
+export type PointTransaction_Status_Input =
+  | 'canceled'
+  | 'processing'
+  | 'requires_action'
+  | 'requires_capture'
+  | 'requires_confirmation'
+  | 'requires_payment_method'
+  | 'succeeded';
 
-export enum PointTransaction_Status_MutationInput {
-  Canceled = 'canceled',
-  Processing = 'processing',
-  RequiresAction = 'requires_action',
-  RequiresCapture = 'requires_capture',
-  RequiresConfirmation = 'requires_confirmation',
-  RequiresPaymentMethod = 'requires_payment_method',
-  Succeeded = 'succeeded'
-}
+export type PointTransaction_Status_MutationInput =
+  | 'canceled'
+  | 'processing'
+  | 'requires_action'
+  | 'requires_capture'
+  | 'requires_confirmation'
+  | 'requires_payment_method'
+  | 'succeeded';
 
 export type PointTransaction_Status_Operator = {
   all?: InputMaybe<Array<InputMaybe<PointTransaction_Status_Input>>>;
@@ -6562,20 +6553,17 @@ export type PointTransaction_Status_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<PointTransaction_Status_Input>>>;
 };
 
-export enum PointTransaction_Type {
-  Earn = 'earn',
-  Redeem = 'redeem'
-}
+export type PointTransaction_Type =
+  | 'earn'
+  | 'redeem';
 
-export enum PointTransaction_Type_Input {
-  Earn = 'earn',
-  Redeem = 'redeem'
-}
+export type PointTransaction_Type_Input =
+  | 'earn'
+  | 'redeem';
 
-export enum PointTransaction_Type_MutationInput {
-  Earn = 'earn',
-  Redeem = 'redeem'
-}
+export type PointTransaction_Type_MutationInput =
+  | 'earn'
+  | 'redeem';
 
 export type PointTransaction_Type_Operator = {
   all?: InputMaybe<Array<InputMaybe<PointTransaction_Type_Input>>>;
@@ -7854,11 +7842,10 @@ export type Price = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export enum PriceUpdate_Price_Type_MutationInput {
-  Base = 'base',
-  Retail = 'retail',
-  Wholesale = 'wholesale'
-}
+export type PriceUpdate_Price_Type_MutationInput =
+  | 'base'
+  | 'retail'
+  | 'wholesale';
 
 export type Price_CreatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
@@ -7899,23 +7886,20 @@ export type Price_Price_Operator = {
   not_equals?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export enum Price_Price_Type {
-  Base = 'base',
-  Retail = 'retail',
-  Wholesale = 'wholesale'
-}
+export type Price_Price_Type =
+  | 'base'
+  | 'retail'
+  | 'wholesale';
 
-export enum Price_Price_Type_Input {
-  Base = 'base',
-  Retail = 'retail',
-  Wholesale = 'wholesale'
-}
+export type Price_Price_Type_Input =
+  | 'base'
+  | 'retail'
+  | 'wholesale';
 
-export enum Price_Price_Type_MutationInput {
-  Base = 'base',
-  Retail = 'retail',
-  Wholesale = 'wholesale'
-}
+export type Price_Price_Type_MutationInput =
+  | 'base'
+  | 'retail'
+  | 'wholesale';
 
 export type Price_Price_Type_Operator = {
   all?: InputMaybe<Array<InputMaybe<Price_Price_Type_Input>>>;
@@ -8969,10 +8953,9 @@ export type ProductPromotionsUpdateDocAccess = {
   where?: Maybe<Scalars['JSONObject']['output']>;
 };
 
-export enum ProductUpdate_Status_MutationInput {
-  Draft = 'draft',
-  Published = 'published'
-}
+export type ProductUpdate_Status_MutationInput =
+  | 'draft'
+  | 'published';
 
 export type Product_AverageScore_Operator = {
   equals?: InputMaybe<Scalars['Float']['input']>;
@@ -9086,20 +9069,17 @@ export type Product_Ratings_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
 };
 
-export enum Product_Status {
-  Draft = 'draft',
-  Published = 'published'
-}
+export type Product_Status =
+  | 'draft'
+  | 'published';
 
-export enum Product_Status_Input {
-  Draft = 'draft',
-  Published = 'published'
-}
+export type Product_Status_Input =
+  | 'draft'
+  | 'published';
 
-export enum Product_Status_MutationInput {
-  Draft = 'draft',
-  Published = 'published'
-}
+export type Product_Status_MutationInput =
+  | 'draft'
+  | 'published';
 
 export type Product_Status_Operator = {
   all?: InputMaybe<Array<InputMaybe<Product_Status_Input>>>;
@@ -10295,11 +10275,10 @@ export type Promotion = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export enum PromotionUpdate_DiscountType_MutationInput {
-  Bogo = 'bogo',
-  Fixed = 'fixed',
-  Percent = 'percent'
-}
+export type PromotionUpdate_DiscountType_MutationInput =
+  | 'bogo'
+  | 'fixed'
+  | 'percent';
 
 export type Promotion_CreatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
@@ -10312,23 +10291,20 @@ export type Promotion_CreatedAt_Operator = {
   not_equals?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
-export enum Promotion_DiscountType {
-  Bogo = 'bogo',
-  Fixed = 'fixed',
-  Percent = 'percent'
-}
+export type Promotion_DiscountType =
+  | 'bogo'
+  | 'fixed'
+  | 'percent';
 
-export enum Promotion_DiscountType_Input {
-  Bogo = 'bogo',
-  Fixed = 'fixed',
-  Percent = 'percent'
-}
+export type Promotion_DiscountType_Input =
+  | 'bogo'
+  | 'fixed'
+  | 'percent';
 
-export enum Promotion_DiscountType_MutationInput {
-  Bogo = 'bogo',
-  Fixed = 'fixed',
-  Percent = 'percent'
-}
+export type Promotion_DiscountType_MutationInput =
+  | 'bogo'
+  | 'fixed'
+  | 'percent';
 
 export type Promotion_DiscountType_Operator = {
   all?: InputMaybe<Array<InputMaybe<Promotion_DiscountType_Input>>>;
@@ -12576,10 +12552,9 @@ export type Stock = {
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
-export enum StockUpdate_Type_MutationInput {
-  ByStock = 'by_stock',
-  OnePerUser = 'one_per_user'
-}
+export type StockUpdate_Type_MutationInput =
+  | 'by_stock'
+  | 'one_per_user';
 
 export type Stock_CreatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
@@ -12620,20 +12595,17 @@ export type Stock_Quantity_Operator = {
   not_equals?: InputMaybe<Scalars['Float']['input']>;
 };
 
-export enum Stock_Type {
-  ByStock = 'by_stock',
-  OnePerUser = 'one_per_user'
-}
+export type Stock_Type =
+  | 'by_stock'
+  | 'one_per_user';
 
-export enum Stock_Type_Input {
-  ByStock = 'by_stock',
-  OnePerUser = 'one_per_user'
-}
+export type Stock_Type_Input =
+  | 'by_stock'
+  | 'one_per_user';
 
-export enum Stock_Type_MutationInput {
-  ByStock = 'by_stock',
-  OnePerUser = 'one_per_user'
-}
+export type Stock_Type_MutationInput =
+  | 'by_stock'
+  | 'one_per_user';
 
 export type Stock_Type_Operator = {
   all?: InputMaybe<Array<InputMaybe<Stock_Type_Input>>>;
@@ -15327,12 +15299,11 @@ export type UserPreferencesUpdateDocAccess = {
   where?: Maybe<Scalars['JSONObject']['output']>;
 };
 
-export enum UserUpdate_Role_MutationInput {
-  Admin = 'ADMIN',
-  Guest = 'GUEST',
-  Moderator = 'MODERATOR',
-  User = 'USER'
-}
+export type UserUpdate_Role_MutationInput =
+  | 'ADMIN'
+  | 'GUEST'
+  | 'MODERATOR'
+  | 'USER';
 
 export type User_Sessions = {
   __typename?: 'User_Sessions';
@@ -15466,26 +15437,23 @@ export type User_Provider_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export enum User_Role {
-  Admin = 'ADMIN',
-  Guest = 'GUEST',
-  Moderator = 'MODERATOR',
-  User = 'USER'
-}
+export type User_Role =
+  | 'ADMIN'
+  | 'GUEST'
+  | 'MODERATOR'
+  | 'USER';
 
-export enum User_Role_Input {
-  Admin = 'ADMIN',
-  Guest = 'GUEST',
-  Moderator = 'MODERATOR',
-  User = 'USER'
-}
+export type User_Role_Input =
+  | 'ADMIN'
+  | 'GUEST'
+  | 'MODERATOR'
+  | 'USER';
 
-export enum User_Role_MutationInput {
-  Admin = 'ADMIN',
-  Guest = 'GUEST',
-  Moderator = 'MODERATOR',
-  User = 'USER'
-}
+export type User_Role_MutationInput =
+  | 'ADMIN'
+  | 'GUEST'
+  | 'MODERATOR'
+  | 'USER';
 
 export type User_Role_Operator = {
   all?: InputMaybe<Array<InputMaybe<User_Role_Input>>>;
@@ -18006,21 +17974,262 @@ export type UsersResetPassword = {
   user?: Maybe<User>;
 };
 
-export class TypedDocumentString<TResult, TVariables>
-  extends String
-  implements DocumentTypeDecoration<TResult, TVariables>
-{
-  __apiType?: NonNullable<DocumentTypeDecoration<TResult, TVariables>['__apiType']>;
-  private value: string;
-  public __meta__?: Record<string, any> | undefined;
+export type LoginUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
 
-  constructor(value: string, __meta__?: Record<string, any> | undefined) {
-    super(value);
-    this.value = value;
-    this.__meta__ = __meta__;
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: number, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: number, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: number, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
+
+export type ProductFieldsFragment = { __typename?: 'Product', id: number, name: string, description?: string | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null, posts?: Array<{ __typename?: 'Post', id: number }> | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string }> | null };
+
+export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: number, name: string, description?: string | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: number } | null, tags?: Array<{ __typename?: 'Tag', id: number, name?: string | null, posts?: Array<{ __typename?: 'Post', id: number }> | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: number, question: string }> | null }> } | null };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', Users?: { __typename?: 'Users', docs: Array<{ __typename?: 'User', username: string, email: any, role?: User_Role | null }> } | null };
+
+
+export const ProductFieldsFragmentDoc = new TypedDocumentString(`
+    fragment ProductFields on Product {
+  id
+  name
+  description
+  price {
+    price
+    description
+    price_type
+    price_type
+    id
   }
-
-  override toString(): string & DocumentTypeDecoration<TResult, TVariables> {
-    return this.value;
+  tags {
+    id
+    name
+    posts {
+      id
+    }
+  }
+  faqs {
+    id
+    question
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+}
+    `, {"fragmentName":"ProductFields"});
+export const LoginUserDocument = new TypedDocumentString(`
+    mutation LoginUser($email: String!, $password: String!) {
+  loginUser(email: $email, password: $password) {
+    exp
+    token
+    user {
+      id
+      username
+      provider
+      image
+      role
+      updatedAt
+      createdAt
+      email
+      resetPasswordToken
+      resetPasswordExpiration
+      salt
+      hash
+      loginAttempts
+      lockUntil
+      avatar {
+        id
+        name
+        altText
+        updatedAt
+        createdAt
+        url
+        thumbnailURL
+        filename
+        mimeType
+        filesize
+        width
+        height
+        focalX
+        focalY
+      }
+      accounts {
+        id
+        provider
+        providerAccountId
+        accessToken
+        refreshToken
+        expiresAt
+        scope
+        meta
+        updatedAt
+        createdAt
+      }
+    }
   }
 }
+    `);
+
+export const useLoginUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      options?: UseMutationOptions<LoginUserMutation, TError, LoginUserMutationVariables, TContext>
+    ) => {
+    
+    return useMutation<LoginUserMutation, TError, LoginUserMutationVariables, TContext>(
+      {
+    mutationKey: ['LoginUser'],
+    mutationFn: (variables?: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, LoginUserDocument, variables)(),
+    ...options
+  }
+    )};
+
+
+useLoginUserMutation.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables: LoginUserMutationVariables) => fetcher<LoginUserMutation, LoginUserMutationVariables>(dataSource.endpoint, dataSource.fetchParams || {}, LoginUserDocument, variables);
+
+export const GetProductsDocument = new TypedDocumentString(`
+    query GetProducts {
+  Products {
+    docs {
+      ...ProductFields
+    }
+  }
+}
+    fragment ProductFields on Product {
+  id
+  name
+  description
+  price {
+    price
+    description
+    price_type
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+    posts {
+      id
+    }
+  }
+  faqs {
+    id
+    question
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+}`);
+
+export const useGetProductsQuery = <
+      TData = GetProductsQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetProductsQueryVariables,
+      options?: Omit<UseQueryOptions<GetProductsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetProductsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetProductsQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetProducts'] : ['GetProducts', variables],
+    queryFn: fetcher<GetProductsQuery, GetProductsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsDocument, variables),
+    ...options
+  }
+    )};
+
+useGetProductsQuery.getKey = (variables?: GetProductsQueryVariables) => variables === undefined ? ['GetProducts'] : ['GetProducts', variables];
+
+export const useInfiniteGetProductsQuery = <
+      TData = InfiniteData<GetProductsQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetProductsQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetProductsQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetProductsQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetProductsQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetProducts.infinite'] : ['GetProducts.infinite', variables],
+      queryFn: (metaData) => fetcher<GetProductsQuery, GetProductsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetProductsQuery.getKey = (variables?: GetProductsQueryVariables) => variables === undefined ? ['GetProducts.infinite'] : ['GetProducts.infinite', variables];
+
+
+useGetProductsQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetProductsQueryVariables) => fetcher<GetProductsQuery, GetProductsQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetProductsDocument, variables);
+
+export const GetUsersDocument = new TypedDocumentString(`
+    query GetUsers {
+  Users {
+    docs {
+      username
+      email
+      role
+    }
+  }
+}
+    `);
+
+export const useGetUsersQuery = <
+      TData = GetUsersQuery,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables?: GetUsersQueryVariables,
+      options?: Omit<UseQueryOptions<GetUsersQuery, TError, TData>, 'queryKey'> & { queryKey?: UseQueryOptions<GetUsersQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useQuery<GetUsersQuery, TError, TData>(
+      {
+    queryKey: variables === undefined ? ['GetUsers'] : ['GetUsers', variables],
+    queryFn: fetcher<GetUsersQuery, GetUsersQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUsersDocument, variables),
+    ...options
+  }
+    )};
+
+useGetUsersQuery.getKey = (variables?: GetUsersQueryVariables) => variables === undefined ? ['GetUsers'] : ['GetUsers', variables];
+
+export const useInfiniteGetUsersQuery = <
+      TData = InfiniteData<GetUsersQuery>,
+      TError = unknown
+    >(
+      dataSource: { endpoint: string, fetchParams?: RequestInit },
+      variables: GetUsersQueryVariables,
+      options: Omit<UseInfiniteQueryOptions<GetUsersQuery, TError, TData>, 'queryKey'> & { queryKey?: UseInfiniteQueryOptions<GetUsersQuery, TError, TData>['queryKey'] }
+    ) => {
+    
+    return useInfiniteQuery<GetUsersQuery, TError, TData>(
+      (() => {
+    const { queryKey: optionsQueryKey, ...restOptions } = options;
+    return {
+      queryKey: optionsQueryKey ?? variables === undefined ? ['GetUsers.infinite'] : ['GetUsers.infinite', variables],
+      queryFn: (metaData) => fetcher<GetUsersQuery, GetUsersQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUsersDocument, {...variables, ...(metaData.pageParam ?? {})})(),
+      ...restOptions
+    }
+  })()
+    )};
+
+useInfiniteGetUsersQuery.getKey = (variables?: GetUsersQueryVariables) => variables === undefined ? ['GetUsers.infinite'] : ['GetUsers.infinite', variables];
+
+
+useGetUsersQuery.fetcher = (dataSource: { endpoint: string, fetchParams?: RequestInit }, variables?: GetUsersQueryVariables) => fetcher<GetUsersQuery, GetUsersQueryVariables>(dataSource.endpoint, dataSource.fetchParams || {}, GetUsersDocument, variables);
