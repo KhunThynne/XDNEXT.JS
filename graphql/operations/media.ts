@@ -1,6 +1,6 @@
 import { graphql } from "../generates";
 
-export const MediaFieldFragment = graphql(`
+graphql(`
   fragment MediaField on Media {
     id
     name
@@ -12,7 +12,7 @@ export const MediaFieldFragment = graphql(`
   }
 `);
 
-export const GetMedia = graphql(`
+graphql(`
   query GetMedia($where: Media_where) {
     allMedia(where: $where) {
       docs {
@@ -22,7 +22,7 @@ export const GetMedia = graphql(`
   }
 `);
 
-export const CreateMedia = graphql(`
+graphql(`
   mutation CreateMedia($data: mutationMediaInput!) {
     createMedia(data: $data) {
       ...MediaField

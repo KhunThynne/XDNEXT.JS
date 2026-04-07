@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "verbatimModuleSyntax": true,
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -25,18 +26,19 @@
       "@type/*": ["./types/*"],
       "@public/*": ["./public/*"],
       "@payload-config": ["./src/payload.config.ts"],
-      "@/*": ["./src/*"]
-
+      "@/*": ["./src/*"],
+      "@/graphql-types": ["./src/libs/graphql/generates/index.ts"]
       // "#/*": ["./*"],
     }
   },
-  
+
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
+    "src/libs/graphql/generates/**/*.ts",
     "**/*.mts"
   ],
   "exclude": ["node_modules"]

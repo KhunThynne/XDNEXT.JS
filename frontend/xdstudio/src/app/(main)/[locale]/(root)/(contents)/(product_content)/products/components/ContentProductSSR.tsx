@@ -10,7 +10,7 @@ import { useTheme } from "@wrksz/themes/client";
 
 interface ContentProductsProps {
   session: Session | null;
-  products: Maybe<Product[]>;
+  products: Product[];
   loading?: boolean;
   max?: number;
   onRefetch?: () => void;

@@ -1,13 +1,13 @@
 "use client";
 import { CardProduct } from "./ProductCard";
-import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
-import type { Product } from "@/libs/graphql/generates/graphql";
-import { OrderDirection } from "@/libs/graphql/generates/graphql";
+
 import type { Session } from "next-auth";
 import _ from "lodash";
 import { AlertTriangle, Box } from "lucide-react";
 import { Button } from "@/libs/shadcn/ui/button";
-import { useIsMounted } from "@/shared/hooks/useIsMounted";
+
+import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
+import type { Product } from "@/libs/graphql/generates/graphql";
 
 export const ContentProducts = ({
   session,
@@ -16,14 +16,13 @@ export const ContentProducts = ({
   session: Session | null;
   max?: number;
 }) => {
-  const isMounted = useIsMounted();
+
   const { data, status, refetch, isFetching } = useGetProductsQuery({
-    orderBy: { name: OrderDirection.Asc },
-    skip: 0,
-    take: 10,
+    limit: 10,
+    page: 1,
   });
 
-  if (!isMounted) return null;
+  // if (!isMounted) return null;
   if (status === "error") {
     return (
       <div className="col-span-full flex max-h-full min-h-100 w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
@@ -52,7 +51,7 @@ export const ContentProducts = ({
       />
     ));
   } else {
-    if (_.isEmpty(data?.products)) {
+    if (_.isEmpty(data?.Products?.docs)) {
       return (
         <div className="col-span-full flex max-h-full min-h-100 w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">
           <Box className="size-40 stroke-1 opacity-20" />
@@ -69,8 +68,8 @@ export const ContentProducts = ({
       );
     } else {
       return (
-        data?.products &&
-        data.products
+        data?.Products &&
+        data.Products.docs
           .slice(0, max)
           .map((product, index) => (
             <CardProduct

@@ -17,7 +17,6 @@ export default async function AuthenticationLayout({
           key={session.user.id}
           cartId={session?.user?.carts?.[0]?.id}
         />
-
         {children}
       </MainSection>
     );

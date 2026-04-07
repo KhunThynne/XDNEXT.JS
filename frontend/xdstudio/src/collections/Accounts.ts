@@ -3,9 +3,9 @@ import type { CollectionConfig } from "payload";
 export const Accounts: CollectionConfig = {
   slug: "accounts",
   admin: {
-    useAsTitle: "provider",
+    useAsTitle: "id",
     defaultColumns: ["provider", "providerAccountId", "user"],
-    hidden: true,
+    // hidden: true,
   },
   timestamps: true,
   fields: [

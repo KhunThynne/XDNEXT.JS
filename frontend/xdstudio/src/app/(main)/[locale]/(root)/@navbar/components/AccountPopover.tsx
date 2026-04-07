@@ -20,25 +20,38 @@ import { env } from "@/env";
 import clsx from "clsx";
 import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
 
+const AvartarUser = ({
+  user,
+  className,
+}: {
+  user: UserType;
+  className?: string;
+}) => {
+  const avatarUsername = useMemo(
+    () => getInitials(user.username as string),
+    [user.username]
+  );
+  return (
+    <Avatar className={clsx(className)}>
+      <AvatarImage src={user?.image ?? ""} />
+      {avatarUsername ? (
+        <AvatarFallback>{avatarUsername}</AvatarFallback>
+      ) : (
+        <User />
+      )}
+    </Avatar>
+  );
+};
 export const UserDetails = ({
   user,
   className,
   disable,
 }: { user: UserType; disable?: { action: true } } & WithClassName) => {
-  const avatarUsername = useMemo(
-    () => getInitials(user.username as string),
-    [user.username]
-  );
-
   return (
     <>
       <div className={clsx("relative flex items-center gap-3", className)}>
         <div>
-          <Avatar className="mx-auto size-10">
-            <AvatarImage src={user?.image ?? ""} />
-            <AvatarFallback>{avatarUsername}</AvatarFallback>
-          </Avatar>
-
+          <AvartarUser user={user} className="mx-auto size-10" />
           <Badge variant="outline" className="mx-auto w-full text-[8px]">
             {user.role}
           </Badge>
@@ -50,9 +63,9 @@ export const UserDetails = ({
               {user.username}
             </Link>
           </h4>
-          <Separator className="mt-1 mb-2 group-hover/user:border-primary/30" />
+          <Separator className="group-hover/user:border-primary/30 mt-1 mb-2" />
 
-          <p className="truncate text-muted-foreground">{user.email}</p>
+          <p className="text-muted-foreground truncate">{user.email}</p>
         </div>
       </div>
 
@@ -75,7 +88,7 @@ export const UserDetails = ({
             >
               <PointDiamon />
               <span className="w-full truncate text-[0.65rem]">
-                <Point pointId={user.point?.id} />
+                {/* <Point pointId={user.point?.id} /> */}
               </span>
             </Badge>
           </section>
@@ -101,13 +114,13 @@ export function AccountPopover(user: Partial<UserType>) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="open-user-popover">
-          <User />
+        <Button variant="ghost" size="icon" aria-label="open-user-popover" >
+          <AvartarUser user={user as UserType} className="size-7 shadow " />
         </Button>
       </PopoverTrigger>
 
       <PopoverContent align="end" className="w-xs space-y-2">
-        <UserDetails user={user} />
+        <UserDetails user={user as UserType} />
       </PopoverContent>
     </Popover>
   );

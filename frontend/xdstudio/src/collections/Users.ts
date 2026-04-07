@@ -9,47 +9,77 @@ export const Users: CollectionConfig = {
   auth: true,
   timestamps: true,
   hooks: {
-    afterOperation: [
-      async ({ operation, result, req }) => {
-        try {
-          if (operation === "create" && result?.id) {
-            const id = result.id;
-            // Auto-create Supplier
-            await req.payload.create({
-              collection: "suppliers",
-              data: {
-                name: `Supplier for ${result.name ?? result.email}`,
-                description: "Supplier initials",
-                user: id,
-              },
-            });
-            // Auto-create UserPoint
-            await req.payload.create({
-              collection: "user-points",
-              data: {
-                user: id,
-                total_point: 0,
-                total_spent: 0,
-              },
-            });
-            // Auto-create Cart
-            await req.payload.create({
-              collection: "carts",
-              data: { user: id, status: "ACTIVE" },
-            });
-            // Auto-create UserPreference
-            await req.payload.create({
-              collection: "user-preferences",
-              data: { user: id },
-            });
-          }
-          return result;
-        } catch (error) {
-          console.error("Error in afterOperation hook:", error);
-          return result;
+    afterChange: [
+      async ({ operation, doc, req }) => {
+        if (operation === "create") {
+          await req.payload.create({
+            collection: "suppliers",
+            data: {
+              name: `Supplier for ${doc.email}`,
+              user: doc.id,
+            },
+            req,
+          }); // Auto-create Cart
+          await req.payload.create({
+            collection: "carts",
+            data: { user: doc.id, status: "ACTIVE" },
+            req,
+          });
+          // // Auto-create UserPoint
+
+          // //  Auto-create UserPreference
+          await req.payload.create({
+            collection: "user-preferences",
+            data: { user: doc.id },
+            req,
+          });
         }
       },
     ],
+    // afterOperation: [
+    //   async ({ operation, result, req, collection }) => {
+    //     if (result.id) {
+    //       const id = await result.id;
+    //       switch (operation) {
+    //         case "create":
+    //           console.log(collection);
+    //           // // Auto-create Supplier
+
+    //           await req?.payload?.create({
+    //             collection: "suppliers",
+    //             data: {
+    //               name: `Supplier for ${result.name ?? result.email}`,
+    //               description: "Supplier initials",
+    //               user: id,
+    //             },
+    //           });
+    //           // // Auto-create UserPoint
+    //           // await req.payload.create({
+    //           //   collection: "user-points",
+    //           //   data: {
+    //           //     user: id,
+    //           //     total_point: 0,
+    //           //     total_spent: 0,
+    //           //   },
+    //           // });
+    //           // // Auto-create Cart
+    //           // await req.payload.create({
+    //           //   collection: "carts",
+    //           //   data: { user: id, status: "ACTIVE" },
+    //           // });
+    //           // // Auto-create UserPreference
+    //           // await req.payload.create({
+    //           //   collection: "user-preferences",
+    //           //   data: { user: id },
+    //           // });
+    //           break;
+    //         default:
+    //           break;
+    //       }
+    //     }
+    //     return result;
+    //   },
+    // ],
   },
   fields: [
     {
@@ -63,14 +93,6 @@ export const Users: CollectionConfig = {
             return value;
           },
         ],
-      },
-    },
-    {
-      name: "provider",
-      type: "text",
-      defaultValue: "credentials",
-      admin: {
-        condition: (data) => !!data?.id,
       },
     },
     {
@@ -97,22 +119,15 @@ export const Users: CollectionConfig = {
         { label: "Moderator", value: "MODERATOR" },
         { label: "Guest", value: "GUEST" },
       ],
+      required: true,
       defaultValue: "USER",
     },
-    {
-      name: "accounts",
-      type: "relationship",
-      relationTo: "accounts",
-      hasMany: true,
-      admin: {
-        description: "All provider accounts linked to this user",
-        condition: (data) => !!data?.id,
-      },
-    },
+
     {
       name: "carts",
-      type: "relationship",
-      relationTo: "carts",
+      type: "join",
+      on: "user",
+      collection: "carts",
       hasMany: true,
       admin: {
         condition: (data) => !!data?.id,
@@ -120,27 +135,47 @@ export const Users: CollectionConfig = {
     },
     {
       name: "items",
-      type: "relationship",
-      relationTo: "user-items",
+      type: "join",
+      on: "user",
+      collection: "user-items",
       hasMany: true,
+      admin: {
+        hidden: true,
+        condition: (data) => !!data?.id,
+      },
+    },
+    {
+      name: "accounts",
+      type: "join",
+      on: "user",
+      collection: "accounts",
       admin: {
         condition: (data) => !!data?.id,
       },
     },
     {
       name: "point",
-      type: "relationship",
-      relationTo: "user-points",
+      type: "join",
+      on: "user",
+      collection: "user-points",
       hasMany: false,
       admin: {
         condition: (data) => !!data?.id,
       },
     },
     {
+      name: "credit",
+      type: "number",
+      defaultValue: 0,
+      admin: {
+        condition: (data) => !!data?.id,
+      },
+    },
+    {
       name: "supplier",
-      type: "relationship",
-      relationTo: "suppliers",
-      hasMany: true,
+      type: "join",
+      on: "user",
+      collection: "suppliers",
       admin: {
         condition: (data) => !!data?.id,
       },
@@ -156,19 +191,11 @@ export const Users: CollectionConfig = {
     },
     {
       name: "preference",
-      type: "relationship",
-      relationTo: "user-preferences",
-      hasMany: false,
+      type: "join",
+      on: "user",
+      collection: "user-preferences",
       admin: {
-        condition: (data) => !!data?.id,
-      },
-    },
-    {
-      name: "posts",
-      type: "relationship",
-      relationTo: "posts",
-      hasMany: true,
-      admin: {
+        defaultColumns: ["setting", "createdAt", "updatedAt"],
         condition: (data) => !!data?.id,
       },
     },

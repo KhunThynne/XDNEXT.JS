@@ -9,10 +9,7 @@ import type {
   GetProductsQueryVariables,
   Product,
 } from "@/libs/graphql/generates/graphql";
-import {
-  GetProductsDocument,
-  OrderDirection,
-} from "@/libs/graphql/generates/graphql";
+import { GetProductsDocument } from "@/libs/graphql/generates/graphql";
 import { cacheLife, cacheTag } from "next/cache";
 import _ from "lodash";
 
@@ -44,15 +41,15 @@ export default async function PageProducts({
   const skip = getSkipFromPage(page, take);
   const fetchCache = await getProductsCache(
     {
-      skip,
-      take,
-      orderBy: { createdAt: OrderDirection.Desc },
+      limit: take,
+      page: skip,
+      // orderBy: { createdAt: OrderDirection.Desc },
     },
     page
   );
 
-  if (!_.isEmpty(fetchCache.data.products)) {
-    const { products } = fetchCache.data;
+  if (!_.isEmpty(fetchCache.data.Products)) {
+    const { Products } = fetchCache.data;
     return (
       <Fragment>
         <BreadcrumbComponent />
@@ -64,7 +61,7 @@ export default async function PageProducts({
         >
           <ContentProductsSSR
             session={session}
-            products={products as Product[]}
+            products={Products.docs as Product[]}
           />
         </ContainerSection>
       </Fragment>

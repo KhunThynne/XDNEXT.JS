@@ -6,7 +6,6 @@ import type { Cart, Product } from "@/libs/graphql/generates/graphql";
 import {
   GetCartDocument,
   CreateCartItemDocument,
-  OrderDirection,
 } from "@/libs/graphql/generates/graphql";
 import {
   useQueryClient,
@@ -40,16 +39,16 @@ export const useCartInfinite = ({
         where: { id: cartId },
         skip: pageParam * take,
         take,
-        orderBy: { createdAt: OrderDirection.Desc },
+        // orderBy: { createdAt: OrderDirection.Desc },
       });
       return result;
     },
     enabled: !!cartId,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.data?.cart?.items?.length === take) {
-        return allPages.length * take; // offset สำหรับ page ต่อไป
-      }
+      // if (lastPage.data?.cart?.items?.length === take) {
+      //   return allPages.length * take; // offset สำหรับ page ต่อไป
+      // }
       return undefined;
     },
     staleTime: 1000 * 60 * 5,

@@ -1,4 +1,5 @@
 /* eslint-disable */
+import type { DocumentTypeDecoration } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = T | null | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -58,7 +59,7 @@ export type Account = {
   accessToken?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   expiresAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   meta?: Maybe<Scalars['JSON']['output']>;
   provider: Scalars['String']['output'];
   providerAccountId: Scalars['String']['output'];
@@ -102,13 +103,14 @@ export type Account_ExpiresAt_Operator = {
 };
 
 export type Account_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Account_Meta_Operator = {
@@ -885,7 +887,7 @@ export type AccountsUpdateDocAccess = {
 export type Cart = {
   __typename?: 'Cart';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   items?: Maybe<Array<CartItem>>;
   status?: Maybe<Cart_Status>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -896,7 +898,7 @@ export type CartItem = {
   __typename?: 'CartItem';
   cart?: Maybe<Cart>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   product?: Maybe<Product>;
   quantity: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -923,13 +925,14 @@ export type CartItem_CreatedAt_Operator = {
 };
 
 export type CartItem_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type CartItem_Product_Operator = {
@@ -1373,13 +1376,14 @@ export type Cart_CreatedAt_Operator = {
 };
 
 export type Cart_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Cart_Items_Operator = {
@@ -1836,7 +1840,7 @@ export type Faq = {
   __typename?: 'Faq';
   answer?: Maybe<Scalars['JSON']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   question: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -1866,13 +1870,14 @@ export type Faq_CreatedAt_Operator = {
 };
 
 export type Faq_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Faq_Question_Operator = {
@@ -2238,7 +2243,7 @@ export type Media = {
   focalX?: Maybe<Scalars['Float']['output']>;
   focalY?: Maybe<Scalars['Float']['output']>;
   height?: Maybe<Scalars['Float']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   mimeType?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   thumbnailURL?: Maybe<Scalars['String']['output']>;
@@ -3131,13 +3136,14 @@ export type Media_Height_Operator = {
 };
 
 export type Media_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Media_MimeType_Operator = {
@@ -3515,284 +3521,284 @@ export type MutationCreateUserPreferenceArgs = {
 
 
 export type MutationDeleteAccountArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteCartArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteCartItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteFaqArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteMediaArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteOrderArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteOrderItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePayloadKvArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePayloadLockedDocumentArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePayloadPreferenceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePointTransactionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePostArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePriceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteProductArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteProductPromotionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeletePromotionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteRatingArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteStockArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteSupplierArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteTagArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteUserArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteUserItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteUserPointArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDeleteUserPreferenceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type MutationDuplicateAccountArgs = {
   data: MutationAccountInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateCartArgs = {
   data: MutationCartInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateCartItemArgs = {
   data: MutationCartItemInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateFaqArgs = {
   data: MutationFaqInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateMediaArgs = {
   data: MutationMediaInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateOrderArgs = {
   data: MutationOrderInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateOrderItemArgs = {
   data: MutationOrderItemInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePayloadKvArgs = {
   data: MutationPayloadKvInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePayloadLockedDocumentArgs = {
   data: MutationPayloadLockedDocumentInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePayloadPreferenceArgs = {
   data: MutationPayloadPreferenceInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePointTransactionArgs = {
   data: MutationPointTransactionInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePostArgs = {
   data: MutationPostInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePriceArgs = {
   data: MutationPriceInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateProductArgs = {
   data: MutationProductInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateProductPromotionArgs = {
   data: MutationProductPromotionInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicatePromotionArgs = {
   data: MutationPromotionInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateRatingArgs = {
   data: MutationRatingInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateStockArgs = {
   data: MutationStockInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateSupplierArgs = {
   data: MutationSupplierInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateTagArgs = {
   data: MutationTagInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateUserItemArgs = {
   data: MutationUserItemInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateUserPointArgs = {
   data: MutationUserPointInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type MutationDuplicateUserPreferenceArgs = {
   data: MutationUserPreferenceInput;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -3827,7 +3833,7 @@ export type MutationUpdateAccountArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationAccountUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3836,7 +3842,7 @@ export type MutationUpdateCartArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationCartUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3845,7 +3851,7 @@ export type MutationUpdateCartItemArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationCartItemUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3854,7 +3860,7 @@ export type MutationUpdateFaqArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationFaqUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3863,7 +3869,7 @@ export type MutationUpdateMediaArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationMediaUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3872,7 +3878,7 @@ export type MutationUpdateOrderArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationOrderUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3881,7 +3887,7 @@ export type MutationUpdateOrderItemArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationOrderItemUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3890,7 +3896,7 @@ export type MutationUpdatePayloadKvArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPayloadKvUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3899,7 +3905,7 @@ export type MutationUpdatePayloadLockedDocumentArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPayloadLockedDocumentUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3908,7 +3914,7 @@ export type MutationUpdatePayloadPreferenceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPayloadPreferenceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3917,7 +3923,7 @@ export type MutationUpdatePointTransactionArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPointTransactionUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3926,7 +3932,7 @@ export type MutationUpdatePostArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPostUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3935,7 +3941,7 @@ export type MutationUpdatePriceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPriceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3944,7 +3950,7 @@ export type MutationUpdateProductArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationProductUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3953,7 +3959,7 @@ export type MutationUpdateProductPromotionArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationProductPromotionUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3962,7 +3968,7 @@ export type MutationUpdatePromotionArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationPromotionUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3971,7 +3977,7 @@ export type MutationUpdateRatingArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationRatingUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3986,7 +3992,7 @@ export type MutationUpdateStockArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationStockUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -3995,7 +4001,7 @@ export type MutationUpdateSupplierArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationSupplierUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4004,7 +4010,7 @@ export type MutationUpdateTagArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationTagUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4013,7 +4019,7 @@ export type MutationUpdateUserArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationUserUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4022,7 +4028,7 @@ export type MutationUpdateUserItemArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationUserItemUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4031,7 +4037,7 @@ export type MutationUpdateUserPointArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationUserPointUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4040,7 +4046,7 @@ export type MutationUpdateUserPreferenceArgs = {
   autosave?: InputMaybe<Scalars['Boolean']['input']>;
   data: MutationUserPreferenceUpdateInput;
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -4052,7 +4058,7 @@ export type MutationVerifyEmailUserArgs = {
 export type Order = {
   __typename?: 'Order';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   items?: Maybe<Array<OrderItem>>;
   status: Order_Status;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -4062,7 +4068,7 @@ export type Order = {
 export type OrderItem = {
   __typename?: 'OrderItem';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   order?: Maybe<Order>;
   product?: Maybe<Product>;
   unitPrice?: Maybe<Scalars['Float']['output']>;
@@ -4082,13 +4088,14 @@ export type OrderItem_CreatedAt_Operator = {
 };
 
 export type OrderItem_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type OrderItem_Order_Operator = {
@@ -4614,13 +4621,14 @@ export type Order_CreatedAt_Operator = {
 };
 
 export type Order_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Order_Items_Operator = {
@@ -5081,7 +5089,7 @@ export type OrdersUpdateDocAccess = {
 export type PayloadKv = {
   __typename?: 'PayloadKv';
   data: Scalars['JSON']['output'];
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   key: Scalars['String']['output'];
 };
 
@@ -5267,13 +5275,14 @@ export type PayloadKv_Data_Operator = {
 };
 
 export type PayloadKv_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type PayloadKv_Key_Operator = {
@@ -5330,7 +5339,7 @@ export type PayloadLockedDocument = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   document?: Maybe<PayloadLockedDocument_Document_Relationship>;
   globalSlug?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<PayloadLockedDocument_User_Relationship>;
 };
@@ -5507,13 +5516,14 @@ export type PayloadLockedDocument_GlobalSlug_Operator = {
 };
 
 export type PayloadLockedDocument_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type PayloadLockedDocument_UpdatedAt_Operator = {
@@ -5933,7 +5943,7 @@ export type PayloadLockedDocumentsUpdateDocAccess = {
 export type PayloadPreference = {
   __typename?: 'PayloadPreference';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   key?: Maybe<Scalars['String']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<PayloadPreference_User_Relationship>;
@@ -5982,13 +5992,14 @@ export type PayloadPreference_CreatedAt_Operator = {
 };
 
 export type PayloadPreference_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type PayloadPreference_Key_Operator = {
@@ -6431,7 +6442,7 @@ export type PointTransaction = {
   amount?: Maybe<Scalars['Float']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   expiredAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   isFavorite?: Maybe<Scalars['Boolean']['output']>;
   metaData?: Maybe<Scalars['JSON']['output']>;
   orders?: Maybe<Array<Order>>;
@@ -6489,13 +6500,14 @@ export type PointTransaction_ExpiredAt_Operator = {
 };
 
 export type PointTransaction_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type PointTransaction_IsFavorite_Operator = {
@@ -7309,7 +7321,7 @@ export type Post = {
   author?: Maybe<User>;
   content?: Maybe<Scalars['JSON']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   tags?: Maybe<Array<Tag>>;
   title: Scalars['String']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -7349,13 +7361,14 @@ export type Post_CreatedAt_Operator = {
 };
 
 export type Post_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Post_Tags_Operator = {
@@ -7847,7 +7860,7 @@ export type Price = {
   __typename?: 'Price';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   price?: Maybe<Scalars['Float']['output']>;
   price_type?: Maybe<Price_Price_Type>;
   product?: Maybe<Array<Product>>;
@@ -7880,13 +7893,14 @@ export type Price_Description_Operator = {
 };
 
 export type Price_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Price_Price_Operator = {
@@ -8408,7 +8422,7 @@ export type Product = {
   description?: Maybe<Scalars['String']['output']>;
   details?: Maybe<Scalars['JSON']['output']>;
   faqs?: Maybe<Array<Faq>>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   media?: Maybe<Scalars['JSON']['output']>;
   name: Scalars['String']['output'];
   previewImage?: Maybe<Media>;
@@ -8436,7 +8450,7 @@ export type ProductMediaArgs = {
 export type ProductPromotion = {
   __typename?: 'ProductPromotion';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   images?: Maybe<Array<Media>>;
   productId?: Maybe<Product>;
   promotionId?: Maybe<Array<Promotion>>;
@@ -8456,13 +8470,14 @@ export type ProductPromotion_CreatedAt_Operator = {
 };
 
 export type ProductPromotion_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type ProductPromotion_Images_Operator = {
@@ -9021,13 +9036,14 @@ export type Product_Faqs_Operator = {
 };
 
 export type Product_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Product_Media_Operator = {
@@ -10289,7 +10305,7 @@ export type Promotion = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   discountType?: Maybe<Promotion_DiscountType>;
   discountValue?: Maybe<Scalars['Float']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   publishedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -10350,13 +10366,14 @@ export type Promotion_DiscountValue_Operator = {
 };
 
 export type Promotion_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Promotion_Name_Operator = {
@@ -10955,7 +10972,7 @@ export type Query = {
 
 export type QueryAccountArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -10975,7 +10992,7 @@ export type QueryAccountsArgs = {
 
 export type QueryCartArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -10983,7 +11000,7 @@ export type QueryCartArgs = {
 
 export type QueryCartItemArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11015,7 +11032,7 @@ export type QueryCartsArgs = {
 
 export type QueryFaqArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11035,7 +11052,7 @@ export type QueryFaqsArgs = {
 
 export type QueryMediaArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11043,7 +11060,7 @@ export type QueryMediaArgs = {
 
 export type QueryOrderArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11051,7 +11068,7 @@ export type QueryOrderArgs = {
 
 export type QueryOrderItemArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11083,7 +11100,7 @@ export type QueryOrdersArgs = {
 
 export type QueryPayloadKvArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11103,7 +11120,7 @@ export type QueryPayloadKvsArgs = {
 
 export type QueryPayloadLockedDocumentArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11123,7 +11140,7 @@ export type QueryPayloadLockedDocumentsArgs = {
 
 export type QueryPayloadPreferenceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11143,7 +11160,7 @@ export type QueryPayloadPreferencesArgs = {
 
 export type QueryPointTransactionArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11163,7 +11180,7 @@ export type QueryPointTransactionsArgs = {
 
 export type QueryPostArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11183,7 +11200,7 @@ export type QueryPostsArgs = {
 
 export type QueryPriceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11203,7 +11220,7 @@ export type QueryPricesArgs = {
 
 export type QueryProductArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11211,7 +11228,7 @@ export type QueryProductArgs = {
 
 export type QueryProductPromotionArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11243,7 +11260,7 @@ export type QueryProductsArgs = {
 
 export type QueryPromotionArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11263,7 +11280,7 @@ export type QueryPromotionsArgs = {
 
 export type QueryRatingArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11289,7 +11306,7 @@ export type QuerySettingArgs = {
 
 export type QueryStockArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11309,7 +11326,7 @@ export type QueryStocksArgs = {
 
 export type QuerySupplierArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11329,7 +11346,7 @@ export type QuerySuppliersArgs = {
 
 export type QueryTagArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11349,7 +11366,7 @@ export type QueryTagsArgs = {
 
 export type QueryUserArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11357,7 +11374,7 @@ export type QueryUserArgs = {
 
 export type QueryUserItemArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11377,7 +11394,7 @@ export type QueryUserItemsArgs = {
 
 export type QueryUserPointArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11397,7 +11414,7 @@ export type QueryUserPointsArgs = {
 
 export type QueryUserPreferenceArgs = {
   draft?: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
   select?: InputMaybe<Scalars['Boolean']['input']>;
   trash?: InputMaybe<Scalars['Boolean']['input']>;
 };
@@ -11608,129 +11625,129 @@ export type QueryCountallMediaArgs = {
 
 
 export type QueryDocAccessAccountArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessCartArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessCartItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessFaqArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessMediaArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessOrderArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessOrderItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPayloadKvArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPayloadLockedDocumentArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPayloadPreferenceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPointTransactionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPostArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPriceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessProductArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessProductPromotionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessPromotionArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessRatingArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessStockArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessSupplierArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessTagArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessUserArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessUserItemArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessUserPointArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 
 export type QueryDocAccessUserPreferenceArgs = {
-  id: Scalars['Int']['input'];
+  id: Scalars['String']['input'];
 };
 
 export type Rating = {
   __typename?: 'Rating';
   comment?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   score: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
@@ -11755,13 +11772,14 @@ export type Rating_CreatedAt_Operator = {
 };
 
 export type Rating_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Rating_Score_Operator = {
@@ -12569,7 +12587,7 @@ export type SettingsUpdateDocAccess = {
 export type Stock = {
   __typename?: 'Stock';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   product?: Maybe<Product>;
   quantity: Scalars['Float']['output'];
   type: Stock_Type;
@@ -12593,13 +12611,14 @@ export type Stock_CreatedAt_Operator = {
 };
 
 export type Stock_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Stock_Product_Operator = {
@@ -13052,7 +13071,7 @@ export type Supplier = {
   __typename?: 'Supplier';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   name: Scalars['String']['output'];
   products?: Maybe<Array<Product>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -13079,13 +13098,14 @@ export type Supplier_Description_Operator = {
 };
 
 export type Supplier_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Supplier_Name_Operator = {
@@ -13585,7 +13605,7 @@ export type SuppliersUpdateDocAccess = {
 export type Tag = {
   __typename?: 'Tag';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   name?: Maybe<Scalars['String']['output']>;
   posts?: Maybe<Array<Post>>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -13603,13 +13623,14 @@ export type Tag_CreatedAt_Operator = {
 };
 
 export type Tag_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type Tag_Name_Operator = {
@@ -13984,7 +14005,7 @@ export type User = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['EmailAddress']['output'];
   hash?: Maybe<Scalars['String']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
   items?: Maybe<Array<UserItem>>;
   lockUntil?: Maybe<Scalars['DateTime']['output']>;
@@ -14008,7 +14029,7 @@ export type UserItem = {
   __typename?: 'UserItem';
   config?: Maybe<Scalars['JSON']['output']>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   item?: Maybe<OrderItem>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
@@ -14036,13 +14057,14 @@ export type UserItem_CreatedAt_Operator = {
 };
 
 export type UserItem_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UserItem_Item_Operator = {
@@ -14471,7 +14493,7 @@ export type UserItemsUpdateDocAccess = {
 export type UserPoint = {
   __typename?: 'UserPoint';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   total_point: Scalars['Float']['output'];
   total_spent: Scalars['Float']['output'];
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -14490,13 +14512,14 @@ export type UserPoint_CreatedAt_Operator = {
 };
 
 export type UserPoint_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UserPoint_Total_Point_Operator = {
@@ -14934,7 +14957,7 @@ export type UserPointsUpdateDocAccess = {
 export type UserPreference = {
   __typename?: 'UserPreference';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
-  id: Scalars['Int']['output'];
+  id: Scalars['String']['output'];
   setting?: Maybe<Scalars['JSON']['output']>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   user?: Maybe<User>;
@@ -14957,13 +14980,14 @@ export type UserPreference_CreatedAt_Operator = {
 };
 
 export type UserPreference_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type UserPreference_Setting_Operator = {
@@ -15390,13 +15414,14 @@ export type User_Email_Operator = {
 };
 
 export type User_Id_Operator = {
-  equals?: InputMaybe<Scalars['Int']['input']>;
+  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  contains?: InputMaybe<Scalars['String']['input']>;
+  equals?: InputMaybe<Scalars['String']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
-  greater_than?: InputMaybe<Scalars['Int']['input']>;
-  greater_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  less_than?: InputMaybe<Scalars['Int']['input']>;
-  less_than_equal?: InputMaybe<Scalars['Int']['input']>;
-  not_equals?: InputMaybe<Scalars['Int']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  like?: InputMaybe<Scalars['String']['input']>;
+  not_equals?: InputMaybe<Scalars['String']['input']>;
+  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export type User_Image_Operator = {
@@ -17120,7 +17145,7 @@ export type MutationAccountInput = {
   refreshToken?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationAccountUpdateInput = {
@@ -17133,39 +17158,39 @@ export type MutationAccountUpdateInput = {
   refreshToken?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCartInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<Cart_Status_MutationInput>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCartItemInput = {
-  cart?: InputMaybe<Scalars['Int']['input']>;
+  cart?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   quantity: Scalars['Float']['input'];
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCartItemUpdateInput = {
-  cart?: InputMaybe<Scalars['Int']['input']>;
+  cart?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   quantity?: InputMaybe<Scalars['Float']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationCartUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<CartUpdate_Status_MutationInput>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationFaqInput = {
@@ -17216,36 +17241,36 @@ export type MutationMediaUpdateInput = {
 
 export type MutationOrderInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status: Order_Status_MutationInput;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationOrderItemInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<Scalars['Int']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['String']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   unitPrice?: InputMaybe<Scalars['Float']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  userItem?: InputMaybe<Scalars['Int']['input']>;
+  userItem?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationOrderItemUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  order?: InputMaybe<Scalars['Int']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Scalars['String']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   unitPrice?: InputMaybe<Scalars['Float']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  userItem?: InputMaybe<Scalars['Int']['input']>;
+  userItem?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationOrderUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<OrderUpdate_Status_MutationInput>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationPayloadKvInput = {
@@ -17296,11 +17321,11 @@ export type MutationPointTransactionInput = {
   expiredAt?: InputMaybe<Scalars['String']['input']>;
   isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
   metaData?: InputMaybe<Scalars['JSON']['input']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<PointTransaction_Status_MutationInput>;
   type: PointTransaction_Type_MutationInput;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationPointTransactionUpdateInput = {
@@ -17309,27 +17334,27 @@ export type MutationPointTransactionUpdateInput = {
   expiredAt?: InputMaybe<Scalars['String']['input']>;
   isFavorite?: InputMaybe<Scalars['Boolean']['input']>;
   metaData?: InputMaybe<Scalars['JSON']['input']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<PointTransactionUpdate_Status_MutationInput>;
   type?: InputMaybe<PointTransactionUpdate_Type_MutationInput>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationPostInput = {
-  author?: InputMaybe<Scalars['Int']['input']>;
+  author?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   title: Scalars['String']['input'];
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationPostUpdateInput = {
-  author?: InputMaybe<Scalars['Int']['input']>;
+  author?: InputMaybe<Scalars['String']['input']>;
   content?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  tags?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   title?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17339,7 +17364,7 @@ export type MutationPriceInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   price_type?: InputMaybe<Price_Price_Type_MutationInput>;
-  product?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  product?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -17348,7 +17373,7 @@ export type MutationPriceUpdateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Float']['input']>;
   price_type?: InputMaybe<PriceUpdate_Price_Type_MutationInput>;
-  product?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  product?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -17357,35 +17382,35 @@ export type MutationProductInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
-  faqs?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  faqs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name: Scalars['String']['input'];
-  previewImage?: InputMaybe<Scalars['Int']['input']>;
-  price?: InputMaybe<Scalars['Int']['input']>;
+  previewImage?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['String']['input']>;
-  ratings?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  ratings?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status: Product_Status_MutationInput;
-  stock?: InputMaybe<Scalars['Int']['input']>;
-  supplier?: InputMaybe<Scalars['Int']['input']>;
-  tags?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  stock?: InputMaybe<Scalars['String']['input']>;
+  supplier?: InputMaybe<Scalars['String']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   version?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationProductPromotionInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  images?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  productId?: InputMaybe<Scalars['Int']['input']>;
-  promotionId?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  productId?: InputMaybe<Scalars['String']['input']>;
+  promotionId?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   publishedAt?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationProductPromotionUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  images?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  productId?: InputMaybe<Scalars['Int']['input']>;
-  promotionId?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  images?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  productId?: InputMaybe<Scalars['String']['input']>;
+  promotionId?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   publishedAt?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17395,17 +17420,17 @@ export type MutationProductUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
-  faqs?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  faqs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  previewImage?: InputMaybe<Scalars['Int']['input']>;
-  price?: InputMaybe<Scalars['Int']['input']>;
+  previewImage?: InputMaybe<Scalars['String']['input']>;
+  price?: InputMaybe<Scalars['String']['input']>;
   publishedAt?: InputMaybe<Scalars['String']['input']>;
-  ratings?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  ratings?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   status?: InputMaybe<ProductUpdate_Status_MutationInput>;
-  stock?: InputMaybe<Scalars['Int']['input']>;
-  supplier?: InputMaybe<Scalars['Int']['input']>;
-  tags?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  stock?: InputMaybe<Scalars['String']['input']>;
+  supplier?: InputMaybe<Scalars['String']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   version?: InputMaybe<Scalars['String']['input']>;
 };
@@ -17454,7 +17479,7 @@ export type MutationSettingInput = {
 
 export type MutationStockInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   quantity: Scalars['Float']['input'];
   type: Stock_Type_MutationInput;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
@@ -17462,7 +17487,7 @@ export type MutationStockInput = {
 
 export type MutationStockUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  product?: InputMaybe<Scalars['Int']['input']>;
+  product?: InputMaybe<Scalars['String']['input']>;
   quantity?: InputMaybe<Scalars['Float']['input']>;
   type?: InputMaybe<StockUpdate_Type_MutationInput>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
@@ -17472,57 +17497,57 @@ export type MutationSupplierInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name: Scalars['String']['input'];
-  products?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  products?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationSupplierUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  products?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  products?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationTagInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationTagUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserInput = {
-  accounts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  avatar?: InputMaybe<Scalars['Int']['input']>;
-  carts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  accounts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  avatar?: InputMaybe<Scalars['String']['input']>;
+  carts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   email: Scalars['String']['input'];
   hash?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   lockUntil?: InputMaybe<Scalars['String']['input']>;
   loginAttempts?: InputMaybe<Scalars['Float']['input']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   password: Scalars['String']['input'];
-  point?: InputMaybe<Scalars['Int']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  preference?: InputMaybe<Scalars['Int']['input']>;
+  point?: InputMaybe<Scalars['String']['input']>;
+  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  preference?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   resetPasswordExpiration?: InputMaybe<Scalars['String']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<User_Role_MutationInput>;
   salt?: InputMaybe<Scalars['String']['input']>;
   sessions?: InputMaybe<Array<InputMaybe<MutationUser_SessionsInput>>>;
-  supplier?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  supplier?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
 };
@@ -17530,17 +17555,17 @@ export type MutationUserInput = {
 export type MutationUserItemInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  item?: InputMaybe<Scalars['Int']['input']>;
+  item?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserItemUpdateInput = {
   config?: InputMaybe<Scalars['JSON']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
-  item?: InputMaybe<Scalars['Int']['input']>;
+  item?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserPointInput = {
@@ -17548,7 +17573,7 @@ export type MutationUserPointInput = {
   total_point: Scalars['Float']['input'];
   total_spent: Scalars['Float']['input'];
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserPointUpdateInput = {
@@ -17556,46 +17581,46 @@ export type MutationUserPointUpdateInput = {
   total_point?: InputMaybe<Scalars['Float']['input']>;
   total_spent?: InputMaybe<Scalars['Float']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserPreferenceInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   setting?: InputMaybe<Scalars['JSON']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserPreferenceUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   setting?: InputMaybe<Scalars['JSON']['input']>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
-  user?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MutationUserUpdateInput = {
-  accounts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  avatar?: InputMaybe<Scalars['Int']['input']>;
-  carts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  accounts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  avatar?: InputMaybe<Scalars['String']['input']>;
+  carts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   hash?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   lockUntil?: InputMaybe<Scalars['String']['input']>;
   loginAttempts?: InputMaybe<Scalars['Float']['input']>;
-  orders?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
-  point?: InputMaybe<Scalars['Int']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  preference?: InputMaybe<Scalars['Int']['input']>;
+  point?: InputMaybe<Scalars['String']['input']>;
+  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  preference?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['String']['input']>;
   resetPasswordExpiration?: InputMaybe<Scalars['String']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<UserUpdate_Role_MutationInput>;
   salt?: InputMaybe<Scalars['String']['input']>;
   sessions?: InputMaybe<Array<InputMaybe<MutationUserUpdate_SessionsInput>>>;
-  supplier?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  supplier?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -18006,6 +18031,186 @@ export type UsersResetPassword = {
   user?: Maybe<User>;
 };
 
+export type LoginUserMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: string, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: string, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
+
+export type UpdateCartMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationCartUpdateInput;
+}>;
+
+
+export type UpdateCartMutation = { __typename?: 'Mutation', updateCart?: { __typename?: 'Cart', id: string, status?: Cart_Status | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: string } | null, items?: Array<{ __typename?: 'CartItem', id: string }> | null } | null };
+
+export type GetCartQueryVariables = Exact<{
+  where?: InputMaybe<Cart_Where>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetCartQuery = { __typename?: 'Query', Carts?: { __typename?: 'Carts', docs: Array<{ __typename?: 'Cart', createdAt?: any | null, id: string, status?: Cart_Status | null, updatedAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null } | null }> | null, user?: { __typename?: 'User', id: string, username: string } | null }> } | null };
+
+export type CreateCartItemMutationVariables = Exact<{
+  data: MutationCartItemInput;
+}>;
+
+
+export type CreateCartItemMutation = { __typename?: 'Mutation', createCartItem?: { __typename?: 'CartItem', id: string, quantity: number, cart?: { __typename?: 'Cart', id: string } | null, product?: { __typename?: 'Product', id: string } | null } | null };
+
+export type DeleteCartItemMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteCartItemMutation = { __typename?: 'Mutation', deleteCartItem?: { __typename?: 'CartItem', id: string } | null };
+
+export type MediaFieldFragment = { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null };
+
+export type GetMediaQueryVariables = Exact<{
+  where?: InputMaybe<Media_Where>;
+}>;
+
+
+export type GetMediaQuery = { __typename?: 'Query', allMedia?: { __typename?: 'allMedia', docs: Array<{ __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null }> } | null };
+
+export type CreateMediaMutationVariables = Exact<{
+  data: MutationMediaInput;
+}>;
+
+
+export type CreateMediaMutation = { __typename?: 'Mutation', createMedia?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
+
+export type GetOrderQueryVariables = Exact<{
+  where?: InputMaybe<Order_Where>;
+}>;
+
+
+export type GetOrderQuery = { __typename?: 'Query', Orders?: { __typename?: 'Orders', docs: Array<{ __typename?: 'Order', createdAt?: any | null, id: string, status: Order_Status, updatedAt?: any | null, user?: { __typename?: 'User', id: string, email: any, username: string, supplier?: Array<{ __typename?: 'Supplier', id: string, name: string }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null }> } | null };
+
+export type CreateOrderAndUserItemsMutationVariables = Exact<{
+  data: MutationOrderInput;
+}>;
+
+
+export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updatedAt?: any | null, status: Order_Status, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email: any, id: string } | null } | null };
+
+export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null };
+
+export type GetPointTransactionsQueryVariables = Exact<{
+  where?: InputMaybe<PointTransaction_Where>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type GetPointTransactionsQuery = { __typename?: 'Query', PointTransactions?: { __typename?: 'PointTransactions', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null }> } | null };
+
+export type CreatePointTransactionMutationVariables = Exact<{
+  data: MutationPointTransactionInput;
+}>;
+
+
+export type CreatePointTransactionMutation = { __typename?: 'Mutation', createPointTransaction?: { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } | null };
+
+export type UpdatePointTransactionMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationPointTransactionUpdateInput;
+}>;
+
+
+export type UpdatePointTransactionMutation = { __typename?: 'Mutation', updatePointTransaction?: { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } | null };
+
+export type DeletePointTransactionMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeletePointTransactionMutation = { __typename?: 'Mutation', deletePointTransaction?: { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } | null };
+
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
+
+export type GetProductsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+
+export type GetProductsCountQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductsCountQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number } | null };
+
+export type GetProductQueryVariables = Exact<{
+  where?: InputMaybe<Product_Where>;
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+
+export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null };
+
+export type GetUserAItemConfigQueryVariables = Exact<{
+  where?: InputMaybe<UserItem_Where>;
+}>;
+
+
+export type GetUserAItemConfigQuery = { __typename?: 'Query', UserItems?: { __typename?: 'UserItems', docs: Array<{ __typename: 'UserItem', config?: any | null, createdAt?: any | null, id: string, updatedAt?: any | null, item?: { __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', name: string, status: Product_Status, createdAt?: any | null, updatedAt?: any | null, previewImage?: { __typename?: 'Media', altText?: string | null, id: string, name?: string | null, url?: string | null, filesize?: number | null, height?: number | null, width?: number | null } | null } | null } | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null }> } | null };
+
+export type GetUserPointQueryVariables = Exact<{
+  where?: InputMaybe<UserPoint_Where>;
+}>;
+
+
+export type GetUserPointQuery = { __typename?: 'Query', UserPoints?: { __typename?: 'UserPoints', docs: Array<{ __typename: 'UserPoint', id: string, total_point: number, updatedAt?: any | null, total_spent: number, user?: { __typename?: 'User', id: string } | null }> } | null };
+
+export type GetUserPreferenceQueryVariables = Exact<{
+  where?: InputMaybe<UserPreference_Where>;
+}>;
+
+
+export type GetUserPreferenceQuery = { __typename?: 'Query', UserPreferences?: { __typename?: 'UserPreferences', docs: Array<{ __typename?: 'UserPreference', id: string, setting?: any | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', id: string } | null }> } | null };
+
+export type CreateUserPreferenceMutationVariables = Exact<{
+  data: MutationUserPreferenceInput;
+}>;
+
+
+export type CreateUserPreferenceMutation = { __typename?: 'Mutation', createUserPreference?: { __typename?: 'UserPreference', id: string, setting?: any | null, user?: { __typename?: 'User', id: string } | null } | null };
+
+export type UpdateUserPreferenceMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+  data: MutationUserPreferenceUpdateInput;
+}>;
+
+
+export type UpdateUserPreferenceMutation = { __typename?: 'Mutation', updateUserPreference?: { __typename?: 'UserPreference', id: string, setting?: any | null } | null };
+
+export type DeleteUserPreferenceMutationVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type DeleteUserPreferenceMutation = { __typename?: 'Mutation', deleteUserPreference?: { __typename?: 'UserPreference', id: string } | null };
+
+export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUsersQuery = { __typename?: 'Query', Users?: { __typename?: 'Users', docs: Array<{ __typename?: 'User', username: string, email: any, role?: User_Role | null }> } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -18024,3 +18229,682 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const PointTransactionFieldFragmentDoc = new TypedDocumentString(`
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}
+    `, {"fragmentName":"PointTransactionField"}) as unknown as TypedDocumentString<PointTransactionFieldFragment, unknown>;
+export const SupplierFieldsFragmentDoc = new TypedDocumentString(`
+    fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}
+    `, {"fragmentName":"SupplierFields"}) as unknown as TypedDocumentString<SupplierFieldsFragment, unknown>;
+export const MediaFieldFragmentDoc = new TypedDocumentString(`
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+    `, {"fragmentName":"MediaField"}) as unknown as TypedDocumentString<MediaFieldFragment, unknown>;
+export const ProductFieldsFragmentDoc = new TypedDocumentString(`
+    fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`, {"fragmentName":"ProductFields"}) as unknown as TypedDocumentString<ProductFieldsFragment, unknown>;
+export const LoginUserDocument = new TypedDocumentString(`
+    mutation LoginUser($email: String!, $password: String!) {
+  loginUser(email: $email, password: $password) {
+    exp
+    token
+    user {
+      id
+      username
+      provider
+      image
+      role
+      updatedAt
+      createdAt
+      email
+      resetPasswordToken
+      resetPasswordExpiration
+      salt
+      hash
+      loginAttempts
+      lockUntil
+      avatar {
+        id
+        name
+        altText
+        updatedAt
+        createdAt
+        url
+        thumbnailURL
+        filename
+        mimeType
+        filesize
+        width
+        height
+        focalX
+        focalY
+      }
+      accounts {
+        id
+        provider
+        providerAccountId
+        accessToken
+        refreshToken
+        expiresAt
+        scope
+        meta
+        updatedAt
+        createdAt
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<LoginUserMutation, LoginUserMutationVariables>;
+export const UpdateCartDocument = new TypedDocumentString(`
+    mutation UpdateCart($id: String!, $data: mutationCartUpdateInput!) {
+  updateCart(id: $id, data: $data) {
+    id
+    user {
+      id
+    }
+    status
+    items {
+      id
+    }
+    createdAt
+    updatedAt
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateCartMutation, UpdateCartMutationVariables>;
+export const GetCartDocument = new TypedDocumentString(`
+    query getCart($where: Cart_where, $limit: Int, $page: Int, $sort: String) {
+  Carts(where: $where, limit: $limit, page: $page, sort: $sort) {
+    docs {
+      createdAt
+      id
+      items {
+        id
+        quantity
+        product {
+          ...ProductFields
+        }
+      }
+      status
+      updatedAt
+      user {
+        id
+        username
+      }
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`) as unknown as TypedDocumentString<GetCartQuery, GetCartQueryVariables>;
+export const CreateCartItemDocument = new TypedDocumentString(`
+    mutation CreateCartItem($data: mutationCartItemInput!) {
+  createCartItem(data: $data) {
+    cart {
+      id
+    }
+    id
+    quantity
+    product {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateCartItemMutation, CreateCartItemMutationVariables>;
+export const DeleteCartItemDocument = new TypedDocumentString(`
+    mutation DeleteCartItem($id: String!) {
+  deleteCartItem(id: $id) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteCartItemMutation, DeleteCartItemMutationVariables>;
+export const GetMediaDocument = new TypedDocumentString(`
+    query GetMedia($where: Media_where) {
+  allMedia(where: $where) {
+    docs {
+      ...MediaField
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`) as unknown as TypedDocumentString<GetMediaQuery, GetMediaQueryVariables>;
+export const CreateMediaDocument = new TypedDocumentString(`
+    mutation CreateMedia($data: mutationMediaInput!) {
+  createMedia(data: $data) {
+    ...MediaField
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}`) as unknown as TypedDocumentString<CreateMediaMutation, CreateMediaMutationVariables>;
+export const GetOrderDocument = new TypedDocumentString(`
+    query getOrder($where: Order_where) {
+  Orders(where: $where) {
+    docs {
+      createdAt
+      id
+      status
+      updatedAt
+      user {
+        id
+        email
+        username
+        supplier {
+          id
+          name
+        }
+      }
+      items {
+        id
+        product {
+          id
+        }
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
+export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
+    mutation CreateOrderAndUserItems($data: mutationOrderInput!) {
+  createOrder(data: $data) {
+    items {
+      id
+      unitPrice
+      product {
+        id
+      }
+    }
+    createdAt
+    id
+    updatedAt
+    status
+    user {
+      email
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
+export const GetPointTransactionsDocument = new TypedDocumentString(`
+    query getPointTransactions($where: PointTransaction_where, $sort: String, $limit: Int, $page: Int) {
+  PointTransactions(where: $where, sort: $sort, limit: $limit, page: $page) {
+    docs {
+      ...PointTransactionField
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<GetPointTransactionsQuery, GetPointTransactionsQueryVariables>;
+export const CreatePointTransactionDocument = new TypedDocumentString(`
+    mutation createPointTransaction($data: mutationPointTransactionInput!) {
+  createPointTransaction(data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<CreatePointTransactionMutation, CreatePointTransactionMutationVariables>;
+export const UpdatePointTransactionDocument = new TypedDocumentString(`
+    mutation updatePointTransaction($id: String!, $data: mutationPointTransactionUpdateInput!) {
+  updatePointTransaction(id: $id, data: $data) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<UpdatePointTransactionMutation, UpdatePointTransactionMutationVariables>;
+export const DeletePointTransactionDocument = new TypedDocumentString(`
+    mutation deletePointTransaction($id: String!) {
+  deletePointTransaction(id: $id) {
+    ...PointTransactionField
+  }
+}
+    fragment PointTransactionField on PointTransaction {
+  id
+  user {
+    id
+  }
+  type
+  amount
+  status
+  orders {
+    id
+  }
+  metaData
+  expiredAt
+  createdAt
+  updatedAt
+  isFavorite
+}`) as unknown as TypedDocumentString<DeletePointTransactionMutation, DeletePointTransactionMutationVariables>;
+export const GetProductsDocument = new TypedDocumentString(`
+    query GetProducts($limit: Int, $page: Int, $sort: String, $where: Product_where) {
+  Products(limit: $limit, page: $page, sort: $sort, where: $where) {
+    docs {
+      ...ProductFields
+    }
+    totalDocs
+    totalPages
+    page
+    limit
+    hasNextPage
+    hasPrevPage
+    nextPage
+    prevPage
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`) as unknown as TypedDocumentString<GetProductsQuery, GetProductsQueryVariables>;
+export const GetProductsCountDocument = new TypedDocumentString(`
+    query GetProductsCount($where: Product_where) {
+  Products(limit: 1, where: $where) {
+    totalDocs
+  }
+}
+    `) as unknown as TypedDocumentString<GetProductsCountQuery, GetProductsCountQueryVariables>;
+export const GetProductDocument = new TypedDocumentString(`
+    query GetProduct($where: Product_where) {
+  Products(where: $where) {
+    docs {
+      ...ProductFields
+    }
+  }
+}
+    fragment MediaField on Media {
+  id
+  name
+  altText
+  filesize
+  width
+  height
+  url
+}
+fragment ProductFields on Product {
+  id
+  supplier {
+    ...SupplierFields
+  }
+  name
+  description
+  details
+  price {
+    price
+    description
+    price_type
+    id
+  }
+  tags {
+    id
+    name
+  }
+  faqs {
+    id
+    question
+    answer
+  }
+  averageScore
+  status
+  publishedAt
+  updatedAt
+  createdAt
+  previewImage {
+    ...MediaField
+  }
+  media
+}
+fragment SupplierFields on Supplier {
+  id
+  name
+  description
+  user {
+    id
+    email
+    username
+  }
+}`) as unknown as TypedDocumentString<GetProductQuery, GetProductQueryVariables>;
+export const GetUserAItemConfigDocument = new TypedDocumentString(`
+    query GetUserAItemConfig($where: UserItem_where) {
+  UserItems(where: $where) {
+    docs {
+      config
+      createdAt
+      id
+      item {
+        id
+        product {
+          name
+          previewImage {
+            altText
+            id
+            name
+            url
+            filesize
+            height
+            width
+          }
+          status
+          createdAt
+          updatedAt
+        }
+      }
+      updatedAt
+      user {
+        id
+        email
+        username
+      }
+      __typename
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserAItemConfigQuery, GetUserAItemConfigQueryVariables>;
+export const GetUserPointDocument = new TypedDocumentString(`
+    query GetUserPoint($where: UserPoint_where) {
+  UserPoints(where: $where) {
+    docs {
+      id
+      total_point
+      updatedAt
+      total_spent
+      __typename
+      user {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPointQuery, GetUserPointQueryVariables>;
+export const GetUserPreferenceDocument = new TypedDocumentString(`
+    query GetUserPreference($where: UserPreference_where) {
+  UserPreferences(where: $where) {
+    docs {
+      id
+      setting
+      createdAt
+      updatedAt
+      user {
+        id
+      }
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUserPreferenceQuery, GetUserPreferenceQueryVariables>;
+export const CreateUserPreferenceDocument = new TypedDocumentString(`
+    mutation CreateUserPreference($data: mutationUserPreferenceInput!) {
+  createUserPreference(data: $data) {
+    id
+    setting
+    user {
+      id
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<CreateUserPreferenceMutation, CreateUserPreferenceMutationVariables>;
+export const UpdateUserPreferenceDocument = new TypedDocumentString(`
+    mutation UpdateUserPreference($id: String!, $data: mutationUserPreferenceUpdateInput!) {
+  updateUserPreference(id: $id, data: $data) {
+    id
+    setting
+  }
+}
+    `) as unknown as TypedDocumentString<UpdateUserPreferenceMutation, UpdateUserPreferenceMutationVariables>;
+export const DeleteUserPreferenceDocument = new TypedDocumentString(`
+    mutation DeleteUserPreference($id: String!) {
+  deleteUserPreference(id: $id) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<DeleteUserPreferenceMutation, DeleteUserPreferenceMutationVariables>;
+export const GetUsersDocument = new TypedDocumentString(`
+    query GetUsers {
+  Users {
+    docs {
+      username
+      email
+      role
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<GetUsersQuery, GetUsersQueryVariables>;

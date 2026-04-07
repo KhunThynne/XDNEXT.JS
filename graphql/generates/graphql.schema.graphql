@@ -36,7 +36,7 @@ type Account {
   accessToken: String
   createdAt: DateTime
   expiresAt: DateTime
-  id: Int!
+  id: String!
   meta: JSON
   provider: String!
   providerAccountId: String!
@@ -80,13 +80,14 @@ input Account_expiresAt_operator {
 }
 
 input Account_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Account_meta_operator {
@@ -751,7 +752,7 @@ type AccountsUpdateDocAccess {
 
 type Cart {
   createdAt: DateTime
-  id: Int!
+  id: String!
   items: [CartItem!]
   status: Cart_status
   updatedAt: DateTime
@@ -761,7 +762,7 @@ type Cart {
 type CartItem {
   cart: Cart
   createdAt: DateTime
-  id: Int!
+  id: String!
   product: Product
   quantity: Float!
   updatedAt: DateTime
@@ -788,13 +789,14 @@ input CartItem_createdAt_operator {
 }
 
 input CartItem_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input CartItem_product_operator {
@@ -1177,13 +1179,14 @@ input Cart_createdAt_operator {
 }
 
 input Cart_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Cart_items_operator {
@@ -1583,12 +1586,12 @@ scalar DateTime
 """
 A field whose value conforms to the standard internet email address format as specified in HTML Spec: https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address.
 """
-scalar EmailAddress
+scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
 
 type Faq {
   answer(depth: Int): JSON
   createdAt: DateTime
-  id: Int!
+  id: String!
   question: String!
   updatedAt: DateTime
 }
@@ -1613,13 +1616,14 @@ input Faq_createdAt_operator {
 }
 
 input Faq_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Faq_question_operator {
@@ -1928,12 +1932,12 @@ type FaqsUpdateDocAccess {
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
-scalar JSON
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 """
 The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
-scalar JSONObject
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 type Media {
   altText: String
@@ -1943,7 +1947,7 @@ type Media {
   focalX: Float
   focalY: Float
   height: Float
-  id: Int!
+  id: String!
   mimeType: String
   name: String
   thumbnailURL: String
@@ -2696,13 +2700,14 @@ input Media_height_operator {
 }
 
 input Media_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Media_mimeType_operator {
@@ -2852,90 +2857,90 @@ type Mutation {
   createUserItem(data: mutationUserItemInput!, draft: Boolean): UserItem
   createUserPoint(data: mutationUserPointInput!, draft: Boolean): UserPoint
   createUserPreference(data: mutationUserPreferenceInput!, draft: Boolean): UserPreference
-  deleteAccount(id: Int!, trash: Boolean): Account
-  deleteCart(id: Int!, trash: Boolean): Cart
-  deleteCartItem(id: Int!, trash: Boolean): CartItem
-  deleteFaq(id: Int!, trash: Boolean): Faq
-  deleteMedia(id: Int!, trash: Boolean): Media
-  deleteOrder(id: Int!, trash: Boolean): Order
-  deleteOrderItem(id: Int!, trash: Boolean): OrderItem
-  deletePayloadKv(id: Int!, trash: Boolean): PayloadKv
-  deletePayloadLockedDocument(id: Int!, trash: Boolean): PayloadLockedDocument
-  deletePayloadPreference(id: Int!, trash: Boolean): PayloadPreference
-  deletePointTransaction(id: Int!, trash: Boolean): PointTransaction
-  deletePost(id: Int!, trash: Boolean): Post
-  deletePrice(id: Int!, trash: Boolean): Price
-  deleteProduct(id: Int!, trash: Boolean): Product
-  deleteProductPromotion(id: Int!, trash: Boolean): ProductPromotion
-  deletePromotion(id: Int!, trash: Boolean): Promotion
-  deleteRating(id: Int!, trash: Boolean): Rating
-  deleteStock(id: Int!, trash: Boolean): Stock
-  deleteSupplier(id: Int!, trash: Boolean): Supplier
-  deleteTag(id: Int!, trash: Boolean): Tag
-  deleteUser(id: Int!, trash: Boolean): User
-  deleteUserItem(id: Int!, trash: Boolean): UserItem
-  deleteUserPoint(id: Int!, trash: Boolean): UserPoint
-  deleteUserPreference(id: Int!, trash: Boolean): UserPreference
-  duplicateAccount(data: mutationAccountInput!, id: Int!): Account
-  duplicateCart(data: mutationCartInput!, id: Int!): Cart
-  duplicateCartItem(data: mutationCartItemInput!, id: Int!): CartItem
-  duplicateFaq(data: mutationFaqInput!, id: Int!): Faq
-  duplicateMedia(data: mutationMediaInput!, id: Int!): Media
-  duplicateOrder(data: mutationOrderInput!, id: Int!): Order
-  duplicateOrderItem(data: mutationOrderItemInput!, id: Int!): OrderItem
-  duplicatePayloadKv(data: mutationPayloadKvInput!, id: Int!): PayloadKv
-  duplicatePayloadLockedDocument(data: mutationPayloadLockedDocumentInput!, id: Int!): PayloadLockedDocument
-  duplicatePayloadPreference(data: mutationPayloadPreferenceInput!, id: Int!): PayloadPreference
-  duplicatePointTransaction(data: mutationPointTransactionInput!, id: Int!): PointTransaction
-  duplicatePost(data: mutationPostInput!, id: Int!): Post
-  duplicatePrice(data: mutationPriceInput!, id: Int!): Price
-  duplicateProduct(data: mutationProductInput!, id: Int!): Product
-  duplicateProductPromotion(data: mutationProductPromotionInput!, id: Int!): ProductPromotion
-  duplicatePromotion(data: mutationPromotionInput!, id: Int!): Promotion
-  duplicateRating(data: mutationRatingInput!, id: Int!): Rating
-  duplicateStock(data: mutationStockInput!, id: Int!): Stock
-  duplicateSupplier(data: mutationSupplierInput!, id: Int!): Supplier
-  duplicateTag(data: mutationTagInput!, id: Int!): Tag
-  duplicateUserItem(data: mutationUserItemInput!, id: Int!): UserItem
-  duplicateUserPoint(data: mutationUserPointInput!, id: Int!): UserPoint
-  duplicateUserPreference(data: mutationUserPreferenceInput!, id: Int!): UserPreference
+  deleteAccount(id: String!, trash: Boolean): Account
+  deleteCart(id: String!, trash: Boolean): Cart
+  deleteCartItem(id: String!, trash: Boolean): CartItem
+  deleteFaq(id: String!, trash: Boolean): Faq
+  deleteMedia(id: String!, trash: Boolean): Media
+  deleteOrder(id: String!, trash: Boolean): Order
+  deleteOrderItem(id: String!, trash: Boolean): OrderItem
+  deletePayloadKv(id: String!, trash: Boolean): PayloadKv
+  deletePayloadLockedDocument(id: String!, trash: Boolean): PayloadLockedDocument
+  deletePayloadPreference(id: String!, trash: Boolean): PayloadPreference
+  deletePointTransaction(id: String!, trash: Boolean): PointTransaction
+  deletePost(id: String!, trash: Boolean): Post
+  deletePrice(id: String!, trash: Boolean): Price
+  deleteProduct(id: String!, trash: Boolean): Product
+  deleteProductPromotion(id: String!, trash: Boolean): ProductPromotion
+  deletePromotion(id: String!, trash: Boolean): Promotion
+  deleteRating(id: String!, trash: Boolean): Rating
+  deleteStock(id: String!, trash: Boolean): Stock
+  deleteSupplier(id: String!, trash: Boolean): Supplier
+  deleteTag(id: String!, trash: Boolean): Tag
+  deleteUser(id: String!, trash: Boolean): User
+  deleteUserItem(id: String!, trash: Boolean): UserItem
+  deleteUserPoint(id: String!, trash: Boolean): UserPoint
+  deleteUserPreference(id: String!, trash: Boolean): UserPreference
+  duplicateAccount(data: mutationAccountInput!, id: String!): Account
+  duplicateCart(data: mutationCartInput!, id: String!): Cart
+  duplicateCartItem(data: mutationCartItemInput!, id: String!): CartItem
+  duplicateFaq(data: mutationFaqInput!, id: String!): Faq
+  duplicateMedia(data: mutationMediaInput!, id: String!): Media
+  duplicateOrder(data: mutationOrderInput!, id: String!): Order
+  duplicateOrderItem(data: mutationOrderItemInput!, id: String!): OrderItem
+  duplicatePayloadKv(data: mutationPayloadKvInput!, id: String!): PayloadKv
+  duplicatePayloadLockedDocument(data: mutationPayloadLockedDocumentInput!, id: String!): PayloadLockedDocument
+  duplicatePayloadPreference(data: mutationPayloadPreferenceInput!, id: String!): PayloadPreference
+  duplicatePointTransaction(data: mutationPointTransactionInput!, id: String!): PointTransaction
+  duplicatePost(data: mutationPostInput!, id: String!): Post
+  duplicatePrice(data: mutationPriceInput!, id: String!): Price
+  duplicateProduct(data: mutationProductInput!, id: String!): Product
+  duplicateProductPromotion(data: mutationProductPromotionInput!, id: String!): ProductPromotion
+  duplicatePromotion(data: mutationPromotionInput!, id: String!): Promotion
+  duplicateRating(data: mutationRatingInput!, id: String!): Rating
+  duplicateStock(data: mutationStockInput!, id: String!): Stock
+  duplicateSupplier(data: mutationSupplierInput!, id: String!): Supplier
+  duplicateTag(data: mutationTagInput!, id: String!): Tag
+  duplicateUserItem(data: mutationUserItemInput!, id: String!): UserItem
+  duplicateUserPoint(data: mutationUserPointInput!, id: String!): UserPoint
+  duplicateUserPreference(data: mutationUserPreferenceInput!, id: String!): UserPreference
   forgotPasswordUser(email: String!): Boolean!
   loginUser(email: String!, password: String): usersLoginResult
   logoutUser(allSessions: Boolean): String
   refreshTokenUser: usersRefreshedUser
   resetPasswordUser(password: String, token: String): usersResetPassword
   unlockUser(email: String!): Boolean!
-  updateAccount(autosave: Boolean, data: mutationAccountUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Account
-  updateCart(autosave: Boolean, data: mutationCartUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Cart
-  updateCartItem(autosave: Boolean, data: mutationCartItemUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): CartItem
-  updateFaq(autosave: Boolean, data: mutationFaqUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Faq
-  updateMedia(autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Media
-  updateOrder(autosave: Boolean, data: mutationOrderUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Order
-  updateOrderItem(autosave: Boolean, data: mutationOrderItemUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): OrderItem
-  updatePayloadKv(autosave: Boolean, data: mutationPayloadKvUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): PayloadKv
-  updatePayloadLockedDocument(autosave: Boolean, data: mutationPayloadLockedDocumentUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): PayloadLockedDocument
-  updatePayloadPreference(autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): PayloadPreference
-  updatePointTransaction(autosave: Boolean, data: mutationPointTransactionUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): PointTransaction
-  updatePost(autosave: Boolean, data: mutationPostUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Post
-  updatePrice(autosave: Boolean, data: mutationPriceUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Price
-  updateProduct(autosave: Boolean, data: mutationProductUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Product
-  updateProductPromotion(autosave: Boolean, data: mutationProductPromotionUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): ProductPromotion
-  updatePromotion(autosave: Boolean, data: mutationPromotionUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Promotion
-  updateRating(autosave: Boolean, data: mutationRatingUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Rating
+  updateAccount(autosave: Boolean, data: mutationAccountUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Account
+  updateCart(autosave: Boolean, data: mutationCartUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Cart
+  updateCartItem(autosave: Boolean, data: mutationCartItemUpdateInput!, draft: Boolean, id: String!, trash: Boolean): CartItem
+  updateFaq(autosave: Boolean, data: mutationFaqUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Faq
+  updateMedia(autosave: Boolean, data: mutationMediaUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Media
+  updateOrder(autosave: Boolean, data: mutationOrderUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Order
+  updateOrderItem(autosave: Boolean, data: mutationOrderItemUpdateInput!, draft: Boolean, id: String!, trash: Boolean): OrderItem
+  updatePayloadKv(autosave: Boolean, data: mutationPayloadKvUpdateInput!, draft: Boolean, id: String!, trash: Boolean): PayloadKv
+  updatePayloadLockedDocument(autosave: Boolean, data: mutationPayloadLockedDocumentUpdateInput!, draft: Boolean, id: String!, trash: Boolean): PayloadLockedDocument
+  updatePayloadPreference(autosave: Boolean, data: mutationPayloadPreferenceUpdateInput!, draft: Boolean, id: String!, trash: Boolean): PayloadPreference
+  updatePointTransaction(autosave: Boolean, data: mutationPointTransactionUpdateInput!, draft: Boolean, id: String!, trash: Boolean): PointTransaction
+  updatePost(autosave: Boolean, data: mutationPostUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Post
+  updatePrice(autosave: Boolean, data: mutationPriceUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Price
+  updateProduct(autosave: Boolean, data: mutationProductUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Product
+  updateProductPromotion(autosave: Boolean, data: mutationProductPromotionUpdateInput!, draft: Boolean, id: String!, trash: Boolean): ProductPromotion
+  updatePromotion(autosave: Boolean, data: mutationPromotionUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Promotion
+  updateRating(autosave: Boolean, data: mutationRatingUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Rating
   updateSetting(data: mutationSettingInput!, draft: Boolean): Setting
-  updateStock(autosave: Boolean, data: mutationStockUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Stock
-  updateSupplier(autosave: Boolean, data: mutationSupplierUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Supplier
-  updateTag(autosave: Boolean, data: mutationTagUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): Tag
-  updateUser(autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): User
-  updateUserItem(autosave: Boolean, data: mutationUserItemUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): UserItem
-  updateUserPoint(autosave: Boolean, data: mutationUserPointUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): UserPoint
-  updateUserPreference(autosave: Boolean, data: mutationUserPreferenceUpdateInput!, draft: Boolean, id: Int!, trash: Boolean): UserPreference
+  updateStock(autosave: Boolean, data: mutationStockUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Stock
+  updateSupplier(autosave: Boolean, data: mutationSupplierUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Supplier
+  updateTag(autosave: Boolean, data: mutationTagUpdateInput!, draft: Boolean, id: String!, trash: Boolean): Tag
+  updateUser(autosave: Boolean, data: mutationUserUpdateInput!, draft: Boolean, id: String!, trash: Boolean): User
+  updateUserItem(autosave: Boolean, data: mutationUserItemUpdateInput!, draft: Boolean, id: String!, trash: Boolean): UserItem
+  updateUserPoint(autosave: Boolean, data: mutationUserPointUpdateInput!, draft: Boolean, id: String!, trash: Boolean): UserPoint
+  updateUserPreference(autosave: Boolean, data: mutationUserPreferenceUpdateInput!, draft: Boolean, id: String!, trash: Boolean): UserPreference
   verifyEmailUser(token: String): Boolean
 }
 
 type Order {
   createdAt: DateTime
-  id: Int!
+  id: String!
   items: [OrderItem!]
   status: Order_status!
   updatedAt: DateTime
@@ -2944,7 +2949,7 @@ type Order {
 
 type OrderItem {
   createdAt: DateTime
-  id: Int!
+  id: String!
   order: Order
   product: Product
   unitPrice: Float
@@ -2964,13 +2969,14 @@ input OrderItem_createdAt_operator {
 }
 
 input OrderItem_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input OrderItem_order_operator {
@@ -3425,13 +3431,14 @@ input Order_createdAt_operator {
 }
 
 input Order_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Order_items_operator {
@@ -3830,7 +3837,7 @@ type OrdersUpdateDocAccess {
 
 type PayloadKv {
   data: JSON!
-  id: Int!
+  id: String!
   key: String!
 }
 
@@ -3986,13 +3993,14 @@ input PayloadKv_data_operator {
 }
 
 input PayloadKv_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input PayloadKv_key_operator {
@@ -4047,7 +4055,7 @@ type PayloadLockedDocument {
   createdAt: DateTime
   document: PayloadLockedDocument_Document_Relationship
   globalSlug: String
-  id: Int!
+  id: String!
   updatedAt: DateTime
   user: PayloadLockedDocument_User_Relationship
 }
@@ -4222,13 +4230,14 @@ input PayloadLockedDocument_globalSlug_operator {
 }
 
 input PayloadLockedDocument_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input PayloadLockedDocument_updatedAt_operator {
@@ -4586,7 +4595,7 @@ type PayloadLockedDocumentsUpdateDocAccess {
 
 type PayloadPreference {
   createdAt: DateTime
-  id: Int!
+  id: String!
   key: String
   updatedAt: DateTime
   user: PayloadPreference_User_Relationship
@@ -4634,13 +4643,14 @@ input PayloadPreference_createdAt_operator {
 }
 
 input PayloadPreference_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input PayloadPreference_key_operator {
@@ -5021,7 +5031,7 @@ type PointTransaction {
   amount: Float
   createdAt: DateTime
   expiredAt: DateTime
-  id: Int!
+  id: String!
   isFavorite: Boolean
   metaData: JSON
   orders: [Order!]
@@ -5079,13 +5089,14 @@ input PointTransaction_expiredAt_operator {
 }
 
 input PointTransaction_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input PointTransaction_isFavorite_operator {
@@ -5787,7 +5798,7 @@ type Post {
   author: User
   content(depth: Int): JSON
   createdAt: DateTime
-  id: Int!
+  id: String!
   tags: [Tag!]
   title: String!
   updatedAt: DateTime
@@ -5822,13 +5833,14 @@ input Post_createdAt_operator {
 }
 
 input Post_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Post_tags_operator {
@@ -6248,7 +6260,7 @@ type PostsUpdateDocAccess {
 type Price {
   createdAt: DateTime
   description: String
-  id: Int!
+  id: String!
   price: Float
   price_type: Price_price_type
   product: [Product!]
@@ -6281,13 +6293,14 @@ input Price_description_operator {
 }
 
 input Price_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Price_price_operator {
@@ -6737,7 +6750,7 @@ type Product {
   description: String
   details(depth: Int): JSON
   faqs: [Faq!]
-  id: Int!
+  id: String!
   media(depth: Int): JSON
   name: String!
   previewImage: Media
@@ -6754,7 +6767,7 @@ type Product {
 
 type ProductPromotion {
   createdAt: DateTime
-  id: Int!
+  id: String!
   images: [Media!]
   productId: Product
   promotionId: [Promotion!]
@@ -6774,13 +6787,14 @@ input ProductPromotion_createdAt_operator {
 }
 
 input ProductPromotion_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input ProductPromotion_images_operator {
@@ -7268,13 +7282,14 @@ input Product_faqs_operator {
 }
 
 input Product_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Product_media_operator {
@@ -8354,7 +8369,7 @@ type Promotion {
   createdAt: DateTime
   discountType: Promotion_discountType
   discountValue: Float
-  id: Int!
+  id: String!
   name: String
   publishedAt: DateTime
   updatedAt: DateTime
@@ -8415,13 +8430,14 @@ input Promotion_discountValue_operator {
 }
 
 input Promotion_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Promotion_name_operator {
@@ -8843,52 +8859,52 @@ type PromotionsUpdateDocAccess {
 
 type Query {
   Access: Access
-  Account(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Account
+  Account(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Account
   Accounts(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Account_where): Accounts
-  Cart(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Cart
-  CartItem(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): CartItem
+  Cart(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Cart
+  CartItem(draft: Boolean, id: String!, select: Boolean, trash: Boolean): CartItem
   CartItems(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: CartItem_where): CartItems
   Carts(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Cart_where): Carts
-  Faq(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Faq
+  Faq(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Faq
   Faqs(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Faq_where): Faqs
-  Media(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Media
-  Order(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Order
-  OrderItem(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): OrderItem
+  Media(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Media
+  Order(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Order
+  OrderItem(draft: Boolean, id: String!, select: Boolean, trash: Boolean): OrderItem
   OrderItems(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: OrderItem_where): OrderItems
   Orders(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Order_where): Orders
-  PayloadKv(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): PayloadKv
+  PayloadKv(draft: Boolean, id: String!, select: Boolean, trash: Boolean): PayloadKv
   PayloadKvs(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: PayloadKv_where): PayloadKvs
-  PayloadLockedDocument(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): PayloadLockedDocument
+  PayloadLockedDocument(draft: Boolean, id: String!, select: Boolean, trash: Boolean): PayloadLockedDocument
   PayloadLockedDocuments(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: PayloadLockedDocument_where): PayloadLockedDocuments
-  PayloadPreference(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): PayloadPreference
+  PayloadPreference(draft: Boolean, id: String!, select: Boolean, trash: Boolean): PayloadPreference
   PayloadPreferences(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: PayloadPreference_where): PayloadPreferences
-  PointTransaction(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): PointTransaction
+  PointTransaction(draft: Boolean, id: String!, select: Boolean, trash: Boolean): PointTransaction
   PointTransactions(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: PointTransaction_where): PointTransactions
-  Post(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Post
+  Post(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Post
   Posts(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Post_where): Posts
-  Price(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Price
+  Price(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Price
   Prices(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Price_where): Prices
-  Product(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Product
-  ProductPromotion(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): ProductPromotion
+  Product(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Product
+  ProductPromotion(draft: Boolean, id: String!, select: Boolean, trash: Boolean): ProductPromotion
   ProductPromotions(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: ProductPromotion_where): ProductPromotions
   Products(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Product_where): Products
-  Promotion(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Promotion
+  Promotion(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Promotion
   Promotions(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Promotion_where): Promotions
-  Rating(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Rating
+  Rating(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Rating
   Ratings(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Rating_where): Ratings
   Setting(draft: Boolean, select: Boolean): Setting
-  Stock(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Stock
+  Stock(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Stock
   Stocks(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Stock_where): Stocks
-  Supplier(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Supplier
+  Supplier(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Supplier
   Suppliers(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Supplier_where): Suppliers
-  Tag(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): Tag
+  Tag(draft: Boolean, id: String!, select: Boolean, trash: Boolean): Tag
   Tags(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Tag_where): Tags
-  User(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): User
-  UserItem(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): UserItem
+  User(draft: Boolean, id: String!, select: Boolean, trash: Boolean): User
+  UserItem(draft: Boolean, id: String!, select: Boolean, trash: Boolean): UserItem
   UserItems(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: UserItem_where): UserItems
-  UserPoint(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): UserPoint
+  UserPoint(draft: Boolean, id: String!, select: Boolean, trash: Boolean): UserPoint
   UserPoints(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: UserPoint_where): UserPoints
-  UserPreference(draft: Boolean, id: Int!, select: Boolean, trash: Boolean): UserPreference
+  UserPreference(draft: Boolean, id: String!, select: Boolean, trash: Boolean): UserPreference
   UserPreferences(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: UserPreference_where): UserPreferences
   Users(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: User_where): Users
   allMedia(draft: Boolean, limit: Int, page: Int, pagination: Boolean, select: Boolean, sort: String, trash: Boolean, where: Media_where): allMedia
@@ -8916,31 +8932,31 @@ type Query {
   countUserPreferences(draft: Boolean, trash: Boolean, where: UserPreference_where): countUserPreferences
   countUsers(draft: Boolean, trash: Boolean, where: User_where): countUsers
   countallMedia(draft: Boolean, trash: Boolean, where: Media_where): countallMedia
-  docAccessAccount(id: Int!): accountsDocAccess
-  docAccessCart(id: Int!): cartsDocAccess
-  docAccessCartItem(id: Int!): cart_itemsDocAccess
-  docAccessFaq(id: Int!): faqsDocAccess
-  docAccessMedia(id: Int!): mediaDocAccess
-  docAccessOrder(id: Int!): ordersDocAccess
-  docAccessOrderItem(id: Int!): order_itemsDocAccess
-  docAccessPayloadKv(id: Int!): payload_kvDocAccess
-  docAccessPayloadLockedDocument(id: Int!): payload_locked_documentsDocAccess
-  docAccessPayloadPreference(id: Int!): payload_preferencesDocAccess
-  docAccessPointTransaction(id: Int!): point_transactionsDocAccess
-  docAccessPost(id: Int!): postsDocAccess
-  docAccessPrice(id: Int!): pricesDocAccess
-  docAccessProduct(id: Int!): productsDocAccess
-  docAccessProductPromotion(id: Int!): product_promotionsDocAccess
-  docAccessPromotion(id: Int!): promotionsDocAccess
-  docAccessRating(id: Int!): ratingsDocAccess
+  docAccessAccount(id: String!): accountsDocAccess
+  docAccessCart(id: String!): cartsDocAccess
+  docAccessCartItem(id: String!): cart_itemsDocAccess
+  docAccessFaq(id: String!): faqsDocAccess
+  docAccessMedia(id: String!): mediaDocAccess
+  docAccessOrder(id: String!): ordersDocAccess
+  docAccessOrderItem(id: String!): order_itemsDocAccess
+  docAccessPayloadKv(id: String!): payload_kvDocAccess
+  docAccessPayloadLockedDocument(id: String!): payload_locked_documentsDocAccess
+  docAccessPayloadPreference(id: String!): payload_preferencesDocAccess
+  docAccessPointTransaction(id: String!): point_transactionsDocAccess
+  docAccessPost(id: String!): postsDocAccess
+  docAccessPrice(id: String!): pricesDocAccess
+  docAccessProduct(id: String!): productsDocAccess
+  docAccessProductPromotion(id: String!): product_promotionsDocAccess
+  docAccessPromotion(id: String!): promotionsDocAccess
+  docAccessRating(id: String!): ratingsDocAccess
   docAccessSetting: settingsDocAccess
-  docAccessStock(id: Int!): stocksDocAccess
-  docAccessSupplier(id: Int!): suppliersDocAccess
-  docAccessTag(id: Int!): tagsDocAccess
-  docAccessUser(id: Int!): usersDocAccess
-  docAccessUserItem(id: Int!): user_itemsDocAccess
-  docAccessUserPoint(id: Int!): user_pointsDocAccess
-  docAccessUserPreference(id: Int!): user_preferencesDocAccess
+  docAccessStock(id: String!): stocksDocAccess
+  docAccessSupplier(id: String!): suppliersDocAccess
+  docAccessTag(id: String!): tagsDocAccess
+  docAccessUser(id: String!): usersDocAccess
+  docAccessUserItem(id: String!): user_itemsDocAccess
+  docAccessUserPoint(id: String!): user_pointsDocAccess
+  docAccessUserPreference(id: String!): user_preferencesDocAccess
   initializedUser: Boolean
   meUser: usersMe
 }
@@ -8948,7 +8964,7 @@ type Query {
 type Rating {
   comment: String
   createdAt: DateTime
-  id: Int!
+  id: String!
   score: Float!
   updatedAt: DateTime
 }
@@ -8973,13 +8989,14 @@ input Rating_createdAt_operator {
 }
 
 input Rating_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Rating_score_operator {
@@ -9658,7 +9675,7 @@ type SettingsUpdateDocAccess {
 
 type Stock {
   createdAt: DateTime
-  id: Int!
+  id: String!
   product: Product
   quantity: Float!
   type: Stock_type!
@@ -9682,13 +9699,14 @@ input Stock_createdAt_operator {
 }
 
 input Stock_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Stock_product_operator {
@@ -10079,7 +10097,7 @@ type StocksUpdateDocAccess {
 type Supplier {
   createdAt: DateTime
   description: String
-  id: Int!
+  id: String!
   name: String!
   products: [Product!]
   updatedAt: DateTime
@@ -10106,13 +10124,14 @@ input Supplier_description_operator {
 }
 
 input Supplier_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Supplier_name_operator {
@@ -10540,7 +10559,7 @@ type SuppliersUpdateDocAccess {
 
 type Tag {
   createdAt: DateTime
-  id: Int!
+  id: String!
   name: String
   posts: [Post!]
   updatedAt: DateTime
@@ -10558,13 +10577,14 @@ input Tag_createdAt_operator {
 }
 
 input Tag_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input Tag_name_operator {
@@ -10887,7 +10907,7 @@ type User {
   createdAt: DateTime
   email: EmailAddress!
   hash: String
-  id: Int!
+  id: String!
   image: String
   items: [UserItem!]
   lockUntil: DateTime
@@ -10910,7 +10930,7 @@ type User {
 type UserItem {
   config: JSON
   createdAt: DateTime
-  id: Int!
+  id: String!
   item: OrderItem
   updatedAt: DateTime
   user: User
@@ -10938,13 +10958,14 @@ input UserItem_createdAt_operator {
 }
 
 input UserItem_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input UserItem_item_operator {
@@ -11311,7 +11332,7 @@ type UserItemsUpdateDocAccess {
 
 type UserPoint {
   createdAt: DateTime
-  id: Int!
+  id: String!
   total_point: Float!
   total_spent: Float!
   updatedAt: DateTime
@@ -11330,13 +11351,14 @@ input UserPoint_createdAt_operator {
 }
 
 input UserPoint_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input UserPoint_total_point_operator {
@@ -11712,7 +11734,7 @@ type UserPointsUpdateDocAccess {
 
 type UserPreference {
   createdAt: DateTime
-  id: Int!
+  id: String!
   setting(depth: Int): JSON
   updatedAt: DateTime
   user: User
@@ -11730,13 +11752,14 @@ input UserPreference_createdAt_operator {
 }
 
 input UserPreference_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input UserPreference_setting_operator {
@@ -12111,13 +12134,14 @@ input User_email_operator {
 }
 
 input User_id_operator {
-  equals: Int
+  all: [String]
+  contains: String
+  equals: String
   exists: Boolean
-  greater_than: Int
-  greater_than_equal: Int
-  less_than: Int
-  less_than_equal: Int
-  not_equals: Int
+  in: [String]
+  like: String
+  not_equals: String
+  not_in: [String]
 }
 
 input User_image_operator {
@@ -13591,7 +13615,7 @@ input mutationAccountInput {
   refreshToken: String
   scope: String
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationAccountUpdateInput {
@@ -13604,39 +13628,39 @@ input mutationAccountUpdateInput {
   refreshToken: String
   scope: String
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationCartInput {
   createdAt: String
-  items: [Int]
+  items: [String]
   status: Cart_status_MutationInput
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationCartItemInput {
-  cart: Int
+  cart: String
   createdAt: String
-  product: Int
+  product: String
   quantity: Float!
   updatedAt: String
 }
 
 input mutationCartItemUpdateInput {
-  cart: Int
+  cart: String
   createdAt: String
-  product: Int
+  product: String
   quantity: Float
   updatedAt: String
 }
 
 input mutationCartUpdateInput {
   createdAt: String
-  items: [Int]
+  items: [String]
   status: CartUpdate_status_MutationInput
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationFaqInput {
@@ -13687,36 +13711,36 @@ input mutationMediaUpdateInput {
 
 input mutationOrderInput {
   createdAt: String
-  items: [Int]
+  items: [String]
   status: Order_status_MutationInput!
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationOrderItemInput {
   createdAt: String
-  order: Int
-  product: Int
+  order: String
+  product: String
   unitPrice: Float
   updatedAt: String
-  userItem: Int
+  userItem: String
 }
 
 input mutationOrderItemUpdateInput {
   createdAt: String
-  order: Int
-  product: Int
+  order: String
+  product: String
   unitPrice: Float
   updatedAt: String
-  userItem: Int
+  userItem: String
 }
 
 input mutationOrderUpdateInput {
   createdAt: String
-  items: [Int]
+  items: [String]
   status: OrderUpdate_status_MutationInput
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationPayloadKvInput {
@@ -13767,11 +13791,11 @@ input mutationPointTransactionInput {
   expiredAt: String
   isFavorite: Boolean
   metaData: JSON
-  orders: [Int]
+  orders: [String]
   status: PointTransaction_status_MutationInput
   type: PointTransaction_type_MutationInput!
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationPointTransactionUpdateInput {
@@ -13780,27 +13804,27 @@ input mutationPointTransactionUpdateInput {
   expiredAt: String
   isFavorite: Boolean
   metaData: JSON
-  orders: [Int]
+  orders: [String]
   status: PointTransactionUpdate_status_MutationInput
   type: PointTransactionUpdate_type_MutationInput
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationPostInput {
-  author: Int
+  author: String
   content: JSON
   createdAt: String
-  tags: [Int]
+  tags: [String]
   title: String!
   updatedAt: String
 }
 
 input mutationPostUpdateInput {
-  author: Int
+  author: String
   content: JSON
   createdAt: String
-  tags: [Int]
+  tags: [String]
   title: String
   updatedAt: String
 }
@@ -13810,7 +13834,7 @@ input mutationPriceInput {
   description: String
   price: Float
   price_type: Price_price_type_MutationInput
-  product: [Int]
+  product: [String]
   updatedAt: String
 }
 
@@ -13819,7 +13843,7 @@ input mutationPriceUpdateInput {
   description: String
   price: Float
   price_type: PriceUpdate_price_type_MutationInput
-  product: [Int]
+  product: [String]
   updatedAt: String
 }
 
@@ -13828,35 +13852,35 @@ input mutationProductInput {
   createdAt: String
   description: String
   details: JSON
-  faqs: [Int]
+  faqs: [String]
   media: JSON
   name: String!
-  previewImage: Int
-  price: Int
+  previewImage: String
+  price: String
   publishedAt: String
-  ratings: [Int]
+  ratings: [String]
   status: Product_status_MutationInput!
-  stock: Int
-  supplier: Int
-  tags: [Int]
+  stock: String
+  supplier: String
+  tags: [String]
   updatedAt: String
   version: String
 }
 
 input mutationProductPromotionInput {
   createdAt: String
-  images: [Int]
-  productId: Int
-  promotionId: [Int]
+  images: [String]
+  productId: String
+  promotionId: [String]
   publishedAt: String
   updatedAt: String
 }
 
 input mutationProductPromotionUpdateInput {
   createdAt: String
-  images: [Int]
-  productId: Int
-  promotionId: [Int]
+  images: [String]
+  productId: String
+  promotionId: [String]
   publishedAt: String
   updatedAt: String
 }
@@ -13866,17 +13890,17 @@ input mutationProductUpdateInput {
   createdAt: String
   description: String
   details: JSON
-  faqs: [Int]
+  faqs: [String]
   media: JSON
   name: String
-  previewImage: Int
-  price: Int
+  previewImage: String
+  price: String
   publishedAt: String
-  ratings: [Int]
+  ratings: [String]
   status: ProductUpdate_status_MutationInput
-  stock: Int
-  supplier: Int
-  tags: [Int]
+  stock: String
+  supplier: String
+  tags: [String]
   updatedAt: String
   version: String
 }
@@ -13925,7 +13949,7 @@ input mutationSettingInput {
 
 input mutationStockInput {
   createdAt: String
-  product: Int
+  product: String
   quantity: Float!
   type: Stock_type_MutationInput!
   updatedAt: String
@@ -13933,7 +13957,7 @@ input mutationStockInput {
 
 input mutationStockUpdateInput {
   createdAt: String
-  product: Int
+  product: String
   quantity: Float
   type: StockUpdate_type_MutationInput
   updatedAt: String
@@ -13943,57 +13967,57 @@ input mutationSupplierInput {
   createdAt: String
   description: String
   name: String!
-  products: [Int]
+  products: [String]
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationSupplierUpdateInput {
   createdAt: String
   description: String
   name: String
-  products: [Int]
+  products: [String]
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationTagInput {
   createdAt: String
   name: String
-  posts: [Int]
+  posts: [String]
   updatedAt: String
 }
 
 input mutationTagUpdateInput {
   createdAt: String
   name: String
-  posts: [Int]
+  posts: [String]
   updatedAt: String
 }
 
 input mutationUserInput {
-  accounts: [Int]
-  avatar: Int
-  carts: [Int]
+  accounts: [String]
+  avatar: String
+  carts: [String]
   createdAt: String
   email: String!
   hash: String
   image: String
-  items: [Int]
+  items: [String]
   lockUntil: String
   loginAttempts: Float
-  orders: [Int]
+  orders: [String]
   password: String!
-  point: Int
-  posts: [Int]
-  preference: Int
+  point: String
+  posts: [String]
+  preference: String
   provider: String
   resetPasswordExpiration: String
   resetPasswordToken: String
   role: User_role_MutationInput
   salt: String
   sessions: [mutationUser_SessionsInput]
-  supplier: [Int]
+  supplier: [String]
   updatedAt: String
   username: String!
 }
@@ -14001,17 +14025,17 @@ input mutationUserInput {
 input mutationUserItemInput {
   config: JSON
   createdAt: String
-  item: Int
+  item: String
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserItemUpdateInput {
   config: JSON
   createdAt: String
-  item: Int
+  item: String
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserPointInput {
@@ -14019,7 +14043,7 @@ input mutationUserPointInput {
   total_point: Float!
   total_spent: Float!
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserPointUpdateInput {
@@ -14027,46 +14051,46 @@ input mutationUserPointUpdateInput {
   total_point: Float
   total_spent: Float
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserPreferenceInput {
   createdAt: String
   setting: JSON
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserPreferenceUpdateInput {
   createdAt: String
   setting: JSON
   updatedAt: String
-  user: Int
+  user: String
 }
 
 input mutationUserUpdateInput {
-  accounts: [Int]
-  avatar: Int
-  carts: [Int]
+  accounts: [String]
+  avatar: String
+  carts: [String]
   createdAt: String
   email: String
   hash: String
   image: String
-  items: [Int]
+  items: [String]
   lockUntil: String
   loginAttempts: Float
-  orders: [Int]
+  orders: [String]
   password: String
-  point: Int
-  posts: [Int]
-  preference: Int
+  point: String
+  posts: [String]
+  preference: String
   provider: String
   resetPasswordExpiration: String
   resetPasswordToken: String
   role: UserUpdate_role_MutationInput
   salt: String
   sessions: [mutationUserUpdate_SessionsInput]
-  supplier: [Int]
+  supplier: [String]
   updatedAt: String
   username: String
 }

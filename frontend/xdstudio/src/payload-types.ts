@@ -93,7 +93,16 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    users: {
+      carts: 'carts';
+      items: 'user-items';
+      accounts: 'accounts';
+      point: 'user-points';
+      supplier: 'suppliers';
+      preference: 'user-preferences';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -166,21 +175,41 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   username: string;
-  provider?: string | null;
   image?: string | null;
   avatar?: (string | null) | Media;
-  role?: ('ADMIN' | 'USER' | 'MODERATOR' | 'GUEST') | null;
-  /**
-   * All provider accounts linked to this user
-   */
-  accounts?: (string | Account)[] | null;
-  carts?: (string | Cart)[] | null;
-  items?: (string | UserItem)[] | null;
-  point?: (string | null) | UserPoint;
-  supplier?: (string | Supplier)[] | null;
+  role: 'ADMIN' | 'USER' | 'MODERATOR' | 'GUEST';
+  carts?: {
+    docs?: (string | Cart)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  items?: {
+    docs?: (string | UserItem)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  accounts?: {
+    docs?: (string | Account)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  point?: {
+    docs?: (string | UserPoint)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  credit?: number | null;
+  supplier?: {
+    docs?: (string | Supplier)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   orders?: (string | Order)[] | null;
-  preference?: (string | null) | UserPreference;
-  posts?: (string | Post)[] | null;
+  preference?: {
+    docs?: (string | UserPreference)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -219,55 +248,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "accounts".
- */
-export interface Account {
-  id: string;
-  /**
-   * The name of the provider, e.g., google, github, facebook, line
-   */
-  provider: string;
-  /**
-   * The unique user ID provided by the external provider
-   */
-  providerAccountId: string;
-  /**
-   * The user associated with this provider account
-   */
-  user?: (string | null) | User;
-  /**
-   * Access token used to call the provider API (short-lived)
-   */
-  accessToken?: string | null;
-  /**
-   * Refresh token used to obtain a new access token when expired
-   */
-  refreshToken?: string | null;
-  /**
-   * Expiration time of the access token
-   */
-  expiresAt?: string | null;
-  /**
-   * The scope or permissions granted by the provider for this token
-   */
-  scope?: string | null;
-  /**
-   * Additional provider-specific data stored as a JSON object
-   */
-  meta?:
-    | {
-        [k: string]: unknown;
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -536,6 +516,55 @@ export interface Order {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "accounts".
+ */
+export interface Account {
+  id: string;
+  /**
+   * The name of the provider, e.g., google, github, facebook, line
+   */
+  provider: string;
+  /**
+   * The unique user ID provided by the external provider
+   */
+  providerAccountId: string;
+  /**
+   * The user associated with this provider account
+   */
+  user?: (string | null) | User;
+  /**
+   * Access token used to call the provider API (short-lived)
+   */
+  accessToken?: string | null;
+  /**
+   * Refresh token used to obtain a new access token when expired
+   */
+  refreshToken?: string | null;
+  /**
+   * Expiration time of the access token
+   */
+  expiresAt?: string | null;
+  /**
+   * The scope or permissions granted by the provider for this token
+   */
+  scope?: string | null;
+  /**
+   * Additional provider-specific data stored as a JSON object
+   */
+  meta?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "user-points".
  */
 export interface UserPoint {
@@ -797,18 +826,17 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   username?: T;
-  provider?: T;
   image?: T;
   avatar?: T;
   role?: T;
-  accounts?: T;
   carts?: T;
   items?: T;
+  accounts?: T;
   point?: T;
+  credit?: T;
   supplier?: T;
   orders?: T;
   preference?: T;
-  posts?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

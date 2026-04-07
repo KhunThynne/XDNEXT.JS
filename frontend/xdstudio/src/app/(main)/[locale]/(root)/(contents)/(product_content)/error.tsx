@@ -10,7 +10,7 @@ import {
   EmptyDescription,
   EmptyContent,
 } from "@/libs/shadcn/ui/empty";
-import { ErrorProps } from "next/error";
+import type { ErrorProps } from "next/error";
 
 export default function Error({
   error,

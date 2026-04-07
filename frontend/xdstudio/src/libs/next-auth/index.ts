@@ -1,30 +1,33 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 
-import { type User as GqlUser } from "@/libs/graphql/generates/graphql";
 import type { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import type { DiscordUser } from "@type/user.type";
 import { executeAuth } from "../graphql/execute";
 import getBaseUrl from "@/utils/getBaseUrl";
+import type { User as GqlUser } from "@/payload-types";
+import { authAndLinkProvider, loginAction } from "@/shared/actions/auth";
 
-// declare module "next-auth" {
-//   interface Session {
-//     user: GqlUser;
-//   }
+declare module "next-auth" {
+  interface Session {
+    user?: GqlUser;
+  }
 
-//   interface User extends GqlUser {
-//     sessionToken?: string;
-//   }
-// }
-
-declare module "next-auth/jwt" {
-  interface JWT extends GqlUser {
-    sessionToken?: string;
+  interface User extends GqlUser {
+    readonly auth?: string;
   }
 }
 
+declare module "next-auth/jwt" {
+  interface JWT extends GqlUser {
+    readonly auth?: string;
+  }
+}
+class CustomError extends CredentialsSignin {
+  code = "custom_error";
+}
 export const AuthProvider = NextAuth({
   //   secret: [env.AUTH_SECRET ?? `xd`],
   basePath: "/api/auth",
@@ -40,41 +43,25 @@ export const AuthProvider = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials) return null;
-
-        try {
-          // const res = await executeAuth(LoginDocument, {
-          //   email: credentials.email as string,
-          //   password: credentials.password as string,
-          // });
-
-          // const data = res.data;
-          // const authResult = data?.authenticateUserWithPassword;
-
-          // if (!authResult) {
-          //   return null;
-          //   // throw new Error("No authentication result");
-          // }
-
-          // if ("item" in authResult && authResult.sessionToken) {
-          //   const user = authResult.item;
-          //   return {
-          //     ...user,
-          //     sessionToken: authResult.sessionToken,
-          //   };
-          // }
-
-          // if ("message" in authResult) {
-          //   return null;
-          //   // throw new Error(authResult.message);
-          // }
-
-          throw new Error("Authentication failed");
-        } catch (err) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
-          throw new Error(
-            (err as { message?: string }).message ?? "Login failed"
-          );
+        }
+        try {
+          const result = await loginAction({
+            email: credentials.email as string,
+            password: credentials.password as string,
+          });
+          if (result && result.user) {
+            return {
+              ...result.user,
+              token: result.token,
+              exp: result.exp,
+            };
+          }
+          return null;
+        } catch (error) {
+          console.error("Login failed:", error);
+          return null;
         }
       },
     }),
@@ -84,69 +71,30 @@ export const AuthProvider = NextAuth({
       if (!account?.provider) return false;
       console.log("🔐 SignIn via provider:", account.provider);
 
-      async function AuthenticateAndLinkProvider({
-        accessToken,
-        email,
-        provider,
-        providerAccountId,
-        refreshToken,
-        name,
-        image,
-      }: {
-        provider: string;
-        accessToken: string;
-        refreshToken?: string;
-        email: string;
-        name: string | undefined | null;
-        providerAccountId: string;
-        image: string;
-      }) {
-        // try {
-        //   const res = await executeAuth(AuthenticateAndLinkProviderDocument, {
-        //     email,
-        //     name,
-        //     provider,
-        //     providerAccountId,
-        //     accessToken,
-        //     refreshToken,
-        //     image,
-        //   });
-        //   return res.data;
-        // } catch (err) {
-        //   console.error("❌ Error during Discord RegisterAndLogin", err);
-        //   return false;
-        // }
-      }
       switch (account.provider) {
         case "discord": {
           const discordUser = profile as unknown as DiscordUser;
           try {
             if (!account.access_token || !profile?.email) return false;
-            const authResult = await AuthenticateAndLinkProvider({
+            const auth = await authAndLinkProvider({
               accessToken: account.access_token,
               email: profile.email,
-              name: discordUser.username,
+              username: discordUser.username,
               provider: account.provider,
               providerAccountId: account.providerAccountId,
               refreshToken: account.refresh_token,
               image: discordUser.image_url,
             });
-            // if (authResult) {
-            //   const login = authResult?.authenticateAndLinkProvider;
+            if (auth) {
+              const { item, ...secret } = auth;
+              Object.assign(user, {
+                ...item,
+                ...secret,
+                image: discordUser.image_url,
+              });
 
-            //   if (!login || login.__typename !== "AuthProvidersSuccess") {
-            //     return false;
-            //   }
-
-            //   const { item, ...secret } = login;
-            //   Object.assign(user, {
-            //     ...item,
-            //     ...secret,
-            //     image: discordUser.image_url,
-            //   });
-
-            //   return true;
-            // }
+              return true;
+            }
             throw new Error("Discord auth fail");
           } catch (err) {
             console.error("❌ Error during Discord RegisterAndLogin", err);
@@ -182,19 +130,12 @@ export const AuthProvider = NextAuth({
 
     async session({ session, token }) {
       if (session.user) {
-        const {
-          sessionToken,
-          accessToken,
-          refetchToken,
-          passwordResetIssuedAt,
-          passwordResetRedeemedAt,
-          ...rest
-        } = token;
-        // session.user = {
-        //   ...session.user,
-        //   ...rest,
-        //   email: token.email ?? "",
-        // };
+        const { sessionToken, ...rest } = token;
+        session.user = {
+          ...session.user,
+          ...rest,
+          email: token.email ?? "",
+        };
       }
       return session;
     },

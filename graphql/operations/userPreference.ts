@@ -29,7 +29,7 @@ export const CreateUserPreference = graphql(`
 `);
 
 export const UpdateUserPreference = graphql(`
-  mutation UpdateUserPreference($id: Int!, $data: mutationUserPreferenceUpdateInput!) {
+  mutation UpdateUserPreference($id: String!, $data: mutationUserPreferenceUpdateInput!) {
     updateUserPreference(id: $id, data: $data) {
       id
       setting
@@ -38,7 +38,7 @@ export const UpdateUserPreference = graphql(`
 `);
 
 export const DeleteUserPreference = graphql(`
-  mutation DeleteUserPreference($id: Int!) {
+  mutation DeleteUserPreference($id: String!) {
     deleteUserPreference(id: $id) {
       id
     }

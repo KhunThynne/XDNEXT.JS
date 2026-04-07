@@ -6,6 +6,7 @@
     "frontend/xdstudio"
   ],
   "scripts": {
+    "update": "npx npm-check-updates --dep prod,dev --upgrade",
     "dev:frontend": "npm --prefix frontend/xdstudio run dev",
     "dev:backend": "npm --prefix backend/xdstudio  run dev",
     "prisma:studio": "npm --prefix backend/xdstudio run prisma:studio",
@@ -30,11 +31,11 @@
   },
   "homepage": "https://github.com/KhunThynne/XDNEXT.JS#readme",
   "devDependencies": {
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "@0no-co/graphqlsp": "^1.15.2",
-    "@commitlint/cli": "^20.3.0",
-    "@commitlint/config-conventional": "^20.3.0",
+    "@0no-co/graphqlsp": "^1.15.3",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
     "@graphql-codegen/cli": "^6.2.1",
+    "@graphql-codegen/client-preset": "^5.2.4",
     "@graphql-codegen/introspection": "5.0.1",
     "@graphql-codegen/schema-ast": "^5.0.1",
     "@graphql-codegen/typescript": "^5.0.9",
@@ -44,6 +45,7 @@
     "@types/node": "^25.5.2",
     "dotenv-flow": "^4.1.0",
     "husky": "^9.1.7",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "standard-version": "^9.5.0"
   }
 }

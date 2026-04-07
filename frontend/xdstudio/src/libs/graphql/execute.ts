@@ -9,6 +9,9 @@ async function executeWithEndpoint<TResult, TVariables>(
 ) {
   const response = await fetch(`${endpoint}`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify({
       query,
       variables,
@@ -27,7 +30,7 @@ export async function execute<TResult, TVariables>(
   ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ) {
   const baseUrl = getBaseUrl();
-
+  console.log(`${baseUrl ?? env.INTERNAL_SITE_URL}/api/graphql`);
   return executeWithEndpoint(
     `${baseUrl ?? env.INTERNAL_SITE_URL}/api/graphql`,
     query,

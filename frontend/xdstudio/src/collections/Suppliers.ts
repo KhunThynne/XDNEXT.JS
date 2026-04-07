@@ -4,7 +4,13 @@ export const Suppliers: CollectionConfig = {
   slug: "suppliers",
   admin: {
     useAsTitle: "name",
-    hidden: true,
+    // hidden: true,
+  },
+  access: {
+    read: () => true,
+    update: () => true,
+    delete: () => true,
+    create: () => true,
   },
   fields: [
     {

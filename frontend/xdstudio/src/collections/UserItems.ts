@@ -4,7 +4,7 @@ export const UserItems: CollectionConfig = {
   slug: "user-items",
   admin: {
     useAsTitle: "id",
-    hidden: true,
+    // hidden: true,
     defaultColumns: ["user", "item", "createdAt"],
   },
   timestamps: true,

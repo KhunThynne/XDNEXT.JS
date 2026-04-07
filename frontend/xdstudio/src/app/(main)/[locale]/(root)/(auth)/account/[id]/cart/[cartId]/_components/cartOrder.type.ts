@@ -1,5 +1,5 @@
-import type { Cart, CartItem, User } from "@/libs/graphql/generates/graphql";
-import { GetCartQuery } from "@/libs/graphql/generates/graphql";
+import type { CartItem, Cart, User } from "@/libs/graphql/generates/graphql";
+
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { Session } from "next-auth";
@@ -25,7 +25,7 @@ export interface CartFormProps {
 export interface CartItemsDatableFormProps {
   columns: ColumnDef<CartItem>[];
   filter: string;
-  total: Cart["itemsCount"];
+  total: number;
   selected: number;
   cartItems: CartItem[];
 

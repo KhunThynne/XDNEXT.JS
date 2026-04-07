@@ -16,7 +16,7 @@ export const CreateCartItem = graphql(`
 `);
 
 export const DeleteCartItem = graphql(`
-  mutation DeleteCartItem($id: Int!) {
+  mutation DeleteCartItem($id: String!) {
     deleteCartItem(id: $id) {
       id
     }

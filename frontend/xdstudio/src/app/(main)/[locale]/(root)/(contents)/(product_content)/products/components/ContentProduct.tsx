@@ -1,13 +1,7 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import type {
-  CheckUserProductStatusQuery,
-  Faq,
-  Maybe,
-  Product,
-  Product_Media_Document,
-} from "@/libs/graphql/generates/graphql";
+import type { Faq, Maybe, Product } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardAction,
@@ -33,7 +27,13 @@ import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
 import { useMemo } from "react";
 import { MediaDocument } from "./document-render/MediaDocument";
-
+type CheckUserProductStatusQuery = {
+  checkUserProductStatus: {
+    __typename: "CheckProductSuccess";
+    inCart: boolean;
+    inUserItem: boolean;
+  };
+};
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
   return (
@@ -107,16 +107,16 @@ const ContainerProductMenu = (
                     key={i}
                     className={`h-4 w-4 ${
                       filled
-                        ? "fill-current text-xd/80"
+                        ? "text-xd/80 fill-current"
                         : half
-                          ? "fill-current text-xd/20"
+                          ? "text-xd/20 fill-current"
                           : "text-gray-300"
                     }`}
                   />
                 );
               })}
             </div>
-            <span className="text-sm font-medium text-muted-foreground">
+            <span className="text-muted-foreground text-sm font-medium">
               {props.averageScore} / 5.0
             </span>
           </div>
@@ -134,7 +134,7 @@ const ContainerProductMenu = (
             <SafeHtml
               as="p"
               html={props.description}
-              className="text-sm leading-relaxed break-all text-muted-foreground"
+              className="text-muted-foreground text-sm leading-relaxed break-all"
             />
           )}
         </div>
@@ -187,7 +187,7 @@ export const ContentProduct = (
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
     >
-      <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
+    <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
         <MediaDocument {...product.media!} />
       </ContainerSection>
       <ContainerSection className="top-20 max-xl:sticky xl:col-span-2">
@@ -198,11 +198,11 @@ export const ContentProduct = (
         title="Product Details"
       >
         {product.details && (
-          <article className="text-md space-y-2 leading-relaxed text-muted-foreground">
+          <article className="text-md text-muted-foreground space-y-2 leading-relaxed">
             <DocumentRenderer document={product.details.document} />
           </article>
         )}
-      </ContainerSection>
+      </ContainerSection> 
     </ContainerSection>
   );
 };

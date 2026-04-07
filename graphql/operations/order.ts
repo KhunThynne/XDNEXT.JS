@@ -1,6 +1,6 @@
 import { graphql } from "../generates";
 
-export const getOrder = graphql(`
+graphql(`
   query getOrder($where: Order_where) {
     Orders(where: $where) {
       docs {
@@ -28,7 +28,7 @@ export const getOrder = graphql(`
   }
 `);
 
-export const CreateOrderAndUserItems = graphql(`
+graphql(`
   mutation CreateOrderAndUserItems($data: mutationOrderInput!) {
     createOrder(data: $data) {
       items {

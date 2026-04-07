@@ -38,14 +38,14 @@ export const ShoppingPopover = ({
   });
   const { data } = query;
 
-  const flatData = useMemo(
-    () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
-    [data]
-  );
+  // const flatData = useMemo(
+  //   () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
+  //   [data]
+  // );
   const [totalPoint, setTotalPoint] = useState(0);
-  const cartItems = flatData;
+  // const cartItems = flatData;
   const navigation = `/account/${userId}/cart/${cartId}`;
-  const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
+  // const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
 
   return (
     <Popover>
@@ -60,19 +60,19 @@ export const ShoppingPopover = ({
           className="group relative"
           aria-labelledby="shopping-bag-button"
         >
-          <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} />
-          <ShoppingCount count={itemsCount} />
+          {/* <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} /> */}
+          {/* <ShoppingCount count={itemsCount} /> */}
         </Button>
       </PopoverTrigger>
       <Button className="md:hidden" variant="ghost" size="icon" asChild>
         <Link href={navigation} aria-labelledby="shopping-bag-button">
           <ShoppingBag />
-          <ShoppingCount count={itemsCount} />
+          {/* <ShoppingCount count={itemsCount} /> */}
         </Link>
       </Button>
       <PopoverContent align="end" className="w-sm p-0">
         <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
-        <CartShoppingForm
+        {/* <CartShoppingForm
           cartItems={cartItems as CartItem[]}
           query={query}
           invalidateCartAction={invalidate}
@@ -85,7 +85,7 @@ export const ShoppingPopover = ({
             navigation={navigation}
             userTotalPoint={totalPoint}
           />
-        </CartShoppingForm>
+        </CartShoppingForm> */}
         <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
       </PopoverContent>
     </Popover>

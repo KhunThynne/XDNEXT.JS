@@ -11,6 +11,7 @@ export const useGetProductsQuery = (variables: GetProductsQueryVariables) => {
     queryKey: ["GetProducts"],
     queryFn: async () => {
       const { data } = await execute(GetProductsDocument, variables);
+      console.log(data);
       return data;
     },
     enabled: !!variables,

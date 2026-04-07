@@ -12,6 +12,7 @@ export const usePointDocument = ({
   id: UserPoint["id"] | undefined;
 }) => {
   const queryKey = [`point`, id];
+  return null
   const query = useQuery({
     queryKey,
     queryFn: async () => {
@@ -41,16 +42,16 @@ export default function Point({
     id: pointId,
   });
   const { data, status, refetch } = query;
-  const total_point = useMemo(
-    () => data?.data.userPoint?.total_point || 0,
-    [data?.data.userPoint?.total_point]
-  );
-  useLayoutEffect(() => {
-    if (!setTotalPoint) return;
-    if (total_point) {
-      setTotalPoint(total_point);
-    }
-  }, [setTotalPoint, total_point]);
+  // const total_point = useMemo(
+  //   () => data?.data.userPoint?.total_point || 0,
+  //   [data?.data.userPoint?.total_point]
+  // );
+  // useLayoutEffect(() => {
+  //   if (!setTotalPoint) return;
+  //   if (total_point) {
+  //     setTotalPoint(total_point);
+  //   }
+  // }, [setTotalPoint, total_point]);
   if (hidden) {
     return null;
   }
@@ -62,7 +63,7 @@ export default function Point({
           refetch();
         }}
       >
-        {formatter.number(total_point ?? 0)}
+        {/* {formatter.number(total_point ?? 0)} */}
       </span>
     );
   else
@@ -73,7 +74,7 @@ export default function Point({
           refetch();
         }}
       >
-        {formatter.number(total_point ?? 0)}
+        {/* {formatter.number(total_point ?? 0)} */}
       </span>
     );
 }

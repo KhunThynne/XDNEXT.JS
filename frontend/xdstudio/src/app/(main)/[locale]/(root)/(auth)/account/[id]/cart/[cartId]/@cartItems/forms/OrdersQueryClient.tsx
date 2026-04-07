@@ -1,12 +1,13 @@
 "use client";
 import { OrdersForm } from "./OrdersForm";
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
 import type { CartFormProps } from "../../_components/cartOrder.type";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import { useMemo } from "react";
+import type { CartItem } from "@/libs/graphql/generates/graphql";
 
 export const OrdersQueryClient = () => {
   const { watch, setValue } = useFormContext<CartFormProps>();
@@ -16,6 +17,7 @@ export const OrdersQueryClient = () => {
     cartId,
     userId,
   });
+  return null;
   const { data, status } = query;
 
   const flatData = useMemo(
@@ -25,7 +27,7 @@ export const OrdersQueryClient = () => {
 
   const cartItems = flatData;
   const navigation = `/account/cart/${cartId}`;
-  const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
+  const itemsCount = 0;
 
   if (status === "success")
     return itemsCount > 0 ? (

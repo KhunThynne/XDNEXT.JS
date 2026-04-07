@@ -2,9 +2,9 @@ import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
 import type {
   Image as ImageType,
   Maybe,
-  Product,
 } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
+import type { Product } from "@/payload-types";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
@@ -117,7 +117,7 @@ const UrlMediaTypeComponent = ({
   return (
     <>
       {embedUrl.type === "video" && (
-        <SquarePlay className="absolute right-4 bottom-4 size-8 text-xd/80" />
+        <SquarePlay className="text-xd/80 absolute right-4 bottom-4 size-8" />
       )}
       <img
         src={embedUrl.url}
@@ -165,11 +165,12 @@ const MediaComponent = (
   return null;
 };
 
-export const MediaDocument = (props: Maybe<Product["media"]>) => {
+export const MediaDocument = (props: Product["media"]) => {
   const [mediaIndex, setMediaIndex] = useState(0);
   if (!props) {
     return;
   }
+  return null;
   const { document } = props;
   const [block] = document.filter((b: any) => b.type === "component-block");
   const items = block?.props?.items as MediaItem[];
@@ -211,7 +212,7 @@ export const MediaDocument = (props: Maybe<Product["media"]>) => {
                   `cursor-pointer select-none`,
                   `relative overflow-hidden transition-all duration-300`,
                   index === mediaIndex
-                    ? `scale-105 opacity-100 ring-2 ring-primary`
+                    ? `ring-primary scale-105 opacity-100 ring-2`
                     : `opacity-60 hover:opacity-100`
                 )}
               >

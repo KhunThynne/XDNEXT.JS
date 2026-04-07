@@ -52,7 +52,7 @@ export const createPointTransaction = graphql(`
 `);
 
 export const updatePointTransaction = graphql(`
-  mutation updatePointTransaction($id: Int!, $data: mutationPointTransactionUpdateInput!) {
+  mutation updatePointTransaction($id: String!, $data: mutationPointTransactionUpdateInput!) {
     updatePointTransaction(id: $id, data: $data) {
       ...PointTransactionField
     }
@@ -60,7 +60,7 @@ export const updatePointTransaction = graphql(`
 `);
 
 export const deletePointTransaction = graphql(`
-  mutation deletePointTransaction($id: Int!) {
+  mutation deletePointTransaction($id: String!) {
     deletePointTransaction(id: $id) {
       ...PointTransactionField
     }

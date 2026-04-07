@@ -47,6 +47,7 @@ export const CardProduct = ({
   | "containerDetail"
 > & { footer?: boolean }) => {
   const href = product?.href ?? `/product/${product?.id}`;
+
   return (
     <MotionTransition {...motion} animationKey={`${product?.id}`}>
       <Card
@@ -57,7 +58,7 @@ export const CardProduct = ({
       >
         <CardHeader
           className={clsx(
-            "relative aspect-video rounded-t-xl bg-primary-foreground inset-shadow-sm inset-shadow-primary/20 sm:aspect-auto dark:bg-accent",
+            "bg-primary-foreground inset-shadow-primary/20 dark:bg-accent relative aspect-video rounded-t-xl inset-shadow-sm sm:aspect-auto",
             classNames?.header
           )}
         >
@@ -116,8 +117,7 @@ export const CardProduct = ({
 
             {loading
               ? Array.from({ length: 3 }).map((_, i) => {
-                  // eslint-disable-next-line react-hooks/purity
-                  const width = Math.floor(Math.random() * (80 - 40 + 1)) + 180;
+                  const width = Math.floor(6 * (80 - 40 + 1)) + 180;
                   return (
                     <Skeleton
                       key={i}
@@ -135,7 +135,7 @@ export const CardProduct = ({
                   >
                     <SafeHtml
                       className={clsx(
-                        "text-md text-sm break-all text-muted-foreground",
+                        "text-md text-muted-foreground text-sm break-all",
                         _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
                       )}
                       html={product.description}
@@ -150,7 +150,7 @@ export const CardProduct = ({
               {loading ? (
                 <Skeleton className="h-5 w-12" />
               ) : (
-                <p className="text-md flex grow gap-1 truncate font-bold text-primary">
+                <p className="text-md text-primary flex grow gap-1 truncate font-bold">
                   <PointDiamon />
                   {`${product?.price?.price ?? `Free`}`}
                 </p>

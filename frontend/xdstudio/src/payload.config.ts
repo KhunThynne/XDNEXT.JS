@@ -68,7 +68,7 @@ export default buildConfig({
     PointTransactions,
   ],
   graphQL: {
-    schemaOutputFile: path.resolve(dirname, "./libs/graphql/generates/graphql.schema.graphql"),
+    schemaOutputFile: path.resolve(dirname, "./graphql.schema.graphql"),
     disable: false,
   },
   globals: [Settings],

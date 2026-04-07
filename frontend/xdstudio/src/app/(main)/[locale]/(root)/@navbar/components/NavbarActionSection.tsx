@@ -19,9 +19,7 @@ export const NavbarActionSection = ({
 }: {
   session: Session | null;
 } & WithlDefaultProps) => {
-  const cartId = useMemo(() => {
-    return session?.user?.carts?.[0]?.id;
-  }, [session?.user.carts]);
+
   const { status } = useSession();
   return (
     <section className={clsx(className)}>
@@ -40,11 +38,11 @@ export const NavbarActionSection = ({
           <SignButton />
         ) : (
           <Fragment>
-            <ShoppingPopover
+            {/* <ShoppingPopover
               pointId={session.user.point?.id ?? ""}
               userId={session.user.id}
               cartId={cartId!}
-            />
+            /> */}
             <AccountPopover {...session?.user} />
           </Fragment>
         )}
