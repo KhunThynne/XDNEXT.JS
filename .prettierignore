@@ -1,0 +1,59 @@
+# --- Build & Outputs ---
+dist/
+build/
+.next/
+out/
+bin/
+obj/
+
+# --- Dependencies ---
+node_modules/
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# --- Package Manager Locks ---
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# --- Static Assets ---
+public/
+assets/
+*.min.js
+*.min.css
+*.svg
+*.ico
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+
+# --- Configuration & Hidden Files ---
+.vercel/
+.turbo/
+.cache/
+.eslintcache
+.stylelintcache
+.npm/
+.DS_Store
+Thumbs.db
+
+# --- GraphQL (Optional) ---
+__generated__/
+*.generated.ts
+
+# --- Environment Files ---
+.env*
+!.env.example
+
+# --- Python / FastAPI specifics ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.tox/

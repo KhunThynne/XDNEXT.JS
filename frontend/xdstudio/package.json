@@ -8,7 +8,7 @@
     "backend/*"
   ],
   "scripts": {
-    "dev": "next dev --no-server-fast-refresh",
+    "dev": "next dev --no-server-fast-refresh", 
     "build": "next build --turbo",
     "start": "next start",
     "lint": "eslint",

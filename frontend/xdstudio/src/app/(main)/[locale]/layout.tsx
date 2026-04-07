@@ -44,7 +44,7 @@ export default async function LocaleLayout({
     
             <Providers locale={locale} session={session}>
               <NextIntlClientProvider>
-                {children}
+                {/* {children} */}
                 <GoToTopButton />
               </NextIntlClientProvider>
             </Providers>
