@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "XD-Shop",
   "workspaces": [
     "frontend/xdstudio"

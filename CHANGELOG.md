@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.7.1...v1.8.0) (2026-04-08)
+
+
+### Features
+
+* implement cart infinite query hook, Stripe webhook handler, and cart shopping form components ([44e8812](https://github.com/KhunThynne/XDNEXT.JS/commit/44e8812969637ae35f01e9a36d1785de01cf1e10))
+* implement environment configuration validation and add new UI components for cart, account preferences, and payment forms. ([fba40aa](https://github.com/KhunThynne/XDNEXT.JS/commit/fba40aa9a57b37fbcaece902ef3967c946e8422c))
+* implement NextAuth configuration with Discord provider and GraphQL integration ([ac0309c](https://github.com/KhunThynne/XDNEXT.JS/commit/ac0309cbfd0a56f34525816718b5b5af5b49b123))
+* implement product media gallery with internal and external support and update GraphQL schema and operations ([9c7a537](https://github.com/KhunThynne/XDNEXT.JS/commit/9c7a53718e260b34af10cf931c8b4073feb8d7aa))
+* initialize frontend application with Payload CMS, GraphQL integration, and product management features ([a1e282f](https://github.com/KhunThynne/XDNEXT.JS/commit/a1e282fd32ea2ca9e86b81795de7aae6fb6be1f7))
+* initialize frontend project with Next.js, Payload CMS, and ESLint configuration ([06191e2](https://github.com/KhunThynne/XDNEXT.JS/commit/06191e24d4219ec8e8c80cc952afa14d0bbfb7cd))
+* initialize GraphQL codegen and define core operations for users, products, and authentication ([75bbf0b](https://github.com/KhunThynne/XDNEXT.JS/commit/75bbf0b0309d6e5d88964468faea11dbb625fe76))
+* initialize GraphQL codegen infrastructure and implement initial navbar UI component ([3731300](https://github.com/KhunThynne/XDNEXT.JS/commit/37313001d3966ff16c5cea9435165bb35b42df8c))
+* initialize Payload CMS project structure and core collections ([f616c60](https://github.com/KhunThynne/XDNEXT.JS/commit/f616c6013bfa8834ff23148d2a93758a7d879388))
+* initialize Payload CMS project with core collections, global settings, and Next.js app router structure ([5e1928f](https://github.com/KhunThynne/XDNEXT.JS/commit/5e1928f651b52a1d166b8730e978c73c92ab08fc))
+
 ### [1.7.1](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.7.0...v1.7.1) (2026-03-27)
 
 ## [1.7.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.6.0...v1.7.0) (2026-03-27)
