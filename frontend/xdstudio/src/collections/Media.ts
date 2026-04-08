@@ -6,6 +6,9 @@ export const Media: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "filename", "mimeType", "filesize"],
   },
+  access: {
+    read: () => true,
+  },
   upload: true,
   hooks: {
     beforeOperation: [

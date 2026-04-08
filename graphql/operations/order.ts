@@ -12,10 +12,9 @@ graphql(`
           id
           email
           username
-          supplier {
+         supplier {
             id
             name
-          }
         }
         items {
           id

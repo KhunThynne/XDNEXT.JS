@@ -30,6 +30,7 @@ const nextConfig = {
   //     allowedOrigins: ["shop.xd-tect.com"],
   //   },
   // },
+  transpilePackages: ["@payloadcms/richtext-lexical"],
   async rewrites() {
     return [
       {

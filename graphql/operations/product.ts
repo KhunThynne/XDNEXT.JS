@@ -19,11 +19,6 @@ export const ProductFields = graphql(`
       id
       name
     }
-    faqs {
-      id
-      question
-      answer
-    }
     averageScore
     status
     publishedAt
@@ -32,7 +27,16 @@ export const ProductFields = graphql(`
     previewImage {
       ...MediaField
     }
-    media
+    media {
+      ... on InternalMedia {
+        file {
+          ...MediaField
+        }
+      }
+      ... on ExternalMedia {
+        url
+      }
+    }
   }
 `);
 

@@ -1588,6 +1588,13 @@ A field whose value conforms to the standard internet email address format as sp
 """
 scalar EmailAddress @specifiedBy(url: "https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address")
 
+type ExternalMedia {
+  blockName: String
+  blockType: String
+  id: String
+  url: String!
+}
+
 type Faq {
   answer(depth: Int): JSON
   createdAt: DateTime
@@ -1927,6 +1934,13 @@ type FaqsUpdateAccess {
 type FaqsUpdateDocAccess {
   permission: Boolean!
   where: JSONObject
+}
+
+type InternalMedia {
+  blockName: String
+  blockType: String
+  file: Media
+  id: String
 }
 
 """
@@ -6749,9 +6763,8 @@ type Product {
   createdAt: DateTime
   description: String
   details(depth: Int): JSON
-  faqs: [Faq!]
   id: String!
-  media(depth: Int): JSON
+  media: [Product_Media!]
   name: String!
   previewImage: Media
   price: Price
@@ -7235,6 +7248,8 @@ enum ProductUpdate_status_MutationInput {
   published
 }
 
+union Product_Media = ExternalMedia | InternalMedia
+
 input Product_averageScore_operator {
   equals: Float
   exists: Boolean
@@ -7272,15 +7287,6 @@ input Product_details_operator {
   not_equals: JSON
 }
 
-input Product_faqs_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
 input Product_id_operator {
   all: [String]
   contains: String
@@ -7290,14 +7296,6 @@ input Product_id_operator {
   like: String
   not_equals: String
   not_in: [String]
-}
-
-input Product_media_operator {
-  contains: JSON
-  equals: JSON
-  exists: Boolean
-  like: JSON
-  not_equals: JSON
 }
 
 input Product_name_operator {
@@ -7427,9 +7425,7 @@ input Product_where {
   createdAt: Product_createdAt_operator
   description: Product_description_operator
   details: Product_details_operator
-  faqs: Product_faqs_operator
   id: Product_id_operator
-  media: Product_media_operator
   name: Product_name_operator
   previewImage: Product_previewImage_operator
   price: Product_price_operator
@@ -7450,9 +7446,7 @@ input Product_where_and {
   createdAt: Product_createdAt_operator
   description: Product_description_operator
   details: Product_details_operator
-  faqs: Product_faqs_operator
   id: Product_id_operator
-  media: Product_media_operator
   name: Product_name_operator
   previewImage: Product_previewImage_operator
   price: Product_price_operator
@@ -7473,9 +7467,7 @@ input Product_where_or {
   createdAt: Product_createdAt_operator
   description: Product_description_operator
   details: Product_details_operator
-  faqs: Product_faqs_operator
   id: Product_id_operator
-  media: Product_media_operator
   name: Product_name_operator
   previewImage: Product_previewImage_operator
   price: Product_price_operator
@@ -7528,7 +7520,6 @@ type ProductsDocAccessFields {
   createdAt: ProductsDocAccessFields_createdAt
   description: ProductsDocAccessFields_description
   details: ProductsDocAccessFields_details
-  faqs: ProductsDocAccessFields_faqs
   media: ProductsDocAccessFields_media
   name: ProductsDocAccessFields_name
   previewImage: ProductsDocAccessFields_previewImage
@@ -7632,29 +7623,6 @@ type ProductsDocAccessFields_details_Read {
 }
 
 type ProductsDocAccessFields_details_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs {
-  create: ProductsDocAccessFields_faqs_Create
-  delete: ProductsDocAccessFields_faqs_Delete
-  read: ProductsDocAccessFields_faqs_Read
-  update: ProductsDocAccessFields_faqs_Update
-}
-
-type ProductsDocAccessFields_faqs_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Update {
   permission: Boolean!
 }
 
@@ -7939,7 +7907,6 @@ type ProductsFields {
   createdAt: ProductsFields_createdAt
   description: ProductsFields_description
   details: ProductsFields_details
-  faqs: ProductsFields_faqs
   media: ProductsFields_media
   name: ProductsFields_name
   previewImage: ProductsFields_previewImage
@@ -8043,29 +8010,6 @@ type ProductsFields_details_Read {
 }
 
 type ProductsFields_details_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs {
-  create: ProductsFields_faqs_Create
-  delete: ProductsFields_faqs_Delete
-  read: ProductsFields_faqs_Read
-  update: ProductsFields_faqs_Update
-}
-
-type ProductsFields_faqs_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Update {
   permission: Boolean!
 }
 
@@ -10901,28 +10845,27 @@ type TagsUpdateDocAccess {
 }
 
 type User {
-  accounts: [Account!]
+  accounts(count: Boolean, limit: Int, page: Int, sort: String, where: Account_where): User_Accounts
   avatar: Media
-  carts: [Cart!]
+  carts(count: Boolean, limit: Int, page: Int, sort: String, where: Cart_where): User_Carts
   createdAt: DateTime
+  credit: Float
   email: EmailAddress!
   hash: String
   id: String!
   image: String
-  items: [UserItem!]
+  items(count: Boolean, limit: Int, page: Int, sort: String, where: UserItem_where): User_Items
   lockUntil: DateTime
   loginAttempts: Float
   orders: [Order!]
-  point: UserPoint
-  posts: [Post!]
-  preference: UserPreference
-  provider: String
+  point(count: Boolean, limit: Int, page: Int, sort: String, where: UserPoint_where): User_Point
+  preference(count: Boolean, limit: Int, page: Int, sort: String, where: UserPreference_where): User_Preference
   resetPasswordExpiration: DateTime
   resetPasswordToken: String
-  role: User_role
+  role: User_role!
   salt: String
   sessions: [User_Sessions!]
-  supplier: [Supplier!]
+  supplier(count: Boolean, limit: Int, page: Int, sort: String, where: Supplier_where): User_Supplier
   updatedAt: DateTime
   username: String!
 }
@@ -12079,31 +12022,49 @@ enum UserUpdate_role_MutationInput {
   USER
 }
 
+type User_Accounts {
+  docs: [Account!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+type User_Carts {
+  docs: [Cart!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+type User_Items {
+  docs: [UserItem!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+type User_Point {
+  docs: [UserPoint!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+type User_Preference {
+  docs: [UserPreference!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
 type User_Sessions {
   createdAt: DateTime
   expiresAt: DateTime
   id: String
 }
 
-input User_accounts_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
+type User_Supplier {
+  docs: [Supplier!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
 }
 
 input User_avatar_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
-input User_carts_operator {
   all: [JSON]
   equals: JSON
   exists: Boolean
@@ -12121,6 +12082,16 @@ input User_createdAt_operator {
   less_than_equal: DateTime
   like: DateTime
   not_equals: DateTime
+}
+
+input User_credit_operator {
+  equals: Float
+  exists: Boolean
+  greater_than: Float
+  greater_than_equal: Float
+  less_than: Float
+  less_than_equal: Float
+  not_equals: Float
 }
 
 input User_email_operator {
@@ -12155,15 +12126,6 @@ input User_image_operator {
   not_in: [String]
 }
 
-input User_items_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
 input User_orders_operator {
   all: [JSON]
   equals: JSON
@@ -12171,44 +12133,6 @@ input User_orders_operator {
   in: [JSON]
   not_equals: JSON
   not_in: [JSON]
-}
-
-input User_point_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
-input User_posts_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
-input User_preference_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
-input User_provider_operator {
-  all: [String]
-  contains: String
-  equals: String
-  exists: Boolean
-  in: [String]
-  like: String
-  not_equals: String
-  not_in: [String]
 }
 
 enum User_role {
@@ -12235,7 +12159,6 @@ enum User_role_MutationInput {
 input User_role_operator {
   all: [User_role_Input]
   equals: User_role_Input
-  exists: Boolean
   in: [User_role_Input]
   not_equals: User_role_Input
   not_in: [User_role_Input]
@@ -12272,15 +12195,6 @@ input User_sessions__id_operator {
   not_in: [String]
 }
 
-input User_supplier_operator {
-  all: [JSON]
-  equals: JSON
-  exists: Boolean
-  in: [JSON]
-  not_equals: JSON
-  not_in: [JSON]
-}
-
 input User_updatedAt_operator {
   equals: DateTime
   exists: Boolean
@@ -12305,24 +12219,17 @@ input User_username_operator {
 input User_where {
   AND: [User_where_and]
   OR: [User_where_or]
-  accounts: User_accounts_operator
   avatar: User_avatar_operator
-  carts: User_carts_operator
   createdAt: User_createdAt_operator
+  credit: User_credit_operator
   email: User_email_operator
   id: User_id_operator
   image: User_image_operator
-  items: User_items_operator
   orders: User_orders_operator
-  point: User_point_operator
-  posts: User_posts_operator
-  preference: User_preference_operator
-  provider: User_provider_operator
   role: User_role_operator
   sessions__createdAt: User_sessions__createdAt_operator
   sessions__expiresAt: User_sessions__expiresAt_operator
   sessions__id: User_sessions__id_operator
-  supplier: User_supplier_operator
   updatedAt: User_updatedAt_operator
   username: User_username_operator
 }
@@ -12330,24 +12237,17 @@ input User_where {
 input User_where_and {
   AND: [User_where_and]
   OR: [User_where_or]
-  accounts: User_accounts_operator
   avatar: User_avatar_operator
-  carts: User_carts_operator
   createdAt: User_createdAt_operator
+  credit: User_credit_operator
   email: User_email_operator
   id: User_id_operator
   image: User_image_operator
-  items: User_items_operator
   orders: User_orders_operator
-  point: User_point_operator
-  posts: User_posts_operator
-  preference: User_preference_operator
-  provider: User_provider_operator
   role: User_role_operator
   sessions__createdAt: User_sessions__createdAt_operator
   sessions__expiresAt: User_sessions__expiresAt_operator
   sessions__id: User_sessions__id_operator
-  supplier: User_supplier_operator
   updatedAt: User_updatedAt_operator
   username: User_username_operator
 }
@@ -12355,24 +12255,17 @@ input User_where_and {
 input User_where_or {
   AND: [User_where_and]
   OR: [User_where_or]
-  accounts: User_accounts_operator
   avatar: User_avatar_operator
-  carts: User_carts_operator
   createdAt: User_createdAt_operator
+  credit: User_credit_operator
   email: User_email_operator
   id: User_id_operator
   image: User_image_operator
-  items: User_items_operator
   orders: User_orders_operator
-  point: User_point_operator
-  posts: User_posts_operator
-  preference: User_preference_operator
-  provider: User_provider_operator
   role: User_role_operator
   sessions__createdAt: User_sessions__createdAt_operator
   sessions__expiresAt: User_sessions__expiresAt_operator
   sessions__id: User_sessions__id_operator
-  supplier: User_supplier_operator
   updatedAt: User_updatedAt_operator
   username: User_username_operator
 }
@@ -12416,14 +12309,13 @@ type UsersDocAccessFields {
   avatar: UsersDocAccessFields_avatar
   carts: UsersDocAccessFields_carts
   createdAt: UsersDocAccessFields_createdAt
+  credit: UsersDocAccessFields_credit
   email: UsersDocAccessFields_email
   image: UsersDocAccessFields_image
   items: UsersDocAccessFields_items
   orders: UsersDocAccessFields_orders
   point: UsersDocAccessFields_point
-  posts: UsersDocAccessFields_posts
   preference: UsersDocAccessFields_preference
-  provider: UsersDocAccessFields_provider
   role: UsersDocAccessFields_role
   sessions: UsersDocAccessFields_sessions
   supplier: UsersDocAccessFields_supplier
@@ -12520,6 +12412,29 @@ type UsersDocAccessFields_createdAt_Read {
 }
 
 type UsersDocAccessFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit {
+  create: UsersDocAccessFields_credit_Create
+  delete: UsersDocAccessFields_credit_Delete
+  read: UsersDocAccessFields_credit_Read
+  update: UsersDocAccessFields_credit_Update
+}
+
+type UsersDocAccessFields_credit_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Update {
   permission: Boolean!
 }
 
@@ -12638,29 +12553,6 @@ type UsersDocAccessFields_point_Update {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_posts {
-  create: UsersDocAccessFields_posts_Create
-  delete: UsersDocAccessFields_posts_Delete
-  read: UsersDocAccessFields_posts_Read
-  update: UsersDocAccessFields_posts_Update
-}
-
-type UsersDocAccessFields_posts_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Delete {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Update {
-  permission: Boolean!
-}
-
 type UsersDocAccessFields_preference {
   create: UsersDocAccessFields_preference_Create
   delete: UsersDocAccessFields_preference_Delete
@@ -12681,29 +12573,6 @@ type UsersDocAccessFields_preference_Read {
 }
 
 type UsersDocAccessFields_preference_Update {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider {
-  create: UsersDocAccessFields_provider_Create
-  delete: UsersDocAccessFields_provider_Delete
-  read: UsersDocAccessFields_provider_Read
-  update: UsersDocAccessFields_provider_Update
-}
-
-type UsersDocAccessFields_provider_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Delete {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Update {
   permission: Boolean!
 }
 
@@ -12903,14 +12772,13 @@ type UsersFields {
   avatar: UsersFields_avatar
   carts: UsersFields_carts
   createdAt: UsersFields_createdAt
+  credit: UsersFields_credit
   email: UsersFields_email
   image: UsersFields_image
   items: UsersFields_items
   orders: UsersFields_orders
   point: UsersFields_point
-  posts: UsersFields_posts
   preference: UsersFields_preference
-  provider: UsersFields_provider
   role: UsersFields_role
   sessions: UsersFields_sessions
   supplier: UsersFields_supplier
@@ -13007,6 +12875,29 @@ type UsersFields_createdAt_Read {
 }
 
 type UsersFields_createdAt_Update {
+  permission: Boolean!
+}
+
+type UsersFields_credit {
+  create: UsersFields_credit_Create
+  delete: UsersFields_credit_Delete
+  read: UsersFields_credit_Read
+  update: UsersFields_credit_Update
+}
+
+type UsersFields_credit_Create {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Read {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Update {
   permission: Boolean!
 }
 
@@ -13125,29 +13016,6 @@ type UsersFields_point_Update {
   permission: Boolean!
 }
 
-type UsersFields_posts {
-  create: UsersFields_posts_Create
-  delete: UsersFields_posts_Delete
-  read: UsersFields_posts_Read
-  update: UsersFields_posts_Update
-}
-
-type UsersFields_posts_Create {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Delete {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Read {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Update {
-  permission: Boolean!
-}
-
 type UsersFields_preference {
   create: UsersFields_preference_Create
   delete: UsersFields_preference_Delete
@@ -13168,29 +13036,6 @@ type UsersFields_preference_Read {
 }
 
 type UsersFields_preference_Update {
-  permission: Boolean!
-}
-
-type UsersFields_provider {
-  create: UsersFields_provider_Create
-  delete: UsersFields_provider_Delete
-  read: UsersFields_provider_Read
-  update: UsersFields_provider_Update
-}
-
-type UsersFields_provider_Create {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Delete {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Read {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Update {
   permission: Boolean!
 }
 
@@ -13852,7 +13697,6 @@ input mutationProductInput {
   createdAt: String
   description: String
   details: JSON
-  faqs: [String]
   media: JSON
   name: String!
   previewImage: String
@@ -13890,7 +13734,6 @@ input mutationProductUpdateInput {
   createdAt: String
   description: String
   details: JSON
-  faqs: [String]
   media: JSON
   name: String
   previewImage: String
@@ -13996,28 +13839,21 @@ input mutationTagUpdateInput {
 }
 
 input mutationUserInput {
-  accounts: [String]
   avatar: String
-  carts: [String]
   createdAt: String
+  credit: Float
   email: String!
   hash: String
   image: String
-  items: [String]
   lockUntil: String
   loginAttempts: Float
   orders: [String]
   password: String!
-  point: String
-  posts: [String]
-  preference: String
-  provider: String
   resetPasswordExpiration: String
   resetPasswordToken: String
-  role: User_role_MutationInput
+  role: User_role_MutationInput!
   salt: String
   sessions: [mutationUser_SessionsInput]
-  supplier: [String]
   updatedAt: String
   username: String!
 }
@@ -14069,28 +13905,21 @@ input mutationUserPreferenceUpdateInput {
 }
 
 input mutationUserUpdateInput {
-  accounts: [String]
   avatar: String
-  carts: [String]
   createdAt: String
+  credit: Float
   email: String
   hash: String
   image: String
-  items: [String]
   lockUntil: String
   loginAttempts: Float
   orders: [String]
   password: String
-  point: String
-  posts: [String]
-  preference: String
-  provider: String
   resetPasswordExpiration: String
   resetPasswordToken: String
   role: UserUpdate_role_MutationInput
   salt: String
   sessions: [mutationUserUpdate_SessionsInput]
-  supplier: [String]
   updatedAt: String
   username: String
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import type { Faq, Maybe, Product } from "@/libs/graphql/generates/graphql";
+import type { Faq, Maybe } from "@/libs/graphql/generates/graphql";
 import {
   Card,
   CardAction,
@@ -26,7 +26,11 @@ import { AddItemButton } from "./AddItem.button";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
 import { useMemo } from "react";
-import { MediaDocument } from "./document-render/MediaDocument";
+import { MediaProduct } from "./MediasProduct";
+import type { Product } from "@/payload-types";
+
+import { RichText } from "@payloadcms/richtext-lexical/react";
+
 type CheckUserProductStatusQuery = {
   checkUserProductStatus: {
     __typename: "CheckProductSuccess";
@@ -80,9 +84,9 @@ const ContainerProductMenu = (
     return status;
   }, [userProductStatus]);
 
-  if (!props.faqs) {
-    return null;
-  }
+  // if (!props.faqs) {
+  //   return null;
+  // }
   return (
     <Card className="h-full duration-300 hover:shadow-lg">
       <CardHeader className="border-b">
@@ -177,32 +181,35 @@ export const ContentProduct = (
   props: Product & {
     session: Session | null | undefined;
     userProductStatus: CheckUserProductStatusQuery;
+    children?: React.ReactNode;
   }
 ) => {
-  const { id, ...product } = props;
+  const { id, children, ...product } = props;
   return (
     <ContainerSection
+      key={id}
       title={`Product`}
       classNames={{
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
     >
-    <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
-        <MediaDocument {...product.media!} />
+      <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
+        <MediaProduct {...product.media!} />
       </ContainerSection>
       <ContainerSection className="top-20 max-xl:sticky xl:col-span-2">
         <ContainerProductMenu {...props} />
       </ContainerSection>
-      <ContainerSection
-        className="col-span-full h-full duration-300"
-        title="Product Details"
-      >
-        {product.details && (
+      {product.details && (
+        <ContainerSection
+          className="col-span-full h-full duration-300"
+          title="Product Details"
+        >
           <article className="text-md text-muted-foreground space-y-2 leading-relaxed">
-            <DocumentRenderer document={product.details.document} />
+            <RichText data={product.details} key={id} />
           </article>
-        )}
-      </ContainerSection> 
+        </ContainerSection>
+      )}
+      {children}
     </ContainerSection>
   );
 };

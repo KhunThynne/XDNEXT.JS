@@ -51,6 +51,7 @@ export const ContentProducts = ({
       />
     ));
   } else {
+    
     if (_.isEmpty(data?.Products?.docs)) {
       return (
         <div className="col-span-full flex max-h-full min-h-100 w-full max-w-full grow flex-col items-center justify-center gap-3 rounded-lg">

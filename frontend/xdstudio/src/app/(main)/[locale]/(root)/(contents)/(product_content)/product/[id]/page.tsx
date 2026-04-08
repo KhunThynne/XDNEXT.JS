@@ -1,10 +1,10 @@
-import type { Product } from "@/libs/graphql/generates/graphql";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { cacheLife, cacheTag } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
 import { checkUserProductStatus, getProduct } from "@/shared/actions/products";
+import type { Product } from "@/payload-types";
 
 // const getCachedCheckUserProductStatusCache = async (
 //   productId: string,

@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { revalidateTag } from "next/cache";
 
 export const Products: CollectionConfig = {
   slug: "products",
@@ -25,25 +26,41 @@ export const Products: CollectionConfig = {
       },
     ],
     afterOperation: [
-      async ({ operation, result, req }) => {
+      async ({ operation, result, req, args }) => {
+      
         try {
-          if (operation === "create" && result?.id) {
-            // Auto-create Stock for new product
-            const stocks = await req.payload.find({
-              collection: "stocks",
-              where: { product: { equals: result.id } },
-              limit: 1,
-            });
-            if (stocks.totalDocs === 0) {
-              await req.payload.create({
+          switch (operation) {
+            case "create": {
+              if (!result.id) return;
+              // Auto-create Stock for new product
+              const stocks = await req.payload.find({
                 collection: "stocks",
-                data: {
-                  product: result.id,
-                  quantity: 0,
-                  type: "by_stock",
-                },
+                where: { product: { equals: result.id } },
+                limit: 1,
               });
+              if (stocks.totalDocs === 0) {
+                await req.payload.create({
+                  collection: "stocks",
+                  data: {
+                    product: result.id,
+                    quantity: 0,
+                    type: "by_stock",
+                  },
+                });
+              }
+              break;
             }
+            case "updateByID": {
+              const updatedId = result.id || args.data.id;
+
+              if (updatedId) {
+                revalidateTag(`product-${updatedId}`, "");
+                // revalidatePath(`/${locale}/product/${updatedId}`);
+              }
+              break;
+            }
+            default:
+              break;
           }
         } catch (err) {
           console.error(err);
@@ -130,30 +147,43 @@ export const Products: CollectionConfig = {
       type: "upload",
       relationTo: "media",
     },
-    {
-      name: "details",
-      type: "richText",
-      editor: lexicalEditor(),
-    },
+
     {
       name: "media",
-      type: "richText",
-      editor: lexicalEditor(),
-      admin: {
-        description:
-          "Can place url video or image url preview. First item is preview main.",
-      },
-    },
-    {
-      name: "faqs",
-      type: "relationship",
-      relationTo: "faqs",
-      hasMany: true,
+      type: "blocks",
+      minRows: 1,
+      blocks: [
+        {
+          slug: "internalMedia",
+          labels: { singular: "Internal File", plural: "Internal Files" },
+          fields: [
+            {
+              name: "file",
+              type: "upload",
+              relationTo: "media",
+              required: true,
+            },
+          ],
+        },
+        {
+          slug: "externalMedia",
+          labels: { singular: "External URL", plural: "External URLs" },
+          fields: [
+            {
+              name: "url",
+              type: "text",
+              label: "External Media URL (Image or Video)",
+              required: true,
+            },
+          ],
+        },
+      ],
       admin: {
         description:
           "A list of FAQs related to this product. Each FAQ has a question and an answer.",
       },
     },
+
     {
       name: "ratings",
       type: "relationship",
@@ -162,6 +192,15 @@ export const Products: CollectionConfig = {
       admin: {
         condition: () => false,
       },
+    },
+    {
+      name: "details",
+      type: "richText",
+      admin: {
+        description:
+          "Main product content. Supports hierarchical headings, rich media blocks, and editorial layouts for storytelling.",
+      },
+      editor: lexicalEditor(),
     },
   ],
 };

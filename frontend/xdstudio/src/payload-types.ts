@@ -299,6 +299,29 @@ export interface Product {
   tags?: (string | Tag)[] | null;
   price?: (string | null) | Price;
   previewImage?: (string | null) | Media;
+  /**
+   * A list of FAQs related to this product. Each FAQ has a question and an answer.
+   */
+  media?:
+    | (
+        | {
+            file: string | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'internalMedia';
+          }
+        | {
+            url: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'externalMedia';
+          }
+      )[]
+    | null;
+  ratings?: (string | Rating)[] | null;
+  /**
+   * Main product content. Supports hierarchical headings, rich media blocks, and editorial layouts for storytelling.
+   */
   details?: {
     root: {
       type: string;
@@ -314,29 +337,6 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
-  /**
-   * Can place url video or image url preview. First item is preview main.
-   */
-  media?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * A list of FAQs related to this product. Each FAQ has a question and an answer.
-   */
-  faqs?: (string | Faq)[] | null;
-  ratings?: (string | Rating)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -427,31 +427,6 @@ export interface Price {
   price_type?: ('retail' | 'wholesale' | 'base') | null;
   product?: (string | Product)[] | null;
   description?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faqs".
- */
-export interface Faq {
-  id: string;
-  question: string;
-  answer?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -586,6 +561,31 @@ export interface UserPreference {
   id: string;
   user?: (string | null) | User;
   setting?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: string;
+  question: string;
+  answer?: {
     root: {
       type: string;
       children: {
@@ -949,10 +949,26 @@ export interface ProductsSelect<T extends boolean = true> {
   tags?: T;
   price?: T;
   previewImage?: T;
-  details?: T;
-  media?: T;
-  faqs?: T;
+  media?:
+    | T
+    | {
+        internalMedia?:
+          | T
+          | {
+              file?: T;
+              id?: T;
+              blockName?: T;
+            };
+        externalMedia?:
+          | T
+          | {
+              url?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
   ratings?: T;
+  details?: T;
   updatedAt?: T;
   createdAt?: T;
 }

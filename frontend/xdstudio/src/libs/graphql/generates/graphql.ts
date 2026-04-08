@@ -1836,6 +1836,14 @@ export type CartsUpdateDocAccess = {
   where?: Maybe<Scalars['JSONObject']['output']>;
 };
 
+export type ExternalMedia = {
+  __typename?: 'ExternalMedia';
+  blockName?: Maybe<Scalars['String']['output']>;
+  blockType?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  url: Scalars['String']['output'];
+};
+
 export type Faq = {
   __typename?: 'Faq';
   answer?: Maybe<Scalars['JSON']['output']>;
@@ -2232,6 +2240,14 @@ export type FaqsUpdateDocAccess = {
   __typename?: 'FaqsUpdateDocAccess';
   permission: Scalars['Boolean']['output'];
   where?: Maybe<Scalars['JSONObject']['output']>;
+};
+
+export type InternalMedia = {
+  __typename?: 'InternalMedia';
+  blockName?: Maybe<Scalars['String']['output']>;
+  blockType?: Maybe<Scalars['String']['output']>;
+  file?: Maybe<Media>;
+  id?: Maybe<Scalars['String']['output']>;
 };
 
 export type Media = {
@@ -8421,9 +8437,8 @@ export type Product = {
   createdAt?: Maybe<Scalars['DateTime']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   details?: Maybe<Scalars['JSON']['output']>;
-  faqs?: Maybe<Array<Faq>>;
   id: Scalars['String']['output'];
-  media?: Maybe<Scalars['JSON']['output']>;
+  media?: Maybe<Array<Product_Media>>;
   name: Scalars['String']['output'];
   previewImage?: Maybe<Media>;
   price?: Maybe<Price>;
@@ -8439,11 +8454,6 @@ export type Product = {
 
 
 export type ProductDetailsArgs = {
-  depth?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-export type ProductMediaArgs = {
   depth?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -8989,6 +8999,8 @@ export enum ProductUpdate_Status_MutationInput {
   Published = 'published'
 }
 
+export type Product_Media = ExternalMedia | InternalMedia;
+
 export type Product_AverageScore_Operator = {
   equals?: InputMaybe<Scalars['Float']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -9026,15 +9038,6 @@ export type Product_Details_Operator = {
   not_equals?: InputMaybe<Scalars['JSON']['input']>;
 };
 
-export type Product_Faqs_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
 export type Product_Id_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   contains?: InputMaybe<Scalars['String']['input']>;
@@ -9044,14 +9047,6 @@ export type Product_Id_Operator = {
   like?: InputMaybe<Scalars['String']['input']>;
   not_equals?: InputMaybe<Scalars['String']['input']>;
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
-export type Product_Media_Operator = {
-  contains?: InputMaybe<Scalars['JSON']['input']>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  like?: InputMaybe<Scalars['JSON']['input']>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
 };
 
 export type Product_Name_Operator = {
@@ -9181,9 +9176,7 @@ export type Product_Where = {
   createdAt?: InputMaybe<Product_CreatedAt_Operator>;
   description?: InputMaybe<Product_Description_Operator>;
   details?: InputMaybe<Product_Details_Operator>;
-  faqs?: InputMaybe<Product_Faqs_Operator>;
   id?: InputMaybe<Product_Id_Operator>;
-  media?: InputMaybe<Product_Media_Operator>;
   name?: InputMaybe<Product_Name_Operator>;
   previewImage?: InputMaybe<Product_PreviewImage_Operator>;
   price?: InputMaybe<Product_Price_Operator>;
@@ -9204,9 +9197,7 @@ export type Product_Where_And = {
   createdAt?: InputMaybe<Product_CreatedAt_Operator>;
   description?: InputMaybe<Product_Description_Operator>;
   details?: InputMaybe<Product_Details_Operator>;
-  faqs?: InputMaybe<Product_Faqs_Operator>;
   id?: InputMaybe<Product_Id_Operator>;
-  media?: InputMaybe<Product_Media_Operator>;
   name?: InputMaybe<Product_Name_Operator>;
   previewImage?: InputMaybe<Product_PreviewImage_Operator>;
   price?: InputMaybe<Product_Price_Operator>;
@@ -9227,9 +9218,7 @@ export type Product_Where_Or = {
   createdAt?: InputMaybe<Product_CreatedAt_Operator>;
   description?: InputMaybe<Product_Description_Operator>;
   details?: InputMaybe<Product_Details_Operator>;
-  faqs?: InputMaybe<Product_Faqs_Operator>;
   id?: InputMaybe<Product_Id_Operator>;
-  media?: InputMaybe<Product_Media_Operator>;
   name?: InputMaybe<Product_Name_Operator>;
   previewImage?: InputMaybe<Product_PreviewImage_Operator>;
   price?: InputMaybe<Product_Price_Operator>;
@@ -9288,7 +9277,6 @@ export type ProductsDocAccessFields = {
   createdAt?: Maybe<ProductsDocAccessFields_CreatedAt>;
   description?: Maybe<ProductsDocAccessFields_Description>;
   details?: Maybe<ProductsDocAccessFields_Details>;
-  faqs?: Maybe<ProductsDocAccessFields_Faqs>;
   media?: Maybe<ProductsDocAccessFields_Media>;
   name?: Maybe<ProductsDocAccessFields_Name>;
   previewImage?: Maybe<ProductsDocAccessFields_PreviewImage>;
@@ -9412,34 +9400,6 @@ export type ProductsDocAccessFields_Details_Read = {
 
 export type ProductsDocAccessFields_Details_Update = {
   __typename?: 'ProductsDocAccessFields_details_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsDocAccessFields_Faqs = {
-  __typename?: 'ProductsDocAccessFields_faqs';
-  create?: Maybe<ProductsDocAccessFields_Faqs_Create>;
-  delete?: Maybe<ProductsDocAccessFields_Faqs_Delete>;
-  read?: Maybe<ProductsDocAccessFields_Faqs_Read>;
-  update?: Maybe<ProductsDocAccessFields_Faqs_Update>;
-};
-
-export type ProductsDocAccessFields_Faqs_Create = {
-  __typename?: 'ProductsDocAccessFields_faqs_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsDocAccessFields_Faqs_Delete = {
-  __typename?: 'ProductsDocAccessFields_faqs_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsDocAccessFields_Faqs_Read = {
-  __typename?: 'ProductsDocAccessFields_faqs_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsDocAccessFields_Faqs_Update = {
-  __typename?: 'ProductsDocAccessFields_faqs_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -9785,7 +9745,6 @@ export type ProductsFields = {
   createdAt?: Maybe<ProductsFields_CreatedAt>;
   description?: Maybe<ProductsFields_Description>;
   details?: Maybe<ProductsFields_Details>;
-  faqs?: Maybe<ProductsFields_Faqs>;
   media?: Maybe<ProductsFields_Media>;
   name?: Maybe<ProductsFields_Name>;
   previewImage?: Maybe<ProductsFields_PreviewImage>;
@@ -9909,34 +9868,6 @@ export type ProductsFields_Details_Read = {
 
 export type ProductsFields_Details_Update = {
   __typename?: 'ProductsFields_details_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsFields_Faqs = {
-  __typename?: 'ProductsFields_faqs';
-  create?: Maybe<ProductsFields_Faqs_Create>;
-  delete?: Maybe<ProductsFields_Faqs_Delete>;
-  read?: Maybe<ProductsFields_Faqs_Read>;
-  update?: Maybe<ProductsFields_Faqs_Update>;
-};
-
-export type ProductsFields_Faqs_Create = {
-  __typename?: 'ProductsFields_faqs_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsFields_Faqs_Delete = {
-  __typename?: 'ProductsFields_faqs_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsFields_Faqs_Read = {
-  __typename?: 'ProductsFields_faqs_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type ProductsFields_Faqs_Update = {
-  __typename?: 'ProductsFields_faqs_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -13999,30 +13930,83 @@ export type TagsUpdateDocAccess = {
 
 export type User = {
   __typename?: 'User';
-  accounts?: Maybe<Array<Account>>;
+  accounts?: Maybe<User_Accounts>;
   avatar?: Maybe<Media>;
-  carts?: Maybe<Array<Cart>>;
+  carts?: Maybe<User_Carts>;
   createdAt?: Maybe<Scalars['DateTime']['output']>;
+  credit?: Maybe<Scalars['Float']['output']>;
   email: Scalars['EmailAddress']['output'];
   hash?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   image?: Maybe<Scalars['String']['output']>;
-  items?: Maybe<Array<UserItem>>;
+  items?: Maybe<User_Items>;
   lockUntil?: Maybe<Scalars['DateTime']['output']>;
   loginAttempts?: Maybe<Scalars['Float']['output']>;
   orders?: Maybe<Array<Order>>;
-  point?: Maybe<UserPoint>;
-  posts?: Maybe<Array<Post>>;
-  preference?: Maybe<UserPreference>;
-  provider?: Maybe<Scalars['String']['output']>;
+  point?: Maybe<User_Point>;
+  preference?: Maybe<User_Preference>;
   resetPasswordExpiration?: Maybe<Scalars['DateTime']['output']>;
   resetPasswordToken?: Maybe<Scalars['String']['output']>;
-  role?: Maybe<User_Role>;
+  role: User_Role;
   salt?: Maybe<Scalars['String']['output']>;
   sessions?: Maybe<Array<User_Sessions>>;
-  supplier?: Maybe<Array<Supplier>>;
+  supplier?: Maybe<User_Supplier>;
   updatedAt?: Maybe<Scalars['DateTime']['output']>;
   username: Scalars['String']['output'];
+};
+
+
+export type UserAccountsArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Account_Where>;
+};
+
+
+export type UserCartsArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Cart_Where>;
+};
+
+
+export type UserItemsArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<UserItem_Where>;
+};
+
+
+export type UserPointArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<UserPoint_Where>;
+};
+
+
+export type UserPreferenceArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<UserPreference_Where>;
+};
+
+
+export type UserSupplierArgs = {
+  count?: InputMaybe<Scalars['Boolean']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  where?: InputMaybe<Supplier_Where>;
 };
 
 export type UserItem = {
@@ -15358,6 +15342,41 @@ export enum UserUpdate_Role_MutationInput {
   User = 'USER'
 }
 
+export type User_Accounts = {
+  __typename?: 'User_Accounts';
+  docs: Array<Account>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
+};
+
+export type User_Carts = {
+  __typename?: 'User_Carts';
+  docs: Array<Cart>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
+};
+
+export type User_Items = {
+  __typename?: 'User_Items';
+  docs: Array<UserItem>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
+};
+
+export type User_Point = {
+  __typename?: 'User_Point';
+  docs: Array<UserPoint>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
+};
+
+export type User_Preference = {
+  __typename?: 'User_Preference';
+  docs: Array<UserPreference>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
+};
+
 export type User_Sessions = {
   __typename?: 'User_Sessions';
   createdAt?: Maybe<Scalars['DateTime']['output']>;
@@ -15365,25 +15384,14 @@ export type User_Sessions = {
   id?: Maybe<Scalars['String']['output']>;
 };
 
-export type User_Accounts_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
+export type User_Supplier = {
+  __typename?: 'User_Supplier';
+  docs: Array<Supplier>;
+  hasNextPage: Scalars['Boolean']['output'];
+  totalDocs?: Maybe<Scalars['Int']['output']>;
 };
 
 export type User_Avatar_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
-export type User_Carts_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
   equals?: InputMaybe<Scalars['JSON']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -15401,6 +15409,16 @@ export type User_CreatedAt_Operator = {
   less_than_equal?: InputMaybe<Scalars['DateTime']['input']>;
   like?: InputMaybe<Scalars['DateTime']['input']>;
   not_equals?: InputMaybe<Scalars['DateTime']['input']>;
+};
+
+export type User_Credit_Operator = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  greater_than?: InputMaybe<Scalars['Float']['input']>;
+  greater_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  less_than?: InputMaybe<Scalars['Float']['input']>;
+  less_than_equal?: InputMaybe<Scalars['Float']['input']>;
+  not_equals?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type User_Email_Operator = {
@@ -15435,15 +15453,6 @@ export type User_Image_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type User_Items_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
 export type User_Orders_Operator = {
   all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
   equals?: InputMaybe<Scalars['JSON']['input']>;
@@ -15451,44 +15460,6 @@ export type User_Orders_Operator = {
   in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
   not_equals?: InputMaybe<Scalars['JSON']['input']>;
   not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
-export type User_Point_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
-export type User_Posts_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
-export type User_Preference_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
-export type User_Provider_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  contains?: InputMaybe<Scalars['String']['input']>;
-  equals?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  like?: InputMaybe<Scalars['String']['input']>;
-  not_equals?: InputMaybe<Scalars['String']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
 export enum User_Role {
@@ -15515,7 +15486,6 @@ export enum User_Role_MutationInput {
 export type User_Role_Operator = {
   all?: InputMaybe<Array<InputMaybe<User_Role_Input>>>;
   equals?: InputMaybe<User_Role_Input>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
   in?: InputMaybe<Array<InputMaybe<User_Role_Input>>>;
   not_equals?: InputMaybe<User_Role_Input>;
   not_in?: InputMaybe<Array<InputMaybe<User_Role_Input>>>;
@@ -15552,15 +15522,6 @@ export type User_Sessions__Id_Operator = {
   not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
 };
 
-export type User_Supplier_Operator = {
-  all?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  equals?: InputMaybe<Scalars['JSON']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-  not_equals?: InputMaybe<Scalars['JSON']['input']>;
-  not_in?: InputMaybe<Array<InputMaybe<Scalars['JSON']['input']>>>;
-};
-
 export type User_UpdatedAt_Operator = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
   exists?: InputMaybe<Scalars['Boolean']['input']>;
@@ -15585,24 +15546,17 @@ export type User_Username_Operator = {
 export type User_Where = {
   AND?: InputMaybe<Array<InputMaybe<User_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<User_Where_Or>>>;
-  accounts?: InputMaybe<User_Accounts_Operator>;
   avatar?: InputMaybe<User_Avatar_Operator>;
-  carts?: InputMaybe<User_Carts_Operator>;
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
+  credit?: InputMaybe<User_Credit_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
   image?: InputMaybe<User_Image_Operator>;
-  items?: InputMaybe<User_Items_Operator>;
   orders?: InputMaybe<User_Orders_Operator>;
-  point?: InputMaybe<User_Point_Operator>;
-  posts?: InputMaybe<User_Posts_Operator>;
-  preference?: InputMaybe<User_Preference_Operator>;
-  provider?: InputMaybe<User_Provider_Operator>;
   role?: InputMaybe<User_Role_Operator>;
   sessions__createdAt?: InputMaybe<User_Sessions__CreatedAt_Operator>;
   sessions__expiresAt?: InputMaybe<User_Sessions__ExpiresAt_Operator>;
   sessions__id?: InputMaybe<User_Sessions__Id_Operator>;
-  supplier?: InputMaybe<User_Supplier_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
   username?: InputMaybe<User_Username_Operator>;
 };
@@ -15610,24 +15564,17 @@ export type User_Where = {
 export type User_Where_And = {
   AND?: InputMaybe<Array<InputMaybe<User_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<User_Where_Or>>>;
-  accounts?: InputMaybe<User_Accounts_Operator>;
   avatar?: InputMaybe<User_Avatar_Operator>;
-  carts?: InputMaybe<User_Carts_Operator>;
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
+  credit?: InputMaybe<User_Credit_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
   image?: InputMaybe<User_Image_Operator>;
-  items?: InputMaybe<User_Items_Operator>;
   orders?: InputMaybe<User_Orders_Operator>;
-  point?: InputMaybe<User_Point_Operator>;
-  posts?: InputMaybe<User_Posts_Operator>;
-  preference?: InputMaybe<User_Preference_Operator>;
-  provider?: InputMaybe<User_Provider_Operator>;
   role?: InputMaybe<User_Role_Operator>;
   sessions__createdAt?: InputMaybe<User_Sessions__CreatedAt_Operator>;
   sessions__expiresAt?: InputMaybe<User_Sessions__ExpiresAt_Operator>;
   sessions__id?: InputMaybe<User_Sessions__Id_Operator>;
-  supplier?: InputMaybe<User_Supplier_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
   username?: InputMaybe<User_Username_Operator>;
 };
@@ -15635,24 +15582,17 @@ export type User_Where_And = {
 export type User_Where_Or = {
   AND?: InputMaybe<Array<InputMaybe<User_Where_And>>>;
   OR?: InputMaybe<Array<InputMaybe<User_Where_Or>>>;
-  accounts?: InputMaybe<User_Accounts_Operator>;
   avatar?: InputMaybe<User_Avatar_Operator>;
-  carts?: InputMaybe<User_Carts_Operator>;
   createdAt?: InputMaybe<User_CreatedAt_Operator>;
+  credit?: InputMaybe<User_Credit_Operator>;
   email?: InputMaybe<User_Email_Operator>;
   id?: InputMaybe<User_Id_Operator>;
   image?: InputMaybe<User_Image_Operator>;
-  items?: InputMaybe<User_Items_Operator>;
   orders?: InputMaybe<User_Orders_Operator>;
-  point?: InputMaybe<User_Point_Operator>;
-  posts?: InputMaybe<User_Posts_Operator>;
-  preference?: InputMaybe<User_Preference_Operator>;
-  provider?: InputMaybe<User_Provider_Operator>;
   role?: InputMaybe<User_Role_Operator>;
   sessions__createdAt?: InputMaybe<User_Sessions__CreatedAt_Operator>;
   sessions__expiresAt?: InputMaybe<User_Sessions__ExpiresAt_Operator>;
   sessions__id?: InputMaybe<User_Sessions__Id_Operator>;
-  supplier?: InputMaybe<User_Supplier_Operator>;
   updatedAt?: InputMaybe<User_UpdatedAt_Operator>;
   username?: InputMaybe<User_Username_Operator>;
 };
@@ -15702,14 +15642,13 @@ export type UsersDocAccessFields = {
   avatar?: Maybe<UsersDocAccessFields_Avatar>;
   carts?: Maybe<UsersDocAccessFields_Carts>;
   createdAt?: Maybe<UsersDocAccessFields_CreatedAt>;
+  credit?: Maybe<UsersDocAccessFields_Credit>;
   email?: Maybe<UsersDocAccessFields_Email>;
   image?: Maybe<UsersDocAccessFields_Image>;
   items?: Maybe<UsersDocAccessFields_Items>;
   orders?: Maybe<UsersDocAccessFields_Orders>;
   point?: Maybe<UsersDocAccessFields_Point>;
-  posts?: Maybe<UsersDocAccessFields_Posts>;
   preference?: Maybe<UsersDocAccessFields_Preference>;
-  provider?: Maybe<UsersDocAccessFields_Provider>;
   role?: Maybe<UsersDocAccessFields_Role>;
   sessions?: Maybe<UsersDocAccessFields_Sessions>;
   supplier?: Maybe<UsersDocAccessFields_Supplier>;
@@ -15826,6 +15765,34 @@ export type UsersDocAccessFields_CreatedAt_Read = {
 
 export type UsersDocAccessFields_CreatedAt_Update = {
   __typename?: 'UsersDocAccessFields_createdAt_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersDocAccessFields_Credit = {
+  __typename?: 'UsersDocAccessFields_credit';
+  create?: Maybe<UsersDocAccessFields_Credit_Create>;
+  delete?: Maybe<UsersDocAccessFields_Credit_Delete>;
+  read?: Maybe<UsersDocAccessFields_Credit_Read>;
+  update?: Maybe<UsersDocAccessFields_Credit_Update>;
+};
+
+export type UsersDocAccessFields_Credit_Create = {
+  __typename?: 'UsersDocAccessFields_credit_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersDocAccessFields_Credit_Delete = {
+  __typename?: 'UsersDocAccessFields_credit_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersDocAccessFields_Credit_Read = {
+  __typename?: 'UsersDocAccessFields_credit_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersDocAccessFields_Credit_Update = {
+  __typename?: 'UsersDocAccessFields_credit_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -15969,34 +15936,6 @@ export type UsersDocAccessFields_Point_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersDocAccessFields_Posts = {
-  __typename?: 'UsersDocAccessFields_posts';
-  create?: Maybe<UsersDocAccessFields_Posts_Create>;
-  delete?: Maybe<UsersDocAccessFields_Posts_Delete>;
-  read?: Maybe<UsersDocAccessFields_Posts_Read>;
-  update?: Maybe<UsersDocAccessFields_Posts_Update>;
-};
-
-export type UsersDocAccessFields_Posts_Create = {
-  __typename?: 'UsersDocAccessFields_posts_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Posts_Delete = {
-  __typename?: 'UsersDocAccessFields_posts_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Posts_Read = {
-  __typename?: 'UsersDocAccessFields_posts_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Posts_Update = {
-  __typename?: 'UsersDocAccessFields_posts_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
 export type UsersDocAccessFields_Preference = {
   __typename?: 'UsersDocAccessFields_preference';
   create?: Maybe<UsersDocAccessFields_Preference_Create>;
@@ -16022,34 +15961,6 @@ export type UsersDocAccessFields_Preference_Read = {
 
 export type UsersDocAccessFields_Preference_Update = {
   __typename?: 'UsersDocAccessFields_preference_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Provider = {
-  __typename?: 'UsersDocAccessFields_provider';
-  create?: Maybe<UsersDocAccessFields_Provider_Create>;
-  delete?: Maybe<UsersDocAccessFields_Provider_Delete>;
-  read?: Maybe<UsersDocAccessFields_Provider_Read>;
-  update?: Maybe<UsersDocAccessFields_Provider_Update>;
-};
-
-export type UsersDocAccessFields_Provider_Create = {
-  __typename?: 'UsersDocAccessFields_provider_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Provider_Delete = {
-  __typename?: 'UsersDocAccessFields_provider_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Provider_Read = {
-  __typename?: 'UsersDocAccessFields_provider_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersDocAccessFields_Provider_Update = {
-  __typename?: 'UsersDocAccessFields_provider_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -16291,14 +16202,13 @@ export type UsersFields = {
   avatar?: Maybe<UsersFields_Avatar>;
   carts?: Maybe<UsersFields_Carts>;
   createdAt?: Maybe<UsersFields_CreatedAt>;
+  credit?: Maybe<UsersFields_Credit>;
   email?: Maybe<UsersFields_Email>;
   image?: Maybe<UsersFields_Image>;
   items?: Maybe<UsersFields_Items>;
   orders?: Maybe<UsersFields_Orders>;
   point?: Maybe<UsersFields_Point>;
-  posts?: Maybe<UsersFields_Posts>;
   preference?: Maybe<UsersFields_Preference>;
-  provider?: Maybe<UsersFields_Provider>;
   role?: Maybe<UsersFields_Role>;
   sessions?: Maybe<UsersFields_Sessions>;
   supplier?: Maybe<UsersFields_Supplier>;
@@ -16415,6 +16325,34 @@ export type UsersFields_CreatedAt_Read = {
 
 export type UsersFields_CreatedAt_Update = {
   __typename?: 'UsersFields_createdAt_Update';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersFields_Credit = {
+  __typename?: 'UsersFields_credit';
+  create?: Maybe<UsersFields_Credit_Create>;
+  delete?: Maybe<UsersFields_Credit_Delete>;
+  read?: Maybe<UsersFields_Credit_Read>;
+  update?: Maybe<UsersFields_Credit_Update>;
+};
+
+export type UsersFields_Credit_Create = {
+  __typename?: 'UsersFields_credit_Create';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersFields_Credit_Delete = {
+  __typename?: 'UsersFields_credit_Delete';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersFields_Credit_Read = {
+  __typename?: 'UsersFields_credit_Read';
+  permission: Scalars['Boolean']['output'];
+};
+
+export type UsersFields_Credit_Update = {
+  __typename?: 'UsersFields_credit_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -16558,34 +16496,6 @@ export type UsersFields_Point_Update = {
   permission: Scalars['Boolean']['output'];
 };
 
-export type UsersFields_Posts = {
-  __typename?: 'UsersFields_posts';
-  create?: Maybe<UsersFields_Posts_Create>;
-  delete?: Maybe<UsersFields_Posts_Delete>;
-  read?: Maybe<UsersFields_Posts_Read>;
-  update?: Maybe<UsersFields_Posts_Update>;
-};
-
-export type UsersFields_Posts_Create = {
-  __typename?: 'UsersFields_posts_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Posts_Delete = {
-  __typename?: 'UsersFields_posts_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Posts_Read = {
-  __typename?: 'UsersFields_posts_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Posts_Update = {
-  __typename?: 'UsersFields_posts_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
 export type UsersFields_Preference = {
   __typename?: 'UsersFields_preference';
   create?: Maybe<UsersFields_Preference_Create>;
@@ -16611,34 +16521,6 @@ export type UsersFields_Preference_Read = {
 
 export type UsersFields_Preference_Update = {
   __typename?: 'UsersFields_preference_Update';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Provider = {
-  __typename?: 'UsersFields_provider';
-  create?: Maybe<UsersFields_Provider_Create>;
-  delete?: Maybe<UsersFields_Provider_Delete>;
-  read?: Maybe<UsersFields_Provider_Read>;
-  update?: Maybe<UsersFields_Provider_Update>;
-};
-
-export type UsersFields_Provider_Create = {
-  __typename?: 'UsersFields_provider_Create';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Provider_Delete = {
-  __typename?: 'UsersFields_provider_Delete';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Provider_Read = {
-  __typename?: 'UsersFields_provider_Read';
-  permission: Scalars['Boolean']['output'];
-};
-
-export type UsersFields_Provider_Update = {
-  __typename?: 'UsersFields_provider_Update';
   permission: Scalars['Boolean']['output'];
 };
 
@@ -17382,7 +17264,6 @@ export type MutationProductInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
-  faqs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name: Scalars['String']['input'];
   previewImage?: InputMaybe<Scalars['String']['input']>;
@@ -17420,7 +17301,6 @@ export type MutationProductUpdateInput = {
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   details?: InputMaybe<Scalars['JSON']['input']>;
-  faqs?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   media?: InputMaybe<Scalars['JSON']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   previewImage?: InputMaybe<Scalars['String']['input']>;
@@ -17526,28 +17406,21 @@ export type MutationTagUpdateInput = {
 };
 
 export type MutationUserInput = {
-  accounts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   avatar?: InputMaybe<Scalars['String']['input']>;
-  carts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
+  credit?: InputMaybe<Scalars['Float']['input']>;
   email: Scalars['String']['input'];
   hash?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   lockUntil?: InputMaybe<Scalars['String']['input']>;
   loginAttempts?: InputMaybe<Scalars['Float']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   password: Scalars['String']['input'];
-  point?: InputMaybe<Scalars['String']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  preference?: InputMaybe<Scalars['String']['input']>;
-  provider?: InputMaybe<Scalars['String']['input']>;
   resetPasswordExpiration?: InputMaybe<Scalars['String']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
-  role?: InputMaybe<User_Role_MutationInput>;
+  role: User_Role_MutationInput;
   salt?: InputMaybe<Scalars['String']['input']>;
   sessions?: InputMaybe<Array<InputMaybe<MutationUser_SessionsInput>>>;
-  supplier?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   username: Scalars['String']['input'];
 };
@@ -17599,28 +17472,21 @@ export type MutationUserPreferenceUpdateInput = {
 };
 
 export type MutationUserUpdateInput = {
-  accounts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   avatar?: InputMaybe<Scalars['String']['input']>;
-  carts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
+  credit?: InputMaybe<Scalars['Float']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   hash?: InputMaybe<Scalars['String']['input']>;
   image?: InputMaybe<Scalars['String']['input']>;
-  items?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   lockUntil?: InputMaybe<Scalars['String']['input']>;
   loginAttempts?: InputMaybe<Scalars['Float']['input']>;
   orders?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   password?: InputMaybe<Scalars['String']['input']>;
-  point?: InputMaybe<Scalars['String']['input']>;
-  posts?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  preference?: InputMaybe<Scalars['String']['input']>;
-  provider?: InputMaybe<Scalars['String']['input']>;
   resetPasswordExpiration?: InputMaybe<Scalars['String']['input']>;
   resetPasswordToken?: InputMaybe<Scalars['String']['input']>;
   role?: InputMaybe<UserUpdate_Role_MutationInput>;
   salt?: InputMaybe<Scalars['String']['input']>;
   sessions?: InputMaybe<Array<InputMaybe<MutationUserUpdate_SessionsInput>>>;
-  supplier?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
   updatedAt?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -18037,7 +17903,7 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null, user?: { __typename?: 'User', id: string, username: string, provider?: string | null, image?: string | null, role?: User_Role | null, updatedAt?: any | null, createdAt?: any | null, email: any, resetPasswordToken?: string | null, resetPasswordExpiration?: any | null, salt?: string | null, hash?: string | null, loginAttempts?: number | null, lockUntil?: any | null, avatar?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, updatedAt?: any | null, createdAt?: any | null, url?: string | null, thumbnailURL?: string | null, filename?: string | null, mimeType?: string | null, filesize?: number | null, width?: number | null, height?: number | null, focalX?: number | null, focalY?: number | null } | null, accounts?: Array<{ __typename?: 'Account', id: string, provider: string, providerAccountId: string, accessToken?: string | null, refreshToken?: string | null, expiresAt?: any | null, scope?: string | null, meta?: any | null, updatedAt?: any | null, createdAt?: any | null }> | null } | null } | null };
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser?: { __typename?: 'usersLoginResult', exp?: number | null, token?: string | null } | null };
 
 export type UpdateCartMutationVariables = Exact<{
   id: Scalars['String']['input'];
@@ -18055,7 +17921,10 @@ export type GetCartQueryVariables = Exact<{
 }>;
 
 
-export type GetCartQuery = { __typename?: 'Query', Carts?: { __typename?: 'Carts', docs: Array<{ __typename?: 'Cart', createdAt?: any | null, id: string, status?: Cart_Status | null, updatedAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null } | null }> | null, user?: { __typename?: 'User', id: string, username: string } | null }> } | null };
+export type GetCartQuery = { __typename?: 'Query', Carts?: { __typename?: 'Carts', docs: Array<{ __typename?: 'Cart', createdAt?: any | null, id: string, status?: Cart_Status | null, updatedAt?: any | null, items?: Array<{ __typename?: 'CartItem', id: string, quantity: number, product?: { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null, media?: Array<
+            | { __typename?: 'ExternalMedia', url: string }
+            | { __typename?: 'InternalMedia', file?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }
+          > | null } | null }> | null, user?: { __typename?: 'User', id: string, username: string } | null }> } | null };
 
 export type CreateCartItemMutationVariables = Exact<{
   data: MutationCartItemInput;
@@ -18086,20 +17955,6 @@ export type CreateMediaMutationVariables = Exact<{
 
 
 export type CreateMediaMutation = { __typename?: 'Mutation', createMedia?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
-
-export type GetOrderQueryVariables = Exact<{
-  where?: InputMaybe<Order_Where>;
-}>;
-
-
-export type GetOrderQuery = { __typename?: 'Query', Orders?: { __typename?: 'Orders', docs: Array<{ __typename?: 'Order', createdAt?: any | null, id: string, status: Order_Status, updatedAt?: any | null, user?: { __typename?: 'User', id: string, email: any, username: string, supplier?: Array<{ __typename?: 'Supplier', id: string, name: string }> | null } | null, items?: Array<{ __typename?: 'OrderItem', id: string, product?: { __typename?: 'Product', id: string } | null }> | null }> } | null };
-
-export type CreateOrderAndUserItemsMutationVariables = Exact<{
-  data: MutationOrderInput;
-}>;
-
-
-export type CreateOrderAndUserItemsMutation = { __typename?: 'Mutation', createOrder?: { __typename?: 'Order', createdAt?: any | null, id: string, updatedAt?: any | null, status: Order_Status, items?: Array<{ __typename?: 'OrderItem', id: string, unitPrice?: number | null, product?: { __typename?: 'Product', id: string } | null }> | null, user?: { __typename?: 'User', email: any, id: string } | null } | null };
 
 export type PointTransactionFieldFragment = { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null };
 
@@ -18135,7 +17990,10 @@ export type DeletePointTransactionMutationVariables = Exact<{
 
 export type DeletePointTransactionMutation = { __typename?: 'Mutation', deletePointTransaction?: { __typename?: 'PointTransaction', id: string, type: PointTransaction_Type, amount?: number | null, status?: PointTransaction_Status | null, metaData?: any | null, expiredAt?: any | null, createdAt?: any | null, updatedAt?: any | null, isFavorite?: boolean | null, user?: { __typename?: 'User', id: string } | null, orders?: Array<{ __typename?: 'Order', id: string }> | null } | null };
 
-export type ProductFieldsFragment = { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null };
+export type ProductFieldsFragment = { __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null, media?: Array<
+    | { __typename?: 'ExternalMedia', url: string }
+    | { __typename?: 'InternalMedia', file?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }
+  > | null };
 
 export type GetProductsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -18145,7 +18003,10 @@ export type GetProductsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+export type GetProductsQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', totalDocs: number, totalPages: number, page: number, limit: number, hasNextPage: boolean, hasPrevPage: boolean, nextPage?: number | null, prevPage?: number | null, docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null, media?: Array<
+        | { __typename?: 'ExternalMedia', url: string }
+        | { __typename?: 'InternalMedia', file?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }
+      > | null }> } | null };
 
 export type GetProductsCountQueryVariables = Exact<{
   where?: InputMaybe<Product_Where>;
@@ -18159,7 +18020,10 @@ export type GetProductQueryVariables = Exact<{
 }>;
 
 
-export type GetProductQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, media?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, faqs?: Array<{ __typename?: 'Faq', id: string, question: string, answer?: any | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }> } | null };
+export type GetProductQuery = { __typename?: 'Query', Products?: { __typename?: 'Products', docs: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, details?: any | null, averageScore?: number | null, status: Product_Status, publishedAt?: any | null, updatedAt?: any | null, createdAt?: any | null, supplier?: { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null } | null, price?: { __typename?: 'Price', price?: number | null, description?: string | null, price_type?: Price_Price_Type | null, id: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name?: string | null }> | null, previewImage?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null, media?: Array<
+        | { __typename?: 'ExternalMedia', url: string }
+        | { __typename?: 'InternalMedia', file?: { __typename?: 'Media', id: string, name?: string | null, altText?: string | null, filesize?: number | null, width?: number | null, height?: number | null, url?: string | null } | null }
+      > | null }> } | null };
 
 export type SupplierFieldsFragment = { __typename?: 'Supplier', id: string, name: string, description?: string | null, user?: { __typename?: 'User', id: string, email: any, username: string } | null };
 
@@ -18209,7 +18073,7 @@ export type DeleteUserPreferenceMutation = { __typename?: 'Mutation', deleteUser
 export type GetUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUsersQuery = { __typename?: 'Query', Users?: { __typename?: 'Users', docs: Array<{ __typename?: 'User', username: string, email: any, role?: User_Role | null }> } | null };
+export type GetUsersQuery = { __typename?: 'Query', Users?: { __typename?: 'Users', docs: Array<{ __typename?: 'User', username: string, email: any, role: User_Role }> } | null };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -18290,11 +18154,6 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
     id
     name
   }
-  faqs {
-    id
-    question
-    answer
-  }
   averageScore
   status
   publishedAt
@@ -18303,7 +18162,16 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   previewImage {
     ...MediaField
   }
-  media
+  media {
+    ... on InternalMedia {
+      file {
+        ...MediaField
+      }
+    }
+    ... on ExternalMedia {
+      url
+    }
+  }
 }
     fragment MediaField on Media {
   id
@@ -18329,50 +18197,6 @@ export const LoginUserDocument = new TypedDocumentString(`
   loginUser(email: $email, password: $password) {
     exp
     token
-    user {
-      id
-      username
-      provider
-      image
-      role
-      updatedAt
-      createdAt
-      email
-      resetPasswordToken
-      resetPasswordExpiration
-      salt
-      hash
-      loginAttempts
-      lockUntil
-      avatar {
-        id
-        name
-        altText
-        updatedAt
-        createdAt
-        url
-        thumbnailURL
-        filename
-        mimeType
-        filesize
-        width
-        height
-        focalX
-        focalY
-      }
-      accounts {
-        id
-        provider
-        providerAccountId
-        accessToken
-        refreshToken
-        expiresAt
-        scope
-        meta
-        updatedAt
-        createdAt
-      }
-    }
   }
 }
     `) as unknown as TypedDocumentString<LoginUserMutation, LoginUserMutationVariables>;
@@ -18441,11 +18265,6 @@ fragment ProductFields on Product {
     id
     name
   }
-  faqs {
-    id
-    question
-    answer
-  }
   averageScore
   status
   publishedAt
@@ -18454,7 +18273,16 @@ fragment ProductFields on Product {
   previewImage {
     ...MediaField
   }
-  media
+  media {
+    ... on InternalMedia {
+      file {
+        ...MediaField
+      }
+    }
+    ... on ExternalMedia {
+      url
+    }
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -18519,54 +18347,6 @@ export const CreateMediaDocument = new TypedDocumentString(`
   height
   url
 }`) as unknown as TypedDocumentString<CreateMediaMutation, CreateMediaMutationVariables>;
-export const GetOrderDocument = new TypedDocumentString(`
-    query getOrder($where: Order_where) {
-  Orders(where: $where) {
-    docs {
-      createdAt
-      id
-      status
-      updatedAt
-      user {
-        id
-        email
-        username
-        supplier {
-          id
-          name
-        }
-      }
-      items {
-        id
-        product {
-          id
-        }
-      }
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<GetOrderQuery, GetOrderQueryVariables>;
-export const CreateOrderAndUserItemsDocument = new TypedDocumentString(`
-    mutation CreateOrderAndUserItems($data: mutationOrderInput!) {
-  createOrder(data: $data) {
-    items {
-      id
-      unitPrice
-      product {
-        id
-      }
-    }
-    createdAt
-    id
-    updatedAt
-    status
-    user {
-      email
-      id
-    }
-  }
-}
-    `) as unknown as TypedDocumentString<CreateOrderAndUserItemsMutation, CreateOrderAndUserItemsMutationVariables>;
 export const GetPointTransactionsDocument = new TypedDocumentString(`
     query getPointTransactions($where: PointTransaction_where, $sort: String, $limit: Int, $page: Int) {
   PointTransactions(where: $where, sort: $sort, limit: $limit, page: $page) {
@@ -18712,11 +18492,6 @@ fragment ProductFields on Product {
     id
     name
   }
-  faqs {
-    id
-    question
-    answer
-  }
   averageScore
   status
   publishedAt
@@ -18725,7 +18500,16 @@ fragment ProductFields on Product {
   previewImage {
     ...MediaField
   }
-  media
+  media {
+    ... on InternalMedia {
+      file {
+        ...MediaField
+      }
+    }
+    ... on ExternalMedia {
+      url
+    }
+  }
 }
 fragment SupplierFields on Supplier {
   id
@@ -18779,11 +18563,6 @@ fragment ProductFields on Product {
     id
     name
   }
-  faqs {
-    id
-    question
-    answer
-  }
   averageScore
   status
   publishedAt
@@ -18792,7 +18571,16 @@ fragment ProductFields on Product {
   previewImage {
     ...MediaField
   }
-  media
+  media {
+    ... on InternalMedia {
+      file {
+        ...MediaField
+      }
+    }
+    ... on ExternalMedia {
+      url
+    }
+  }
 }
 fragment SupplierFields on Supplier {
   id

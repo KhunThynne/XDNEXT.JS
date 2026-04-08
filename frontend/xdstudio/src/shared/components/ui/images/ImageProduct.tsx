@@ -1,7 +1,5 @@
-import type {
-  Image as ImageType,
-  Maybe,
-} from "@/libs/graphql/generates/graphql";
+import { env } from "@/env";
+import type { Media } from "@/payload-types";
 import clsx from "clsx";
 import { ImageOff } from "lucide-react";
 import Image from "next/image";
@@ -11,11 +9,12 @@ export const ImageProduct = ({
   classNames,
   ...prop
 }: Partial<React.ComponentProps<typeof Image>> & {
-  image: Maybe<ImageType> | undefined;
+  image: Media | undefined;
 } & WithClassNames<"error" | "image">) => {
   const [hasImageError, setHasImageError] = useState(false);
 
-  const imageUrl = image?.src?.url ?? "";
+  const imageUrl = `${env.NEXT_PUBLIC_SITE_URL}/${image?.url}`;
+
   if (!image || hasImageError)
     return (
       <ImageOff
@@ -29,8 +28,8 @@ export const ImageProduct = ({
   const sizeProps = prop.fill
     ? {}
     : {
-        height: image.src?.height,
-        width: image.src?.width,
+        height: image.height ?? 0,
+        width: image.width ?? 0,
       };
   return (
     <Image
@@ -38,7 +37,7 @@ export const ImageProduct = ({
       {...sizeProps}
       src={imageUrl}
       className={clsx(
-        `border bg-accent object-contain`,
+        `bg-accent border object-contain`,
         prop.className,
         classNames?.image
       )}

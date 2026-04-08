@@ -1,37 +1,14 @@
 import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import type {
-  Image as ImageType,
-  Maybe,
-} from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
-import type { Product } from "@/payload-types";
+import type { Media, Product } from "@/payload-types";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
 import _ from "lodash";
 import { ImageOff, SquarePlay } from "lucide-react";
-import Image from "next/image";
-import { useMemo, useState } from "react";
+import type Image from "next/image";
 
-interface MediaRelationship {
-  media: {
-    discriminant: "relationship";
-    value: {
-      id: string;
-      label: string;
-      data: ImageType;
-    };
-  };
-}
-
-interface MediaUrlType {
-  media: {
-    discriminant: "url";
-    value: string;
-  };
-}
-
-type MediaItem = MediaRelationship | MediaUrlType;
+import { useDeferredValue, useMemo, useState } from "react";
 
 function getUrlMediaType(url: string): "image" | "video" | "unknown" {
   if (/youtube\.com|youtu\.be/.test(url)) return "video";
@@ -73,24 +50,25 @@ const getEmbedUrlHandle = (url: string) => {
   }
   return { url, video: "", type: "image" };
 };
+type ExternalMediaBlock = Extract<
+  NonNullable<Product["media"]>[number],
+  { blockType: "externalMedia" }
+>;
 
-const UrlMediaTypeComponent = ({
+const ExternalMediaTypeComponent = ({
   media,
   className,
   preview,
-}: MediaUrlType & WithClassName & { preview?: true }) => {
-  const url = media.value;
+}: { media: ExternalMediaBlock } & WithClassName & { preview?: true }) => {
+  const url = media.url;
   const mediaType = getUrlMediaType(url);
   const [valid, setValid] = useState(true);
   const embedUrl = useMemo(() => getEmbedUrlHandle(url), [url]);
   if (!url || !valid) return "error url please delete or fix this item";
-  // helper แปลง YouTube URL เป็น embed URL
-
   const isExternalVideo =
     url.includes("youtube.com") ||
     url.includes("youtu.be") ||
     url.includes("vimeo.com");
-
   if (preview) {
     if (isExternalVideo) {
       return (
@@ -107,6 +85,7 @@ const UrlMediaTypeComponent = ({
         <video
           src={url}
           controls
+          preload="metadata"
           className={className}
           style={{ width: "100%", borderRadius: 8 }}
         />
@@ -129,34 +108,48 @@ const UrlMediaTypeComponent = ({
     </>
   );
 };
-const RalationMediaTypeComponent = ({
+type InternalMediaBlock = Extract<
+  NonNullable<Product["media"]>[number],
+  { blockType: "internalMedia" }
+>;
+
+const InternalMediaTypeComponent = ({
   id,
   media,
   ...imageProps
-}: MediaRelationship & Partial<React.ComponentProps<typeof Image>>) => {
+}: {
+  media: InternalMediaBlock;
+} & Partial<React.ComponentProps<typeof Image>>) => {
+  const mediaData = typeof media === "object" ? media : null;
+
+  if (!mediaData) return null;
+
   return (
     <ImageProduct
-      image={media.value.data}
+      image={mediaData.file as unknown as Media}
       className={clsx(imageProps.className, "border-none")}
-      classNames={{ error: `size-full max-w-xs` }}
     />
   );
 };
 
 const MediaComponent = (
-  props: MediaItem & WithClassNames<"relation" | "url"> & { preview?: true }
+  props: NonNullable<Product["media"]>[number] &
+    WithClassNames<"relation" | "url"> & { preview?: true }
 ) => {
-  const { media } = props;
-  if (media?.discriminant === "relationship")
+  const media = useDeferredValue(props);
+
+  if (!media) return null;
+  const { blockType } = media;
+  if (blockType === "internalMedia")
     return (
-      <RalationMediaTypeComponent
+      <InternalMediaTypeComponent
         media={media}
         className={props.classNames?.relation}
       />
     );
-  if (media?.discriminant === "url")
+  if (blockType === "externalMedia")
     return (
-      <UrlMediaTypeComponent
+      <ExternalMediaTypeComponent
         media={media}
         className={props.classNames?.url}
         preview={props.preview}
@@ -165,29 +158,26 @@ const MediaComponent = (
   return null;
 };
 
-export const MediaDocument = (props: Product["media"]) => {
+export const MediaProduct = (props: Product["media"]) => {
   const [mediaIndex, setMediaIndex] = useState(0);
   if (!props) {
     return;
   }
-  return null;
-  const { document } = props;
-  const [block] = document.filter((b: any) => b.type === "component-block");
-  const items = block?.props?.items as MediaItem[];
+  const mediaArray = Object.values(props);
 
   return (
     <div className="flex grow flex-col gap-3">
       <div className="relative aspect-video place-content-center place-items-center overflow-hidden rounded-lg border">
-        {_.isArray(items) && (
+        {_.isArray(mediaArray) && (
           <MediaComponent
             preview
-            {...(items[mediaIndex] as MediaItem)}
+            {...mediaArray[mediaIndex]}
             classNames={{ relation: "object-contain" }}
           />
         )}
       </div>
       <Separator />
-      {_.isArray(items) && (
+      {_.isArray(mediaArray) && (
         <EmblaCarousel
           options={{
             loop: true,
@@ -199,7 +189,7 @@ export const MediaDocument = (props: Product["media"]) => {
           className="h-40"
           classNames={{ container: "gap-4 mx-5 py-2", view: "" }}
         >
-          {items?.map((item, index) => {
+          {mediaArray?.map((item, index) => {
             return (
               <Button
                 key={`item-image-${index}`}
@@ -228,4 +218,3 @@ export const MediaDocument = (props: Product["media"]) => {
     </div>
   );
 };
-

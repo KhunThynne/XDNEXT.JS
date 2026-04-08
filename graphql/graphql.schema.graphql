@@ -105,18 +105,17 @@ type Query {
 type User {
   id: String!
   username: String!
-  provider: String
   image: String
   avatar: Media
-  role: User_role
-  accounts: [Account!]
-  carts: [Cart!]
-  items: [UserItem!]
-  point: UserPoint
-  supplier: [Supplier!]
+  role: User_role!
+  carts(count: Boolean, limit: Int, page: Int, sort: String, where: Cart_where): User_Carts
+  items(count: Boolean, limit: Int, page: Int, sort: String, where: UserItem_where): User_Items
+  accounts(count: Boolean, limit: Int, page: Int, sort: String, where: Account_where): User_Accounts
+  point(count: Boolean, limit: Int, page: Int, sort: String, where: UserPoint_where): User_Point
+  credit: Float
+  supplier(count: Boolean, limit: Int, page: Int, sort: String, where: Supplier_where): User_Supplier
   orders: [Order!]
-  preference: UserPreference
-  posts: [Post!]
+  preference(count: Boolean, limit: Int, page: Int, sort: String, where: UserPreference_where): User_Preference
   updatedAt: DateTime
   createdAt: DateTime
   email: EmailAddress!
@@ -158,24 +157,11 @@ enum User_role {
   GUEST
 }
 
-type Account {
-  id: String!
-  provider: String!
-  providerAccountId: String!
-  user: User
-  accessToken: String
-  refreshToken: String
-  expiresAt: DateTime
-  scope: String
-  meta: JSON
-  updatedAt: DateTime
-  createdAt: DateTime
+type User_Carts {
+  docs: [Cart!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
 }
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
 
 type Cart {
   id: String!
@@ -215,8 +201,7 @@ type Product {
   price: Price
   previewImage: Media
   details(depth: Int): JSON
-  media(depth: Int): JSON
-  faqs: [Faq!]
+  media: [Product_Media!]
   ratings: [Rating!]
   updatedAt: DateTime
   createdAt: DateTime
@@ -269,6 +254,11 @@ type Post {
   createdAt: DateTime
 }
 
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
 type Price {
   id: String!
   price: Float
@@ -285,12 +275,20 @@ enum Price_price_type {
   base
 }
 
-type Faq {
-  id: String!
-  question: String!
-  answer(depth: Int): JSON
-  updatedAt: DateTime
-  createdAt: DateTime
+union Product_Media = InternalMedia | ExternalMedia
+
+type InternalMedia {
+  file: Media
+  id: String
+  blockName: String
+  blockType: String
+}
+
+type ExternalMedia {
+  url: String!
+  id: String
+  blockName: String
+  blockType: String
 }
 
 type Rating {
@@ -299,6 +297,111 @@ type Rating {
   comment: String
   updatedAt: DateTime
   createdAt: DateTime
+}
+
+input Cart_where {
+  user: Cart_user_operator
+  status: Cart_status_operator
+  items: Cart_items_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+input Cart_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Cart_status_operator {
+  equals: Cart_status_Input
+  not_equals: Cart_status_Input
+  in: [Cart_status_Input]
+  not_in: [Cart_status_Input]
+  all: [Cart_status_Input]
+  exists: Boolean
+}
+
+enum Cart_status_Input {
+  ACTIVE
+  SAVED
+  ABANDONED
+}
+
+input Cart_items_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Cart_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cart_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Cart_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Cart_where_and {
+  user: Cart_user_operator
+  status: Cart_status_operator
+  items: Cart_items_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+input Cart_where_or {
+  user: Cart_user_operator
+  status: Cart_status_operator
+  items: Cart_items_operator
+  updatedAt: Cart_updatedAt_operator
+  createdAt: Cart_createdAt_operator
+  id: Cart_id_operator
+  AND: [Cart_where_and]
+  OR: [Cart_where_or]
+}
+
+type User_Items {
+  docs: [UserItem!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
 }
 
 type UserItem {
@@ -337,6 +440,290 @@ enum Order_status {
   DELIVERED
 }
 
+input UserItem_where {
+  user: UserItem_user_operator
+  item: UserItem_item_operator
+  config: UserItem_config_operator
+  updatedAt: UserItem_updatedAt_operator
+  createdAt: UserItem_createdAt_operator
+  id: UserItem_id_operator
+  AND: [UserItem_where_and]
+  OR: [UserItem_where_or]
+}
+
+input UserItem_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input UserItem_item_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input UserItem_config_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  within: JSON
+  intersects: JSON
+  exists: Boolean
+}
+
+input UserItem_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserItem_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserItem_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input UserItem_where_and {
+  user: UserItem_user_operator
+  item: UserItem_item_operator
+  config: UserItem_config_operator
+  updatedAt: UserItem_updatedAt_operator
+  createdAt: UserItem_createdAt_operator
+  id: UserItem_id_operator
+  AND: [UserItem_where_and]
+  OR: [UserItem_where_or]
+}
+
+input UserItem_where_or {
+  user: UserItem_user_operator
+  item: UserItem_item_operator
+  config: UserItem_config_operator
+  updatedAt: UserItem_updatedAt_operator
+  createdAt: UserItem_createdAt_operator
+  id: UserItem_id_operator
+  AND: [UserItem_where_and]
+  OR: [UserItem_where_or]
+}
+
+type User_Accounts {
+  docs: [Account!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+type Account {
+  id: String!
+  provider: String!
+  providerAccountId: String!
+  user: User
+  accessToken: String
+  refreshToken: String
+  expiresAt: DateTime
+  scope: String
+  meta: JSON
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
+input Account_where {
+  provider: Account_provider_operator
+  providerAccountId: Account_providerAccountId_operator
+  user: Account_user_operator
+  accessToken: Account_accessToken_operator
+  refreshToken: Account_refreshToken_operator
+  expiresAt: Account_expiresAt_operator
+  scope: Account_scope_operator
+  meta: Account_meta_operator
+  updatedAt: Account_updatedAt_operator
+  createdAt: Account_createdAt_operator
+  id: Account_id_operator
+  AND: [Account_where_and]
+  OR: [Account_where_or]
+}
+
+input Account_provider_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Account_providerAccountId_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Account_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Account_accessToken_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Account_refreshToken_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Account_expiresAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Account_scope_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Account_meta_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  within: JSON
+  intersects: JSON
+  exists: Boolean
+}
+
+input Account_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Account_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Account_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Account_where_and {
+  provider: Account_provider_operator
+  providerAccountId: Account_providerAccountId_operator
+  user: Account_user_operator
+  accessToken: Account_accessToken_operator
+  refreshToken: Account_refreshToken_operator
+  expiresAt: Account_expiresAt_operator
+  scope: Account_scope_operator
+  meta: Account_meta_operator
+  updatedAt: Account_updatedAt_operator
+  createdAt: Account_createdAt_operator
+  id: Account_id_operator
+  AND: [Account_where_and]
+  OR: [Account_where_or]
+}
+
+input Account_where_or {
+  provider: Account_provider_operator
+  providerAccountId: Account_providerAccountId_operator
+  user: Account_user_operator
+  accessToken: Account_accessToken_operator
+  refreshToken: Account_refreshToken_operator
+  expiresAt: Account_expiresAt_operator
+  scope: Account_scope_operator
+  meta: Account_meta_operator
+  updatedAt: Account_updatedAt_operator
+  createdAt: Account_createdAt_operator
+  id: Account_id_operator
+  AND: [Account_where_and]
+  OR: [Account_where_or]
+}
+
+type User_Point {
+  docs: [UserPoint!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
 type UserPoint {
   id: String!
   user: User
@@ -346,12 +733,302 @@ type UserPoint {
   createdAt: DateTime
 }
 
+input UserPoint_where {
+  user: UserPoint_user_operator
+  total_point: UserPoint_total_point_operator
+  total_spent: UserPoint_total_spent_operator
+  updatedAt: UserPoint_updatedAt_operator
+  createdAt: UserPoint_createdAt_operator
+  id: UserPoint_id_operator
+  AND: [UserPoint_where_and]
+  OR: [UserPoint_where_or]
+}
+
+input UserPoint_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input UserPoint_total_point_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input UserPoint_total_spent_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
+}
+
+input UserPoint_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserPoint_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserPoint_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input UserPoint_where_and {
+  user: UserPoint_user_operator
+  total_point: UserPoint_total_point_operator
+  total_spent: UserPoint_total_spent_operator
+  updatedAt: UserPoint_updatedAt_operator
+  createdAt: UserPoint_createdAt_operator
+  id: UserPoint_id_operator
+  AND: [UserPoint_where_and]
+  OR: [UserPoint_where_or]
+}
+
+input UserPoint_where_or {
+  user: UserPoint_user_operator
+  total_point: UserPoint_total_point_operator
+  total_spent: UserPoint_total_spent_operator
+  updatedAt: UserPoint_updatedAt_operator
+  createdAt: UserPoint_createdAt_operator
+  id: UserPoint_id_operator
+  AND: [UserPoint_where_and]
+  OR: [UserPoint_where_or]
+}
+
+type User_Supplier {
+  docs: [Supplier!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
+input Supplier_where {
+  user: Supplier_user_operator
+  products: Supplier_products_operator
+  name: Supplier_name_operator
+  description: Supplier_description_operator
+  updatedAt: Supplier_updatedAt_operator
+  createdAt: Supplier_createdAt_operator
+  id: Supplier_id_operator
+  AND: [Supplier_where_and]
+  OR: [Supplier_where_or]
+}
+
+input Supplier_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Supplier_products_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input Supplier_name_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+}
+
+input Supplier_description_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  exists: Boolean
+}
+
+input Supplier_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Supplier_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input Supplier_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input Supplier_where_and {
+  user: Supplier_user_operator
+  products: Supplier_products_operator
+  name: Supplier_name_operator
+  description: Supplier_description_operator
+  updatedAt: Supplier_updatedAt_operator
+  createdAt: Supplier_createdAt_operator
+  id: Supplier_id_operator
+  AND: [Supplier_where_and]
+  OR: [Supplier_where_or]
+}
+
+input Supplier_where_or {
+  user: Supplier_user_operator
+  products: Supplier_products_operator
+  name: Supplier_name_operator
+  description: Supplier_description_operator
+  updatedAt: Supplier_updatedAt_operator
+  createdAt: Supplier_createdAt_operator
+  id: Supplier_id_operator
+  AND: [Supplier_where_and]
+  OR: [Supplier_where_or]
+}
+
+type User_Preference {
+  docs: [UserPreference!]!
+  hasNextPage: Boolean!
+  totalDocs: Int
+}
+
 type UserPreference {
   id: String!
   user: User
   setting(depth: Int): JSON
   updatedAt: DateTime
   createdAt: DateTime
+}
+
+input UserPreference_where {
+  user: UserPreference_user_operator
+  setting: UserPreference_setting_operator
+  updatedAt: UserPreference_updatedAt_operator
+  createdAt: UserPreference_createdAt_operator
+  id: UserPreference_id_operator
+  AND: [UserPreference_where_and]
+  OR: [UserPreference_where_or]
+}
+
+input UserPreference_user_operator {
+  equals: JSON
+  not_equals: JSON
+  in: [JSON]
+  not_in: [JSON]
+  all: [JSON]
+  exists: Boolean
+}
+
+input UserPreference_setting_operator {
+  equals: JSON
+  not_equals: JSON
+  like: JSON
+  contains: JSON
+  exists: Boolean
+}
+
+input UserPreference_updatedAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserPreference_createdAt_operator {
+  equals: DateTime
+  not_equals: DateTime
+  greater_than_equal: DateTime
+  greater_than: DateTime
+  less_than_equal: DateTime
+  less_than: DateTime
+  like: DateTime
+  exists: Boolean
+}
+
+input UserPreference_id_operator {
+  equals: String
+  not_equals: String
+  like: String
+  contains: String
+  in: [String]
+  not_in: [String]
+  all: [String]
+  exists: Boolean
+}
+
+input UserPreference_where_and {
+  user: UserPreference_user_operator
+  setting: UserPreference_setting_operator
+  updatedAt: UserPreference_updatedAt_operator
+  createdAt: UserPreference_createdAt_operator
+  id: UserPreference_id_operator
+  AND: [UserPreference_where_and]
+  OR: [UserPreference_where_or]
+}
+
+input UserPreference_where_or {
+  user: UserPreference_user_operator
+  setting: UserPreference_setting_operator
+  updatedAt: UserPreference_updatedAt_operator
+  createdAt: UserPreference_createdAt_operator
+  id: UserPreference_id_operator
+  AND: [UserPreference_where_and]
+  OR: [UserPreference_where_or]
 }
 
 """
@@ -381,18 +1058,11 @@ type Users {
 
 input User_where {
   username: User_username_operator
-  provider: User_provider_operator
   image: User_image_operator
   avatar: User_avatar_operator
   role: User_role_operator
-  accounts: User_accounts_operator
-  carts: User_carts_operator
-  items: User_items_operator
-  point: User_point_operator
-  supplier: User_supplier_operator
+  credit: User_credit_operator
   orders: User_orders_operator
-  preference: User_preference_operator
-  posts: User_posts_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
@@ -412,17 +1082,6 @@ input User_username_operator {
   in: [String]
   not_in: [String]
   all: [String]
-}
-
-input User_provider_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
 }
 
 input User_image_operator {
@@ -451,7 +1110,6 @@ input User_role_operator {
   in: [User_role_Input]
   not_in: [User_role_Input]
   all: [User_role_Input]
-  exists: Boolean
 }
 
 enum User_role_Input {
@@ -461,70 +1119,17 @@ enum User_role_Input {
   GUEST
 }
 
-input User_accounts_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_carts_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_items_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_point_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_supplier_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
+input User_credit_operator {
+  equals: Float
+  not_equals: Float
+  greater_than_equal: Float
+  greater_than: Float
+  less_than_equal: Float
+  less_than: Float
   exists: Boolean
 }
 
 input User_orders_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_preference_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input User_posts_operator {
   equals: JSON
   not_equals: JSON
   in: [JSON]
@@ -609,18 +1214,11 @@ input User_id_operator {
 
 input User_where_and {
   username: User_username_operator
-  provider: User_provider_operator
   image: User_image_operator
   avatar: User_avatar_operator
   role: User_role_operator
-  accounts: User_accounts_operator
-  carts: User_carts_operator
-  items: User_items_operator
-  point: User_point_operator
-  supplier: User_supplier_operator
+  credit: User_credit_operator
   orders: User_orders_operator
-  preference: User_preference_operator
-  posts: User_posts_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
@@ -634,18 +1232,11 @@ input User_where_and {
 
 input User_where_or {
   username: User_username_operator
-  provider: User_provider_operator
   image: User_image_operator
   avatar: User_avatar_operator
   role: User_role_operator
-  accounts: User_accounts_operator
-  carts: User_carts_operator
-  items: User_items_operator
-  point: User_point_operator
-  supplier: User_supplier_operator
+  credit: User_credit_operator
   orders: User_orders_operator
-  preference: User_preference_operator
-  posts: User_posts_operator
   updatedAt: User_updatedAt_operator
   createdAt: User_createdAt_operator
   email: User_email_operator
@@ -672,18 +1263,17 @@ type usersDocAccess {
 
 type UsersDocAccessFields {
   username: UsersDocAccessFields_username
-  provider: UsersDocAccessFields_provider
   image: UsersDocAccessFields_image
   avatar: UsersDocAccessFields_avatar
   role: UsersDocAccessFields_role
-  accounts: UsersDocAccessFields_accounts
   carts: UsersDocAccessFields_carts
   items: UsersDocAccessFields_items
+  accounts: UsersDocAccessFields_accounts
   point: UsersDocAccessFields_point
+  credit: UsersDocAccessFields_credit
   supplier: UsersDocAccessFields_supplier
   orders: UsersDocAccessFields_orders
   preference: UsersDocAccessFields_preference
-  posts: UsersDocAccessFields_posts
   updatedAt: UsersDocAccessFields_updatedAt
   createdAt: UsersDocAccessFields_createdAt
   email: UsersDocAccessFields_email
@@ -710,29 +1300,6 @@ type UsersDocAccessFields_username_Update {
 }
 
 type UsersDocAccessFields_username_Delete {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider {
-  create: UsersDocAccessFields_provider_Create
-  read: UsersDocAccessFields_provider_Read
-  update: UsersDocAccessFields_provider_Update
-  delete: UsersDocAccessFields_provider_Delete
-}
-
-type UsersDocAccessFields_provider_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Update {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_provider_Delete {
   permission: Boolean!
 }
 
@@ -805,29 +1372,6 @@ type UsersDocAccessFields_role_Delete {
   permission: Boolean!
 }
 
-type UsersDocAccessFields_accounts {
-  create: UsersDocAccessFields_accounts_Create
-  read: UsersDocAccessFields_accounts_Read
-  update: UsersDocAccessFields_accounts_Update
-  delete: UsersDocAccessFields_accounts_Delete
-}
-
-type UsersDocAccessFields_accounts_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_accounts_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_accounts_Update {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_accounts_Delete {
-  permission: Boolean!
-}
-
 type UsersDocAccessFields_carts {
   create: UsersDocAccessFields_carts_Create
   read: UsersDocAccessFields_carts_Read
@@ -874,6 +1418,29 @@ type UsersDocAccessFields_items_Delete {
   permission: Boolean!
 }
 
+type UsersDocAccessFields_accounts {
+  create: UsersDocAccessFields_accounts_Create
+  read: UsersDocAccessFields_accounts_Read
+  update: UsersDocAccessFields_accounts_Update
+  delete: UsersDocAccessFields_accounts_Delete
+}
+
+type UsersDocAccessFields_accounts_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_accounts_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_accounts_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_accounts_Delete {
+  permission: Boolean!
+}
+
 type UsersDocAccessFields_point {
   create: UsersDocAccessFields_point_Create
   read: UsersDocAccessFields_point_Read
@@ -894,6 +1461,29 @@ type UsersDocAccessFields_point_Update {
 }
 
 type UsersDocAccessFields_point_Delete {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit {
+  create: UsersDocAccessFields_credit_Create
+  read: UsersDocAccessFields_credit_Read
+  update: UsersDocAccessFields_credit_Update
+  delete: UsersDocAccessFields_credit_Delete
+}
+
+type UsersDocAccessFields_credit_Create {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Read {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Update {
+  permission: Boolean!
+}
+
+type UsersDocAccessFields_credit_Delete {
   permission: Boolean!
 }
 
@@ -963,29 +1553,6 @@ type UsersDocAccessFields_preference_Update {
 }
 
 type UsersDocAccessFields_preference_Delete {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts {
-  create: UsersDocAccessFields_posts_Create
-  read: UsersDocAccessFields_posts_Read
-  update: UsersDocAccessFields_posts_Update
-  delete: UsersDocAccessFields_posts_Delete
-}
-
-type UsersDocAccessFields_posts_Create {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Read {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Update {
-  permission: Boolean!
-}
-
-type UsersDocAccessFields_posts_Delete {
   permission: Boolean!
 }
 
@@ -1774,170 +2341,6 @@ type Accounts {
   prevPage: Int
   totalDocs: Int!
   totalPages: Int!
-}
-
-input Account_where {
-  provider: Account_provider_operator
-  providerAccountId: Account_providerAccountId_operator
-  user: Account_user_operator
-  accessToken: Account_accessToken_operator
-  refreshToken: Account_refreshToken_operator
-  expiresAt: Account_expiresAt_operator
-  scope: Account_scope_operator
-  meta: Account_meta_operator
-  updatedAt: Account_updatedAt_operator
-  createdAt: Account_createdAt_operator
-  id: Account_id_operator
-  AND: [Account_where_and]
-  OR: [Account_where_or]
-}
-
-input Account_provider_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input Account_providerAccountId_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input Account_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Account_accessToken_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Account_refreshToken_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Account_expiresAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Account_scope_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Account_meta_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  within: JSON
-  intersects: JSON
-  exists: Boolean
-}
-
-input Account_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Account_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Account_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Account_where_and {
-  provider: Account_provider_operator
-  providerAccountId: Account_providerAccountId_operator
-  user: Account_user_operator
-  accessToken: Account_accessToken_operator
-  refreshToken: Account_refreshToken_operator
-  expiresAt: Account_expiresAt_operator
-  scope: Account_scope_operator
-  meta: Account_meta_operator
-  updatedAt: Account_updatedAt_operator
-  createdAt: Account_createdAt_operator
-  id: Account_id_operator
-  AND: [Account_where_and]
-  OR: [Account_where_or]
-}
-
-input Account_where_or {
-  provider: Account_provider_operator
-  providerAccountId: Account_providerAccountId_operator
-  user: Account_user_operator
-  accessToken: Account_accessToken_operator
-  refreshToken: Account_refreshToken_operator
-  expiresAt: Account_expiresAt_operator
-  scope: Account_scope_operator
-  meta: Account_meta_operator
-  updatedAt: Account_updatedAt_operator
-  createdAt: Account_createdAt_operator
-  id: Account_id_operator
-  AND: [Account_where_and]
-  OR: [Account_where_or]
 }
 
 type countAccounts {
@@ -2741,6 +3144,14 @@ type PostsDeleteDocAccess {
   where: JSONObject
 }
 
+type Faq {
+  id: String!
+  question: String!
+  answer(depth: Int): JSON
+  updatedAt: DateTime
+  createdAt: DateTime
+}
+
 type Faqs {
   docs: [Faq!]!
   hasNextPage: Boolean!
@@ -2981,111 +3392,6 @@ type Suppliers {
   totalPages: Int!
 }
 
-input Supplier_where {
-  user: Supplier_user_operator
-  products: Supplier_products_operator
-  name: Supplier_name_operator
-  description: Supplier_description_operator
-  updatedAt: Supplier_updatedAt_operator
-  createdAt: Supplier_createdAt_operator
-  id: Supplier_id_operator
-  AND: [Supplier_where_and]
-  OR: [Supplier_where_or]
-}
-
-input Supplier_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Supplier_products_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Supplier_name_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-}
-
-input Supplier_description_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  exists: Boolean
-}
-
-input Supplier_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Supplier_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Supplier_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Supplier_where_and {
-  user: Supplier_user_operator
-  products: Supplier_products_operator
-  name: Supplier_name_operator
-  description: Supplier_description_operator
-  updatedAt: Supplier_updatedAt_operator
-  createdAt: Supplier_createdAt_operator
-  id: Supplier_id_operator
-  AND: [Supplier_where_and]
-  OR: [Supplier_where_or]
-}
-
-input Supplier_where_or {
-  user: Supplier_user_operator
-  products: Supplier_products_operator
-  name: Supplier_name_operator
-  description: Supplier_description_operator
-  updatedAt: Supplier_updatedAt_operator
-  createdAt: Supplier_createdAt_operator
-  id: Supplier_id_operator
-  AND: [Supplier_where_and]
-  OR: [Supplier_where_or]
-}
-
 type countSuppliers {
   totalDocs: Int
 }
@@ -3292,8 +3598,6 @@ input Product_where {
   price: Product_price_operator
   previewImage: Product_previewImage_operator
   details: Product_details_operator
-  media: Product_media_operator
-  faqs: Product_faqs_operator
   ratings: Product_ratings_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
@@ -3418,23 +3722,6 @@ input Product_details_operator {
   exists: Boolean
 }
 
-input Product_media_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  exists: Boolean
-}
-
-input Product_faqs_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
 input Product_ratings_operator {
   equals: JSON
   not_equals: JSON
@@ -3490,8 +3777,6 @@ input Product_where_and {
   price: Product_price_operator
   previewImage: Product_previewImage_operator
   details: Product_details_operator
-  media: Product_media_operator
-  faqs: Product_faqs_operator
   ratings: Product_ratings_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
@@ -3513,8 +3798,6 @@ input Product_where_or {
   price: Product_price_operator
   previewImage: Product_previewImage_operator
   details: Product_details_operator
-  media: Product_media_operator
-  faqs: Product_faqs_operator
   ratings: Product_ratings_operator
   updatedAt: Product_updatedAt_operator
   createdAt: Product_createdAt_operator
@@ -3549,7 +3832,6 @@ type ProductsDocAccessFields {
   previewImage: ProductsDocAccessFields_previewImage
   details: ProductsDocAccessFields_details
   media: ProductsDocAccessFields_media
-  faqs: ProductsDocAccessFields_faqs
   ratings: ProductsDocAccessFields_ratings
   updatedAt: ProductsDocAccessFields_updatedAt
   createdAt: ProductsDocAccessFields_createdAt
@@ -3851,29 +4133,6 @@ type ProductsDocAccessFields_media_Update {
 }
 
 type ProductsDocAccessFields_media_Delete {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs {
-  create: ProductsDocAccessFields_faqs_Create
-  read: ProductsDocAccessFields_faqs_Read
-  update: ProductsDocAccessFields_faqs_Update
-  delete: ProductsDocAccessFields_faqs_Delete
-}
-
-type ProductsDocAccessFields_faqs_Create {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Read {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Update {
-  permission: Boolean!
-}
-
-type ProductsDocAccessFields_faqs_Delete {
   permission: Boolean!
 }
 
@@ -5410,105 +5669,6 @@ type Carts {
   totalPages: Int!
 }
 
-input Cart_where {
-  user: Cart_user_operator
-  status: Cart_status_operator
-  items: Cart_items_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
-}
-
-input Cart_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Cart_status_operator {
-  equals: Cart_status_Input
-  not_equals: Cart_status_Input
-  in: [Cart_status_Input]
-  not_in: [Cart_status_Input]
-  all: [Cart_status_Input]
-  exists: Boolean
-}
-
-enum Cart_status_Input {
-  ACTIVE
-  SAVED
-  ABANDONED
-}
-
-input Cart_items_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input Cart_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Cart_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input Cart_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input Cart_where_and {
-  user: Cart_user_operator
-  status: Cart_status_operator
-  items: Cart_items_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
-}
-
-input Cart_where_or {
-  user: Cart_user_operator
-  status: Cart_status_operator
-  items: Cart_items_operator
-  updatedAt: Cart_updatedAt_operator
-  createdAt: Cart_createdAt_operator
-  id: Cart_id_operator
-  AND: [Cart_where_and]
-  OR: [Cart_where_or]
-}
-
 type countCarts {
   totalDocs: Int
 }
@@ -6508,100 +6668,6 @@ type UserItems {
   totalPages: Int!
 }
 
-input UserItem_where {
-  user: UserItem_user_operator
-  item: UserItem_item_operator
-  config: UserItem_config_operator
-  updatedAt: UserItem_updatedAt_operator
-  createdAt: UserItem_createdAt_operator
-  id: UserItem_id_operator
-  AND: [UserItem_where_and]
-  OR: [UserItem_where_or]
-}
-
-input UserItem_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input UserItem_item_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input UserItem_config_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  within: JSON
-  intersects: JSON
-  exists: Boolean
-}
-
-input UserItem_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserItem_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserItem_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input UserItem_where_and {
-  user: UserItem_user_operator
-  item: UserItem_item_operator
-  config: UserItem_config_operator
-  updatedAt: UserItem_updatedAt_operator
-  createdAt: UserItem_createdAt_operator
-  id: UserItem_id_operator
-  AND: [UserItem_where_and]
-  OR: [UserItem_where_or]
-}
-
-input UserItem_where_or {
-  user: UserItem_user_operator
-  item: UserItem_item_operator
-  config: UserItem_config_operator
-  updatedAt: UserItem_updatedAt_operator
-  createdAt: UserItem_createdAt_operator
-  id: UserItem_id_operator
-  AND: [UserItem_where_and]
-  OR: [UserItem_where_or]
-}
-
 type countUserItems {
   totalDocs: Int
 }
@@ -6771,99 +6837,6 @@ type UserPoints {
   totalPages: Int!
 }
 
-input UserPoint_where {
-  user: UserPoint_user_operator
-  total_point: UserPoint_total_point_operator
-  total_spent: UserPoint_total_spent_operator
-  updatedAt: UserPoint_updatedAt_operator
-  createdAt: UserPoint_createdAt_operator
-  id: UserPoint_id_operator
-  AND: [UserPoint_where_and]
-  OR: [UserPoint_where_or]
-}
-
-input UserPoint_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input UserPoint_total_point_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-}
-
-input UserPoint_total_spent_operator {
-  equals: Float
-  not_equals: Float
-  greater_than_equal: Float
-  greater_than: Float
-  less_than_equal: Float
-  less_than: Float
-}
-
-input UserPoint_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserPoint_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserPoint_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input UserPoint_where_and {
-  user: UserPoint_user_operator
-  total_point: UserPoint_total_point_operator
-  total_spent: UserPoint_total_spent_operator
-  updatedAt: UserPoint_updatedAt_operator
-  createdAt: UserPoint_createdAt_operator
-  id: UserPoint_id_operator
-  AND: [UserPoint_where_and]
-  OR: [UserPoint_where_or]
-}
-
-input UserPoint_where_or {
-  user: UserPoint_user_operator
-  total_point: UserPoint_total_point_operator
-  total_spent: UserPoint_total_spent_operator
-  updatedAt: UserPoint_updatedAt_operator
-  createdAt: UserPoint_createdAt_operator
-  id: UserPoint_id_operator
-  AND: [UserPoint_where_and]
-  OR: [UserPoint_where_or]
-}
-
 type countUserPoints {
   totalDocs: Int
 }
@@ -7031,86 +7004,6 @@ type UserPreferences {
   prevPage: Int
   totalDocs: Int!
   totalPages: Int!
-}
-
-input UserPreference_where {
-  user: UserPreference_user_operator
-  setting: UserPreference_setting_operator
-  updatedAt: UserPreference_updatedAt_operator
-  createdAt: UserPreference_createdAt_operator
-  id: UserPreference_id_operator
-  AND: [UserPreference_where_and]
-  OR: [UserPreference_where_or]
-}
-
-input UserPreference_user_operator {
-  equals: JSON
-  not_equals: JSON
-  in: [JSON]
-  not_in: [JSON]
-  all: [JSON]
-  exists: Boolean
-}
-
-input UserPreference_setting_operator {
-  equals: JSON
-  not_equals: JSON
-  like: JSON
-  contains: JSON
-  exists: Boolean
-}
-
-input UserPreference_updatedAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserPreference_createdAt_operator {
-  equals: DateTime
-  not_equals: DateTime
-  greater_than_equal: DateTime
-  greater_than: DateTime
-  less_than_equal: DateTime
-  less_than: DateTime
-  like: DateTime
-  exists: Boolean
-}
-
-input UserPreference_id_operator {
-  equals: String
-  not_equals: String
-  like: String
-  contains: String
-  in: [String]
-  not_in: [String]
-  all: [String]
-  exists: Boolean
-}
-
-input UserPreference_where_and {
-  user: UserPreference_user_operator
-  setting: UserPreference_setting_operator
-  updatedAt: UserPreference_updatedAt_operator
-  createdAt: UserPreference_createdAt_operator
-  id: UserPreference_id_operator
-  AND: [UserPreference_where_and]
-  OR: [UserPreference_where_or]
-}
-
-input UserPreference_where_or {
-  user: UserPreference_user_operator
-  setting: UserPreference_setting_operator
-  updatedAt: UserPreference_updatedAt_operator
-  createdAt: UserPreference_createdAt_operator
-  id: UserPreference_id_operator
-  AND: [UserPreference_where_and]
-  OR: [UserPreference_where_or]
 }
 
 type countUserPreferences {
@@ -8744,18 +8637,17 @@ type usersAccess {
 
 type UsersFields {
   username: UsersFields_username
-  provider: UsersFields_provider
   image: UsersFields_image
   avatar: UsersFields_avatar
   role: UsersFields_role
-  accounts: UsersFields_accounts
   carts: UsersFields_carts
   items: UsersFields_items
+  accounts: UsersFields_accounts
   point: UsersFields_point
+  credit: UsersFields_credit
   supplier: UsersFields_supplier
   orders: UsersFields_orders
   preference: UsersFields_preference
-  posts: UsersFields_posts
   updatedAt: UsersFields_updatedAt
   createdAt: UsersFields_createdAt
   email: UsersFields_email
@@ -8782,29 +8674,6 @@ type UsersFields_username_Update {
 }
 
 type UsersFields_username_Delete {
-  permission: Boolean!
-}
-
-type UsersFields_provider {
-  create: UsersFields_provider_Create
-  read: UsersFields_provider_Read
-  update: UsersFields_provider_Update
-  delete: UsersFields_provider_Delete
-}
-
-type UsersFields_provider_Create {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Read {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Update {
-  permission: Boolean!
-}
-
-type UsersFields_provider_Delete {
   permission: Boolean!
 }
 
@@ -8877,29 +8746,6 @@ type UsersFields_role_Delete {
   permission: Boolean!
 }
 
-type UsersFields_accounts {
-  create: UsersFields_accounts_Create
-  read: UsersFields_accounts_Read
-  update: UsersFields_accounts_Update
-  delete: UsersFields_accounts_Delete
-}
-
-type UsersFields_accounts_Create {
-  permission: Boolean!
-}
-
-type UsersFields_accounts_Read {
-  permission: Boolean!
-}
-
-type UsersFields_accounts_Update {
-  permission: Boolean!
-}
-
-type UsersFields_accounts_Delete {
-  permission: Boolean!
-}
-
 type UsersFields_carts {
   create: UsersFields_carts_Create
   read: UsersFields_carts_Read
@@ -8946,6 +8792,29 @@ type UsersFields_items_Delete {
   permission: Boolean!
 }
 
+type UsersFields_accounts {
+  create: UsersFields_accounts_Create
+  read: UsersFields_accounts_Read
+  update: UsersFields_accounts_Update
+  delete: UsersFields_accounts_Delete
+}
+
+type UsersFields_accounts_Create {
+  permission: Boolean!
+}
+
+type UsersFields_accounts_Read {
+  permission: Boolean!
+}
+
+type UsersFields_accounts_Update {
+  permission: Boolean!
+}
+
+type UsersFields_accounts_Delete {
+  permission: Boolean!
+}
+
 type UsersFields_point {
   create: UsersFields_point_Create
   read: UsersFields_point_Read
@@ -8966,6 +8835,29 @@ type UsersFields_point_Update {
 }
 
 type UsersFields_point_Delete {
+  permission: Boolean!
+}
+
+type UsersFields_credit {
+  create: UsersFields_credit_Create
+  read: UsersFields_credit_Read
+  update: UsersFields_credit_Update
+  delete: UsersFields_credit_Delete
+}
+
+type UsersFields_credit_Create {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Read {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Update {
+  permission: Boolean!
+}
+
+type UsersFields_credit_Delete {
   permission: Boolean!
 }
 
@@ -9035,29 +8927,6 @@ type UsersFields_preference_Update {
 }
 
 type UsersFields_preference_Delete {
-  permission: Boolean!
-}
-
-type UsersFields_posts {
-  create: UsersFields_posts_Create
-  read: UsersFields_posts_Read
-  update: UsersFields_posts_Update
-  delete: UsersFields_posts_Delete
-}
-
-type UsersFields_posts_Create {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Read {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Update {
-  permission: Boolean!
-}
-
-type UsersFields_posts_Delete {
   permission: Boolean!
 }
 
@@ -10494,7 +10363,6 @@ type ProductsFields {
   previewImage: ProductsFields_previewImage
   details: ProductsFields_details
   media: ProductsFields_media
-  faqs: ProductsFields_faqs
   ratings: ProductsFields_ratings
   updatedAt: ProductsFields_updatedAt
   createdAt: ProductsFields_createdAt
@@ -10796,29 +10664,6 @@ type ProductsFields_media_Update {
 }
 
 type ProductsFields_media_Delete {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs {
-  create: ProductsFields_faqs_Create
-  read: ProductsFields_faqs_Read
-  update: ProductsFields_faqs_Update
-  delete: ProductsFields_faqs_Delete
-}
-
-type ProductsFields_faqs_Create {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Read {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Update {
-  permission: Boolean!
-}
-
-type ProductsFields_faqs_Delete {
   permission: Boolean!
 }
 
@@ -13718,18 +13563,11 @@ type Mutation {
 
 input mutationUserInput {
   username: String!
-  provider: String
   image: String
   avatar: String
-  role: User_role_MutationInput
-  accounts: [String]
-  carts: [String]
-  items: [String]
-  point: String
-  supplier: [String]
+  role: User_role_MutationInput!
+  credit: Float
   orders: [String]
-  preference: String
-  posts: [String]
   updatedAt: String
   createdAt: String
   email: String!
@@ -13758,18 +13596,11 @@ input mutationUser_SessionsInput {
 
 input mutationUserUpdateInput {
   username: String
-  provider: String
   image: String
   avatar: String
   role: UserUpdate_role_MutationInput
-  accounts: [String]
-  carts: [String]
-  items: [String]
-  point: String
-  supplier: [String]
+  credit: Float
   orders: [String]
-  preference: String
-  posts: [String]
   updatedAt: String
   createdAt: String
   email: String
@@ -13955,7 +13786,6 @@ input mutationProductInput {
   previewImage: String
   details: JSON
   media: JSON
-  faqs: [String]
   ratings: [String]
   updatedAt: String
   createdAt: String
@@ -13980,7 +13810,6 @@ input mutationProductUpdateInput {
   previewImage: String
   details: JSON
   media: JSON
-  faqs: [String]
   ratings: [String]
   updatedAt: String
   createdAt: String
