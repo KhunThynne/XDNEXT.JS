@@ -21,7 +21,7 @@ import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
 import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import { MediaProduct } from "./MediasProduct";
 import type { Cart, Product } from "@/payload-types";
 
@@ -74,8 +74,7 @@ const ContainerProductMenu = (
   const { session, userProductStatus, ...product } = props;
   const router = useRouter();
   const label = useMemo(() => {
-    const status = userProductStatus.checkUserProductStatus;
-    if (status?.__typename !== "CheckProductSuccess") return null;
+    const status = userProductStatus;
     return status;
   }, [userProductStatus]);
 
@@ -181,6 +180,7 @@ export const ContentProduct = (
   }
 ) => {
   const { id, children, ...product } = props;
+
   return (
     <ContainerSection
       key={id}
@@ -189,11 +189,12 @@ export const ContentProduct = (
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
     >
+      
       <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
         <MediaProduct {...product.media!} />
       </ContainerSection>
       <ContainerSection className="top-20 max-xl:sticky xl:col-span-2">
-        <ContainerProductMenu {...props} />
+        <ContainerProductMenu key={props.userProductStatus.renderKey} {...props} />
       </ContainerSection>
       {product.details && (
         <ContainerSection

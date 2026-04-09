@@ -8,7 +8,7 @@ import { AccountPopover } from "./AccountPopover";
 
 import { SignButton } from "./SignButton";
 import type { Session } from "next-auth";
-import { ShoppingPopover } from "@/shared/components/ui/shopping/ShoppingPopover";
+import { CartPopover } from "@/shared/components/ui/shopping/CartPopover";
 import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
 import { useSession } from "next-auth/react";
 
@@ -37,7 +37,7 @@ export const NavbarActionSection = ({
           <SignButton />
         ) : (
           <Fragment>
-            <ShoppingPopover
+            <CartPopover
               cartId={
                 typeof session?.user?.carts?.docs?.[0] !== "string"
                   ? (session?.user?.carts?.docs?.[0]?.id ?? "")

@@ -1,0 +1,101 @@
+"use client";
+
+import { updateTagClient } from "@/shared/utils/m";
+import type { Cart, Product } from "@/libs/graphql/generates/graphql";
+
+import {
+  useQueryClient,
+  useInfiniteQuery,
+  keepPreviousData,
+  useMutation,
+} from "@tanstack/react-query";
+
+import type { User } from "next-auth";
+import { createCartItem, deleteCartItem, getCartItems } from "../actions/carts";
+import type { CartItem } from "@/payload-types";
+const limit = 20;
+
+export const useCartItems = ({
+  cartId,
+  userId,
+}: {
+  cartId: Cart["id"];
+  userId: User["id"];
+}) => {
+  const queryKey = ["carts", cartId];
+  const cartItemQueryClient = useQueryClient();
+  const invalidate = () => {
+    cartItemQueryClient.invalidateQueries({ queryKey });
+    updateTagClient(`${cartId}-${userId}-checkProduct`);
+  };
+  const iInfiniteQuery = useInfiniteQuery({
+    queryKey,
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await getCartItems({
+        id: cartId,
+        page: pageParam,
+        limit,
+      });
+      return result;
+    },
+    enabled: !!cartId,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.docs.length === limit) {
+        return allPages.length * limit;
+      }
+      return undefined;
+    },
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
+    placeholderData: keepPreviousData,
+  });
+
+  const addItem = useMutation({
+    mutationFn: async (productId: Product["id"]) => {
+      const res = await createCartItem({
+        id: cartId,
+        productId: productId!,
+        quantity: 1,
+      });
+      return res;
+    },
+    onSuccess: (data) => {
+      invalidate();
+    },
+    onError: (error) => {
+      console.error("Failed to add item to cart", error);
+    },
+  });
+
+  //  const updateCartItem = useMutation({
+  //   mutationFn: async (productId: Product["id"]) => {
+  //     const res = await createCartItem({
+  //       id: cartId,
+  //       productId: productId!,
+  //       quantity: 1,
+  //     });
+  //     return res;
+  //   },
+  //   onSuccess: (data) => {
+  //     invalidate();
+  //   },
+  //   onError: (error) => {
+  //     console.error("Failed to add item to cart", error);
+  //   },
+  // });
+
+  const removeItem = useMutation({
+    mutationFn: async (cartItemId: CartItem["id"]) => {
+      await deleteCartItem(cartItemId);
+    },
+    onSuccess: (data) => {
+      invalidate();
+    },
+    onError: (error) => {
+      console.error("Failed to add item to cart", error);
+    },
+  });
+
+  return { iInfiniteQuery, invalidate, addItem, removeItem };
+};

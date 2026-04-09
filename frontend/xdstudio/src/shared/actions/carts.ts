@@ -1,6 +1,6 @@
 "use server";
 import { getPayload } from "@/libs/payload/getPayload";
-import type { Cart, CartItem } from "@/payload-types";
+import type { Cart, CartItem, Product } from "@/payload-types";
 export const getCartItems = async ({
   id,
   page = 0,
@@ -46,7 +46,6 @@ export const getCarts = async ({
       page,
       depth: 99,
     });
-    console.log("test", result.docs[0].items);
     return result;
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -56,7 +55,7 @@ export const getCarts = async ({
   }
 };
 
-export const deleteCartItems = async (id: CartItem["id"]) => {
+export const deleteCartItem = async (id: CartItem["id"]) => {
   try {
     const payload = await getPayload();
     const result = await payload.delete({
@@ -72,17 +71,25 @@ export const deleteCartItems = async (id: CartItem["id"]) => {
   }
 };
 
-export const getCachedCheckUserProductStatus = async () => {
+export const createCartItem = async ({
+  id,
+  productId,
+  quantity = 1,
+}: {
+  id: Cart["id"];
+  productId: Product["id"];
+  quantity?: CartItem["quantity"];
+}) => {
   try {
     const payload = await getPayload();
-    const result = await payload.find({
-      collection: "carts",
-      where: { id: { equals: id } },
-      limit,
-      page,
-      depth: 99,
+    const result = await payload.create({
+      collection: "cart-items",
+      data: {
+        cart: id,
+        product: productId,
+        quantity,
+      },
     });
-    console.log("test", result.docs[0].items);
     return result;
   } catch (error: unknown) {
     if (error instanceof Error) {

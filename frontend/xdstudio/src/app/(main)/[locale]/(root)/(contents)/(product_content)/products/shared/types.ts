@@ -1,7 +1,5 @@
-export type CheckUserProductStatusQuery = {
-  checkUserProductStatus: {
-    __typename: "CheckProductSuccess";
-    inCart: boolean;
-    inUserItem: boolean;
-  };
-};
+import type { checkUserProductStatus } from "@/shared/actions/products";
+
+export type CheckUserProductStatusQuery = Awaited<ReturnType<
+  typeof checkUserProductStatus
+>>;

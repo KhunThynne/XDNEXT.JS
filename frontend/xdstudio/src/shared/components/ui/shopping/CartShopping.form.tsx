@@ -4,6 +4,7 @@ import { Link } from "@navigation";
 import type {
   InfiniteData,
   UseInfiniteQueryResult,
+  UseMutationResult,
 } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2, ShoppingCart } from "lucide-react";
@@ -19,7 +20,6 @@ import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import type { Cart, CartItem, Price, Product } from "@/payload-types";
 
-import { deleteCartItems } from "@/shared/actions/carts";
 import { useAppForm } from "@/libs/tanstack-react-form";
 import { useStore } from "@tanstack/react-form";
 import type { PaginatedDocs } from "payload";
@@ -121,7 +121,7 @@ export const CartSummary = ({
 };
 export const CartShoppingForm = ({
   cartItems,
-  invalidateCartAction,
+  removeItem,
   navigation,
   query,
 }: {
@@ -130,23 +130,14 @@ export const CartShoppingForm = ({
     Error
   >;
   cartItems: CartItem[];
-  invalidateCartAction: () => void;
+  removeItem: UseMutationResult<void, Error, string, unknown>;
   navigation: string;
 }) => {
-  const mutation = useMutation({
-    mutationFn: async (id: string) => {
-      await deleteCartItems(id);
-    },
-    onSuccess: () => {
-      invalidateCartAction();
-    },
-  });
-
   const handleDelete = async (id: string, item: CartItem) => {
     // const updated = method
     //   .getValues("cartItems")
     //   .filter((item) => item.id !== id);
-    await mutation.mutateAsync(id);
+    await removeItem.mutateAsync(id);
     // method.setValue("cartItems", updated, { shouldDirty: true });
   };
 

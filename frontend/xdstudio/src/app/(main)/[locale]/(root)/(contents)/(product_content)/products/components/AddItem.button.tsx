@@ -1,5 +1,4 @@
 import { Button } from "@/libs/shadcn/ui/button";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
@@ -11,6 +10,8 @@ import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 import type { Product } from "@/payload-types";
 import type { Cart } from "@/libs/graphql/generates/graphql";
 import type { CheckUserProductStatusQuery } from "../shared/types";
+import { useCartItems } from "@/shared/hooks/useCartItems";
+import { useParams } from "next/navigation";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;
@@ -33,19 +34,18 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     ...buttonProps
   } = props;
   const productId = product?.id;
+  const { id: productSlug } = useParams();
   const cart = session?.user?.carts?.docs?.[0] as Cart;
   const cartId = cart?.id;
   const userId = session?.user?.id;
-  const { mutation } = useCartInfinite({
+  const { addItem } = useCartItems({
     cartId: cartId ?? "",
-    productId,
     userId: userId ?? "",
   });
 
-  const { mutate, isPending, status: StatusMutation } = mutation;
+  const { mutate, isPending, status: StatusMutation } = addItem;
   const addedItem = useMemo(() => {
-    const statusLog = status.checkUserProductStatus;
-    if (statusLog?.__typename !== "CheckProductSuccess") return null;
+    const statusLog = status;
     return statusLog;
   }, [status]);
 
@@ -70,7 +70,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     }
     onClick?.(event);
     if (!addedItem?.inCart) {
-      mutate(undefined, {
+      mutate(productSlug as string, {
         onSuccess: () => {
           setPreAdded(true);
           updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);

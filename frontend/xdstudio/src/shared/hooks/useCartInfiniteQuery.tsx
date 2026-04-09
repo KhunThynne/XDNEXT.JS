@@ -59,24 +59,7 @@ export const useCartInfinite = ({
     placeholderData: keepPreviousData,
   });
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      const res = await execute(CreateCartItemDocument, {
-        data: {
-          cart: { connect: { id: cartId } },
-          product: { connect: { id: productId } },
-          quantity: 1,
-        },
-      });
-      return res;
-    },
-    onSuccess: (data) => {
-      invalidate();
-    },
-    onError: (error) => {
-      console.error("Failed to add item to cart", error);
-    },
-  });
+ 
 
-  return { query, invalidate, mutation };
+  return { query, invalidate };
 };

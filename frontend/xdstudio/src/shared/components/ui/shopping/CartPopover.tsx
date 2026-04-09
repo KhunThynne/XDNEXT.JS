@@ -11,16 +11,14 @@ import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm, CartSummary } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import { useLayoutEffect, useMemo, useState } from "react";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
-import Point from "../Point";
+import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, CartItem, User } from "@/payload-types";
-import type { Maybe } from "graphql/jsutils/Maybe";
-import { useCartItemsInfinite } from "@/shared/hooks/useCartItemsInfinite";
+
+import { useCartItems } from "@/shared/hooks/useCartItems";
 import { LoadingDots } from "../Loading";
 
-export const ShoppingPopover = ({
+export const CartPopover = ({
   cartId,
   userId,
   credit,
@@ -30,18 +28,19 @@ export const ShoppingPopover = ({
   credit: User["credit"];
   carts?: Cart[] | undefined;
 }) => {
-  const { query, invalidate } = useCartItemsInfinite({
+  const { iInfiniteQuery, invalidate, removeItem } = useCartItems({
     cartId,
     userId,
   });
-  const { data, status } = query;
+  const { data, status } = iInfiniteQuery;
+  const metaData = data?.pages[0];
   const flatData = useMemo(() => {
-    return data?.pages?.flatMap((cartItems) => cartItems?.docs ?? []) ?? [];
+    return data?.pages?.flatMap((cartItems) => cartItems.docs ?? []) ?? [];
   }, [data]);
 
-  const cartItems = flatData as CartItem[];
+  const cartItems = flatData;
   const navigation = `/account/${userId}/cart/${cartId}`;
-  // const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
+  const itemsCount = metaData?.totalDocs ?? 0;
 
   return (
     <Popover>
@@ -56,8 +55,8 @@ export const ShoppingPopover = ({
           className="group relative"
           aria-labelledby="shopping-bag-button"
         >
-          <ShoppingBagMotion triggerKey={credit?.toString() ?? "0"} />
-          <ShoppingCount count={0} />
+          <ShoppingBagMotion triggerKey={itemsCount.toString()} />
+          <ShoppingCount count={itemsCount} />
         </Button>
       </PopoverTrigger>
       <Button className="md:hidden" variant="ghost" size="icon" asChild>
@@ -75,8 +74,8 @@ export const ShoppingPopover = ({
             <CartShoppingForm
               key={cartItems.length}
               cartItems={cartItems}
-              query={query}
-              invalidateCartAction={invalidate}
+              query={iInfiniteQuery}
+              removeItem={removeItem}
               navigation={navigation}
             />
             <Separator />
