@@ -1,19 +1,16 @@
-import type {
-  CheckUserProductStatusQuery,
-  Product,
-} from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
-import { useCartItemStore } from "@/shared/components/ui/shopping/CartStoreProvider";
-import { useCartDocument } from "@/shared/hooks/useCartDocument";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 
-import { Fragment, useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { updateTagClient } from "@/shared/utils/m";
 import { useRouter } from "@navigation";
 import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
+import type { Product } from "@/payload-types";
+import type { Cart } from "@/libs/graphql/generates/graphql";
+import type { CheckUserProductStatusQuery } from "../shared/types";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;
@@ -36,7 +33,8 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     ...buttonProps
   } = props;
   const productId = product?.id;
-  const cartId = session?.user?.carts?.[0]?.id;
+  const cart = session?.user?.carts?.docs?.[0] as Cart;
+  const cartId = cart?.id;
   const userId = session?.user?.id;
   const { mutation } = useCartInfinite({
     cartId: cartId ?? "",
@@ -55,9 +53,9 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     addedItem?.inCart || addedItem?.inUserItem
   );
   const router = useRouter();
-  useEffect(() => {
-    setPreAdded(false);
-  }, [status]);
+  // useEffect(() => {
+  //   setPreAdded(false);
+  // }, [status]);
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isPending) {
       return;

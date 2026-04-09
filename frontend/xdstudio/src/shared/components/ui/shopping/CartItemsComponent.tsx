@@ -1,8 +1,3 @@
-import type {
-  CartItem,
-  Maybe,
-  Product,
-} from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
@@ -13,13 +8,17 @@ import { useFormatter } from "next-intl";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
 import _ from "lodash";
+import type { CartItem, Price, Product } from "@/payload-types";
 export function CartImageDisplay({
   product,
 }: {
-  product: Maybe<Product> | undefined;
+  product: Product | undefined;
 }) {
   const [hasImageError, setHasImageError] = useState(false);
-  const imageUrl = product?.previewImage?.src?.url ?? "";
+  const imageUrl =
+    typeof product?.previewImage === "string"
+      ? product?.previewImage
+      : (product?.previewImage?.url ?? "");
   if (!imageUrl || hasImageError) {
     return <ImageOff className="size-full self-center rounded border" />;
   }
@@ -37,19 +36,16 @@ export function CartImageDisplay({
   );
 }
 export const CartItemComponent = ({
-  product,
+  product: ProductInstance,
   quantity,
   onDelete,
 }: CartItem & { onDelete: () => void }) => {
-  const { control } = useFormContext<{
-    cartItems: CartItem[];
-  }>();
-  const { isDirty } = useFormState({ control });
-  const price = product?.price?.price;
+  const product = ProductInstance as Product;
+  const price = product?.price as Price;
   const { number } = useFormatter();
   const summaryResult = useMemo(
-    () => number((quantity ?? 1) * Number(price)),
-    [number, price, quantity]
+    () => number((quantity ?? 1) * Number(price?.price ?? 0)),
+    [number, price?.price, quantity]
   );
   return (
     <div className="flex grow items-center gap-3 p-3">
@@ -60,9 +56,8 @@ export const CartItemComponent = ({
         <Link href={`/product/${product?.id}`} className="hover:underline">
           <p className="text-sm font-medium">{product?.name}</p>
         </Link>
-
-        <p className="flex place-items-center gap-1 text-xs text-muted-foreground">
-          {quantity && number(quantity)} ×{price && number(price)}
+        <p className="text-muted-foreground flex place-items-center gap-1 text-xs">
+          {quantity && number(quantity)} ×{price && number(price?.price ?? 0)}
           <PointDiamon className="size-2! translate-y-[1.5px]" />
         </p>
       </div>
@@ -80,9 +75,9 @@ export const CartItemComponent = ({
         type="button"
         size={"icon"}
         variant={"ghost"}
-        disabled={isDirty}
+        // disabled={isDirty}
         onClick={onDelete}
-        className="cursor-pointer text-destructive"
+        className="text-destructive cursor-pointer"
       >
         <Trash className="size-3.5" />
       </Button>

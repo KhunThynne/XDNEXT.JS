@@ -6,44 +6,40 @@ import {
 } from "@/libs/shadcn/ui/popover";
 import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
-import type {
-  Cart,
-  CartItem,
-  Maybe,
-  User,
-  UserPoint,
-} from "@/libs/graphql/generates/graphql";
 
 import { ShoppingBagMotion, ShoppingCount } from "./Motions";
 import { CartShoppingForm, CartSummary } from "./CartShopping.form";
 import CartStoreProvider from "./CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import { useMemo, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import Point from "../Point";
+
+import type { Cart, CartItem, User } from "@/payload-types";
+import type { Maybe } from "graphql/jsutils/Maybe";
+import { useCartItemsInfinite } from "@/shared/hooks/useCartItemsInfinite";
+import { LoadingDots } from "../Loading";
 
 export const ShoppingPopover = ({
   cartId,
   userId,
-  pointId,
+  credit,
 }: {
   userId: User["id"];
   cartId: Cart["id"];
-  pointId: UserPoint["id"];
-  carts?: Maybe<Cart[]> | undefined;
+  credit: User["credit"];
+  carts?: Cart[] | undefined;
 }) => {
-  const { query, invalidate } = useCartInfinite({
+  const { query, invalidate } = useCartItemsInfinite({
     cartId,
     userId,
   });
-  const { data } = query;
+  const { data, status } = query;
+  const flatData = useMemo(() => {
+    return data?.pages?.flatMap((cartItems) => cartItems?.docs ?? []) ?? [];
+  }, [data]);
 
-  // const flatData = useMemo(
-  //   () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
-  //   [data]
-  // );
-  const [totalPoint, setTotalPoint] = useState(0);
-  // const cartItems = flatData;
+  const cartItems = flatData as CartItem[];
   const navigation = `/account/${userId}/cart/${cartId}`;
   // const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
 
@@ -60,8 +56,8 @@ export const ShoppingPopover = ({
           className="group relative"
           aria-labelledby="shopping-bag-button"
         >
-          {/* <ShoppingBagMotion triggerKey={JSON.stringify(cartItems)} /> */}
-          {/* <ShoppingCount count={itemsCount} /> */}
+          <ShoppingBagMotion triggerKey={credit?.toString() ?? "0"} />
+          <ShoppingCount count={0} />
         </Button>
       </PopoverTrigger>
       <Button className="md:hidden" variant="ghost" size="icon" asChild>
@@ -71,23 +67,44 @@ export const ShoppingPopover = ({
         </Link>
       </Button>
       <PopoverContent align="end" className="w-sm p-0">
-        <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
-        {/* <CartShoppingForm
-          cartItems={cartItems as CartItem[]}
-          query={query}
-          invalidateCartAction={invalidate}
-          navigation={navigation}
-        >
-          <Separator />
-          <CartSummary
-            className="p-4"
-            style="short"
-            navigation={navigation}
-            userTotalPoint={totalPoint}
-          />
-        </CartShoppingForm> */}
-        <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />
+        {status === "pending" ? (
+          <LoadingDots />
+        ) : (
+          <HandleCartItems invalidate={invalidate}>
+            <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
+            <CartShoppingForm
+              key={cartItems.length}
+              cartItems={cartItems}
+              query={query}
+              invalidateCartAction={invalidate}
+              navigation={navigation}
+            />
+            <Separator />
+            <CartSummary
+              className="p-4"
+              style="short"
+              navigation={navigation}
+              userTotalPoint={1000}
+              cartItems={cartItems}
+            />
+            {/* <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} /> */}{" "}
+          </HandleCartItems>
+        )}
       </PopoverContent>
     </Popover>
   );
+};
+
+const HandleCartItems = ({
+  children,
+  invalidate,
+}: {
+  children: React.ReactNode;
+  invalidate: () => void;
+}) => {
+  useLayoutEffect(() => {
+    invalidate();
+  }, [invalidate]);
+
+  return children;
 };

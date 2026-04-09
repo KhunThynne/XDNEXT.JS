@@ -3,10 +3,7 @@
 import { updateTagClient } from "@/shared/utils/m";
 import { execute } from "@/libs/graphql/execute";
 import type { Cart, Product } from "@/libs/graphql/generates/graphql";
-import {
-  GetCartDocument,
-  CreateCartItemDocument,
-} from "@/libs/graphql/generates/graphql";
+
 import {
   useQueryClient,
   useInfiniteQuery,
@@ -15,10 +12,10 @@ import {
 } from "@tanstack/react-query";
 
 import type { User } from "next-auth";
-import { getCarts } from "../actions/carts";
+import { getCartItems, getCarts } from "../actions/carts";
 const take = 40;
 
-export const useCartInfinite = ({
+export const useCartItemsInfinite = ({
   cartId,
   productId,
   userId,
@@ -27,31 +24,28 @@ export const useCartInfinite = ({
   productId?: Product["id"];
   userId: User["id"];
 }) => {
-  const queryKey = ["cart", cartId];
-  const cartQueryClient = useQueryClient();
+  const queryKey = ["carts", cartId];
+  const cartItemQueryClient = useQueryClient();
   const invalidate = () => {
-    cartQueryClient.invalidateQueries({ queryKey });
+    cartItemQueryClient.invalidateQueries({ queryKey });
     updateTagClient(`${cartId}-${userId}-checkProduct`);
   };
   const query = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam = 0 }) => {
-      const result = await getCarts({id: cartId, page: pageParam, limit: take});
-      // const result = await execute(GetCartDocument, {
-      //   where: { id: cartId },
-      //   skip: pageParam * take,
-      //   take,
-      //   // orderBy: { createdAt: OrderDirection.Desc },
-      // });
-      console.log('ssss',result)
+      const result = await getCartItems({
+        id: cartId,
+        page: pageParam,
+        limit: take,
+      });
       return result;
     },
     enabled: !!cartId,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      // if (lastPage.data?.cart?.items?.length === take) {
-      //   return allPages.length * take; // offset สำหรับ page ต่อไป
-      // }
+      if (lastPage.docs.length === take) {
+        return allPages.length * take; 
+      }
       return undefined;
     },
     staleTime: 1000 * 60 * 5,
@@ -61,14 +55,14 @@ export const useCartInfinite = ({
 
   const mutation = useMutation({
     mutationFn: async () => {
-      const res = await execute(CreateCartItemDocument, {
-        data: {
-          cart: { connect: { id: cartId } },
-          product: { connect: { id: productId } },
-          quantity: 1,
-        },
-      });
-      return res;
+      // const res = await execute(CreateCartItemDocument, {
+      //   data: {
+      //     cart: { connect: { id: cartId } },
+      //     product: { connect: { id: productId } },
+      //     quantity: 1,
+      //   },
+      // });
+      // return res;
     },
     onSuccess: (data) => {
       invalidate();

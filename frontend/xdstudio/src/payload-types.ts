@@ -102,6 +102,9 @@ export interface Config {
       supplier: 'suppliers';
       preference: 'user-preferences';
     };
+    carts: {
+      items: 'cart-items';
+    };
   };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
@@ -255,9 +258,13 @@ export interface Media {
  */
 export interface Cart {
   id: string;
-  user?: (string | null) | User;
+  user: string | User;
   status?: ('ACTIVE' | 'SAVED' | 'ABANDONED') | null;
-  items?: (string | CartItem)[] | null;
+  items?: {
+    docs?: (string | CartItem)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -267,8 +274,11 @@ export interface Cart {
  */
 export interface CartItem {
   id: string;
-  cart?: (string | null) | Cart;
-  product?: (string | null) | Product;
+  cart: string | Cart;
+  /**
+   * Product item in cart
+   */
+  product: string | Product;
   quantity: number;
   updatedAt: string;
   createdAt: string;

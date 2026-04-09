@@ -10,11 +10,7 @@ import {
   CardTitle,
 } from "@/libs/shadcn/ui/card";
 import { Button } from "@/libs/shadcn/ui/button";
-import {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-} from "@radix-ui/react-collapsible";
+
 import clsx from "clsx";
 import { ChevronDownIcon, Plus, Star } from "lucide-react";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
@@ -27,17 +23,16 @@ import { useRouter } from "@navigation";
 import type { Session } from "next-auth";
 import { useMemo } from "react";
 import { MediaProduct } from "./MediasProduct";
-import type { Product } from "@/payload-types";
+import type { Cart, Product } from "@/payload-types";
 
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { CheckUserProductStatusQuery } from "../shared/types";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/libs/shadcn/ui/collapsible";
 
-type CheckUserProductStatusQuery = {
-  checkUserProductStatus: {
-    __typename: "CheckProductSuccess";
-    inCart: boolean;
-    inUserItem: boolean;
-  };
-};
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
   return (
@@ -96,7 +91,7 @@ const ContainerProductMenu = (
               {props.name}
             </CardTitle>
 
-            <ProductTag tags={props.tag} classNames={{ view: "px-0!" }} />
+            <ProductTag tags={props.tags} classNames={{ view: "px-0!" }} />
           </div>
         </div>
         {/* Rating */}
@@ -130,7 +125,8 @@ const ContainerProductMenu = (
       <CardContent className="space-y-4">
         <div className="flex text-4xl font-bold text-blue-600 dark:text-blue-400">
           <PointDiamon className="size-7" />
-          {props.price?.price?.toLocaleString()}
+          {typeof props.price !== "string" &&
+            props.price?.price?.toLocaleString()}
         </div>
         <div className="space-y-3">
           <h3 className="text-lg font-semibold">รายละเอียดสินค้า</h3>
@@ -143,7 +139,7 @@ const ContainerProductMenu = (
           )}
         </div>
 
-        <ProductFAQ faqs={props.faqs} />
+        {/* <ProductFAQ faqs={props.faqs} /> */}
       </CardContent>
 
       <CardAction className="mt-auto flex w-full items-center justify-end gap-3 overflow-hidden px-5">
@@ -166,7 +162,7 @@ const ContainerProductMenu = (
           addTo
           onClick={() =>
             router.push(
-              `/account/${session?.user.id}/cart/${session?.user?.carts?.[0]?.id ?? ""}`
+              `/account/${session?.user?.id}/cart/${(session?.user?.carts?.docs?.[0] as Cart).id ?? ""}`
             )
           }
         >

@@ -7,6 +7,9 @@ export const Users: CollectionConfig = {
     defaultColumns: ["name", "username", "email", "role"],
   },
   auth: true,
+  access: {
+    read: () => true,
+  },
   timestamps: true,
   hooks: {
     afterChange: [

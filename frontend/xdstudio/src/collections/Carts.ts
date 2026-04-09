@@ -3,8 +3,10 @@ import type { CollectionConfig } from "payload";
 export const Carts: CollectionConfig = {
   slug: "carts",
   admin: {
-    useAsTitle: "status",
-    defaultColumns: ["user", "status", "createdAt"],
+    defaultColumns: ["user", "status", "createdAt", "updatedAt"],
+  },
+  access: {
+    read: () => true,
   },
   timestamps: true,
   fields: [
@@ -13,6 +15,10 @@ export const Carts: CollectionConfig = {
       type: "relationship",
       relationTo: "users",
       hasMany: false,
+      required: true,
+      admin: {
+        allowCreate: false,
+      },
     },
     {
       name: "status",
@@ -26,9 +32,12 @@ export const Carts: CollectionConfig = {
     },
     {
       name: "items",
-      type: "relationship",
-      relationTo: "cart-items",
-      hasMany: true,
+      type: "join",
+      on: "cart",
+      collection: "cart-items",
     },
   ],
+  defaultPopulate: {
+    items: true,
+  },
 };

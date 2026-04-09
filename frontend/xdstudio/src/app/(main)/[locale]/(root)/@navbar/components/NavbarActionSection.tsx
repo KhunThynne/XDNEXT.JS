@@ -19,12 +19,11 @@ export const NavbarActionSection = ({
 }: {
   session: Session | null;
 } & WithlDefaultProps) => {
-
   const { status } = useSession();
   return (
     <section className={clsx(className)}>
       <ThemeMenu />
-      <span className="inline-flex">
+      <span className="inline-flex space-x-3">
         {status === "loading" ? (
           <Button
             variant="ghost"
@@ -38,11 +37,15 @@ export const NavbarActionSection = ({
           <SignButton />
         ) : (
           <Fragment>
-            {/* <ShoppingPopover
-              pointId={session.user.point?.id ?? ""}
-              userId={session.user.id}
-              cartId={cartId!}
-            /> */}
+            <ShoppingPopover
+              cartId={
+                typeof session?.user?.carts?.docs?.[0] !== "string"
+                  ? (session?.user?.carts?.docs?.[0]?.id ?? "")
+                  : ""
+              }
+              credit={session?.user?.credit}
+              userId={session?.user?.id ?? ""}
+            />
             <AccountPopover {...session?.user} />
           </Fragment>
         )}

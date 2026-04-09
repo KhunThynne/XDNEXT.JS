@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Input } from "@/libs/shadcn/ui/input";
+import { useAppForm } from "@/libs/tanstack-react-form";
 import { updateTagClient } from "@/shared/utils/m";
 import { Fragment, Suspense, use, useDeferredValue, useState } from "react";
 
@@ -13,6 +14,22 @@ const Inserch = ({
 }) => {
   return <Input defaultValue={query} onChange={onChange} />;
 };
+export const TestForm = () => {
+  const form = useAppForm({
+    defaultValues: {
+      test: "",
+    },
+  });
+  return (
+    <form.AppForm>
+      <form.AppField
+        name="test"
+        children={({ state }) => <>{state.meta.isDirty}</>}
+      />
+    </form.AppForm>
+  );
+};
+
 export function Message({
   messagePromise,
 }: {
