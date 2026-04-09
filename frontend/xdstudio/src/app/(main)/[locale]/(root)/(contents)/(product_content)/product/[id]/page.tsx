@@ -25,7 +25,11 @@ const getGetProductDocument = async (id: string) => {
   "use cache";
   cacheLife("hours");
   cacheTag(`product-${id}`, id);
-  return await getProduct(id);
+  try {
+    return await getProduct(id);
+  } catch (error) {
+    return notFound();
+  }
 };
 
 export default async function PageProduct({

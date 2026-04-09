@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/libs/shadcn/ui/button";
-import { LoadingDots } from "@/shared/components/ui/Loading";
+import { LoadingDots } from "@/shared/components/LoadingComponent";
 import { useRouter } from "@navigation";
 import clsx from "clsx";
 import { ArrowLeft } from "lucide-react";

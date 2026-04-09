@@ -15,7 +15,6 @@ import _ from "lodash";
 
 import { Fragment } from "react";
 import { notFound } from "next/navigation";
-import NotFound from "./components/EmptyProducts";
 
 const getProductsCache = async (
   variables: GetProductsQueryVariables,
@@ -68,5 +67,5 @@ export default async function PageProducts({
     );
   }
 
-  return <NotFound />;
+  return notFound();
 }

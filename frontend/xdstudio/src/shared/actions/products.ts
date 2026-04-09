@@ -74,10 +74,18 @@ export const checkUserProductStatus = async ({
 };
 
 export async function getProduct(id: string) {
-  const payload = await getPayload();
-  const product = await payload.findByID({
-    collection: "products",
-    id,
-  });
-  return product;
+  try {
+    const payload = await getPayload();
+    const product = await payload.findByID({
+      collection: "products",
+      id,
+      depth: 50,
+    });
+    return product;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error getting product: ${error.message}`);
+    }
+    throw new Error(`Error getting product: ${error}`);
+  }
 }

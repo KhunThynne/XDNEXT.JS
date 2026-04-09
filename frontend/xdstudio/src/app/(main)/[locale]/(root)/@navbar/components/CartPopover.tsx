@@ -7,21 +7,20 @@ import {
 import { ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
 
-import { ShoppingBagMotion, ShoppingCount } from "./Motions";
-import { CartShoppingForm, CartSummary } from "./CartShopping.form";
-import CartStoreProvider from "./CartStoreProvider";
+import { ShoppingBagMotion, ShoppingCount } from "../../../../../../shared/components/ui/shopping/Motions";
+import { CartShoppingForm, CartSummary } from "../../../../../../shared/components/ui/shopping/CartShopping.form";
+import CartStoreProvider from "../../../../../../shared/components/ui/shopping/CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, CartItem, User } from "@/payload-types";
 
 import { useCartItems } from "@/shared/hooks/useCartItems";
-import { LoadingDots } from "../Loading";
+import { LoadingDots } from "../../../../../../shared/components/LoadingComponent";
 
 export const CartPopover = ({
   cartId,
   userId,
-  credit,
 }: {
   userId: User["id"];
   cartId: Cart["id"];
@@ -62,7 +61,7 @@ export const CartPopover = ({
       <Button className="md:hidden" variant="ghost" size="icon" asChild>
         <Link href={navigation} aria-labelledby="shopping-bag-button">
           <ShoppingBag />
-          {/* <ShoppingCount count={itemsCount} /> */}
+          <ShoppingCount count={itemsCount} />
         </Link>
       </Button>
       <PopoverContent align="end" className="w-sm p-0">

@@ -7,7 +7,7 @@ import { useEffect, useMemo } from "react";
 import { CartItemsDatableProvider } from "./CartItemsDatableProvider";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
-import { LoadingDots } from "@/shared/components/ui/Loading";
+import { LoadingDots } from "@/shared/components/LoadingComponent";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 
 export const CartItemsClient = () => {

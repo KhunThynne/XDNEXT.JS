@@ -19,8 +19,8 @@ export default function MenuNavbar({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const isMounted = useIsMounted();
-  if (!isMounted) return null;
-  const target = document.getElementById("nav-menu");
+
+  const target = isMounted ? document.getElementById("nav-menu") : null;
   return (
     <Fragment>
       <ButtonMenu
@@ -29,7 +29,7 @@ export default function MenuNavbar({
         state={isOpen}
         onClick={() => setIsOpen((pre) => !pre)}
       />
-      {target &&
+      { target &&
         createPortal(
           <div className={clsx("relative md:hidden")}>
             <nav

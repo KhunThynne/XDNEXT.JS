@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useI18n } from "@/libs/i18n/hooks/useI18n";
-import { ErrorComponent } from "@/shared/components/ui/ErrorComponent";
+import { ErrorComponent } from "@/shared/components/ErrorComponent";
 
 export default function AuthErrorPage() {
   const searchParams = useSearchParams();

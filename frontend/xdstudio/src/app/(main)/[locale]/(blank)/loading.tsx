@@ -1,4 +1,4 @@
-import Loading from "@/shared/components/ui/Loading";
+import Loading from "@/shared/components/LoadingComponent";
 
 export default function ContentsLoading() {
   return <Loading />;

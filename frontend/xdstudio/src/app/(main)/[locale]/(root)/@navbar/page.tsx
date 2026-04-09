@@ -17,7 +17,7 @@ export default async function PageNavBar() {
         <RenderLink render={conf.navbar} />
         <NavbarActionSection className="flex gap-2" session={session} />
       </div>
-      {/* <MenuNavbar navbar={conf.navbar} session={session!} /> */}
+      <MenuNavbar navbar={conf.navbar} session={session!} />
     </Navbar>
   );
 }

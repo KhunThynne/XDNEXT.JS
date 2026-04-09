@@ -64,7 +64,7 @@ import type Stripe from "stripe";
 import { toast } from "sonner";
 import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
-import { LoadingDots } from "@/shared/components/ui/Loading";
+import { LoadingDots } from "@/shared/components/LoadingComponent";
 import { Spinner } from "@/libs/shadcn/ui/spinner";
 import StatusFilterForm from "./StatusFilterForm";
 import { usePointTransactionMutations } from "../_hooks/usePointTransactionMutations";
