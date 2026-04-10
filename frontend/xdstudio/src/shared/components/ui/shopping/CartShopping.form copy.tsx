@@ -22,7 +22,7 @@ import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
 import type { Cart, CartItem } from "@/payload-types";
-import type { CartFormProps } from "@/app/(main)/[locale]/(root)/(auth)/account/[id]/cart/[cartId]/_components/cartOrder.type";
+import type { CartFormProps } from "@/app/(main)/[locale]/(root)/(auth)/account/[id]/cart/[cartId]/_shared/_components/cartOrder.type";
 import { deleteCartItems } from "@/shared/actions/carts";
 
 export const EmptyCart = () => {

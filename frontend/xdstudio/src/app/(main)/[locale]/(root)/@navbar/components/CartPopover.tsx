@@ -4,19 +4,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/libs/shadcn/ui/popover";
-import { ShoppingBag } from "lucide-react";
+import { GlobeX, ShoppingBag, ShoppingBagIcon } from "lucide-react";
 import { Link } from "@navigation";
 
-import { ShoppingBagMotion, ShoppingCount } from "../../../../../../shared/components/ui/shopping/Motions";
-import { CartShoppingForm, CartSummary } from "../../../../../../shared/components/ui/shopping/CartShopping.form";
-import CartStoreProvider from "../../../../../../shared/components/ui/shopping/CartStoreProvider";
+import {
+  ShoppingBagMotion,
+  ShoppingCount,
+} from "@/shared/components/ui/shopping/Motions";
+import {
+  CartShoppingForm,
+  CartSummary,
+} from "@/shared/components/ui/shopping/CartShopping.form";
+import CartStoreProvider from "@/shared/components/ui/shopping/CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import { useLayoutEffect, useMemo } from "react";
+import { Fragment, useLayoutEffect, useMemo } from "react";
 
-import type { Cart, CartItem, User } from "@/payload-types";
+import type { Cart, User } from "@/payload-types";
 
 import { useCartItems } from "@/shared/hooks/useCartItems";
-import { LoadingDots } from "../../../../../../shared/components/LoadingComponent";
+import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { EmptyComponent } from "@/shared/components/EmptyComponent";
 
 export const CartPopover = ({
   cartId,
@@ -64,20 +71,18 @@ export const CartPopover = ({
           <ShoppingCount count={itemsCount} />
         </Link>
       </Button>
-      <PopoverContent align="end" className="w-sm p-0">
-        {status === "pending" ? (
-          <LoadingDots />
-        ) : (
-          <HandleCartItems invalidate={invalidate}>
-            <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
-            <CartShoppingForm
-              key={cartItems.length}
-              cartItems={cartItems}
-              query={iInfiniteQuery}
-              removeItem={removeItem}
-              navigation={navigation}
-            />
-            <Separator />
+      <PopoverContent align="end" className="min-h-60 w-sm p-0">
+        <HandleCartItems invalidate={invalidate} status={status}>
+          <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
+          <CartShoppingForm
+            key={cartItems.length}
+            cartItems={cartItems}
+            query={iInfiniteQuery}
+            removeItem={removeItem}
+            navigation={navigation}
+          />
+          <Separator />
+          {itemsCount > 0 && (
             <CartSummary
               className="p-4"
               style="short"
@@ -85,9 +90,8 @@ export const CartPopover = ({
               userTotalPoint={1000}
               cartItems={cartItems}
             />
-            {/* <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} /> */}{" "}
-          </HandleCartItems>
-        )}
+          )}
+        </HandleCartItems>
       </PopoverContent>
     </Popover>
   );
@@ -96,13 +100,47 @@ export const CartPopover = ({
 const HandleCartItems = ({
   children,
   invalidate,
+  status,
 }: {
   children: React.ReactNode;
+  status: "success" | "pending" | "error";
   invalidate: () => void;
 }) => {
   useLayoutEffect(() => {
-    invalidate();
-  }, [invalidate]);
+    if (status === "success") {
+      invalidate();
+    }
+  }, [invalidate, status]);
 
-  return children;
+  if (status === "pending") {
+    return (
+      <div className="space-y-6 p-5">
+        {Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="flex items-center gap-3">
+            <Skeleton className="h-12 w-12 rounded-md" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          </div>
+        ))}
+        <Separator />
+        <Skeleton className="h-12 w-full" />
+      </div>
+    );
+  }
+  if (status === "success") {
+    return children;
+  }
+  return (
+    <EmptyComponent
+      button={{ hidden: true }}
+      icon={<GlobeX className="text-muted-foreground" />}
+      title="Something went wrong"
+      description="We couldn't load your cart items. Please try closing and reopening your cart."
+    />
+  );
 };
+{
+  /* <Point hidden setTotalPoint={setTotalPoint} pointId={pointId} />{" "} */
+}

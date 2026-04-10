@@ -30,6 +30,7 @@ export const useCartItems = ({
   };
   const iInfiniteQuery = useInfiniteQuery({
     queryKey,
+    retry: false,
     queryFn: async ({ pageParam = 0 }) => {
       const result = await getCartItems({
         id: cartId,

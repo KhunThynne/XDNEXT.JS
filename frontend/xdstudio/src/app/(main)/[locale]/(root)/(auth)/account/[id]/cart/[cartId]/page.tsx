@@ -1,6 +1,6 @@
-import CartOrdersAction from "./_components/CartOrdersAction";
-import { CardCartOrdersSummaryForm } from "./_components/forms/CardCartOrdersSummaryForm";
-import { FormOrdersSummary } from "./_components/forms/FormOrdersSummary";
+import CartOrdersAction from "./_shared/_components/CartOrdersAction";
+import { CardCartOrdersSummaryForm } from "./_shared/_components/forms/CardCartOrdersSummaryForm";
+import { FormOrdersSummary } from "./_shared/_components/forms/FormOrdersSummary";
 
 export default async function CartOrderPage() {
   return (

@@ -40,7 +40,7 @@ import type {
 import type {
   CartFormProps,
   CartItemsDatableFormProps,
-} from "../../_components/cartOrder.type";
+} from "../../_shared/_components/cartOrder.type";
 import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";

@@ -5,7 +5,7 @@ import React, { useCallback, useLayoutEffect } from "react";
 import type {
   CartFormProps,
   CartItemsDatableFormProps,
-} from "../../_components/cartOrder.type";
+} from "../../_shared/_components/cartOrder.type";
 import type { Cart, CartItem } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
 import PointDiamon from "@/shared/components/PointDiamod";

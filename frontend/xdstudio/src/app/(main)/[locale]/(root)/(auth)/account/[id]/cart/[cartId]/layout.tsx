@@ -2,7 +2,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
-import CartOrderFormProvider from "./_components/CartOrderFormProvider";
+import CartOrderFormProvider from "./_shared/_components/CartOrderFormProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
 
 export default async function LayoutCart({
@@ -15,20 +15,19 @@ export default async function LayoutCart({
   const session = await auth();
   if (!session?.user) return notFound();
   const { cartId } = await params;
-  const cartIdSession = session.user.carts?.[0]?.id;
   const userId = session.user.id;
-  const point = session?.user?.point;
+  const credit = session?.user?.credit;
 
-  if (cartId !== cartIdSession) return notFound();
+  if (!cartId) return notFound();
 
-  if (!cartId || !userId || point === undefined || point === null) {
+  if (!cartId || !userId || credit === undefined || credit === null) {
     throw new Error(
       clsx(
         "Missing required:",
         !cartId && "cartId",
         !userId && "userId",
-        point === null && "point",
-        point === undefined && "point"
+        credit === null && "point",
+        credit === undefined && "point"
       )
     );
   }
@@ -38,7 +37,7 @@ export default async function LayoutCart({
       cartId={cartId}
       userId={userId}
       session={session}
-      point={point}
+      credit={credit}
       grandTotal={0}
       availablePoint={0}
       remainingpointPayment={0}

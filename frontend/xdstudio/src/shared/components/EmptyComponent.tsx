@@ -14,6 +14,8 @@ import {
 import { BookDashed } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { revalidatePathAction } from "../actions/cache";
+import clsx from "clsx";
+import React from "react";
 
 export function EmptyComponent({
   title,
@@ -23,40 +25,78 @@ export function EmptyComponent({
   children,
   button,
   breadcrumb,
+  className,
+  media,
+  content,
+  emptyContainer,
+  header,
 }: {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  button?: React.ComponentPropsWithoutRef<typeof Button>;
+  title: string | React.ComponentPropsWithoutRef<typeof EmptyTitle>;
+  description: string | React.ComponentPropsWithoutRef<typeof EmptyDescription>;
+  icon?: React.ReactNode;
+  media?: React.ComponentPropsWithoutRef<typeof EmptyMedia>;
+  button?:
+    | React.ReactElement
+    | React.ComponentPropsWithoutRef<typeof Button>
+    | string;
+  emptyContainer?: React.ComponentPropsWithoutRef<typeof Empty>;
+  header?: React.ComponentPropsWithoutRef<typeof EmptyHeader>;
+  content?: React.ComponentPropsWithoutRef<typeof EmptyContent>;
   onClickAction?: () => void;
-  breadcrumb?: React.ComponentPropsWithoutRef<typeof BreadcrumbComponent> & {
-    hidden?: boolean;
-  };
+  breadcrumb?: React.ComponentPropsWithoutRef<typeof BreadcrumbComponent>;
   children?: React.ReactNode;
+  className?: string;
 }) {
   const realPathname = usePathname();
 
   return (
     <Fragment>
-      {!breadcrumb?.hidden && <BreadcrumbComponent {...breadcrumb} />}
-      <div className="flex h-full min-h-[50vh] flex-col items-center justify-center p-4">
-        <Empty className="max-w-md border-none p-0">
-          <EmptyHeader>
-            <EmptyMedia variant="icon">{icon ?? <BookDashed />}</EmptyMedia>
-            <EmptyTitle>{title}</EmptyTitle>
-            <EmptyDescription>{description}</EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
-            <Button
-              onClick={async () => {
-                onClickAction?.();
-                await revalidatePathAction(realPathname);
-              }}
-              {...button}
+      {breadcrumb && <BreadcrumbComponent {...breadcrumb} />}
+      <div
+        className={clsx(
+          "flex h-full flex-col items-center justify-center p-4",
+          className
+        )}
+      >
+        <Empty className="max-w-md border-none p-0" {...emptyContainer}>
+          <EmptyHeader {...header}>
+            <EmptyMedia variant="icon" {...media}>
+              {icon ?? <BookDashed />}
+            </EmptyMedia>
+            <EmptyTitle {...(typeof title !== "string" ? title : {})}>
+              {typeof title === "string" ? title : title.title}
+            </EmptyTitle>
+            <EmptyDescription
+              {...(typeof description !== "string" ? description : {})}
             >
-              {button?.title ?? "Try again"}
-            </Button>
+              {typeof description === "string" ? description : ""}
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent {...content}>
+            {React.isValidElement(button) ? (
+              button
+            ) : (
+              <Button
+                variant="outline"
+                {...(typeof button !== "string" ? button : {})}
+                onClick={async (e) => {
+                  if (
+                    typeof button !== "string" &&
+                    "onClick" in button! &&
+                    typeof button.onClick === "function"
+                  ) {
+                    button.onClick(e);
+                  }
 
+                  onClickAction?.();
+                  await revalidatePathAction(realPathname);
+                }}
+              >
+                {typeof button !== "string"
+                  ? (button?.title ?? "Try again")
+                  : button}
+              </Button>
+            )}
             {children}
           </EmptyContent>
         </Empty>

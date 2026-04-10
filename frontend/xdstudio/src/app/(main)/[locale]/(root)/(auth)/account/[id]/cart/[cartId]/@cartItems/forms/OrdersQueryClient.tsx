@@ -4,7 +4,7 @@ import { OrdersForm } from "./OrdersForm";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import _ from "lodash";
 import { useFormContext } from "react-hook-form";
-import type { CartFormProps } from "../../_components/cartOrder.type";
+import type { CartFormProps } from "../../_shared/_components/cartOrder.type";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import { useMemo } from "react";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
