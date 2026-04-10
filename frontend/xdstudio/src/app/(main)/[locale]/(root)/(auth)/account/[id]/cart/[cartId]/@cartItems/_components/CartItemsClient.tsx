@@ -1,14 +1,12 @@
 "use client";
 
-import _ from "lodash";
-import { useFormContext } from "react-hook-form";
-import type { CartFormProps } from "../../_shared/_components/cartOrder.type";
-import { useEffect, useMemo } from "react";
+import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
+import { LoadingDots } from "@/shared/components/LoadingComponent";
+import type { CartItem } from "@/payload-types";
 import { CartItemsDatableProvider } from "./CartItemsDatableProvider";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
-import { LoadingDots } from "@/shared/components/LoadingComponent";
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+import { useMemo } from "react";
+import { useCartItems } from "@/shared/hooks/useCartItems";
 
 export const CartItemsClient = ({
   cartId,
@@ -17,36 +15,32 @@ export const CartItemsClient = ({
   cartId: string;
   userId: string;
 }) => {
-  const { query, invalidate } = useCartInfinite({
+  const { iInfiniteQuery, invalidate } = useCartItems({
     cartId,
     userId,
   });
-  const { data, status } = query;
-  // useEffect(() => {
-  //   console.log(watch());
-  // }, [watch()]);
-  // const flatData = useMemo(
-  //   () => data?.pages.flatMap((page) => page?.data?.cart?.items ?? []) ?? [],
-  //   [data?.pages]
-  // );
+  const { data, status } = iInfiniteQuery;
+  const form = useTypedAppFormContext({});
+  const flatData = useMemo(
+    () => data?.pages?.flatMap((page) => page?.docs ?? []) ?? [],
+    [data]
+  );
 
-  // const cartItems = flatData;
-  // const navigation = `/account/cart/${cartId}`;
-  // const itemsCount = data?.pages?.[0]?.data.cart?.itemsCount ?? 0;
+  const cartItems = flatData;
+  const itemsCount = data?.pages?.[0]?.totalDocs ?? 0;
   if (status === "pending")
     return (
       <section className="size-full place-content-center place-items-center">
         <LoadingDots />
       </section>
     );
-  if (status === "success") return null;
-  // return (
-  //   <CartItemsDatableProvider
-  //     cartItems={cartItems as CartItem[]}
-  //     itemsCount={0}
-  //     invalidateCartAction={invalidate}
-  //   >
-  //     <DataTableCartInfiniteScroll setValue={setValue} cartQuery={query} />
-  //   </CartItemsDatableProvider>
-  // );
+  return (
+    <CartItemsDatableProvider
+      cartItems={cartItems as CartItem[]}
+      itemsCount={itemsCount}
+      invalidateCartAction={invalidate}
+    >
+      <DataTableCartInfiniteScroll setValue={form.setFieldValue} cartQuery={iInfiniteQuery} />
+    </CartItemsDatableProvider>
+  );
 };

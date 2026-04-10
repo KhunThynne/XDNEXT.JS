@@ -1,12 +1,12 @@
 "use client";
 
-import { useForm, useFormContext, useWatch } from "react-hook-form";
+import { useAppForm, useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import React, { useCallback, useLayoutEffect } from "react";
 import type {
   CartFormProps,
   CartItemsDatableFormProps,
 } from "../../_shared/_components/cartOrder.type";
-import type { Cart, CartItem } from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem } from "@/payload-types";
 import { Button } from "@/libs/shadcn/ui/button";
 import PointDiamon from "@/shared/components/PointDiamod";
 import type { ColumnDef, Table } from "@tanstack/react-table";
@@ -15,7 +15,7 @@ import { ImageOff, Minus, Trash } from "lucide-react";
 import Image from "next/image";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
-import { Form } from "@/libs/shadcn/ui/form";
+
 import { Checkbox } from "@/libs/shadcn/custom/checkbox";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 
@@ -30,9 +30,8 @@ export const CartItemsDatableProvider = ({
   invalidateCartAction: () => void;
 }) => {
   const { openDialog, closeDialog } = useDialogGlobal();
-  const { setValue, control, getValues, reset } =
-    useFormContext<CartFormProps>();
-  const OrderCartItem = useWatch({ control, name: "cartItems" });
+  const parentForm = useTypedAppFormContext({});
+  const OrderCartItem = parentForm.useStore((state) => state.values.cartItems);
   const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
     handleSuccess() {
       invalidateCartAction();
@@ -43,9 +42,9 @@ export const CartItemsDatableProvider = ({
     async (idToDelete: CartItem["id"], coreTable: Table<CartItem>) => {
       const confirmDelete = () => {
         // eslint-disable-next-line react-hooks/immutability
-        const current = method.getValues("cartItems");
+        const current = method.getFieldValue("cartItems");
         const updated = current.filter((item) => item.id !== idToDelete);
-        method.setValue("cartItems", updated, { shouldDirty: true });
+        method.setFieldValue("cartItems", updated);
         coreTable.setRowSelection((prev) => {
           const newSelection = { ...prev };
           delete newSelection[idToDelete];
@@ -56,7 +55,7 @@ export const CartItemsDatableProvider = ({
       };
 
       const itemName = method
-        .getValues("cartItems")
+        .getFieldValue("cartItems")
         .find((item) => item.id === idToDelete)?.product?.name;
 
       openDialog({
@@ -85,10 +84,10 @@ export const CartItemsDatableProvider = ({
       const ids = cart.map((item) => item.id);
 
       const confirmDelete = () => {
-        const current = method.getValues("cartItems");
+        const current = method.getFieldValue("cartItems");
         const updated = current.filter((item) => !ids.includes(item.id));
 
-        method.setValue("cartItems", updated, { shouldDirty: true });
+        method.setFieldValue("cartItems", updated);
 
         coreTable.setRowSelection((prev) => {
           const newSelection = { ...prev };
@@ -113,7 +112,7 @@ export const CartItemsDatableProvider = ({
         content: (
           <div className="space-y-2">
             {itemNames.length > 0 && (
-              <ul className="list-inside list-disc text-sm text-muted-foreground">
+              <ul className="text-muted-foreground list-inside list-disc text-sm">
                 {itemNames.slice(0, 5).map((name, index) => (
                   <li key={name ?? "unkhown" + index}>{name}</li>
                 ))}
@@ -203,7 +202,7 @@ export const CartItemsDatableProvider = ({
               </div>
               <aside className="place-content-center space-y-1">
                 <h3 className="font-bold">{cell.product?.name} </h3>
-                <h4 className="font-medium text-destructive">
+                <h4 className="text-destructive font-medium">
                   <PointDiamon /> {cell.product?.price?.price}
                 </h4>
               </aside>
@@ -260,7 +259,7 @@ export const CartItemsDatableProvider = ({
     [handleDelete, handleDeleteMore]
   );
 
-  const method = useForm<CartItemsDatableFormProps>({
+  const method = useAppForm({
     defaultValues: {
       cartItems,
       columns,
@@ -268,10 +267,10 @@ export const CartItemsDatableProvider = ({
       total: itemsCount,
       invalidateCartAction,
       selected: cartItems.length,
-    },
+    } as CartItemsDatableFormProps,
   });
 
-  const { setValue: setDatatableValue } = method;
+  const setDatatableValue = method.setFieldValue;
   useLayoutEffect(() => {
     if (cartItems) {
       setDatatableValue("cartItems", cartItems);
@@ -285,5 +284,5 @@ export const CartItemsDatableProvider = ({
       setDatatableValue("total", itemsCount);
     }
   }, [itemsCount, setDatatableValue]);
-  return <Form {...method}>{children}</Form>;
+  return <method.AppForm>{children}</method.AppForm>;
 };

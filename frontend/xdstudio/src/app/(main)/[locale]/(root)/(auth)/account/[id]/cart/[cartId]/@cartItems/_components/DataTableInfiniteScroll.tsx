@@ -10,7 +10,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import type { CartItem, GetCartQuery } from "@/libs/graphql/generates/graphql";
+import type { Cart, CartItem } from "@/payload-types";
+import type { PaginatedDocs } from "payload";
 import {
   TableBody,
   TableCell,
@@ -23,8 +24,8 @@ import { InputForm } from "@/shared/components/ui/form/InputForm";
 
 import { ChevronDown, FileText, ImageOff, Trash } from "lucide-react";
 
-import type { UseFormSetValue } from "react-hook-form";
-import { useFormContext } from "react-hook-form";
+import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
+import { useStore } from "@tanstack/react-form";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -85,20 +86,15 @@ export function DataTableCartInfiniteScroll({
   cartQuery,
   setValue,
 }: {
-  setValue: UseFormSetValue<CartFormProps>;
+  setValue: (field: string, value: any) => void;
   cartQuery: UseInfiniteQueryResult<
-    InfiniteData<
-      {
-        data: GetCartQuery;
-      },
-      unknown
-    >,
+    InfiniteData<PaginatedDocs<CartItem>, unknown>,
     Error
   >;
 }) {
-  const cartItemsForm = useFormContext<CartItemsDatableFormProps>();
+  const cartItemsForm = useTypedAppFormContext({});
 
-  const { columns, total, filter, cartItems, selected } = cartItemsForm.watch();
+  const { columns, total, filter, cartItems, selected } = useStore(cartItemsForm.store, (state: CartFormProps) => state.values as unknown as CartItemsDatableFormProps) || {};
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
   const { isFetching, fetchNextPage, hasNextPage, isLoading, status } =
     cartQuery;
@@ -107,7 +103,7 @@ export function DataTableCartInfiniteScroll({
     Record<string, boolean>
   >(() =>
     cartItems.reduce(
-      (acc, item) => {
+      (acc: Record<string, boolean>, item: CartItem) => {
         acc[item.id] = true;
         return acc;
       },
@@ -128,11 +124,13 @@ export function DataTableCartInfiniteScroll({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
-      const name = row?.original?.product?.name?.toLowerCase();
-      const price = row?.original?.product?.price?.price;
+      const original = row.original as CartItem;
+      const product = original.product;
+      const productName = typeof product === "object" ? product?.name?.toLowerCase() : "";
+      const price = typeof product === "object" && typeof product?.price === "object" ? product?.price?.price : "";
       const search = String(filterValue).toLowerCase();
       return (
-        (name?.includes(search) || price?.toString().includes(search)) ?? false
+        (productName?.includes(search) || price?.toString().includes(search)) ?? false
       );
     },
     manualSorting: true,
@@ -177,7 +175,7 @@ export function DataTableCartInfiniteScroll({
 
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
-    const selectedData = cartItems.filter((item) => selectedIds[item.id]);
+    const selectedData = cartItems.filter((item: CartItem) => selectedIds[item.id]);
     console.log(selectedData);
     setValue("cartItems", selectedData ?? []);
   }, [table.getState().rowSelection, setValue, cartItems]);

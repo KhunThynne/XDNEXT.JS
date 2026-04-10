@@ -2,38 +2,35 @@
 import { OrdersForm } from "./OrdersForm";
 
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
-import _ from "lodash";
-import { useFormContext } from "react-hook-form";
-import type { CartFormProps } from "../../_shared/_components/cartOrder.type";
+import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
+import { useStore } from "@tanstack/react-form";
 import { useMemo } from "react";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 
 export const OrdersQueryClient = () => {
-  const { watch, setValue } = useFormContext<CartFormProps>();
-  const { cartId, userId } = watch();
+  const form = useTypedAppFormContext();
+  const { cartId, userId } = useStore(form.store, (state: CartFormProps) => state.values);
 
   const { query, invalidate } = useCartInfinite({
     cartId,
     userId,
   });
-  return null;
   const { data, status } = query;
 
   const flatData = useMemo(
-    () => data?.pages?.[0]?.data?.cart?.items?.flatMap((page) => page) ?? [],
+    () => data?.pages?.flatMap((page) => page?.docs ?? []) ?? [],
     [data]
   );
 
   const cartItems = flatData;
-  const navigation = `/account/cart/${cartId}`;
   const itemsCount = 0;
 
   if (status === "success")
     return itemsCount > 0 ? (
       <OrdersForm
         invalidateCartAction={invalidate}
-        setValueCart={setValue}
+        setValueCart={form.setFieldValue}
         cartItems={cartItems as CartItem[]}
         filter={""}
       />

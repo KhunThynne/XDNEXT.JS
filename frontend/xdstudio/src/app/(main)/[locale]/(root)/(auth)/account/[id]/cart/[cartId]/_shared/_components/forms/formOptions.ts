@@ -10,5 +10,6 @@ export const formCartsOptions = formOptions({
     availablePoint: 0,
     grandTotal: 0,
     remainingpointPayment: 0,
+    cartItems: [],
   } as CartFormProps,
 });

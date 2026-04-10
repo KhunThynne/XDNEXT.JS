@@ -19,7 +19,7 @@ export const BackScreen = ({
   if (!session) return <LoadingDots />;
   return (
     <Button
-      onClick={() => router.push(`/account/${session.user.id}`)}
+      onClick={() => router.push(`/account/${session?.user?.id}`)}
       className={clsx(className)}
       variant={"ghost"}
       {...button}

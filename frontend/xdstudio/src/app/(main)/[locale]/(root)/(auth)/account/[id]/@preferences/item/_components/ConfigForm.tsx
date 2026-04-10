@@ -1,20 +1,13 @@
 "use client";
 
-import { MotionTransition } from "@/shared/components/MotionTransition";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useRouter } from "@navigation";
-import { Form } from "@/libs/shadcn/ui/form";
 
-import { ArrowLeft } from "lucide-react";
-import { Card, CardAction, CardContent } from "@/libs/shadcn/ui/card";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { TextareaForm } from "@/shared/components/ui/form/TextareaForm";
-import { Textarea } from "@/libs/shadcn/ui/textarea";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useAppForm } from "@/shared/hooks/useAppForm";
-import type { UserItem } from "@/libs/graphql/generates/graphql";
+
 import { toast } from "sonner";
 import { useStore } from "@tanstack/react-form";
+import { CardContent } from "@/libs/shadcn/ui/card";
 
 const MenuConfigForm = ({ children }: WithChildren) => {
   const router = useRouter();

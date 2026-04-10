@@ -1,7 +1,7 @@
 "use client";
 
-import { useForm, useWatch } from "react-hook-form";
-import { Form } from "@/libs/shadcn/ui/form";
+import { useAppForm } from "@/shared/hooks/useAppForm";
+import { useStore } from "@tanstack/react-form";
 import { Button } from "@/libs/shadcn/ui/button";
 import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
 import clsx from "clsx";
@@ -12,7 +12,7 @@ import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import Image from "next/image";
 import type { CartItemsFormProps } from "../../_shared/_components/cartOrder.type";
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+import type { CartItem } from "@/payload-types";
 import { Link } from "@navigation";
 
 import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
@@ -22,15 +22,15 @@ export const OrdersForm = ({
   invalidateCartAction,
   setValueCart,
 }: CartItemsFormProps) => {
-  const method = useForm<CartItemsFormProps>({
+  const method = useAppForm({
     defaultValues: {
       cartItems: defaultCartItems,
     },
   });
   useEffect(() => {
-    method.setValue("cartItems", defaultCartItems);
+    method.setFieldValue("cartItems", defaultCartItems);
   }, [defaultCartItems, method]);
-  const cartItems = useWatch({ control: method.control, name: "cartItems" });
+  const cartItems = useStore(method.store, (state: CartFormProps) => state.values.cartItems);
   const { openDialog, closeDialog } = useDialogGlobal();
   // init from defaultCartItems (so initial mount selects all)
   const [selectedIds, setSelectedIds] = useState<string[]>(() =>
@@ -81,10 +81,10 @@ export const OrdersForm = ({
 
   const handleDeleteMore = async (ids: CartItem["id"][]) => {
     const confirmDelete = () => {
-      const current = method.getValues("cartItems");
+      const current = method.getFieldValue("cartItems");
       const updated = current.filter((item) => !ids.includes(item.id));
       console.log(`cart mores delete`, updated);
-      method.setValue("cartItems", updated, { shouldDirty: true });
+      method.setFieldValue("cartItems", updated);
       setSelectedIds((prev) => prev.filter((id) => !ids.includes(id)));
       mutationDeleteItems.mutate(ids);
       closeDialog();
@@ -107,16 +107,16 @@ export const OrdersForm = ({
 
   const handleDelete = async (idToDelete: CartItem["id"]) => {
     const confirmDelete = () => {
-      const current = method.getValues("cartItems");
+      const current = method.getFieldValue("cartItems");
       const updated = current.filter((item) => item.id !== idToDelete);
-      method.setValue("cartItems", updated, { shouldDirty: true });
+      method.setFieldValue("cartItems", updated);
       setSelectedIds((prev) => prev.filter((id) => id !== idToDelete));
       mutationDeleteItem.mutate(idToDelete);
       closeDialog();
     };
 
     const itemName = method
-      .getValues("cartItems")
+      .getFieldValue("cartItems")
       .find((item) => item.id === idToDelete)?.product?.name;
 
     openDialog({
@@ -142,7 +142,7 @@ export const OrdersForm = ({
   };
 
   return (
-    <Form {...method}>
+    <method.AppForm>
       <ContainerSection
         className="gap-3!"
         title="Orders"
@@ -239,6 +239,6 @@ export const OrdersForm = ({
           ))}
         </ul>
       </ContainerSection>
-    </Form>
+    </method.AppForm>
   );
 };
