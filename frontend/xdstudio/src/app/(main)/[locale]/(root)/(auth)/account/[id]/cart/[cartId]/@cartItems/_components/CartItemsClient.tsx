@@ -10,9 +10,13 @@ import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
 import type { CartItem } from "@/libs/graphql/generates/graphql";
 
-export const CartItemsClient = () => {
-  const { watch, setValue } = useFormContext<CartFormProps>();
-  const { cartId, userId } = watch();
+export const CartItemsClient = ({
+  cartId,
+  userId,
+}: {
+  cartId: string;
+  userId: string;
+}) => {
   const { query, invalidate } = useCartInfinite({
     cartId,
     userId,

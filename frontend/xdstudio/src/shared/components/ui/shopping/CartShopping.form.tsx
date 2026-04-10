@@ -20,7 +20,7 @@ import clsx from "clsx";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import type { Cart, CartItem, Price, Product } from "@/payload-types";
 
-import { useAppForm } from "@/libs/tanstack-react-form";
+import { useAppForm } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
 import type { PaginatedDocs } from "payload";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";

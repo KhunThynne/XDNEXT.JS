@@ -1,12 +1,3 @@
-
-import { execute } from "@/libs/graphql/execute";
-import {
-  GetUserItemDocument,
-  type GetUserItemQuery,
-  type Product,
-  type UserItem,
-} from "@/libs/graphql/generates/graphql";
-
 import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import {
   Empty,
@@ -46,6 +37,8 @@ import { useFormatter } from "next-intl";
 import React from "react";
 import { useParams } from "next/navigation";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
+import type { Media, OrderItem, Product, UserItem } from "@/payload-types";
+import { useUserItems } from "@/shared/hooks/useUserItems";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,
@@ -75,7 +68,7 @@ export const DataTableGridItemsInfiniteScroll = ({
       {
         accessorKey: "item",
         size: 20,
-        accessorFn: (row) => row.item?.id,
+        accessorFn: (row) => (row.item as OrderItem).id,
         cell: ({ row }) => {
           const cell = row.original;
           const purchasedDate = new Date(cell.createdAt);
@@ -88,18 +81,23 @@ export const DataTableGridItemsInfiniteScroll = ({
             month: "2-digit",
             day: "2-digit",
           });
-          const image = cell?.item?.product?.previewImage;
+          const item = cell.item as OrderItem;
+          const itemProduct = item?.product as Product;
+
           // const relativeTime = format.relativeTime(purchasedDate);
           return (
             <Card className="max-w-sm flex-row p-5">
               <CardHeader className="relative">
                 <div className="absolute inset-0 place-content-center place-items-center">
-                  <ImageProduct image={image!} className="size-full" />
+                  <ImageProduct
+                    image={itemProduct.previewImage as Media}
+                    className="size-full"
+                  />
                 </div>
               </CardHeader>
               <CardContent className="border-s px-5">
-                <h3>{cell.item?.product?.name}</h3>
-                <section className="contents text-sm text-primary/40">
+                <h3>{itemProduct.name}</h3>
+                <section className="text-primary/40 contents text-sm">
                   <p className="space-x-0.5">
                     <span className="capitalize"> purchased:</span>
                     <span>{formattedNumericDate}</span>
@@ -116,7 +114,7 @@ export const DataTableGridItemsInfiniteScroll = ({
       {
         size: 0,
         enableColumnFilter: true,
-        accessorFn: (row) => row.item?.product?.name,
+        accessorFn: (row) => ((row.item as OrderItem).product as Product).name,
         id: "name",
         enableHiding: true,
         cell: (info) => null,
@@ -132,29 +130,20 @@ export const DataTableGridItemsInfiniteScroll = ({
     []
   );
 
-  //react-query has a useInfiniteQuery hook that is perfect for this use case
-  const { data, fetchNextPage, isFetching, isLoading } = useInfiniteQuery({
-    queryKey: ["user-items", session.user.id],
-    queryFn: async () => {
-      const res = await execute(GetUserItemDocument, {
-        where: { id: session.user.id },
-      });
-      return res;
-    },
-    enabled: !!session.user.id,
-
-    initialPageParam: 0,
-    getNextPageParam: (_lastGroup, groups) => groups.length,
-    refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
+  const { infiniteUserItemsQuery } = useUserItems({
+    userId: session?.user?.id,
   });
+  const { data, fetchNextPage, isFetching, isLoading } = infiniteUserItemsQuery;
 
-  //flatten the array of arrays from the useInfiniteQuery hook
   const flatData = React.useMemo(
-    () =>
-      data?.pages?.flatMap((page) => page.data.user?.items as UserItem[]) ?? [],
+    () => data?.pages?.flatMap((page) => page.docs ?? []) ?? [],
     [data]
   );
+  
+  return JSON.stringify(flatData);
+
+  //flatten the array of arrays from the useInfiniteQuery hook
+
   const totalDBRowCount = data?.pages?.[0]?.data.user?.itemsCount ?? 0;
   const totalFetched = flatData.length;
 
@@ -287,11 +276,11 @@ export const DataTableGridItemsInfiniteScroll = ({
                           className={clsx("px-8 py-5")}
                           key={cell.id}
                           style={{ width: cell.column.getSize() }}
-                          onClick={() => {
-                            router.push(
-                              `/account/${session.user.id}/item/${row.original.id}`
-                            );
-                          }}
+                          // onClick={() => {
+                          //   router.push(
+                          //     `/account/${session.user.id}/item/${row.original.id}`
+                          //   );
+                          // }}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,

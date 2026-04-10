@@ -3,13 +3,13 @@ import { redirect } from "@navigation";
 
 export default async function CartPage({
   params,
-}: {
-  params: Promise<{ locale: string }>;
-}) {
+}: PageProps<"/[locale]/account/[id]/cart">) {
   const session = await auth();
   const { locale } = await params;
-  if (session?.user?.carts?.[0]?.id) {
-    redirect({ locale, href: session?.user?.carts?.[0]?.id });
+  const firstCart = session?.user?.carts?.docs?.[0];
+  const cartId = typeof firstCart === "object" ? firstCart?.id : firstCart;
+  if (cartId) {
+    redirect({ locale, href: cartId });
   }
   return <>Cart</>;
 }

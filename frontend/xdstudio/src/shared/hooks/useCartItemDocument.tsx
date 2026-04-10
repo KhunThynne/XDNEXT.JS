@@ -1,7 +1,6 @@
 import { execute } from "@/libs/graphql/execute";
 import {
   DeleteCartItemDocument,
-  DeleteCartItemsDocument,
 } from "@/libs/graphql/generates/graphql";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -14,7 +13,7 @@ export const useCartItemDocument = ({
   const cartItemQueryClient = useQueryClient();
   const mutationDeleteItem = useMutation({
     mutationFn: async (id: string) => {
-      await execute(DeleteCartItemDocument, { where: { id } });
+      // await execute(DeleteCartItemDocument, { where: { id } });
     },
     onSuccess(data, variables, context) {
       handleSuccess?.();
@@ -22,9 +21,9 @@ export const useCartItemDocument = ({
   });
   const mutationDeleteItems = useMutation({
     mutationFn: async (ids: string[]) => {
-      await execute(DeleteCartItemsDocument, {
-        where: ids.map((id) => ({ id })),
-      });
+      // await execute(DeleteCartItemsDocument, {
+      //   where: ids.map((id) => ({ id })),
+      // });
     },
     onSuccess() {
       handleSuccess?.();

@@ -1,25 +1,12 @@
 "use client";
 
-import type { User } from "@/libs/graphql/generates/graphql";
 import { Button } from "@/libs/shadcn/ui/button";
-
 import { Separator } from "@/libs/shadcn/ui/separator";
-
-import { useAuthDocument } from "@/shared/hooks/useAuthDocument";
-import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import z, { email } from "zod";
-import { useDialogContext } from "@/libs/dialog/DialogInstance";
-import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
-import { useAppForm } from "@/libs/tanstack-react-form";
-import {
-  formOptions,
-  revalidateLogic,
-  useField,
-  useStore,
-} from "@tanstack/react-form";
-import { useEffect } from "react";
+import z from "zod";
+import { useAppForm } from "@/shared/hooks/useAppForm";
+import { formOptions, revalidateLogic, useField } from "@tanstack/react-form";
 import { useI18n } from "@/libs/i18n/hooks/useI18n";
+import type { User } from "@/payload-types";
 const ZEmailSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
   username: z.string({ message: "Invalid email address" }),
@@ -74,7 +61,6 @@ const ZEmailSchema = z.object({
 // };
 
 export default function AccountPreferenceForm(props: User) {
-  const { openDialog } = useDialogGlobal();
   const preferencesOption = formOptions({
     defaultValues: { email: props.email, username: props.username },
     validationLogic: revalidateLogic(),
@@ -84,7 +70,6 @@ export default function AccountPreferenceForm(props: User) {
   const form = useAppForm({
     ...preferencesOption,
   });
-  const store = useStore(form.store, (store) => store);
   const field = useField({ name: "email", form });
   const { isDefaultValue } = field.state.meta;
   const nonPersistentIsDirty = !isDefaultValue;
@@ -105,6 +90,7 @@ export default function AccountPreferenceForm(props: User) {
               label="Email"
               className="max-w-2xs grow"
               placeholder="you@example.com"
+              disabled
             />
           );
         }}
@@ -126,24 +112,26 @@ export default function AccountPreferenceForm(props: User) {
 
       <Separator className="my-7" />
 
-      <section className="flex justify-end gap-3">
-        <Button
-          type="button"
-          className="cursor-pointer capitalize"
-          variant={"secondary"}
-          onClick={() => form.reset()}
-          disabled={!nonPersistentIsDirty}
-        >
-          {t("common.reset")}
-        </Button>
-        <Button
-          disabled={!nonPersistentIsDirty}
-          type="button"
-          className="cursor-pointer capitalize"
-        >
-          {t("common.update")}
-        </Button>
-      </section>
+      <form.Subscribe>
+        <section className="flex justify-end gap-3">
+          <Button
+            type="button"
+            className="cursor-pointer capitalize"
+            variant={"secondary"}
+            onClick={() => form.reset()}
+            disabled={!nonPersistentIsDirty}
+          >
+            {t("common.reset")}
+          </Button>
+          <Button
+            disabled={!nonPersistentIsDirty}
+            type="button"
+            className="cursor-pointer capitalize"
+          >
+            {t("common.update")}
+          </Button>
+        </section>
+      </form.Subscribe>
     </form>
   );
 }

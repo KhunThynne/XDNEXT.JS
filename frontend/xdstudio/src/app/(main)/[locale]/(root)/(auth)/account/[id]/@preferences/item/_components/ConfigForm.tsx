@@ -11,7 +11,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { TextareaForm } from "@/shared/components/ui/form/TextareaForm";
 import { Textarea } from "@/libs/shadcn/ui/textarea";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { useAppForm } from "@/libs/tanstack-react-form";
+import { useAppForm } from "@/shared/hooks/useAppForm";
 import type { UserItem } from "@/libs/graphql/generates/graphql";
 import { toast } from "sonner";
 import { useStore } from "@tanstack/react-form";

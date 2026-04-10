@@ -9,7 +9,7 @@ export const MainSection = ({
   preferences,
   session,
   children,
-}: NextJSReactNodes<"preferences"> & { session: Session }) => {
+}: NextJSReactNodes<"preferences"> & { session: Session | null }) => {
   const segment = useSelectedLayoutSegment();
   if (segment === "payment" || segment === "cart") return children;
   return (

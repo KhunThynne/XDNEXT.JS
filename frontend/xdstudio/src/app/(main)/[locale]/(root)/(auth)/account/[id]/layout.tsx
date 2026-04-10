@@ -2,20 +2,24 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import { MainSection } from "./_components/MainSection";
 import { SegmentAccount } from "./segments";
-export default async function AuthenticationLayout({
-  children,
-  preferences,
-}: NextJSReactNodes<"preferences">) {
+export default async function AuthenticationLayout(
+  props: LayoutProps<"/[locale]/account/[id]">
+) {
   const session = await auth();
-  if (!session?.user && !session?.user?.carts?.[0]?.id) return notFound();
-  const segmentText = `/account/${session.user.id}`;
-  if (session?.user?.carts?.[0]?.id)
+  const { children, params, preferences } = props;
+  const { id: userIdParam } = await params;
+  const userId = userIdParam || session?.user?.id;
+  const firstCart = session?.user?.carts?.docs?.[0];
+  const cartId = typeof firstCart === "object" ? firstCart?.id : firstCart;
+  if (!session?.user && !cartId) return notFound();
+  const segmentText = `/account/${session?.user?.id}`;
+  if (cartId)
     return (
       <MainSection session={session} preferences={preferences}>
         <SegmentAccount
           segmentText={segmentText}
-          key={session.user.id}
-          cartId={session?.user?.carts?.[0]?.id}
+          key={userId}
+          cartId={cartId}
         />
         {children}
       </MainSection>

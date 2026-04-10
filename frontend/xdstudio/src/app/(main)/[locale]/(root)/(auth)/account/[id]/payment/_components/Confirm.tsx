@@ -5,7 +5,7 @@ import { useForm } from "@tanstack/react-form";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, useStripe } from "@stripe/react-stripe-js";
 import { env } from "@/env";
-import { useAppForm } from "@/libs/tanstack-react-form";
+import { useAppForm } from "@/shared/hooks/useAppForm";
 import { Button } from "@/libs/shadcn/ui/button";
 
 // โหลด Stripe.js ด้วย Public Key ของคุณ

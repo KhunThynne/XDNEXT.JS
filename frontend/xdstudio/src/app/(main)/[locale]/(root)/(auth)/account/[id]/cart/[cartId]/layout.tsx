@@ -13,6 +13,7 @@ export default async function LayoutCart({
   params: Promise<{ cartId: string }>;
 }) {
   const session = await auth();
+
   if (!session?.user) return notFound();
   const { cartId } = await params;
   const userId = session.user.id;

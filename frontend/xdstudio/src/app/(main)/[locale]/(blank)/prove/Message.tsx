@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/libs/shadcn/ui/button";
 import { Input } from "@/libs/shadcn/ui/input";
-import { useAppForm } from "@/libs/tanstack-react-form";
+import { useAppForm } from "@/shared/hooks/useAppForm";
 import { updateTagClient } from "@/shared/utils/m";
 import { Fragment, Suspense, use, useDeferredValue, useState } from "react";
 
