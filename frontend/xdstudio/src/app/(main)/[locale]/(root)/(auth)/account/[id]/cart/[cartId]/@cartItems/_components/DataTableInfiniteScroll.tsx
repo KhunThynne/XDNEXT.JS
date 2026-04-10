@@ -7,7 +7,6 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
-  Row,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -250,12 +249,12 @@ export function DataTableCartInfiniteScroll({
                   >
                     <Empty>
                       <EmptyHeader className="text-xl font-semibold">
-                        <FileText className="mx-auto mb-2 size-15 text-foreground/60" />
+                        <FileText className="text-foreground/60 mx-auto mb-2 size-15" />
 
                         <span className="text-foreground/80">Not Found</span>
                       </EmptyHeader>
 
-                      <p className="text-sm text-foreground/50">
+                      <p className="text-foreground/50 text-sm">
                         There are no payment activities recorded yet.
                       </p>
                     </Empty>
@@ -269,7 +268,7 @@ export function DataTableCartInfiniteScroll({
         <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
           <span>
             Selected:{" "}
-            <span className="font-semibold text-destructive">{selected}</span>
+            <span className="text-destructive font-semibold">{selected}</span>
           </span>
           <span className="flex gap-1">
             Showing <span className="font-medium">{totalFetched}</span> of

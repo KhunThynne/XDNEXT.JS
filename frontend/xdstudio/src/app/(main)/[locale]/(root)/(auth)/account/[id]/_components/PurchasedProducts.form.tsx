@@ -1,37 +1,11 @@
 "use client";
 
-import { Form } from "@/libs/shadcn/ui/form";
-
-import {
-  Grid3X3,
-  List,
-  MessageSquareX,
-  Package,
-  PackageOpen,
-  X,
-} from "lucide-react";
-
-import clsx from "clsx";
-import Image from "next/image";
-import { Link, usePathname } from "@navigation";
-import type { Product, User, UserItem } from "@/libs/graphql/generates/graphql";
-
 import type { Session } from "next-auth";
-
-import { MotionTransition } from "@/shared/components/MotionTransition";
-import _ from "lodash";
 
 import { useAppForm } from "@/shared/hooks/useAppForm";
 
 import { formOptions, useField } from "@tanstack/react-form";
 import { DataTableGridItemsInfiniteScroll } from "./DataTableUserItemsInfiniteScroll";
-import {
-  InputGroupAddon,
-  InputGroupButton,
-} from "@/libs/shadcn/ui/input-group";
-import { Button } from "@/libs/shadcn/ui/button";
-import { useParams } from "next/navigation";
-import { CardProduct } from "../../../../(contents)/(product_content)/products/components/ProductCard";
 
 // const GridItems = ({
 //   items,

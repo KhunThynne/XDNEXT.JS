@@ -143,7 +143,7 @@ export const Users: CollectionConfig = {
       collection: "user-items",
       hasMany: true,
       admin: {
-        hidden: true,
+        // hidden: true,
         condition: (data) => !!data?.id,
       },
     },

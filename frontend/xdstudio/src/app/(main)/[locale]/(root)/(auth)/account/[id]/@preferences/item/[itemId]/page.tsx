@@ -1,28 +1,26 @@
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import { BackScreen } from "../_components/BackScreen";
+
 import { ConfigForm } from "../_components/ConfigForm";
 import { auth } from "@/auth";
 import { cacheLife, cacheTag } from "next/cache";
-import { execute } from "@/libs/graphql/execute";
-import type {
-  GetUserAItemConfigQueryVariables,
-  GetUserItemQueryVariables,
-  User,
-} from "@/libs/graphql/generates/graphql";
-import {
-  GetUserAItemConfigDocument,
-  GetUserItemDocument,
-} from "@/libs/graphql/generates/graphql";
+import { payloadActions } from "@/shared/actions/payload";
+
 import { forbidden, notFound } from "next/navigation";
 import clsx from "clsx";
 
-const getUserAItemConfigCache = async (
-  arg: GetUserAItemConfigQueryVariables
-) => {
+const getUserAItemConfigCache = async (itemId: string) => {
   "use cache";
   cacheLife("days");
-  cacheTag(`${arg.where.id}`);
-  return await execute(GetUserAItemConfigDocument, arg);
+  cacheTag(`${itemId}`);
+  try {
+    return await payloadActions("findByID", {
+      collection: "user-items",
+      id: itemId,
+      depth: 0,
+    });
+  } catch {
+    return null;
+  }
 };
 
 export default async function ItemPage({
@@ -31,16 +29,19 @@ export default async function ItemPage({
   params: Promise<{ locale: string; itemId: string; id: string }>;
 }) {
   const { itemId, id } = await params;
-  const session = await auth();
+  
   if (!itemId) {
     return notFound();
   }
-  const { data } = await getUserAItemConfigCache({ where: { id: itemId } });
+  const userItem = await getUserAItemConfigCache(itemId);
 
-  if (!data.userItem) {
+  if (!userItem) {
     return notFound();
   }
-  if (data?.userItem?.user?.id !== id) {
+
+  const itemOwnerId =
+    typeof userItem.user === "string" ? userItem.user : userItem?.user?.id;
+  if (itemOwnerId !== id) {
     return forbidden();
   }
   return (

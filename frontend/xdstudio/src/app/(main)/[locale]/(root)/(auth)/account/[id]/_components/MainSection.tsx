@@ -15,7 +15,7 @@ export const MainSection = ({
   return (
     <>
       {children}
-      <div className="mx-5 flex h-full flex-wrap gap-6 max-lg:flex-col">
+      <div className="mx-5 flex h-full flex-wrap gap-6 max-lg:flex-col-reverse">
         <ContainerSection
           className="@container relative h-full flex-2 max-lg:max-h-[80vh]"
           title="Purchased Products"

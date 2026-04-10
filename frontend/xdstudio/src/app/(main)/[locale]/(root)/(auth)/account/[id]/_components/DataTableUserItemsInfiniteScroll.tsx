@@ -14,7 +14,6 @@ import {
   TableRow,
 } from "@/libs/shadcn/ui/table";
 import { usePathname, useRouter } from "@navigation";
-import { useInfiniteQuery, keepPreviousData } from "@tanstack/react-query";
 import type {
   SortingState,
   ColumnDef,
@@ -49,7 +48,7 @@ export const DataTableGridItemsInfiniteScroll = ({
 }) => {
   //we need a reference to the scrolling element for logic down below
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  const pathname = usePathname();
+
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const format = useFormatter();
   const params = useParams() as {
@@ -176,9 +175,14 @@ export const DataTableGridItemsInfiniteScroll = ({
       globalFilter: filterText,
     },
     globalFilterFn: (row, columnId, filterValue) => {
-      const name = row?.original?.item?.product?.name?.toLowerCase();
+      const name =
+        typeof row?.original?.item !== "string" &&
+        (row?.original?.item?.product as Product)?.name?.toLowerCase();
       const search = String(filterValue).toLowerCase();
-      return name?.includes(search) ?? false;
+      if (name) {
+        return name?.includes(search);
+      }
+      return false;
     },
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -274,11 +278,11 @@ export const DataTableGridItemsInfiniteScroll = ({
                           className={clsx("px-8 py-5")}
                           key={cell.id}
                           style={{ width: cell.column.getSize() }}
-                          // onClick={() => {
-                          //   router.push(
-                          //     `/account/${session.user.id}/item/${row.original.id}`
-                          //   );
-                          // }}
+                          onClick={() => {
+                            router.push(
+                              `/account/${params.id}/item/${row.original.id}`
+                            );
+                          }}
                         >
                           {flexRender(
                             cell.column.columnDef.cell,
