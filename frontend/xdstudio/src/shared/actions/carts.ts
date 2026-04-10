@@ -1,100 +1,70 @@
 "use server";
 import { getPayload } from "@/libs/payload/getPayload";
-import type { Cart, CartItem, Product } from "@/payload-types";
-export const getCartItems = async ({
-  id,
-  page = 0,
-  limit = 10,
-}: {
-  id: CartItem["id"];
-  page?: number;
-  limit?: number;
-}) => {
+import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
+export const getCartItems = async (
+  arg: PayloadArgsWithoutCollection<"find", "cart-items">
+) => {
   try {
     const payload = await getPayload();
-    const result = await payload.find({
+    return await payload.find({
+      ...arg,
       collection: "cart-items",
-      where: { cart: { equals: id } },
-      limit,
-      page,
-      depth: 8,
     });
-    return result;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error getting cart items: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error getting cart items: ${error}`);
   }
 };
 
-export const getCarts = async ({
-  id,
-  page = 0,
-  limit = 10,
-}: {
-  id: Cart["id"];
-  page?: number;
-  limit?: number;
-}) => {
+export const getCarts = async (
+  arg: PayloadArgsWithoutCollection<"find", "carts">
+) => {
   try {
     const payload = await getPayload();
-    const result = await payload.find({
+    return await payload.find({
+      ...arg,
       collection: "carts",
-      where: { id: { equals: id } },
-      limit,
-      page,
-      depth: 99,
     });
-    return result;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error getting carts: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error getting carts: ${error}`);
   }
 };
 
-export const deleteCartItem = async (id: CartItem["id"]) => {
+export const deleteCartItem = async (
+  arg: PayloadArgsWithoutCollection<"delete", "cart-items">
+) => {
   try {
     const payload = await getPayload();
-    const result = await payload.delete({
+    return await payload.delete({
+      ...arg,
       collection: "cart-items",
-      id,
-    });
-    return result;
+    } as any);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error deleting cart item: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error deleting cart item: ${error}`);
   }
 };
 
-export const createCartItem = async ({
-  id,
-  productId,
-  quantity = 1,
-}: {
-  id: Cart["id"];
-  productId: Product["id"];
-  quantity?: CartItem["quantity"];
-}) => {
+export const createCartItem = async (
+  arg: PayloadArgsWithoutCollection<"create", "cart-items">
+) => {
   try {
     const payload = await getPayload();
-    const result = await payload.create({
+    return await payload.create({
+      ...arg,
       collection: "cart-items",
-      data: {
-        cart: id,
-        product: productId,
-        quantity,
-      },
-    });
-    return result;
+    } as any);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error creating cart item: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error creating cart item: ${error}`);
   }
 };

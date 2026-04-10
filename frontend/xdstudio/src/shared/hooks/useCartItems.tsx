@@ -33,9 +33,10 @@ export const useCartItems = ({
     retry: false,
     queryFn: async ({ pageParam = 0 }) => {
       const result = await getCartItems({
-        id: cartId,
+        where: { cart: { equals: cartId } },
         page: pageParam,
         limit,
+        depth: 8,
       });
       return result;
     },
@@ -55,13 +56,15 @@ export const useCartItems = ({
   const addItem = useMutation({
     mutationFn: async (productId: Product["id"]) => {
       const res = await createCartItem({
-        id: cartId,
-        productId: productId!,
-        quantity: 1,
+        data: {
+          cart: cartId,
+          product: productId!,
+          quantity: 1,
+        },
       });
       return res;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       invalidate();
     },
     onError: (error) => {
@@ -69,28 +72,13 @@ export const useCartItems = ({
     },
   });
 
-  //  const updateCartItem = useMutation({
-  //   mutationFn: async (productId: Product["id"]) => {
-  //     const res = await createCartItem({
-  //       id: cartId,
-  //       productId: productId!,
-  //       quantity: 1,
-  //     });
-  //     return res;
-  //   },
-  //   onSuccess: (data) => {
-  //     invalidate();
-  //   },
-  //   onError: (error) => {
-  //     console.error("Failed to add item to cart", error);
-  //   },
-  // });
-
   const removeItem = useMutation({
     mutationFn: async (cartItemId: CartItem["id"]) => {
-      await deleteCartItem(cartItemId);
+      await deleteCartItem({
+        where: { id: { equals: cartItemId } },
+      });
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       invalidate();
     },
     onError: (error) => {

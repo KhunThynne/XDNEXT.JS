@@ -13,7 +13,7 @@ export default async function PreferencesPage({
   params,
 }: PageProps<"/[locale]/account/[id]">) {
   const { id } = await params;
-  const user = await getUserCache(id);
+  const user = await getUserCache({ id });
   return (
     user && (
       <TabsContent value="general">

@@ -139,12 +139,10 @@ export const DataTableGridItemsInfiniteScroll = ({
     () => data?.pages?.flatMap((page) => page.docs ?? []) ?? [],
     [data]
   );
-  
-  return JSON.stringify(flatData);
 
   //flatten the array of arrays from the useInfiniteQuery hook
 
-  const totalDBRowCount = data?.pages?.[0]?.data.user?.itemsCount ?? 0;
+  const totalDBRowCount = data?.pages?.[0]?.totalDocs ?? 0;
   const totalFetched = flatData.length;
 
   //called on scroll and possibly on mount to fetch more data as the user scrolls and reaches bottom of table

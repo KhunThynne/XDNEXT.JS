@@ -1,6 +1,7 @@
 "use server";
 
 import { getPayload } from "@/libs/payload/getPayload";
+import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
 export const checkUserProductStatus = async ({
   productId,
   userId,
@@ -73,13 +74,14 @@ export const checkUserProductStatus = async ({
   }
 };
 
-export async function getProduct(id: string) {
+export async function getProduct(
+  arg: PayloadArgsWithoutCollection<"findByID", "products">
+) {
   try {
     const payload = await getPayload();
     const product = await payload.findByID({
+      ...arg,
       collection: "products",
-      id,
-      depth: 50,
     });
     return product;
   } catch (error: unknown) {

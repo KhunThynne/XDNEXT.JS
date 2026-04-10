@@ -5,6 +5,7 @@ import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
 import { checkUserProductStatus, getProduct } from "@/shared/actions/products";
 import type { Cart, Product } from "@/payload-types";
+import { payloadActions } from "@/shared/actions/payload";
 
 const getCachedCheckUserProductStatusCache = async (
   productId: string,
@@ -21,15 +22,14 @@ const getCachedCheckUserProductStatusCache = async (
   return await checkUserProductStatus({ productId, userId });
 };
 
-const getGetProductDocument = async (id: string) => {
+const getGetProductCache = async (id: string) => {
   "use cache";
   cacheLife("hours");
   cacheTag(`product-${id}`, id);
-  try {
-    return await getProduct(id);
-  } catch (error) {
-    return notFound();
-  }
+  return await payloadActions("findByID", {
+    collection: "products",
+    id,
+  });
 };
 
 export default async function PageProduct({
@@ -39,7 +39,7 @@ export default async function PageProduct({
 }) {
   const { id } = await params;
   const session = await auth();
-  const product = await getGetProductDocument(id);
+  const product = await getGetProductCache(id);
   const productStatus = await getCachedCheckUserProductStatusCache(
     id,
     session?.user?.id ?? "",

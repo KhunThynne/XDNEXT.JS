@@ -17,7 +17,7 @@ import {
 } from "@/shared/components/ui/shopping/CartShopping.form";
 import CartStoreProvider from "@/shared/components/ui/shopping/CartStoreProvider";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import { Fragment, useLayoutEffect, useMemo } from "react";
+import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, User } from "@/payload-types";
 

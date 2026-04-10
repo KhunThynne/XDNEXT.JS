@@ -5,14 +5,23 @@ import { getUserItems } from "../actions/users";
 export const useUserItems = ({ userId }: { userId: User["id"] }) => {
   const infiniteUserItemsQuery = useInfiniteQuery({
     queryKey: ["user-items", userId],
-    queryFn: async () => {
-      const res = await getUserItems(userId!);
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await getUserItems({
+        where: {
+          user: {
+            equals: userId!,
+          },
+        },
+        page: pageParam,
+        limit: 10,
+      });
       return res;
     },
     enabled: !!userId,
 
-    initialPageParam: 0,
-    getNextPageParam: (_lastGroup, groups) => groups.length,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNextPage ? lastPage.nextPage : undefined,
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
   });

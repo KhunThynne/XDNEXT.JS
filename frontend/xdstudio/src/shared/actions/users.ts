@@ -1,15 +1,14 @@
 "use server";
 
 import { getPayload } from "@/libs/payload/getPayload";
-import type { User } from "@/payload-types";
+import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
 
-export const getUser = async (id: string) => {
+export const getUser = async (
+  arg: PayloadArgsWithoutCollection<"findByID", "users">
+) => {
   const payload = await getPayload();
   try {
-    return await payload.findByID({
-      collection: "users",
-      id,
-    });
+    return await payload.findByID({ ...arg, collection: "users" });
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error creating post: ${error.message}`);
@@ -18,16 +17,14 @@ export const getUser = async (id: string) => {
   }
 };
 
-export const getUserItems = async (id: User["id"]) => {
+export const getUserItems = async (
+  arg: PayloadArgsWithoutCollection<"find", "user-items">
+) => {
   const payload = await getPayload();
   try {
     return await payload.find({
       collection: "user-items",
-      where: {
-        user: {
-          equals: id,
-        },
-      },
+      ...arg,
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
