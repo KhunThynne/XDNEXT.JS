@@ -8,24 +8,24 @@ import Translations from "@/libs/i18n/Translations";
 import { useI18n } from "@/libs/i18n/hooks/useI18n";
 
 type SummaryCartDisplayProps = {
-  totalPrice?: number;
-  userTotalPoint?: number;
-  remainingPoint?: number;
+  totalCredit?: number;
+  userAvailableCredit?: number;
+  remainingCredit?: number;
   style?: "short" | "full";
 } & WithlDefaultProps;
 
 export const SummaryCartDisplay = ({
-  totalPrice,
-  userTotalPoint,
+  totalCredit,
+  userAvailableCredit,
   style = "full",
   className,
-  remainingPoint: remainingPointProp,
+  remainingCredit: remainingCreditProp,
 }: SummaryCartDisplayProps) => {
   const t = useI18n();
-  const remainingPoint = useMemo(() => {
-    if (remainingPointProp != null) return remainingPointProp;
-    return (userTotalPoint ?? 0) - (totalPrice ?? 0);
-  }, [remainingPointProp, totalPrice, userTotalPoint]);
+  const remainingCredit = useMemo(() => {
+    if (remainingCreditProp != null) return remainingCreditProp;
+    return (userAvailableCredit ?? 0) - (totalCredit ?? 0);
+  }, [remainingCreditProp, totalCredit, userAvailableCredit]);
   const { number: formaterNumber } = useFormatter();
   if (style === "short") {
     return (
@@ -41,12 +41,12 @@ export const SummaryCartDisplay = ({
 
         <section className="flex gap-2">
           <span className="flex gap-1">
-            <PointDiamon className="size-1 text-success" />{" "}
-            {formaterNumber(userTotalPoint!)} -{" "}
-            <span className="">{formaterNumber(totalPrice!)}</span>
+            <PointDiamon className="text-success size-1" />{" "}
+            {formaterNumber(userAvailableCredit!)} -{" "}
+            <span className="">{formaterNumber(totalCredit!)}</span>
           </span>
           <span className="flex gap-1 border-s ps-2 text-balance">
-            <PointDiamon className="size-1" /> {formaterNumber(remainingPoint)}
+            <PointDiamon className="size-1" /> {formaterNumber(remainingCredit)}
           </span>
         </section>
       </div>
@@ -54,24 +54,25 @@ export const SummaryCartDisplay = ({
   }
   return (
     <>
-      {userTotalPoint !== undefined && (
+      {userAvailableCredit !== undefined && (
         <div className="flex justify-between text-sm font-semibold">
           <span className="capitalize">{t("cart.text01")}</span>
-          <span className="flex gap-1 text-success">
-            <PointDiamon className="size-1" /> {formaterNumber(userTotalPoint)}
+          <span className="text-success flex gap-1">
+            <PointDiamon className="size-1" />{" "}
+            {formaterNumber(userAvailableCredit)}
           </span>
         </div>
       )}
-      {totalPrice !== undefined && (
+      {totalCredit !== undefined && (
         <div className="flex justify-between text-sm font-semibold">
           <span className="capitalize">{t("cart.text02")}</span>
           <span className="flex gap-1">
-            <PointDiamon className="size-1" /> {formaterNumber(totalPrice)}
+            <PointDiamon className="size-1" />- {formaterNumber(totalCredit)}
           </span>
         </div>
       )}
 
-      {remainingPoint !== undefined && (
+      {remainingCredit !== undefined && (
         <>
           <Separator className="mx-auto max-w-11/12" />
           <div className="flex justify-between text-sm font-semibold">
@@ -80,10 +81,10 @@ export const SummaryCartDisplay = ({
               <PointDiamon className="size-1" />
               <p
                 className={clsx({
-                  "text-destructive": _.lt(remainingPoint, 0),
+                  "text-destructive": _.lt(remainingCredit, 0),
                 })}
               >
-                {formaterNumber(remainingPoint)}
+                {formaterNumber(remainingCredit)}
               </p>
             </span>
           </div>

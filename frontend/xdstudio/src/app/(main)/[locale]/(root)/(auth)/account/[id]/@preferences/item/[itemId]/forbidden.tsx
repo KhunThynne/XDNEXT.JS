@@ -1,3 +1,3 @@
 export default function ItemForbidden() {
-  return <>For</>;
+  return <>Forbidden</>;
 }

@@ -1,4 +1,3 @@
-"use client";
 
 import { updateTagClient } from "@/shared/utils/m";
 import type { Cart, Product } from "@/libs/graphql/generates/graphql";
@@ -14,7 +13,13 @@ import type { User } from "next-auth";
 import { createCartItem, deleteCartItem, getCartItems } from "../actions/carts";
 import type { CartItem } from "@/payload-types";
 const limit = 20;
-
+export const cartQueryFn = (cartId: Cart["id"]) => {
+  return {
+    params: { limit, depth: 8 },
+    initialPageParam: 0,
+    queryKey: ["carts", cartId],
+  };
+};
 export const useCartItems = ({
   cartId,
   userId,
@@ -22,8 +27,9 @@ export const useCartItems = ({
   cartId: Cart["id"];
   userId: User["id"];
 }) => {
-  const queryKey = ["carts", cartId];
+  const cartQuery = cartQueryFn(cartId);
   const cartItemQueryClient = useQueryClient();
+  const queryKey = cartQuery.queryKey;
   const invalidate = () => {
     cartItemQueryClient.invalidateQueries({ queryKey });
     updateTagClient(`${cartId}-${userId}-checkProduct`);
@@ -35,13 +41,12 @@ export const useCartItems = ({
       const result = await getCartItems({
         where: { cart: { equals: cartId } },
         page: pageParam,
-        limit,
-        depth: 8,
+        ...cartQuery.params,
       });
       return result;
     },
     enabled: !!cartId,
-    initialPageParam: 0,
+    initialPageParam: cartQuery.initialPageParam,
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.docs.length === limit) {
         return allPages.length * limit;

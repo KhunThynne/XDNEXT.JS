@@ -26,34 +26,27 @@ import { ChevronDown, FileText, ImageOff, Trash } from "lucide-react";
 
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/libs/shadcn/ui/dropdown-menu";
-
+import { columns } from "../_shared/table";
 import type {
   InfiniteData,
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import type {
-  CartFormProps,
-  CartItemsDatableFormProps,
-} from "../../_shared/_components/cartOrder.type";
+
 import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
 import clsx from "clsx";
+import { formCartsOptions } from "../../_shared/_components/forms/formOptions";
+import { useCartItemsDatable } from "../../_shared/hooks/useCartItemsDatable";
 
 const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
   return (
     <div className="flex items-center gap-5">
-      <InputForm
+      {/* <InputForm
         name="filter"
         placeholder="Filter emails..."
         className="max-w-lg grow"
-      />
+      /> */}
       {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto">
@@ -84,57 +77,64 @@ const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
 
 export function DataTableCartInfiniteScroll({
   cartQuery,
-  setValue,
+  cartItems,
+  itemsCount,
 }: {
-  setValue: (field: string, value: any) => void;
+  itemsCount: number;
+  cartItems: CartItem[];
   cartQuery: UseInfiniteQueryResult<
     InfiniteData<PaginatedDocs<CartItem>, unknown>,
     Error
   >;
 }) {
-  const cartItemsForm = useTypedAppFormContext({});
-
-  const { columns, total, filter, cartItems, selected } = useStore(cartItemsForm.store, (state: CartFormProps) => state.values as unknown as CartItemsDatableFormProps) || {};
-  const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  const { isFetching, fetchNextPage, hasNextPage, isLoading, status } =
-    cartQuery;
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [rowSelection, setRowSelection] = React.useState<
-    Record<string, boolean>
-  >(() =>
-    cartItems.reduce(
-      (acc: Record<string, boolean>, item: CartItem) => {
-        acc[item.id] = true;
-        return acc;
-      },
-      {} as Record<string, boolean>
-    )
-  );
+  const form = useTypedAppFormContext({ ...formCartsOptions });
+  const {
+    filter,
+    selected,
+    total,
+    rowSelection,
+    sorting,
+    tableMeta,
+    handleRowSelectionChange,
+  } = useCartItemsDatable({
+    cartItems,
+    itemsCount,
+  });
   const table = useReactTable({
     data: cartItems ?? [],
     columns,
+    meta: { ...tableMeta },
     state: {
       sorting,
       globalFilter: filter,
       rowSelection,
     },
     getRowId: (row) => row.id,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: handleRowSelectionChange,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     globalFilterFn: (row, columnId, filterValue) => {
       const original = row.original as CartItem;
       const product = original.product;
-      const productName = typeof product === "object" ? product?.name?.toLowerCase() : "";
-      const price = typeof product === "object" && typeof product?.price === "object" ? product?.price?.price : "";
+      const productName =
+        typeof product === "object" ? product?.name?.toLowerCase() : "";
+      const price =
+        typeof product === "object" && typeof product?.price === "object"
+          ? product?.price?.price
+          : "";
       const search = String(filterValue).toLowerCase();
       return (
-        (productName?.includes(search) || price?.toString().includes(search)) ?? false
+        (productName?.includes(search) || price?.toString().includes(search)) ??
+        false
       );
     },
     manualSorting: true,
   });
+  const tableContainerRef = React.useRef<HTMLDivElement>(null);
+  const { isFetching, fetchNextPage, hasNextPage, isLoading, status } =
+    cartQuery;
+
   const totalDBRowCount = total!;
   const totalFetched = cartItems.length;
 
@@ -162,7 +162,7 @@ export function DataTableCartInfiniteScroll({
   }, [fetchMoreOnBottomReached, filter]);
 
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
-    setSorting(updater);
+    // setSorting(updater);
     if (table.getRowModel()?.rows?.length) {
       // rowVirtualizer.scrollToIndex?.(0);
     }
@@ -175,11 +175,13 @@ export function DataTableCartInfiniteScroll({
 
   useLayoutEffect(() => {
     const selectedIds = table.getState().rowSelection;
-    const selectedData = cartItems.filter((item: CartItem) => selectedIds[item.id]);
-    console.log(selectedData);
-    setValue("cartItems", selectedData ?? []);
-  }, [table.getState().rowSelection, setValue, cartItems]);
+    const selectedData = cartItems.filter(
+      (item: CartItem) => selectedIds[item.id]
+    );
+    // console.log(selectedData);
+  }, [cartItems, table]);
   const rowLength = table.getRowModel().rows?.length;
+
   const noData = rowLength < 1;
   if (isLoading) {
     return <>Loading...</>;
@@ -190,13 +192,13 @@ export function DataTableCartInfiniteScroll({
         <CardAction className="w-full px-3">
           <DataTableMenu table={table} />
         </CardAction>
-
         <CardContent
           className="relative container h-full overflow-auto overscroll-contain p-0"
           onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
           ref={tableContainerRef}
         >
           <table
+            key={JSON.stringify(selected)}
             className={clsx(
               "w-full table-fixed border-collapse",
               noData && "h-full"

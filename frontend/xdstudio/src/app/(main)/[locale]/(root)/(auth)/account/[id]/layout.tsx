@@ -8,7 +8,7 @@ export default async function AuthenticationLayout(
   const session = await auth();
   const { children, params, preferences } = props;
   const { id: userIdParam } = await params;
-  const userId = userIdParam || session?.user?.id;
+  // const userId = userIdParam || session?.user?.id;
   const firstCart = session?.user?.carts?.docs?.[0];
   const cartId = typeof firstCart === "object" ? firstCart?.id : firstCart;
   if (!session?.user && !cartId) return notFound();
@@ -16,11 +16,7 @@ export default async function AuthenticationLayout(
   if (cartId)
     return (
       <MainSection session={session} preferences={preferences}>
-        <SegmentAccount
-          segmentText={segmentText}
-          key={userId}
-          cartId={cartId}
-        />
+        <SegmentAccount segmentText={segmentText} cartId={cartId} />
         {children}
       </MainSection>
     );

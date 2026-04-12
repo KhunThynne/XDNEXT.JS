@@ -1,10 +1,6 @@
 import { execute } from "@/libs/graphql/execute";
 
 import {
-  OrderDirection,
-  GetPointTransactionsDocument,
-} from "@/libs/graphql/generates/graphql";
-import {
   useQueryClient,
   useInfiniteQuery,
   keepPreviousData,
@@ -28,16 +24,16 @@ export const usePointTransactionsInfiniteQuery = ({
   const query = useInfiniteQuery({
     queryKey,
     queryFn: async ({ pageParam = 0 }) => {
-      const result = await execute(GetPointTransactionsDocument, {
-        where: { user: { id: { equals: userId } } },
-        skip: pageParam * take,
-        take,
-        orderBy: [
-          { isFavorite: OrderDirection.Desc },
-          { createdAt: OrderDirection.Desc },
-        ],
-      });
-      return result;
+      // const result = await execute(GetPointTransactionsDocument, {
+      //   where: { user: { id: { equals: userId } } },
+      //   skip: pageParam * take,
+      //   take,
+      //   orderBy: [
+      //     { isFavorite: OrderDirection.Desc },
+      //     { createdAt: OrderDirection.Desc },
+      //   ],
+      // });
+      return null;
     },
     enabled: !!userId,
     initialPageParam: 0,

@@ -6,9 +6,9 @@ import type {
   UseInfiniteQueryResult,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+
 import { Loader2, ShoppingCart } from "lucide-react";
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useMemo } from "react";
 
 import { CartItemComponent } from "./CartItemsComponent";
 import PointDiamon from "../../PointDiamod";
@@ -43,80 +43,61 @@ export const EmptyCart = () => {
 };
 export const CartSummary = ({
   navigation,
-  userTotalPoint,
+  userTotalCredit = 0, // กำหนดค่าเริ่มต้นเป็น 0 กันพัง
   className,
   style,
   cartItems,
 }: {
   navigation?: string;
-  userTotalPoint?: number;
+  userTotalCredit?: number;
   cartItems: CartItem[];
   style?: "short" | "full";
 } & WithClassName) => {
+  // คำนวณยอดรวม Quantity และ Price
   const summary = useMemo(() => {
-    if (!cartItems?.length) return { totalQuantity: 0, totalPrice: 0 };
+    if (!cartItems || cartItems.length === 0) {
+      return { totalQuantity: 0, totalPrice: 0 };
+    }
 
-    const result = cartItems.reduce(
+    return cartItems.reduce(
       (acc, item) => {
-        const products = item?.product as Product;
-
+        const product = item?.product as Product;
         const quantity = item.quantity || 1;
-        const price = Number((products?.price as Price)?.price) || 0;
+        const price = Number((product?.price as Price)?.price) || 0;
+
         acc.totalQuantity += quantity;
         acc.totalPrice += quantity * price;
-        acc.test = price;
         return acc;
       },
-      { totalQuantity: 0, totalPrice: 0, test: 0 }
+      { totalQuantity: 0, totalPrice: 0 }
     );
-
-    return result;
   }, [cartItems]);
-  const remainingPoint = useMemo(() => {
-    const resultRemainingPoint =
-      (userTotalPoint ?? 0) - (summary.totalPrice ?? 0);
 
-    return resultRemainingPoint;
-  }, [summary, userTotalPoint]);
-  const form = useAppForm({
-    defaultValues: {
-      availablePoint: userTotalPoint,
-      remainingpointPayment: 0,
-      grandTotal: 0,
-    },
-  });
+  // คำนวณเครดิตคงเหลือ (ถ้าซื้อแล้วจะเหลือเท่าไหร่)
+  const remainingCredit = useMemo(() => {
+    return userTotalCredit - summary.totalPrice;
+  }, [summary.totalPrice, userTotalCredit]);
 
-  const state = useStore(form.store, (field) => field.values);
-  useLayoutEffect(() => {
-    form.setFieldValue("availablePoint", userTotalPoint!);
-  }, [form, userTotalPoint]);
-  useLayoutEffect(() => {
-    form.setFieldValue("remainingpointPayment", remainingPoint);
-  }, [form, remainingPoint]);
-  useLayoutEffect(() => {
-    form.setFieldValue("grandTotal", summary.totalPrice);
-  }, [form, summary]);
   return (
-    <form.AppForm>
-      <aside
-        className={clsx(
-          "sticky bottom-0 space-y-3 rounded-b backdrop-blur",
-          className
-        )}
-      >
-        <SummaryCartDisplay
-          style={style}
-          remainingPoint={state.remainingpointPayment}
-          totalPrice={state.grandTotal}
-          userTotalPoint={state.availablePoint}
-        />
-        {navigation && (
-          <Button className="w-full" size="sm" variant="secondary" asChild>
-            <Link href={navigation}>Go to cart.</Link>
-          </Button>
-        )}
-      </aside>
-    </form.AppForm>
+    <aside
+      className={clsx(
+        "sticky bottom-0 space-y-3 rounded-b p-4 backdrop-blur", // เพิ่ม p-4 เพื่อความสวยงาม
+        className
+      )}
+    >
+      <SummaryCartDisplay
+        style={style}
+        userAvailableCredit={userTotalCredit}
+        remainingCredit={remainingCredit}
+        totalCredit={summary.totalPrice}
+      />
+
+      {navigation && (
+        <Button className="w-full" size="sm" variant="secondary" asChild>
+          <Link href={navigation}>Go to cart.</Link>
+        </Button>
+      )}
+    </aside>
   );
 };
 export const CartShoppingForm = ({

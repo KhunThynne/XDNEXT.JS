@@ -9,14 +9,15 @@ export default async function PointTransactionProvider({
   params,
 }: LayoutProps<"/[locale]/account/[id]/payment">) {
   const { id: userId } = await params;
-  const res = await GetLastTransactionCache(userId);
+  return userId;
+  // const res = await GetLastTransactionCache(userId);
 
-  const pointTransaction = res?.data
-    ?.pointTransactions?.[0] as PointTransactionFieldFragment;
-  if (!pointTransaction) return <NotFoundLastTransaction />;
-  return (
-    <AlertPointTransaction
-      pointTransaction={pointTransaction as FromTypePointTransactionStripe}
-    />
-  );
+  // const pointTransaction = res?.data
+  //   ?.pointTransactions?.[0] as PointTransactionFieldFragment;
+  // if (!pointTransaction) return <NotFoundLastTransaction />;
+  // return (
+  //   <AlertPointTransaction
+  //     pointTransaction={pointTransaction as FromTypePointTransactionStripe}
+  //   />
+  // );
 }

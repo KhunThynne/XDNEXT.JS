@@ -12,7 +12,6 @@ import type { CartFormProps } from "../cartOrder.type";
 import { useMutationCreateOrdersAndUserItems } from "@/shared/services/tanstack/mutations/oredersAndUserItems";
 import { toast } from "sonner";
 import { execute } from "@/libs/graphql/execute";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import _ from "lodash";
 import type { DialogInstanceProps } from "@/libs/dialog/index.type";

@@ -3,20 +3,25 @@ import { OrdersForm } from "./OrdersForm";
 
 import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
+import { useCartItems } from "@/shared/hooks/useCartItems";
 import { useStore } from "@tanstack/react-form";
 import { useMemo } from "react";
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+import type { CartItem } from "@/payload-types";
+import type { CartFormProps } from "../../_shared/_components/cartOrder.type";
+import { formCartsOptions } from "../../_shared/_components/forms/formOptions";
 
 export const OrdersQueryClient = () => {
-  const form = useTypedAppFormContext();
-  const { cartId, userId } = useStore(form.store, (state: CartFormProps) => state.values);
+  const form = useTypedAppFormContext({ ...formCartsOptions });
+  const { cartId, userId } = useStore(
+    form.store,
+    (state: CartFormProps) => state.values
+  );
 
-  const { query, invalidate } = useCartInfinite({
+  const { iInfiniteQuery, invalidate } = useCartItems({
     cartId,
     userId,
   });
-  const { data, status } = query;
+  const { data, status } = iInfiniteQuery;
 
   const flatData = useMemo(
     () => data?.pages?.flatMap((page) => page?.docs ?? []) ?? [],

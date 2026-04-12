@@ -12,14 +12,15 @@ import type { CartFormProps } from "../cartOrder.type";
 import { useMutationCreateOrdersAndUserItems } from "@/shared/services/tanstack/mutations/oredersAndUserItems";
 import { toast } from "sonner";
 import { execute } from "@/libs/graphql/execute";
-import { useCartInfinite } from "@/shared/hooks/useCartInfiniteQuery";
 import clsx from "clsx";
 import _ from "lodash";
 import type { DialogInstanceProps } from "@/libs/dialog/index.type";
-import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
+import { useAppForm, useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { formCartsOptions } from "./formOptions";
+import { useCartItemsContext } from "../../hooks/useCartItemsContext";
 
 export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
+  const { selectedCartItems } = useCartItemsContext();
   const form = useTypedAppFormContext({ ...formCartsOptions });
   const formatter = useFormatter();
 
@@ -125,11 +126,5 @@ export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
   //     remainingpointPayment,
   //   ]
   // );
-  return (
-    <form.AppForm
-    // onSubmit={method.handleSubmit(handleSubmit)}
-    >
-      {children}
-    </form.AppForm>
-  );
+  return children;
 }

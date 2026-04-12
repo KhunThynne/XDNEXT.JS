@@ -3,45 +3,56 @@ import { auth } from "@/auth";
 import { notFound } from "next/navigation";
 import clsx from "clsx";
 import CartOrderFormProvider from "./_shared/_components/CartOrderFormProvider";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { QueryClient } from "@tanstack/react-query";
+import { cartQueryFn } from "@/shared/hooks/useCartItems";
+import { getCartItems } from "@/shared/actions/carts";
 
 export default async function LayoutCart({
   children,
   cartItems,
   params,
-}: NextJSReactNodes<"cartItems"> & {
-  params: Promise<{ cartId: string }>;
-}) {
+}: LayoutProps<"/[locale]/account/[id]/cart/[cartId]">) {
   const session = await auth();
-
-  if (!session?.user) return notFound();
-  const { cartId } = await params;
-  const userId = session.user.id;
+  const queryClient = new QueryClient();
+  const { cartId, id: userId } = await params;
+  const cartQuery = cartQueryFn(cartId);
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: cartQuery.queryKey,
+    queryFn: async ({ pageParam = 0 }) => {
+      return await getCartItems({
+        where: { cart: { equals: cartId } },
+        page: pageParam,
+        ...cartQuery.params,
+      });
+    },
+    initialPageParam: cartQuery.initialPageParam,
+  });
   const credit = session?.user?.credit;
 
-  if (!cartId) return notFound();
+  // session?.user?.credit;
+  // if (!session?.user) return notFound();
 
-  if (!cartId || !userId || credit === undefined || credit === null) {
-    throw new Error(
-      clsx(
-        "Missing required:",
-        !cartId && "cartId",
-        !userId && "userId",
-        credit === null && "point",
-        credit === undefined && "point"
-      )
-    );
-  }
+  // const credit = session?.user?.credit;
+
+  // if (!cartId) return notFound();
+
+  // if (!cartId || !userId || credit === undefined || credit === null) {
+  //   throw new Error(
+  //     clsx(
+  //       "Missing required:",
+  //       !cartId && "cartId",
+  //       !userId && "userId",
+  //       credit === null && "point",
+  //       credit === undefined && "point"
+  //     )
+  //   );
+  // }
 
   return (
     <CartOrderFormProvider
       cartId={cartId}
       userId={userId}
-      session={session}
-      credit={credit}
-      grandTotal={0}
-      availablePoint={0}
-      remainingpointPayment={0}
+      availableCredit={credit ?? 0}
     >
       <div className="mx-4 grid grow grid-cols-1 gap-8 xl:grid-cols-6 xl:divide-x">
         <ContainerSection
@@ -55,7 +66,6 @@ export default async function LayoutCart({
         >
           {cartItems}
         </ContainerSection>
-
         <section className="flex h-full flex-col gap-4 xl:col-span-2">
           {children}
         </section>
