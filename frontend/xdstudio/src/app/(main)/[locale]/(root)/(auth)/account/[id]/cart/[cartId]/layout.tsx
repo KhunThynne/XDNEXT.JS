@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import clsx from "clsx";
 import CartOrderFormProvider from "./_shared/_components/CartOrderFormProvider";
 import { QueryClient } from "@tanstack/react-query";
-import { cartQueryFn } from "@/shared/hooks/useCartItems";
-import { getCartItems } from "@/shared/actions/carts";
+import { cartQueryFn } from "@/shared/core/cart";
+import { getCartItems } from "@/shared/core/cart";
 
 export default async function LayoutCart({
   children,

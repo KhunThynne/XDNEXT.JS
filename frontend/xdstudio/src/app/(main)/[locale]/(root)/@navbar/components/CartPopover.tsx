@@ -21,7 +21,7 @@ import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, User } from "@/payload-types";
 
-import { useCartItems } from "@/shared/hooks/useCartItems";
+import { useCartItems } from "@/shared/core/cart";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
 import { EmptyComponent } from "@/shared/components/EmptyComponent";
 

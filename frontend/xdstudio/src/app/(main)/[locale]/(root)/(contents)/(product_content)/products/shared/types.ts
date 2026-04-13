@@ -1,4 +1,4 @@
-import type { checkUserProductStatus } from "@/shared/actions/products";
+import type { checkUserProductStatus } from "@/shared/core/product";
 
 export type CheckUserProductStatusQuery = Awaited<ReturnType<
   typeof checkUserProductStatus

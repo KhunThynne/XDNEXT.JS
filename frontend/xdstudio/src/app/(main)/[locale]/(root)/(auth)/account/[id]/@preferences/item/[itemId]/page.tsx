@@ -3,7 +3,7 @@ import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ConfigForm } from "../_components/ConfigForm";
 import { auth } from "@/auth";
 import { cacheLife, cacheTag } from "next/cache";
-import { payloadActions } from "@/shared/actions/payload";
+import { payloadActions } from "@/shared/core/payload";
 
 import { forbidden, notFound } from "next/navigation";
 import clsx from "clsx";

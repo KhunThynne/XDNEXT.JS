@@ -9,7 +9,7 @@ import { ImageOff, Minus, Trash } from "lucide-react";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import CreditIcon from "@/shared/components/CreditIcon";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
+import { useRemoveCartItem } from "@/shared/core/cart";
 import Image from "next/image";
 import type { CartItemsFormProps } from "../../_shared/_components/cartOrder.type";
 import type { CartItem } from "@/payload-types";
@@ -73,7 +73,7 @@ export const OrdersForm = ({
     }
   };
 
-  const { mutationDeleteItems, mutationDeleteItem } = useCartItemDocument({
+  const { mutationDeleteItems, mutationDeleteItem } = useRemoveCartItem({
     handleSuccess() {
       invalidateCartAction();
     },

@@ -13,7 +13,7 @@ import {
 } from "@/libs/shadcn/ui/empty";
 import { BookDashed } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { revalidatePathAction } from "../actions/cache";
+import { revalidatePathAction } from "@/shared/actions/cache";
 import clsx from "clsx";
 import React from "react";
 

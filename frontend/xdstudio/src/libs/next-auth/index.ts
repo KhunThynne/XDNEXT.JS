@@ -8,7 +8,7 @@ import type { DiscordUser } from "@type/user.type";
 import { executeAuth } from "../graphql/execute";
 import getBaseUrl from "@/utils/getBaseUrl";
 import type { User as GqlUser } from "@/payload-types";
-import { authAndLinkProvider, loginAction } from "@/shared/actions/auth";
+import { authAndLinkProvider, loginAction } from "@/shared/core/auth";
 
 declare module "next-auth" {
   interface Session {

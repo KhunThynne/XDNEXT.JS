@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
 import { Form } from "@/libs/shadcn/ui/form";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
-import { useAuthDocument } from "@/shared/hooks/useAuthDocument";
+import { useAuthDocument } from "@/shared/core/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect, useRouter } from "@navigation";
 import _ from "lodash";

@@ -68,3 +68,21 @@ export const createCartItem = async (
     throw new Error(`Error creating cart item: ${error}`);
   }
 };
+
+export const deleteCartItems = async (
+  arg: PayloadArgsWithoutCollection<"delete", "cart-items">
+) => {
+  try {
+    const payload = await getPayload();
+    return await payload.delete({
+      ...arg,
+      collection: "cart-items",
+    } as any);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error deleting cart items: ${error.message}`);
+    }
+    throw new Error(`Error deleting cart items: ${error}`);
+  }
+};
+

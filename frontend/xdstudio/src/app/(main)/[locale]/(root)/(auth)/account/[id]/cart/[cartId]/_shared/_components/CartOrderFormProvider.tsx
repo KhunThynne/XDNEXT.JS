@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import type { CartItem, User } from "@/payload-types";
 import { CartItemsContext } from "../hooks/useCartItemsContext";
 import type { SortingState } from "@tanstack/react-table";
-import { useCartItems } from "@/shared/hooks/useCartItems";
+import { useCartItems } from "@/shared/core/cart";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
 
 const CartOrderFormProvider = ({

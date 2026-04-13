@@ -3,7 +3,7 @@ import { OrdersForm } from "./OrdersForm";
 
 import { EmptyCart } from "@/shared/components/ui/cart/CartShopping.form";
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
-import { useCartItems } from "@/shared/hooks/useCartItems";
+import { useCartItems } from "@/shared/core/cart";
 import { useStore } from "@tanstack/react-form";
 import { useMemo } from "react";
 import type { CartItem } from "@/payload-types";

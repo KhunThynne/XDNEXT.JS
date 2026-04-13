@@ -1,7 +1,13 @@
 "use server";
 
+import { updateTag } from "next/cache";
 import { getPayload } from "@/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
+
+export const updateProductTag = async () => {
+  updateTag("products");
+};
+
 export const checkUserProductStatus = async ({
   productId,
   userId,
