@@ -6,9 +6,9 @@ import { useMemo, useState } from "react";
 import type { CartItem, User } from "@/payload-types";
 import { CartItemsContext } from "../hooks/useCartItemsContext";
 import type { SortingState } from "@tanstack/react-table";
-import { useCartItems } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/shared/core/cart";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
-import { useUserCredit } from "@/shared/core/user";
+import { useUserManager } from "@/shared/core/user";
 import { useStore } from "@tanstack/react-form";
 
 const CartOrderFormProvider = ({
@@ -31,13 +31,11 @@ const CartOrderFormProvider = ({
       ...props,
     },
   });
-  const { iInfiniteQuery } = useCartItems({
+  const { iInfiniteQuery } = useCartItemsManager({
     cartId,
     userId,
   });
-  const {
-    query: { data: userCreditData },
-  } = useUserCredit({ id: userId });
+  const { data: userCreditData } = useUserManager({ userId }).credit;
   const { data, status } = iInfiniteQuery;
   const filter = useStore(form.store, (state) => state.values.filter);
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -82,7 +80,18 @@ const CartOrderFormProvider = ({
     );
   return (
     <CartItemsContext.Provider value={value}>
-      <form.AppForm>{children}</form.AppForm>
+      <form.AppForm>
+        <form
+         className="contents"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            console.log("HI");
+            // await form.handleSubmit();
+          }}
+        >
+          {children}
+        </form>
+      </form.AppForm>
     </CartItemsContext.Provider>
   );
 };

@@ -18,7 +18,7 @@ export interface CartDataTableMeta {
   ) => Promise<void>;
 }
 
-export interface CartDataTableContextType extends CartDataTableMeta {
+export interface CartDataTableContextType {
   cartItemsData?: CartItem[];
   selectedCartItems: CartItem[];
   itemsCount: number;

@@ -4,7 +4,7 @@ import {
   infiniteQueryOptions,
   keepPreviousData,
 } from "@tanstack/react-query";
-import { getUserCreditCache, getUserItems } from "./action";
+import { getUserCreditCache, getUserItems } from "./services";
 import type { User } from "@/payload-types";
 import { keys as userKeys } from "./keys";
 

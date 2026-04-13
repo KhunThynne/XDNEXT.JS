@@ -37,7 +37,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { ImageProduct } from "@/shared/components/images/ImageProduct";
 import type { Media, OrderItem, Product, UserItem } from "@/payload-types";
-import { useUserItems } from "@/shared/core/user";
+import { useUserManager } from "@/shared/core/user";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,
@@ -129,10 +129,9 @@ export const DataTableGridItemsInfiniteScroll = ({
     []
   );
 
-  const { infiniteUserItemsQuery } = useUserItems({
-    userId: session?.user?.id,
-  });
-  const { data, fetchNextPage, isFetching, isLoading } = infiniteUserItemsQuery;
+  const { data, fetchNextPage, isFetching, isLoading } = useUserManager({
+    userId: session?.user?.id as string,
+  }).items;
 
   const flatData = React.useMemo(
     () => data?.pages?.flatMap((page) => page.docs ?? []) ?? [],

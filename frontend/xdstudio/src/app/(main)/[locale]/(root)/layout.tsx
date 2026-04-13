@@ -23,9 +23,7 @@ export default async function LocaleLayout({
   const session = await auth();
   if (session?.user?.id) {
     const userId = session.user.id;
-    await queryClient.prefetchQuery({
-      ...userQueries.credit(userId),
-    });
+    await Promise.all([queryClient.prefetchQuery(userQueries.credit(userId))]);
   }
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

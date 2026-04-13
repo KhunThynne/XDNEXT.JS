@@ -10,7 +10,7 @@ import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 import type { Product } from "@/payload-types";
 import type { Cart } from "@/shared/libs/graphql/generates/graphql";
 import type { CheckUserProductStatusQuery } from "../shared/types";
-import { useCartItems } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/shared/core/cart";
 import { useParams } from "next/navigation";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
@@ -38,7 +38,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
   const cart = session?.user?.carts?.docs?.[0] as Cart;
   const cartId = cart?.id;
   const userId = session?.user?.id;
-  const { addItem } = useCartItems({
+  const { addItem } = useCartItemsManager({
     cartId: cartId ?? "",
     userId: userId ?? "",
   });

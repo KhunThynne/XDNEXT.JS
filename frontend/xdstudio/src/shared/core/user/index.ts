@@ -1,4 +1,4 @@
 export * from "./hook";
 export * from "./query";
-export * from "./action";
+export * from "./services";
 export * from "./keys";

@@ -9,13 +9,20 @@ import { ImageOff, Minus, Trash } from "lucide-react";
 import { ContainerSection } from "@/shared/components/ContainerSection";
 import CreditIcon from "@/shared/components/CreditIcon";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
-import { useRemoveCartItem } from "@/shared/core/cart";
+
 import Image from "next/image";
-import type { CartItemsFormProps } from "../../_shared/cartOrder.type";
+
 import type { CartItem } from "@/payload-types";
 import { Link } from "@navigation";
 
-import { DialogFooterAction, useDialogGlobal } from  "@/shared/components/globalModal";
+import {
+  DialogFooterAction,
+  useDialogGlobal,
+} from "@/shared/components/globalModal";
+import type {
+  CartFormProps,
+  CartItemsFormProps,
+} from "../../../_shared/cartOrder.type";
 
 export const OrdersForm = ({
   cartItems: defaultCartItems,
@@ -30,7 +37,10 @@ export const OrdersForm = ({
   useEffect(() => {
     method.setFieldValue("cartItems", defaultCartItems);
   }, [defaultCartItems, method]);
-  const cartItems = useStore(method.store, (state: CartFormProps) => state.values.cartItems);
+  const cartItems = useStore(
+    method.store,
+    (state: CartFormProps) => state.values.cartItems
+  );
   const { openDialog, closeDialog } = useDialogGlobal();
   // init from defaultCartItems (so initial mount selects all)
   const [selectedIds, setSelectedIds] = useState<string[]>(() =>
@@ -221,7 +231,7 @@ export const OrdersForm = ({
                         item?.product?.price?.price * (item?.quantity ?? 0)
                       ).toLocaleString()}
                     </p>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-muted-foreground text-sm">
                       (฿{item?.product?.price?.price.toLocaleString()} each)
                     </p>
                   </>

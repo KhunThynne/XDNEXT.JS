@@ -21,7 +21,7 @@ import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, User } from "@/payload-types";
 
-import { useCartItems } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/shared/core/cart";
 import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 import { EmptyComponent } from "@/shared/components/EmptyComponent";
 
@@ -35,7 +35,7 @@ export const CartPopover = ({
   credit: User["credit"];
   carts?: Cart[] | undefined;
 }) => {
-  const { iInfiniteQuery, invalidate, removeItem } = useCartItems({
+  const { iInfiniteQuery, invalidate, removeItem } = useCartItemsManager({
     cartId,
     userId,
   });

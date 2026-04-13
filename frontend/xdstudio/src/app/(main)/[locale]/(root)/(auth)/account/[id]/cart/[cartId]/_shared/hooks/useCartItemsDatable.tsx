@@ -13,7 +13,7 @@ import {
 
 import { formCartsOptions } from "../formOptions";
 import { useCartItemsContext } from "./useCartItemsContext";
-import { useCartItems } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/shared/core/cart";
 import { useStore } from "@tanstack/react-form";
 import {
   DialogFooterAction,
@@ -37,7 +37,7 @@ export const useCartItemsDatable = ({
       userId: state.values.userId,
     };
   });
-  const { removeItem, removeItems } = useCartItems({ cartId, userId });
+  const { removeItem, removeItems } = useCartItemsManager({ cartId, userId });
   const handleDelete = useCallback(
     async (idToDelete: CartItem["id"], coreTable: Table<CartItem>) => {
       const confirmDelete = () => {

@@ -1,4 +1,3 @@
-// core/cart/hook.ts
 "use client";
 
 import {
@@ -7,13 +6,13 @@ import {
   useMutation,
 } from "@tanstack/react-query";
 import { updateTagClient } from "@/shared/utils/m";
-import { createCartItem, deleteCartItem, deleteCartItems } from "./action";
+import { createCartItem, deleteCartItem, deleteCartItems } from "./services";
 import { cartQueries } from "./query";
 import type { Cart, Product } from "@/shared/libs/graphql/generates/graphql";
 import type { User } from "next-auth";
 import type { CartItem } from "@/payload-types";
 
-export const useCartItems = ({
+export const useCartItemsManager = ({
   cartId,
   userId,
 }: {
