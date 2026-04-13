@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import clsx from "clsx";
 type MenuButton = React.ComponentProps<typeof Button> & {
   state?: boolean;

@@ -4,19 +4,19 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { CardPointTransactionPayment } from "./CardPointTransactionPayment";
 import type { Session } from "next-auth";
 import clsx from "clsx";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Coins, Plus, RefreshCcw, Wallet } from "lucide-react";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useFormatter } from "next-intl";
 import { usePointDocument } from "@/shared/components/ui/Credit";
-import type { User } from "@/libs/graphql/generates/graphql";
+import type { User } from "@/shared/libs/graphql/generates/graphql";
 import { Link, usePathname, useRouter } from "@navigation";
-import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
+import { ButtonGroup } from "@/shared/libs/shadcn/ui/button-group";
 
 const AvilableAndRewardDetails = ({ user }: { user: User }) => {
   const formater = useFormatter();

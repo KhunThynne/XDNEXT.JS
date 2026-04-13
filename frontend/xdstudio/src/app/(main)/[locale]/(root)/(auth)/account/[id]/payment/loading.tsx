@@ -1,4 +1,4 @@
-import { Spinner } from "@/libs/shadcn/ui/spinner";
+import { Spinner } from "@/shared/libs/shadcn/ui/spinner";
 
 export default function PaymentLoading() {
   return (

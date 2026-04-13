@@ -1,8 +1,8 @@
 import { getLocale } from "next-intl/server";
-import getRequestConfig from "@/libs/i18n/request";
+import getRequestConfig from "@/shared/libs/i18n/request";
 import { createTranslator } from "next-intl";
 import Link from "next/link";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import _ from "lodash";
 
 import Content from "@/shared/components/ui/Content";

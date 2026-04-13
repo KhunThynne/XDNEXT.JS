@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
-import { CardAction } from "@/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { CardAction } from "@/shared/libs/shadcn/ui/card";
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
 import type { Session } from "next-auth";
@@ -13,9 +13,9 @@ import { useParams } from "next/navigation";
 import _ from "lodash";
 
 import { CardCollapsible } from "@/shared/components/ui/CardCollapsible";
-import Translations from "@/libs/i18n/Translations";
+import Translations from "@/shared/libs/i18n/Translations";
 
-import { Spinner } from "@/libs/shadcn/ui/spinner";
+import { Spinner } from "@/shared/libs/shadcn/ui/spinner";
 
 import { useQueryClient } from "@tanstack/react-query";
 

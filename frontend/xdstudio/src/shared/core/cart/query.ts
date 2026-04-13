@@ -1,7 +1,7 @@
 // core/cart/query.ts
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import { getCartItems } from "./action";
-import type { Cart } from "@/libs/graphql/generates/graphql";
+import type { Cart } from "@/shared/libs/graphql/generates/graphql";
 
 const LIMIT = 20;
 

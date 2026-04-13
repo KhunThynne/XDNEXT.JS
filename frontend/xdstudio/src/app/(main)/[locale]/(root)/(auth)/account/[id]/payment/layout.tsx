@@ -1,7 +1,7 @@
 import { TransactionPaymentSection } from "./_components/TransactionPaymentSection";
 import { auth } from "@/auth";
 import { ButtonGrupPayment } from "./_components/ButtonGrupPayment";
-import { SocketProvider } from "@/libs/socket-io/socket";
+import { SocketProvider } from "@/shared/libs/socket-io/socket";
 
 export default async function PlusPaymentLayout({
   children,

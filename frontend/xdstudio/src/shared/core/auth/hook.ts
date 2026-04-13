@@ -1,5 +1,5 @@
-import { execute } from "@/libs/graphql/execute";
-import type { User } from "@/libs/graphql/generates/graphql";
+import { execute } from "@/shared/libs/graphql/execute";
+import type { User } from "@/shared/libs/graphql/generates/graphql";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 const useSendTokenResetMutation = () =>

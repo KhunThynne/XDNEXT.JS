@@ -1,5 +1,5 @@
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/libs/shadcn/ui/avatar";
+import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/libs/shadcn/ui/avatar";
 import { SocialLinks } from "./social-links";
 import clsx from "clsx";
 

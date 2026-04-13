@@ -6,7 +6,7 @@ import {
   CardAction,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import _ from "lodash";
 import { QrCodePreview } from "../../../_components/QrCodePreview";
 import type { FromTypePointTransactionStripe } from "../../../_shared/types/FromTypePointTransactionStripe";

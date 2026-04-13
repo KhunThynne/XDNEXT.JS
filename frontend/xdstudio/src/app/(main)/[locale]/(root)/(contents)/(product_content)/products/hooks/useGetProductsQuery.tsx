@@ -1,9 +1,9 @@
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 import type {
   GetProductsQuery,
   GetProductsQueryVariables,
-} from "@/libs/graphql/generates/graphql";
-import { GetProductsDocument } from "@/libs/graphql/generates/graphql";
+} from "@/shared/libs/graphql/generates/graphql";
+import { GetProductsDocument } from "@/shared/libs/graphql/generates/graphql";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetProductsQuery = (variables: GetProductsQueryVariables) => {

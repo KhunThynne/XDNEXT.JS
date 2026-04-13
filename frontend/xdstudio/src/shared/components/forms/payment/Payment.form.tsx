@@ -19,14 +19,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/libs/shadcn/ui/form";
-import { Badge } from "@/libs/shadcn/ui/badge";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Input } from "@/libs/shadcn/ui/input";
+} from "@/shared/libs/shadcn/ui/form";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Input } from "@/shared/libs/shadcn/ui/input";
 
-import { RadioGroup, RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
-import { Label } from "@/libs/shadcn/ui/label";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { RadioGroup, RadioGroupItem } from "@/shared/libs/shadcn/ui/radio-group";
+import { Label } from "@/shared/libs/shadcn/ui/label";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 
 // Form schemas for each step

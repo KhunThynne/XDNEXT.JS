@@ -6,13 +6,13 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/libs/shadcn/ui/collapsible";
+} from "@/shared/libs/shadcn/ui/collapsible";
 import { ChevronDown } from "lucide-react";
 import { useLayoutEffect, useState } from "react";
 import clsx from "clsx";
 import { Link, usePathname } from "@navigation";
-import Translations from "@/libs/i18n/Translations";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import Translations from "@/shared/libs/i18n/Translations";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 
 const NavigationItem = ({
   href,

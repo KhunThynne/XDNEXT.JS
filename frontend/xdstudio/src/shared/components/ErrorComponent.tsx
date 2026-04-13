@@ -1,8 +1,8 @@
 "use client";
 import { Link } from "@navigation";
 
-import Translations from "@/libs/i18n/Translations";
-import { Button } from "@/libs/shadcn/ui/button";
+import Translations from "@/shared/libs/i18n/Translations";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 export const ErrorComponent = ({
   buttonText,

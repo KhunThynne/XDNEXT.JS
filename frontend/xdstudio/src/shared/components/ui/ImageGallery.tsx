@@ -4,11 +4,11 @@ import clsx from "clsx";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { ChevronLeftIcon, ChevronRightIcon, EyeClosed } from "lucide-react";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import type { Image } from "@/libs/graphql/generates/graphql";
-import { createDialog } from "@/libs/dialog/createDialog";
-import { createHookDialog } from "@/libs/dialog/createHookDialog";
-import { Button } from "@/libs/shadcn/ui/button";
+import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
+import type { Image } from "@/shared/libs/graphql/generates/graphql";
+import { createDialog } from "@/shared/libs/dialog/createDialog";
+import { createHookDialog } from "@/shared/libs/dialog/createHookDialog";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 interface ImageGalleryProps {
   files: Partial<Image>[];

@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useRouter } from "@navigation";
 
 import { useAppForm } from "@/shared/hooks/useAppForm";
 
 import { toast } from "sonner";
 import { useStore } from "@tanstack/react-form";
-import { CardContent } from "@/libs/shadcn/ui/card";
+import { CardContent } from "@/shared/libs/shadcn/ui/card";
 
 const MenuConfigForm = ({ children }: WithChildren) => {
   const router = useRouter();

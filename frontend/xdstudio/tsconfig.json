@@ -21,13 +21,13 @@
     ],
 
     "paths": {
-      "@navigation": ["./src/libs/i18n/navigation.ts"],
+      "@navigation": ["./src/shared/libs/i18n/navigation.ts"],
       "@configs/*": ["./configs/*"],
       "@type/*": ["./types/*"],
       "@public/*": ["./public/*"],
       "@payload-config": ["./src/payload.config.ts"],
       "@/*": ["./src/*"],
-      "@/graphql-types": ["./src/libs/graphql/generates/index.ts"]
+      "@/graphql-types": ["./src/shared/libs/graphql/generates/index.ts"]
       // "#/*": ["./*"],
     }
   },
@@ -38,7 +38,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "src/libs/graphql/generates/**/*.ts",
+    "src/shared/libs/graphql/generates/**/*.ts",
     "**/*.mts"
   ],
   "exclude": ["node_modules"]

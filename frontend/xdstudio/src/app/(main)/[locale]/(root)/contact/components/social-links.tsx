@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { MessageCircle, Music, User, ExternalLink } from "lucide-react";
 
 interface SocialLinksProps {

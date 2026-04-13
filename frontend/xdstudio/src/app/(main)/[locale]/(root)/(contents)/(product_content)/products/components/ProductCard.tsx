@@ -1,13 +1,13 @@
 "use client";
 
-import type { Product } from "@/libs/graphql/generates/graphql";
+import type { Product } from "@/shared/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";
@@ -15,10 +15,10 @@ import { ImageOff } from "lucide-react";
 import Image from "next/image";
 import type { Session } from "next-auth";
 import CreditIcon from "@/shared/components/CreditIcon";
-import SafeHtml from "@/libs/sanitize-html/SafeHtml";
+import SafeHtml from "@/shared/libs/sanitize-html/SafeHtml";
 import { ProductTag } from "./ProductTag";
-import { Skeleton } from "@/libs/shadcn/ui/skeleton";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";

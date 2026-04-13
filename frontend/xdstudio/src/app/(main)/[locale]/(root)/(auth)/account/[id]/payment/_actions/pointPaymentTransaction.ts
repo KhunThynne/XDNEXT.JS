@@ -1,11 +1,11 @@
 "use server";
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 import type {
   PointTransactionFieldFragment,
   UpdatePointTransactionMutationVariables,
-} from "@/libs/graphql/generates/graphql";
-import { UpdatePointTransactionDocument } from "@/libs/graphql/generates/graphql";
-import { stripe } from "@/libs/stripe/stripe";
+} from "@/shared/libs/graphql/generates/graphql";
+import { UpdatePointTransactionDocument } from "@/shared/libs/graphql/generates/graphql";
+import { stripe } from "@/shared/libs/stripe/stripe";
 import { cacheLife, cacheTag, revalidateTag, updateTag } from "next/cache";
 import type Stripe from "stripe";
 

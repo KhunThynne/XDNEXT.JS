@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useI18n } from "@/libs/i18n/hooks/useI18n";
+import { useI18n } from "@/shared/libs/i18n/hooks/useI18n";
 import { ErrorComponent } from "@/shared/components/ErrorComponent";
 
 export default function AuthErrorPage() {

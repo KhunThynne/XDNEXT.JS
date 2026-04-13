@@ -1,5 +1,5 @@
 "use client";
-import { Alert, AlertDescription, AlertTitle } from "@/libs/shadcn/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/libs/shadcn/ui/alert";
 import { MousePointerClick } from "lucide-react";
 import { BadgePaymentStatus } from "../../_components/BadgePaymentStatus";
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";
@@ -8,8 +8,8 @@ import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import clsx from "clsx";
 import { useEffect, useEffectEvent, useState } from "react";
-import { useSocket } from "@/libs/socket-io/socket";
-import type { RealtimeEvent } from "@/libs/redis/publisher";
+import { useSocket } from "@/shared/libs/socket-io/socket";
+import type { RealtimeEvent } from "@/shared/libs/redis/publisher";
 import { revalidateTagClient } from "@/shared/utils/m";
 
 const AlertPointTransaction = ({

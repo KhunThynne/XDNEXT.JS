@@ -9,9 +9,9 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/libs/shadcn/custom/pagination";
+} from "@/shared/libs/shadcn/custom/pagination";
 import { useEffect, useMemo } from "react";
-import { Form } from "@/libs/shadcn/ui/form";
+import { Form } from "@/shared/libs/shadcn/ui/form";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { SlashIcon } from "lucide-react";
 import { getVisiblePages } from "../utils/getVisiblePages";

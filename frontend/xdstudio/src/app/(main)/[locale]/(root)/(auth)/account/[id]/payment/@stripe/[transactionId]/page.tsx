@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import { execute } from "@/libs/graphql/execute";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import { execute } from "@/shared/libs/graphql/execute";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 
 import type Stripe from "stripe";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";

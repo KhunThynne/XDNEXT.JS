@@ -3,12 +3,12 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/libs/shadcn/ui/card";
-import { Separator } from "@/libs/shadcn/ui/separator";
+} from "@/shared/libs/shadcn/ui/card";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import type { FromTypePointTransactionStripe } from "../../../_shared/types/FromTypePointTransactionStripe";
 import { useFormatter } from "next-intl";
-import { Badge } from "@/libs/shadcn/ui/badge";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Calendar, CreditCard, ExternalLink, Receipt } from "lucide-react";
 import Link from "next/link";
 import type Stripe from "stripe";

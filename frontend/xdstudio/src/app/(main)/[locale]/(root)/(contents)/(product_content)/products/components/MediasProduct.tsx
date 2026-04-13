@@ -1,5 +1,5 @@
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import { Button } from "@/libs/shadcn/ui/button";
+import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { Media, Product } from "@/payload-types";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 import { Separator } from "@radix-ui/react-separator";

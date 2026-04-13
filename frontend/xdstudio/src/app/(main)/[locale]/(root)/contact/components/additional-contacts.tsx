@@ -1,10 +1,10 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 
 export function AdditionalContacts() {

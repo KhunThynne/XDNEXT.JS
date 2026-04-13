@@ -1,7 +1,7 @@
 "use server";
 
 import { env } from "@/env";
-import { getPayload } from "@/libs/payload/getPayload";
+import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { User } from "@/payload-types";
 import _ from "lodash";
 export async function loginAction({

@@ -1,10 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/libs/shadcn/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/libs/shadcn/ui/avatar";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 
 import { Separator } from "@radix-ui/react-separator";
 import type { FromTypePointTransactionStripe } from "../../../_shared/types/FromTypePointTransactionStripe";

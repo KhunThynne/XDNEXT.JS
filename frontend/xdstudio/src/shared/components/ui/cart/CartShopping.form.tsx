@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import { Link } from "@navigation";
 import type {
@@ -13,11 +13,11 @@ import { useLayoutEffect, useMemo } from "react";
 import { CartItemComponent } from "./CartItemsComponent";
 import CreditIcon from "../../CreditIcon";
 import _ from "lodash";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
-import { Badge } from "@/libs/shadcn/ui/badge";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import type { Cart, CartItem, Price, Product } from "@/payload-types";
 
 import { useAppForm } from "@/shared/hooks/useAppForm";

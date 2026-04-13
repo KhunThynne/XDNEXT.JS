@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/libs/shadcn/ui/breadcrumb";
+} from "@/shared/libs/shadcn/ui/breadcrumb";
 
 import _ from "lodash";
 import { useBreadBrumbStore } from "./useBreadBrumb.store";

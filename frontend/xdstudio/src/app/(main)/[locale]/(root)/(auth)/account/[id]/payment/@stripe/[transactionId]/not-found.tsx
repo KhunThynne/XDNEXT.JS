@@ -1,6 +1,6 @@
 "use client";
 import { Search, ArrowLeft } from "lucide-react";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useParams } from "next/navigation";
 import { Link } from "@navigation"; // Assuming this is a custom Link component
 import {
@@ -10,7 +10,7 @@ import {
   ItemFooter,
   ItemHeader,
   ItemTitle,
-} from "@/libs/shadcn/ui/item"; // Assuming Item is your general container
+} from "@/shared/libs/shadcn/ui/item"; // Assuming Item is your general container
 
 export default function NotFoundTransaction() {
   // 1. ดึง parameters จาก URL

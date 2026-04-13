@@ -1,11 +1,11 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { Circle, Users, ArrowRight, Image } from "lucide-react"; // Import icons from Lucide

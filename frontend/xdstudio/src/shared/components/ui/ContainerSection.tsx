@@ -1,5 +1,5 @@
 "use client";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";

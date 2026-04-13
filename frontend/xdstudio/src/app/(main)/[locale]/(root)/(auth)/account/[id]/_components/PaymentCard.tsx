@@ -1,7 +1,7 @@
 "use client";
 
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
-import { Form } from "@/libs/shadcn/ui/form";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
+import { Form } from "@/shared/libs/shadcn/ui/form";
 
 export const PaymentCard = () => {
   return (

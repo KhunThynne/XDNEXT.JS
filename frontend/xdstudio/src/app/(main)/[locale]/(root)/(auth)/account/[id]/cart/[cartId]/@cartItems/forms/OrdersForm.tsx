@@ -2,7 +2,7 @@
 
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
 import clsx from "clsx";
 import { ImageOff, Minus, Trash } from "lucide-react";

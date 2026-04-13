@@ -1,11 +1,11 @@
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 
 import type {
   DeletePointTransactionsMutationVariables,
   PointTransaction,
   UpdatePointTransactionMutationVariables,
-} from "@/libs/graphql/generates/graphql";
-import { UpdatePointTransactionDocument } from "@/libs/graphql/generates/graphql";
+} from "@/shared/libs/graphql/generates/graphql";
+import { UpdatePointTransactionDocument } from "@/shared/libs/graphql/generates/graphql";
 import { useMutation } from "@tanstack/react-query";
 
 import { cancelPaymentIntent } from "../_actions/paymentIntents";

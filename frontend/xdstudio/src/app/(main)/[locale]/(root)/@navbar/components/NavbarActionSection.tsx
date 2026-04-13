@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import clsx from "clsx";
 
 import { LoaderCircle } from "lucide-react";
@@ -11,7 +11,7 @@ import type { Session } from "next-auth";
 import { CartPopover } from "@/app/(main)/[locale]/(root)/@navbar/components/CartPopover";
 import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
 import { useSession } from "next-auth/react";
-import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 
 export const NavbarActionSection = ({
   className,

@@ -6,19 +6,19 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/libs/shadcn/ui/form";
+} from "@/shared/libs/shadcn/ui/form";
 
 import type { FieldValues } from "react-hook-form";
 import { useFormState } from "react-hook-form";
 
 import clsx from "clsx";
-import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
+import { FormI18nMessage } from "@/shared/libs/i18n/form/FormI18nMessage";
 
 import type { FormXdProps } from "./shared/index.type";
 import { LabelDescription } from "./shared/index.type";
 import _ from "lodash";
-import { RadioGroup, RadioGroupItem } from "@/libs/shadcn/ui/radio-group";
-import { Label } from "@/libs/shadcn/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/shared/libs/shadcn/ui/radio-group";
+import { Label } from "@/shared/libs/shadcn/ui/label";
 import LabelAndDescriptionForm from "./shared/LabelAndDescriptionForm";
 
 type CommonClassNames = WithClassNames<

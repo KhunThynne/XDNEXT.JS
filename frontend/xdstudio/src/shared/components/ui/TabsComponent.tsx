@@ -4,10 +4,10 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/libs/shadcn/ui/tabs";
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/tabs";
+import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
 import clsx from "clsx";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
+import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
 
 export type TabsArray<T = string> = ({
   value: T;

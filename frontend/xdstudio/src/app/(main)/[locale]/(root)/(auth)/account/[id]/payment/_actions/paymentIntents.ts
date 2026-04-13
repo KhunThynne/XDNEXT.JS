@@ -1,9 +1,9 @@
 "use server";
 
-import { execute } from "@/libs/graphql/execute";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
-import { CreatePointTransactionDocument } from "@/libs/graphql/generates/graphql";
-import { stripe } from "@/libs/stripe/stripe";
+import { execute } from "@/shared/libs/graphql/execute";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
+import { CreatePointTransactionDocument } from "@/shared/libs/graphql/generates/graphql";
+import { stripe } from "@/shared/libs/stripe/stripe";
 import type Stripe from "stripe";
 
 export const createPaymentIntents = async (

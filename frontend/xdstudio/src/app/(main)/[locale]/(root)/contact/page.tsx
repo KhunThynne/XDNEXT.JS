@@ -1,7 +1,7 @@
 import { TeamMemberCard } from "./components/team-member-card";
 import { ContactDiscordCard } from "./components/ContactDiscordCard";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { Card } from "@/libs/shadcn/ui/card";
+import { Card } from "@/shared/libs/shadcn/ui/card";
 import { DiscordServerCard } from "@/shared/components/ui/cards/DiscordServerCard";
 import ContentCard from "@/shared/components/ui/cards/ContentCard";
 

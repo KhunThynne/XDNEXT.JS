@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import AlertPointTransaction from "./AlertPointTransaction";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";
 import { GetLastTransactionCache } from "../_utils/GetLastTransactionCache";
 import NotFoundLastTransaction from "../not-found";

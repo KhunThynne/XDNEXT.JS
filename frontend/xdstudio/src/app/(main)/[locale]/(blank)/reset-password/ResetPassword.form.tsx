@@ -1,10 +1,10 @@
 "use client";
 
-import type { RedeemUserPasswordResetTokenResultMutation } from "@/libs/graphql/generates/graphql";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
-import { Form } from "@/libs/shadcn/ui/form";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import type { RedeemUserPasswordResetTokenResultMutation } from "@/shared/libs/graphql/generates/graphql";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
+import { Form } from "@/shared/libs/shadcn/ui/form";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 import { useAuthDocument } from "@/shared/core/auth";
 import { zodResolver } from "@hookform/resolvers/zod";

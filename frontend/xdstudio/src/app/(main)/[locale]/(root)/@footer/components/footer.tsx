@@ -1,5 +1,5 @@
 "use client";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { CheckCircle } from "lucide-react";

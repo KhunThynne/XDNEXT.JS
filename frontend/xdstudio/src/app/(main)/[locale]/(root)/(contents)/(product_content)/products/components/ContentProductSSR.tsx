@@ -1,11 +1,11 @@
 "use client";
 
 import { CardProduct } from "./ProductCard";
-import type { Maybe, Product } from "@/libs/graphql/generates/graphql";
+import type { Maybe, Product } from "@/shared/libs/graphql/generates/graphql";
 import type { Session } from "next-auth";
 import _ from "lodash";
 import { Box } from "lucide-react";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useTheme } from "@wrksz/themes/client";
 
 interface ContentProductsProps {

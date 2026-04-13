@@ -1,3 +1,3 @@
-import { createHookStore } from "@/libs/zustand/createHookStore";
+import { createHookStore } from "@/shared/libs/zustand/createHookStore";
 
 export const useLocaleStore = createHookStore({ initial: { locale: "" } });

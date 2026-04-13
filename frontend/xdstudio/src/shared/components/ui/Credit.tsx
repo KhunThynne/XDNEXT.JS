@@ -1,7 +1,7 @@
 "use client";
-import { execute } from "@/libs/graphql/execute";
-import type { Maybe, UserPoint } from "@/libs/graphql/generates/graphql";
-import { GetUserPointDocument } from "@/libs/graphql/generates/graphql";
+import { execute } from "@/shared/libs/graphql/execute";
+import type { Maybe, UserPoint } from "@/shared/libs/graphql/generates/graphql";
+import { GetUserPointDocument } from "@/shared/libs/graphql/generates/graphql";
 import type { User } from "@/payload-types";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";

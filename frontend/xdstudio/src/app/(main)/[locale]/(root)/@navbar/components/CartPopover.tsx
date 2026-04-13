@@ -1,9 +1,9 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/libs/shadcn/ui/popover";
+} from "@/shared/libs/shadcn/ui/popover";
 import { GlobeX, ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
 
@@ -16,13 +16,13 @@ import {
   CartSummary,
 } from "@/shared/components/ui/cart/CartShopping.form";
 
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useLayoutEffect, useMemo } from "react";
 
 import type { Cart, User } from "@/payload-types";
 
 import { useCartItems } from "@/shared/core/cart";
-import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 import { EmptyComponent } from "@/shared/components/EmptyComponent";
 
 export const CartPopover = ({

@@ -1,6 +1,6 @@
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import type { Maybe, Tag } from "@/libs/graphql/generates/graphql";
-import { Badge } from "@/libs/shadcn/ui/badge";
+import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
+import type { Maybe, Tag } from "@/shared/libs/graphql/generates/graphql";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import type { Product } from "@/payload-types";
 import clsx from "clsx";
 import _ from "lodash";

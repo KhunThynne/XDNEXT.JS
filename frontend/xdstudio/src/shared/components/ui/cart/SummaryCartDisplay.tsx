@@ -2,10 +2,10 @@ import { useMemo } from "react";
 import CreditIcon from "../../CreditIcon";
 import { useFormatter } from "next-intl";
 import clsx from "clsx";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import _ from "lodash";
-import Translations from "@/libs/i18n/Translations";
-import { useI18n } from "@/libs/i18n/hooks/useI18n";
+import Translations from "@/shared/libs/i18n/Translations";
+import { useI18n } from "@/shared/libs/i18n/hooks/useI18n";
 
 type SummaryCartDisplayProps = {
   totalCredit?: number;

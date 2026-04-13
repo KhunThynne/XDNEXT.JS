@@ -1,5 +1,5 @@
-import { Button } from "@/libs/shadcn/ui/button";
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
 import clsx from "clsx";
 import { Code, Download } from "lucide-react";
 

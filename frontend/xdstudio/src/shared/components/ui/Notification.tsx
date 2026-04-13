@@ -1,4 +1,4 @@
-import { Alert, AlertDescription, AlertTitle } from "@/libs/shadcn/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/libs/shadcn/ui/alert";
 import { Bell } from "lucide-react";
 
 export default function Notification() {

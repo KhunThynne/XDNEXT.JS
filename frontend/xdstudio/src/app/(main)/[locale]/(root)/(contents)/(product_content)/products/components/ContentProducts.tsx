@@ -4,10 +4,10 @@ import { CardProduct } from "./ProductCard";
 import type { Session } from "next-auth";
 import _ from "lodash";
 import { AlertTriangle, Box } from "lucide-react";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import { useGetProductsQuery } from "../hooks/useGetProductsQuery";
-import type { Product } from "@/libs/graphql/generates/graphql";
+import type { Product } from "@/shared/libs/graphql/generates/graphql";
 import { EmptyComponent } from "@/shared/components/EmptyComponent";
 
 export const ContentProducts = ({

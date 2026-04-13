@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
+import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
 import { PaymentForm } from "@/shared/components/forms/payment/Payment.form";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";

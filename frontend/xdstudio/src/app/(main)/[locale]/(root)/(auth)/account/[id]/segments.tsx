@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   ButtonGroup,
   ButtonGroupSeparator,
-} from "@/libs/shadcn/ui/button-group";
+} from "@/shared/libs/shadcn/ui/button-group";
 import clsx from "clsx";
 import { useSelectedLayoutSegment, useRouter } from "next/navigation";
 import { Fragment, useMemo } from "react";
 import { User, CreditCard, ShoppingBag } from "lucide-react";
-import type { Cart } from "@/libs/graphql/generates/graphql";
+import type { Cart } from "@/shared/libs/graphql/generates/graphql";
 
 type SegmentItem = {
   label: string;

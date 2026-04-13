@@ -1,7 +1,7 @@
 "use server";
 
-import { getPayload } from "@/libs/payload/getPayload";
-import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
+import { getPayload } from "@/shared/libs/payload/getPayload";
+import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
 
 export const getUser = async (
   arg: PayloadArgsWithoutCollection<"findByID", "users">

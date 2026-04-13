@@ -1,4 +1,4 @@
-import { Card } from "@/libs/shadcn/ui/card";
+import { Card } from "@/shared/libs/shadcn/ui/card";
 import type { Session } from "next-auth";
 import { DatatableInfiniteScrollPoitnPayment } from "./DatatableInfiniteScrollPoitnPayment";
 import clsx from "clsx";

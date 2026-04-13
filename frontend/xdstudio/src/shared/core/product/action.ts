@@ -1,8 +1,8 @@
 "use server";
 
 import { updateTag } from "next/cache";
-import { getPayload } from "@/libs/payload/getPayload";
-import type { PayloadArgsWithoutCollection } from "@/libs/payload/types";
+import { getPayload } from "@/shared/libs/payload/getPayload";
+import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
 
 export const updateProductTag = async () => {
   updateTag("products");

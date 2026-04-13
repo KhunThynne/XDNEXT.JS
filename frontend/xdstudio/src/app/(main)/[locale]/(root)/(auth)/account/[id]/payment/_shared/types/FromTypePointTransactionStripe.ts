@@ -1,4 +1,4 @@
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 import type Stripe from "stripe";
 
 export interface FromTypePointTransactionStripe extends PointTransactionFieldFragment {

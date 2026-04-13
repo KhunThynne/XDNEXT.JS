@@ -1,7 +1,7 @@
 import { useFormState } from "react-hook-form";
 import { Loader2 } from "lucide-react"; // icon loader
 import clsx from "clsx";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 export const ButtonForm = (props: React.ComponentProps<typeof Button>) => {
   const { children, className, ...buttonProps } = props;

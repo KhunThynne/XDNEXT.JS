@@ -1,6 +1,6 @@
 import { unstable_cache } from "next/cache";
-import { execute } from "@/libs/graphql/execute";
-import { GetProductsCountDocument } from "@/libs/graphql/generates/graphql";
+import { execute } from "@/shared/libs/graphql/execute";
+import { GetProductsCountDocument } from "@/shared/libs/graphql/generates/graphql";
 import { PaginationForm } from "./shared/components/Pagination.form";
 
 const getProductsCountCache = (currentPage: number) =>

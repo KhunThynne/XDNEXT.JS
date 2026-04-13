@@ -1,4 +1,4 @@
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 
 import {
   useQueryClient,

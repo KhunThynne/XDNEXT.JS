@@ -11,7 +11,7 @@ import {
 } from "@/shared/hooks/useAppForm/hooks/form";
 import { toast } from "sonner";
 import z from "zod";
-import { FieldGroup, FieldSet } from "@/libs/shadcn/ui/field";
+import { FieldGroup, FieldSet } from "@/shared/libs/shadcn/ui/field";
 import type { RadioFieldItemProps } from "@/shared/hooks/useAppForm/components/FieldRadioGroup";
 import { useFormContext } from "@/shared/hooks/useAppForm";
 const tasks = [

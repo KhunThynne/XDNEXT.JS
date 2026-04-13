@@ -8,11 +8,11 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Input } from "@/libs/shadcn/ui/input";
-import { Textarea } from "@/libs/shadcn/ui/textarea";
-import { Label } from "@/libs/shadcn/ui/label";
+} from "@/shared/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Input } from "@/shared/libs/shadcn/ui/input";
+import { Textarea } from "@/shared/libs/shadcn/ui/textarea";
+import { Label } from "@/shared/libs/shadcn/ui/label";
 import { Send } from "lucide-react";
 
 export function ContactForm() {

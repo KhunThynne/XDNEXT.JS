@@ -1,22 +1,22 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   CardHeader,
   CardContent,
   Card,
   CardDescription,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/libs/shadcn/ui/collapsible";
+} from "@/shared/libs/shadcn/ui/collapsible";
 import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ChevronDownIcon } from "lucide-react";
 import type { CollapsibleProps } from "@radix-ui/react-collapsible";
 import clsx from "clsx";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 
 export const CardCollapsible = ({
   children,

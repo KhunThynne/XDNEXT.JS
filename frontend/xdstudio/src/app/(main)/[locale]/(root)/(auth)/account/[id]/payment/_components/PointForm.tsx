@@ -12,9 +12,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Input } from "@/libs/shadcn/ui/input";
+} from "@/shared/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Input } from "@/shared/libs/shadcn/ui/input";
 import {
   Select,
   SelectTrigger,

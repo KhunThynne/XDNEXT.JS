@@ -1,4 +1,4 @@
-import { routing } from "@/libs/i18n/routing";
+import { routing } from "@/shared/libs/i18n/routing";
 import clsx from "clsx";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";

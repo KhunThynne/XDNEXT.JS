@@ -3,7 +3,7 @@ import {
   ItemContent,
   ItemHeader,
   ItemTitle,
-} from "@/libs/shadcn/ui/item";
+} from "@/shared/libs/shadcn/ui/item";
 import clsx from "clsx";
 import { Bell } from "lucide-react";
 import PointTransactionProvider from "./_components/PointTransactionProvider";

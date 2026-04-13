@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 
-import { Alert, AlertTitle, AlertDescription } from "@/libs/shadcn/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "@/shared/libs/shadcn/ui/alert";
 
 export default async function NotFoundLastTransaction() {
   return (

@@ -1,8 +1,8 @@
 "use client";
-import EmblaCarousel from "@/libs/embla-carousel/EmblaCarousel";
-import type { Image, ImageFieldOutput } from "@/libs/graphql/generates/graphql";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Card, CardContent } from "@/libs/shadcn/ui/card";
+import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
+import type { Image, ImageFieldOutput } from "@/shared/libs/graphql/generates/graphql";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
 import type { GalleryMediaProps } from "@/shared/components/ui/GalleryImage/GalleryImageProvider";
 import { GalleryImageProvider } from "@/shared/components/ui/GalleryImage/GalleryImageProvider";
 import { useGalleryImage } from "@/shared/components/ui/GalleryImage/useGalleryImage";

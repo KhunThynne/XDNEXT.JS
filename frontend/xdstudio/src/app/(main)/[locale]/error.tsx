@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import Content from "@/shared/components/ui/Content";
 import type { Metadata } from "next";
 

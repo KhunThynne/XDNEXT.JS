@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import { useCallback, useMemo } from "react";
@@ -11,10 +11,10 @@ import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import type { CartFormProps } from "../cartOrder.type";
 import { useMutationCreateOrdersAndUserItems } from "@/shared/services/tanstack/mutations/oredersAndUserItems";
 import { toast } from "sonner";
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 import clsx from "clsx";
 import _ from "lodash";
-import type { DialogInstanceProps } from "@/libs/dialog/index.type";
+import type { DialogInstanceProps } from "@/shared/libs/dialog/index.type";
 import { useAppForm, useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { formCartsOptions } from "./formOptions";
 import { useCartItemsContext } from "../../hooks/useCartItemsContext";

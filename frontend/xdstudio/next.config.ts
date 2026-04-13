@@ -81,5 +81,5 @@ const nextConfig = {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 } satisfies NextConfig;
-const withNextIntl = createNextIntlPlugin("./src/libs/i18n/request.ts");
+const withNextIntl = createNextIntlPlugin("./src/shared/libs/i18n/request.ts");
 export default withPayload(withNextIntl(nextConfig));

@@ -1,6 +1,6 @@
-import Translations from "@/libs/i18n/Translations";
-import { FormControl, FormDescription, FormLabel } from "@/libs/shadcn/ui/form";
-import { Input } from "@/libs/shadcn/ui/input";
+import Translations from "@/shared/libs/i18n/Translations";
+import { FormControl, FormDescription, FormLabel } from "@/shared/libs/shadcn/ui/form";
+import { Input } from "@/shared/libs/shadcn/ui/input";
 import clsx from "clsx";
 import _ from "lodash";
 import { Fragment } from "react";

@@ -18,8 +18,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/libs/shadcn/ui/table";
-import { Button } from "@/libs/shadcn/ui/button";
+} from "@/shared/libs/shadcn/ui/table";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 
 import { ChevronDown, FileText, ImageOff, Trash } from "lucide-react";
@@ -32,9 +32,9 @@ import type {
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { CardAction, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import { EmptyCart } from "@/shared/components/ui/cart/CartShopping.form";
-import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
+import { Empty, EmptyHeader } from "@/shared/libs/shadcn/ui/empty";
 import clsx from "clsx";
 import { formCartsOptions } from "../../_shared/_components/forms/formOptions";
 import { useCartItemsDatable } from "../../_shared/hooks/useCartItemsDatable";

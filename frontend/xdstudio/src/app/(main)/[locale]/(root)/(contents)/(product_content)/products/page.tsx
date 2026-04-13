@@ -4,12 +4,12 @@ import { auth } from "@/auth";
 import { contentClassName } from "./shared/contentClassName";
 import { ContentProductsSSR } from "./components/ContentProductSSR";
 import { getSkipFromPage } from "./shared/utils/paginationUtil";
-import { execute } from "@/libs/graphql/execute";
+import { execute } from "@/shared/libs/graphql/execute";
 import type {
   GetProductsQueryVariables,
   Product,
-} from "@/libs/graphql/generates/graphql";
-import { GetProductsDocument } from "@/libs/graphql/generates/graphql";
+} from "@/shared/libs/graphql/generates/graphql";
+import { GetProductsDocument } from "@/shared/libs/graphql/generates/graphql";
 import { cacheLife, cacheTag } from "next/cache";
 import _ from "lodash";
 

@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import clsx from "clsx";
 import Image from "next/image";
 import { signIn } from "./actions/Login.action";

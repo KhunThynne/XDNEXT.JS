@@ -1,7 +1,7 @@
 import { ArrowLeft, PackageX } from "lucide-react";
 
 import { EmptyComponent } from "@/shared/components/EmptyComponent";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 
 export default function NotFoundLocale() {

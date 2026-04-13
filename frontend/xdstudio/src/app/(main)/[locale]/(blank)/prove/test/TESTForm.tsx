@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useFormContext, useFormState, useWatch } from "react-hook-form";
 
 export const TextForm = () => {

@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   ArrowBigUpDash,
   ArrowBigUpDashIcon,

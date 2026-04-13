@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import type { Session } from "next-auth";

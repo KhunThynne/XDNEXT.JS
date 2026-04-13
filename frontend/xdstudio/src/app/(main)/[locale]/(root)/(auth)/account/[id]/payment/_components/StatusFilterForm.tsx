@@ -1,20 +1,20 @@
 import React from "react";
 import type { Table as TanStackTable } from "@tanstack/react-table";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Checkbox } from "@/libs/shadcn/custom/checkbox";
-import { Label } from "@/libs/shadcn/ui/label";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Checkbox } from "@/shared/libs/shadcn/custom/checkbox";
+import { Label } from "@/shared/libs/shadcn/ui/label";
 import {
   Item,
   ItemContent,
   ItemHeader,
   ItemTitle,
-} from "@/libs/shadcn/ui/item";
+} from "@/shared/libs/shadcn/ui/item";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/libs/shadcn/ui/dropdown-menu";
+} from "@/shared/libs/shadcn/ui/dropdown-menu";
 import { ChevronDown, Filter } from "lucide-react";
 
 type RowData = any;

@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/shared/components/ui";
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { Link } from "@navigation";

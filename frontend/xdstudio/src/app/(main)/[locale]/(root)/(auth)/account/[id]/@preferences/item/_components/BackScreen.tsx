@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
 import { useRouter } from "@navigation";
 import clsx from "clsx";

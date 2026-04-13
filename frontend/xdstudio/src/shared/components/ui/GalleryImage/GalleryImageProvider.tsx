@@ -1,4 +1,4 @@
-import type { ImageFieldOutput } from "@/libs/graphql/generates/graphql";
+import type { ImageFieldOutput } from "@/shared/libs/graphql/generates/graphql";
 import { createContext, useContext, useState } from "react";
 export interface GalleryMediaProps {
   id: string;

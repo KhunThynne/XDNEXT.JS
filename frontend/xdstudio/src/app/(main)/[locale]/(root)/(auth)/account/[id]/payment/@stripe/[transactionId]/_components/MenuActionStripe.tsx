@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   ButtonGroup,
   DialogFooterAction,
@@ -14,7 +14,7 @@ import type { StatusValueStripePayment } from "../../_shared/types/statusValue";
 import { useParams } from "next/navigation";
 import type Stripe from "stripe";
 import { usePointTransactionMutations } from "../../../_hooks/usePointTransactionMutations";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 
 const MenuActionStripe = ({
   session,

@@ -1,13 +1,13 @@
 "use client";
 
 import { DefaultTheme, useTheme } from "@wrksz/themes/client";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/libs/shadcn/ui/dropdown-menu";
+} from "@/shared/libs/shadcn/ui/dropdown-menu";
 import { Sun, Moon, Laptop, SunMoon } from "lucide-react";
 
 export const ThemeMenu = () => {

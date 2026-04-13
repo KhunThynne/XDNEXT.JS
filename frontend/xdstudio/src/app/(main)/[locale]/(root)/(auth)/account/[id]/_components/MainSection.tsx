@@ -3,7 +3,7 @@ import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import PurchasedProductsForm from "./PurchasedProducts.form";
 import type { Session } from "next-auth";
 import { useSelectedLayoutSegment } from "next/navigation";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 
 export const MainSection = ({
   preferences,

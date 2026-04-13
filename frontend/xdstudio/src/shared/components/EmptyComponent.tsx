@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import { Fragment } from "react/jsx-runtime";
 import { BreadcrumbComponent } from "./ui/breadcrumb";
@@ -10,7 +10,7 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@/libs/shadcn/ui/empty";
+} from "@/shared/libs/shadcn/ui/empty";
 import { BookDashed } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { revalidatePathAction } from "@/shared/actions/cache";

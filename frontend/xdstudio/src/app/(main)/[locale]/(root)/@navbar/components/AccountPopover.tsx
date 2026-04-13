@@ -1,19 +1,19 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/libs/shadcn/ui/avatar";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/libs/shadcn/ui/avatar";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/libs/shadcn/ui/popover";
+} from "@/shared/libs/shadcn/ui/popover";
 import _ from "lodash";
 import { LogOut, PlusCircle, User } from "lucide-react";
 import type { User as UserType } from "next-auth";
 
 import { getInitials } from "../utils/getInitials";
 import { useMemo } from "react";
-import { Badge } from "@/libs/shadcn/ui/badge";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import { Link } from "@navigation";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import CreditIcon from "@/shared/components/CreditIcon";
 import Credit from "@/shared/components/ui/Credit";
 import { env } from "@/env";

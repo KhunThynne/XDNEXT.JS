@@ -1,4 +1,4 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { usePathname } from "@navigation";
 import { Users } from "lucide-react";
 import { signIn } from "next-auth/react";

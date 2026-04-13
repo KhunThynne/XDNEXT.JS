@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/libs/shadcn/ui/button";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 
 import { InputForm } from "@/shared/components/ui/form/InputForm";
 

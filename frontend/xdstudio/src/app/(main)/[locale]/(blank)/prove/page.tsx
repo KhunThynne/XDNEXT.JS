@@ -1,8 +1,8 @@
 "use client";
-import { Form } from "@/libs/shadcn/ui/form";
+import { Form } from "@/shared/libs/shadcn/ui/form";
 import { TextForm } from "./test/TESTForm";
 
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useDialogGlobal } from "@/shared/components/ui";
 import {
   Dialog,
@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/libs/shadcn/ui/dialog";
+} from "@/shared/libs/shadcn/ui/dialog";
 
 export default function PageCart() {
   const dialog = useDialogGlobal();

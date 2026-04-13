@@ -1,9 +1,9 @@
-import type { CartItem } from "@/libs/graphql/generates/graphql";
+import type { CartItem } from "@/shared/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
 import CreditIcon from "../../CreditIcon";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useFormContext, useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";
 import { useMemo } from "react";

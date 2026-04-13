@@ -1,18 +1,18 @@
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import {
   Empty,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
-} from "@/libs/shadcn/ui/empty";
+} from "@/shared/libs/shadcn/ui/empty";
 import {
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
-} from "@/libs/shadcn/ui/table";
+} from "@/shared/libs/shadcn/ui/table";
 import { usePathname, useRouter } from "@navigation";
 import type {
   SortingState,

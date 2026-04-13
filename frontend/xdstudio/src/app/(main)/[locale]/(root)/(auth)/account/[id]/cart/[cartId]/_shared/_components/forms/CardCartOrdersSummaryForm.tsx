@@ -5,7 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import clsx from "clsx";
 
 import { useVirtualizer } from "@tanstack/react-virtual";

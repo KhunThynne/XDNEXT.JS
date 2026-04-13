@@ -1,7 +1,7 @@
 "use client";
 
-import type { User } from "@/libs/graphql/generates/graphql";
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import type { User } from "@/shared/libs/graphql/generates/graphql";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import type { TabsArray } from "@/shared/components/ui/TabsComponent";
 import { TabsComponent } from "@/shared/components/ui/TabsComponent";
 import { usePathname, useRouter } from "@navigation";

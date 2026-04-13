@@ -6,16 +6,16 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/libs/shadcn/ui/form";
+} from "@/shared/libs/shadcn/ui/form";
 
 import type { ControllerRenderProps, FieldValues, Path } from "react-hook-form";
 import type { ReactNode } from "react";
 import clsx from "clsx";
-import Translations from "@/libs/i18n/Translations";
-import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
+import Translations from "@/shared/libs/i18n/Translations";
+import { FormI18nMessage } from "@/shared/libs/i18n/form/FormI18nMessage";
 import type { FormXdProps } from "./shared/index.type";
 import _ from "lodash";
-import { Textarea } from "@/libs/shadcn/ui/textarea";
+import { Textarea } from "@/shared/libs/shadcn/ui/textarea";
 
 export function TextareaForm<TFieldValues extends FieldValues = FieldValues>({
   name,

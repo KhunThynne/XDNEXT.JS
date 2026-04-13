@@ -1,7 +1,7 @@
 import type { RestFormProps } from "./ResetPassword.form";
 import { ResetPasswordForm } from "./ResetPassword.form";
-import { execute } from "@/libs/graphql/execute";
-import { ValidateUserPasswordResetTokenDocument } from "@/libs/graphql/generates/graphql";
+import { execute } from "@/shared/libs/graphql/execute";
+import { ValidateUserPasswordResetTokenDocument } from "@/shared/libs/graphql/generates/graphql";
 import { notFound } from "next/navigation";
 
 export default async function ResetPasswordPage({

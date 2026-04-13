@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import * as React from "react";
 
 import type {
@@ -30,17 +30,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/libs/shadcn/ui/table";
+} from "@/shared/libs/shadcn/ui/table";
 import { usePointTransactionsInfiniteQuery } from "../_hooks/usePointTransactionsInfiniteQuery";
 import { useEffect, useMemo, useState } from "react";
 import type { Session } from "next-auth";
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import clsx from "clsx";
 
 import { useFormatter } from "next-intl";
-import { Button } from "@/libs/shadcn/ui/button";
-import { ButtonGroup } from "@/libs/shadcn/ui/button-group";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { ButtonGroup } from "@/shared/libs/shadcn/ui/button-group";
 import {
   FileText,
   OctagonXIcon,
@@ -52,7 +52,7 @@ import {
 import { useRouter } from "@navigation";
 import { useParams } from "next/navigation";
 import _, { isEmpty, iteratee } from "lodash";
-import { useSocket } from "@/libs/socket-io/socket";
+import { useSocket } from "@/shared/libs/socket-io/socket";
 
 import { updateTagClient } from "@/shared/utils/m";
 import type { InfiniteData } from "@tanstack/react-query";
@@ -62,10 +62,10 @@ import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
 import type { StatusValueStripePayment } from "../@stripe/_shared/types/statusValue";
 import type Stripe from "stripe";
 import { toast } from "sonner";
-import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
-import { Skeleton } from "@/libs/shadcn/ui/skeleton";
+import { Empty, EmptyHeader } from "@/shared/libs/shadcn/ui/empty";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
-import { Spinner } from "@/libs/shadcn/ui/spinner";
+import { Spinner } from "@/shared/libs/shadcn/ui/spinner";
 import StatusFilterForm from "./StatusFilterForm";
 import { usePointTransactionMutations } from "../_hooks/usePointTransactionMutations";
 import MenuActionStripe from "../@stripe/[transactionId]/_components/MenuActionStripe";

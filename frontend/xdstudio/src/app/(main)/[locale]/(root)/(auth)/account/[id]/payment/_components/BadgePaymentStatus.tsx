@@ -1,5 +1,5 @@
-import type { PointTransactionFieldFragment } from "@/libs/graphql/generates/graphql";
-import { Badge } from "@/libs/shadcn/ui/badge";
+import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import clsx from "clsx";
 import _ from "lodash";
 import { keyof } from "zod";

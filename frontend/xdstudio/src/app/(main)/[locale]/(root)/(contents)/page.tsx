@@ -1,13 +1,13 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 
 import { auth } from "@/auth";
 import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 
-import { Card, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
+import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 
-import { Badge } from "@/libs/shadcn/ui/badge";
+import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import { ContentProducts } from "./(product_content)/products/components/ContentProducts";
 import { contentClassName } from "./(product_content)/products/shared/contentClassName";
 import ContentCard from "@/shared/components/ui/cards/ContentCard";

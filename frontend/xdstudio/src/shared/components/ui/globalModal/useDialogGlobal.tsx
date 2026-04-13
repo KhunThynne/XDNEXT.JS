@@ -1,4 +1,4 @@
-import { createHookDialog } from "@/libs/dialog/createHookDialog";
+import { createHookDialog } from "@/shared/libs/dialog/createHookDialog";
 
 export const useDialogGlobal = createHookDialog({
   title: "unkhonw",

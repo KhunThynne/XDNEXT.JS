@@ -1,20 +1,20 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import type { Faq, Maybe } from "@/libs/graphql/generates/graphql";
+import type { Faq, Maybe } from "@/shared/libs/graphql/generates/graphql";
 import {
   Card,
   CardAction,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/libs/shadcn/ui/card";
-import { Button } from "@/libs/shadcn/ui/button";
+} from "@/shared/libs/shadcn/ui/card";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import clsx from "clsx";
 import { ChevronDownIcon, Plus, Star } from "lucide-react";
-import SafeHtml from "@/libs/sanitize-html/SafeHtml";
-import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
+import SafeHtml from "@/shared/libs/sanitize-html/SafeHtml";
+import DocumentRenderer from "@/shared/libs/keystone/DocumentRenderer";
 import CreditIcon from "@/shared/components/CreditIcon";
 import { ProductTag } from "./ProductTag";
 import _ from "lodash";
@@ -31,7 +31,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/libs/shadcn/ui/collapsible";
+} from "@/shared/libs/shadcn/ui/collapsible";
 
 export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;

@@ -5,7 +5,7 @@ import { CardQrcodeTransaction } from "./CardQrcodeTransaction";
 import { CardTransactionSummary } from "./CardTransactionSummary";
 import { CardCustomerInformation } from "./CardCustomerInformation";
 import { ShieldCheck } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "@/libs/shadcn/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/shared/libs/shadcn/ui/alert";
 export const DetailPointTransactionForm = ({
   form,
 }: {

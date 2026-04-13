@@ -3,7 +3,7 @@
 import _ from "lodash";
 
 import { Link, usePathname } from "@navigation";
-import Translations from "@/libs/i18n/Translations";
+import Translations from "@/shared/libs/i18n/Translations";
 import type { TypeNavbarItem } from "@type/config.type";
 import clsx from "clsx";
 import {
@@ -14,7 +14,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-} from "@/libs/shadcn/ui/navigation-menu";
+} from "@/shared/libs/shadcn/ui/navigation-menu";
 
 const ListItem = ({
   title,

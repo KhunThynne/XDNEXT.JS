@@ -1,4 +1,4 @@
-import { createHookStore } from "@/libs/zustand/createHookStore";
+import { createHookStore } from "@/shared/libs/zustand/createHookStore";
 interface AccountSettingMenu {
   payment: boolean;
   preference: boolean;

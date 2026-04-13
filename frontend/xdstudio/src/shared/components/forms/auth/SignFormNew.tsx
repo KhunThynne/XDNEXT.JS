@@ -5,13 +5,13 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { ZSignInSchema } from "./auth.zod";
 import { OAuthLoginButtonsGrupe } from "./OAuthLoginButtonsGrupe.component";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import { useSearchParams } from "next/navigation";
 import { signIn } from "./actions/Login.action";
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { revalidateLogic, useStore } from "@tanstack/react-form";
-import { InputGroupAddon } from "@/libs/shadcn/ui/input-group";
+import { InputGroupAddon } from "@/shared/libs/shadcn/ui/input-group";
 
 export const SignFormNew = () => {
   const form = useAppForm({

@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/libs/shadcn/ui/button";
-import { Separator } from "@/libs/shadcn/ui/separator";
+import { Button } from "@/shared/libs/shadcn/ui/button";
+import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import z from "zod";
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { formOptions, revalidateLogic, useField } from "@tanstack/react-form";
-import { useI18n } from "@/libs/i18n/hooks/useI18n";
+import { useI18n } from "@/shared/libs/i18n/hooks/useI18n";
 import type { User } from "@/payload-types";
 const ZEmailSchema = z.object({
   email: z.email({ message: "Invalid email address" }),

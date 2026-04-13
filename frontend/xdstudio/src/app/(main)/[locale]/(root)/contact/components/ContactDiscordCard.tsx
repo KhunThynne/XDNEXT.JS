@@ -1,10 +1,10 @@
-import { Button } from "@/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Card,
   CardHeader,
   CardContent,
   CardDescription,
-} from "@/libs/shadcn/ui/card";
+} from "@/shared/libs/shadcn/ui/card";
 import ContentCard from "@/shared/components/ui/cards/ContentCard";
 import { Link } from "@navigation";
 

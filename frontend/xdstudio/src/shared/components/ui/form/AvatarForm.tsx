@@ -11,17 +11,17 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@/libs/shadcn/ui/form";
-import { Button } from "@/libs/shadcn/ui/button";
+} from "@/shared/libs/shadcn/ui/form";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 
-import { Input } from "@/libs/shadcn/ui/input";
-import { cn } from "@/libs/shadcn/utils";
+import { Input } from "@/shared/libs/shadcn/ui/input";
+import { cn } from "@/shared/libs/shadcn/utils";
 
-import { FormI18nMessage } from "@/libs/i18n/form/FormI18nMessage";
+import { FormI18nMessage } from "@/shared/libs/i18n/form/FormI18nMessage";
 
 // ⛳️ NOTE: Adjust these import paths to match your project structure.
 // If you use shadcn with the default path, keep as "@/components/ui/*".
-// If your project uses "@/libs/shadcn/ui/*" (as in your example), change accordingly.
+// If your project uses "@/shared/libs/shadcn/ui/*" (as in your example), change accordingly.
 
 // --- Schema -----------------------------------------------------------------
 const ACCEPTED_TYPES = [

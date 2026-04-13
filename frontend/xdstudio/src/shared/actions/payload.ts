@@ -1,7 +1,7 @@
 "use server";
 
-import { getPayload } from "@/libs/payload/getPayload";
-import type { PayloadArgs, PayloadMethods } from "@/libs/payload/types";
+import { getPayload } from "@/shared/libs/payload/getPayload";
+import type { PayloadArgs, PayloadMethods } from "@/shared/libs/payload/types";
 import type { Config } from "@/payload-types";
 
 export const payloadActions = async <

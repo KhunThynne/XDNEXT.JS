@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { stripe } from "@/libs/stripe/stripe";
+import { stripe } from "@/shared/libs/stripe/stripe";
 import { env } from "@/env";
 import type Stripe from "stripe";
 import { revalidatePath, revalidateTag } from "next/cache";

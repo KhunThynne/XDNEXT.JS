@@ -1,5 +1,5 @@
-import { Checkbox } from "@/libs/shadcn/custom/checkbox";
-import { Button } from "@/libs/shadcn/ui/button";
+import { Checkbox } from "@/shared/libs/shadcn/custom/checkbox";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { CartItem } from "@/payload-types";
 import CreditIcon from "@/shared/components/CreditIcon";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
