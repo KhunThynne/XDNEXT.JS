@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import PointDiamon from "../../PointDiamod";
+import CreditIcon from "../../CreditIcon";
 import { useFormatter } from "next-intl";
 import clsx from "clsx";
 import { Separator } from "@/libs/shadcn/ui/separator";
@@ -41,12 +41,12 @@ export const SummaryCartDisplay = ({
 
         <section className="flex gap-2">
           <span className="flex gap-1">
-            <PointDiamon className="text-success size-1" />{" "}
+            <CreditIcon className="text-success size-1" />{" "}
             {formaterNumber(userAvailableCredit!)} -{" "}
             <span className="">{formaterNumber(totalCredit!)}</span>
           </span>
           <span className="flex gap-1 border-s ps-2 text-balance">
-            <PointDiamon className="size-1" /> {formaterNumber(remainingCredit)}
+            <CreditIcon className="size-1" /> {formaterNumber(remainingCredit)}
           </span>
         </section>
       </div>
@@ -58,7 +58,7 @@ export const SummaryCartDisplay = ({
         <div className="flex justify-between text-sm font-semibold">
           <span className="capitalize">{t("cart.text01")}</span>
           <span className="text-success flex gap-1">
-            <PointDiamon className="size-1" />{" "}
+            <CreditIcon className="size-1" />{" "}
             {formaterNumber(userAvailableCredit)}
           </span>
         </div>
@@ -67,7 +67,7 @@ export const SummaryCartDisplay = ({
         <div className="flex justify-between text-sm font-semibold">
           <span className="capitalize">{t("cart.text02")}</span>
           <span className="flex gap-1">
-            <PointDiamon className="size-1" />- {formaterNumber(totalCredit)}
+            <CreditIcon className="size-1" />- {formaterNumber(totalCredit)}
           </span>
         </div>
       )}
@@ -78,7 +78,7 @@ export const SummaryCartDisplay = ({
           <div className="flex justify-between text-sm font-semibold">
             <span className="capitalize">{t("cart.text03")}</span>
             <span className="flex gap-1">
-              <PointDiamon className="size-1" />
+              <CreditIcon className="size-1" />
               <p
                 className={clsx({
                   "text-destructive": _.lt(remainingCredit, 0),

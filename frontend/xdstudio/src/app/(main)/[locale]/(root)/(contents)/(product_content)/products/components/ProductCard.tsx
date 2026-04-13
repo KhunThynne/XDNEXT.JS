@@ -14,7 +14,7 @@ import _ from "lodash";
 import { ImageOff } from "lucide-react";
 import Image from "next/image";
 import type { Session } from "next-auth";
-import PointDiamon from "@/shared/components/PointDiamod";
+import CreditIcon from "@/shared/components/CreditIcon";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import { ProductTag } from "./ProductTag";
 import { Skeleton } from "@/libs/shadcn/ui/skeleton";
@@ -151,7 +151,7 @@ export const CardProduct = ({
                 <Skeleton className="h-5 w-12" />
               ) : (
                 <p className="text-md text-primary flex grow gap-1 truncate font-bold">
-                  <PointDiamon />
+                  <CreditIcon />
                   {`${product?.price?.price ?? `Free`}`}
                 </p>
               )}

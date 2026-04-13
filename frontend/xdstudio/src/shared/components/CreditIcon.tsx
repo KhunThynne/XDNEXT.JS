@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Diamond } from "lucide-react";
-export default function PointDiamon({ className }: WithClassName) {
+export default function CreditIcon({ className }: WithClassName) {
   return (
     <Diamond
       className={clsx(

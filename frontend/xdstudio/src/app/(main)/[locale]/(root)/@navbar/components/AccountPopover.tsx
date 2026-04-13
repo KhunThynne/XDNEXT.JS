@@ -14,7 +14,7 @@ import { useMemo } from "react";
 import { Badge } from "@/libs/shadcn/ui/badge";
 import { Link } from "@navigation";
 import { Separator } from "@/libs/shadcn/ui/separator";
-import PointDiamon from "@/shared/components/PointDiamod";
+import CreditIcon from "@/shared/components/CreditIcon";
 import Point from "@/shared/components/ui/Point";
 import { env } from "@/env";
 import clsx from "clsx";
@@ -86,7 +86,7 @@ export const UserDetails = ({
               variant="secondary"
               className="mx-1 max-w-20 rounded-full px-2 font-mono tabular-nums"
             >
-              <PointDiamon />
+              <CreditIcon />
               <span className="w-full truncate text-[0.65rem]">
                 {/* <Point pointId={user.point?.id} /> */}
               </span>
@@ -99,7 +99,6 @@ export const UserDetails = ({
               onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_SITE_URL })}
             >
               <small className="text-xs">Logout</small>
-
               <LogOut />
             </Button>
           </div>
@@ -110,7 +109,6 @@ export const UserDetails = ({
 };
 export function AccountPopover(user: Partial<UserType>) {
   if (_.isEmpty(user)) return null;
-
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -118,7 +116,6 @@ export function AccountPopover(user: Partial<UserType>) {
           <AvartarUser user={user as UserType} className="size-7 shadow " />
         </Button>
       </PopoverTrigger>
-
       <PopoverContent align="end" className="w-xs space-y-2">
         <UserDetails user={user as UserType} />
       </PopoverContent>

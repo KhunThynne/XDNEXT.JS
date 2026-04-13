@@ -2,7 +2,7 @@ import type { CartItem } from "@/libs/graphql/generates/graphql";
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
-import PointDiamon from "../../PointDiamod";
+import CreditIcon from "../../CreditIcon";
 import { Button } from "@/libs/shadcn/ui/button";
 import { useFormContext, useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";

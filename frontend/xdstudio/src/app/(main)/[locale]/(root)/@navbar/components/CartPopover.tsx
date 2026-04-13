@@ -4,18 +4,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/libs/shadcn/ui/popover";
-import { GlobeX, ShoppingBag, ShoppingBagIcon } from "lucide-react";
+import { GlobeX, ShoppingBag } from "lucide-react";
 import { Link } from "@navigation";
 
 import {
   ShoppingBagMotion,
   ShoppingCount,
-} from "@/shared/components/ui/shopping/Motions";
+} from "@/shared/components/ui/cart/Motions";
 import {
   CartShoppingForm,
   CartSummary,
-} from "@/shared/components/ui/shopping/CartShopping.form";
-import CartStoreProvider from "@/shared/components/ui/shopping/CartStoreProvider";
+} from "@/shared/components/ui/cart/CartShopping.form";
+
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { useLayoutEffect, useMemo } from "react";
 
@@ -28,6 +28,7 @@ import { EmptyComponent } from "@/shared/components/EmptyComponent";
 export const CartPopover = ({
   cartId,
   userId,
+  credit,
 }: {
   userId: User["id"];
   cartId: Cart["id"];
@@ -50,7 +51,6 @@ export const CartPopover = ({
 
   return (
     <Popover>
-      <CartStoreProvider />
       <span id="shopping-bag-button" className="sr-only">
         Shopping bag button
       </span>
@@ -87,7 +87,7 @@ export const CartPopover = ({
               className="p-4"
               style="short"
               navigation={navigation}
-              userTotalPoint={1000}
+              userTotalCredit={credit ?? 0}
               cartItems={cartItems}
             />
           )}

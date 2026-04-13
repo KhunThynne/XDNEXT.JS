@@ -15,7 +15,7 @@ import clsx from "clsx";
 import { ChevronDownIcon, Plus, Star } from "lucide-react";
 import SafeHtml from "@/libs/sanitize-html/SafeHtml";
 import DocumentRenderer from "@/libs/keystone/DocumentRenderer";
-import PointDiamon from "@/shared/components/PointDiamod";
+import CreditIcon from "@/shared/components/CreditIcon";
 import { ProductTag } from "./ProductTag";
 import _ from "lodash";
 import { AddItemButton } from "./AddItem.button";
@@ -123,7 +123,7 @@ const ContainerProductMenu = (
 
       <CardContent className="space-y-4">
         <div className="flex text-4xl font-bold text-blue-600 dark:text-blue-400">
-          <PointDiamon className="size-7" />
+          <CreditIcon className="size-7" />
           {typeof props.price !== "string" &&
             props.price?.price?.toLocaleString()}
         </div>

@@ -1,9 +1,8 @@
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
-import PointDiamon from "../../PointDiamod";
+import CreditIcon from "../../CreditIcon";
 import { Button } from "@/libs/shadcn/ui/button";
-import { useFormContext, useFormState } from "react-hook-form";
 import { useFormatter } from "next-intl";
 import { useMemo, useState } from "react";
 import clsx from "clsx";
@@ -58,11 +57,11 @@ export const CartItemComponent = ({
         </Link>
         <p className="text-muted-foreground flex place-items-center gap-1 text-xs">
           {quantity && number(quantity)} ×{price && number(price?.price ?? 0)}
-          <PointDiamon className="size-2! translate-y-[1.5px]" />
+          <CreditIcon className="size-2! translate-y-[1.5px]" />
         </p>
       </div>
       <div className="flex items-center gap-1 text-sm font-semibold">
-        <PointDiamon className="size-2.5!" />
+        <CreditIcon className="size-2.5!" />
         <p
           className={clsx({
             "text-destructive": _.lt(summaryResult, 0),

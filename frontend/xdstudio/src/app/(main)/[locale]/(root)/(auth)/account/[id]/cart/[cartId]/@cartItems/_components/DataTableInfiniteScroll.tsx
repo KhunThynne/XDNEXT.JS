@@ -33,7 +33,7 @@ import type {
 } from "@tanstack/react-query";
 
 import { CardAction, CardContent, CardHeader } from "@/libs/shadcn/ui/card";
-import { EmptyCart } from "@/shared/components/ui/shopping/CartShopping.form";
+import { EmptyCart } from "@/shared/components/ui/cart/CartShopping.form";
 import { Empty, EmptyHeader } from "@/libs/shadcn/ui/empty";
 import clsx from "clsx";
 import { formCartsOptions } from "../../_shared/_components/forms/formOptions";

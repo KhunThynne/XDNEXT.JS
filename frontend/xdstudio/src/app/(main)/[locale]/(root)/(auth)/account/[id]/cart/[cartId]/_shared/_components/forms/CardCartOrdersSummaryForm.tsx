@@ -16,7 +16,7 @@ import { useCartItemsContext } from "../../hooks/useCartItemsContext";
 import type { CartItem } from "@/payload-types";
 import { useAppForm, useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { useFormatter } from "next-intl";
-import { CartSummary } from "@/shared/components/ui/shopping/CartShopping.form";
+import { CartSummary } from "@/shared/components/ui/cart/CartShopping.form";
 import { formCartsOptions } from "./formOptions";
 
 const CartItemComponent = ({ item }: { item: CartItem }) => {

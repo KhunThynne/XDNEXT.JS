@@ -7,7 +7,7 @@ import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
 import clsx from "clsx";
 import { ImageOff, Minus, Trash } from "lucide-react";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import PointDiamon from "@/shared/components/PointDiamod";
+import CreditIcon from "@/shared/components/CreditIcon";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useCartItemDocument } from "@/shared/hooks/useCartItemDocument";
 import Image from "next/image";
@@ -216,7 +216,7 @@ export const OrdersForm = ({
                 {item?.product?.price?.price && (
                   <>
                     <p className="flex font-medium">
-                      <PointDiamon />
+                      <CreditIcon />
                       {(
                         item?.product?.price?.price * (item?.quantity ?? 0)
                       ).toLocaleString()}

@@ -1,7 +1,7 @@
 import { Checkbox } from "@/libs/shadcn/custom/checkbox";
 import { Button } from "@/libs/shadcn/ui/button";
 import type { CartItem } from "@/payload-types";
-import PointDiamon from "@/shared/components/PointDiamod";
+import CreditIcon from "@/shared/components/CreditIcon";
 import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Minus, Trash } from "lucide-react";
@@ -81,7 +81,7 @@ export const columns: ColumnDef<CartItem>[] = [
             <aside className="place-content-center space-y-1">
               <h3 className="font-bold">{product.name} </h3>
               <h4 className="text-destructive font-medium">
-                <PointDiamon /> {product?.price?.price}
+                <CreditIcon /> {product?.price?.price}
               </h4>
             </aside>
           )}

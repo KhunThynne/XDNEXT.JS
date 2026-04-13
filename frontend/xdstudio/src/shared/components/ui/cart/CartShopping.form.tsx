@@ -11,7 +11,7 @@ import { Loader2, ShoppingCart } from "lucide-react";
 import { useLayoutEffect, useMemo } from "react";
 
 import { CartItemComponent } from "./CartItemsComponent";
-import PointDiamon from "../../PointDiamod";
+import CreditIcon from "../../CreditIcon";
 import _ from "lodash";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { useVirtualizer } from "@tanstack/react-virtual";
@@ -53,7 +53,6 @@ export const CartSummary = ({
   cartItems: CartItem[];
   style?: "short" | "full";
 } & WithClassName) => {
-  // คำนวณยอดรวม Quantity และ Price
   const summary = useMemo(() => {
     if (!cartItems || cartItems.length === 0) {
       return { totalQuantity: 0, totalPrice: 0 };
@@ -73,7 +72,6 @@ export const CartSummary = ({
     );
   }, [cartItems]);
 
-  // คำนวณเครดิตคงเหลือ (ถ้าซื้อแล้วจะเหลือเท่าไหร่)
   const remainingCredit = useMemo(() => {
     return userTotalCredit - summary.totalPrice;
   }, [summary.totalPrice, userTotalCredit]);
