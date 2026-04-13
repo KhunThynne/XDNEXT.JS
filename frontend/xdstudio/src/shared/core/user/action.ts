@@ -1,7 +1,10 @@
 "use server";
 
+import type { User } from "@/payload-types";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
+import { cacheLife, cacheTag } from "next/cache";
+import { keys } from "./keys";
 
 export const getUser = async (
   arg: PayloadArgsWithoutCollection<"findByID", "users">
@@ -15,6 +18,23 @@ export const getUser = async (
     }
     throw new Error(`Error creating post: ${error}`);
   }
+};
+
+export const getUserCache = async (
+  arg: PayloadArgsWithoutCollection<"findByID", "users">
+) => {
+  "use cache";
+  const userId = arg.id;
+  cacheLife("max");
+  cacheTag(`user-${userId}`);
+  return await getUser(arg);
+};
+
+export const getUserCreditCache = async (id: User["id"]) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(...keys.credit(id).tag);
+  return await getUser({ id, select: { credit: true } });
 };
 
 export const getUserItems = async (
@@ -33,4 +53,3 @@ export const getUserItems = async (
     throw new Error(`Error creating post: ${error}`);
   }
 };
-

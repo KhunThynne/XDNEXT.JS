@@ -5,10 +5,8 @@ import DiscordProvider from "next-auth/providers/discord";
 import type { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import type { DiscordUser } from "@type/user.type";
-import { executeAuth } from "../graphql/execute";
-import getBaseUrl from "@/utils/getBaseUrl";
 import type { User as GqlUser } from "@/payload-types";
-import { authAndLinkProvider, loginAction } from "@/shared/core/auth";
+import { authAndLinkActions, loginAction } from "@/shared/core/auth";
 
 declare module "next-auth" {
   interface Session {
@@ -24,9 +22,6 @@ declare module "next-auth/jwt" {
   interface JWT extends GqlUser {
     readonly auth?: string;
   }
-}
-class CustomError extends CredentialsSignin {
-  code = "custom_error";
 }
 export const AuthProvider = NextAuth({
   //   secret: [env.AUTH_SECRET ?? `xd`],
@@ -76,7 +71,7 @@ export const AuthProvider = NextAuth({
           const discordUser = profile as unknown as DiscordUser;
           try {
             if (!account.access_token || !profile?.email) return false;
-            const auth = await authAndLinkProvider({
+            const auth = await authAndLinkActions({
               accessToken: account.access_token,
               email: profile.email,
               username: discordUser.username,

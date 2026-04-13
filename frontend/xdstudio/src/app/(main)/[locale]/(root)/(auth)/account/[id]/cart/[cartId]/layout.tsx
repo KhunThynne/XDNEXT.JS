@@ -1,11 +1,10 @@
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { auth } from "@/auth";
-import { notFound } from "next/navigation";
-import clsx from "clsx";
+
 import CartOrderFormProvider from "./_shared/_components/CartOrderFormProvider";
 import { QueryClient } from "@tanstack/react-query";
-import { cartQueryFn } from "@/shared/core/cart";
-import { getCartItems } from "@/shared/core/cart";
+
+import { cartQueries } from "@/shared/core/cart";
 
 export default async function LayoutCart({
   children,
@@ -15,18 +14,8 @@ export default async function LayoutCart({
   const session = await auth();
   const queryClient = new QueryClient();
   const { cartId, id: userId } = await params;
-  const cartQuery = cartQueryFn(cartId);
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: cartQuery.queryKey,
-    queryFn: async ({ pageParam = 0 }) => {
-      return await getCartItems({
-        where: { cart: { equals: cartId } },
-        page: pageParam,
-        ...cartQuery.params,
-      });
-    },
-    initialPageParam: cartQuery.initialPageParam,
-  });
+  const cartQuery = cartQueries.list(cartId);
+  await queryClient.prefetchInfiniteQuery(cartQuery);
   const credit = session?.user?.credit;
 
   // session?.user?.credit;

@@ -14,13 +14,15 @@ export const Accounts: CollectionConfig = {
       type: "text",
       required: true,
       admin: {
-        description: "The name of the provider, e.g., google, github, facebook, line",
+        description:
+          "The name of the provider, e.g., google, github, facebook, line",
       },
     },
     {
       name: "providerAccountId",
       type: "text",
       required: true,
+      index: true,
       admin: {
         description: "The unique user ID provided by the external provider",
       },
@@ -45,7 +47,8 @@ export const Accounts: CollectionConfig = {
       name: "refreshToken",
       type: "text",
       admin: {
-        description: "Refresh token used to obtain a new access token when expired",
+        description:
+          "Refresh token used to obtain a new access token when expired",
       },
     },
     {
@@ -59,14 +62,16 @@ export const Accounts: CollectionConfig = {
       name: "scope",
       type: "text",
       admin: {
-        description: "The scope or permissions granted by the provider for this token",
+        description:
+          "The scope or permissions granted by the provider for this token",
       },
     },
     {
       name: "meta",
       type: "json",
       admin: {
-        description: "Additional provider-specific data stored as a JSON object",
+        description:
+          "Additional provider-specific data stored as a JSON object",
       },
     },
   ],

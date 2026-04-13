@@ -1,5 +1,5 @@
-import { TeamMemberCard } from "./components/team-member-card";
-import { ContactDiscordCard } from "./components/ContactDiscordCard";
+import { TeamMemberCard } from "./_components/team-member-card";
+import { ContactDiscordCard } from "./_components/ContactDiscordCard";
 import { ContainerSection } from "@/shared/components/ui/ContainerSection";
 import { Card } from "@/shared/libs/shadcn/ui/card";
 import { DiscordServerCard } from "@/shared/components/ui/cards/DiscordServerCard";

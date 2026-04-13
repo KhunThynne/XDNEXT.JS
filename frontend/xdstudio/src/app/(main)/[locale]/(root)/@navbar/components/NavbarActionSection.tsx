@@ -15,12 +15,13 @@ import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 
 export const NavbarActionSection = ({
   className,
-
   session,
 }: {
   session: Session | null;
 } & WithlDefaultProps) => {
   const { status } = useSession();
+  if (!session?.user) return null;
+  const cartId = session.user.carts?.docs?.[0];
   return (
     <section className={clsx(className)}>
       <ThemeMenu />
@@ -49,11 +50,7 @@ export const NavbarActionSection = ({
         ) : (
           <Fragment>
             <CartPopover
-              cartId={
-                typeof session?.user?.carts?.docs?.[0] !== "string"
-                  ? (session?.user?.carts?.docs?.[0]?.id ?? "")
-                  : ""
-              }
+              cartId={cartId as string}
               credit={session?.user?.credit}
               userId={session?.user?.id ?? ""}
             />

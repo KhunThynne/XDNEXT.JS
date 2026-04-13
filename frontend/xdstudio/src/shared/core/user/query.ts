@@ -4,28 +4,23 @@ import {
   infiniteQueryOptions,
   keepPreviousData,
 } from "@tanstack/react-query";
-import { getUserItems } from "./action";
-import type { User } from "next-auth";
+import { getUserCreditCache, getUserItems } from "./action";
+import type { User } from "@/payload-types";
+import { keys as userKeys } from "./keys";
 
-export const userItemQueries = {
-  // 1. Root Key
-  all: () => ["user-items"] as const,
-
-  // 2. สำหรับข้อมูลทั่วไป (useQuery)
-  credit: (userId: User["id"]) =>
-    queryOptions({
-      queryKey: [...userItemQueries.all(), "credit", userId],
-      queryFn: () =>
-        getUserItems({
-          where: { user: { equals: userId! } },
-        }),
+export const userQueries = {
+  credit: (userId: User["id"]) => {
+    const { queryKey } = userKeys.credit(userId);
+    return queryOptions({
+      queryKey,
+      queryFn: () => getUserCreditCache(userId),
       enabled: !!userId,
-      staleTime: 1000 * 60 * 5, // 5 mins
-    }),
-
-  userItems: (userId: User["id"]) =>
-    infiniteQueryOptions({
-      queryKey: [...userItemQueries.all(), "user-items", userId],
+    });
+  },
+  userItems: (userId: User["id"]) => {
+    const { queryKey } = userKeys.userItems(userId);
+    return infiniteQueryOptions({
+      queryKey,
       queryFn: async ({ pageParam = 1 }) => {
         return await getUserItems({
           where: { user: { equals: userId! } },
@@ -39,5 +34,6 @@ export const userItemQueries = {
         lastPage.hasNextPage ? lastPage.nextPage : undefined,
       refetchOnWindowFocus: false,
       placeholderData: keepPreviousData,
-    }),
+    });
+  },
 };
