@@ -1,4 +1,4 @@
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { PreferencesTabs } from "./_components/PreferencesTabs";
 
 export default async function Layout({

@@ -19,61 +19,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/shared/libs/shadcn/ui/table";
-import { Button } from "@/shared/libs/shadcn/ui/button";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
 
-import { ChevronDown, FileText, ImageOff, Trash } from "lucide-react";
+import { FileText } from "lucide-react";
 
-import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
-import { useStore } from "@tanstack/react-form";
-import { columns } from "../_shared/table";
+import {
+  useTypedAppFormContext,
+  withFieldGroup,
+  withForm,
+} from "@/shared/hooks/useAppForm";
+
+import { columns } from "../table";
 import type {
   InfiniteData,
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
 
-import { CardAction, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
-import { EmptyCart } from "@/shared/components/ui/cart/CartShopping.form";
+import { CardAction, CardContent } from "@/shared/libs/shadcn/ui/card";
+import { EmptyCart } from "@/shared/components/cart/CartShopping.form";
 import { Empty, EmptyHeader } from "@/shared/libs/shadcn/ui/empty";
 import clsx from "clsx";
-import { formCartsOptions } from "../../_shared/_components/forms/formOptions";
-import { useCartItemsDatable } from "../../_shared/hooks/useCartItemsDatable";
-
-const DataTableMenu = ({ table }: { table: Table<CartItem> }) => {
-  return (
-    <div className="flex items-center gap-5">
-      {/* <InputForm
-        name="filter"
-        placeholder="Filter emails..."
-        className="max-w-lg grow"
-      /> */}
-      {/* <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" className="ml-auto">
-            Columns <ChevronDown />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          {table
-            .getAllColumns()
-            .filter((column) => column.getCanHide())
-            .map((column) => {
-              return (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
-        </DropdownMenuContent>
-      </DropdownMenu> */}
-    </div>
-  );
-};
+import { formCartsOptions } from "../../../_shared/formOptions";
+import { useCartItemsDatable } from "../../../_shared/hooks/useCartItemsDatable";
+import { DataTableFieldsGroup } from "./DataTableFieldsGroup";
 
 export function DataTableCartInfiniteScroll({
   cartQuery,
@@ -190,7 +157,11 @@ export function DataTableCartInfiniteScroll({
     return (
       <>
         <CardAction className="w-full px-3">
-          <DataTableMenu table={table} />
+          <DataTableFieldsGroup
+            form={form}
+            fields={{ filter: "filter" }}
+            table={table}
+          />
         </CardAction>
         <CardContent
           className="relative container h-full overflow-auto overscroll-contain p-0"
@@ -198,7 +169,6 @@ export function DataTableCartInfiniteScroll({
           ref={tableContainerRef}
         >
           <table
-            key={JSON.stringify(selected)}
             className={clsx(
               "w-full table-fixed border-collapse",
               noData && "h-full"

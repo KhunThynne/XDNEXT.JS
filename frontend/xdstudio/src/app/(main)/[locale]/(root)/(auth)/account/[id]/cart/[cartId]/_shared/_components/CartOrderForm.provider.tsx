@@ -1,13 +1,15 @@
 "use client";
-import type { CartFormProps } from "./cartOrder.type";
+import type { CartFormProps } from "../cartOrder.type";
 import { useAppForm } from "@/shared/hooks/useAppForm";
-import { formCartsOptions } from "./forms/formOptions";
+import { formCartsOptions } from "../formOptions";
 import { useMemo, useState } from "react";
 import type { CartItem, User } from "@/payload-types";
 import { CartItemsContext } from "../hooks/useCartItemsContext";
 import type { SortingState } from "@tanstack/react-table";
 import { useCartItems } from "@/shared/core/cart";
 import { LoadingDots } from "@/shared/components/LoadingComponent";
+import { useUserCredit } from "@/shared/core/user";
+import { useStore } from "@tanstack/react-form";
 
 const CartOrderFormProvider = ({
   children,
@@ -18,9 +20,9 @@ const CartOrderFormProvider = ({
     | "selectedCartItemsId"
     | "grandTotal"
     | "remainingCredit"
-  > & {
-    cartItems?: CartItem[];
-  }) => {
+    | "availableCredit"
+    | "filter"
+  >) => {
   const { cartId, userId } = props;
   const form = useAppForm({
     ...formCartsOptions,
@@ -33,9 +35,11 @@ const CartOrderFormProvider = ({
     cartId,
     userId,
   });
+  const {
+    query: { data: userCreditData },
+  } = useUserCredit({ id: userId });
   const { data, status } = iInfiniteQuery;
-  const [filter, setFilter] = useState("");
-  const [userCredit, setUserCredit] = useState<User["credit"]>(props.availableCredit);
+  const filter = useStore(form.store, (state) => state.values.filter);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const cartItemsData = useMemo(() => {
@@ -48,13 +52,11 @@ const CartOrderFormProvider = ({
   const value = useMemo(
     () => ({
       status,
-      userCredit,
-      setUserCredit,
+      userCredit: userCreditData?.credit ?? 0,
       selectedCartItems,
       cartItemsData,
       itemsCount: 0,
       filter,
-      setFilter,
       sorting,
       setSorting,
       rowSelection,
@@ -63,7 +65,7 @@ const CartOrderFormProvider = ({
     }),
     [
       status,
-      userCredit,
+      userCreditData,
       selectedCartItems,
       cartItemsData,
       filter,

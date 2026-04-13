@@ -2,7 +2,7 @@
 import { Button } from "@/shared/libs/shadcn/ui/button";
 
 import { Fragment } from "react/jsx-runtime";
-import { BreadcrumbComponent } from "./ui/breadcrumb";
+import { BreadcrumbComponent } from "./breadcrumb";
 import {
   Empty,
   EmptyContent,

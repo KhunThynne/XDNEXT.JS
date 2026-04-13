@@ -5,18 +5,19 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 
 import { ChevronLeftIcon, ChevronRightIcon, EyeClosed } from "lucide-react";
 import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
-import type { Image } from "@/shared/libs/graphql/generates/graphql";
+
 import { createDialog } from "@/shared/libs/dialog/createDialog";
 import { createHookDialog } from "@/shared/libs/dialog/createHookDialog";
 import { Button } from "@/shared/libs/shadcn/ui/button";
+import type { Media } from "@/payload-types";
 
 interface ImageGalleryProps {
-  files: Partial<Image>[];
+  files: Partial<Media>[];
   open: boolean;
 }
 
 interface ImageGalleryProps {
-  files: Partial<Image>[];
+  files: Partial<Media>[];
   selectedIndex?: number;
   open: boolean;
   handleClose?: () => void;
@@ -63,14 +64,14 @@ export const ImageGallery = ({ files, selectedIndex }: ImageGalleryProps) => {
     },
   });
   const { watch, setValue } = method;
-  useEffect(() => {
-    files && setValue("files", files);
-    selectedIndex !== undefined &&
-      selectedIndex >= 0 &&
-      setValue("selectedIndex", selectedIndex);
-  }, [files, selectedIndex, setValue]);
-  const imageFile = watch("files") || [];
-  const selectImage = watch("selectedIndex") || 0;
+  // useEffect(() => {
+  //   files && setValue("files", files);
+  //   selectedIndex !== undefined &&
+  //     selectedIndex >= 0 &&
+  //     setValue("selectedIndex", selectedIndex);
+  // }, [files, selectedIndex, setValue]);
+  // const imageFile = watch("files") || [];
+  // const selectImage = watch("selectedIndex") || 0;
   return (
     <FormProvider {...method}>
       <Button

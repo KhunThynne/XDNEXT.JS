@@ -27,7 +27,7 @@ import { Input } from "@/shared/libs/shadcn/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/shared/libs/shadcn/ui/radio-group";
 import { Label } from "@/shared/libs/shadcn/ui/label";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
+import { InputForm } from "@/shared/components/form/InputForm";
 
 // Form schemas for each step
 const paymentMethodSchema = z.object({

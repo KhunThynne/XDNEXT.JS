@@ -1,3 +1,5 @@
+import { keys } from "@/shared/core";
+import { revalidateTag } from "next/cache";
 import type { CollectionConfig } from "payload";
 
 export const Users: CollectionConfig = {
@@ -13,7 +15,7 @@ export const Users: CollectionConfig = {
   timestamps: true,
   hooks: {
     afterChange: [
-      async ({ operation, doc, req }) => {
+      async ({ operation, doc, req, previousDoc }) => {
         if (operation === "create") {
           await req.payload.create({
             collection: "suppliers",
@@ -36,6 +38,19 @@ export const Users: CollectionConfig = {
             data: { user: doc.id },
             req,
           });
+        }
+
+        if (operation === "update") {
+          // สมมติว่าฟิลด์ชื่อ 'credit' หรือ 'points'
+          const hasCreditChanged = doc.credit !== previousDoc.credit;
+
+          if (hasCreditChanged) {
+            const tag = keys.user.credit(doc.id).tag[1];
+            revalidateTag(tag, "");
+            console.log(
+              `[Admin Update] Credit changed for ${doc.id}, revalidated: ${tag}`
+            );
+          }
         }
       },
     ],

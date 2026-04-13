@@ -15,6 +15,7 @@ export const userQueries = {
       queryKey,
       queryFn: () => getUserCreditCache(userId),
       enabled: !!userId,
+      staleTime: 1000 * 60 * 60 * 24,
     });
   },
   userItems: (userId: User["id"]) => {

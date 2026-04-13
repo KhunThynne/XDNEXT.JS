@@ -3,7 +3,7 @@ import { Form } from "@/shared/libs/shadcn/ui/form";
 import { TextForm } from "./test/TESTForm";
 
 import { Button } from "@/shared/libs/shadcn/ui/button";
-import { useDialogGlobal } from "@/shared/components/ui";
+import { useDialogGlobal } from "@/shared/components";
 import {
   Dialog,
   DialogContent,

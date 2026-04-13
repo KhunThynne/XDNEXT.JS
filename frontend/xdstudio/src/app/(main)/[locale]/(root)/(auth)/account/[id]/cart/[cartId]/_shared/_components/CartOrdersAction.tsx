@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/shared/libs/shadcn/ui/button";
-import { ButtonGroup } from "@/shared/components/ui";
+
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { Link } from "@navigation";
-import { formCartsOptions } from "./forms/formOptions";
+import { formCartsOptions } from "../formOptions";
 import { useEffect } from "react";
 
 export default function CartOrdersAction() {
@@ -18,7 +18,7 @@ export default function CartOrdersAction() {
     >
       {([canSubmit, isSubmitting]) => {
         return (
-          <ButtonGroup className="mt-auto w-full flex-col gap-4">
+          <div className="mt-auto flex flex-col gap-4">
             <Button
               size="lg"
               type="submit"
@@ -40,7 +40,7 @@ export default function CartOrdersAction() {
             >
               <Link href={"/products"}>Continue Shopping</Link>
             </Button>
-          </ButtonGroup>
+          </div>
         );
       }}
     </form.Subscribe>

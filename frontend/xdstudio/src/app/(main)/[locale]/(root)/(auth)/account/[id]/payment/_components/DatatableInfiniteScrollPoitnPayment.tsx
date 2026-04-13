@@ -58,7 +58,7 @@ import { updateTagClient } from "@/shared/utils/m";
 import type { InfiniteData } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { BadgePaymentStatus } from "./BadgePaymentStatus";
-import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
+import { DialogFooterAction, useDialogGlobal } from  "@/shared/components/globalModal";
 import type { StatusValueStripePayment } from "../@stripe/_shared/types/statusValue";
 import type Stripe from "stripe";
 import { toast } from "sonner";

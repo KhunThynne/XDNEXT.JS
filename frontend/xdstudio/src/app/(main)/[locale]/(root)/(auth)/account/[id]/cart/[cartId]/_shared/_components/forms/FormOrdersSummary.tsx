@@ -7,8 +7,11 @@ import { useCallback, useMemo } from "react";
 
 import { useFormatter } from "next-intl";
 
-import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
-import type { CartFormProps } from "../cartOrder.type";
+import {
+  DialogFooterAction,
+  useDialogGlobal,
+} from "@/shared/components/globalModal";
+import type { CartFormProps } from "../../cartOrder.type";
 import { useMutationCreateOrdersAndUserItems } from "@/shared/services/tanstack/mutations/oredersAndUserItems";
 import { toast } from "sonner";
 import { execute } from "@/shared/libs/graphql/execute";
@@ -16,8 +19,9 @@ import clsx from "clsx";
 import _ from "lodash";
 import type { DialogInstanceProps } from "@/shared/libs/dialog/index.type";
 import { useAppForm, useTypedAppFormContext } from "@/shared/hooks/useAppForm";
-import { formCartsOptions } from "./formOptions";
+
 import { useCartItemsContext } from "../../hooks/useCartItemsContext";
+import { formCartsOptions } from "../../formOptions";
 
 export function FormOrdersSummary({ className, children }: WithlDefaultProps) {
   const { selectedCartItems } = useCartItemsContext();

@@ -1,5 +1,5 @@
 import { formOptions } from "@tanstack/react-form";
-import { cartFormSchema, type CartFormProps } from "../cartOrder.type";
+import { cartFormSchema, type CartFormProps } from "./cartOrder.type";
 
 export const formCartsOptions = formOptions({
   defaultValues: {
@@ -9,6 +9,7 @@ export const formCartsOptions = formOptions({
     grandTotal: 0,
     remainingCredit: 0,
     selectedCartItemsId: {},
+    filter: "",
   } satisfies CartFormProps,
 
   validators: {

@@ -30,7 +30,9 @@ export const getUserCache = async (
   return await getUser(arg);
 };
 
-export const getUserCreditCache = async (id: User["id"]) => {
+export const getUserCreditCache = async (
+  id: User["id"]
+): Promise<Pick<User, "id" | "credit">> => {
   "use cache";
   cacheLife("max");
   cacheTag(...keys.credit(id).tag);

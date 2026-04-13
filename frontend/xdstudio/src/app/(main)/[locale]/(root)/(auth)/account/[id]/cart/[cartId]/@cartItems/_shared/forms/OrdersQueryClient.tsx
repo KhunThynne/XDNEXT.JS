@@ -1,21 +1,23 @@
 "use client";
 import { OrdersForm } from "./OrdersForm";
 
-import { EmptyCart } from "@/shared/components/ui/cart/CartShopping.form";
+import { EmptyCart } from "@/shared/components/cart/CartShopping.form";
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 import { useCartItems } from "@/shared/core/cart";
 import { useStore } from "@tanstack/react-form";
 import { useMemo } from "react";
-import type { CartItem } from "@/payload-types";
-import type { CartFormProps } from "../../_shared/_components/cartOrder.type";
-import { formCartsOptions } from "../../_shared/_components/forms/formOptions";
+import type { Cart, CartItem, User } from "@/payload-types";
+import type { CartFormProps } from "../../_shared/cartOrder.type";
+import { formCartsOptions } from "../../_shared/formOptions";
 
-export const OrdersQueryClient = () => {
+export const OrdersQueryClient = ({
+  cartId,
+  userId,
+}: {
+  cartId: Cart["id"];
+  userId: User["id"];
+}) => {
   const form = useTypedAppFormContext({ ...formCartsOptions });
-  const { cartId, userId } = useStore(
-    form.store,
-    (state: CartFormProps) => state.values
-  );
 
   const { iInfiniteQuery, invalidate } = useCartItems({
     cartId,

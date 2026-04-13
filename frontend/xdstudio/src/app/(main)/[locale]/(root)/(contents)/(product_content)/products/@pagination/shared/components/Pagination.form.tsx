@@ -12,7 +12,7 @@ import {
 } from "@/shared/libs/shadcn/custom/pagination";
 import { useEffect, useMemo } from "react";
 import { Form } from "@/shared/libs/shadcn/ui/form";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
+import { InputForm } from "@/shared/components/form/InputForm";
 import { SlashIcon } from "lucide-react";
 import { getVisiblePages } from "../utils/getVisiblePages";
 import { useAppForm } from "@/shared/hooks/useAppForm";

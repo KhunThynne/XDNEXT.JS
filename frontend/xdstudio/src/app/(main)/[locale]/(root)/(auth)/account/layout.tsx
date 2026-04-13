@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 
-import Content from "@/shared/components/ui/Content";
+import Content from "@/shared/components/Content";
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";

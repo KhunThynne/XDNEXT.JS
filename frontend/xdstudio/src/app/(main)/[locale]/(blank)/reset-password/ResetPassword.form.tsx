@@ -5,7 +5,7 @@ import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import { Form } from "@/shared/libs/shadcn/ui/form";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
-import { InputForm } from "@/shared/components/ui/form/InputForm";
+import { InputForm } from "@/shared/components/form/InputForm";
 import { useAuthDocument } from "@/shared/core/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { redirect, useRouter } from "@navigation";

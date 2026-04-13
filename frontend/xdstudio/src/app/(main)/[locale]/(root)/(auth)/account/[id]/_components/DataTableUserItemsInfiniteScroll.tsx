@@ -35,7 +35,7 @@ import type { Session, User } from "next-auth";
 import { useFormatter } from "next-intl";
 import React from "react";
 import { useParams } from "next/navigation";
-import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
+import { ImageProduct } from "@/shared/components/images/ImageProduct";
 import type { Media, OrderItem, Product, UserItem } from "@/payload-types";
 import { useUserItems } from "@/shared/core/user";
 

@@ -1,5 +1,5 @@
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
-import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
+import { ContainerSection } from "@/shared/components/ContainerSection";
+import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import { auth } from "@/auth";
 import { contentClassName } from "./shared/contentClassName";
 import { ContentProductsSSR } from "./components/ContentProductSSR";

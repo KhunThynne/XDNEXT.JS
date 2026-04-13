@@ -7,7 +7,7 @@ import {
   ArrowUp,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { MotionTransition } from "../MotionTransition";
+import { MotionTransition } from "./MotionTransition";
 import clsx from "clsx";
 
 export const GoToTopButton = (props: React.ComponentProps<typeof Button>) => {

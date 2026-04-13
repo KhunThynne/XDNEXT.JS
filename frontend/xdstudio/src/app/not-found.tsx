@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import _ from "lodash";
 
-import Content from "@/shared/components/ui/Content";
+import Content from "@/shared/components/Content";
 import clsx from "clsx";
 import { ThemeProvider } from "@wrksz/themes/next";
 export default async function NotFoundRoot() {

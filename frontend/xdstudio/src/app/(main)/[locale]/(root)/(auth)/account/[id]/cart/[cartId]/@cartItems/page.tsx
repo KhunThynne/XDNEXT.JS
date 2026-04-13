@@ -1,4 +1,4 @@
-import { CartItemsClient } from "./_components/CartItemsClient";
+import { CartItemsClient } from "./_shared/_components/CartItemsClient";
 
 export default async function PageOrderList({
   params,

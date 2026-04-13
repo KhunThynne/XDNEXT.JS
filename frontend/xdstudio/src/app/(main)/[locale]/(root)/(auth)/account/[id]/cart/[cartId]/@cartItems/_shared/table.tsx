@@ -1,10 +1,11 @@
 import { Checkbox } from "@/shared/libs/shadcn/custom/checkbox";
 import { Button } from "@/shared/libs/shadcn/ui/button";
-import type { CartItem } from "@/payload-types";
+import type { CartItem, Price, Product } from "@/payload-types";
 import CreditIcon from "@/shared/components/CreditIcon";
-import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
-import type { ColumnDef } from "@tanstack/react-table";
+import { ImageProduct } from "@/shared/components/images/ImageProduct";
+import type { ColumnDef, Table } from "@tanstack/react-table";
 import { Minus, Trash } from "lucide-react";
+import type { CartDataTableMeta } from "../../_shared/hooks/useCartItemsContext";
 
 export const columns: ColumnDef<CartItem>[] = [
   {
@@ -13,6 +14,7 @@ export const columns: ColumnDef<CartItem>[] = [
     header: ({ table, column, header }) => {
       const isAllSelected = table.getIsAllPageRowsSelected();
       const isSomeSelected = table.getIsSomePageRowsSelected();
+      const meta = table?.options?.meta as CartDataTableMeta;
       return (
         <>
           <Checkbox
@@ -36,7 +38,7 @@ export const columns: ColumnDef<CartItem>[] = [
                   .getSelectedRowModel()
                   .rows.map((row) => row.original);
 
-                // await handleDeleteMore(selectedData, table);
+                await meta?.handleDeleteMore(selectedData, table);
               }}
             >
               Delete
@@ -61,7 +63,7 @@ export const columns: ColumnDef<CartItem>[] = [
     enableHiding: false,
   },
   {
-    // accessorFn: (row) => row.product?.previewImage,
+    accessorFn: (row) => (row.product as Product).previewImage,
     id: "product",
     header: "",
     minSize: 400,
@@ -91,7 +93,7 @@ export const columns: ColumnDef<CartItem>[] = [
   },
   {
     enableColumnFilter: true,
-    // accessorFn: (row) => row.product?.name,
+    accessorFn: (row) => (row.product as Product).name,
     id: "name",
     cell: (info) => info.getValue(),
     header: () => <span>Name</span>,
@@ -104,14 +106,15 @@ export const columns: ColumnDef<CartItem>[] = [
     cell: "",
     id: "price",
     header: "",
-    // accessorFn: (row) => row.product?.price,
+    accessorFn: (row) => (row.product as Product).price,
   },
   {
-    // accessorFn: (row) => row.product?.price?.price,
+    accessorFn: (row) => ((row.product as Product).price as Price).price,
     id: "aciton",
     size: 50,
     header: () => <div className="place-self-center">Aciton</div>,
     cell: ({ row, table }) => {
+      const meta = table?.options?.meta as CartDataTableMeta;
       const cell = row.original;
       return (
         <>
@@ -119,7 +122,7 @@ export const columns: ColumnDef<CartItem>[] = [
             variant={"outline"}
             size={"icon"}
             aria-label="button-trash"
-            // onClick={() => handleDelete(cell.id, table)}
+            onClick={() => meta?.handleDelete(cell.id, table)}
           >
             <Trash />
           </Button>

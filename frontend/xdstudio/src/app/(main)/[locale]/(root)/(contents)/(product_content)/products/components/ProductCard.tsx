@@ -21,7 +21,7 @@ import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
+import { ImageProduct } from "@/shared/components/images/ImageProduct";
 
 export const CardProduct = ({
   product,

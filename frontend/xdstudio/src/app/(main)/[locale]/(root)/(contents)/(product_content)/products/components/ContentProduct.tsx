@@ -1,6 +1,6 @@
 "use client";
 
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import type { Faq, Maybe } from "@/shared/libs/graphql/generates/graphql";
 import {
   Card,

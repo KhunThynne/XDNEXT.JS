@@ -12,7 +12,7 @@ import { useParams } from "next/navigation";
 
 import _ from "lodash";
 
-import { CardCollapsible } from "@/shared/components/ui/CardCollapsible";
+import { CardCollapsible } from "@/shared/components/CardCollapsible";
 import Translations from "@/shared/libs/i18n/Translations";
 
 import { Spinner } from "@/shared/libs/shadcn/ui/spinner";

@@ -1,4 +1,4 @@
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 
@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import { ContentProducts } from "./(product_content)/products/components/ContentProducts";
 import { contentClassName } from "./(product_content)/products/shared/contentClassName";
-import ContentCard from "@/shared/components/ui/cards/ContentCard";
+import ContentCard from "@/shared/components/cards/ContentCard";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 
 export default async function PageCotent() {

@@ -6,7 +6,7 @@ import { Providers } from "../providers";
 import type { Metadata } from "next";
 
 import { auth } from "@/auth";
-import { GoToTopButton } from "@/shared/components/ui/GoToTopButton";
+import { GoToTopButton } from "@/shared/components/GoToTopButton";
 import { ThemeProvider } from "@wrksz/themes/next";
 
 export const metadata: Metadata = {

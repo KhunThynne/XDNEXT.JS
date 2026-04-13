@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/libs/shadcn/ui/card";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { CardPointTransactionPayment } from "./CardPointTransactionPayment";
 import type { Session } from "next-auth";
 import clsx from "clsx";
@@ -13,7 +13,7 @@ import { Button } from "@/shared/libs/shadcn/ui/button";
 import { Coins, Plus, RefreshCcw, Wallet } from "lucide-react";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useFormatter } from "next-intl";
-import { usePointDocument } from "@/shared/components/ui/Credit";
+import { usePointDocument } from "@/shared/components/Credit";
 import type { User } from "@/shared/libs/graphql/generates/graphql";
 import { Link, usePathname, useRouter } from "@navigation";
 import { ButtonGroup } from "@/shared/libs/shadcn/ui/button-group";

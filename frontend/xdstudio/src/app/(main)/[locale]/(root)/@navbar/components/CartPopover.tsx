@@ -10,11 +10,11 @@ import { Link } from "@navigation";
 import {
   ShoppingBagMotion,
   ShoppingCount,
-} from "@/shared/components/ui/cart/Motions";
+} from "@/shared/components/cart/Motions";
 import {
   CartShoppingForm,
   CartSummary,
-} from "@/shared/components/ui/cart/CartShopping.form";
+} from "@/shared/components/cart/CartShopping.form";
 
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useLayoutEffect, useMemo } from "react";

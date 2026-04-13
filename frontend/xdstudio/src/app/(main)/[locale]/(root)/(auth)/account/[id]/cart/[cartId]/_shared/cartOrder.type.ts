@@ -35,7 +35,7 @@ export const cartFormSchema = z
     /** * Total monetary credit currently available in the user's account.
      */
     availableCredit: z.number().min(0, "Credit cannot be negative"),
-
+    filter: z.string(),
     /** * The estimated credit balance remaining after this transaction.
      * Logic: availableCredit - grandTotal.
      */

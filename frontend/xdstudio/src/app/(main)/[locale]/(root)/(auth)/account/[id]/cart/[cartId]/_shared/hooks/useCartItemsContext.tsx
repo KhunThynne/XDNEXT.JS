@@ -1,17 +1,28 @@
 import { createContext, useContext } from "react";
 import type { CartItem, User } from "@/payload-types";
-import type { SortingState } from "@tanstack/react-table";
+import type { SortingState, Table } from "@tanstack/react-table";
 import type {
   UseInfiniteQueryResult,
   InfiniteData,
 } from "@tanstack/react-query";
 import type { PaginatedDocs } from "payload";
-interface CartContextType {
+
+export interface CartDataTableMeta {
+  handleDeleteMore: (
+    cart: CartItem[],
+    coreTable: Table<CartItem>
+  ) => Promise<void>;
+  handleDelete: (
+    idToDelete: CartItem["id"],
+    coreTable: Table<CartItem>
+  ) => Promise<void>;
+}
+
+export interface CartDataTableContextType extends CartDataTableMeta {
   cartItemsData?: CartItem[];
   selectedCartItems: CartItem[];
   itemsCount: number;
   filter: string;
-  setFilter: (filter: string) => void;
   sorting: SortingState;
   setSorting: (sorting: SortingState) => void;
   rowSelection: Record<string, boolean>;
@@ -22,7 +33,9 @@ interface CartContextType {
     Error
   >;
 }
-export const CartItemsContext = createContext<CartContextType | null>(null);
+export const CartItemsContext = createContext<CartDataTableContextType | null>(
+  null
+);
 export const useCartItemsContext = () => {
   const context = useContext(CartItemsContext);
   if (!context) {

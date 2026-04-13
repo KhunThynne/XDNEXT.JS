@@ -1,7 +1,7 @@
 import { Link } from "@navigation";
 import { ImageOff, Trash } from "lucide-react";
 import Image from "next/image";
-import CreditIcon from "../../CreditIcon";
+import CreditIcon from "../CreditIcon";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import { useFormatter } from "next-intl";
 import { useMemo, useState } from "react";

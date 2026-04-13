@@ -1,5 +1,3 @@
-"use client";
-
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { userQueries } from "./query";
 import type { User } from "@/payload-types";

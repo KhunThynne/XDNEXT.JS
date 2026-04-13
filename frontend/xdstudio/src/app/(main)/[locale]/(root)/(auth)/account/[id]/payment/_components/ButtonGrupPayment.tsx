@@ -3,7 +3,7 @@ import { Button } from "@/shared/libs/shadcn/ui/button";
 import { ButtonGroup } from "@/shared/libs/shadcn/ui/button-group";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
 
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { Wallet, List } from "lucide-react";

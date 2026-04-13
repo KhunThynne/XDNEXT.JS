@@ -1,4 +1,4 @@
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { GalleryComponent } from "./Gallery";
 
 export default async function Page() {

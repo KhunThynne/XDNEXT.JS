@@ -1,9 +1,9 @@
 import { TeamMemberCard } from "./_components/team-member-card";
 import { ContactDiscordCard } from "./_components/ContactDiscordCard";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { Card } from "@/shared/libs/shadcn/ui/card";
-import { DiscordServerCard } from "@/shared/components/ui/cards/DiscordServerCard";
-import ContentCard from "@/shared/components/ui/cards/ContentCard";
+import { DiscordServerCard } from "@/shared/components/cards/DiscordServerCard";
+import ContentCard from "@/shared/components/cards/ContentCard";
 
 const teamMembers = [
   {

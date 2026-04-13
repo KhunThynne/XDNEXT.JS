@@ -5,7 +5,7 @@ import {
   CardContent,
   CardDescription,
 } from "@/shared/libs/shadcn/ui/card";
-import ContentCard from "@/shared/components/ui/cards/ContentCard";
+import ContentCard from "@/shared/components/cards/ContentCard";
 import { Link } from "@navigation";
 
 interface ContactDiscordCardProps {

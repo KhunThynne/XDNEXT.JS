@@ -9,18 +9,23 @@ import { AccountPopover } from "./AccountPopover";
 import { SignButton } from "./SignButton";
 import type { Session } from "next-auth";
 import { CartPopover } from "@/app/(main)/[locale]/(root)/@navbar/components/CartPopover";
-import { ThemeMenu } from "@/shared/components/ui/ThemeMenu";
+import { ThemeMenu } from "@/shared/components/ThemeMenu";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
+import type { User } from "@/payload-types";
 
 export const NavbarActionSection = ({
   className,
   session,
+  credit,
 }: {
   session: Session | null;
+  credit: User["credit"];
 } & WithlDefaultProps) => {
   const { status } = useSession();
+
   if (!session?.user) return null;
+
   const cartId = session.user.carts?.docs?.[0];
   return (
     <section className={clsx(className)}>
@@ -51,10 +56,10 @@ export const NavbarActionSection = ({
           <Fragment>
             <CartPopover
               cartId={cartId as string}
-              credit={session?.user?.credit}
+              credit={credit}
               userId={session?.user?.id ?? ""}
             />
-            <AccountPopover {...session?.user} />
+            <AccountPopover {...session?.user} credit={credit} />
           </Fragment>
         )}
       </span>

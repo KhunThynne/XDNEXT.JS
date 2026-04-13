@@ -2,10 +2,9 @@
 
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
-  ButtonGroup,
   DialogFooterAction,
   useDialogGlobal,
-} from "@/shared/components/ui";
+} from "@/shared/components/globalModal";
 import { useRouter } from "@navigation";
 import clsx from "clsx";
 import { OctagonXIcon, SquareChartGantt, Star, Trash2 } from "lucide-react";
@@ -53,7 +52,7 @@ const MenuActionStripe = ({
     paymentIntentId,
   };
   return (
-    <ButtonGroup className={clsx("flex place-content-end", className)}>
+    <div className={clsx("flex w-full place-content-end")}>
       {articleBt && (
         <Button
           size={"icon-sm"}
@@ -149,7 +148,7 @@ const MenuActionStripe = ({
         <Button
           size={"icon-sm"}
           variant={"ghost"}
-          className="order-last cursor-pointer text-destructive"
+          className="text-destructive order-last cursor-pointer"
           onClick={() => {
             dialog.openDialog({
               title: "Delete dialog",
@@ -172,7 +171,7 @@ const MenuActionStripe = ({
           <Trash2 />
         </Button>
       )}
-    </ButtonGroup>
+    </div>
   );
 };
 

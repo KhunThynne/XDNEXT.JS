@@ -1,4 +1,4 @@
-import type { KeyRegistry } from "../typs";
+import type { KeyRegistry } from "../types";
 
 export const keys = {
   all: ["user"],

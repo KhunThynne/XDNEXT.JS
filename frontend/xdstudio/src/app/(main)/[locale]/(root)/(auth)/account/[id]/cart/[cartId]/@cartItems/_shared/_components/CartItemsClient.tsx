@@ -5,7 +5,7 @@ import type { CartItem } from "@/payload-types";
 import { DataTableCartInfiniteScroll } from "./DataTableInfiniteScroll";
 import { useMemo } from "react";
 import { useCartItems } from "@/shared/core/cart";
-import { useCartItemsContext } from "../../_shared/hooks/useCartItemsContext";
+import { useCartItemsContext } from "../../../_shared/hooks/useCartItemsContext";
 
 export const CartItemsClient = ({
   cartId,

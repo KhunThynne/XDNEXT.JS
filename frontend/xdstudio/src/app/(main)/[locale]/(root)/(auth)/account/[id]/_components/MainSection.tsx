@@ -1,5 +1,5 @@
 "use client";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import PurchasedProductsForm from "./PurchasedProducts.form";
 import type { Session } from "next-auth";
 import { useSelectedLayoutSegment } from "next/navigation";

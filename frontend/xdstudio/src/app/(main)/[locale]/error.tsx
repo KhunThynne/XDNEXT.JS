@@ -7,7 +7,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/shared/libs/shadcn/ui/card";
-import Content from "@/shared/components/ui/Content";
+import Content from "@/shared/components/Content";
 import type { Metadata } from "next";
 
 // Error boundaries must be Client Components

@@ -11,7 +11,7 @@ import { Loader2, ShoppingCart } from "lucide-react";
 import { useLayoutEffect, useMemo } from "react";
 
 import { CartItemComponent } from "./CartItemsComponent";
-import CreditIcon from "../../CreditIcon";
+import CreditIcon from "../CreditIcon";
 import _ from "lodash";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import { useVirtualizer } from "@tanstack/react-virtual";

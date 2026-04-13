@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import CreditIcon from "../../CreditIcon";
+import CreditIcon from "../CreditIcon";
 import { useFormatter } from "next-intl";
 import clsx from "clsx";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";

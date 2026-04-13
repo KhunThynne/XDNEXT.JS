@@ -1,4 +1,4 @@
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import _ from "lodash";
 import type { FromTypePointTransactionStripe } from "../../../_shared/types/FromTypePointTransactionStripe";
 import { CardQrcodeTransaction } from "./CardQrcodeTransaction";

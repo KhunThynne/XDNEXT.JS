@@ -3,19 +3,19 @@
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
 import { Button } from "@/shared/libs/shadcn/ui/button";
-import { CheckboxForm } from "@/shared/components/ui/form/CheckBoxForm";
+import { CheckboxForm } from "@/shared/components/form/CheckBoxForm";
 import clsx from "clsx";
 import { ImageOff, Minus, Trash } from "lucide-react";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import CreditIcon from "@/shared/components/CreditIcon";
 import { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import { useRemoveCartItem } from "@/shared/core/cart";
 import Image from "next/image";
-import type { CartItemsFormProps } from "../../_shared/_components/cartOrder.type";
+import type { CartItemsFormProps } from "../../_shared/cartOrder.type";
 import type { CartItem } from "@/payload-types";
 import { Link } from "@navigation";
 
-import { DialogFooterAction, useDialogGlobal } from "@/shared/components/ui";
+import { DialogFooterAction, useDialogGlobal } from  "@/shared/components/globalModal";
 
 export const OrdersForm = ({
   cartItems: defaultCartItems,

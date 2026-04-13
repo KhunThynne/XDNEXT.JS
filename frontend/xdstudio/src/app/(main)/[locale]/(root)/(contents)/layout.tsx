@@ -1,4 +1,4 @@
-import Content from "@/shared/components/ui/Content";
+import Content from "@/shared/components/Content";
 
 export default function LayoutProducts({ children }: WithChildren) {
   return (

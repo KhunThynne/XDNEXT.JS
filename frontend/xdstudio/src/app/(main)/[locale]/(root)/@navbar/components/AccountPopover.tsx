@@ -1,4 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/libs/shadcn/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/shared/libs/shadcn/ui/avatar";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   Popover,
@@ -15,10 +19,12 @@ import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import { Link } from "@navigation";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
 import CreditIcon from "@/shared/components/CreditIcon";
-import Credit from "@/shared/components/ui/Credit";
+import Credit from "@/shared/components/Credit";
 import { env } from "@/env";
 import clsx from "clsx";
 import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
+import { useQueryClient } from "@tanstack/react-query";
+import { keys } from "@/shared/core";
 
 const AvartarUser = ({
   user,
@@ -86,7 +92,7 @@ const UserDetails = ({
             >
               <CreditIcon />
               <span className="w-full truncate text-[0.65rem]">
-                <Credit credit={user.credit} />
+                <Credit userId={user.id as string} />
               </span>
             </Badge>
           </section>
@@ -105,7 +111,7 @@ const UserDetails = ({
     </>
   );
 };
-export function AccountPopover(user: Partial<UserType>) {
+export function AccountPopover(user: UserType) {
   if (_.isEmpty(user)) return null;
   return (
     <Popover>

@@ -3,7 +3,7 @@ import { execute } from "@/shared/libs/graphql/execute";
 import type { PointTransactionFieldFragment } from "@/shared/libs/graphql/generates/graphql";
 
 import type Stripe from "stripe";
-import { ContainerSection } from "@/shared/components/ui/ContainerSection";
+import { ContainerSection } from "@/shared/components/ContainerSection";
 import { cacheLife, cacheTag } from "next/cache";
 import { DetailPointTransactionForm } from "./_components/DetailPointTransactionForm";
 import type { FromTypePointTransactionStripe } from "../../_shared/types/FromTypePointTransactionStripe";

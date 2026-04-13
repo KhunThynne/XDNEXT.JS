@@ -1,7 +1,7 @@
 import EmblaCarousel from "@/shared/libs/embla-carousel/EmblaCarousel";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { Media, Product } from "@/payload-types";
-import { ImageProduct } from "@/shared/components/ui/images/ImageProduct";
+import { ImageProduct } from "@/shared/components/images/ImageProduct";
 import { Separator } from "@radix-ui/react-separator";
 import clsx from "clsx";
 import _ from "lodash";
