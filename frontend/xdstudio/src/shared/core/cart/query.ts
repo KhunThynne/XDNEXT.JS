@@ -2,14 +2,16 @@
 import { infiniteQueryOptions } from "@tanstack/react-query";
 import { getCartItems } from "./action";
 import type { Cart } from "@/shared/libs/graphql/generates/graphql";
+import { keys } from "./keys";
 
 const LIMIT = 20;
 
 export const cartQueries = {
   all: () => ["carts"] as const,
-  list: (cartId: Cart["id"]) =>
-    infiniteQueryOptions({
-      queryKey: [...cartQueries.all(), cartId],
+  list: (cartId: Cart["id"]) => {
+    const { queryKey } = keys.list(cartId);
+    return infiniteQueryOptions({
+      queryKey,
       queryFn: async ({ pageParam = 1 }) => {
         return await getCartItems({
           where: { cart: { equals: cartId } },
@@ -24,5 +26,6 @@ export const cartQueries = {
         return lastPage.nextPage ?? undefined;
       },
       staleTime: 1000 * 60 * 5,
-    }),
+    });
+  },
 };
