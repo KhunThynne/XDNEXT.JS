@@ -13,7 +13,7 @@ import { Button } from "@/libs/shadcn/ui/button";
 import { Coins, Plus, RefreshCcw, Wallet } from "lucide-react";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import { useFormatter } from "next-intl";
-import { usePointDocument } from "@/shared/components/ui/Point";
+import { usePointDocument } from "@/shared/components/ui/Credit";
 import type { User } from "@/libs/graphql/generates/graphql";
 import { Link, usePathname, useRouter } from "@navigation";
 import { ButtonGroup } from "@/libs/shadcn/ui/button-group";

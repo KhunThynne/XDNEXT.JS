@@ -15,7 +15,7 @@ import { Badge } from "@/libs/shadcn/ui/badge";
 import { Link } from "@navigation";
 import { Separator } from "@/libs/shadcn/ui/separator";
 import CreditIcon from "@/shared/components/CreditIcon";
-import Point from "@/shared/components/ui/Point";
+import Credit from "@/shared/components/ui/Credit";
 import { env } from "@/env";
 import clsx from "clsx";
 import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
@@ -42,7 +42,7 @@ const AvartarUser = ({
     </Avatar>
   );
 };
-export const UserDetails = ({
+const UserDetails = ({
   user,
   className,
   disable,
@@ -56,7 +56,6 @@ export const UserDetails = ({
             {user.role}
           </Badge>
         </div>
-
         <div className="group/user grow overflow-hidden">
           <h4 className="truncate text-lg font-semibold capitalize">
             <Link href={`/account/${user.id}`} className="hover:underline">
@@ -68,7 +67,6 @@ export const UserDetails = ({
           <p className="text-muted-foreground truncate">{user.email}</p>
         </div>
       </div>
-
       {!disable?.action && (
         <div className="flex items-center justify-between">
           <section className="flex items-center text-xs font-bold capitalize">
@@ -88,7 +86,7 @@ export const UserDetails = ({
             >
               <CreditIcon />
               <span className="w-full truncate text-[0.65rem]">
-                {/* <Point pointId={user.point?.id} /> */}
+                <Credit credit={user.credit} />
               </span>
             </Badge>
           </section>
@@ -112,8 +110,8 @@ export function AccountPopover(user: Partial<UserType>) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" aria-label="open-user-popover" >
-          <AvartarUser user={user as UserType} className="size-7 shadow " />
+        <Button variant="ghost" size="icon" aria-label="open-user-popover">
+          <AvartarUser user={user as UserType} className="size-7 shadow" />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-xs space-y-2">

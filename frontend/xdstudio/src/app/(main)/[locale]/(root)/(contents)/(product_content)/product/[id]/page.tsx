@@ -5,7 +5,7 @@ import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/ui/breadcrumb";
 import { checkUserProductStatus, getProduct } from "@/shared/core/product";
 import type { Cart, Product } from "@/payload-types";
-import { payloadActions } from "@/shared/core/payload";
+import { payloadActions } from "@/shared/actions/payload";
 
 const getCachedCheckUserProductStatusCache = async (
   productId: string,

@@ -33,3 +33,4 @@ export const getUserItems = async (
     throw new Error(`Error creating post: ${error}`);
   }
 };
+
