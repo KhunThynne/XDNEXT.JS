@@ -6,30 +6,30 @@ import { fileURLToPath } from "url";
 import sharp from "sharp";
 
 // Collections
-import { Users } from "./collections/Users";
-import { Media } from "./collections/Media";
-import { Accounts } from "./collections/Accounts";
-import { Tags } from "./collections/Tags";
-import { Posts } from "./collections/Posts";
-import { FAQs } from "./collections/FAQs";
-import { Suppliers } from "./collections/Suppliers";
-import { Products } from "./collections/Products";
-import { Prices } from "./collections/Prices";
-import { Stocks } from "./collections/Stocks";
-import { Promotions } from "./collections/Promotions";
-import { ProductPromotions } from "./collections/ProductPromotions";
-import { Ratings } from "./collections/Ratings";
-import { Carts } from "./collections/Carts";
-import { CartItems } from "./collections/CartItems";
-import { Orders } from "./collections/Orders";
-import { OrderItems } from "./collections/OrderItems";
-import { UserItems } from "./collections/UserItems";
-import { UserPoints } from "./collections/UserPoints";
-import { UserPreferences } from "./collections/UserPreferences";
-import { PointTransactions } from "./collections/PointTransactions";
+import { Users } from "./db/collections/Users";
+import { Media } from "./db/collections/Media";
+import { Accounts } from "./db/collections/Accounts";
+import { Tags } from "./db/collections/Tags";
+import { Posts } from "./db/collections/Posts";
+import { FAQs } from "./db/collections/FAQs";
+import { Suppliers } from "./db/collections/Suppliers";
+import { Products } from "./db/collections/Products";
+import { Prices } from "./db/collections/Prices";
+import { Stocks } from "./db/collections/Stocks";
+import { Promotions } from "./db/collections/Promotions";
+import { ProductPromotions } from "./db/collections/ProductPromotions";
+import { Ratings } from "./db/collections/Ratings";
+import { Carts } from "./db/collections/Carts";
+import { CartItems } from "./db/collections/CartItems";
+import { Orders } from "./db/collections/Orders";
+import { OrderItems } from "./db/collections/OrderItems";
+import { UserItems } from "./db/collections/UserItems";
+import { UserPoints } from "./db/collections/UserPoints";
+import { UserPreferences } from "./db/collections/UserPreferences";
+import { PointTransactions } from "./db/collections/PointTransactions";
 
 // Globals
-import { Settings } from "./globals/Settings";
+import { Settings } from "./db/globals/Settings";
 
 import { env } from "./env";
 
@@ -67,6 +67,12 @@ export default buildConfig({
     UserPreferences,
     PointTransactions,
   ],
+  logger: {
+    options: {
+      level: env.NODE_ENV === "production" ? "info" : "debug",
+    },
+    // destination: pino.destination("/var/log/payload.log"),
+  },
   graphQL: {
     schemaOutputFile: path.resolve(dirname, "./graphql.schema.graphql"),
     disable: false,
@@ -77,12 +83,17 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
+  bin: [
+    {
+      key: "seed",
+      scriptPath: path.resolve(dirname, "db/seeds/index.ts"),
+    },
+  ],
   db: postgresAdapter({
     pool: {
       connectionString: env.POSTGRES_URL,
-  
     },
-    idType:'uuid',
+    idType: "uuid",
   }),
   upload: {
     limits: {
