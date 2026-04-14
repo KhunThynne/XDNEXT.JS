@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { useSelectedLayoutSegment, useRouter } from "next/navigation";
 import { Fragment, useMemo } from "react";
 import { User, CreditCard, ShoppingBag } from "lucide-react";
-import type { Cart } from "@/shared/libs/graphql/generates/graphql";
+import type { Cart } from "@/payload-types";
 
 type SegmentItem = {
   label: string;
@@ -63,7 +63,7 @@ export const SegmentAccount = ({
               size="sm"
               className={clsx(
                 "gap-2",
-                !active && "cursor-pointer hover:bg-muted/70"
+                !active && "hover:bg-muted/70 cursor-pointer"
               )}
               disabled={active}
             >

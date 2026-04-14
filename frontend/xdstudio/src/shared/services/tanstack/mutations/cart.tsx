@@ -1,13 +1,10 @@
-import { execute } from "@/shared/libs/graphql/execute";
-import type { UpdateCartMutationVariables } from "@/shared/libs/graphql/generates/graphql";
-import { UpdateCartDocument } from "@/shared/libs/graphql/generates/graphql";
 
 import { useMutation } from "@tanstack/react-query";
 
 export const useMutationUpdateCart = () => {
-  return useMutation({
-    mutationFn: async (variables: UpdateCartMutationVariables) => {
-      return execute(UpdateCartDocument, { ...variables });
-    },
-  });
+  // return useMutation({
+  //   mutationFn: async (variables: UpdateCartMutationVariables) => {
+  //     return execute(UpdateCartDocument, { ...variables });
+  //   },
+  // });
 };
