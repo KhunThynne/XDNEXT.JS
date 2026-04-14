@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import { keys } from "@/shared/core";
-import { userQueries } from "@/shared/core/user";
+import { keys } from "@/core";
+import { userQueries } from "@/core/user";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import clsx from "clsx";

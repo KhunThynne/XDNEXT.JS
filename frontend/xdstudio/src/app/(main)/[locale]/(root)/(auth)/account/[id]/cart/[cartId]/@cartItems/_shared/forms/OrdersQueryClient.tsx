@@ -3,7 +3,7 @@ import { OrdersForm } from "./OrdersForm";
 
 import { EmptyCart } from "@/shared/components/cart/CartShopping.form";
 import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
-import { useCartItemsManager } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/core/cart";
 import { useMemo } from "react";
 import type { Cart, CartItem, User } from "@/payload-types";
 import { formCartsOptions } from "../../../_shared/formOptions";

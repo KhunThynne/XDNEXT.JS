@@ -1,9 +1,8 @@
+
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-
-  
   server: {
     SQL_HOST: z.string().min(1),
     SQL_USER: z.string().min(1),
@@ -19,7 +18,7 @@ export const env = createEnv({
     XD_CORE_API: z.string(),
     OMISE_PUBLIC_KEY: z.string(),
     OMISE_SECRET_KEY: z.string(),
-    NODE_ENV: z.enum(["development", "production"]),
+    NODE_ENV: z.enum(["development", "production"]).default("development"),
 
     PAYLOAD_SECRET: z.string(),
     AUTH_SECRET: z.string().optional(),
@@ -32,7 +31,9 @@ export const env = createEnv({
     INTERNAL_API_URL: z.url(),
   },
   client: {
-    NEXT_PUBLIC_NODE_ENV: z.enum(["development", "production", "test"]),
+    NEXT_PUBLIC_NODE_ENV: z
+      .enum(["development", "production", "test"])
+      .default("development"),
     NEXT_PUBLIC_SITE_URL: z.url(),
     NEXT_PUBLIC_API_URL: z.url(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),

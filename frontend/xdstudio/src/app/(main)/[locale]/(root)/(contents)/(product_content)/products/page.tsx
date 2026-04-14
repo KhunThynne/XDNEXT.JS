@@ -9,7 +9,7 @@ import _ from "lodash";
 import { Fragment } from "react";
 import { notFound } from "next/navigation";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
-import { productQueries } from "@/shared/core/product/query";
+import { productQueries } from "@/core/product/query";
 
 export default async function PageProducts({
   searchParams,

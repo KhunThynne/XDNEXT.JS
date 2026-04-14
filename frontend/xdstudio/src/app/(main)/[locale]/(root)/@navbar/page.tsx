@@ -1,12 +1,12 @@
 import { auth } from "@/auth";
 import Navbar from "./components";
 import MenuNavbar from "./components/MenuNavbar";
-import conf from "@/utils/loadConfig";
+import conf from "@/shared/utils/loadConfig";
 import { RenderLink } from "./components/RenderLink.components";
 import { NavbarActionSection } from "./components/NavbarActionSection";
 import Link from "next/link";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
-import { userQueries } from "@/shared/core/user";
+import { userQueries } from "@/core/user";
 
 export default async function PageNavBar() {
   const session = await auth();

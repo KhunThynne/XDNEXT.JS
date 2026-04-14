@@ -22,7 +22,6 @@
 
     "paths": {
       "@navigation": ["./src/shared/libs/i18n/navigation.ts"],
-      "@configs/*": ["./configs/*"],
       "@type/*": ["./types/*"],
       "@public/*": ["./public/*"],
       "@payload-config": ["./src/payload.config.ts"],

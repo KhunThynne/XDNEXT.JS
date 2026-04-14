@@ -13,7 +13,7 @@ import {
 
 import { formCartsOptions } from "../formOptions";
 import { useCartItemsContext } from "./useCartItemsContext";
-import { useCartItemsManager } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/core/cart";
 import { useStore } from "@tanstack/react-form";
 import {
   DialogFooterAction,

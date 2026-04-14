@@ -24,9 +24,7 @@ export const NavbarActionSection = ({
 } & WithlDefaultProps) => {
   const { status } = useSession();
 
-  if (!session?.user) return null;
-
-  const cartId = session.user.carts?.docs?.[0];
+  const cartId = session?.user?.carts?.docs?.[0];
   return (
     <section className={clsx(className)}>
       <ThemeMenu />
@@ -53,14 +51,16 @@ export const NavbarActionSection = ({
         ) : !session ? (
           <SignButton />
         ) : (
-          <Fragment>
-            <CartPopover
-              cartId={cartId as string}
-              credit={credit}
-              userId={session?.user?.id ?? ""}
-            />
-            <AccountPopover {...session?.user} credit={credit} />
-          </Fragment>
+          session?.user && (
+            <Fragment>
+              <CartPopover
+                cartId={cartId as string}
+                credit={credit}
+                userId={session?.user?.id ?? ""}
+              />
+              <AccountPopover {...session?.user} credit={credit} />
+            </Fragment>
+          )
         )}
       </span>
     </section>

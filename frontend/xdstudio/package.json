@@ -16,13 +16,13 @@
     "install:prod": "npm install --production",
     "update": "npx npm-check-updates --dep prod,dev --upgrade",
     "gen": "npm run generate:types && npm run generate:schema ",
-    "payload:seed":"set SKIP_ENV_VALIDATION=true&&npx payload seed",
     "generate:types": "set SKIP_ENV_VALIDATION=true&&npx payload generate:types",
     "generate:schema": "set SKIP_ENV_VALIDATION=true&&npx payload-graphql generate:schema",
     "generate:importmap": "set SKIP_ENV_VALIDATION=true&&npx payload generate:importmap"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@next/env": "^16.2.2",
     "@payloadcms/db-postgres": "^3.81.0",
     "@payloadcms/next": "^3.81.0",
     "@payloadcms/richtext-lexical": "^3.81.0",
@@ -55,7 +55,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "ctx": "^0.3.0",
-    "dotenv": "^17.4.1",
     "downshift": "^9.3.2",
     "embla-carousel-react": "^8.6.0",
     "flexsearch": "^0.8.212",

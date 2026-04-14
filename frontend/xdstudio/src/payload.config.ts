@@ -1,3 +1,5 @@
+import "../configs/env.config";
+import { env } from "@/env";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
@@ -31,12 +33,15 @@ import { PointTransactions } from "./db/collections/PointTransactions";
 // Globals
 import { Settings } from "./db/globals/Settings";
 
-import { env } from "./env";
-
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
 export default buildConfig({
+  logger: {
+    options: {
+      level: env.NODE_ENV === "production" ? "info" : "debug",
+    },
+  },
   admin: {
     components: {},
     user: Users.slug,
@@ -67,12 +72,7 @@ export default buildConfig({
     UserPreferences,
     PointTransactions,
   ],
-  logger: {
-    options: {
-      level: env.NODE_ENV === "production" ? "info" : "debug",
-    },
-    // destination: pino.destination("/var/log/payload.log"),
-  },
+
   graphQL: {
     schemaOutputFile: path.resolve(dirname, "./graphql.schema.graphql"),
     disable: false,

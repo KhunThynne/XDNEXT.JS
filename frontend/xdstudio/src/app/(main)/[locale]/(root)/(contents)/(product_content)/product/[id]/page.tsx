@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { cacheLife, cacheTag } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
-import { checkUserProductStatus, getProduct } from "@/shared/core/product";
+import { checkUserProductStatus } from "@/core/product";
 import type { Cart, Product } from "@/payload-types";
 import { payloadActions } from "@/shared/actions/payload";
 

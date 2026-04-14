@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useFormatter } from "next-intl";
 import React from "react";
 
-import { userQueries } from "@/shared/core/user";
+import { userQueries } from "@/core/user";
 
 export default function Credit({
   hidden,

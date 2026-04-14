@@ -24,7 +24,7 @@ import { env } from "@/env";
 import clsx from "clsx";
 import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
 import { useQueryClient } from "@tanstack/react-query";
-import { keys } from "@/shared/core";
+import { keys } from "@/core";
 
 const AvartarUser = ({
   user,

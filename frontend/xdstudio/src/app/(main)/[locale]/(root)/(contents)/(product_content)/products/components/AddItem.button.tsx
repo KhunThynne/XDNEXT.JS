@@ -10,7 +10,7 @@ import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 import type { Product } from "@/payload-types";
 import type { Cart } from "@/shared/libs/graphql/generates/graphql";
 import type { CheckUserProductStatusQuery } from "../shared/types";
-import { useCartItemsManager } from "@/shared/core/cart";
+import { useCartItemsManager } from "@/core/cart";
 import { useParams } from "next/navigation";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {

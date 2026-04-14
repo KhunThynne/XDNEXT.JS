@@ -37,7 +37,7 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { ImageProduct } from "@/shared/components/images/ImageProduct";
 import type { Media, OrderItem, Product, UserItem } from "@/payload-types";
-import { useUserManager } from "@/shared/core/user";
+import { useUserManager } from "@/core/user";
 
 export const DataTableGridItemsInfiniteScroll = ({
   session,

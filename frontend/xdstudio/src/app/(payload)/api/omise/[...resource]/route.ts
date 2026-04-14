@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import z from "zod";
-import { handleError } from "@/utils/handleError";
+import { handleError } from "@/shared/utils/handleError";
 
 import _ from "lodash";
 

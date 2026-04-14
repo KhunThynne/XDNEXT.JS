@@ -189,7 +189,6 @@ export const ContentProduct = (
         content: "lg:gap-8  grid   grid-cols-1 xl:grid-cols-5 gap-y-3 grow",
       }}
     >
-      
       <ContainerSection className="flex h-full flex-col gap-5 xl:col-span-3">
         <MediaProduct {...product.media!} />
       </ContainerSection>

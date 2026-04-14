@@ -6,7 +6,7 @@ import type { JWT } from "next-auth/jwt";
 import { env } from "@/env";
 import type { DiscordUser } from "@type/user.type";
 import type { User as GqlUser } from "@/payload-types";
-import { authAndLinkActions, loginAction } from "@/shared/core/auth";
+import { authAndLinkActions, loginAction } from "@/core/auth";
 
 declare module "next-auth" {
   interface Session {

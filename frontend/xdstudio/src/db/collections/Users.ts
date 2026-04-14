@@ -1,4 +1,4 @@
-import { keys } from "@/shared/core";
+import { keys } from "@/core";
 import { revalidateTag } from "next/cache";
 import type { CollectionConfig } from "payload";
 

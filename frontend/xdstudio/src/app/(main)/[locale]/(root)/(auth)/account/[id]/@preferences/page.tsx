@@ -1,7 +1,7 @@
 import { TabsContent } from "@radix-ui/react-tabs";
 import { cacheLife } from "next/cache";
 import AccountPreferenceForm from "../_components/AccountPreference.form";
-import { getUser } from "@/shared/core/user";
+import { getUser } from "@/core/user";
 
 const getUserCache = async (arg: Parameters<typeof getUser>[0]) => {
   "use cache";

@@ -1,7 +1,7 @@
 import { ContainerSection } from "@/shared/components/ContainerSection";
 
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { cartQueries } from "@/shared/core/cart";
+import { cartQueries } from "@/core/cart";
 
 import CartOrderFormProvider from "./_shared/_components/CartOrderForm.provider";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
