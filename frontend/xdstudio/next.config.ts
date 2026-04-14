@@ -79,7 +79,7 @@ const nextConfig = {
     ],
   },
   env: {
-    // ...MAPING(),
+    ...MAPING(),
     // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     // NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   },
