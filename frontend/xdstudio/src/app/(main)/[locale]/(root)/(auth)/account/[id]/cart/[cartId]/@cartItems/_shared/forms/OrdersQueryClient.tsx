@@ -34,10 +34,10 @@ export const OrdersQueryClient = ({
   if (status === "success")
     return itemsCount > 0 ? (
       <OrdersForm
-        invalidateCartAction={invalidate}
-        setValueCart={form.setFieldValue}
-        cartItems={cartItems as CartItem[]}
-        filter={""}
+        // invalidateCartAction={invalidate}
+        // setValueCart={form.setFieldValue}
+        // cartItems={cartItems as CartItem[]}
+        // filter={""}
       />
     ) : (
       <aside className="h-full place-content-center">

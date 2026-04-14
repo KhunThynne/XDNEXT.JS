@@ -9,13 +9,16 @@ import { NavbarActionSection } from "./NavbarActionSection";
 import type { Session } from "next-auth";
 import type { TypeNavbarItem } from "@type/config.type";
 import { useIsMounted } from "@/shared/hooks/useIsMounted";
+import type { User } from "@/payload-types";
 
 export default function MenuNavbar({
   session,
   navbar,
+  credit,
 }: {
   session: Session;
   navbar: TypeNavbarItem[];
+  credit: User["credit"];
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const isMounted = useIsMounted();
@@ -29,7 +32,7 @@ export default function MenuNavbar({
         state={isOpen}
         onClick={() => setIsOpen((pre) => !pre)}
       />
-      { target &&
+      {target &&
         createPortal(
           <div className={clsx("relative md:hidden")}>
             <nav
@@ -44,12 +47,13 @@ export default function MenuNavbar({
                   : "max-h-0 overflow-hidden"
               )}
             >
-              <ul className="flex flex-col divide-y divide-accent">
+              <ul className="divide-accent flex flex-col divide-y">
                 <RenderMenu render={navbar} />
-                <li className="sticky bottom-0 flex justify-end bg-secondary p-2">
+                <li className="bg-secondary sticky bottom-0 flex justify-end p-2">
                   <NavbarActionSection
                     className="spcae-x-2"
                     session={session}
+                    credit={credit}
                   />
                 </li>
               </ul>

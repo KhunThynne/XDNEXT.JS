@@ -46,10 +46,10 @@ export function CheckboxForm<TFieldValues extends FieldValues = FieldValues>({
               <Checkbox
                 checked={field.value}
                 aria-label={`checkbox-${name}`}
-                onCheckedChange={(val) => {
-                  onCheckedChange && onCheckedChange(val);
-                  field.onChange(val);
-                }}
+                // onCheckedChange={(val) => {
+                //   onCheckedChange && onCheckedChange(val);
+                //   field.onChange(val);
+                // }}
                 {...props}
                 className={clsx(`peer cursor-pointer`)}
               />

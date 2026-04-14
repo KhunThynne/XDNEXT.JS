@@ -4,7 +4,7 @@ import { stripe } from "@/shared/libs/stripe/stripe";
 import { env } from "@/env";
 import type Stripe from "stripe";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { updatePointPaymentTransaction } from "@/app/(main)/[locale]/(root)/(auth)/account/[id]/payment/_actions/pointPaymentTransaction";
+
 export async function POST(req: Request) {
   let event;
 
@@ -41,10 +41,10 @@ export async function POST(req: Request) {
           data = event.data.object as Stripe.PaymentIntent;
           console.log(`Payment status: ${JSON.stringify(data.metadata)}`);
           console.log(`Payment status: ${data.status}`);
-          await updatePointPaymentTransaction({
-            where: { id: data.metadata.pointTransactionId },
-            data: { status: data.status, updateAt: new Date().toISOString() },
-          });
+          // await updatePointPaymentTransaction({
+          //   where: { id: data.metadata.pointTransactionId },
+          //   data: { status: data.status, updateAt: new Date().toISOString() },
+          // });
           // await publishRealtimeEvent({
           //   type: "payment.success",
           //   data: {

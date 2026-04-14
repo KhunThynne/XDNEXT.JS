@@ -1,9 +1,9 @@
-import type { ImageFieldOutput } from "@/shared/libs/graphql/generates/graphql";
+import type { Media } from "@/payload-types";
 import { createContext, useContext, useState } from "react";
 export interface GalleryMediaProps {
   id: string;
   altText: string;
-  item: Partial<ImageFieldOutput>;
+  item: Partial<Media>;
   type: "image" | "video";
 }
 type GalleryImageContextType = {
