@@ -46,7 +46,7 @@ export default withAuth(
         kind: "local",
         type: "image",
         generateUrl: (path: string) =>
-          `${env.NEXT_PUBLIC_API_URL}${env.IMAGE_PATH}${path}`,
+          `${env.NEXT_PRIVATE_SITE_URL}${env.IMAGE_PATH}${path}`,
         serverRoute: {
           path: env.IMAGE_PATH,
         },

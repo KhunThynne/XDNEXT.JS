@@ -4,9 +4,9 @@ services:
     container_name: postgresqlTest
     restart: always
     environment:
-      POSTGRES_PASSWORD: ${SQL_PASSWORD}     
-      POSTGRES_DB: ${SQL_DATABASE_NAME}      
-      POSTGRES_USER: ${SQL_USER}    
+      POSTGRES_PASSWORD: ${DB_PASS}     
+      POSTGRES_DB: ${DB_NAME}      
+      POSTGRES_USER: ${DB_USER}    
     ports:
       - "5434:5432"
   postgresql:
@@ -14,9 +14,9 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: ${SQL_PASSWORD}     
-      POSTGRES_DB: ${SQL_DATABASE_NAME}      
-      POSTGRES_USER: ${SQL_USER:-postgres}    
+      POSTGRES_PASSWORD: ${DB_PASS}     
+      POSTGRES_DB: ${DB_NAME}      
+      POSTGRES_USER: ${DB_USER:-postgres}    
     volumes:
       - postgresql-data:/var/lib/postgresql/data
     ports:

@@ -11,23 +11,23 @@ const envSchema = z.object({
     .transform((val) => (val ? Number(val) : 8080)),
   JWT_REFRESH_SECRET: z.string(),
   JWT_ACCESS_SECRET: z.string(),
-  ACCESS_TOKEN_EXPIRE: z
+  JWT_ACCESS_EXPIRES: z
     .string()
     .regex(/^\d+[smhd]$/, {
       message: 'Must be a valid ms string (e.g. 15m, 7d, 1h)',
     })
     .default('15m'),
-  REFRESH_TOKEN_EXPIRE: z
+  JWT_REFRESH_EXPIRES: z
     .string()
     .regex(/^\d+[smhd]$/, {
       message: 'Must be a valid ms string (e.g. 7d, 30m)',
     })
     .default('15m'),
   SECRET_KEY: z.string(),
-  SQL_HOST: z.string().default('localhost'),
-  SQL_USER: z.string().default('root'),
-  SQL_PASSWORD: z.string().default('root'),
-  SQL_DATABASE_NAME: z.string().default('xdstudio'),
+  DB_HOST: z.string().default('localhost'),
+  DB_USER: z.string().default('root'),
+  DB_PASS: z.string().default('root'),
+  DB_NAME: z.string().default('xdstudio'),
   DATABASE_PORT: z
     .string()
     .optional()
@@ -48,12 +48,12 @@ const env = {
   SECRET_KEY: parsedEnv.data.SECRET_KEY,
   JWT_ACCESS_SECRET: parsedEnv.data.JWT_ACCESS_SECRET,
   JWT_REFRESH_SECRET: parsedEnv.data.JWT_REFRESH_SECRET,
-  ACCESS_TOKEN_EXPIRE: parsedEnv.data.ACCESS_TOKEN_EXPIRE,
-  REFRESH_TOKEN_EXPIRE: parsedEnv.data.REFRESH_TOKEN_EXPIRE,
-  SQL_HOST: parsedEnv.data.SQL_HOST,
-  SQL_USER: parsedEnv.data.SQL_USER,
-  SQL_PASSWORD: parsedEnv.data.SQL_PASSWORD,
-  SQL_DATABASE_NAME: parsedEnv.data.SQL_DATABASE_NAME,
+  JWT_ACCESS_EXPIRES: parsedEnv.data.JWT_ACCESS_EXPIRES,
+  JWT_REFRESH_EXPIRES: parsedEnv.data.JWT_REFRESH_EXPIRES,
+  DB_HOST: parsedEnv.data.DB_HOST,
+  DB_USER: parsedEnv.data.DB_USER,
+  DB_PASS: parsedEnv.data.DB_PASS,
+  DB_NAME: parsedEnv.data.DB_NAME,
   DATABASE_PORT: parsedEnv.data.DATABASE_PORT,
 };
 

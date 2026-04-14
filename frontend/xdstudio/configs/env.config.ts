@@ -4,6 +4,7 @@ type NextEnvModule = typeof nextEnv & { default?: typeof nextEnv };
 const MAPING = () => {
   const aliasSchema = {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   } as const;
 
   Object.entries(aliasSchema).forEach(([key, value]) => {

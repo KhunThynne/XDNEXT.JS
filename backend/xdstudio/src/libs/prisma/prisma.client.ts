@@ -3,11 +3,11 @@ import env from '@/env';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { PrismaClient } from '@prisma/client';
 const adapter = new PrismaMariaDb({
-  host: env.SQL_HOST,
+  host: env.DB_HOST,
   port: env.DATABASE_PORT,
-  user: env.SQL_USER,
-  password: env.SQL_PASSWORD,
-  database: env.SQL_DATABASE_NAME,
+  user: env.DB_USER,
+  password: env.DB_PASS,
+  database: env.DB_NAME,
   connectionLimit: 5,
 });
 
