@@ -1,8 +1,9 @@
-
 import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  emptyStringAsUndefined: true,
   server: {
     SQL_HOST: z.string().min(1),
     SQL_USER: z.string().min(1),
@@ -13,8 +14,8 @@ export const env = createEnv({
     SECRET_KEY: z.string().min(8),
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
-    AUTH_DISCORD_CLIENT_SECRET: z.string().optional(),
-    AUTH_DISCORD_CLIENT_ID: z.string().optional(),
+    AUTH_DISCORD_CLIENT_SECRET: z.string(),
+    AUTH_DISCORD_CLIENT_ID: z.string(),
     XD_CORE_API: z.string(),
     OMISE_PUBLIC_KEY: z.string(),
     OMISE_SECRET_KEY: z.string(),
@@ -38,7 +39,7 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: z.url(),
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
   },
-  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
     POSTGRES_URL: process.env.POSTGRES_URL,
@@ -68,7 +69,6 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
 });

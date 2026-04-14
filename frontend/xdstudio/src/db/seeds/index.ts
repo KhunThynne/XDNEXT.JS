@@ -1,17 +1,21 @@
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { Payload } from "payload";
 import { seedProducts } from "./products/products";
+import { env } from "@/env";
 
-const runSeed = async (payload: Payload) => {
+const register = async (payload: Payload) => {
   await seedProducts(payload);
 };
 export const script = async () => {
   const payload = await getPayload();
   try {
-    await runSeed(payload);
+    // if (env.NODE_ENV === "development") {
+    //   await register(payload);
+    // }
+    await register(payload);
     payload.logger.info("Seed Success!");
   } catch (err) {
-    payload.logger.error("❌ Seed Failed");
+    payload.logger.error("Seed Failed");
     console.error(err);
   }
   process.exit(0);

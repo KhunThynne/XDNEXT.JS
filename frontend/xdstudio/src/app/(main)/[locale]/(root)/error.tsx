@@ -35,7 +35,6 @@ export default function LocaleError({
         <CardHeader>
           <h2>
             Server error
-            {`can't`} connect to the server!{" "}
           </h2>
         </CardHeader>
         <CardContent>

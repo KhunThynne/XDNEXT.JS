@@ -14,9 +14,9 @@ export const getUser = async (
     return await payload.findByID({ ...arg, collection: "users" });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error creating getUser: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error creating getUser: ${error}`);
   }
 };
 
@@ -50,8 +50,8 @@ export const getUserItems = async (
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(`Error creating post: ${error.message}`);
+      throw new Error(`Error creating getUserItems: ${error.message}`);
     }
-    throw new Error(`Error creating post: ${error}`);
+    throw new Error(`Error creating getUserItems: ${error}`);
   }
 };

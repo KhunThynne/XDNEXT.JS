@@ -17,9 +17,9 @@ export const seedProducts = async (payload: Payload) => {
         collection: "products",
         data: product as Product,
       });
-      payload.logger.info(`✅ ${product.name} `);
+      payload.logger.info(`${product.name} `);
     }
   } catch (error) {
-    payload.logger.error(`❌ Seed Product Failed`);
+    payload.logger.error(`Seed Product Failed : ${error}`);
   }
 };

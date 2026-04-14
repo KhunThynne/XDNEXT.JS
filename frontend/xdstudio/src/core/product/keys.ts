@@ -1,4 +1,3 @@
-import type { Cart } from "@/payload-types";
 import type { KeyRegistry } from "../types";
 
 export const keys = {

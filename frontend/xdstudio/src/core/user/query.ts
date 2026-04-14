@@ -4,7 +4,7 @@ import {
   infiniteQueryOptions,
   keepPreviousData,
 } from "@tanstack/react-query";
-import { getUserCreditCache, getUserItems } from "./services";
+import { getUserCache, getUserCreditCache, getUserItems } from "./services";
 import type { User } from "@/payload-types";
 import { keys as userKeys } from "./keys";
 
@@ -35,6 +35,15 @@ export const userQueries = {
         lastPage.hasNextPage ? lastPage.nextPage : undefined,
       refetchOnWindowFocus: false,
       placeholderData: keepPreviousData,
+    });
+  },
+  user: (userId: User["id"]) => {
+    const { queryKey } = userKeys.user(userId);
+    return queryOptions({
+      queryKey,
+      queryFn: () => getUserCache({ id: userId }),
+      enabled: !!userId,
+      staleTime: 1000 * 60 * 60 * 24,
     });
   },
 };
