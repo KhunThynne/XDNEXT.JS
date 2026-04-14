@@ -4,7 +4,7 @@ const envSchema = z.object({
   DATABASE_URL: z.url(),
   SHADOW_DATABASE_URL: z.string().url(),
   PRIVATE_SITE_URL: z.string(),
-  NEXT_PRIVATE_SITE_URL: z.string(),
+  PRIVATE_SITE_URL: z.string(),
   SESSION_SECRET: z.string(),
   KEYSTONE_HOST: z.string(),
   PORT: z
@@ -78,7 +78,7 @@ const env: Env = {
   IMAGE_PATH: parsedEnv.data.IMAGE_PATH,
   NODE_ENV: parsedEnv.data.NODE_ENV,
   NEXT_PUBLIC_SITE_URL: parsedEnv.data.NEXT_PUBLIC_SITE_URL,
-  NEXT_PRIVATE_SITE_URL: parsedEnv.data.NEXT_PRIVATE_SITE_URL,
+  PRIVATE_SITE_URL: parsedEnv.data.PRIVATE_SITE_URL,
   REDIS_HOST: parsedEnv.data.REDIS_HOST,
   REDIS_PORT: parsedEnv.data.REDIS_PORT,
 };
