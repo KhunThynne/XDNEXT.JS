@@ -1,6 +1,5 @@
 "use client";
 
-import type { Product } from "@/shared/libs/graphql/generates/graphql";
 import {
   Card,
   CardContent,
@@ -22,6 +21,7 @@ import { Button } from "@/shared/libs/shadcn/ui/button";
 import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTransition";
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ImageProduct } from "@/shared/components/images/ImageProduct";
+import type { Media, Price, Product } from "@/payload-types";
 
 export const CardProduct = ({
   product,
@@ -70,7 +70,7 @@ export const CardProduct = ({
           >
             <ImageProduct
               fill
-              image={product?.previewImage}
+              image={product?.previewImage as Media}
               className="mx-auto"
               classNames={{
                 error: clsx(
@@ -93,7 +93,7 @@ export const CardProduct = ({
                 <Skeleton className="h-5 w-10" />
               </div>
             ) : (
-              <ProductTag tags={product?.tag} />
+              <ProductTag tags={product?.tags} />
             )}
 
             <Link href={href}>
@@ -136,7 +136,7 @@ export const CardProduct = ({
                     <SafeHtml
                       className={clsx(
                         "text-md text-muted-foreground text-sm break-all",
-                        _.isEmpty(product.tag) ? "line-clamp-4" : "line-clamp-3"
+                        _.isEmpty(product.tags) ? "line-clamp-4" : "line-clamp-3"
                       )}
                       html={product.description}
                     />
@@ -152,7 +152,7 @@ export const CardProduct = ({
               ) : (
                 <p className="text-md text-primary flex grow gap-1 truncate font-bold">
                   <CreditIcon />
-                  {`${product?.price?.price ?? `Free`}`}
+                  {`${(product?.price as Price)?.price ?? `Free`}`}
                 </p>
               )}
 

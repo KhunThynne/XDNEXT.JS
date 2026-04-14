@@ -1,6 +1,5 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import {
   Pagination,
   PaginationContent,
@@ -11,43 +10,38 @@ import {
   PaginationPrevious,
 } from "@/shared/libs/shadcn/custom/pagination";
 import { useEffect, useMemo } from "react";
-import { Form } from "@/shared/libs/shadcn/ui/form";
-import { InputForm } from "@/shared/components/form/InputForm";
 import { SlashIcon } from "lucide-react";
-import { getVisiblePages } from "../utils/getVisiblePages";
+
+import { useAppForm } from "@/shared/hooks/useAppForm";
+import { useStore } from "@tanstack/react-form";
+import { getVisiblePages } from "@/shared/utils/getVisiblePages";
 
 interface Props {
   totalPages: number;
   currentPage?: number;
 }
 
-interface FormValues {
-  currentPage: number;
-}
-
-export function PaginationDemo({
+export function PaginationForm({
   totalPages,
   currentPage: currentPageProp = 1,
 }: Props) {
-  const method = useForm<FormValues & Props>({
+  const form = useAppForm({
     defaultValues: { currentPage: currentPageProp, totalPages },
   });
-  const { control, setValue, watch } = method;
-  const currentPage = Number(watch("currentPage"));
+  const currentPage = Number(
+    useStore(form.store, (state) => state.values.currentPage)
+  );
 
   useEffect(() => {
-    setValue("currentPage", currentPageProp);
-  }, [currentPageProp, setValue]);
+    form.setFieldValue("currentPage", currentPageProp);
+  }, [currentPageProp, form]);
   const visiblePages = useMemo(
     () => getVisiblePages(totalPages, currentPage),
     [currentPage, totalPages]
   );
-  useEffect(() => {
-    watch("currentPage");
-  }, [watch]);
 
   return (
-    <Form {...method}>
+    <form.AppForm>
       <Pagination className="md:justify-end">
         <PaginationContent>
           {/* Previous */}
@@ -55,6 +49,7 @@ export function PaginationDemo({
             <PaginationPrevious
               className="data-[active=false]:opacity-50"
               isActive={currentPage > 1}
+              disable={currentPage <= 1}
               href={`?page=${currentPage - 1}`}
             />
           </PaginationItem>
@@ -76,6 +71,7 @@ export function PaginationDemo({
               <PaginationItem key={page} className="max-md:hidden">
                 <PaginationLink
                   href={`?page=${page}`}
+                  disable={page === currentPage}
                   isActive={page === currentPage}
                 >
                   {page}
@@ -85,30 +81,44 @@ export function PaginationDemo({
           })}
 
           <PaginationItem className="flex gap-1 md:hidden">
-            <InputForm
+            <form.AppField
               name="currentPage"
-              control={control}
-              type="number"
-              min={1}
-              max={totalPages}
-              onInput={(e) => {
-                const target = e.currentTarget;
-                const value = Number(target.value);
-                if (value < 1) target.value = "";
-                if (value > totalPages) target.value = String(totalPages);
-              }}
-              classNames={{
-                input: "w-full max-w-[6ch] border text-center bg-background",
+              children={(field) => {
+                return (
+                  <field.Input
+                    type="number"
+                    min={1}
+                    max={totalPages}
+                    onInput={(e) => {
+                      const target = e.currentTarget;
+                      const value = Number(target.value);
+                      if (value < 1) target.value = "";
+                      if (value > totalPages) target.value = String(totalPages);
+                    }}
+                    classNames={{
+                      input:
+                        "w-full max-w-[6ch] border text-center bg-background",
+                    }}
+                  />
+                );
               }}
             />
 
             <SlashIcon className="my-auto size-4" />
-            <InputForm
+            <form.AppField
               name="totalPages"
-              control={control}
-              disabled
-              type="number"
-              classNames={{ input: "w-full max-w-[6ch] border text-center" }}
+              children={(field) => {
+                return (
+                  <field.Input
+                    disabled
+                    type="number"
+                    classNames={{
+                      input:
+                        "w-full max-w-[6ch] border text-center bg-background",
+                    }}
+                  />
+                );
+              }}
             />
           </PaginationItem>
 
@@ -117,11 +127,12 @@ export function PaginationDemo({
             <PaginationNext
               className="data-[active=false]:opacity-50"
               isActive={currentPage < totalPages}
+              disable={currentPage >= totalPages}
               href={`?page=${currentPage + 1}`}
             />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    </Form>
+    </form.AppForm>
   );
 }

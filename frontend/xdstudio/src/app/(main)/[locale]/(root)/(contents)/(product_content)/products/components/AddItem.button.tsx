@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 
-import { Fragment, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { updateTagClient } from "@/shared/utils/m";
 import { useRouter } from "@navigation";
 import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
@@ -35,32 +35,25 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
   } = props;
   const productId = product?.id;
   const { id: productSlug } = useParams();
-  const cart = session?.user?.carts?.docs?.[0] as Cart;
-  const cartId = cart?.id;
+  const cartId = session?.user?.carts?.docs?.[0];
   const userId = session?.user?.id;
   const { addItem } = useCartItemsManager({
-    cartId: cartId ?? "",
+    cartId: cartId as string,
     userId: userId ?? "",
   });
 
-  const { mutate, isPending, status: StatusMutation } = addItem;
+  const { mutate, isPending, isIdle } = addItem;
   const addedItem = useMemo(() => {
     const statusLog = status;
     return statusLog;
   }, [status]);
 
-  const [preAdded, setPreAdded] = useState(
-    addedItem?.inCart || addedItem?.inUserItem
-  );
   const router = useRouter();
-  // useEffect(() => {
-  //   setPreAdded(false);
-  // }, [status]);
+
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
     if (isPending) {
       return;
     }
-    setPreAdded(false);
     if (addedItem?.inUserItem) {
       return router.replace({ pathname: `/account/${userId}` });
     }
@@ -72,7 +65,6 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     if (!addedItem?.inCart) {
       mutate(productSlug as string, {
         onSuccess: () => {
-          setPreAdded(true);
           updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
         },
       });
@@ -85,14 +77,11 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
       {...buttonProps}
       className={clsx(`flex cursor-pointer`, className)}
       disabled={
-        isPending ||
-        (addTo ? false : !!addedItem?.inCart) ||
-        !productId ||
-        preAdded
+        isPending || (addTo ? false : !!status?.inCart) || !productId || !isIdle
       }
       onClick={handleClick}
     >
-      {isPending || !productId ? (
+      {isPending || !isIdle || !productId ? (
         <LoaderCircle className="animate-spin" />
       ) : (
         <Fragment>
@@ -101,9 +90,9 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
             <span>
               {!cartId
                 ? "Go to sign-in"
-                : addedItem?.inCart || preAdded
+                : status?.inCart
                   ? "In cart"
-                  : addedItem?.inUserItem
+                  : status?.inUserItem
                     ? `See you item`
                     : "Add to cart"}
             </span>

@@ -16,7 +16,7 @@ const nextConfig = {
   reactCompiler: true,
   cacheComponents: true,
   experimental: {
-    turbopackFileSystemCacheForDev: true,
+    // turbopackFileSystemCacheForDev: true,
     mcpServer: true,
     authInterrupts: true,
     // globalNotFound: true,

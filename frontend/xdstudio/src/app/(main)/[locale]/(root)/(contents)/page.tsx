@@ -8,10 +8,12 @@ import { Code, Download, Gamepad2, Shield, Zap } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 
 import { Badge } from "@/shared/libs/shadcn/ui/badge";
-import { ContentProducts } from "./(product_content)/products/components/ContentProducts";
 import { contentClassName } from "./(product_content)/products/shared/contentClassName";
 import ContentCard from "@/shared/components/cards/ContentCard";
 import { MotionTransition } from "@/shared/components/MotionTransition";
+import { ContentProductsSSR } from "./(product_content)/products/components/ContentProductSSR";
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
+import { productQueries } from "@/core/product/query";
 
 export default async function PageCotent() {
   const session = await auth();
@@ -21,15 +23,18 @@ export default async function PageCotent() {
     { name: "Strategy Helpers", icon: Gamepad2, count: "120+" },
     { name: "Custom Mods", icon: Code, count: "200+" },
   ];
-
+  const queryClient = getQueryClient();
+  const products = await queryClient.fetchQuery({
+    ...productQueries.page(1),
+  });
   return (
     <>
-      <MotionTransition preset="none"> 
+      <MotionTransition preset="none">
         <ContentCard
           title={
             <>
               Level Up Your Game with
-              <span className="block text-primary">Custom Scripts & Tools</span>
+              <span className="text-primary block">Custom Scripts & Tools</span>
             </>
           }
           description={`Discover premium game scripts, automation tools, and mods
@@ -49,7 +54,7 @@ export default async function PageCotent() {
 
           <section className="py-6">
             <div className="@container container mx-auto">
-              <h3 className="mb-8 text-center text-3xl font-bold text-foreground">
+              <h3 className="text-foreground mb-8 text-center text-3xl font-bold">
                 Browse Categories
               </h3>
               {/* <div className="@min-xs:grid-cols-2 @min-2xl:grid-cols-4 mx-auto grid max-w-screen-xl grid-cols-1 place-content-center gap-3"> */}
@@ -60,8 +65,8 @@ export default async function PageCotent() {
                     className="cursor-pointer justify-center gap-2 border transition-all duration-300 hover:scale-105 hover:shadow-lg max-md:aspect-video"
                   >
                     <CardHeader className="flex flex-col items-center justify-center">
-                      <category.icon className="size-8 text-primary" />
-                      <h4 className="text-md shrink truncate font-semibold text-foreground">
+                      <category.icon className="text-primary size-8" />
+                      <h4 className="text-md text-foreground shrink truncate font-semibold">
                         {category.name}
                       </h4>
                     </CardHeader>
@@ -95,7 +100,11 @@ export default async function PageCotent() {
         }
         classNames={{ ...contentClassName }}
       >
-        <ContentProducts session={session} max={5} />
+        <ContentProductsSSR
+          session={session}
+          max={5}
+          products={products.docs}
+        />
       </ContainerSection>
     </>
   );

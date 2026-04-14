@@ -1,6 +1,6 @@
 "use client";
 import type { ReactNode } from "react";
-import {  QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { DialogProvider } from "@/shared/libs/dialog/DialogProvider";
 import type { Session } from "next-auth";
 import { Toaster } from "@/shared/libs/shadcn/ui/sonner";

@@ -1,7 +1,7 @@
 export default function LayoutProducts({
   children,
   pagination,
-}: NextJSReactNodes<"pagination">) {
+}: LayoutProps<"/[locale]/products">) {
   return (
     <>
       {children}

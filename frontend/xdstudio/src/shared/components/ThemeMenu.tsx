@@ -1,6 +1,5 @@
 "use client";
 
-import { DefaultTheme, useTheme } from "@wrksz/themes/client";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/libs/shadcn/ui/dropdown-menu";
 import { Sun, Moon, Laptop, SunMoon } from "lucide-react";
+import { useTheme, type DefaultTheme } from "@wrksz/themes/client";
 
 export const ThemeMenu = () => {
   const { setTheme, theme } = useTheme();

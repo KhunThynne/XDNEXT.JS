@@ -76,9 +76,11 @@ export function BreadcrumbComponent({ pathNames }: { pathNames?: string[] }) {
                     : segment
                 }
                 disable={isLast}
-                onClick={async () => {
-                  await revalidatePathAction(realPathname);
-                }}
+                {...(isLast && {
+                  onClick: async () => {
+                    await revalidatePathAction(realPathname);
+                  },
+                })}
               >
                 {isLast && (
                   <RefreshCw className="hidden size-3 group-hover:block group-hover:animate-spin" />

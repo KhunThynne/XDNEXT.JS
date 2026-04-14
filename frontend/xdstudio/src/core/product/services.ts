@@ -9,6 +9,59 @@ export const updateProductTag = async () => {
   updateTag("products");
 };
 
+export async function getProduct(
+  arg: PayloadArgsWithoutCollection<"findByID", "products">
+) {
+  try {
+    const payload = await getPayload();
+    const product = await payload.findByID({
+      ...arg,
+      collection: "products",
+    });
+    return product;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error getting product: ${error.message}`);
+    }
+    throw new Error(`Error getting product: ${error}`);
+  }
+}
+
+export async function getProducts(
+  arg: PayloadArgsWithoutCollection<"find", "products">
+) {
+  try {
+    const payload = await getPayload();
+    const products = await payload.find({
+      ...arg,
+      collection: "products",
+    });
+    return products;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error getting products: ${error.message}`);
+    }
+    throw new Error(`Error getting products: ${error}`);
+  }
+}
+
+export const getProductsCache = async (
+  arg: PayloadArgsWithoutCollection<"find", "products">
+) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(...keys.page(arg.page ?? 1).tag);
+  return getProducts(arg);
+};
+
+export const getProductCache = async (id: string) => {
+  "use cache";
+  cacheLife("hours");
+  cacheTag(...keys.product(id).tag);
+  return await getProduct({
+    id,
+  });
+};
 export const checkUserProductStatus = async ({
   productId,
   userId,
@@ -80,48 +133,17 @@ export const checkUserProductStatus = async ({
     throw new Error(`Error checking user product status: ${error}`);
   }
 };
-
-export async function getProduct(
-  arg: PayloadArgsWithoutCollection<"findByID", "products">
-) {
-  try {
-    const payload = await getPayload();
-    const product = await payload.findByID({
-      ...arg,
-      collection: "products",
-    });
-    return product;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Error getting product: ${error.message}`);
-    }
-    throw new Error(`Error getting product: ${error}`);
-  }
-}
-
-export async function getProducts(
-  arg: PayloadArgsWithoutCollection<"find", "products">
-) {
-  try {
-    const payload = await getPayload();
-    const products = await payload.find({
-      ...arg,
-      collection: "products",
-    });
-    return products;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      throw new Error(`Error getting products: ${error.message}`);
-    }
-    throw new Error(`Error getting products: ${error}`);
-  }
-}
-
-export const getProductsCache = async (
-  arg: PayloadArgsWithoutCollection<"find", "products">
+export const getCachedCheckUserProductStatusCache = async (
+  productId: string,
+  userId: string,
+  cartId: string
 ) => {
   "use cache";
-  cacheLife("max");
-  cacheTag(...keys.page(arg.page ?? 1).tag);
-  return getProducts(arg);
+  cacheLife("hours");
+  cacheTag(
+    `${userId}-${productId}-checkProduct`,
+    `${cartId}-${productId}-checkProduct`,
+    `${cartId}-${userId}-checkProduct`
+  );
+  return await checkUserProductStatus({ productId, userId });
 };

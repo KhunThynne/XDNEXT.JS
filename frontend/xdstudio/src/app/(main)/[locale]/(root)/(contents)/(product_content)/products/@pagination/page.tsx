@@ -1,30 +1,23 @@
-import { unstable_cache } from "next/cache";
-import { execute } from "@/shared/libs/graphql/execute";
-import { GetProductsCountDocument } from "@/shared/libs/graphql/generates/graphql";
-import { PaginationForm } from "./shared/components/Pagination.form";
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
+import { productQueries } from "@/core/product/query";
+import { PaginationForm } from "@/shared/components/forms/Pagination.form";
 
-const getProductsCountCache = (currentPage: number) =>
-  unstable_cache(
-    async () => {
-      "use server";
-      return execute(GetProductsCountDocument);
-    },
-    [`products-count`],
-    {
-      revalidate: 3600,
-      tags: ["product-pagination", `product-pagination-${currentPage}`],
-    }
-  )();
-const take = 10;
 export default async function PaginationPage({
   searchParams,
 }: {
   searchParams: Promise<{ page: number }>;
 }) {
   const { page = 1 } = await searchParams;
-  const { data } = await getProductsCountCache(page);
-  const count = data.productsCount ?? 0;
-  const totalPages = Math.ceil(count / take);
+  const queryClient = getQueryClient();
+  // const cachedData = queryClient.getQueryData(
+  //   productQueries.page(page).queryKey
+  // );
+  const products = await queryClient.fetchQuery({
+    ...productQueries.page(page),
+  });
+
+  const count = products?.totalDocs ?? 0;
+  const totalPages = products?.totalPages ?? 0;
 
   if (count < 1) {
     return null;

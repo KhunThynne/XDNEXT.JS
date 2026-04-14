@@ -1,7 +1,7 @@
 import path from "path";
 import * as nextEnv from "@next/env";
 type NextEnvModule = typeof nextEnv & { default?: typeof nextEnv };
-const loadWorkspaceEnv = () => {
+const ConfigEnv = () => {
   const envModule = nextEnv as NextEnvModule;
   const { loadEnvConfig, updateInitialEnv } = envModule.default || envModule;
   if (typeof loadEnvConfig !== "function") {
@@ -18,4 +18,4 @@ const loadWorkspaceEnv = () => {
       process.env.STRIPE_PUBLISHABLE_KEY;
   }
 };
-loadWorkspaceEnv();
+ConfigEnv();

@@ -9,6 +9,7 @@ import { ImageOff, SquarePlay } from "lucide-react";
 import type Image from "next/image";
 
 import { useDeferredValue, useMemo, useState } from "react";
+import { EmptyComponent } from "@/shared/components/EmptyComponent";
 
 function getUrlMediaType(url: string): "image" | "video" | "unknown" {
   if (/youtube\.com|youtu\.be/.test(url)) return "video";
@@ -168,16 +169,22 @@ export const MediaProduct = (props: Product["media"]) => {
   return (
     <div className="flex grow flex-col gap-3">
       <div className="relative aspect-video place-content-center place-items-center overflow-hidden rounded-lg border">
-        {_.isArray(mediaArray) && (
+        {_.isArray(mediaArray) && mediaArray.length > 0 ? (
           <MediaComponent
             preview
             {...mediaArray[mediaIndex]}
             classNames={{ relation: "object-contain" }}
           />
+        ) : (
+          <EmptyComponent
+            title="No media"
+            button={{ hidden: true }}
+            icon={<ImageOff />}
+          />
         )}
       </div>
       <Separator />
-      {_.isArray(mediaArray) && (
+      {_.isArray(mediaArray) && mediaArray.length > 0 && (
         <EmblaCarousel
           options={{
             loop: true,

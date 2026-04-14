@@ -32,7 +32,7 @@ export function EmptyComponent({
   header,
 }: {
   title: string | React.ComponentPropsWithoutRef<typeof EmptyTitle>;
-  description: string | React.ComponentPropsWithoutRef<typeof EmptyDescription>;
+  description?: string | React.ComponentPropsWithoutRef<typeof EmptyDescription>;
   icon?: React.ReactNode;
   media?: React.ComponentPropsWithoutRef<typeof EmptyMedia>;
   button?:

@@ -1,36 +1,10 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import { cacheLife, cacheTag } from "next/cache";
 import { ContentProduct } from "../../products/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
-import { checkUserProductStatus } from "@/core/product";
 import type { Cart, Product } from "@/payload-types";
-import { payloadActions } from "@/shared/actions/payload";
-
-const getCachedCheckUserProductStatusCache = async (
-  productId: string,
-  userId: string,
-  cartId: string
-) => {
-  "use cache";
-  cacheLife("hours");
-  cacheTag(
-    `${userId}-${productId}-checkProduct`,
-    `${cartId}-${productId}-checkProduct`,
-    `${cartId}-${userId}-checkProduct`
-  );
-  return await checkUserProductStatus({ productId, userId });
-};
-
-const getGetProductCache = async (id: string) => {
-  "use cache";
-  cacheLife("hours");
-  cacheTag(`product-${id}`, id);
-  return await payloadActions("findByID", {
-    collection: "products",
-    id,
-  });
-};
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
+import { productQueries } from "@/core/product/query";
 
 export default async function PageProduct({
   params,
@@ -38,12 +12,15 @@ export default async function PageProduct({
   params: Promise<{ locale: string; id: string }>;
 }) {
   const { id } = await params;
+  const queryClient = getQueryClient();
   const session = await auth();
-  const product = await getGetProductCache(id);
-  const productStatus = await getCachedCheckUserProductStatusCache(
-    id,
-    session?.user?.id ?? "",
-    (session?.user?.carts?.docs as Cart[])[0].id
+  const product = await queryClient.fetchQuery(productQueries.product(id));
+  const productStatus = await queryClient.fetchQuery(
+    productQueries.checkUserProductStatus(
+      id,
+      session?.user?.id ?? "",
+      (session?.user?.carts?.docs as Cart[])[0].id
+    )
   );
   if (!product) return notFound();
   return (

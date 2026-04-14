@@ -22,33 +22,12 @@ export const NavbarActionSection = ({
   session: Session | null;
   credit: User["credit"];
 } & WithlDefaultProps) => {
-  const { status } = useSession();
-
   const cartId = session?.user?.carts?.docs?.[0];
   return (
     <section className={clsx(className)}>
       <ThemeMenu />
       <span className="inline-flex space-x-3">
-        {status === "loading" ? (
-          <Fragment>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="loader-button"
-              disabled
-            >
-              <LoaderCircle className="animate-spin opacity-50" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              aria-label="loader-button"
-              disabled
-            >
-              <Skeleton className="size-full rounded-full" />
-            </Button>
-          </Fragment>
-        ) : !session ? (
+        {!session ? (
           <SignButton />
         ) : (
           session?.user && (
@@ -66,3 +45,22 @@ export const NavbarActionSection = ({
     </section>
   );
 };
+
+// <Fragment>
+//       <Button
+//         variant="ghost"
+//         size="icon"
+//         aria-label="loader-button"
+//         disabled
+//       >
+//         <LoaderCircle className="animate-spin opacity-50" />
+//       </Button>
+//       <Button
+//         variant="ghost"
+//         size="icon"
+//         aria-label="loader-button"
+//         disabled
+//       >
+//         <Skeleton className="size-full rounded-full" />
+//       </Button>
+//     </Fragment>
