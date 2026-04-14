@@ -11,7 +11,7 @@ import type { Product } from "@/payload-types";
 
 interface ContentProductsProps {
   session: Session | null;
-  products: Product[];
+  products: Product[] | undefined;
   loading?: boolean;
   max?: number;
   onRefetch?: () => void;

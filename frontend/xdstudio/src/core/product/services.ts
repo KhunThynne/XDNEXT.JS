@@ -1,6 +1,6 @@
 "use server";
 
-import { cacheLife, cacheTag, updateTag } from "next/cache";
+import { cacheLife, cacheTag, revalidateTag, updateTag } from "next/cache";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
 import { keys } from "./keys";
@@ -50,7 +50,7 @@ export const getProductsCache = async (
 ) => {
   "use cache";
   cacheLife("max");
-  cacheTag(...keys.page(arg.page ?? 1).tag);
+  cacheTag(...keys.all, ...keys.page(arg.page ?? 1).tag);
   return getProducts(arg);
 };
 

@@ -3,12 +3,12 @@ import { sign, verify } from 'jsonwebtoken';
 
 export function generateAccessToken(payload: object) {
   return sign(payload, env.JWT_ACCESS_SECRET!, {
-    expiresIn: (env.ACCESS_TOKEN_EXPIRE ?? '15m') as unknown as undefined,
+    expiresIn: (env.JWT_ACCESS_EXPIRES ?? '15m') as unknown as undefined,
   });
 }
 export function generateRefreshToken(payload: object) {
   return sign(payload, env.JWT_REFRESH_SECRET, {
-    expiresIn: (env.REFRESH_TOKEN_EXPIRE ?? '15m') as unknown as undefined,
+    expiresIn: (env.JWT_REFRESH_EXPIRES ?? '15m') as unknown as undefined,
   });
 }
 

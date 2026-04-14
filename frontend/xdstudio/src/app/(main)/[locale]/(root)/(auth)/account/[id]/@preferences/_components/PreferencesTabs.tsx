@@ -1,12 +1,10 @@
 "use client";
 
-import type { User } from "@/shared/libs/graphql/generates/graphql";
-import { Card, CardContent, CardHeader } from "@/shared/libs/shadcn/ui/card";
 import type { TabsArray } from "@/shared/components/TabsComponent";
 import { TabsComponent } from "@/shared/components/TabsComponent";
 import { usePathname, useRouter } from "@navigation";
 import clsx from "clsx";
-import { useSelectedLayoutSegment } from "next/navigation";
+import type { User } from "payload";
 
 export const PreferencesTabs = ({
   children,

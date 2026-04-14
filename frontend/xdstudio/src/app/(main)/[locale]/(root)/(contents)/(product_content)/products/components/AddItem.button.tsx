@@ -3,12 +3,12 @@ import clsx from "clsx";
 import { LoaderCircle } from "lucide-react";
 import type { Session } from "next-auth";
 
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { updateTagClient } from "@/shared/utils/m";
 import { useRouter } from "@navigation";
 import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 import type { Product } from "@/payload-types";
-import type { Cart } from "@/shared/libs/graphql/generates/graphql";
+
 import type { CheckUserProductStatusQuery } from "../shared/types";
 import { useCartItemsManager } from "@/core/cart";
 import { useParams } from "next/navigation";

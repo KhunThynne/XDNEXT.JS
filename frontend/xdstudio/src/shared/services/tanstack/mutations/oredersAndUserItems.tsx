@@ -1,5 +1,3 @@
-import { execute } from "@/shared/libs/graphql/execute";
-
 import { useMutation } from "@tanstack/react-query";
 
 export const useMutationCreateOrdersAndUserItems = () => {
@@ -8,7 +6,6 @@ export const useMutationCreateOrdersAndUserItems = () => {
     //   return execute(CreateOrderAndUserItemsDocument, { ...variables });
     // },
     // onSuccess(data, variables, onMutateResult, context) {
-
     // },
   });
 };

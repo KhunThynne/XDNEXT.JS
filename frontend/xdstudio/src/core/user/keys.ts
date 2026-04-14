@@ -14,10 +14,10 @@ export const keys = {
       tag: [...this.all, `user-items-${userId}`],
     };
   },
-  profile(userId: string) {
+  user(userId: string) {
     return {
-      queryKey: [...this.all, "profile", userId],
-      tag: [...this.all, `user-profile-${userId}`],
+      queryKey: [...this.all, "user", userId],
+      tag: [...this.all, `user-${userId}`],
     };
   },
 } satisfies KeyRegistry;

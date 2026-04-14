@@ -49,13 +49,13 @@ export async function POST(request: NextRequest, { params }: ParamsType) {
     switch (resource as typeResource) {
       case "sources":
         response = await ApiPostOmiseSources(
-          env.XD_CORE_API,
+          env.XD_CORE_API_URL,
           body as ApiPostOmiseSourcesType
         );
         break;
       case "charges":
         response = await ApiPostOmiseCharge(
-          env.XD_CORE_API,
+          env.XD_CORE_API_URL,
           body as ApiPostOmiseChargeType
         );
         break;

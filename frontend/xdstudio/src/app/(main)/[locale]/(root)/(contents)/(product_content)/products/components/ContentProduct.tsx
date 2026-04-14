@@ -1,7 +1,7 @@
 "use client";
 
 import { ContainerSection } from "@/shared/components/ContainerSection";
-import type { Faq, Maybe } from "@/shared/libs/graphql/generates/graphql";
+
 import {
   Card,
   CardAction,
@@ -11,7 +11,7 @@ import {
 } from "@/shared/libs/shadcn/ui/card";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 import clsx from "clsx";
-import { ChevronDownIcon, Plus, Star } from "lucide-react";
+import { ChevronDownIcon, Star } from "lucide-react";
 import SafeHtml from "@/shared/libs/sanitize-html/SafeHtml";
 import DocumentRenderer from "@/shared/libs/keystone/DocumentRenderer";
 import CreditIcon from "@/shared/components/CreditIcon";
@@ -19,7 +19,7 @@ import { ProductTag } from "./ProductTag";
 import _ from "lodash";
 import type { Session } from "next-auth";
 import { MediaProduct } from "./MediasProduct";
-import type { Product } from "@/payload-types";
+import type { Faq, Product } from "@/payload-types";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { CheckUserProductStatusQuery } from "../shared/types";
 import {
@@ -29,7 +29,7 @@ import {
 } from "@/shared/libs/shadcn/ui/collapsible";
 import ProductActions from "./ProductActions";
 
-export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
+export const ProductFAQ = ({ faqs }: { faqs: Faq[] | undefined }) => {
   if (_.isEmpty(faqs) || !faqs) return;
   return (
     <ContainerSection title="FQA" classNames={{ content: "space-y-5" }}>
@@ -53,7 +53,7 @@ export const ProductFAQ = ({ faqs }: { faqs: Maybe<Faq[]> | undefined }) => {
                 `group-data-[state=closed]:h-0 group-data-[state=open]:p-5`
               )}
             >
-              <DocumentRenderer document={faq.answer?.document} />
+              {/* <DocumentRenderer document={faq.answer?.document} /> */}
             </div>
           </CollapsibleContent>
         </Collapsible>

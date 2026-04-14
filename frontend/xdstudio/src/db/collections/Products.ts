@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { revalidateTag } from "next/cache";
+import { keys } from "@/core";
 
 export const Products: CollectionConfig = {
   slug: "products",
@@ -27,8 +28,10 @@ export const Products: CollectionConfig = {
     ],
     afterOperation: [
       async ({ operation, result, req, args }) => {
-      
         try {
+          if (operation === "create" || operation === "update") {
+            revalidateTag(keys.product.all[0], "max");
+          }
           switch (operation) {
             case "create": {
               if (!result.id) return;
@@ -48,6 +51,7 @@ export const Products: CollectionConfig = {
                   },
                 });
               }
+
               break;
             }
             case "updateByID": {

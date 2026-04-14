@@ -1,3 +1,138 @@
-import { AuthProvider } from "@/shared/libs/next-auth";
+import GitHub from "next-auth/providers/github";
+import type { NextAuthConfig } from "next-auth";
 
-export const { auth, handlers, signIn, signOut } = AuthProvider;
+export default { providers: [GitHub] } satisfies NextAuthConfig;
+import NextAuth from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import DiscordProvider from "next-auth/providers/discord";
+import type { JWT } from "next-auth/jwt";
+import { env } from "@/env";
+import type { DiscordUser } from "@type/user.type";
+import { authAndLinkActions, loginAction } from "@/core/auth";
+import authConfig from "./shared/libs/next-auth/auth.config";
+import { getUserCreditCache } from "./core/user";
+
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  ...authConfig,
+  providers: [
+    DiscordProvider({
+      clientId: env.AUTH_DISCORD_CLIENT_ID,
+      clientSecret: env.AUTH_DISCORD_CLIENT_SECRET,
+    }),
+    Credentials({
+      name: "credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+        try {
+          const result = await loginAction({
+            email: credentials.email as string,
+            password: credentials.password as string,
+          });
+          if (result && result.user) {
+            return {
+              ...result.user,
+              token: result.token,
+              exp: result.exp,
+            };
+          }
+          return null;
+        } catch (error) {
+          console.error("Login failed:", error);
+          return null;
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    async signIn({ user, account, profile }) {
+      if (!account?.provider) return false;
+      console.log("🔐 SignIn via provider:", account.provider);
+
+      switch (account.provider) {
+        case "discord": {
+          const discordUser = profile as unknown as DiscordUser;
+          try {
+            if (!account.access_token || !profile?.email) return false;
+            const auth = await authAndLinkActions({
+              accessToken: account.access_token,
+              email: profile.email,
+              username: discordUser.username,
+              provider: account.provider,
+              providerAccountId: account.providerAccountId,
+              refreshToken: account.refresh_token,
+              image: discordUser.image_url,
+            });
+            if (auth) {
+              const { item, ...secret } = auth;
+              Object.assign(user, {
+                ...item,
+                ...secret,
+                image: discordUser.image_url,
+              });
+
+              return true;
+            }
+            throw new Error("Discord auth fail");
+          } catch (err) {
+            console.error("❌ Error during Discord RegisterAndLogin", err);
+            return false;
+          }
+        }
+
+        case "credentials":
+          // console.log("🧾 Credentials login:", user);
+          return true;
+
+        case "google":
+          console.log("🔵 Google login:", profile);
+          return true;
+
+        case "github":
+          console.log("⚫ GitHub login:", profile);
+          return true;
+
+        default:
+          console.warn("⚠️ Unknown provider:", account.provider);
+          return false;
+      }
+    },
+    async jwt({ token, user }): Promise<JWT> {
+      if (user) {
+        Object.assign(token, {
+          ...user,
+        });
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (session.user) {
+        const { ...rest } = token;
+        const user = await getUserCreditCache(session.user.id);
+        if (!user) {
+          await signOut({ redirectTo: "/login" });
+        }
+        session.user = {
+          ...session.user,
+          ...rest,
+          email: token.email ?? "",
+        };
+      }
+      return session;
+    },
+    async redirect({ url, baseUrl }) {
+      // // Allows relative callback URLs
+      baseUrl = env.NEXT_PUBLIC_SITE_URL;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+  },
+});
