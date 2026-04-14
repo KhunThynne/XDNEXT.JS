@@ -1,15 +1,12 @@
-import path from "path";
 import * as nextEnv from "@next/env";
+import type { NextConfig } from "next";
+import path from "path";
 type NextEnvModule = typeof nextEnv & { default?: typeof nextEnv };
-const MAPING = () => {
-  const aliasSchema = {
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+export const MAPING = (): NonNullable<NextConfig["env"]> => {
+  return {
+    // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
-  } as const;
-
-  Object.entries(aliasSchema).forEach(([key, value]) => {
-    if (value) process.env[key] = value;
-  });
+  };
 };
 const ConfigEnv = () => {
   const envModule = nextEnv as NextEnvModule;
@@ -24,8 +21,12 @@ const ConfigEnv = () => {
     },
     true
   );
+
   Object.assign(process.env, combinedEnv);
-  MAPING();
+
+  Object.entries(MAPING()).forEach(([key, value]) => {
+    if (value) process.env[key] = value;
+  });
 };
 
 ConfigEnv();

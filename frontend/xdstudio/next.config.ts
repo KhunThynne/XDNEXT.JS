@@ -3,6 +3,7 @@ import { env } from "@/env";
 import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withPayload } from "@payloadcms/next/withPayload";
+import { MAPING } from "./configs/env.config";
 
 const backendUrl = new URL(env.PRIVATE_SITE_URL);
 const nextConfig = {
@@ -78,8 +79,9 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
-    NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
+    // ...MAPING(),
+    // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    // NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   },
 } satisfies NextConfig;
 const withNextIntl = createNextIntlPlugin("./src/shared/libs/i18n/request.ts");

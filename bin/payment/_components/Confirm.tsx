@@ -9,7 +9,7 @@ import { useAppForm } from "@/shared/hooks/useAppForm";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 
 // โหลด Stripe.js ด้วย Public Key ของคุณ
-const stripePromise = loadStripe(env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(env.STRIPE_PUBLISHABLE_KEY);
 
 // นี่คือฟอร์มหลักของเรา
 export function CheckoutForm() {

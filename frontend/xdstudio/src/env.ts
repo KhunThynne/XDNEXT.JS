@@ -3,7 +3,7 @@ import { z } from "zod";
 
 export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-  emptyStringAsUndefined: true,
+  // emptyStringAsUndefined: true,
   server: {
     DB_HOST: z.string().min(1),
     DB_USER: z.string().min(1),
@@ -14,8 +14,7 @@ export const env = createEnv({
     SECRET_KEY: z.string().min(8),
     PORT: z.coerce.number().optional(),
     CODEGEN_TOKEN: z.string(),
-    AUTH_DISCORD_CLIENT_SECRET: z.string(),
-    AUTH_DISCORD_CLIENT_ID: z.string(),
+
     XD_CORE_API_URL: z.string(),
     OMISE_PUBLIC_KEY: z.string(),
     OMISE_SECRET_KEY: z.string(),
@@ -29,6 +28,9 @@ export const env = createEnv({
     REDIS_HOST: z.string(),
     REDIS_PORT: z.string(),
     PRIVATE_SITE_URL: z.url(),
+
+    AUTH_DISCORD_CLIENT_SECRET: z.string(),
+    AUTH_DISCORD_CLIENT_ID: z.string(),
   },
   client: {
     NEXT_PUBLIC_NODE_ENV: z
@@ -66,8 +68,7 @@ export const env = createEnv({
     // ClientSide
 
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
   },
 });
