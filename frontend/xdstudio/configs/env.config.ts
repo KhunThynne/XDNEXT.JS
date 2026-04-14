@@ -4,7 +4,7 @@ import path from "path";
 type NextEnvModule = typeof nextEnv & { default?: typeof nextEnv };
 export const MAPING = (): NonNullable<NextConfig["env"]> => {
   return {
-    // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   };
 };
