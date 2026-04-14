@@ -5,12 +5,12 @@ import conf from "@/utils/loadConfig";
 import { RenderLink } from "./components/RenderLink.components";
 import { NavbarActionSection } from "./components/NavbarActionSection";
 import Link from "next/link";
-import { QueryClient } from "@tanstack/react-query";
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { userQueries } from "@/shared/core/user";
 
 export default async function PageNavBar() {
   const session = await auth();
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   let creditData = null;
   if (session?.user?.id) {
     creditData = await queryClient.fetchQuery(

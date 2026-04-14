@@ -1,28 +1,22 @@
 import { ContainerSection } from "@/shared/components/ContainerSection";
 
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { cartQueries } from "@/shared/core/cart";
 
 import CartOrderFormProvider from "./_shared/_components/CartOrderForm.provider";
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 
 export default async function LayoutCart({
   children,
   cartItems,
   params,
 }: LayoutProps<"/[locale]/account/[id]/cart/[cartId]">) {
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
   const { cartId, id: userId } = await params;
-  await Promise.allSettled([
-    queryClient.prefetchInfiniteQuery(cartQueries.list(cartId)),
-  ]);
-
+  queryClient.prefetchInfiniteQuery(cartQueries.list(cartId));
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <CartOrderFormProvider cartId={cartId} userId={userId}> 
+      <CartOrderFormProvider cartId={cartId} userId={userId}>
         <div className="mx-4 grid grow grid-cols-1 gap-8 xl:grid-cols-6 xl:divide-x">
           <ContainerSection
             className="h-screen grow max-md:gap-4 xl:col-span-4 xl:h-full xl:pe-8"

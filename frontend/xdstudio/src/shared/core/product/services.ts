@@ -1,8 +1,9 @@
 "use server";
 
-import { updateTag } from "next/cache";
+import { cacheLife, cacheTag, updateTag } from "next/cache";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
+import { keys } from "./keys";
 
 export const updateProductTag = async () => {
   updateTag("products");
@@ -97,3 +98,30 @@ export async function getProduct(
     throw new Error(`Error getting product: ${error}`);
   }
 }
+
+export async function getProducts(
+  arg: PayloadArgsWithoutCollection<"find", "products">
+) {
+  try {
+    const payload = await getPayload();
+    const products = await payload.find({
+      ...arg,
+      collection: "products",
+    });
+    return products;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      throw new Error(`Error getting products: ${error.message}`);
+    }
+    throw new Error(`Error getting products: ${error}`);
+  }
+}
+
+export const getProductsCache = async (
+  arg: PayloadArgsWithoutCollection<"find", "products">
+) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(...keys.page(arg.page ?? 1).tag);
+  return getProducts(arg);
+};

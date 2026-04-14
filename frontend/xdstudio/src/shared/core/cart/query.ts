@@ -7,7 +7,6 @@ import { keys } from "./keys";
 const LIMIT = 20;
 
 export const cartQueries = {
-  all: () => ["carts"] as const,
   list: (cartId: Cart["id"]) => {
     const { queryKey } = keys.list(cartId);
     return infiniteQueryOptions({

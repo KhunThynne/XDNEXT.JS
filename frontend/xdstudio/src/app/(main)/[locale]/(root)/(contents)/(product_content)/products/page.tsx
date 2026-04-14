@@ -3,30 +3,13 @@ import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import { auth } from "@/auth";
 import { contentClassName } from "./shared/contentClassName";
 import { ContentProductsSSR } from "./components/ContentProductSSR";
-import { getSkipFromPage } from "./shared/utils/paginationUtil";
-import { execute } from "@/shared/libs/graphql/execute";
-import type {
-  GetProductsQueryVariables,
-  Product,
-} from "@/shared/libs/graphql/generates/graphql";
-import { GetProductsDocument } from "@/shared/libs/graphql/generates/graphql";
-import { cacheLife, cacheTag } from "next/cache";
+import type { Product } from "@/shared/libs/graphql/generates/graphql";
 import _ from "lodash";
 
 import { Fragment } from "react";
 import { notFound } from "next/navigation";
-
-const getProductsCache = async (
-  variables: GetProductsQueryVariables,
-  currentPage: number
-) => {
-  "use cache";
-  cacheLife("max");
-  cacheTag(`products-${currentPage}`, "products");
-  return execute(GetProductsDocument, {
-    ...variables,
-  });
-};
+import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
+import { productQueries } from "@/shared/core/product/query";
 
 export default async function PageProducts({
   searchParams,
@@ -36,19 +19,12 @@ export default async function PageProducts({
   const session = await auth();
   const { page: pageParam } = await searchParams;
   const page = Number(pageParam) || 1;
-  const take = 10;
-  const skip = getSkipFromPage(page, take);
-  const fetchCache = await getProductsCache(
-    {
-      limit: take,
-      page: skip,
-      // orderBy: { createdAt: OrderDirection.Desc },
-    },
-    page
-  );
+  const queryClient = getQueryClient();
+  const products = await queryClient.fetchQuery({
+    ...productQueries.page(page),
+  });
 
-  if (!_.isEmpty(fetchCache.data.Products)) {
-    const { Products } = fetchCache.data;
+  if (!_.isEmpty(products.docs)) {
     return (
       <Fragment>
         <BreadcrumbComponent />
@@ -60,7 +36,7 @@ export default async function PageProducts({
         >
           <ContentProductsSSR
             session={session}
-            products={Products.docs as Product[]}
+            products={products.docs as Product[]}
           />
         </ContainerSection>
       </Fragment>
