@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { create, StateCreator } from "zustand";
+import { create } from "zustand";
 import type { PersistOptions } from "zustand/middleware";
 import { devtools, persist } from "zustand/middleware";
 type StoreWrapper<T, K extends string> = {
