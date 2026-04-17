@@ -124,6 +124,7 @@ const useCountdown = ({
     const newInitialTime: number = Math.floor(
       (expiryTime - currentTimeSource) / 1000
     );
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRemainingTime(Math.max(0, newInitialTime));
   }, [expiryTime, nowTimestamp]);
 
@@ -135,6 +136,7 @@ const useCountdown = ({
     if (nowTimestamp !== undefined) {
       const timeDifference: number = expiryTime - nowTimestamp;
       if (timeDifference <= 0) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRemainingTime(0);
         return;
       }

@@ -32,7 +32,9 @@ export function EmptyComponent({
   header,
 }: {
   title: string | React.ComponentPropsWithoutRef<typeof EmptyTitle>;
-  description?: string | React.ComponentPropsWithoutRef<typeof EmptyDescription>;
+  description?:
+    | string
+    | React.ComponentPropsWithoutRef<typeof EmptyDescription>;
   icon?: React.ReactNode;
   media?: React.ComponentPropsWithoutRef<typeof EmptyMedia>;
   button?:
@@ -72,31 +74,32 @@ export function EmptyComponent({
               {typeof description === "string" ? description : ""}
             </EmptyDescription>
           </EmptyHeader>
-          <EmptyContent {...content}>
-            {React.isValidElement(button) ? (
-              button
-            ) : (
-              <Button
-                variant="outline"
-                {...(typeof button !== "string" ? button : {})}
-                onClick={async (e) => {
-                  if (
-                    typeof button !== "string" &&
-                    "onClick" in button! &&
-                    typeof button.onClick === "function"
-                  ) {
-                    button.onClick(e);
-                  }
 
-                  onClickAction?.();
-                  await revalidatePathAction(realPathname);
-                }}
-              >
-                {typeof button !== "string"
-                  ? (button?.title ?? "Try again")
-                  : button}
-              </Button>
-            )}
+          <EmptyContent {...content}>
+            {React.isValidElement(button)
+              ? button
+              : typeof button !== "string" && (
+                  <Button
+                    variant="outline"
+                    {...button}
+                    onClick={async (e) => {
+                      if (
+                        typeof button !== "string" &&
+                        "onClick" in button! &&
+                        typeof button.onClick === "function"
+                      ) {
+                        button.onClick(e);
+                      }
+
+                      onClickAction?.();
+                      await revalidatePathAction(realPathname);
+                    }}
+                  >
+                    {typeof button !== "string"
+                      ? (button?.title ?? "Try again")
+                      : button}
+                  </Button>
+                )}
             {children}
           </EmptyContent>
         </Empty>

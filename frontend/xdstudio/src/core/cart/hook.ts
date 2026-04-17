@@ -8,9 +8,9 @@ import {
 import { updateTagClient } from "@/shared/utils/m";
 import { createCartItem, deleteCartItem, deleteCartItems } from "./services";
 import { cartQueries } from "./query";
-import type { Cart, Product } from "@/shared/libs/graphql/generates/graphql";
+
 import type { User } from "next-auth";
-import type { CartItem } from "@/payload-types";
+import type { Cart, CartItem, Product } from "@/payload-types";
 
 export const useCartItemsManager = ({
   cartId,

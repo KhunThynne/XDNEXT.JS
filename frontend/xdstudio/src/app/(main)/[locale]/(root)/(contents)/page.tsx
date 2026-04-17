@@ -14,6 +14,7 @@ import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ContentProductsSSR } from "./(product_content)/products/components/ContentProductSSR";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { productQueries } from "@/core/product/query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function PageCotent() {
   const session = await auth();
@@ -24,11 +25,16 @@ export default async function PageCotent() {
     { name: "Custom Mods", icon: Code, count: "200+" },
   ];
   const queryClient = getQueryClient();
-  const products = await queryClient.fetchQuery({
-    ...productQueries.page(1),
-  });
+  let products;
+  try {
+    products = await queryClient.fetchQuery({
+      ...productQueries.page(1),
+    });
+  } catch (error) {
+    console.error("Error getting products:", error);
+  }
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <MotionTransition preset="none">
         <ContentCard
           title={
@@ -103,9 +109,9 @@ export default async function PageCotent() {
         <ContentProductsSSR
           session={session}
           max={5}
-          products={products.docs}
+          products={products?.docs}
         />
       </ContainerSection>
-    </>
+    </HydrationBoundary>
   );
 }

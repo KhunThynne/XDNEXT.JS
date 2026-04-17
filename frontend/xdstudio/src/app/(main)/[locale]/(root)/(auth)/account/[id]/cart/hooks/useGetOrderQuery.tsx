@@ -1,6 +1,3 @@
-import { execute } from "@/shared/libs/graphql/execute";
-
-import { useQuery } from "@tanstack/react-query";
 
 export const useGetOrderQuery = () => {
   // return useQuery<GetProductsQuery>({

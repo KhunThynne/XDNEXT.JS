@@ -23,7 +23,7 @@ export async function GET(request: NextRequest, { params }: ParamsType) {
   switch (resource as typeResource) {
     case "sources":
       break;
-    case "charges":
+    case "charges": {
       const chargeId = rawResource?.[1];
       const response = await fetch(`https://api.omise.co/charges/${chargeId}`, {
         headers: {
@@ -32,6 +32,7 @@ export async function GET(request: NextRequest, { params }: ParamsType) {
       });
       console.log(response);
       return NextResponse.json(await response.json());
+    }
     default:
       throw new Error(`Unsupported resource: ${resource}`);
   }
@@ -49,13 +50,13 @@ export async function POST(request: NextRequest, { params }: ParamsType) {
     switch (resource as typeResource) {
       case "sources":
         response = await ApiPostOmiseSources(
-          env.XD_CORE_API,
+          env.XD_CORE_API_URL,
           body as ApiPostOmiseSourcesType
         );
         break;
       case "charges":
         response = await ApiPostOmiseCharge(
-          env.XD_CORE_API,
+          env.XD_CORE_API_URL,
           body as ApiPostOmiseChargeType
         );
         break;

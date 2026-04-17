@@ -1,4 +1,3 @@
-import { execute } from "@/shared/libs/graphql/execute";
 
 import { useMutation } from "@tanstack/react-query";
 

@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "next dev --no-server-fast-refresh",
-    "build": "next build --turbo",
+    "build": "npx payload migrate&&next build --turbo",
     "start": "next start",
     "lint": "eslint",
     "lint:fix": "eslint --fix",

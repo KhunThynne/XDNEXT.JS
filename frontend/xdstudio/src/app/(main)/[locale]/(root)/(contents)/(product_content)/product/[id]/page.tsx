@@ -5,12 +5,10 @@ import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import type { Cart, Product } from "@/payload-types";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { productQueries } from "@/core/product/query";
-import ProductLoading from "./loading";
 
 export default async function PageProduct({
   params,
 }: PageProps<"/[locale]/product/[id]">) {
-  return <ProductLoading />;
   const { id } = await params;
   const queryClient = getQueryClient();
   const session = await auth();
