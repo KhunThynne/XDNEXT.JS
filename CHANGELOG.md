@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.8.0...v1.10.0) (2026-04-17)
+
+
+### Features
+
+* add product page, loading skeleton, and reusable breadcrumb component with license file ([a85294b](https://github.com/KhunThynne/XDNEXT.JS/commit/a85294b13ce24e4d2419d114d84d183e428244d0))
+* add SignButton component to navbar for user authentication redirection ([247d162](https://github.com/KhunThynne/XDNEXT.JS/commit/247d162f07e19b1093df18701501b6cb7ea3f0be))
+* implement account management features including infinite scroll user items, cart functionality, and payment processing flow ([2f7c492](https://github.com/KhunThynne/XDNEXT.JS/commit/2f7c4926c489db991fb49a00426bf2c3a9fef892))
+* implement account preferences and cart management components with bulk deletion functionality ([5fb7dd8](https://github.com/KhunThynne/XDNEXT.JS/commit/5fb7dd82eff36c3b0dc58703da5061aa74bfa5f2))
+* implement cart management system with form handling, infinite query hooks, and structured UI components ([f3e28b0](https://github.com/KhunThynne/XDNEXT.JS/commit/f3e28b070311dd2a30b289c275ddcc789ea53db1))
+* implement cart management system with popover UI, order forms, and shared core utilities ([4a27718](https://github.com/KhunThynne/XDNEXT.JS/commit/4a27718391157a5304170f279e235544356789bf))
+* implement cart management system with popover, infinite scroll, and order form integration ([3ef53b7](https://github.com/KhunThynne/XDNEXT.JS/commit/3ef53b71844a3a701355ecd5ef4a258e9d3096fe))
+* implement cart management system with UI components and data hooks ([d396e19](https://github.com/KhunThynne/XDNEXT.JS/commit/d396e19265804738a09cffcbc3b3a8323d0eb976))
+* implement core frontend architecture, account management, payment flows, and product catalog modules ([23deb46](https://github.com/KhunThynne/XDNEXT.JS/commit/23deb46a0e296ffe6f7e74d355372bc8deb39106))
+* implement core UI components, loading states, and infinite scroll payment datatable for account management ([4a5655d](https://github.com/KhunThynne/XDNEXT.JS/commit/4a5655d37999c6b2b71715c113771b4456c15a08))
+* implement core user/cart modules and scaffold account, product, and payment management features ([7911a02](https://github.com/KhunThynne/XDNEXT.JS/commit/7911a02a2e10b19b17033f03c5c8e155d01b107a))
+* implement infinite scroll data tables and user account management modules ([92c00d1](https://github.com/KhunThynne/XDNEXT.JS/commit/92c00d17b17801c94a8562f04cb769a76f135578))
+* implement infinite scroll hooks and data table components for user items and cart management ([8fce4a0](https://github.com/KhunThynne/XDNEXT.JS/commit/8fce4a01db3febfcfacc0207d5d39c9dcec721b9))
+* implement Omise payment API integration and add cart management UI components ([8709d20](https://github.com/KhunThynne/XDNEXT.JS/commit/8709d20431111d939c95bce4952c5310692f8ccf))
+* implement product browsing, cart management, and user account preferences with associated services and UI components ([84b56d8](https://github.com/KhunThynne/XDNEXT.JS/commit/84b56d8503a48fc530714731fc4b3e04b606537d))
+* implement product module with TanStack Query integration, Next.js configuration, and new product browsing UI components ([6f3e31e](https://github.com/KhunThynne/XDNEXT.JS/commit/6f3e31e5cb7d226e70e2f4f4fa3b0ca409c2c06b))
+* implement shared core module architecture and cart management system with datatable hooks and infinite scroll components ([8d402fd](https://github.com/KhunThynne/XDNEXT.JS/commit/8d402fdf91a1191240daef3e06d097bebca4b1c9))
+* implement shopping cart functionality with virtualized list, server actions, and product management components ([ec0ac07](https://github.com/KhunThynne/XDNEXT.JS/commit/ec0ac07dd0e6dac077d15d41fe942706b5257c97))
+* implement shopping cart system with popover, infinite query hooks, and server actions ([4e757de](https://github.com/KhunThynne/XDNEXT.JS/commit/4e757decdb03b0334b5d0f87b8a65fb6af976fa7))
+* implement TanStack Query SSR integration with shared query clients and hydration boundaries ([a1f49e3](https://github.com/KhunThynne/XDNEXT.JS/commit/a1f49e3a3337df55cdd9b908791b3878e87cfbe2))
+* implement user credit management and product detail caching with new UI components and data hooks ([819127e](https://github.com/KhunThynne/XDNEXT.JS/commit/819127e11fa2f3cc35d2c74ec8cd394dcdcb1849))
+* initialize Payload CMS configuration and database seeding scripts ([cd03270](https://github.com/KhunThynne/XDNEXT.JS/commit/cd03270231177ce3352a9b94184eca07787ddb65))
+
 ## [1.9.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.8.0...v1.9.0) (2026-04-17)
 
 
