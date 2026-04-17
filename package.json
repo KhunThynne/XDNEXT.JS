@@ -1,6 +1,6 @@
 {
   "name": "xd_nextjs",
-  "version": "1.10.0",
+  "version": "1.10.1",
   "description": "XD-Shop",
   "workspaces": [
     "frontend/xdstudio"
@@ -16,7 +16,7 @@
     "build": "npm run build:frontend/xdstudio && npm run build:backend/xdstudio ",
     "prepare": "husky",
     "codegen": "graphql-codegen --config codegen.ts --no-cache --watch",
-    "release": "npx standard-version && git push --follow-tags origin main"
+    "release": "npx standard-version"
   },
   "repository": {
     "type": "git",
