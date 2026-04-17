@@ -8,20 +8,22 @@ import { productQueries } from "@/core/product/query";
 
 export default async function PageProduct({
   params,
-}: {
-  params: Promise<{ locale: string; id: string }>;
-}) {
+}: PageProps<"/[locale]/product/[id]">) {
   const { id } = await params;
   const queryClient = getQueryClient();
   const session = await auth();
   const product = await queryClient.fetchQuery(productQueries.product(id));
-  const productStatus = await queryClient.fetchQuery(
-    productQueries.checkUserProductStatus(
-      id,
-      session?.user?.id ?? "",
-      (session?.user?.carts?.docs as Cart[])[0].id
-    )
-  );
+  let productStatus = null;
+  if (session?.user) {
+    productStatus = await queryClient.fetchQuery(
+      productQueries.checkUserProductStatus(
+        id,
+        session?.user?.id ?? "",
+        (session?.user?.carts?.docs as Cart[])[0].id
+      )
+    );
+  }
+
   if (!product) return notFound();
   return (
     <>

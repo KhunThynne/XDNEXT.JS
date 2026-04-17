@@ -64,7 +64,7 @@ export const ProductFAQ = ({ faqs }: { faqs: Faq[] | undefined }) => {
 const ContainerProductMenu = (
   props: Product & {
     session?: Session | null | undefined;
-    userProductStatus: CheckUserProductStatusQuery;
+    userProductStatus: CheckUserProductStatusQuery | null;
   }
 ) => {
   const { session, userProductStatus, ...product } = props;
@@ -147,7 +147,7 @@ const ContainerProductMenu = (
 export const ContentProduct = (
   props: Product & {
     session: Session | null | undefined;
-    userProductStatus: CheckUserProductStatusQuery;
+    userProductStatus: CheckUserProductStatusQuery | null;
     children?: React.ReactNode;
   }
 ) => {
@@ -168,7 +168,7 @@ export const ContentProduct = (
       )}
       <ContainerSection className="top-20 max-xl:sticky xl:col-span-2">
         <ContainerProductMenu
-          key={props.userProductStatus.renderKey}
+          key={props?.userProductStatus?.renderKey ?? "product"}
           {...props}
         />
       </ContainerSection>
