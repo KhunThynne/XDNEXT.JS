@@ -3,8 +3,9 @@ import { env } from "@/env";
 import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withPayload } from "@payloadcms/next/withPayload";
+import { MAPING } from "./configs/env.config";
 
-const backendUrl = new URL(env.NEXT_PUBLIC_API_URL);
+const backendUrl = new URL(env.PRIVATE_SITE_URL);
 const nextConfig = {
   /**
    * @type {import('next').NextConfig}
@@ -16,7 +17,7 @@ const nextConfig = {
   reactCompiler: true,
   cacheComponents: true,
   experimental: {
-    // turbopackFileSystemCacheForDev: true,
+    turbopackFileSystemCacheForDev: true,
     mcpServer: true,
     authInterrupts: true,
     // globalNotFound: true,
@@ -35,7 +36,7 @@ const nextConfig = {
     return [
       {
         source: "/socket.io",
-        destination: `${env.NEXT_PUBLIC_API_URL}/socket.io/`,
+        destination: `${env.PRIVATE_SITE_URL}/socket.io/`,
       },
     ];
   },
@@ -78,7 +79,9 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    ...MAPING(),
+    // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+    // NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   },
 } satisfies NextConfig;
 const withNextIntl = createNextIntlPlugin("./src/shared/libs/i18n/request.ts");
