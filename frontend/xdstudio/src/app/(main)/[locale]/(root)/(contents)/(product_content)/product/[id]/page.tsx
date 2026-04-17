@@ -8,9 +8,7 @@ import { productQueries } from "@/core/product/query";
 
 export default async function PageProduct({
   params,
-}: {
-  params: Promise<{ locale: string; id: string }>;
-}) {
+}: PageProps<"/[locale]/product/[id]">) {
   const { id } = await params;
   const queryClient = getQueryClient();
   const session = await auth();
