@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.10.2](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.10.1...v1.10.2) (2026-04-17)
+
+
+### Features
+
+* implement authentication system and user dashboard interface with account management components ([9515b5e](https://github.com/KhunThynne/XDNEXT.JS/commit/9515b5e1377166bb327b0055b6ddc4609b6d43bc))
+
 ### [1.10.1](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.10.0...v1.10.1) (2026-04-17)
 
 ## [1.10.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v1.8.0...v1.10.0) (2026-04-17)
