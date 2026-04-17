@@ -21,7 +21,7 @@ import type { Session } from "next-auth";
 import { MediaProduct } from "./MediasProduct";
 import type { Faq, Product } from "@/payload-types";
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import type { CheckUserProductStatusQuery } from "../shared/types";
+import type { CheckUserProductStatusQuery } from "../../products/shared/types";
 import {
   Collapsible,
   CollapsibleContent,

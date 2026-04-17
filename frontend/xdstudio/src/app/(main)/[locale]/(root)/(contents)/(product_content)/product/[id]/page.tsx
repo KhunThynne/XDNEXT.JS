@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import { ContentProduct } from "../../products/components/ContentProduct";
+import { ContentProduct } from "../../_shared/components/ContentProduct";
 import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import type { Cart, Product } from "@/payload-types";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";

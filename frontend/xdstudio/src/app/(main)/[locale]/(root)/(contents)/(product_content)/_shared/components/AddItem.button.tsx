@@ -9,7 +9,7 @@ import { useRouter } from "@navigation";
 import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
 import type { Product } from "@/payload-types";
 
-import type { CheckUserProductStatusQuery } from "../shared/types";
+import type { CheckUserProductStatusQuery } from "../../products/shared/types";
 import { useCartItemsManager } from "@/core/cart";
 import { useParams } from "next/navigation";
 

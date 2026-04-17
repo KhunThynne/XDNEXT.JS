@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { AddItemButton } from "./AddItem.button";
 import type { Session } from "next-auth";
 import type { Product } from "@/payload-types";
-import type { CheckUserProductStatusQuery } from "../shared/types";
+import type { CheckUserProductStatusQuery } from "../../products/shared/types";
 import { useRouter } from "@navigation";
 
 export default function ProductActions({

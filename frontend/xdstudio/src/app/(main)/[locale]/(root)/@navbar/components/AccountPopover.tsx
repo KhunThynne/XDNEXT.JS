@@ -23,8 +23,6 @@ import Credit from "@/shared/components/Credit";
 import { env } from "@/env";
 import clsx from "clsx";
 import { signOut } from "@/shared/components/forms/auth/actions/Login.action";
-import { useQueryClient } from "@tanstack/react-query";
-import { keys } from "@/core";
 
 const AvartarUser = ({
   user,
@@ -112,7 +110,6 @@ const UserDetails = ({
   );
 };
 export function AccountPopover(user: UserType) {
-  if (_.isEmpty(user)) return null;
   return (
     <Popover>
       <PopoverTrigger asChild>

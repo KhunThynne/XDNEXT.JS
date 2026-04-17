@@ -1,18 +1,17 @@
 "use client";
-import { Button } from "@/shared/libs/shadcn/ui/button";
+
 import clsx from "clsx";
 
-import { LoaderCircle } from "lucide-react";
-import { Fragment } from "react";
+import { Fragment, useLayoutEffect, useRef } from "react";
 import { AccountPopover } from "./AccountPopover";
 
 import { SignButton } from "./SignButton";
 import type { Session } from "next-auth";
 import { CartPopover } from "@/app/(main)/[locale]/(root)/@navbar/components/CartPopover";
 import { ThemeMenu } from "@/shared/components/ThemeMenu";
-import { useSession } from "next-auth/react";
-import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
+
 import type { User } from "@/payload-types";
+import { toast } from "sonner";
 
 export const NavbarActionSection = ({
   className,
@@ -23,6 +22,25 @@ export const NavbarActionSection = ({
   credit: User["credit"];
 } & WithlDefaultProps) => {
   const cartId = session?.user?.carts?.docs?.[0];
+  const prevSessionRef = useRef(session);
+  useLayoutEffect(() => {
+    const prevSession = prevSessionRef.current;
+
+    if (prevSession && !session) {
+      toast.info("You are logged out");
+      localStorage.removeItem("was_logged_in"); 
+    }
+
+    if (!prevSession && session) {
+      const wasLoggedIn = localStorage.getItem("was_logged_in");
+      if (!wasLoggedIn) {
+        toast.success("Welcome back!");
+        localStorage.setItem("was_logged_in", "true");
+      }
+    }
+
+    prevSessionRef.current = session;
+  }, [session]);
   return (
     <section className={clsx(className)}>
       <ThemeMenu />

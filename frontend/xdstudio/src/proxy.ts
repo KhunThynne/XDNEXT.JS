@@ -1,15 +1,29 @@
 import createMiddleware from "next-intl/middleware";
-import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { routing } from "./shared/libs/i18n/routing";
+import { auth } from "./auth";
 
 const handleI18nRouting = createMiddleware(routing);
-export default async function proxy(request: NextRequest) {
-  const { nextUrl } = request;
+export default auth(async function proxy(request) {
+  const { nextUrl, auth: session } = request;
+
+  const hasCookie =
+    request.cookies.has("authjs.session-token") ||
+    request.cookies.has("__Secure-authjs.session-token");
+
+  if (!session && hasCookie) {
+    const response = NextResponse.redirect(nextUrl.href);
+
+    response.cookies.delete("authjs.session-token");
+    response.cookies.delete("__Secure-authjs.session-token");
+    response.cookies.delete("authjs.csrf-token");
+
+    return response;
+  }
   const response = handleI18nRouting(request) ?? NextResponse.next();
   response.headers.set("x-url", nextUrl.pathname + nextUrl.search);
   if (response) return response;
-}
+});
 
 export const config = {
   // Match all pathnames except for

@@ -2,7 +2,7 @@ import { ContainerSection } from "@/shared/components/ContainerSection";
 import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import { auth } from "@/auth";
 import { contentClassName } from "./shared/contentClassName";
-import { ContentProductsSSR } from "./components/ContentProductSSR";
+import { ContentProductsSSR } from "../_shared/components/ContentProductSSR";
 import _ from "lodash";
 import { Fragment } from "react";
 import { notFound } from "next/navigation";

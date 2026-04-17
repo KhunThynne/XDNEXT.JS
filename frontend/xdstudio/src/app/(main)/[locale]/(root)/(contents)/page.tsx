@@ -11,7 +11,7 @@ import { Badge } from "@/shared/libs/shadcn/ui/badge";
 import { contentClassName } from "./(product_content)/products/shared/contentClassName";
 import ContentCard from "@/shared/components/cards/ContentCard";
 import { MotionTransition } from "@/shared/components/MotionTransition";
-import { ContentProductsSSR } from "./(product_content)/products/components/ContentProductSSR";
+import { ContentProductsSSR } from "./(product_content)/_shared/components/ContentProductSSR";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { productQueries } from "@/core/product/query";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";

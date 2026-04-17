@@ -1,27 +1,16 @@
-import { Card, CardContent } from "@/shared/libs/shadcn/ui/card";
 import { SignFormNew } from "@/shared/components/forms/auth/SignFormNew";
-import clsx from "clsx";
-import { notFound } from "next/navigation";
 
 // export const dynamic = "force-static";
 export default async function LoginModal({
   searchParams,
-}: {
-  searchParams: Promise<{ callbackUrl: string }>;
-}) {
-  const { callbackUrl } = await searchParams;
-  if (!callbackUrl) return notFound();
+}: PageProps<"/[locale]/login">) {
+  const params = await searchParams;
+  if (params.error) {
+    throw new Error("login error ");
+  }
   return (
-    <Card
-      className={clsx(
-        "grow md:max-w-md",
-        "max-sm:p-0",
-        "max-sm:border-0 max-sm:shadow-none max-sm:ring-0"
-      )}
-    >
-      <CardContent className="h-full place-content-center">
-        <SignFormNew />
-      </CardContent>
-    </Card>
+    <SignFormNew
+      searchParams={params as { error: string; callbackUrl: string }}
+    />
   );
 }

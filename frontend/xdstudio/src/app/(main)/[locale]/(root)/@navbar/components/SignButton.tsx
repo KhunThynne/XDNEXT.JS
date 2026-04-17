@@ -15,8 +15,7 @@ export const SignButton = () => {
       disabled={!!callbackUrl}
       aria-label="sign-button"
       onClick={async () => {
-        const fullPath = `${window.location.origin}${pathname}`;
-        await login("", { redirectTo: fullPath, callbackUrl: fullPath });
+        await login("", { redirectTo: pathname, callbackUrl: pathname });
       }}
     >
       <Users />
