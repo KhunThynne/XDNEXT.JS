@@ -99,18 +99,17 @@ export const CartPopover = ({
 
 const HandleCartItems = ({
   children,
-  invalidate,
   status,
 }: {
   children: React.ReactNode;
   status: "success" | "pending" | "error";
   invalidate: () => void;
 }) => {
-  useLayoutEffect(() => {
-    if (status === "success") {
-      invalidate();
-    }
-  }, [invalidate, status]);
+  // useLayoutEffect(() => {
+  //   if (status === "success") {
+  //     invalidate();
+  //   }
+  // }, [invalidate, status]);
 
   if (status === "pending") {
     return (
