@@ -5,7 +5,7 @@ import clsx from "clsx";
 import { CheckCircle } from "lucide-react";
 import { useNow } from "next-intl";
 import Image from "next/image";
-
+import pkg from "../../../../../../../package.json";
 export default function Footer({ className }: WithlDefaultProps) {
   const intl = useNow();
   const currentYear = new Date(intl).getFullYear();
@@ -13,7 +13,7 @@ export default function Footer({ className }: WithlDefaultProps) {
   return (
     <article
       className={clsx(
-        "@container w-full items-center bg-background max-sm:pb-7",
+        "bg-background @container w-full items-center max-sm:pb-7",
         "text-xs",
         "space-y-3",
         className
@@ -107,17 +107,17 @@ export default function Footer({ className }: WithlDefaultProps) {
           <Separator className="opacity-50" />
       </div> */}
 
-      <div className="container mx-auto flex max-w-screen-lg flex-wrap items-center justify-between gap-3 max-sm:flex-col">
+      <div className="container mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 max-sm:flex-col">
         <div className="flex items-center">
           <Image
-            className="mx-auto rounded-full border-1"
+            className="mx-auto rounded-full border"
             width={44}
             height={44}
             alt=""
             src="/img/XD_STUDIO.png"
           />
 
-          <div className="ml-2 border-l-1">
+          <div className="ml-2 border-l">
             <div className="ml-2 space-x-1">
               <span>This</span>
               <code className="space-x-1 font-extralight">
@@ -128,7 +128,7 @@ export default function Footer({ className }: WithlDefaultProps) {
                 XD TECHNOLOGY
               </Link>
             </div>
-            <div className="ml-2">version 0.0.1 (Latest version)</div>
+            <div className="ml-2">version {pkg.version}</div>
           </div>
         </div>
 
@@ -140,7 +140,7 @@ export default function Footer({ className }: WithlDefaultProps) {
           </div>
           <div className="flex items-center justify-center gap-1 sm:justify-start">
             <CheckCircle className="size-4" /> Website
-            <span className="font-medium text-success">Protected</span>
+            <span className="text-success font-medium">Protected</span>
           </div>
         </div>
       </div>
