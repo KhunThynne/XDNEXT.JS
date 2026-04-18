@@ -95,11 +95,7 @@ const UserDetails = ({
             </Badge>
           </section>
           <div>
-            <Button
-              className=""
-              variant="ghost"
-              onClick={() => signOut({ callbackUrl: env.NEXT_PUBLIC_SITE_URL })}
-            >
+            <Button className="" variant="ghost" onClick={() => signOut()}>
               <small className="text-xs">Logout</small>
               <LogOut />
             </Button>

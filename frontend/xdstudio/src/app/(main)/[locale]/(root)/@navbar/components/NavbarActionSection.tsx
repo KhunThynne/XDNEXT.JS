@@ -12,6 +12,7 @@ import { ThemeMenu } from "@/shared/components/ThemeMenu";
 
 import type { User } from "@/payload-types";
 import { toast } from "sonner";
+import { Users } from "lucide-react";
 
 export const NavbarActionSection = ({
   className,
@@ -28,7 +29,7 @@ export const NavbarActionSection = ({
 
     if (prevSession && !session) {
       toast.info("You are logged out");
-      localStorage.removeItem("was_logged_in"); 
+      localStorage.removeItem("was_logged_in");
     }
 
     if (!prevSession && session) {
@@ -46,7 +47,9 @@ export const NavbarActionSection = ({
       <ThemeMenu />
       <span className="inline-flex space-x-3">
         {!session ? (
-          <SignButton />
+          <SignButton>
+            <Users />
+          </SignButton>
         ) : (
           session?.user && (
             <Fragment>

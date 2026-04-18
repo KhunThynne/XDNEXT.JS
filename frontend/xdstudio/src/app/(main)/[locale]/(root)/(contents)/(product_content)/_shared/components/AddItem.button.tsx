@@ -5,8 +5,7 @@ import type { Session } from "next-auth";
 
 import { Fragment, useMemo } from "react";
 import { updateTagClient } from "@/shared/utils/m";
-import { useRouter } from "@navigation";
-import { signIn } from "@/shared/components/forms/auth/actions/Login.action";
+import { usePathname, useRouter } from "@navigation";
 import type { Product } from "@/payload-types";
 
 import type { CheckUserProductStatusQuery } from "../../products/shared/types";
@@ -41,7 +40,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     cartId: cartId as string,
     userId: userId ?? "",
   });
-
+  const pathname = usePathname();
   const { mutate, isPending, isIdle } = addItem;
   const addedItem = useMemo(() => {
     const statusLog = status;
@@ -58,7 +57,7 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
       return router.replace({ pathname: `/account/${userId}` });
     }
     if (!cartId) {
-      signIn();
+      router.push({ pathname: "/login", query: { callbackUrl: pathname } });
       return;
     }
     onClick?.(event);
