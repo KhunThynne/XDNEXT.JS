@@ -17,8 +17,6 @@ export default auth(async function proxy(request) {
     response.cookies.delete("authjs.session-token");
     response.cookies.delete("__Secure-authjs.session-token");
     response.cookies.delete("authjs.csrf-token");
-
-    return response;
   }
   const response = handleI18nRouting(request) ?? NextResponse.next();
   response.headers.set("x-url", nextUrl.pathname + nextUrl.search);

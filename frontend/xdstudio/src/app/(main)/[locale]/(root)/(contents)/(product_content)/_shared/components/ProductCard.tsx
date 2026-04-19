@@ -96,7 +96,7 @@ export const CardProduct = ({
               <ProductTag tags={product?.tags} />
             )}
 
-            <Link href={href}>
+            <Link href={href} prefetch={false}>
               <CardTitle
                 className={clsx(
                   "min-h-6 text-xl font-semibold",
@@ -169,7 +169,7 @@ export const CardProduct = ({
               <Skeleton className="h-9 w-full" />
             ) : (
               <Button size="sm" className="w-full" asChild>
-                <Link href={href}>Go to</Link>
+                <Link prefetch={false} href={href}>Go to</Link>
               </Button>
             )}
           </CardFooter>

@@ -6,7 +6,6 @@ import type { Session } from "next-auth";
 import _ from "lodash";
 import { Box } from "lucide-react";
 import { Button } from "@/shared/libs/shadcn/ui/button";
-import { useTheme } from "@wrksz/themes/client";
 import type { Product } from "@/payload-types";
 
 interface ContentProductsProps {
