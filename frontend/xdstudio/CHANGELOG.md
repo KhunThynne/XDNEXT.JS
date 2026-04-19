@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.1...v0.0.2) (2026-04-19)
+
+
+### Features
+
+* implement authentication proxy middleware and add reusable product card components for SSR rendering ([74837fe](https://github.com/KhunThynne/XDNEXT.JS/commit/74837fe63449fd9368ecdc8b76bbecee520a0130))
+* initialize frontend project with Payload CMS and Next.js dependencies ([ec2db79](https://github.com/KhunThynne/XDNEXT.JS/commit/ec2db798b0b8f53f938c5294193bf2e232bef974))
+* initialize Next.js configuration and add layout and content components for authentication pages ([bbc1b47](https://github.com/KhunThynne/XDNEXT.JS/commit/bbc1b47eb01cf2c8e3d7c67d671742c8b2ea6993))
+
 ### [0.0.1](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.0...v0.0.1) (2026-04-19)
 
 
