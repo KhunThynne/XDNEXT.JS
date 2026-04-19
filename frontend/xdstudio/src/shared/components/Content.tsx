@@ -7,18 +7,18 @@ export default function Content({
   disableBlackground,
 }: WithClassNames<"content" | "outsite"> & { disableBlackground?: true }) {
   return (
-    <div className={clsx(className, classNames?.outsite)}>
+    <div className={clsx(`bg-accent/40`, className, classNames?.outsite)}>
       <div
         className={clsx(
           disableBlackground && `hidden`,
           "absolute inset-0 -z-20",
-          "[mask-image:linear-gradient(to_bottom,white,transparent)]",
-          `bg-gradient-to-br`,
+          "mask-[linear-gradient(to_bottom,white,transparent)]",
+          `bg-linear-to-br`,
           // Light mode
           "bg-[linear-gradient(to_right,#00000010_1px,transparent_1px),linear-gradient(to_bottom,#00000010_1px,transparent_1px)] opacity-60",
           // Dark mode
           "dark:bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)]",
-          "bg-[size:40px_40px]",
+          "bg-size-[40px_40px]",
           "flex flex-col"
         )}
       />

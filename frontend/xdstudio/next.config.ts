@@ -12,6 +12,12 @@ const nextConfig = {
   /**
    * @type {import('next').NextConfig}
    */
+  logging: {
+    fetches: {
+      fullUrl: true,
+      hmrRefreshes: true,
+    },
+  },
   turbopack: {
     // options
   },
