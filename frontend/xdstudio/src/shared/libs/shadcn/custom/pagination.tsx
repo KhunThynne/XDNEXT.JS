@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/shared/libs/shadcn/utils";
-import type { Button } from "@/shared/libs/shadcn/ui/button";
+import { Button } from "@/shared/libs/shadcn/ui/button";
 import { buttonVariants } from "@/shared/libs/shadcn/ui/button";
 import { Link } from "@navigation";
 
@@ -92,6 +92,23 @@ function PaginationPrevious({
   );
 }
 
+export function PaginationButton({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof Button>) {
+  return (
+    <Button
+      aria-label="Go to next page"
+      size="default"
+      className={cn("gap-1 px-2.5 sm:pr-2.5 cursor-pointer", className)}
+      {...props}
+    >
+      {children}
+      {props.title && <span className="hidden @sm:block">{props.title}</span>}
+    </Button>
+  );
+}
 function PaginationNext({
   className,
   ...props

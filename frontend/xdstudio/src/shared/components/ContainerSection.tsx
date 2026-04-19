@@ -1,8 +1,7 @@
 "use client";
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
-import { Label } from "@radix-ui/react-label";
 import clsx from "clsx";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { ContainerLog } from "./fallback/ContainerLog";
 
 interface ContainerSectionProps extends WithClassNames<
@@ -35,11 +34,11 @@ export const ContainerSection = ({
       {(description || title) && (
         <section className="flex flex-col">
           {title && (
-            <Label
+            <span
               className={clsx(`text-2xl font-semibold`, classNames?.title)}
             >
               {title}
-            </Label>
+            </span>
           )}
           {description && (
             <span

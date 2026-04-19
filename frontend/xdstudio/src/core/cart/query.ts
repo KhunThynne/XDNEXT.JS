@@ -14,7 +14,7 @@ export const cartQueries = {
       queryKey,
       queryFn: async ({ pageParam = 1 }) => {
         return await getCartItems({
-          where: { cart: { equals: cartId } },
+          where: { cart: { equals: String(cartId) } },
           page: pageParam as number,
           limit: LIMIT,
           depth: 8,

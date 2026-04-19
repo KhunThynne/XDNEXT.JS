@@ -1,22 +1,35 @@
 "use server";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
+import { cacheLife, cacheTag } from "next/cache";
 import type { DeleteOneArgs } from "payload";
+
 export const getCartItems = async (
   arg: PayloadArgsWithoutCollection<"find", "cart-items">
 ) => {
   try {
     const payload = await getPayload();
-    return await payload.find({
+    const result = await payload.find({
       ...arg,
       collection: "cart-items",
     });
+    return JSON.parse(JSON.stringify(result));
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error getting cart items: ${error.message}`);
     }
     throw new Error(`Error getting cart items: ${error}`);
   }
+};
+
+export const getCartItemsCache = async (
+  arg: PayloadArgsWithoutCollection<"find", "cart-items">,
+  tag: string[]
+) => {
+  "use cache";
+  cacheLife("max");
+  cacheTag(...tag);
+  return await getCartItems(arg);
 };
 
 export const getCarts = async (

@@ -52,9 +52,11 @@ const BreadcrumbItemComponent = ({
 export function BreadcrumbComponent({
   pathNames,
   loading,
+  searchParams,
 }: {
   pathNames?: string[];
   loading?: boolean;
+  searchParams?: string | string[] | undefined;
 }) {
   const pathname = usePathname();
   const realPathname = usePathnameNext();
@@ -72,7 +74,10 @@ export function BreadcrumbComponent({
         />
 
         {pathNames.map((segment = "unkhown", index) => {
-          const href = "/" + pathNames.slice(0, index + 1).join("/");
+          const href =
+            "/" +
+            pathNames.slice(0, index + 1).join("/") +
+            (searchParams?.toString() ? `?${searchParams.toString()}` : "");
           const isLast = index === pathNames.length - 1;
 
           return (

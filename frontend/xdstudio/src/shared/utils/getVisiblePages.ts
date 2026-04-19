@@ -44,9 +44,9 @@ export const getVisiblePages = (
 
       if (prev === 1 && next === 3 && totalPages > 3) return true;
       if (prev === totalPages - 2 && next === totalPages && totalPages > 3)
-        return true; // เก็บ Ellipsis ด้านขวา (N-2 ... N)
+        return true;
 
       return prev < 1 || next > totalPages || next - prev > 2;
     })
-    .filter((p, i, arr) => p !== 0 || arr[i - 1] !== 0); // ลบ Ellipsis ซ้ำ
+    .filter((p, i, arr) => p !== 0 || arr[i - 1] !== 0);
 };

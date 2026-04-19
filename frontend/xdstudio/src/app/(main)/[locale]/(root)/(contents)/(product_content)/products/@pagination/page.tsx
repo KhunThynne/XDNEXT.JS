@@ -23,8 +23,6 @@ export default async function PaginationPage({
     return null;
   }
   return (
-    <>
-      <PaginationForm totalPages={totalPages} currentPage={page} />
-    </>
+    <PaginationForm totalPages={totalPages} key={page} currentPage={page} />
   );
 }

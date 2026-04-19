@@ -11,6 +11,7 @@ import { cartQueries } from "./query";
 
 import type { User } from "next-auth";
 import type { Cart, CartItem, Product } from "@/payload-types";
+import { keys } from "./keys";
 
 export const useCartItemsManager = ({
   cartId,
@@ -25,6 +26,7 @@ export const useCartItemsManager = ({
   const invalidate = () => {
     queryClient.invalidateQueries({ queryKey: queryOptions.queryKey });
     updateTagClient(`${cartId}-${userId}-checkProduct`);
+    updateTagClient(keys.list(cartId).tag[1]);
   };
 
   const iInfiniteQuery = useInfiniteQuery(queryOptions);
@@ -57,7 +59,6 @@ export const useCartItemsManager = ({
     mutationFn: async (cartItemIds: CartItem["id"][]) => {
       await deleteCartItems({
         where: { id: { in: cartItemIds } },
-     
       });
     },
     onSuccess: invalidate,

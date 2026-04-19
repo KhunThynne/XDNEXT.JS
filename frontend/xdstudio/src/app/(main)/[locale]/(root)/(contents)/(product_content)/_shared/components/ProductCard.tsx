@@ -10,8 +10,7 @@ import {
 import { Link } from "@navigation";
 import clsx from "clsx";
 import _ from "lodash";
-import { ImageOff } from "lucide-react";
-import Image from "next/image";
+
 import type { Session } from "next-auth";
 import CreditIcon from "@/shared/components/CreditIcon";
 import SafeHtml from "@/shared/libs/sanitize-html/SafeHtml";
@@ -22,12 +21,12 @@ import type { MotionTransitionWrapperProps } from "@/shared/components/MotionTra
 import { MotionTransition } from "@/shared/components/MotionTransition";
 import { ImageProduct } from "@/shared/components/images/ImageProduct";
 import type { Media, Price, Product } from "@/payload-types";
+import { useSearchParams } from "next/navigation";
 
 export const CardProduct = ({
   product,
   className,
   classNames,
-  session,
   footer = true,
   loading = false,
   motion,
@@ -46,7 +45,8 @@ export const CardProduct = ({
   | "content"
   | "containerDetail"
 > & { footer?: boolean }) => {
-  const href = product?.href ?? `/product/${product?.id}`;
+  const serchParams = useSearchParams();
+  const href = product?.href ?? `/product/${product?.id}?${serchParams.toString()}`;
 
   return (
     <MotionTransition {...motion} animationKey={`${product?.id}`}>
@@ -136,7 +136,9 @@ export const CardProduct = ({
                     <SafeHtml
                       className={clsx(
                         "text-md text-muted-foreground text-sm break-all",
-                        _.isEmpty(product.tags) ? "line-clamp-4" : "line-clamp-3"
+                        _.isEmpty(product.tags)
+                          ? "line-clamp-4"
+                          : "line-clamp-3"
                       )}
                       html={product.description}
                     />

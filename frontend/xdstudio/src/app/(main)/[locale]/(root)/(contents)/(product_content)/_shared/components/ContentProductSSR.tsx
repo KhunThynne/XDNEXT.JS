@@ -26,7 +26,6 @@ export const ContentProductsSSR = ({
   onRefetch,
   isFetching,
 }: ContentProductsProps) => {
-  const { theme } = useTheme();
   if (loading) {
     return Array.from({ length: 5 }).map((_, index) => (
       <CardProduct

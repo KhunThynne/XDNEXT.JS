@@ -11,6 +11,7 @@ import type { Product } from "@/payload-types";
 import type { CheckUserProductStatusQuery } from "../../products/shared/types";
 import { useCartItemsManager } from "@/core/cart";
 import { useParams } from "next/navigation";
+import { keys } from "@/core";
 
 type AddItemButtonProps = React.ComponentProps<typeof Button> & {
   product?: Product;
@@ -62,11 +63,13 @@ export const AddItemButton = ({ ...props }: AddItemButtonProps) => {
     }
     onClick?.(event);
     if (!addedItem?.inCart) {
-      mutate(productSlug as string, {
-        onSuccess: () => {
-          updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
-        },
-      });
+      // mutate(productSlug as string, {
+      //   onSuccess: () => {
+      //     updateTagClient(`${session?.user?.id}-${product?.id}-checkProduct`);
+      //     updateTagClient(keys.cart.list(cartId as string).tag[1]);
+      //   },
+      // });
+      mutate(productSlug as string);
       return;
     }
   };

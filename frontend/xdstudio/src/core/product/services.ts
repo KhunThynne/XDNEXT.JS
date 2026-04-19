@@ -1,9 +1,11 @@
 "use server";
 
-import { cacheLife, cacheTag, revalidateTag, updateTag } from "next/cache";
+import { cacheLife, cacheTag, updateTag } from "next/cache";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
 import { keys } from "./keys";
+import type { FindOptions, SelectType } from "payload";
+import type { Config } from "@/payload-types";
 
 export const updateProductTag = async () => {
   updateTag("products");
@@ -28,7 +30,13 @@ export async function getProduct(
 }
 
 export async function getProducts(
-  arg: PayloadArgsWithoutCollection<"find", "products">
+  arg: Omit<
+    FindOptions<
+      "products",
+      Config["collectionsSelect"]["products"] & SelectType
+    >,
+    "collection"
+  > & { collection?: "products" }
 ) {
   try {
     const payload = await getPayload();
@@ -46,7 +54,7 @@ export async function getProducts(
 }
 
 export const getProductsCache = async (
-  arg: PayloadArgsWithoutCollection<"find", "products">
+  arg: Parameters<typeof getProducts>[0]
 ) => {
   "use cache";
   cacheLife("max");
