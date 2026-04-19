@@ -21,7 +21,7 @@ export const env = createEnv({
     NODE_ENV: z.enum(["development", "production"]).default("development"),
 
     PAYLOAD_SECRET: z.string(),
-    AUTH_SECRET: z.string().optional(),
+    AUTH_SECRET: z.string(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
 

@@ -8,11 +8,13 @@ export const MAPING = (): NonNullable<NextConfig["env"]> => {
     NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
   };
 };
+const envModule = nextEnv as NextEnvModule;
+const { loadEnvConfig} =
+  envModule.default || envModule;
 const ConfigEnv = () => {
-  const envModule = nextEnv as NextEnvModule;
-  const { loadEnvConfig } = envModule.default || envModule;
+  const workSpace = loadEnvConfig(process.cwd());
   const projectRoot = path.resolve(process.cwd(), "../../");
-  const { combinedEnv } = loadEnvConfig(
+  loadEnvConfig(
     projectRoot,
     process.env.NODE_ENV !== "production",
     {
@@ -21,9 +23,7 @@ const ConfigEnv = () => {
     },
     true
   );
-
-  Object.assign(process.env, combinedEnv);
-
+  Object.assign(process.env, workSpace.parsedEnv);
   Object.entries(MAPING()).forEach(([key, value]) => {
     if (value) process.env[key] = value;
   });
