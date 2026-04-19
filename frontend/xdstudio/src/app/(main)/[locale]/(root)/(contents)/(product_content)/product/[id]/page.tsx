@@ -5,6 +5,7 @@ import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import type { Cart, Product } from "@/payload-types";
 import { getQueryClient } from "@/shared/libs/tanstack/get-query-client";
 import { productQueries } from "@/core/product/query";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 
 export default async function PageProduct({
   params,
@@ -26,7 +27,7 @@ export default async function PageProduct({
 
   if (!product) return notFound();
   return (
-    <>
+    <HydrationBoundary state={dehydrate(queryClient)}>
       <BreadcrumbComponent
         pathNames={["products", product.name ?? `unkhown`]}
       />
@@ -35,6 +36,6 @@ export default async function PageProduct({
         session={session}
         {...(product as Product)}
       />
-    </>
+    </HydrationBoundary>
   );
 }

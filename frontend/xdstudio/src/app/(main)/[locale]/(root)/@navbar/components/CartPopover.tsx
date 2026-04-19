@@ -17,7 +17,7 @@ import {
 } from "@/shared/components/cart/CartShopping.form";
 
 import { Separator } from "@/shared/libs/shadcn/ui/separator";
-import { useLayoutEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 import type { Cart, User } from "@/payload-types";
 
@@ -75,7 +75,6 @@ export const CartPopover = ({
         <HandleCartItems invalidate={invalidate} status={status}>
           <h4 className="px-4 pt-4 pb-3 font-semibold">Your items cart</h4>
           <CartShoppingForm
-            key={cartItems.length}
             cartItems={cartItems}
             query={iInfiniteQuery}
             removeItem={removeItem}

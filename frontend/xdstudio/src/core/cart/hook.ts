@@ -57,6 +57,7 @@ export const useCartItemsManager = ({
     mutationFn: async (cartItemIds: CartItem["id"][]) => {
       await deleteCartItems({
         where: { id: { in: cartItemIds } },
+     
       });
     },
     onSuccess: invalidate,

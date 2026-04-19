@@ -12,14 +12,14 @@ export const CartItemsClient = ({
   cartId: string;
   userId: string;
 }) => {
-  const { cartItemsData, cartQuery } = useCartItemsContext();
+  const { cartItemsData, cartQuery, itemsCount } = useCartItemsContext();
   const cartItems = cartItemsData;
-  const itemsCount = cartItemsData?.length ?? 0;
+
   return (
     <DataTableCartInfiniteScroll
       cartItems={cartItems as CartItem[]}
-      itemsCount={itemsCount}
       cartQuery={cartQuery}
+      itemsCount={itemsCount}
     />
   );
 };

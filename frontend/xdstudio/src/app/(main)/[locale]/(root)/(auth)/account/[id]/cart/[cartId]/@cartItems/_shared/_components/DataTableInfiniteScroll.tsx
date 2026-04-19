@@ -97,21 +97,21 @@ export function DataTableCartInfiniteScroll({
     manualSorting: true,
   });
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  const { isFetching, fetchNextPage, hasNextPage, isLoading, status } =
+  const { isFetching, isFetchingNextPage, fetchNextPage, hasNextPage, isLoading, status } =
     cartQuery;
 
-  const totalDBRowCount = total!;
-  const totalFetched = cartItems.length;
+  const totalDBRowCount = total ?? 0;
+  const totalFetched = cartItems?.length ?? 0;
 
   const fetchMoreOnBottomReached = React.useCallback(
     (containerRefElement?: HTMLDivElement | null) => {
       if (containerRefElement && hasNextPage) {
         const { scrollHeight, scrollTop, clientHeight } = containerRefElement;
-        //once the user has scrolled within 500px of the bottom of the table, fetch more data if we can
+        //once the user has scrolled within 300px of the bottom of the table, fetch more data if we can
 
         if (
-          scrollHeight - scrollTop - clientHeight < 50 &&
-          !isFetching &&
+          scrollHeight - scrollTop - clientHeight < 300 &&
+          !isFetchingNextPage &&
           totalFetched < totalDBRowCount
         ) {
           // console.log(scrollHeight, scrollTop, clientHeight);
@@ -119,7 +119,7 @@ export function DataTableCartInfiniteScroll({
         }
       }
     },
-    [hasNextPage, isFetching, totalFetched, totalDBRowCount, fetchNextPage]
+    [hasNextPage, isFetchingNextPage, totalFetched, totalDBRowCount, fetchNextPage]
   );
 
   React.useEffect(() => {
@@ -162,7 +162,7 @@ export function DataTableCartInfiniteScroll({
           />
         </CardAction>
         <CardContent
-          className="relative container h-full overflow-auto overscroll-contain p-0"
+          className="relative container h-[65vh] overflow-auto overscroll-contain p-0"
           onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
           ref={tableContainerRef}
         >

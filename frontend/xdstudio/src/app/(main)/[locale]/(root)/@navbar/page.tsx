@@ -30,6 +30,7 @@ export default async function PageNavBar() {
           credit={creditData?.credit}
         />
       </div>
+      
       <MenuNavbar
         navbar={conf.navbar}
         session={session!}

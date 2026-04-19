@@ -44,6 +44,11 @@ const CartOrderFormProvider = ({
     const res = data?.pages?.flatMap((page) => page?.docs ?? []) ?? [];
     return res;
   }, [data]);
+
+  const itemsCount = useMemo(() => {
+    const res = data?.pages?.flatMap((page) => page?.totalDocs);
+    return res?.[0] ?? 0;
+  }, [data]);
   const selectedCartItems = useMemo(() => {
     return cartItemsData.filter((item) => rowSelection[item.id]);
   }, [cartItemsData, rowSelection]);
@@ -53,7 +58,7 @@ const CartOrderFormProvider = ({
       userCredit: userCreditData?.credit ?? 0,
       selectedCartItems,
       cartItemsData,
-      itemsCount: 0,
+      itemsCount,
       filter,
       sorting,
       setSorting,
@@ -63,9 +68,10 @@ const CartOrderFormProvider = ({
     }),
     [
       status,
-      userCreditData,
+      userCreditData?.credit,
       selectedCartItems,
       cartItemsData,
+      itemsCount,
       filter,
       sorting,
       rowSelection,
@@ -82,7 +88,7 @@ const CartOrderFormProvider = ({
     <CartItemsContext.Provider value={value}>
       <form.AppForm>
         <form
-         className="contents"
+          className="contents"
           onSubmit={async (e) => {
             e.preventDefault();
             console.log("HI");

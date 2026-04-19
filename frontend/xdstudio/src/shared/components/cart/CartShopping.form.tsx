@@ -18,11 +18,17 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/shared/libs/shadcn/ui/badge";
-import type { Cart, CartItem, Price, Product } from "@/payload-types";
+import type {
+  Cart,
+  CartItem,
+  CartItemsSelect,
+  Price,
+  Product,
+} from "@/payload-types";
 
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { useStore } from "@tanstack/react-form";
-import type { PaginatedDocs } from "payload";
+import type { BulkOperationResult, PaginatedDocs, SelectType } from "payload";
 import { SummaryCartDisplay } from "./SummaryCartDisplay";
 
 export const EmptyCart = () => {
@@ -132,9 +138,9 @@ export const CartShoppingForm = ({
     paddingEnd: 0,
   });
   const virtualItems = rowVirtualizer.getVirtualItems();
+  const lastItem = virtualItems[virtualItems.length - 1];
+
   React.useEffect(() => {
-    const items = virtualItems;
-    const lastItem = items[items.length - 1];
     if (!lastItem) return;
     if (
       lastItem.index >= cartItems.length - 1 &&
@@ -148,26 +154,23 @@ export const CartShoppingForm = ({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    rowVirtualizer,
-    virtualItems,
+    lastItem?.index,
   ]);
+
   const itemHeight = rowVirtualizer.options.estimateSize(0);
   const totalSize = rowVirtualizer.getTotalSize();
   if (_.isEmpty(cartItems)) return <EmptyCart />;
+
   return (
     <section
       className="h-60 w-full overflow-auto overscroll-contain inset-shadow-sm"
       ref={parentRef}
     >
       <ul
-        className="divide-y"
-        style={{
-          // height: `${!state.meta.isDirty ? totalSize : totalSize - itemHeight}px`,
-          width: "100%",
-          position: "relative",
-        }}
+        className="relative w-full divide-y"
+        style={{ height: `${totalSize}px` }}
       >
-        {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+        {virtualItems.map((virtualRow) => {
           const isLoaderRow = virtualRow.index > cartItems.length - 1;
           const item = cartItems[virtualRow.index];
 
@@ -179,7 +182,7 @@ export const CartShoppingForm = ({
                 "absolute top-0 left-0 flex w-full"
               )}
               style={{
-                height: clsx(`${virtualRow.size}px`),
+                height: `${virtualRow.size}px`,
                 transform: `translateY(${virtualRow.start}px)`,
               }}
             >

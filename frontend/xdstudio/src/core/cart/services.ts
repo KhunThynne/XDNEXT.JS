@@ -1,6 +1,7 @@
 "use server";
 import { getPayload } from "@/shared/libs/payload/getPayload";
 import type { PayloadArgsWithoutCollection } from "@/shared/libs/payload/types";
+import type { DeleteOneArgs } from "payload";
 export const getCartItems = async (
   arg: PayloadArgsWithoutCollection<"find", "cart-items">
 ) => {
@@ -36,14 +37,14 @@ export const getCarts = async (
 };
 
 export const deleteCartItem = async (
-  arg: PayloadArgsWithoutCollection<"delete", "cart-items">
+  arg: Omit<DeleteOneArgs, "collection">
 ) => {
   try {
     const payload = await getPayload();
     return await payload.delete({
       ...arg,
       collection: "cart-items",
-    } as any);
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error deleting cart item: ${error.message}`);
@@ -70,14 +71,14 @@ export const createCartItem = async (
 };
 
 export const deleteCartItems = async (
-  arg: PayloadArgsWithoutCollection<"delete", "cart-items">
+  arg: Omit<DeleteOneArgs, "collection">
 ) => {
   try {
     const payload = await getPayload();
     return await payload.delete({
       ...arg,
       collection: "cart-items",
-    } as any);
+    });
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(`Error deleting cart items: ${error.message}`);
@@ -85,4 +86,3 @@ export const deleteCartItems = async (
     throw new Error(`Error deleting cart items: ${error}`);
   }
 };
-
