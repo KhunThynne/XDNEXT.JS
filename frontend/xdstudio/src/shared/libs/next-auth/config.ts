@@ -4,19 +4,19 @@ import DiscordProvider from "next-auth/providers/discord";
 import { env } from "@/env";
 import type { User as GqlUser } from "@/payload-types";
 import { loginAction } from "@/core/auth";
+import "next-auth/jwt";
 
+declare module "next-auth/jwt" {
+  interface JWT extends GqlUser {
+    readonly auth?: string;
+  }
+}
 declare module "next-auth" {
   interface Session {
     user?: GqlUser;
   }
 
   interface User extends GqlUser {
-    readonly auth?: string;
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT extends GqlUser {
     readonly auth?: string;
   }
 }
