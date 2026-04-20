@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.2...v0.0.3) (2026-04-20)
+
+
+### Features
+
+* add footer component, environment validation, and next.config configuration ([be7a035](https://github.com/KhunThynne/XDNEXT.JS/commit/be7a035f17bcb03da683cf15374d1b4c8ba353df))
+* implement product pagination with custom form and loading states ([1a367fb](https://github.com/KhunThynne/XDNEXT.JS/commit/1a367fb683accf627b17ede68ba6c66d0c7a9b7c))
+
 ### [0.0.2](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.1...v0.0.2) (2026-04-19)
 
 
