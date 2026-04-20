@@ -2,9 +2,7 @@ import AuthConfig from "@/shared/libs/next-auth/config";
 import NextAuth from "next-auth";
 import { authAndLinkActions } from "./core/auth";
 import type { DiscordUser } from "@type/user.type";
-import { env } from "./env";
-import type { JWT } from "next-auth/jwt";
-import { getUser, getUserCache } from "./core/user";
+import { getUser } from "./core/user";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   //   secret: [env.AUTH_SECRET ?? `xd`],

@@ -6,7 +6,10 @@ import { CheckCircle } from "lucide-react";
 import { useNow } from "next-intl";
 import Image from "next/image";
 
-export default function Footer({ className }: WithlDefaultProps) {
+export default function Footer({
+  className,
+  version,
+}: WithlDefaultProps & { version?: string }) {
   const intl = useNow();
   const currentYear = new Date(intl).getFullYear();
   const createdYear = 2025;
@@ -128,7 +131,7 @@ export default function Footer({ className }: WithlDefaultProps) {
                 XD TECHNOLOGY
               </Link>
             </div>
-            {/* <div className="ml-2">version {pkg.version}</div> */}
+            <div className="ml-2">version {version}</div>
           </div>
         </div>
 
