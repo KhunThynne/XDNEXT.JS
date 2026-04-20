@@ -1,11 +1,11 @@
 "use client";
-import { Separator } from "@/shared/libs/shadcn/ui/separator";
+
 import { Link } from "@navigation";
 import clsx from "clsx";
 import { CheckCircle } from "lucide-react";
 import { useNow } from "next-intl";
 import Image from "next/image";
-import pkg from "../../../../../../../package.json";
+
 export default function Footer({ className }: WithlDefaultProps) {
   const intl = useNow();
   const currentYear = new Date(intl).getFullYear();
@@ -128,7 +128,7 @@ export default function Footer({ className }: WithlDefaultProps) {
                 XD TECHNOLOGY
               </Link>
             </div>
-            <div className="ml-2">version {pkg.version}</div>
+            {/* <div className="ml-2">version {pkg.version}</div> */}
           </div>
         </div>
 

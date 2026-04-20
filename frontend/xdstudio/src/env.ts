@@ -5,6 +5,11 @@ export const env = createEnv({
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   // emptyStringAsUndefined: true,
   server: {
+    APP_VERSION: z
+      .string()
+      .min(1)
+      .regex(/^\d+\.\d+\.\d+$/, "Version must be in format x.x.x")
+      .default("0.0.0"),
     DB_HOST: z.string().min(1),
     DB_USER: z.string().min(1),
     DB_PASS: z.string().min(1),
@@ -43,6 +48,7 @@ export const env = createEnv({
 
   runtimeEnv: {
     // AUTH_URL: process.env.AUTH_URL,
+    APP_VERSION: process.env.APP_VERSION,
     PRIVATE_SITE_URL: process.env.PRIVATE_SITE_URL,
     POSTGRES_URL: process.env.POSTGRES_URL,
     PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
@@ -69,6 +75,7 @@ export const env = createEnv({
 
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   },
 });

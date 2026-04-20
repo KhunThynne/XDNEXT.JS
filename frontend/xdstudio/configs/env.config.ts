@@ -6,11 +6,11 @@ export const MAPING = (): NonNullable<NextConfig["env"]> => {
   return {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
+    APP_VERSION: process.env.npm_package_version,
   };
 };
 const envModule = nextEnv as NextEnvModule;
-const { loadEnvConfig} =
-  envModule.default || envModule;
+const { loadEnvConfig } = envModule.default || envModule;
 const ConfigEnv = () => {
   const workSpace = loadEnvConfig(process.cwd());
   const projectRoot = path.resolve(process.cwd(), "../../");

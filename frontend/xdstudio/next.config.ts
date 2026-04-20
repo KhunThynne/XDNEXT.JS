@@ -6,7 +6,8 @@ import { type NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { withPayload } from "@payloadcms/next/withPayload";
 import { MAPING } from "./configs/env.config";
-
+import { readFileSync } from "fs";
+const pkg = JSON.parse(readFileSync("./package.json", "utf8"));
 const backendUrl = new URL(env.PRIVATE_SITE_URL);
 const nextConfig = {
   /**
@@ -87,6 +88,7 @@ const nextConfig = {
     ],
   },
   env: {
+    APP_VERSION: pkg.version,
     ...MAPING(),
     // STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
     // NEXT_PUBLIC_SITE_URL: process.env.PUBLIC_SITE_URL,
