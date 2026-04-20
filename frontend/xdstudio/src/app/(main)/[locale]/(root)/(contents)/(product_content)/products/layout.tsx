@@ -6,7 +6,6 @@ import {
   Item,
   ItemActions,
   ItemContent,
-  ItemDescription,
 } from "@/shared/libs/shadcn/ui/item";
 
 export default function LayoutProducts({
@@ -16,17 +15,19 @@ export default function LayoutProducts({
   return (
     <Fragment>
       <BreadcrumbComponent />
-      <Item className="absolute top-6 right-0 p-0">
-        <ItemContent className="w-25">
-          <ItemActions>
-            <div className="grow">{pagination}</div>
-          </ItemActions>
-          <ItemDescription className="text-muted-foreground/40 place-self-end-safe text-xs capitalize">
-            press enter
-          </ItemDescription>
-        </ItemContent>
-      </Item>
-      <ContainerSection 
+      {pagination && (
+        <Item
+          className="group absolute top-6 right-0 p-0"
+          data-text-enter={true}
+        >
+          <ItemContent className="w-25">
+            <ItemActions>
+              <div className="grow">{pagination}</div>
+            </ItemActions>
+          </ItemContent>
+        </Item>
+      )}
+      <ContainerSection
         title="All Featured Products"
         description={
           "Explore our curated selection of top-selling and high-quality items. Click on any product to learn more or make a purchase."
@@ -35,7 +36,9 @@ export default function LayoutProducts({
       >
         {children}
       </ContainerSection>
-      <section>{pagination}</section>
+      <section className="group justify-end" >
+        {pagination}
+      </section>
     </Fragment>
   );
 }

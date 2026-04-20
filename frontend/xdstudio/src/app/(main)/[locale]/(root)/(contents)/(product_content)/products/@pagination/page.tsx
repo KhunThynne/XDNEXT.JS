@@ -9,9 +9,6 @@ export default async function PaginationPage({
 }) {
   const { page = 1 } = await searchParams;
   const queryClient = getQueryClient();
-  // const cachedData = queryClient.getQueryData(
-  //   productQueries.page(page).queryKey
-  // );
   const products = await queryClient.fetchQuery({
     ...productQueries.page(page),
   });

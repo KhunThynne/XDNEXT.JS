@@ -67,7 +67,7 @@ export function PaginationForm({
             children={(field) => {
               return (
                 <FieldSet className="contents">
-                  <PaginationContent className="justify-between @max-md:grow gap-3">
+                  <PaginationContent className="justify-between gap-3 @max-md:grow">
                     <PaginationItem className="@max-3xs:hidden">
                       <PaginationButton
                         className="data-[active=false]:opacity-50"
@@ -148,7 +148,7 @@ export function PaginationForm({
                           className="text-center"
                         />
                       </field.Input>
-                    </PaginationItem>
+                    </PaginationItem>{" "}
                     <PaginationItem className="@max-3xs:hidden">
                       <PaginationButton
                         className="data-[active=false]:opacity-50"
@@ -173,6 +173,9 @@ export function PaginationForm({
           />
         </Pagination>
       </form>
+      <p className="text-muted-foreground/40 mt-1 hidden place-self-end-safe text-xs capitalize group-data-[text-enter=true]:block">
+        press enter
+      </p>
     </form.AppForm>
   );
 }
