@@ -8,6 +8,7 @@ import type {
 import type { PaginatedDocs } from "payload";
 
 export interface CartDataTableMeta {
+  total: number;
   handleDeleteMore: (
     cart: CartItem[],
     coreTable: Table<CartItem>

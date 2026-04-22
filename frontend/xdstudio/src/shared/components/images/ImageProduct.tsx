@@ -9,7 +9,7 @@ export const ImageProduct = ({
   classNames,
   ...prop
 }: Partial<React.ComponentProps<typeof Image>> & {
-  image: Media | undefined;
+  image:  Media | null | undefined;
 } & WithClassNames<"error" | "image">) => {
   const [hasImageError, setHasImageError] = useState(false);
 

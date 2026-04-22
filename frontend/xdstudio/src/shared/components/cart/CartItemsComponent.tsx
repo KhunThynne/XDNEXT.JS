@@ -56,7 +56,7 @@ export const CartItemComponent = ({
           <p className="text-sm font-medium">{product?.name}</p>
         </Link>
         <p className="text-muted-foreground flex place-items-center gap-1 text-xs">
-          {quantity && number(quantity)} ×{price && number(price?.price ?? 0)}
+          {quantity && number(quantity)} ×{number(price?.price ?? 0)}
           <CreditIcon className="size-2! translate-y-[1.5px]" />
         </p>
       </div>

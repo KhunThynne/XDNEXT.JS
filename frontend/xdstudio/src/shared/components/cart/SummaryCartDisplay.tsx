@@ -67,7 +67,8 @@ export const SummaryCartDisplay = ({
         <div className="flex justify-between text-sm font-semibold">
           <span className="capitalize">{t("cart.text02")}</span>
           <span className="flex gap-1">
-            <CreditIcon className="size-1" />- {formaterNumber(totalCredit)}
+            <CreditIcon className="size-1" />
+            {-formaterNumber(totalCredit)}
           </span>
         </div>
       )}

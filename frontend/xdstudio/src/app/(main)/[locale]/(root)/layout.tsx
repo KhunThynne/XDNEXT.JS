@@ -25,7 +25,7 @@ export default async function LocaleLayout({
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className={clsx("flex min-h-screen flex-col")}>
-        <header className="sticky top-0 z-20">{navbar}</header>
+        <header className=" contents">{navbar}</header>
         <main className="contents">{children}</main>
       </div>
       <footer>{footer}</footer>

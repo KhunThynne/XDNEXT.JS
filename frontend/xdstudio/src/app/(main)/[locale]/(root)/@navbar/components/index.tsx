@@ -1,22 +1,19 @@
 "use client";
-import { Link } from "@navigation";
 import clsx from "clsx";
 import type { Session } from "next-auth";
 
 function Navbar({
   className,
-  session,
   children,
-  brander,
 }: WithlDefaultProps & { session: Session | null; brander?: string }) {
   return (
     <nav
       className={clsx(
-        "min-h-16.5 w-full place-content-center border-b bg-background",
+        "bg-background sticky top-0 z-20 w-full place-content-center backdrop-blur-lg md:bg-inherit",
         className
       )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
+      <div className="container mx-auto flex h-16.5 items-center justify-between px-4">
         {children}
       </div>
       <menu id={"nav-menu"} />

@@ -22,9 +22,7 @@ import {
 
 import { FileText } from "lucide-react";
 
-import {
-  useTypedAppFormContext,
-} from "@/shared/hooks/useAppForm";
+import { useTypedAppFormContext } from "@/shared/hooks/useAppForm";
 
 import { columns } from "../table";
 import type {
@@ -39,6 +37,8 @@ import clsx from "clsx";
 import { formCartsOptions } from "../../../_shared/formOptions";
 import { useCartItemsDatable } from "../../../_shared/hooks/useCartItemsDatable";
 import { DataTableFieldsGroup } from "./DataTableFieldsGroup";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
+import { DatableDetail } from "./DatableDetail";
 
 export function DataTableCartInfiniteScroll({
   cartQuery,
@@ -97,8 +97,14 @@ export function DataTableCartInfiniteScroll({
     manualSorting: true,
   });
   const tableContainerRef = React.useRef<HTMLDivElement>(null);
-  const { isFetching, isFetchingNextPage, fetchNextPage, hasNextPage, isLoading, status } =
-    cartQuery;
+  const {
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    status,
+  } = cartQuery;
 
   const totalDBRowCount = total ?? 0;
   const totalFetched = cartItems?.length ?? 0;
@@ -119,7 +125,13 @@ export function DataTableCartInfiniteScroll({
         }
       }
     },
-    [hasNextPage, isFetchingNextPage, totalFetched, totalDBRowCount, fetchNextPage]
+    [
+      hasNextPage,
+      isFetchingNextPage,
+      totalFetched,
+      totalDBRowCount,
+      fetchNextPage,
+    ]
   );
 
   React.useEffect(() => {
@@ -149,7 +161,50 @@ export function DataTableCartInfiniteScroll({
 
   const noData = rowLength < 1;
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <div className="w-full">
+        <CardAction className="w-full px-3 py-2">
+          <Skeleton className="h-10 w-[300px]" />
+        </CardAction>
+        <CardContent className="h-[60vh] p-0">
+          <table className="w-full table-fixed border-collapse">
+            <TableHeader className="sticky top-0 z-10 backdrop-blur-lg">
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead
+                      key={header.id}
+                      style={{ width: header.getSize() }}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  ))}
+                </TableRow>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {[...Array(5)].map((_, i) => (
+                <TableRow key={`loading-skeleton-${i}`}>
+                  {table.getVisibleLeafColumns().map((column) => (
+                    <TableCell
+                      key={column.id}
+                      style={{ width: column.getSize() }}
+                    >
+                      <Skeleton className="h-24 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </table>
+        </CardContent>
+      </div>
+    );
   }
   if (totalFetched > 0)
     return (
@@ -162,14 +217,14 @@ export function DataTableCartInfiniteScroll({
           />
         </CardAction>
         <CardContent
-          className="relative container h-[65vh] overflow-auto overscroll-contain p-0"
+          className="relative container h-full overflow-auto overscroll-contain p-0"
           onScroll={(e) => fetchMoreOnBottomReached(e.currentTarget)}
           ref={tableContainerRef}
         >
           <table
             className={clsx(
               "w-full table-fixed border-collapse",
-              noData && "h-full"
+              !isFetchingNextPage && noData && "h-full"
             )}
           >
             <TableHeader className="sticky top-0 z-10 backdrop-blur-lg">
@@ -193,55 +248,62 @@ export function DataTableCartInfiniteScroll({
             </TableHeader>
 
             <TableBody className={clsx("relative")}>
-              {rowLength ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id}>
-                    {row.getVisibleCells().map((cell) => (
+              {rowLength
+                ? table.getRowModel().rows.map((row) => (
+                    <TableRow key={row.id}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          style={{ width: cell.column.getSize() }}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                : !isFetchingNextPage && (
+                    <TableRow className="place-content-center place-items-center">
                       <TableCell
-                        key={cell.id}
-                        style={{ width: cell.column.getSize() }}
+                        className="h-full text-center"
+                        colSpan={columns.length}
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <Empty>
+                          <EmptyHeader className="text-xl font-semibold">
+                            <FileText className="text-foreground/60 mx-auto mb-2 size-15" />
+
+                            <span className="text-foreground/80">
+                              Not Found
+                            </span>
+                          </EmptyHeader>
+
+                          <p className="text-foreground/50 text-sm">
+                            There are no payment activities recorded yet.
+                          </p>
+                        </Empty>
+                      </TableCell>
+                    </TableRow>
+                  )}
+              {isFetchingNextPage &&
+                [...Array(3)].map((_, i) => (
+                  <TableRow key={`fetch-more-skeleton-${i}`}>
+                    {table.getVisibleLeafColumns().map((column) => (
+                      <TableCell
+                        key={column.id}
+                        style={{ width: column.getSize() }}
+                      >
+                        <Skeleton className="h-24 w-full" />
                       </TableCell>
                     ))}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow className="place-content-center place-items-center">
-                  <TableCell
-                    className="h-full text-center"
-                    colSpan={columns.length}
-                  >
-                    <Empty>
-                      <EmptyHeader className="text-xl font-semibold">
-                        <FileText className="text-foreground/60 mx-auto mb-2 size-15" />
-
-                        <span className="text-foreground/80">Not Found</span>
-                      </EmptyHeader>
-
-                      <p className="text-foreground/50 text-sm">
-                        There are no payment activities recorded yet.
-                      </p>
-                    </Empty>
-                  </TableCell>
-                </TableRow>
-              )}
+                ))}
             </TableBody>
           </table>
-          {isFetching && <div className="text-center">Fetching More...</div>}
         </CardContent>
         <CardAction className="flex w-full items-center justify-between rounded-md px-4 py-2 text-sm">
-          <span>
-            Selected:{" "}
-            <span className="text-destructive font-semibold">{selected}</span>
-          </span>
-          <span className="flex gap-1">
-            Showing <span className="font-medium">{totalFetched}</span> of
-            <span className="font-medium">{total}</span>
-          </span>
+          <DatableDetail totalFetched={totalFetched} itemsCount={itemsCount} />
         </CardAction>
       </>
     );

@@ -49,7 +49,7 @@ export const EmptyCart = () => {
 };
 export const CartSummary = ({
   navigation,
-  userTotalCredit = 0, // กำหนดค่าเริ่มต้นเป็น 0 กันพัง
+  userTotalCredit = 0,
   className,
   style,
   cartItems,

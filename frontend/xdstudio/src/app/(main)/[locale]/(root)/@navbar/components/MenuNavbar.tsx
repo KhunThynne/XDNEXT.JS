@@ -38,10 +38,10 @@ export default function MenuNavbar({
             <nav
               aria-label="Mobile navigation"
               className={clsx(
-                "absolute right-0 size-fit shadow-md transition-all ease-linear",
+                "absolute right-0 size-fit transition-all ease-linear",
                 "rounded-b-lg inset-shadow-sm",
-                "bg-background",
-                "w-full max-w-lg",
+                "bg-background border-0",
+                "w-full max-w-lg shadow-2xl",
                 isOpen
                   ? "max-h-[80vh] overflow-y-auto"
                   : "max-h-0 overflow-hidden"

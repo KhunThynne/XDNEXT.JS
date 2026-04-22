@@ -134,8 +134,16 @@ export const useCartItemsDatable = ({
       rowSelection,
       handleDeleteMore,
       handleDelete,
+      total: itemsCount,
     };
-  }, [filter, handleDelete, handleDeleteMore, rowSelection, sorting]);
+  }, [
+    filter,
+    handleDelete,
+    handleDeleteMore,
+    itemsCount,
+    rowSelection,
+    sorting,
+  ]);
 
   const handleRowSelectionChange = (updater: Updater<RowSelectionState>) => {
     const nextValue =

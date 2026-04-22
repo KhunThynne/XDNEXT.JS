@@ -11,5 +11,5 @@ export default async function CartPage({
   if (cartId) {
     redirect({ locale, href: cartId });
   }
-  return <>Cart</>;
+  return "Cart";
 }

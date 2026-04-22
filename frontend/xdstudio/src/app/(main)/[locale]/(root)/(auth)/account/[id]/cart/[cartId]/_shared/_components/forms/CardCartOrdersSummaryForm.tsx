@@ -34,19 +34,17 @@ export const CartOrdersSummaryForm = () => {
     return Math.min(beforeCreditTotal, availableCredit);
   }, [beforeCreditTotal, availableCredit]);
 
-  // 4. ยอดสุทธิที่ต้องจ่ายจริง (Grand Total)
   const finalPayableAmount = beforeCreditTotal - appliedCreditAmount;
 
-  // 5. เครดิตที่จะเหลือติดบัญชีจริงๆ
   const creditLeftInWallet = availableCredit - beforeCreditTotal;
 
   const form = useTypedAppFormContext({
     ...formCartsOptions,
     defaultValues: {
       ...formCartsOptions.defaultValues,
-      availableCredit: userCredit, // เครดิตที่มีทั้งหมด
-      grandTotal: finalPayableAmount, // ยอดชำระสุทธิ
-      remainingCredit: creditLeftInWallet, // เครดิตคงเหลือหลังจ่าย
+      availableCredit: userCredit,
+      grandTotal: finalPayableAmount,
+      remainingCredit: creditLeftInWallet,
     },
   });
 
@@ -59,7 +57,7 @@ export const CartOrdersSummaryForm = () => {
   if (selectedCartItems && selectedCartItems.length > 0) {
     return (
       <>
-        {/* รายการสินค้าในตะกร้า */}
+     
         <form.AppField
           name="selectedCartItemsId"
           children={() => (
@@ -68,14 +66,12 @@ export const CartOrdersSummaryForm = () => {
         />
         {/* {String(beforeCreditTotal)}-{String(appliedCreditAmount)} */}
         <CardContent className="flex flex-col gap-4 pt-5">
-          {/* แสดงสรุปยอดด้วย Component ที่เราทำไว้ */}
           <form.Subscribe selector={(state) => [state.values]}>
             {([values]) => (
               <CartSummary
                 userTotalCredit={values.availableCredit ?? 0}
                 // remainingCredit={values.remainingCredit ?? 0}
                 cartItems={selectedCartItems}
-                // ยอดที่ต้องจ่ายจริง
                 // totalCredit={values.grandTotal ?? 0}
               />
             )}

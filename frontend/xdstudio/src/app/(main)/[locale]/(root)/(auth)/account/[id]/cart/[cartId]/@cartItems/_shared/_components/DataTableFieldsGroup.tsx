@@ -1,5 +1,4 @@
 import type { CartItem } from "@/payload-types";
-import { InputForm } from "@/shared/components/form/InputForm";
 import { withFieldGroup } from "@/shared/hooks/useAppForm";
 import { Button } from "@/shared/libs/shadcn/ui/button";
 

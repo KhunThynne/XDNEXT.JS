@@ -9,19 +9,19 @@ const CartItemComponent = ({ item }: { item: CartItem }) => {
   if (typeof item?.product.price === "string") return null;
   return (
     <div className="flex h-full place-items-center gap-5 p-4">
-      {item?.product?.previewImage && (
+      {
         <ImageProduct
           image={item?.product?.previewImage}
           className="aspect-square size-14 rounded-md"
         />
-      )}
+      }
       <aside>
         <h3 className="text-foreground text-base font-semibold">
           {item.product?.name}
         </h3>
 
         <p className="text-muted-foreground text-sm">
-          Price: {item.product?.price?.price} ฿
+          Price: {item.product?.price?.price ?? 0} 
         </p>
       </aside>
     </div>
@@ -44,7 +44,7 @@ export const CartItemsVirtualScroll = ({
   return (
     <div
       ref={parentRef}
-      className="max-h-60 grow overscroll-contain lg:h-0 lg:max-h-full"
+      className="max-h-60 grow overscroll-contain lg:h-0 lg:max-h-full bg-accent"
       style={{
         width: `100%`,
         overflow: "auto",
@@ -63,7 +63,7 @@ export const CartItemsVirtualScroll = ({
           return (
             <li
               key={virtualItem.key}
-              className="absolute top-0 left-0 w-full"
+              className="absolute top-0 left-0 w-full bg-background"
               style={{
                 height: `${virtualItem.size}px`,
                 transform: `translateY(${virtualItem.start}px)`,

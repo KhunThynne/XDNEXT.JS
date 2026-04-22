@@ -11,28 +11,31 @@ export const columns: ColumnDef<CartItem>[] = [
   {
     id: "select",
     size: 40,
-    header: ({ table, column, header }) => {
+    header: ({ table }) => {
       const isAllSelected = table.getIsAllPageRowsSelected();
-      const isSomeSelected = table.getIsSomePageRowsSelected();
       const meta = table?.options?.meta as CartDataTableMeta;
+      const isSomeSelected = table.getIsSomePageRowsSelected();
+      const isAllSelectedByMeta =
+        table.getSelectedRowModel().rows.length === meta.total;
       return (
-        <>
+        <div className="mx-auto flex items-center justify-center">
           <Checkbox
             checked={isAllSelected || (isSomeSelected && "indeterminate")}
-            {...(isAllSelected
+            {...(isAllSelectedByMeta
               ? {}
               : { indicator: <Minus className="size-3.5" /> })}
             onCheckedChange={(value) =>
               table.toggleAllPageRowsSelected(!!value)
             }
             aria-label="Select all"
-            className="mx-2 xl:mx-5"
+            className=""
           />
+
           {(isAllSelected || isSomeSelected) && (
             <Button
               size="sm"
               variant={"ghost"}
-              className="text-destructive"
+              className="text-destructive absolute translate-x-15 gap-1"
               onClick={async () => {
                 const selectedData = table
                   .getSelectedRowModel()
@@ -41,10 +44,11 @@ export const columns: ColumnDef<CartItem>[] = [
                 await meta?.handleDeleteMore(selectedData, table);
               }}
             >
+              <Trash />
               Delete
             </Button>
           )}
-        </>
+        </div>
       );
     },
     cell: ({ row }) => {
@@ -75,15 +79,16 @@ export const columns: ColumnDef<CartItem>[] = [
       return (
         <section className="flex gap-4">
           <div className="relative aspect-square w-25 overflow-hidden rounded-lg border">
-            {image && typeof image !== "string" && (
-              <ImageProduct image={image} className="size-full" />
+            {typeof image !== "string" && (
+              <ImageProduct image={image!} className="size-full" />
             )}
           </div>
           {typeof product.price !== "string" && (
             <aside className="place-content-center space-y-1">
               <h3 className="font-bold">{product.name} </h3>
-              <h4 className="text-destructive font-medium">
-                <CreditIcon /> {product?.price?.price}
+              <h4 className="text-destructive flex font-medium">
+                <CreditIcon />
+                {product?.price?.price ?? 0}
               </h4>
             </aside>
           )}
@@ -95,8 +100,13 @@ export const columns: ColumnDef<CartItem>[] = [
     enableColumnFilter: true,
     accessorFn: (row) => (row.product as Product).name,
     id: "name",
-    cell: (info) => info.getValue(),
-    header: () => <span>Name</span>,
+    cell: (info) => (
+      <div className="whitespace-normal">
+        {(info.row.original.product as Product).name}
+      </div>
+    ),
+    size: 250,
+    header: () => "Name",
   },
   {
     size: 0,
@@ -109,7 +119,24 @@ export const columns: ColumnDef<CartItem>[] = [
     accessorFn: (row) => (row.product as Product).price,
   },
   {
-    accessorFn: (row) => ((row.product as Product).price as Price).price,
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: (info) => (
+      <p className="text-xs whitespace-normal">
+        {new Date(info.getValue<Date>()).toLocaleString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })}
+      </p>
+    ),
+    size: 120,
+  },
+  {
+    accessorFn: (row) => ((row.product as Product).price as Price)?.price,
     id: "aciton",
     size: 50,
     header: () => <div className="place-self-center">Aciton</div>,
@@ -130,11 +157,4 @@ export const columns: ColumnDef<CartItem>[] = [
       );
     },
   },
-
-  // {
-  //   accessorKey: "createdAt",
-  //   header: "Created At",
-  //   cell: (info) => info.getValue<Date>().toLocaleString(),
-  //   size: 200,
-  // },
 ];

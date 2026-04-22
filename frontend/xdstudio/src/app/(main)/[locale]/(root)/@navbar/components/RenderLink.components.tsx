@@ -117,7 +117,7 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
                 >
                   <Link
                     href={item.href}
-                    className="capitalize"
+                    className="capitalize bg-inherit"
                     aria-disabled={isActive}
                   >
                     <Translations text={item.title} namespace="navbar" />

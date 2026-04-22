@@ -3,7 +3,6 @@ import type { CartFormProps } from "../cartOrder.type";
 import { useAppForm } from "@/shared/hooks/useAppForm";
 import { formCartsOptions } from "../formOptions";
 import { useMemo, useState } from "react";
-import type { CartItem, User } from "@/payload-types";
 import { CartItemsContext } from "../hooks/useCartItemsContext";
 import type { SortingState } from "@tanstack/react-table";
 import { useCartItemsManager } from "@/core/cart";
@@ -14,7 +13,7 @@ import { useStore } from "@tanstack/react-form";
 const CartOrderFormProvider = ({
   children,
   ...props
-}: WithChildren &
+}: WithChildren & {} &
   Omit<
     CartFormProps,
     | "selectedCartItemsId"
