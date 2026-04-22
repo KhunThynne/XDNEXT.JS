@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.3...v0.1.0) (2026-04-22)
+
+
+### Features
+
+* implement cart order management system with virtualized item lists and credit-based checkout forms ([5b0a6a3](https://github.com/KhunThynne/XDNEXT.JS/commit/5b0a6a3bc1acaabbf5c3e8cfb0c2087ec8e45604))
+* implement CartShoppingForm component with virtualization and summary display ([df0725f](https://github.com/KhunThynne/XDNEXT.JS/commit/df0725f5bd374ceb93a46333ba82c48a3b46aa60))
+* implement ContainerSection component and add cart management features with item configuration and mobile navigation support ([34ad057](https://github.com/KhunThynne/XDNEXT.JS/commit/34ad0579098ccc554f02c6e8331d2ca19580763a))
+* implement footer component and configure NextAuth with Discord and credentials providers ([14e442c](https://github.com/KhunThynne/XDNEXT.JS/commit/14e442c4de763137886fc76df76c82e1549d8f8b))
+* initialize shadcn UI component library and implement core layout structure ([ec0998d](https://github.com/KhunThynne/XDNEXT.JS/commit/ec0998d518b5ef2679ace8a0efa75575d5de0d10))
+
 ### [0.0.3](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.2...v0.0.3) (2026-04-20)
 
 
