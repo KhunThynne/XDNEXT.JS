@@ -18,6 +18,7 @@ import { useVirtualizer } from "@tanstack/react-virtual";
 import React from "react";
 import clsx from "clsx";
 import { Badge } from "@/shared/libs/shadcn/ui/badge";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
 import type {
   Cart,
   CartItem,
@@ -187,9 +188,9 @@ export const CartShoppingForm = ({
               }}
             >
               {isLoaderRow ? (
-                <aside className="bg-accent flex h-full grow items-center justify-center">
+                <aside className="flex h-full grow items-center justify-center">
                   {hasNextPage ? (
-                    <Loader2 className="animate-spin" />
+                    <CartShoppingFormSkeleton />
                   ) : (
                     <Badge variant={"outline"} className="text-sm">
                       No more
@@ -207,5 +208,76 @@ export const CartShoppingForm = ({
         })}
       </ul>
     </section>
+  );
+};
+
+export const CartShoppingFormSkeleton = () => {
+  return (
+    <section className="h-60 w-full overflow-hidden inset-shadow-sm">
+      <ul className="relative w-full divide-y">
+        {[...Array(2)].map((_, i) => (
+          <li
+            key={`loader-row-skeleton-${i}`}
+            className={clsx(
+              i % 2 ? "ListItemOdd" : "ListItemEven",
+              "flex h-[75px] w-full"
+            )}
+          >
+            <div className="flex grow items-center gap-3 p-3">
+              <Skeleton className="size-12 shrink-0 rounded" />
+              <div className="flex-1 space-y-1.5 py-1">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+              <div className="flex items-center gap-1">
+                <Skeleton className="size-2.5 shrink-0 rounded-full" />
+                <Skeleton className="h-4 w-8" />
+              </div>
+              <Skeleton className="size-9 shrink-0 rounded-md" />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+};
+
+export const CartSummarySkeleton = ({
+  style = "full",
+  navigation,
+}: {
+  style?: "short" | "full";
+  navigation?: boolean;
+}) => {
+  return (
+    <aside className="sticky bottom-0 space-y-3 rounded-b p-4 backdrop-blur">
+      {style === "short" ? (
+        <div className="flex h-[20px] items-center justify-between gap-2">
+          <Skeleton className="h-4 w-12" />
+          <section className="flex gap-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-16" />
+          </section>
+        </div>
+      ) : (
+        <>
+          <div className="flex h-[20px] items-center justify-between">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+          <div className="flex h-[20px] items-center justify-between">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+          <Separator className="mx-auto max-w-11/12" />
+          <div className="flex h-[20px] items-center justify-between">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-20" />
+          </div>
+        </>
+      )}
+
+      {navigation && <Skeleton className="mt-3 h-9 w-full rounded-md" />}
+    </aside>
   );
 };
