@@ -35,7 +35,7 @@ const ListItem = ({
           <div className="text-sm leading-none font-medium">
             <Translations text={title} namespace="navbar" />
           </div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
             {children}
           </p>
         </Link>
@@ -109,15 +109,18 @@ export const RenderLink = ({ render }: { render: TypeNavbarItem[] }) => {
               ) : (
                 <NavigationMenuLink
                   asChild
+                  data-open={isActive}
                   data-active={isActive}
                   className={clsx(
-                    navigationMenuTriggerStyle(),
-                    "font-semibold data-[active=true]:underline"
+                    navigationMenuTriggerStyle({
+                      className: "bg-background",
+                    }),
+                    "font-semibold data-[active=true]:underline data-[active=false]:bg-transparent"
                   )}
                 >
                   <Link
                     href={item.href}
-                    className="capitalize bg-inherit"
+                    className="capitalize"
                     aria-disabled={isActive}
                   >
                     <Translations text={item.title} namespace="navbar" />

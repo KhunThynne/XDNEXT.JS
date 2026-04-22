@@ -2,11 +2,7 @@ import { BreadcrumbComponent } from "@/shared/components/breadcrumb";
 import { ContainerSection } from "@/shared/components/ContainerSection";
 import { Fragment } from "react/jsx-runtime";
 import { contentClassName } from "./shared/contentClassName";
-import {
-  Item,
-  ItemActions,
-  ItemContent,
-} from "@/shared/libs/shadcn/ui/item";
+import { Item, ItemActions, ItemContent } from "@/shared/libs/shadcn/ui/item";
 
 export default function LayoutProducts({
   children,
@@ -20,8 +16,8 @@ export default function LayoutProducts({
           className="group absolute top-6 right-0 p-0"
           data-text-enter={true}
         >
-          <ItemContent className="w-25">
-            <ItemActions>
+          <ItemContent className="place-items-end">
+            <ItemActions className="w-25">
               <div className="grow">{pagination}</div>
             </ItemActions>
           </ItemContent>
@@ -36,9 +32,7 @@ export default function LayoutProducts({
       >
         {children}
       </ContainerSection>
-      <section className="group justify-end" >
-        {pagination}
-      </section>
+      <section className="group justify-end">{pagination}</section>
     </Fragment>
   );
 }
