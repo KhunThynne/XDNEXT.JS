@@ -186,17 +186,17 @@ export const CartShoppingForm = ({
                 height: `${virtualRow.size}px`,
                 transform: `translateY(${virtualRow.start}px)`,
               }}
-            >
+            > 
               {isLoaderRow ? (
-                <aside className="flex h-full grow items-center justify-center">
-                  {hasNextPage ? (
-                    <CartShoppingFormSkeleton />
-                  ) : (
+                hasNextPage ? (
+                  <CartItemSkeleton />
+                ) : (
+                  <aside className="flex h-full grow items-center justify-center">
                     <Badge variant={"outline"} className="text-sm">
                       No more
                     </Badge>
-                  )}
-                </aside>
+                  </aside>
+                )
               ) : (
                 <CartItemComponent
                   {...item}
@@ -211,11 +211,28 @@ export const CartShoppingForm = ({
   );
 };
 
+export const CartItemSkeleton = () => {
+  return (
+    <div className="flex h-full w-full grow items-center gap-3 p-3">
+      <Skeleton className="size-12 shrink-0 rounded" />
+      <div className="flex-1 space-y-1.5 py-1">
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-3 w-1/2" />
+      </div>
+      <div className="flex items-center gap-1">
+        <Skeleton className="size-2.5 shrink-0 rounded-full" />
+        <Skeleton className="h-4 w-8" />
+      </div>
+      <Skeleton className="size-9 shrink-0 rounded-md" />
+    </div>
+  );
+};
+
 export const CartShoppingFormSkeleton = () => {
   return (
     <section className="h-60 w-full overflow-hidden inset-shadow-sm">
       <ul className="relative w-full divide-y">
-        {[...Array(2)].map((_, i) => (
+        {[...Array(4)].map((_, i) => (
           <li
             key={`loader-row-skeleton-${i}`}
             className={clsx(
@@ -223,18 +240,7 @@ export const CartShoppingFormSkeleton = () => {
               "flex h-[75px] w-full"
             )}
           >
-            <div className="flex grow items-center gap-3 p-3">
-              <Skeleton className="size-12 shrink-0 rounded" />
-              <div className="flex-1 space-y-1.5 py-1">
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-3 w-1/2" />
-              </div>
-              <div className="flex items-center gap-1">
-                <Skeleton className="size-2.5 shrink-0 rounded-full" />
-                <Skeleton className="h-4 w-8" />
-              </div>
-              <Skeleton className="size-9 shrink-0 rounded-md" />
-            </div>
+            <CartItemSkeleton />
           </li>
         ))}
       </ul>
