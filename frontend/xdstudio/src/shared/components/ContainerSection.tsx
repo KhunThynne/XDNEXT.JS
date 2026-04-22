@@ -24,26 +24,26 @@ export const ContainerSection = ({
   title,
   description,
   log,
-}: ContainerSectionProps) => {
+  ...props
+}: ContainerSectionProps & React.ComponentProps<"section">) => {
   const ref = useRef<HTMLElement>(null);
   return (
     <section
       id="container-content-section"
       className={clsx("flex flex-col gap-8", className, classNames?.section)}
+      {...props}
     >
       {(description || title) && (
         <section className="flex flex-col">
           {title && (
-            <span
-              className={clsx(`text-2xl font-semibold`, classNames?.title)}
-            >
+            <span className={clsx(`text-2xl font-semibold`, classNames?.title)}>
               {title}
             </span>
           )}
           {description && (
             <span
               className={clsx(
-                "wrap-break-word break-all text-muted-foreground",
+                "text-muted-foreground wrap-break-word break-all",
                 classNames?.description
               )}
             >
@@ -53,7 +53,7 @@ export const ContainerSection = ({
 
           <Separator
             className={clsx(
-              `mt-4 bg-secondary-foreground/15`,
+              `bg-secondary-foreground/15 mt-4`,
               classNames?.separator
             )}
           />

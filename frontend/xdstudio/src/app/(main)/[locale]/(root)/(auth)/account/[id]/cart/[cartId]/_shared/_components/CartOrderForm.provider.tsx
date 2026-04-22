@@ -13,8 +13,7 @@ import { useStore } from "@tanstack/react-form";
 const CartOrderFormProvider = ({
   children,
   ...props
-}: WithChildren & {} &
-  Omit<
+}: WithChildren & {} & Omit<
     CartFormProps,
     | "selectedCartItemsId"
     | "grandTotal"
@@ -90,7 +89,7 @@ const CartOrderFormProvider = ({
           className="contents"
           onSubmit={async (e) => {
             e.preventDefault();
-            console.log("HI");
+
             // await form.handleSubmit();
           }}
         >

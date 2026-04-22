@@ -1,9 +1,27 @@
-import { Loader2 } from "lucide-react";
+import { Skeleton } from "@/shared/libs/shadcn/ui/skeleton";
+import { CardContent } from "@/shared/libs/shadcn/ui/card";
 
 export default function Loading() {
   return (
-    <section className="max-w-lg flex-1 place-content-center place-items-center lg:min-w-lg">
-      <Loader2 className="size-40 animate-spin text-secondary-foreground/50" />
-    </section>
+    <div className="contents">
+      <CardContent className="space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-16" />
+          <Skeleton className="h-50 w-full" />
+          <Skeleton className="h-4 w-40" />
+        </div>
+
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-16" />
+          <Skeleton className="h-10 max-w-xs" />
+          <Skeleton className="h-4 w-52" />
+        </div>
+      </CardContent>
+      <div className="p-6 pt-0">
+        <section className="place-self-end">
+          <Skeleton className="h-10 w-24" />
+        </section>
+      </div>
+    </div>
   );
 }

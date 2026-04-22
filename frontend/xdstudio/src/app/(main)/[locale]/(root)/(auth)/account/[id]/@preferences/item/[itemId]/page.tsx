@@ -1,12 +1,11 @@
 import { MotionTransition } from "@/shared/components/MotionTransition";
 
 import { ConfigForm } from "../_components/ConfigForm";
-import { auth } from "@/auth";
 import { cacheLife, cacheTag } from "next/cache";
 import { payloadActions } from "@/shared/actions/payload";
 
 import { forbidden, notFound } from "next/navigation";
-import clsx from "clsx";
+import Loading from "./loading";
 
 const getUserAItemConfigCache = async (itemId: string) => {
   "use cache";
@@ -29,7 +28,6 @@ export default async function ItemPage({
   params: Promise<{ locale: string; itemId: string; id: string }>;
 }) {
   const { itemId, id } = await params;
-  
   if (!itemId) {
     return notFound();
   }
