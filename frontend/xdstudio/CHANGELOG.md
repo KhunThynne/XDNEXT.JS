@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.1.0...v0.1.1) (2026-04-22)
+
+
+### Features
+
+* implement CartShoppingForm component with virtualized list and summary display ([6721a00](https://github.com/KhunThynne/XDNEXT.JS/commit/6721a0065b434d5555123026c42cdd0c2b16f9de))
+
 ## [0.1.0](https://github.com/KhunThynne/XDNEXT.JS/compare/v0.0.3...v0.1.0) (2026-04-22)
 
 
